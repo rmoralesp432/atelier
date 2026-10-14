@@ -1,5 +1,23 @@
 import { expect, test, type Page } from '@playwright/test';
 import type { Plan, Operation } from '../src/intelligence/plan';
+test('serves the real backend with honest unconfigured AI status', async ({
+  request,
+}) => {
+  const health = await request.get('/healthz');
+  expect(health.status()).toBe(200);
+  expect(await health.json()).toEqual({ status: 'ok' });
+  const config = await request.get('/api/config');
+  expect(await config.json()).toEqual({
+    configured: false,
+    authenticated: true,
+    voiceConfigured: false,
+  });
+  const unavailable = await request.post('/api/plan', {
+    data: { message: 'Create two boxes.' },
+  });
+  expect(unavailable.status()).toBe(503);
+  expect((await unavailable.json()).error).toContain('AI is not configured');
+});
 const makePlan = (
   operations: Operation[],
   message = 'Proposed geometry edit',

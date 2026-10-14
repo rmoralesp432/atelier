@@ -1,17 +1,16 @@
 import express from 'express';
 import { resolve } from 'node:path';
+import { accessSync } from 'node:fs';
 import { createApi } from './app';
 import { createProvider } from './provider';
-const production = process.env.NODE_ENV === 'production';
-const key = process.env.ATELIER_OPENAI_API_KEY;
-if (production && key && !process.env.ATELIER_APP_PASSWORD)
-  throw new Error(
-    'Set ATELIER_APP_PASSWORD before exposing the AI backend in production.',
-  );
+import { serverConfig } from './config';
+const { production, key, password, origin } = serverConfig(process.env);
+// Fail startup before reporting health when the browser build is absent.
+if (production) accessSync(resolve('dist/index.html'));
 const app = createApi(key ? createProvider(key) : null, {
   production,
-  password: process.env.ATELIER_APP_PASSWORD,
-  origin: process.env.ATELIER_ORIGIN,
+  password,
+  origin,
 });
 if (production) {
   app.use(express.static(resolve('dist')));

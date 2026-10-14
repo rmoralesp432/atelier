@@ -6,6 +6,8 @@ An architectural modeling workspace built with React, TypeScript, Three.js and t
 
 ## Run the application
 
+**Use it entirely from your browser:** follow [Activate AI and voice on Render](docs/HOSTING.md). The included blueprint hosts the app and private backend together over HTTPS; you only need a hosting account and an OpenAI API key. Export your current project before changing website addresses.
+
 Use Node.js 24 and npm. All code, server integration, tests and setup scripts are in this repository.
 
 ```bash
@@ -23,7 +25,7 @@ For real conversation, configure these **server-side** environment variables thr
 | `ATELIER_TEXT_MODEL`     | Optional; defaults to `gpt-4.1`. Must support strict structured outputs.                                                                            |
 | `ATELIER_VOICE_MODEL`    | Optional; defaults to `gpt-realtime`. Must support WebRTC calls and function tools.                                                                 |
 | `ATELIER_APP_PASSWORD`   | Workspace access password; required with a provider key in production. Enter this password, never the provider key, in the app's connection dialog. |
-| `ATELIER_ORIGIN`         | Exact public HTTPS origin when deployed behind a reverse proxy.                                                                                     |
+| `ATELIER_ORIGIN`         | Exact public HTTPS origin behind a reverse proxy. Render's default URL is detected automatically; set this for custom domains.                      |
 | `PORT`                   | Optional; defaults to `5173`.                                                                                                                       |
 
 Restart the server after changing its environment. The cloud network must allow `api.openai.com`. `ATELIER_OPENAI_API_KEY` is used instead of the platform-reserved `OPENAI_API_KEY` binding name. A proxy-backed cloud credential should be used through the configured HTTPS proxy; do not extract or replace it.

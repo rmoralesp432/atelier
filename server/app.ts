@@ -8,6 +8,11 @@ export function createApi(
 ) {
   const app = express();
   app.disable('x-powered-by');
+  // Liveness only: this does not claim provider billing/model access is valid.
+  app.get('/healthz', (_req, res) => {
+    res.setHeader('Cache-Control', 'no-store');
+    res.json({ status: 'ok' });
+  });
   app.use(express.json({ limit: '256kb' }));
   const sessions = new Map<string, number>();
   const rate = new Map<string, { time: number; count: number }>();
