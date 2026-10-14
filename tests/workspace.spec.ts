@@ -401,26 +401,24 @@ test('session import retains imported undo history and a backup of the receiving
     ...original,
     dimensions: { ...original.dimensions, width: 2 },
   };
-  await page
-    .getByLabel('Import project file')
-    .setInputFiles({
-      name: 'session.json',
-      mimeType: 'application/json',
-      buffer: Buffer.from(
-        JSON.stringify({
-          version: 2,
-          project: { volumes: [original], selectedId: original.id },
-          past: [{ volumes: [earlier], selectedId: earlier.id }],
-          future: [],
-          context: {
-            focusIds: [original.id],
-            lastCreatedIds: [original.id],
-            lastOperands: [],
-            lastOperation: 'resize',
-          },
-        }),
-      ),
-    });
+  await page.getByLabel('Import project file').setInputFiles({
+    name: 'session.json',
+    mimeType: 'application/json',
+    buffer: Buffer.from(
+      JSON.stringify({
+        version: 2,
+        project: { volumes: [original], selectedId: original.id },
+        past: [{ volumes: [earlier], selectedId: earlier.id }],
+        future: [],
+        context: {
+          focusIds: [original.id],
+          lastCreatedIds: [original.id],
+          lastOperands: [],
+          lastOperation: 'resize',
+        },
+      }),
+    ),
+  });
   await expect(
     page.getByRole('spinbutton', { name: 'Width', exact: true }),
   ).toHaveValue('4');
