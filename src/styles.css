@@ -1117,3 +1117,518 @@ button {
     font-size: 18px;
   }
 }
+
+/* Conversational workspace: keep the existing controls, give the model room. */
+.phase-two {
+  --accent: #9bd9e8;
+  --muted: #8f99a2;
+  --line: #30363d;
+  --panel: #1b1f24;
+  color: #dee3e8;
+  background: #181c20;
+}
+.phase-two .app-header {
+  height: 58px;
+  background: #181c20;
+  padding: 0 20px;
+}
+.phase-two .brand {
+  font-size: 16px;
+  letter-spacing: 3px;
+}
+.phase-two .brand-mark {
+  color: #e0e8ee;
+}
+.phase-two .project-title {
+  font-size: 10px;
+}
+.phase-two .workspace {
+  grid-template-columns: 190px minmax(300px, 1fr) 244px;
+}
+.phase-two.inspector-collapsed .workspace {
+  grid-template-columns: 190px minmax(300px, 1fr);
+}
+.phase-two .inspector-panel[hidden] {
+  display: none;
+}
+.phase-two .objects-panel,
+.phase-two .inspector-panel {
+  background: #1b1f24;
+}
+.phase-two .panel-caption {
+  height: 45px;
+  padding: 15px 16px;
+  color: #85919c;
+  font-size: 8px;
+}
+.phase-two .study,
+.phase-two .project-summary,
+.phase-two .sidebar-note,
+.phase-two .viewport-top-right,
+.phase-two .navigation-hint,
+.phase-two .precision-note {
+  display: none;
+}
+.phase-two .objects-panel > .section-heading {
+  padding: 14px 15px 12px;
+}
+.phase-two .section-heading h2,
+.phase-two .object-row {
+  color: #c3cbd2;
+}
+.phase-two .object-list {
+  max-height: 52vh;
+}
+.phase-two .object-row {
+  padding: 10px 8px;
+}
+.phase-two .object-row.selected {
+  background: #26383f;
+  border-color: #42616c;
+  color: #d3edf5;
+}
+.phase-two .object-row small,
+.phase-two .object-index {
+  color: #889ca6;
+}
+.phase-two .object-row:hover {
+  background: #283039;
+}
+.phase-two .add-volume {
+  color: #bccbd3;
+  border-color: #44545e;
+  margin: 12px 15px;
+}
+.phase-two .viewport-bar {
+  height: 42px;
+  background: #1d2227;
+  border-color: #31383f;
+}
+.phase-two .viewport-title strong {
+  color: #c4d0d8;
+}
+.phase-two .view-button {
+  background: #252d34;
+  border-color: #3a464f;
+  color: #b5c4cf;
+}
+.phase-two .modeling-area {
+  background: #202326;
+}
+.phase-two .viewport-stage {
+  min-height: 230px;
+}
+.phase-two .tool-palette {
+  top: 20px;
+  left: 18px;
+  background: #1b2228e8;
+  border-color: #3d4c57;
+}
+.phase-two .tool-palette button {
+  color: #b8c5d0;
+}
+.phase-two .tool-palette button.active {
+  color: #b2e4f0;
+  background: #324a54;
+}
+.phase-two .snap {
+  color: #adbfca;
+  background: #202a30;
+  border-color: #43555f;
+}
+.phase-two .snap.active {
+  color: #b2d9e6;
+}
+.phase-two .viewport-bottom-left {
+  color: #94a5b1;
+}
+.phase-two .export-button {
+  background: #c6dce5;
+  color: #1f303a;
+}
+.phase-two .status-dot,
+.phase-two .live-dot {
+  background: #94d3df;
+}
+.phase-two .status-dot.offline {
+  background: #798792;
+}
+.phase-two .save-state {
+  color: #93a6b1;
+  font-size: 9px;
+}
+.phase-two .number-field {
+  color: #97a8b5;
+}
+.phase-two .number-field > div {
+  background: #171c21;
+  border-color: #37434d;
+}
+.phase-two .number-field input {
+  color: #d1dee8;
+}
+.phase-two .number-field > div:focus-within {
+  border-color: #90cbdc;
+}
+.phase-two .number-field > div > span,
+.phase-two .field-note {
+  color: #8295a3;
+}
+.phase-two .selection-icon {
+  background: #28343c;
+  border-color: #43535e;
+  color: #bfdae7;
+}
+.phase-two .selection-heading input {
+  color: #d7e3eb;
+}
+.phase-two .small-label,
+.phase-two .unit-tag {
+  color: #91aab8;
+}
+.phase-two .volume-stat {
+  color: #94abb8;
+  border-color: #3d4d57;
+}
+.phase-two .volume-stat strong {
+  color: #c8e3ee;
+}
+.phase-two .selection-actions button {
+  color: #b2c7d2;
+  border-color: #3f525c;
+}
+.phase-two .status-bar {
+  background: #171d22;
+  color: #8ea4b1;
+}
+.phase-two .history-actions button {
+  color: #adc2ce;
+}
+.connection-button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  color: #b7cedb;
+  white-space: nowrap;
+}
+.primitive-tools {
+  margin: 14px 15px;
+  display: grid;
+  gap: 10px;
+}
+.primitive-tools label {
+  display: grid;
+  gap: 8px;
+  font-size: 10px;
+  color: #96a9b5;
+}
+.primitive-tools select {
+  width: 100%;
+  background: #222b32;
+  border: 1px solid #3d505c;
+  border-radius: 4px;
+  padding: 7px;
+  color: #c6d5de;
+  font: inherit;
+}
+.primitive-tools button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  border: 1px solid #3c505c;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 10px;
+}
+.boolean-tools {
+  padding: 10px 15px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.boolean-tools button {
+  font-size: 9px;
+  padding: 6px;
+  border: 1px solid #405660;
+  border-radius: 4px;
+  text-transform: capitalize;
+}
+.selection-note {
+  color: #738995;
+  font-size: 9px;
+  padding: 0 16px;
+  line-height: 1.8;
+}
+.conversation-area {
+  background: #1b2025;
+  border-top: 1px solid #37424b;
+  padding: 12px 20px 11px;
+  flex-shrink: 0;
+}
+.conversation-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.conversation-heading button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 0;
+  color: #c5dde9;
+  font-size: 11px;
+}
+.conversation-heading button span {
+  font-size: 9px;
+  color: #7d939f;
+  margin-left: 7px;
+}
+.voice-status {
+  font-size: 10px;
+  color: #93d0e3;
+}
+.conversation-area form {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid #455a66;
+  background: #151b20;
+  border-radius: 8px;
+  padding: 8px;
+}
+.conversation-area form:focus-within {
+  border-color: #84bece;
+  box-shadow: 0 0 0 2px #72c3d712;
+}
+.conversation-area input {
+  background: none;
+  border: 0;
+  flex: 1;
+  outline: none;
+  font-size: 12px;
+  padding: 7px 9px;
+  color: #d0e1eb;
+}
+.conversation-area input::placeholder {
+  color: #7892a1;
+}
+.conversation-area form button {
+  display: grid;
+  place-items: center;
+  padding: 8px;
+  border-radius: 5px;
+  color: #b8d8e7;
+}
+.conversation-area form button[type='submit'] {
+  background: #aad8e7;
+  color: #20353f;
+}
+.conversation-area form button.mic-active {
+  background: #234c5a;
+  color: #a3e1ef;
+}
+.conversation-log {
+  max-height: 155px;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #405563 transparent;
+  margin: 0 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.chat-message {
+  padding: 8px 10px;
+  border-left: 2px solid #3c5563;
+}
+.chat-message.user {
+  border-left-color: #657d8a;
+  background: #232c3370;
+}
+.chat-message > span {
+  font-size: 8px;
+  letter-spacing: 0.5px;
+  color: #8eafc0;
+}
+.chat-message p {
+  white-space: pre-wrap;
+  font-size: 11px;
+  line-height: 1.6;
+  margin: 5px 0 0;
+  color: #c3d4de;
+}
+.phase-two .command-feedback {
+  font-size: 9px;
+  color: #8faab8;
+  max-height: 30px;
+  overflow: auto;
+}
+.phase-two .command-feedback.error {
+  color: #e4ad99;
+}
+.operation-review {
+  background: #27333b;
+  border: 1px solid #617e8e;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 10px 0;
+  max-height: 170px;
+  overflow: auto;
+}
+.operation-review strong {
+  font-size: 11px;
+  color: #d1e6ef;
+}
+.operation-review p {
+  font-size: 11px;
+  line-height: 1.5;
+  margin: 6px 0;
+}
+.operation-review > span {
+  font-size: 9px;
+  color: #9eb6c2;
+}
+.operation-review > div {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.operation-review button {
+  padding: 7px 10px;
+  background: #394f5b;
+  border-radius: 4px;
+  font-size: 10px;
+}
+.operation-review button:first-child {
+  background: #b5d9e8;
+  color: #21343f;
+}
+.recipe-summary {
+  padding: 16px 20px;
+  border-bottom: 1px solid #35414a;
+  font-size: 10px;
+}
+.recipe-summary > span {
+  display: block;
+  color: #8aa7b7;
+  margin-bottom: 7px;
+}
+.recipe-summary strong {
+  font-weight: 500;
+  text-transform: capitalize;
+  color: #bfdbe9;
+}
+.recipe-summary p {
+  font-size: 9px;
+  color: #8eabb9;
+}
+.connection-dialog {
+  width: min(520px, 90vw);
+  background: #202930;
+  border: 1px solid #536f7d;
+  color: #c4d7e3;
+  border-radius: 10px;
+  padding: 24px;
+}
+.connection-dialog::backdrop {
+  background: #0c1218c9;
+  backdrop-filter: blur(4px);
+}
+.connection-dialog h2 {
+  font-size: 18px;
+  font-weight: 400;
+  margin: 0;
+}
+.connection-dialog p {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #a3bac9;
+}
+.connection-dialog code {
+  font-size: 10px;
+}
+.connection-dialog button {
+  padding: 9px 12px;
+  border: 1px solid #536e7b;
+  border-radius: 5px;
+  font-size: 11px;
+}
+.connection-dialog form label {
+  display: grid;
+  gap: 8px;
+  margin: 15px 0;
+  font-size: 11px;
+}
+.connection-dialog input {
+  background: #16212a;
+  border: 1px solid #48616f;
+  padding: 10px;
+  border-radius: 4px;
+}
+@media (max-width: 1150px) {
+  .phase-two .workspace {
+    grid-template-columns: 168px minmax(300px, 1fr) 220px;
+  }
+  .phase-two.inspector-collapsed .workspace {
+    grid-template-columns: 168px minmax(300px, 1fr);
+  }
+  .phase-two .project-title {
+    display: none;
+  }
+  .phase-two .header-actions {
+    gap: 10px;
+  }
+  .phase-two .save-state {
+    display: none;
+  }
+}
+@media (max-width: 850px) {
+  .phase-two .workspace {
+    grid-template-columns: minmax(300px, 1fr) 220px;
+  }
+  .phase-two.inspector-collapsed .workspace {
+    grid-template-columns: 1fr;
+  }
+  .phase-two .objects-panel {
+    display: none;
+  }
+  .conversation-area {
+    padding: 10px 12px;
+  }
+  .conversation-log {
+    max-height: 120px;
+  }
+}
+@media (max-width: 580px) {
+  .phase-two .workspace {
+    display: flex;
+  }
+  .phase-two .header-actions {
+    gap: 4px;
+  }
+  .connection-button {
+    font-size: 8px;
+  }
+  .phase-two .app-header {
+    padding: 0 10px;
+  }
+  .phase-two .brand {
+    font-size: 12px;
+    letter-spacing: 2px;
+    gap: 5px;
+  }
+  .phase-two .brand-mark {
+    font-size: 25px;
+  }
+  .phase-two .modeling-area {
+    min-height: 580px;
+  }
+  .conversation-area input {
+    font-size: 11px;
+  }
+  .conversation-log {
+    max-height: 100px;
+  }
+}

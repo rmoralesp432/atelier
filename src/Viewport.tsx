@@ -4,6 +4,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import type { Project, Volume } from './model';
 import { round } from './model';
+import { isProfile, meshData } from './geometry/kernel';
+import type { CameraContext } from './intelligence/context';
 
 export type Tool = 'select' | 'translate' | 'rotate';
 type Props = {
@@ -11,7 +13,8 @@ type Props = {
   tool: Tool;
   snap: boolean;
   view: { mode: 'perspective' | 'top'; revision: number };
-  onSelect: (id: string | null) => void;
+  onSelect: (id: string | null, additive?: boolean) => void;
+  onCamera?: (camera: CameraContext) => void;
   onChange: (id: string, patch: Partial<Volume>) => void;
 };
 type Runtime = {
@@ -51,7 +54,7 @@ export default function Viewport(props: Props) {
       return;
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor('#202628');
+    renderer.setClearColor('#202326');
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -62,7 +65,7 @@ export default function Viewport(props: Props) {
     renderer.domElement.setAttribute('tabindex', '0');
     container.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog('#202628', 140, 500);
+    scene.fog = new THREE.Fog('#202326', 140, 500);
     const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 5000);
     camera.position.set(32, 26, 34);
     const orbit = new OrbitControls(camera, renderer.domElement);
@@ -90,13 +93,13 @@ export default function Viewport(props: Props) {
     scene.add(light);
     const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(4000, 4000),
-      new THREE.MeshStandardMaterial({ color: '#262d2e', roughness: 1 }),
+      new THREE.MeshStandardMaterial({ color: '#25292c', roughness: 1 }),
     );
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -0.035;
     ground.receiveShadow = true;
     scene.add(ground);
-    const grid = new THREE.GridHelper(200, 200, '#63706c', '#3b4545');
+    const grid = new THREE.GridHelper(200, 200, '#59616a', '#353c42');
     grid.position.y = -0.02;
     scene.add(grid);
     const transform = new TransformControls(camera, renderer.domElement);
@@ -157,7 +160,10 @@ export default function Viewport(props: Props) {
       );
       const meshes = [...objects.values()].map((g) => g.children[0]);
       const hit = raycaster.intersectObjects(meshes, false)[0];
-      latest.current.onSelect(hit ? hit.object.parent!.userData.id : null);
+      latest.current.onSelect(
+        hit ? hit.object.parent!.userData.id : null,
+        event.shiftKey || event.ctrlKey || event.metaKey,
+      );
     };
     renderer.domElement.addEventListener('pointerdown', down);
     renderer.domElement.addEventListener('pointerup', up);
@@ -201,6 +207,34 @@ export default function Viewport(props: Props) {
       camera.updateProjectionMatrix();
     });
     resize.observe(container);
+    const publishCamera = () => {
+      camera.updateMatrixWorld();
+      const right = new THREE.Vector3().setFromMatrixColumn(
+        camera.matrixWorld,
+        0,
+      );
+      right.y = 0;
+      right.normalize();
+      const forward = new THREE.Vector3(-right.z, 0, right.x).negate();
+      const visible = [...objects].flatMap(([id, group]) => {
+        const center = new THREE.Box3()
+          .setFromObject(group)
+          .getCenter(new THREE.Vector3())
+          .project(camera);
+        return center.z >= -1 &&
+          center.z <= 1 &&
+          Math.abs(center.x) <= 1 &&
+          Math.abs(center.y) <= 1
+          ? [{ id, x: center.x, y: center.y }]
+          : [];
+      });
+      latest.current.onCamera?.({
+        right: { x: right.x, y: 0, z: right.z },
+        forward: { x: forward.x, y: 0, z: forward.z },
+        visible,
+      });
+    };
+    orbit.addEventListener('change', publishCamera);
     let frame = 0;
     const render = () => {
       orbit.update();
@@ -234,52 +268,97 @@ export default function Viewport(props: Props) {
   useEffect(() => {
     const r = runtime.current;
     if (!r) return;
-    r.transform.detach();
-    r.objects.forEach((g) => {
-      r.scene.remove(g);
-      disposeObject(g);
-    });
-    r.objects.clear();
-    props.project.volumes.forEach((v) => {
-      const selected = v.id === props.project.selectedId;
-      const g = new THREE.Group();
-      g.userData.id = v.id;
-      g.position.set(v.position.x, v.position.y, v.position.z);
-      g.rotation.y = THREE.MathUtils.degToRad(v.rotation);
-      const geometry = new THREE.BoxGeometry(
-        v.dimensions.width,
-        v.dimensions.height,
-        v.dimensions.depth,
-      );
-      geometry.translate(0, v.dimensions.height / 2, 0);
-      const mesh = new THREE.Mesh(
-        geometry,
-        new THREE.MeshStandardMaterial({
-          color: selected ? '#cbd6b7' : '#8a9894',
-          roughness: 0.78,
-          metalness: 0.05,
-        }),
-      );
-      mesh.castShadow = true;
-      mesh.receiveShadow = true;
-      const edges = new THREE.LineSegments(
-        new THREE.EdgesGeometry(geometry),
-        new THREE.LineBasicMaterial({
-          color: selected ? '#e2f8ad' : '#b2bdb5',
-        }),
-      );
-      g.add(mesh, edges);
-      r.scene.add(g);
-      r.objects.set(v.id, g);
-    });
-    const selected = r.objects.get(props.project.selectedId ?? '');
-    if (selected && props.tool !== 'select') r.transform.attach(selected);
-    r.transform.setMode(props.tool === 'rotate' ? 'rotate' : 'translate');
-    r.transform.showX = props.tool !== 'rotate';
-    r.transform.showY = true;
-    r.transform.showZ = props.tool !== 'rotate';
-    r.transform.setTranslationSnap(props.snap ? 0.5 : null);
-    r.transform.setRotationSnap(props.snap ? Math.PI / 12 : null);
+    let cancelled = false;
+    const groups = new Map<string, THREE.Group>();
+    async function rebuild() {
+      try {
+        await Promise.all(
+          props.project.volumes.map(async (v) => {
+            const selected =
+              v.id === props.project.selectedId ||
+              props.project.selectedIds?.includes(v.id);
+            let geometry: THREE.BufferGeometry;
+            if (isProfile(v)) {
+              geometry =
+                v.geometry?.kind === 'circle'
+                  ? new THREE.CircleGeometry(1, 64)
+                  : new THREE.PlaneGeometry(2, 2);
+              geometry.rotateX(-Math.PI / 2);
+              geometry.scale(v.dimensions.width / 2, 1, v.dimensions.depth / 2);
+              geometry.translate(0, 0.015, 0);
+            } else {
+              const data = await meshData(v);
+              geometry = new THREE.BufferGeometry();
+              geometry.setAttribute(
+                'position',
+                new THREE.BufferAttribute(data.positions, 3),
+              );
+              geometry.setIndex(new THREE.BufferAttribute(data.indices, 1));
+              geometry.computeVertexNormals();
+            }
+            const g = new THREE.Group();
+            g.userData.id = v.id;
+            g.position.set(v.position.x, v.position.y, v.position.z);
+            g.rotation.y = THREE.MathUtils.degToRad(v.rotation);
+            const mesh = new THREE.Mesh(
+              geometry,
+              new THREE.MeshStandardMaterial({
+                color: selected ? '#b7d6dc' : '#9fa8b0',
+                roughness: 0.85,
+                metalness: 0.02,
+                flatShading: true,
+                side: isProfile(v) ? THREE.DoubleSide : THREE.FrontSide,
+              }),
+            );
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+            const edges = new THREE.LineSegments(
+              new THREE.EdgesGeometry(geometry, 20),
+              new THREE.LineBasicMaterial({
+                color: selected ? '#95e0ed' : '#c1c9ce',
+              }),
+            );
+            g.add(mesh, edges);
+            groups.set(v.id, g);
+          }),
+        );
+        if (cancelled) {
+          groups.forEach(disposeObject);
+          return;
+        }
+        r!.transform.detach();
+        r!.objects.forEach((g) => {
+          r!.scene.remove(g);
+          disposeObject(g);
+        });
+        r!.objects.clear();
+        groups.forEach((g, id) => {
+          r!.scene.add(g);
+          r!.objects.set(id, g);
+        });
+        const selected = r!.objects.get(props.project.selectedId ?? '');
+        if (selected && props.tool !== 'select') r!.transform.attach(selected);
+        r!.transform.setMode(props.tool === 'rotate' ? 'rotate' : 'translate');
+        r!.transform.showX = props.tool !== 'rotate';
+        r!.transform.showY = true;
+        r!.transform.showZ = props.tool !== 'rotate';
+        r!.transform.setTranslationSnap(props.snap ? 0.5 : null);
+        r!.transform.setRotationSnap(props.snap ? Math.PI / 12 : null);
+        host.current!.dataset.modelObjects = String(groups.size);
+        setError('');
+        r!.orbit.dispatchEvent({ type: 'change' });
+      } catch (e) {
+        groups.forEach(disposeObject);
+        if (!cancelled)
+          setError(
+            e instanceof Error ? e.message : 'Geometry could not be rendered.',
+          );
+      }
+    }
+    void rebuild();
+    return () => {
+      cancelled = true;
+    };
   }, [props.project, props.tool, props.snap]);
   useEffect(() => {
     runtime.current?.fit(props.view.mode === 'top');

@@ -1,19 +1,38 @@
+import { validateRecipe } from './geometry/kernel';
 export type Vec3 = { x: number; y: number; z: number };
 export type Dimensions = { width: number; depth: number; height: number };
+export type GeometryRecipe =
+  | { kind: 'box' | 'cylinder' | 'sphere' | 'rectangle' | 'circle' }
+  | { kind: 'extrusion'; profile: 'rectangle' | 'circle' }
+  | {
+      kind: 'boolean';
+      operation: 'union' | 'subtract' | 'intersect';
+      operands: Volume[];
+      origin: Vec3;
+      base: Dimensions;
+      opening?: boolean;
+    };
 export type Volume = {
+  geometry?: GeometryRecipe;
   id: string;
   name: string;
   dimensions: Dimensions;
   position: Vec3;
   rotation: number;
 };
-export type Project = { volumes: Volume[]; selectedId: string | null };
+export type Project = {
+  volumes: Volume[];
+  selectedId: string | null;
+  selectedIds?: string[];
+};
 export const STORAGE_KEY = 'atelier.project.v1';
 export const MAX_VOLUMES = 200;
 export const round = (n: number) => Math.round(n * 1000) / 1000;
-export function validateVolume(v: Volume): void {
+export function validateVolume(v: Volume, checkGeometry = true): void {
   if (
+    typeof v.id !== 'string' ||
     !v.id ||
+    v.id.length > 100 ||
     typeof v.name !== 'string' ||
     !v.name.trim() ||
     v.name.length > 80
@@ -42,6 +61,7 @@ export function validateVolume(v: Volume): void {
     throw new Error(
       'Coordinates must be within ±1,000 m; elevation Y cannot be negative.',
     );
+  if (checkGeometry) validateRecipe(v.geometry);
   if (!Number.isFinite(v.rotation))
     throw new Error('Rotation must be a finite number.');
 }
@@ -86,7 +106,7 @@ export function updateVolume(
 export function parseProject(text: string): Project {
   const raw = JSON.parse(text);
   if (
-    raw.version !== 1 ||
+    ![1, 2].includes(raw.version) ||
     !Array.isArray(raw.volumes) ||
     raw.volumes.length > MAX_VOLUMES
   )
@@ -101,10 +121,13 @@ export function parseProject(text: string): Project {
   return {
     volumes: raw.volumes,
     selectedId: ids.has(raw.selectedId) ? raw.selectedId : null,
+    ...(Array.isArray(raw.selectedIds)
+      ? { selectedIds: raw.selectedIds.filter((id: string) => ids.has(id)) }
+      : {}),
   };
 }
 export function serializeProject(p: Project): string {
-  return JSON.stringify({ version: 1, ...p }, null, 2);
+  return JSON.stringify({ version: 2, ...p }, null, 2);
 }
 
 export const COMMAND_EXAMPLES = [
