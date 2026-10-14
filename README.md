@@ -13,6 +13,8 @@ To use a hosted version without installing anything on your desktop:
 3. Open **Actions → Deploy ATELIER to Pages → Run workflow**, select `main`, and run it. This explicit action publishes the web app. The workflow runs tests and builds before deployment.
 4. After the `deploy` job succeeds, open the **github-pages** deployment URL shown by GitHub. That is the actual interactive application. Use the URL GitHub reports; this setup does not claim the site is already deployed.
 
+The Pages workflow verifies the production build, including a browser test under `/atelier/`. Vite uses `base: './'`, so scripts, styles and the favicon resolve under the project-site path. There is no client-side router requiring a Pages rewrite.
+
 The Pages workflow runs only when manually triggered. It does not automatically publish on push. Model data remains in that browser's local storage; export JSON to back it up or transfer it to another browser.
 
 Alternatively, on your desktop, install Node.js 24, clone this repository, then run:
@@ -63,6 +65,7 @@ npm run build            # TypeScript check + optimized static build
 npx playwright install chromium
 npm run test:e2e          # launches Vite and checks the real app in Chromium
 npm run check            # all of the above (browser must already be installed)
+npm run test:pages       # verify dist at the GitHub Pages /atelier/ prefix
 npm run preview          # serve the production build
 ```
 

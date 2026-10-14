@@ -6,6 +6,7 @@ Validated in the Codex Cloud Linux environment with Node.js 24.19.0 and Chromium
 - `ATELIER_TEST_PRODUCTION=1 npm run check`: passed all **18 unit tests** and **6 real-browser tests**, with a successful TypeScript check and Vite production build.
 - Browser checks exercised actual rendering, orbit and top-view changes, raycast selection, snapped translation-handle dragging, exact dimensions and positions, command validation, undo/redo, reload persistence, and JSON export/import.
 - The rendering test recorded no uncaught browser exceptions. The generated desktop screenshot was visually inspected.
+- `npm run test:pages`: passed a separate browser check serving the production `dist/` artifact at `/atelier/`, without Vite middleware. Verified asset requests, actual WebGL rendering, geometry commands, and reload persistence.
 - `npm run format:check` and `git diff --check` passed.
 - `bash scripts/cloud-start.sh` started the development application on port 5173. Local HTTP checks confirmed the ATELIER page and React entry module.
 
