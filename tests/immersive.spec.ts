@@ -29,8 +29,17 @@ test('opens a full-size scene, adds shapes without AI, and reuses meshes on sele
     builds!,
   );
   await page.getByRole('button', { name: 'Hide objects' }).click();
-  await page.getByRole('button', { name: 'Add a shape', exact: true }).click();
-  await page.getByRole('button', { name: 'Sphere', exact: true }).click();
+  await expect(
+    page.getByRole('button', { name: 'Add a shape', exact: true }),
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole('button', { name: 'Create floors and curtain wall' }),
+  ).toBeHidden();
+  await page.getByRole('button', { name: 'Show objects' }).click();
+  await page.getByText('Manual tools', { exact: true }).click();
+  await page.getByLabel('Primitive shape').selectOption('sphere');
+  await page.getByRole('button', { name: 'Add shape', exact: true }).click();
+  await page.getByRole('button', { name: 'Hide objects' }).click();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-model-objects',
     '3',
@@ -38,7 +47,7 @@ test('opens a full-size scene, adds shapes without AI, and reuses meshes on sele
   await page.getByRole('button', { name: 'Edit selected dimensions' }).click();
   await expect(
     page.getByRole('spinbutton', { name: 'Height', exact: true }),
-  ).toHaveValue('12');
+  ).toHaveValue('8');
   await page.getByRole('button', { name: 'Collapse inspector' }).click();
   await page.waitForTimeout(700);
   await page.screenshot({ path: 'test-results/atelier-immersive.png' });
@@ -154,15 +163,13 @@ test('architectural workflow renders real floors/glass, preserves elevation and 
   );
   await expect(page.locator('.selection-summary')).toContainText('Raised 4 m');
   await say('Rotate it 45 degrees.');
-  await expect(page.locator('.conversation-latest')).toContainText('45°');
+  await expect(page.getByRole('log')).toContainText('45°');
   await say('Make it two floors with curtain walls.');
   await expect(
     page.getByRole('region', { name: 'Review geometry change' }),
   ).toBeVisible();
   await say('Yes, go ahead with those floors and glass.');
-  await expect(page.locator('.conversation-latest')).toContainText(
-    'real glass panels',
-  );
+  await expect(page.getByRole('log')).toContainText('real glass panels');
   await expect(page.locator('.webgl-error')).toHaveCount(0);
   await page.getByRole('button', { name: 'Frame all', exact: true }).click();
   await page.waitForTimeout(1000);

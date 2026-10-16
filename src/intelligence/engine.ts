@@ -97,19 +97,21 @@ function resolveIds(refs: string[], s: Session): string[] {
                   );
                   if (matches.length !== 1)
                     throw new Error(
-                      'That name does not identify one object. Please select the intended volume.',
+                      'That name does not identify one volume. Which one do you mean? Describe its position or give its name.',
                     );
                   return [matches[0].id];
                 })()
               : [ref],
   );
   if (!result.length)
-    throw new Error('Which object should I use? Select it in the workspace.');
+    throw new Error(
+      'Which object should I use? Describe it or give its name; you can also select it in the scene.',
+    );
   const unique = [...new Set(result)];
   for (const id of unique)
     if (!s.project.volumes.some((v) => v.id === id))
       throw new Error(
-        'The referenced object is no longer in the scene. Please select it again.',
+        'That object is no longer in the scene. Which existing volume do you mean?',
       );
   return unique;
 }
@@ -121,7 +123,7 @@ function targets(refs: string[], s: Session) {
 function one(ref: string, s: Session) {
   const result = targets([ref], s);
   if (result.length !== 1)
-    throw new Error('Select exactly one target for this operation.');
+    throw new Error('Which single volume should I change?');
   return result[0];
 }
 function focus(s: Session, ids: string[]) {
@@ -396,7 +398,9 @@ export async function applyPlan(
     } else if (op.type === 'spread') {
       const vs = targets(op.targets, s);
       if (vs.length < 2)
-        throw new Error('Select at least two objects to spread.');
+        throw new Error(
+          'Which volumes should I spread apart? I need at least two.',
+        );
       const d = directionVector(op.direction, camera);
       const gap = op.gap ?? small(vs[0]);
       let offset = 0;
@@ -418,7 +422,7 @@ export async function applyPlan(
     } else if (op.type === 'align') {
       const vs = targets(op.targets, s);
       if (vs.length < 2)
-        throw new Error('Select at least two objects to align.');
+        throw new Error('Which volumes should I align? I need at least two.');
       for (const v of vs.slice(1))
         s.project = updateVolume(s.project, v.id, {
           position: { ...v.position, [op.axis]: vs[0].position[op.axis] },
@@ -476,7 +480,7 @@ export async function applyPlan(
       const v = one(op.target, s);
       if (!isProfile(v) && v.geometry?.kind !== 'extrusion')
         throw new Error(
-          'Select a 2D rectangle/circle or an existing extrusion.',
+          'I can extrude a rectangular or circular profile. Which profile should I use?',
         );
       s.project = updateVolume(s.project, v.id, {
         dimensions: { ...v.dimensions, height: op.height },
@@ -527,7 +531,7 @@ export async function applyPlan(
       const v = one(op.target, s);
       const g = v.geometry;
       if (g?.kind !== 'boolean' || !g.opening)
-        throw new Error('Select a wall with an editable opening.');
+        throw new Error('Which existing wall opening should I change?');
       const [base, cutter] = structuredClone(g.operands);
       if (op.width !== null)
         cutter.dimensions.width = op.width / openingScale(v).width;

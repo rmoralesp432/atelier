@@ -1,7 +1,11 @@
 import { parsePlan } from './plan';
 import { sceneContext, type CameraContext } from './context';
 import type { Session } from './engine';
-export type Message = { role: 'user' | 'assistant'; content: string };
+export type Message = {
+  role: 'user' | 'assistant';
+  content: string;
+  summary?: string;
+};
 export type Connection = {
   configured: boolean;
   authenticated: boolean;
@@ -33,7 +37,7 @@ export async function requestPlan(
       scene: sceneContext(session.project, session.context, camera),
       history: history
         .slice(-20)
-        .map((m) => ({ ...m, content: m.content.slice(0, 4000) })),
+        .map((m) => ({ role: m.role, content: m.content.slice(0, 4000) })),
     }),
     signal,
   });

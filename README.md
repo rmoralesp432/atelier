@@ -52,11 +52,15 @@ To publish the static workspace: push/merge the desired version, set **Settings 
 
 ## Use the workspace
 
+Start by describing what you want to design, in your own words. The AI chooses supported geometry internally and asks useful architectural questions when needed. You do not need to choose a primitive or follow the pavilion example as a template. Short answers and corrections continue the same conversation. The main screen has no shape picker or specialized building buttons; **Objects → Manual tools** and the contextual inspector preserve optional direct controls.
+
+Enter sends a message; Shift+Enter adds a line. Conversation stays visible, and successful replies lead with the intended architectural result. Expand **Measurements & changes** for the engine's actual output. The planner receives those verified measurements on later turns. Questions do not change the scene, and in-flight requests do not discard a draft typed while waiting.
+
 - Describe what you want in the conversational input: for example, “Create two boxes,” “Move the second one to the right,” or “Make it taller.” These requests go to the real configured model; users do not need to learn a command syntax.
 - Select objects in the viewport or scene list. Shift-click adds objects to a group. The selected object and conversation context are sent with each request.
 - Left-drag to orbit, right-drag to pan, scroll to zoom. **F** frames the scene. **G** activates translation handles, **R** yaw handles, and **V** selection. The viewport fills the workspace. Open **Objects** when needed; click the selected dimensions or the inspector icon for exact measurements. Both panels stay collapsed by default. Camera framing animates smoothly; selection and transforms reuse unchanged meshes.
 - Approximate moves use 10% of the object's largest dimension (minimum 0.25 m). Approximate enlargement normally adds 10%. The engine reports the actual distance or dimension. Camera-relative left/right differs from project north (−Z).
-- Create boxes, cylinders, spheres, rectangle/circle profiles from the primitive controls. Extrude a profile into a solid. Select two solids in order to expose union, subtraction and intersection. For subtraction the first selection is the retained base and the second is the cutter.
+- Optional direct workflow: open **Objects → Manual tools** to create boxes, cylinders, spheres or rectangle/circle profiles. Extrude a profile into a solid. Select two solids in order to expose union, subtraction and intersection. For subtraction the first selection is the retained base and the second is the cutter.
 - Destructive AI operations and Booleans show a review. Clarification questions do not change geometry. Empty/invalid Boolean results leave original objects intact. Operands remain in the result recipe and can be restored with undo.
 - Use Ctrl/⌘ Z to undo, Ctrl/⌘ Shift Z to redo, Ctrl/⌘ D to duplicate and Delete to remove the selected object. Direct delete remains immediately undoable. Ctrl/⌘ K focuses the conversation.
 - Version-1 projects migrate into a new version-2 session without overwriting the old local-storage key. Up to 50 modeling snapshots persist across reloads. Export JSON to back up the model and its recipes/history; import accepts old projects and new sessions. Local storage is per-browser/per-origin and is not a cloud account backup.
@@ -65,7 +69,7 @@ For continuous voice, configure the backend, open the application over HTTPS, un
 
 ## Architectural modeling
 
-Raised volumes, signed rectangular footprint offsets, exact stacking/centering, real cylinder intersections, and editable floors/curtain walls are implemented. **Floors & glass** works directly on a selected solid without an API call. Two floors create two occupied floor slabs plus a roof slab while retaining the original envelope height and elevation. Glazing and mullions are separate closed solids; curtain walls currently require a constant vertical footprint.
+Raised volumes, signed rectangular footprint offsets, exact stacking/centering, real cylinder intersections, and editable floors/curtain walls are implemented. The optional **Floors & glass** action inside the inspector works directly on a selected solid without an API call. Two floors create two occupied floor slabs plus a roof slab while retaining the original envelope height and elevation. Glazing and mullions are separate closed solids; curtain walls currently require a constant vertical footprint.
 
 See [the architectural example and downloadable projects](docs/ARCHITECTURAL-EXAMPLE.md) for the 100 × 20 × 8 m raised pavilion, 45° rotation, radius-4 m cylinder and floor conversion. These projects include undo history and can be inspected without API credits. They are authored geometric examples, not evidence of live language understanding.
 

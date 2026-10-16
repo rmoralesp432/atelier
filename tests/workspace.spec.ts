@@ -39,6 +39,7 @@ async function ready(page: Page) {
     '2',
   );
   await expect(page.locator('canvas')).toBeVisible();
+  await page.getByText('Manual tools', { exact: true }).click();
 }
 async function say(page: Page, text: string) {
   const conversation = page.locator('.conversation-heading button');

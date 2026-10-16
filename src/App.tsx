@@ -125,10 +125,28 @@ function loadMessages(): Message[] {
               typeof m.content === 'string',
           )
           .slice(-80)
+          .map((m) => ({
+            role: m.role,
+            content: m.content,
+            ...(typeof m.summary === 'string' ? { summary: m.summary } : {}),
+          }))
       : [];
   } catch {
     return [];
   }
+}
+function ConversationReply({ message }: { message: Message }) {
+  return (
+    <>
+      <p>{message.summary ?? message.content}</p>
+      {message.summary && (
+        <details className="conversation-measurements">
+          <summary>Measurements & changes</summary>
+          <p>{message.content}</p>
+        </details>
+      )}
+    </>
+  );
 }
 function NumericField({
   label,
@@ -200,7 +218,6 @@ export default function App() {
   const [objectsOpen, setObjectsOpen] = useState(() =>
     preference('atelier.ui.objects'),
   );
-  const [createOpen, setCreateOpen] = useState(false);
   useEffect(() => {
     try {
       localStorage.setItem('atelier.ui.details', String(inspectorOpen));
@@ -210,7 +227,7 @@ export default function App() {
     }
   }, [inspectorOpen, objectsOpen]);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [chatExpanded, setChatExpanded] = useState(false);
+  const [chatExpanded, setChatExpanded] = useState(true);
   const [messages, setMessages] = useState<Message[]>(loadMessages);
   const log = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -246,8 +263,11 @@ export default function App() {
     future: redo.current,
     context: conversation.current,
   });
-  const remember = (role: Message['role'], content: string) =>
-    setMessages((m) => [...m.slice(-79), { role, content }]);
+  const remember = (role: Message['role'], content: string, summary?: string) =>
+    setMessages((m) => [
+      ...m.slice(-79),
+      { role, content, ...(summary ? { summary } : {}) },
+    ]);
   const install = (session: Session) => {
     current.current = session.project;
     undo.current = session.past;
@@ -337,6 +357,8 @@ export default function App() {
     if (busyRef.current) return 'Please wait for the current edit to finish.';
     busyRef.current = true;
     setBusy(true);
+    setChatExpanded(true);
+    setNotice({ text: '', error: false });
     const reviewing = pendingRef.current;
     const before = fingerprint();
     const frame = structuredClone(camera.current);
@@ -356,6 +378,8 @@ export default function App() {
           'The scene changed while I was considering this request. Please send it again.',
         );
       if (plan.intent === 'clarify') {
+        setChatExpanded(true);
+        input.current?.focus();
         remember('assistant', plan.message);
         return plan.message;
       }
@@ -373,20 +397,23 @@ export default function App() {
           plan.intent === 'cancel'
             ? 'Change cancelled. Geometry was preserved.'
             : await execute(reviewing.plan, true, reviewing.camera);
-        remember('assistant', message);
+        remember(
+          'assistant',
+          message,
+          plan.intent === 'confirm' ? reviewing.plan.message : undefined,
+        );
         return message;
       }
       setPending(null);
       if (needsConfirmation(plan)) {
         setPending({ plan, fingerprint: before, camera: frame });
         const message =
-          plan.message +
-          ' Review the identified objects below before applying.';
+          plan.message + ' Shall I go ahead? You can answer here or by voice.';
         remember('assistant', message);
         return message;
       }
       const result = await execute(plan, false, frame);
-      remember('assistant', result);
+      remember('assistant', result, plan.message);
       return result;
     } catch (e) {
       const message = e instanceof Error ? e.message : 'The request failed.';
@@ -412,7 +439,7 @@ export default function App() {
     }
   }, [messages]);
   const [saved, setSaved] = useState(true);
-  const input = useRef<HTMLInputElement>(null);
+  const input = useRef<HTMLTextAreaElement>(null);
   const file = useRef<HTMLInputElement>(null);
   const selected = project.volumes.find((v) => v.id === project.selectedId);
   const commit = useCallback((next: Project) => {
@@ -743,83 +770,88 @@ export default function App() {
               <p className="empty-list">
                 A blank canvas.
                 <br />
-                Add your first volume below.
+                Describe what you would like to build.
               </p>
             )}
           </div>
-          <button
-            className="add-volume"
-            aria-label="Create volume"
-            onClick={() => run(COMMAND_EXAMPLES[0])}
-          >
-            <Plus size={15} />
-            Create volume<span>+</span>
-          </button>
-          <div className="primitive-tools">
-            <label>
-              Primitive
-              <select
-                aria-label="Primitive shape"
-                value={primitive}
-                onChange={(e) =>
-                  setPrimitive(e.target.value as typeof primitive)
+          <details className="manual-tools">
+            <summary>Manual tools</summary>
+            <button
+              className="add-volume"
+              aria-label="Create volume"
+              onClick={() => run(COMMAND_EXAMPLES[0])}
+            >
+              <Plus size={15} />
+              Create volume<span>+</span>
+            </button>
+            <div className="primitive-tools">
+              <label>
+                Primitive
+                <select
+                  aria-label="Primitive shape"
+                  value={primitive}
+                  onChange={(e) =>
+                    setPrimitive(e.target.value as typeof primitive)
+                  }
+                >
+                  {['box', 'cylinder', 'sphere', 'rectangle', 'circle'].map(
+                    (shape) => (
+                      <option key={shape} value={shape}>
+                        {shape}
+                      </option>
+                    ),
+                  )}
+                </select>
+              </label>
+              <button
+                onClick={() =>
+                  void propose(
+                    directPlan({
+                      type: 'create',
+                      shape: primitive,
+                      width: 8,
+                      depth: ['circle', 'cylinder', 'sphere'].includes(
+                        primitive,
+                      )
+                        ? 8
+                        : 6,
+                      height: primitive === 'sphere' ? 8 : 4,
+                      count: 1,
+                    }),
+                  )
                 }
               >
-                {['box', 'cylinder', 'sphere', 'rectangle', 'circle'].map(
-                  (shape) => (
-                    <option key={shape} value={shape}>
-                      {shape}
-                    </option>
+                <Plus size={14} />
+                Add shape
+              </button>
+            </div>
+            {(project.selectedIds?.length ?? 0) === 2 && (
+              <div className="boolean-tools">
+                {(['union', 'subtract', 'intersect'] as const).map(
+                  (operation) => (
+                    <button
+                      key={operation}
+                      onClick={() =>
+                        void propose({
+                          intent: 'apply',
+                          message: `${operation} the two selected objects in selection order.`,
+                          operations: [
+                            {
+                              type: 'boolean',
+                              operation,
+                              targets: project.selectedIds!,
+                            },
+                          ],
+                        })
+                      }
+                    >
+                      {operation}
+                    </button>
                   ),
                 )}
-              </select>
-            </label>
-            <button
-              onClick={() =>
-                void propose(
-                  directPlan({
-                    type: 'create',
-                    shape: primitive,
-                    width: 8,
-                    depth: ['circle', 'cylinder', 'sphere'].includes(primitive)
-                      ? 8
-                      : 6,
-                    height: primitive === 'sphere' ? 8 : 4,
-                    count: 1,
-                  }),
-                )
-              }
-            >
-              <Plus size={14} />
-              Add shape
-            </button>
-          </div>
-          {(project.selectedIds?.length ?? 0) === 2 && (
-            <div className="boolean-tools">
-              {(['union', 'subtract', 'intersect'] as const).map(
-                (operation) => (
-                  <button
-                    key={operation}
-                    onClick={() =>
-                      void propose({
-                        intent: 'apply',
-                        message: `${operation} the two selected objects in selection order.`,
-                        operations: [
-                          {
-                            type: 'boolean',
-                            operation,
-                            targets: project.selectedIds!,
-                          },
-                        ],
-                      })
-                    }
-                  >
-                    {operation}
-                  </button>
-                ),
-              )}
-            </div>
-          )}
+              </div>
+            )}
+          </details>
           <p className="selection-note">
             Shift-click to select multiple objects.
           </p>
@@ -857,60 +889,6 @@ export default function App() {
                 camera.current = c;
               }}
             />
-            <div className="creation-dock">
-              <button
-                className={createOpen ? 'active' : ''}
-                aria-label="Add a shape"
-                aria-expanded={createOpen}
-                onClick={() => setCreateOpen(!createOpen)}
-              >
-                <Plus size={18} />
-                <span>Add</span>
-              </button>
-              {createOpen && (
-                <div
-                  className="shape-menu"
-                  role="group"
-                  aria-label="Add a shape"
-                >
-                  {(
-                    [
-                      'box',
-                      'cylinder',
-                      'sphere',
-                      'rectangle',
-                      'circle',
-                    ] as const
-                  ).map((shape) => (
-                    <button
-                      key={shape}
-                      onClick={() => {
-                        setCreateOpen(false);
-                        void propose(
-                          directPlan({
-                            type: 'create',
-                            shape,
-                            width: 12,
-                            depth: ['sphere', 'cylinder', 'circle'].includes(
-                              shape,
-                            )
-                              ? 12
-                              : 8,
-                            height: shape === 'sphere' ? 12 : 6,
-                            count: 1,
-                          }),
-                        );
-                      }}
-                    >
-                      <Box size={17} />
-                      {shape === 'box'
-                        ? 'Volume'
-                        : shape[0].toUpperCase() + shape.slice(1)}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
             {selected && (
               <div className="selection-chip">
                 <button
@@ -927,23 +905,6 @@ export default function App() {
                     <small>Raised {selected.position.y} m</small>
                   )}
                 </button>
-                {!isProfile(selected) && (
-                  <button
-                    className="architecture-action"
-                    aria-label="Create floors and curtain wall"
-                    title="Floors and glazing"
-                    onClick={() =>
-                      void propose({
-                        intent: 'apply',
-                        message: `${selected.geometry?.kind === 'building' ? 'Update the existing floors and curtain wall' : 'Create two floor slabs and a roof with a curtain wall'} inside ${selected.name}, preserving its height and elevation.`,
-                        operations: [buildingEdit(selected)],
-                      })
-                    }
-                  >
-                    <Layers size={17} />
-                    <span>Floors & glass</span>
-                  </button>
-                )}
               </div>
             )}
             <div
@@ -1037,10 +998,18 @@ export default function App() {
             {!chatExpanded &&
               messages.at(-1)?.role === 'assistant' &&
               !pending && (
-                <p className="conversation-latest">
-                  {messages.at(-1)?.content}
-                </p>
+                <div className="conversation-latest">
+                  <ConversationReply message={messages.at(-1)!} />
+                </div>
               )}
+            {messages.length === 0 && (
+              <div className="conversation-welcome">
+                <strong>What would you like to design?</strong>
+                <p>
+                  Start with an idea, in your own words. Refine it as we go.
+                </p>
+              </div>
+            )}
             {chatExpanded && messages.length > 0 && (
               <div
                 ref={log}
@@ -1051,10 +1020,15 @@ export default function App() {
                 {messages.slice(-8).map((m, i) => (
                   <div className={`chat-message ${m.role}`} key={i}>
                     <span>{m.role === 'user' ? 'You' : 'Atelier'}</span>
-                    <p>{m.content}</p>
+                    <ConversationReply message={m} />
                   </div>
                 ))}
               </div>
+            )}
+            {busy && (
+              <p className="conversation-working" role="status">
+                Considering your idea…
+              </p>
             )}
             {pending && (
               <div
@@ -1062,12 +1036,14 @@ export default function App() {
                 role="region"
                 aria-label="Review geometry change"
               >
-                <strong>Review change</strong>
+                <strong>Shall I make this change?</strong>
                 <p>{pending.plan.message}</p>
                 <p>
                   {pending.plan.operations.flatMap(reviewDescription).join(' ')}
                 </p>
-                <span>Original operands and undo history are preserved.</span>
+                <p className="review-answer-hint">
+                  Reply naturally to approve, cancel, or adjust it.
+                </p>
                 <div>
                   <button
                     onClick={async () => {
@@ -1087,7 +1063,7 @@ export default function App() {
                           true,
                           item.camera,
                         );
-                        remember('assistant', result);
+                        remember('assistant', result, item.plan.message);
                       } catch (e) {
                         reportError(e);
                       }
@@ -1113,18 +1089,29 @@ export default function App() {
               onSubmit={(e) => {
                 e.preventDefault();
                 const text = command.trim();
-                if (text) {
+                if (text && !busyRef.current) {
                   setCommand('');
                   void sendConversation(text);
                 }
               }}
             >
-              <input
+              <textarea
                 ref={input}
+                rows={2}
+                onKeyDown={(e) => {
+                  if (
+                    e.key === 'Enter' &&
+                    !e.shiftKey &&
+                    !e.nativeEvent.isComposing
+                  ) {
+                    e.preventDefault();
+                    e.currentTarget.form?.requestSubmit();
+                  }
+                }}
                 aria-label="Message Atelier"
                 value={command}
                 onChange={(e) => setCommand(e.target.value)}
-                placeholder="What would you like to create?"
+                placeholder="Describe your idea, or tell me what to change…"
                 autoComplete="off"
                 maxLength={4000}
               />
@@ -1293,6 +1280,23 @@ export default function App() {
                   }
                 />
               </div>
+              {!isProfile(selected) && (
+                <button
+                  className="architecture-action"
+                  aria-label="Create floors and curtain wall"
+                  title="Floors and glazing"
+                  onClick={() =>
+                    void propose({
+                      intent: 'apply',
+                      message: `${selected.geometry?.kind === 'building' ? 'Update the existing floors and curtain wall' : 'Create two floor slabs and a roof with a curtain wall'} inside ${selected.name}, preserving its height and elevation.`,
+                      operations: [buildingEdit(selected)],
+                    })
+                  }
+                >
+                  <Layers size={17} />
+                  <span>Floors & glass</span>
+                </button>
+              )}
               {selected.geometry?.kind === 'building' && (
                 <div className="inspector-section architecture-fields">
                   <div className="section-heading">

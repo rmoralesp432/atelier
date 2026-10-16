@@ -1781,47 +1781,6 @@ button {
   margin: 3px 6px;
   background: #ffffff12;
 }
-.creation-dock {
-  position: absolute;
-  top: 20px;
-  left: 82px;
-  z-index: 5;
-}
-.creation-dock > button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 11px 15px;
-  background: #d8e7e8;
-  color: #27393e;
-  border-radius: 12px;
-  font-size: 12px;
-  box-shadow: 0 8px 30px #0002;
-}
-.shape-menu {
-  margin-top: 8px;
-  width: 170px;
-  padding: 7px;
-  background: #1c242ef2;
-  backdrop-filter: blur(20px);
-  border: 1px solid #ffffff18;
-  border-radius: 14px;
-  box-shadow: 0 15px 50px #0005;
-}
-.shape-menu button {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 12px;
-  color: #c5d7df;
-  border-radius: 8px;
-  text-align: left;
-  font-size: 12px;
-}
-.shape-menu button:hover {
-  background: #a8dce014;
-}
 .immersive .objects-panel,
 .immersive .inspector-panel {
   position: absolute;
@@ -2115,9 +2074,6 @@ button {
   .immersive .selection-chip {
     right: 150px;
   }
-  .architecture-action span {
-    display: none;
-  }
   .immersive .conversation-area {
     width: min(600px, calc(100% - 155px));
   }
@@ -2162,10 +2118,6 @@ button {
     left: 12px;
     top: 16px;
   }
-  .creation-dock {
-    left: 70px;
-    top: 16px;
-  }
   .immersive .viewport-bar {
     right: 12px;
     top: 16px;
@@ -2208,4 +2160,88 @@ button {
   display: block;
   border-color: #ffffff0b;
   font-size: 10px;
+}
+
+/* Conversation is the entry point; precision controls are optional. */
+.immersive .conversation-area textarea {
+  flex: 1;
+  min-width: 0;
+  min-height: 54px;
+  max-height: 150px;
+  resize: vertical;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: #d0e1eb;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.65;
+  padding: 8px 10px;
+}
+.immersive .conversation-area textarea::placeholder {
+  color: #859ba9;
+}
+.conversation-welcome {
+  margin: 5px 6px 16px;
+}
+.conversation-welcome strong {
+  font-size: 17px;
+  font-weight: 400;
+  color: #dfebee;
+}
+.conversation-welcome p {
+  margin: 7px 0 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #91a9b7;
+}
+.immersive .conversation-log {
+  max-height: min(170px, 23vh);
+}
+.immersive .conversation-area:has(.operation-review) .conversation-log {
+  max-height: 85px;
+}
+.conversation-working {
+  margin: 8px 7px;
+  font-size: 12px;
+  color: #aed5dd;
+}
+.conversation-measurements {
+  margin-top: 7px;
+  font-size: 11px;
+  color: #8fa8b6;
+}
+.conversation-measurements summary {
+  cursor: pointer;
+  font-size: 10px;
+}
+.immersive .conversation-measurements p {
+  color: #91a9b7;
+  margin-top: 8px;
+  font-size: 11px;
+}
+.immersive .conversation-latest > p {
+  margin: 0;
+}
+.immersive .operation-review .review-answer-hint {
+  color: #a9c7d0;
+  font-size: 11px;
+}
+.immersive .inspector-panel .architecture-action {
+  margin: 12px 18px;
+  border: 0;
+}
+.manual-tools {
+  margin-top: 16px;
+  padding-bottom: 12px;
+  border-top: 1px solid #ffffff10;
+}
+.manual-tools > summary {
+  padding: 15px 18px;
+  color: #8fa4af;
+  font-size: 11px;
+  cursor: pointer;
+}
+.manual-tools .add-volume {
+  margin-top: 0;
 }

@@ -77,6 +77,7 @@ try {
   assert.equal(response.status(), 200);
   await page.getByRole('button', { name: 'Expand inspector' }).click();
   await page.getByRole('button', { name: 'Show objects' }).click();
+  await page.getByText('Manual tools', { exact: true }).click();
   await page.getByTestId('viewport').locator('canvas').waitFor();
   await page.waitForFunction(
     () =>

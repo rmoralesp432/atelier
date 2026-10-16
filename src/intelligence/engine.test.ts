@@ -133,7 +133,7 @@ describe('conversational execution (structured model-output fixtures, not live l
         defaultCamera,
         true,
       ),
-    ).rejects.toThrow('exactly one');
+    ).rejects.toThrow('Which single volume should I change?');
   });
   it('creates a real wall opening, edits its cutter and restores history', async () => {
     let s = (

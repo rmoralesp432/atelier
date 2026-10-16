@@ -127,7 +127,7 @@ test('cylinder intersection and architectural conversion use conversational revi
   await say('Go back to that cylinder intersection.');
   await expect(review).toBeVisible();
   await say('Yes, keep only the intersection.');
-  await expect(page.locator('.conversation-latest')).toContainText('intersect');
+  await expect(page.getByRole('log')).toContainText('intersect');
   await expect
     .poll(async () => (await state()).volumes[0].geometry?.kind)
     .toBe('boolean');
@@ -138,9 +138,7 @@ test('cylinder intersection and architectural conversion use conversational revi
   await say('Make this two floors with curtain walls, keeping its height.');
   await expect(review).toBeVisible();
   await say('Yes, apply that.');
-  await expect(page.locator('.conversation-latest')).toContainText(
-    'real glass panels',
-  );
+  await expect(page.getByRole('log')).toContainText('real glass panels');
   await expect
     .poll(async () => (await state()).volumes[0].geometry?.kind)
     .toBe('building');
