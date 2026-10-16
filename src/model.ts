@@ -1,19 +1,56 @@
+import { validateSite, type Site } from './studio/site';
+import type { MeshRecipe } from './imports/mesh';
+import { validateRecipe } from './geometry/kernel';
 export type Vec3 = { x: number; y: number; z: number };
 export type Dimensions = { width: number; depth: number; height: number };
+export type GeometryRecipe =
+  | MeshRecipe
+  | { kind: 'person' }
+  | { kind: 'mirror'; source: Volume; axis: 'x' | 'z' }
+  | { kind: 'box' | 'cylinder' | 'sphere' | 'rectangle' | 'circle' }
+  | { kind: 'extrusion'; profile: 'rectangle' | 'circle' }
+  | { kind: 'polygon'; points: { x: number; z: number }[]; extruded: boolean }
+  | {
+      kind: 'building';
+      source: Volume;
+      base: Dimensions;
+      floors: number;
+      slabThickness: number;
+      facade: boolean;
+      panelWidth: number;
+      mullionWidth: number;
+    }
+  | {
+      kind: 'boolean';
+      operation: 'union' | 'subtract' | 'intersect';
+      operands: Volume[];
+      origin: Vec3;
+      base: Dimensions;
+      opening?: boolean;
+    };
 export type Volume = {
+  geometry?: GeometryRecipe;
+  color?: string;
   id: string;
   name: string;
   dimensions: Dimensions;
   position: Vec3;
   rotation: number;
 };
-export type Project = { volumes: Volume[]; selectedId: string | null };
+export type Project = {
+  site?: Site;
+  volumes: Volume[];
+  selectedId: string | null;
+  selectedIds?: string[];
+};
 export const STORAGE_KEY = 'atelier.project.v1';
 export const MAX_VOLUMES = 200;
-export const round = (n: number) => Math.round(n * 1000) / 1000;
-export function validateVolume(v: Volume): void {
+export const round = (n: number) => Math.round(n * 1000) / 1000 + 0;
+export function validateVolume(v: Volume, checkGeometry = true): void {
   if (
+    typeof v.id !== 'string' ||
     !v.id ||
+    v.id.length > 100 ||
     typeof v.name !== 'string' ||
     !v.name.trim() ||
     v.name.length > 80
@@ -25,11 +62,14 @@ export function validateVolume(v: Volume): void {
     !['width', 'depth', 'height'].every(
       (k) =>
         Number.isFinite(v.dimensions[k as keyof Dimensions]) &&
-        v.dimensions[k as keyof Dimensions] >= 0.1 &&
+        v.dimensions[k as keyof Dimensions] >=
+          (v.geometry?.kind === 'mesh' ? 0.001 : 0.1) &&
         v.dimensions[k as keyof Dimensions] <= 500,
     )
   )
-    throw new Error('Dimensions must be between 0.1 and 500 meters.');
+    throw new Error(
+      `Dimensions must be between ${v.geometry?.kind === 'mesh' ? '0.001' : '0.1'} and 500 meters.`,
+    );
   if (
     !v.position ||
     !['x', 'y', 'z'].every(
@@ -42,6 +82,9 @@ export function validateVolume(v: Volume): void {
     throw new Error(
       'Coordinates must be within ±1,000 m; elevation Y cannot be negative.',
     );
+  if (v.color !== undefined && !/^#[0-9a-f]{6}$/i.test(v.color))
+    throw new Error('Use a six-digit hex object color.');
+  if (checkGeometry) validateRecipe(v.geometry);
   if (!Number.isFinite(v.rotation))
     throw new Error('Rotation must be a finite number.');
 }
@@ -68,6 +111,17 @@ export function initialProject(): Project {
   b.position = { x: 6.5, y: 0, z: 0 };
   return { volumes: [a, b], selectedId: a.id };
 }
+export function buildingSettings(v: Volume) {
+  const g = v.geometry;
+  if (g?.kind !== 'building') return null;
+  return {
+    floors: g.floors,
+    facade: g.facade,
+    slabThickness: (g.slabThickness * v.dimensions.height) / g.base.height,
+    panelWidth: (g.panelWidth * v.dimensions.width) / g.base.width,
+    mullionWidth: (g.mullionWidth * v.dimensions.width) / g.base.width,
+  };
+}
 export function updateVolume(
   project: Project,
   id: string,
@@ -78,6 +132,19 @@ export function updateVolume(
     volumes: project.volumes.map((v) => {
       if (v.id !== id) return v;
       const next = { ...v, ...patch };
+      if (
+        patch.dimensions &&
+        !patch.geometry &&
+        v.geometry?.kind === 'building'
+      ) {
+        // Resize the envelope without silently scaling stated slab/frame sizes.
+        next.geometry = {
+          ...v.geometry,
+          ...buildingSettings(v),
+          base: { ...next.dimensions },
+          source: { ...v.geometry.source, dimensions: { ...next.dimensions } },
+        };
+      }
       validateVolume(next);
       return next;
     }),
@@ -86,11 +153,12 @@ export function updateVolume(
 export function parseProject(text: string): Project {
   const raw = JSON.parse(text);
   if (
-    raw.version !== 1 ||
+    ![1, 2].includes(raw.version) ||
     !Array.isArray(raw.volumes) ||
     raw.volumes.length > MAX_VOLUMES
   )
     throw new Error('Unsupported project file.');
+  if (raw.site !== undefined) validateSite(raw.site);
   const ids = new Set<string>();
   for (const v of raw.volumes) {
     if (!v || typeof v.id !== 'string' || ids.has(v.id))
@@ -99,12 +167,16 @@ export function parseProject(text: string): Project {
     ids.add(v.id);
   }
   return {
+    ...(raw.site ? { site: raw.site } : {}),
     volumes: raw.volumes,
     selectedId: ids.has(raw.selectedId) ? raw.selectedId : null,
+    ...(Array.isArray(raw.selectedIds)
+      ? { selectedIds: raw.selectedIds.filter((id: string) => ids.has(id)) }
+      : {}),
   };
 }
 export function serializeProject(p: Project): string {
-  return JSON.stringify({ version: 1, ...p }, null, 2);
+  return JSON.stringify({ version: 2, ...p }, null, 2);
 }
 
 export const COMMAND_EXAMPLES = [
@@ -140,7 +212,12 @@ export function executeCommand(
       height: +m[3],
     });
     return {
-      project: { volumes: [...project.volumes, v], selectedId: v.id },
+      project: {
+        ...project,
+        volumes: [...project.volumes, v],
+        selectedId: v.id,
+        selectedIds: [v.id],
+      },
       message: `Created ${v.name} · ${m[1]} × ${m[2]} × ${m[3]} m`,
     };
   }
@@ -167,8 +244,10 @@ export function executeCommand(
     const v = requireSelection();
     return {
       project: {
+        ...project,
         volumes: project.volumes.filter((item) => item.id !== v.id),
         selectedId: null,
+        selectedIds: [],
       },
       message: `Deleted ${v.name}`,
     };
@@ -184,7 +263,12 @@ export function executeCommand(
     };
     validateVolume(copy);
     return {
-      project: { volumes: [...project.volumes, copy], selectedId: copy.id },
+      project: {
+        ...project,
+        volumes: [...project.volumes, copy],
+        selectedId: copy.id,
+        selectedIds: [copy.id],
+      },
       message: `Duplicated ${v.name}`,
     };
   } else

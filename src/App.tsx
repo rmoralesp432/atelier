@@ -1,4 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useFloatingPanel } from './studio/useFloatingPanel';
+import StudioPanel from './studio/StudioPanel';
+import { loadAppearance, palette } from './studio/appearance';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
+import type { WorkspaceSnapshot } from './projects/library';
 import {
   ArrowDownToLine,
   ArrowUpFromLine,
@@ -6,25 +16,64 @@ import {
   Box,
   Check,
   ChevronRight,
-  Command,
   Copy,
   Focus,
   Grid2X2,
   Layers,
   Maximize,
+  MapPin,
   MousePointer2,
   Move3D,
   Plus,
   Redo2,
   RotateCcw,
   RotateCw,
-  Terminal,
+  Mic,
+  MicOff,
+  PanelRightClose,
+  PanelRightOpen,
+  Settings2,
+  Sparkles,
   Trash2,
   Undo2,
   X,
 } from 'lucide-react';
+import MeshImportDialog from './imports/MeshImportDialog';
+import {
+  parseMeshAsset,
+  isReference,
+  MAX_IMPORT_BYTES,
+  type MeshAsset,
+} from './imports/mesh';
+import { groupBounds } from './geometry/spatial';
 import Viewport, { type Tool } from './Viewport';
 import {
+  applyPlan,
+  newSession,
+  parseSession,
+  serializeSession,
+  directPlan,
+  type Session,
+} from './intelligence/engine';
+import { defaultCamera, type CameraContext } from './intelligence/context';
+import {
+  needsConfirmation,
+  type Plan,
+  type Operation,
+} from './intelligence/plan';
+import {
+  connection,
+  requestPlan,
+  VoiceConnection,
+  type Message,
+  type Connection,
+} from './intelligence/client';
+import { isProfile, openingScale, solidStats } from './geometry/kernel';
+const SESSION_KEY = 'atelier.session.v2';
+const CHAT_KEY = 'atelier.conversation.v2';
+
+import {
+  buildingSettings,
   COMMAND_EXAMPLES,
   executeCommand,
   initialProject,
@@ -36,21 +85,88 @@ import {
   type Project,
   type Volume,
 } from './model';
-function load(): { project: Project; message: string } {
+function load(): { session: Session; message: string; storageSafe: boolean } {
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
+    const saved = localStorage.getItem(SESSION_KEY);
+    if (saved)
+      return {
+        session: parseSession(saved),
+        message: 'Workspace restored.',
+        storageSafe: true,
+      };
+    const legacy = localStorage.getItem(STORAGE_KEY);
     return {
-      project: saved ? parseProject(saved) : initialProject(),
-      message: saved
-        ? 'Saved workspace restored.'
-        : 'Your workspace is ready. Start with a volume or a command.',
+      session: newSession(legacy ? parseProject(legacy) : initialProject()),
+      message: legacy
+        ? 'Your existing project is preserved.'
+        : 'Ready to explore.',
+      storageSafe: true,
     };
   } catch {
     return {
-      project: initialProject(),
-      message: 'Saved data could not be restored. A sample workspace is open.',
+      session: newSession(initialProject()),
+      message:
+        'Saved data could not be restored. It has not been overwritten. Export your work before leaving.',
+      storageSafe: false,
     };
   }
+}
+function preference(key: string) {
+  try {
+    return localStorage.getItem(key) === 'true';
+  } catch {
+    return false;
+  }
+}
+function buildingEdit(
+  v: Volume,
+  patch: Partial<Extract<Operation, { type: 'building' }>> = {},
+): Operation {
+  const g = buildingSettings(v);
+  return {
+    type: 'building',
+    target: v.id,
+    floors: g?.floors ?? 2,
+    slabThickness: g?.slabThickness ?? 0.25,
+    facade: g?.facade ?? true,
+    panelWidth: g?.panelWidth ?? 1.5,
+    mullionWidth: g?.mullionWidth ?? 0.06,
+    ...patch,
+  };
+}
+function loadMessages(): Message[] {
+  try {
+    const raw = JSON.parse(localStorage.getItem(CHAT_KEY) || '[]');
+    return Array.isArray(raw)
+      ? raw
+          .filter(
+            (m) =>
+              ['user', 'assistant'].includes(m.role) &&
+              typeof m.content === 'string',
+          )
+          .slice(-80)
+          .map((m) => ({
+            role: m.role,
+            content: m.content,
+            ...(typeof m.summary === 'string' ? { summary: m.summary } : {}),
+          }))
+      : [];
+  } catch {
+    return [];
+  }
+}
+function ConversationReply({ message }: { message: Message }) {
+  return (
+    <>
+      <p>{message.summary ?? message.content}</p>
+      {message.summary && (
+        <details className="conversation-measurements">
+          <summary>Measurements & changes</summary>
+          <p>{message.content}</p>
+        </details>
+      )}
+    </>
+  );
 }
 function NumericField({
   label,
@@ -100,29 +216,455 @@ function NumericField({
     </label>
   );
 }
-export default function App() {
-  const [boot] = useState(load);
-  const [project, setProject] = useState(boot.project);
+export default function App({
+  initialWorkspace,
+  onSnapshot,
+  projectMenu,
+}: {
+  initialWorkspace?: WorkspaceSnapshot;
+  onSnapshot?: (snapshot: WorkspaceSnapshot, safe: boolean) => void;
+  projectMenu?: (blocked: boolean) => ReactNode;
+}) {
+  const [boot] = useState(() =>
+    initialWorkspace
+      ? {
+          session: parseSession(initialWorkspace.session),
+          message: 'Workspace restored.',
+          storageSafe: true,
+        }
+      : load(),
+  );
+  const [project, setProject] = useState(boot.session.project);
   const current = useRef(project);
   current.current = project;
-  const undo = useRef<Project[]>([]);
-  const redo = useRef<Project[]>([]);
+  const undo = useRef<Project[]>(boot.session.past);
+  const redo = useRef<Project[]>(boot.session.future);
   const [historyVersion, setHistoryVersion] = useState(0);
+  const [motion, setMotion] = useState<{ revision: number; ids: string[] }>({
+    revision: 0,
+    ids: [],
+  });
+  const markCreation = useCallback(
+    (before: Project, next: Project, enabled = true) => {
+      const ids = enabled
+        ? next.volumes
+            .filter((v) => {
+              const old = before.volumes.find((o) => o.id === v.id);
+              return !old || (isProfile(old) && !isProfile(v));
+            })
+            .map((v) => v.id)
+        : [];
+      setMotion((m) => ({ revision: m.revision + 1, ids }));
+    },
+    [],
+  );
+  const [appearance, setAppearance] = useState(loadAppearance);
+  const renderMode = appearance.mode;
+  const [studioOpen, setStudioOpen] = useState(false);
+  const [studioTab, setStudioTab] = useState<'appearance' | 'site'>(
+    'appearance',
+  );
+  const [mapVisible, setMapVisible] = useState(false);
+  useEffect(() => {
+    try {
+      localStorage.setItem('atelier.appearance', JSON.stringify(appearance));
+    } catch {
+      /* Optional view preference. */
+    }
+  }, [appearance]);
+  const [northAngle, setNorthAngle] = useState(0);
   const [tool, setTool] = useState<Tool>('select');
   const [snap, setSnap] = useState(true);
+  const [angleSnap, setAngleSnap] = useState(45);
+  const inspectorPanel = useFloatingPanel();
+  useEffect(() => {
+    if (project.selectedId) setTool('translate');
+  }, [project.selectedId]);
   const [view, setView] = useState<{
-    mode: 'perspective' | 'top';
+    mode: 'perspective' | 'orthographic' | 'top';
     revision: number;
   }>({ mode: 'perspective', revision: 0 });
   const [command, setCommand] = useState('');
   const [notice, setNotice] = useState({ text: boot.message, error: false });
-  const [guide, setGuide] = useState(false);
+  const [inspectorOpen, setInspectorOpen] = useState(() =>
+    preference('atelier.ui.details'),
+  );
+  const [objectsOpen, setObjectsOpen] = useState(() =>
+    preference('atelier.ui.objects'),
+  );
+  useEffect(() => {
+    try {
+      localStorage.setItem('atelier.ui.details', String(inspectorOpen));
+      localStorage.setItem('atelier.ui.objects', String(objectsOpen));
+    } catch {
+      /* Preferences must not block modeling. */
+    }
+  }, [inspectorOpen, objectsOpen]);
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [chatExpanded, setChatExpanded] = useState(true);
+  const [messages, setMessages] = useState<Message[]>(
+    () => initialWorkspace?.messages ?? loadMessages(),
+  );
+  const log = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (log.current) log.current.scrollTop = log.current.scrollHeight;
+  }, [messages]);
+  const messagesRef = useRef(messages);
+  messagesRef.current = messages;
+  const conversation = useRef(boot.session.context);
+  const camera = useRef<CameraContext>(defaultCamera);
+  const [connectionState, setConnectionState] = useState<Connection>({
+    configured: false,
+    authenticated: true,
+    voiceConfigured: false,
+  });
+  const [busy, setBusy] = useState(false);
+  const [modelingBusy, setModelingBusy] = useState(0);
+  const busyRef = useRef(false);
+  const [pending, setPending] = useState<{
+    plan: Plan;
+    fingerprint: string;
+    camera: CameraContext;
+    prepared: { session: Session; message: string };
+  } | null>(null);
+  const pendingRef = useRef(pending);
+  pendingRef.current = pending;
+  const [voiceStatus, setVoiceStatus] = useState('Off');
+  const [voiceActive, setVoiceActive] = useState(false);
+  const voice = useRef<VoiceConnection | null>(null);
+  const [primitive, setPrimitive] = useState<
+    'box' | 'cylinder' | 'sphere' | 'rectangle' | 'circle'
+  >('box');
+  const [measuredVolume, setMeasuredVolume] = useState<number | null>(null);
+  const workspaceRef = useRef({
+    mapVisible,
+    view: view.mode,
+    theme: appearance.theme,
+    renderMode: appearance.mode,
+  });
+  workspaceRef.current = {
+    mapVisible,
+    view: view.mode,
+    theme: appearance.theme,
+    renderMode: appearance.mode,
+  };
+  const applyWorkspace = (plan: Plan) => {
+    const state = { ...workspaceRef.current };
+    const reports: string[] = [];
+    for (const op of plan.operations) {
+      if (op.type !== 'workspace') continue;
+      const a = op.action;
+      if (a === 'map_on' || a === 'map_off' || a === 'map_toggle') {
+        const visible = a === 'map_toggle' ? !state.mapVisible : a === 'map_on';
+        if (visible && !current.current.site) {
+          setStudioTab('site');
+          setStudioOpen(true);
+          if (innerWidth <= 800) setInspectorOpen(false);
+          reports.push(
+            'Choose a site on the map, or enter coordinates, then show the model.',
+          );
+        } else {
+          state.mapVisible = visible;
+          setMapVisible(visible);
+          reports.push(visible ? 'Map enabled.' : 'Map hidden.');
+        }
+      } else if (a.startsWith('view_')) {
+        state.view =
+          a === 'view_top'
+            ? 'top'
+            : a === 'view_orthographic'
+              ? 'orthographic'
+              : 'perspective';
+        setView((v) => ({ mode: state.view, revision: v.revision + 1 }));
+        reports.push(
+          state.view === 'top'
+            ? 'Top view.'
+            : state.view === 'orthographic'
+              ? 'Orthographic view.'
+              : 'Perspective view.',
+        );
+      } else if (a === 'theme_day' || a === 'theme_night') {
+        state.theme = a === 'theme_day' ? 'day' : 'night';
+        setAppearance((v) => ({ ...v, theme: state.theme }));
+        reports.push(state.theme === 'day' ? 'Day mode.' : 'Night mode.');
+      } else if (a.startsWith('display_')) {
+        state.renderMode =
+          a === 'display_solid'
+            ? 'studio'
+            : a === 'display_wireframe'
+              ? 'wireframe'
+              : 'hidden-line';
+        setAppearance((v) => ({ ...v, mode: state.renderMode }));
+        reports.push(
+          a === 'display_solid'
+            ? 'Solid view.'
+            : a === 'display_wireframe'
+              ? 'Wireframe view.'
+              : 'Hidden line view.',
+        );
+      } else if (a === 'frame_all') {
+        setView((v) => ({ ...v, revision: v.revision + 1 }));
+        reports.push('Framed the model.');
+      } else if (a === 'inspector_open' || a === 'inspector_close') {
+        setInspectorOpen(a === 'inspector_open');
+        if (a === 'inspector_open' && innerWidth <= 800) setStudioOpen(false);
+        reports.push(
+          a === 'inspector_open' ? 'Inspector opened.' : 'Inspector closed.',
+        );
+      } else {
+        setObjectsOpen(a === 'objects_open');
+        reports.push(
+          a === 'objects_open' ? 'Object list opened.' : 'Object list closed.',
+        );
+      }
+    }
+    workspaceRef.current = state;
+    return reports.join('\n');
+  };
+  const snapshot = (): Session => ({
+    project: current.current,
+    past: undo.current,
+    future: redo.current,
+    context: conversation.current,
+  });
+  const remember = (role: Message['role'], content: string, summary?: string) =>
+    setMessages((m) => [
+      ...m.slice(-79),
+      { role, content, ...(summary ? { summary } : {}) },
+    ]);
+  const install = (session: Session, animate = true) => {
+    markCreation(current.current, session.project, animate);
+    current.current = session.project;
+    undo.current = session.past;
+    redo.current = session.future;
+    conversation.current = session.context;
+    setProject(session.project);
+    setHistoryVersion((v) => v + 1);
+  };
+  const fingerprint = () => serializeSession(snapshot());
+  const reviewName = (ref: string): string => {
+    if (ref.startsWith('$name:')) return ref.slice(6);
+    const ids =
+      ref === '$operands'
+        ? conversation.current.lastOperands
+        : ref === '$selected'
+          ? (current.current.selectedIds ??
+            (current.current.selectedId ? [current.current.selectedId] : []))
+          : ref === '$focus'
+            ? conversation.current.focusIds
+            : ref === '$created'
+              ? conversation.current.lastCreatedIds
+              : [ref];
+    return ids
+      .map(
+        (id) =>
+          current.current.volumes.find((v) => v.id === id)?.name ??
+          undo.current.at(-1)?.volumes.find((v) => v.id === id)?.name ??
+          'previous object',
+      )
+      .join(', ');
+  };
+  const reviewDescription = (op: Operation): string[] => {
+    if (op.type === 'boolean') {
+      const names = op.targets.map(reviewName);
+      return [
+        op.operation === 'intersect'
+          ? `Keep only the shared solid of ${names.join(' and ')}.`
+          : op.operation === 'subtract'
+            ? `Cut ${names[1]} out of ${names[0]}.`
+            : `Join ${names.join(' and ')} into one solid.`,
+      ];
+    }
+    if (op.type === 'building')
+      return [
+        `${reviewName(op.target)}: ${op.floors} floor slabs plus a roof, ${op.slabThickness} m thick${op.facade ? `, with glazing and frames spaced at most ${op.panelWidth} m apart` : ''}.`,
+      ];
+    if (op.type === 'opening')
+      return [
+        `Cut a ${op.width} × ${op.height} m opening through ${reviewName(op.target)}.`,
+      ];
+    if (op.type === 'delete')
+      return [`Remove ${op.targets.map(reviewName).join(', ')}.`];
+    return [];
+  };
+  const execute = async (
+    plan: Plan,
+    confirmed = false,
+    frame = camera.current,
+  ) => {
+    const before = fingerprint();
+    const result = await applyPlan(snapshot(), plan, frame, confirmed);
+    if (before !== fingerprint())
+      throw new Error(
+        'The scene changed while this edit was being prepared. Please try again.',
+      );
+    install(
+      result.session,
+      !plan.operations.some((op) => op.type === 'undo' || op.type === 'redo'),
+    );
+    if (
+      plan.operations.some((op) => op.type === 'select') &&
+      result.session.project.selectedId
+    )
+      setTool('translate');
+    const message = [result.message, applyWorkspace(plan)]
+      .filter(Boolean)
+      .join('\n');
+    setNotice({ text: message, error: false });
+    return message;
+  };
+  const prepareReview = async (
+    plan: Plan,
+    frame = structuredClone(camera.current),
+  ) => {
+    const before = fingerprint();
+    const prepared = await applyPlan(snapshot(), plan, frame, true);
+    if (before !== fingerprint())
+      throw new Error(
+        'The scene changed while this change was being checked. Please ask again.',
+      );
+    const item = { plan, fingerprint: before, camera: frame, prepared };
+    setPending(item);
+    return item;
+  };
+  const acceptReview = (item: NonNullable<typeof pending>) => {
+    if (item.fingerprint !== fingerprint())
+      throw new Error(
+        'Selection or geometry changed. Request this operation again.',
+      );
+    install(item.prepared.session);
+    const message = [item.prepared.message, applyWorkspace(item.plan)]
+      .filter(Boolean)
+      .join('\n');
+    setNotice({ text: message, error: false });
+    return message;
+  };
+  const displaySummary = (plan: Plan) =>
+    plan.operations.some((op) => op.type === 'measure')
+      ? undefined
+      : plan.message;
+  const propose = async (plan: Plan) => {
+    setModelingBusy((n) => n + 1);
+    try {
+      if (needsConfirmation(plan)) {
+        await prepareReview(plan);
+        return;
+      }
+      const message = await execute(plan);
+      remember('assistant', message);
+    } catch (e) {
+      reportError(e);
+    } finally {
+      setModelingBusy((n) => n - 1);
+    }
+  };
+  const sendConversation = async (text: string): Promise<string> => {
+    if (busyRef.current) return 'Please wait for the current edit to finish.';
+    busyRef.current = true;
+    setBusy(true);
+    setChatExpanded(true);
+    setNotice({ text: '', error: false });
+    const reviewing = pendingRef.current;
+    const before = fingerprint();
+    const frame = structuredClone(camera.current);
+    const history = [...messagesRef.current];
+    remember('user', text);
+    try {
+      const plan = await requestPlan(
+        text,
+        snapshot(),
+        frame,
+        history,
+        AbortSignal.timeout(60_000),
+        reviewing
+          ? {
+              message: reviewing.plan.message,
+              operations: reviewing.plan.operations,
+              outcome: reviewing.prepared.message.slice(0, 16000),
+            }
+          : null,
+        {
+          ...workspaceRef.current,
+          mapConfigured: Boolean(current.current.site),
+        },
+      );
+      if (before !== fingerprint())
+        throw new Error(
+          'The scene changed while I was considering this request. Please send it again.',
+        );
+      if (plan.intent === 'clarify') {
+        setChatExpanded(true);
+        input.current?.focus();
+        remember('assistant', plan.message);
+        return plan.message;
+      }
+      if (plan.intent === 'confirm' || plan.intent === 'cancel') {
+        if (
+          !reviewing ||
+          reviewing !== pendingRef.current ||
+          reviewing.fingerprint !== fingerprint()
+        )
+          throw new Error(
+            'There is no unchanged pending operation to confirm. Request the change again.',
+          );
+        setPending(null);
+        const message =
+          plan.intent === 'cancel'
+            ? 'Change cancelled. Geometry was preserved.'
+            : acceptReview(reviewing);
+        remember(
+          'assistant',
+          message,
+          plan.intent === 'confirm'
+            ? displaySummary(reviewing.plan)
+            : undefined,
+        );
+        return message;
+      }
+      if (!plan.operations.every((op) => op.type === 'measure'))
+        setPending(null);
+      if (needsConfirmation(plan)) {
+        await prepareReview(plan, frame);
+        const message =
+          plan.message + ' Shall I go ahead? You can answer here or by voice.';
+        remember('assistant', message);
+        return message;
+      }
+      const result = await execute(plan, false, frame);
+      remember('assistant', result, displaySummary(plan));
+      return result;
+    } catch (e) {
+      const message = e instanceof Error ? e.message : 'The request failed.';
+      remember('assistant', message);
+      setNotice({ text: message, error: true });
+      return message;
+    } finally {
+      busyRef.current = false;
+      setBusy(false);
+    }
+  };
+  const sendRef = useRef(sendConversation);
+  sendRef.current = sendConversation;
+  useEffect(() => {
+    void connection().then(setConnectionState);
+    return () => voice.current?.stop();
+  }, []);
+  useEffect(() => {
+    try {
+      localStorage.setItem(CHAT_KEY, JSON.stringify(messages));
+    } catch {
+      /* The project save indicator reports storage failure. */
+    }
+  }, [messages]);
   const [saved, setSaved] = useState(true);
-  const input = useRef<HTMLInputElement>(null);
+  const input = useRef<HTMLTextAreaElement>(null);
   const file = useRef<HTMLInputElement>(null);
+  const [importAsset, setImportAsset] = useState<MeshAsset | null>(null);
+  const [draggingFile, setDraggingFile] = useState(false);
   const selected = project.volumes.find((v) => v.id === project.selectedId);
-  const commit = useCallback((next: Project) => {
+  const commit = useCallback((next: Project, animate = true) => {
     if (JSON.stringify(next) === JSON.stringify(current.current)) return;
+    markCreation(current.current, next, animate);
     undo.current = [...undo.current.slice(-49), current.current];
     redo.current = [];
     current.current = next;
@@ -148,14 +690,37 @@ export default function App() {
     },
     [commit],
   );
-  const select = useCallback(
-    (id: string | null) => setProject((p) => ({ ...p, selectedId: id })),
-    [],
-  );
+  const select = useCallback((id: string | null, additive = false) => {
+    if (id) setTool('translate');
+    const p = current.current;
+    const ids = id
+      ? additive
+        ? [
+            ...new Set([
+              ...(p.selectedIds ?? (p.selectedId ? [p.selectedId] : [])),
+              id,
+            ]),
+          ]
+        : [id]
+      : [];
+    const next = { ...p, selectedId: id, selectedIds: ids };
+    current.current = next;
+    setProject(next);
+    if (ids.length) conversation.current.focusIds = ids;
+  }, []);
   const run = useCallback(
     (text: string) => {
       try {
+        const beforeIds = new Set(current.current.volumes.map((v) => v.id));
         const result = executeCommand(current.current, text);
+        const added = result.project.volumes
+          .filter((v) => !beforeIds.has(v.id))
+          .map((v) => v.id);
+        if (added.length) conversation.current.lastCreatedIds = added;
+        conversation.current.focusIds = result.project.selectedId
+          ? [result.project.selectedId]
+          : [];
+        conversation.current.lastOperation = text.split(' ')[0];
         commit(result.project);
         setNotice({ text: result.message, error: false });
         return true;
@@ -171,6 +736,7 @@ export default function App() {
     const destination = direction === 'undo' ? redo.current : undo.current;
     const next = source.pop();
     if (!next) return;
+    markCreation(current.current, next, false);
     destination.push(current.current);
     current.current = next;
     setProject(next);
@@ -182,14 +748,34 @@ export default function App() {
   }, []);
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, serializeProject(project));
+      if (!boot.storageSafe) {
+        setSaved(false);
+        return;
+      }
+      localStorage.setItem(
+        SESSION_KEY,
+        serializeSession({
+          project,
+          past: undo.current,
+          future: redo.current,
+          context: conversation.current,
+        }),
+      );
       setSaved(true);
     } catch {
       setSaved(false);
     }
-  }, [project]);
+  }, [project, historyVersion, boot.storageSafe]);
+  useEffect(() => {
+    onSnapshot?.(
+      { session: serializeSession(snapshot()), messages },
+      boot.storageSafe,
+    );
+  }, [project, historyVersion, messages, boot.storageSafe, onSnapshot]);
   useEffect(() => {
     const key = (e: KeyboardEvent) => {
+      // A modal owns keyboard input; never edit the underlying project while switching.
+      if (document.querySelector('dialog[open]')) return;
       const editing =
         e.target instanceof HTMLElement &&
         (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) ||
@@ -199,7 +785,7 @@ export default function App() {
         input.current?.focus();
         return;
       }
-      if (editing || guide) return;
+      if (editing || settingsOpen || importAsset) return;
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
         e.preventDefault();
         travel(e.shiftKey ? 'redo' : 'undo');
@@ -218,10 +804,10 @@ export default function App() {
     };
     window.addEventListener('keydown', key);
     return () => window.removeEventListener('keydown', key);
-  }, [run, select, travel, guide]);
+  }, [run, select, travel, settingsOpen, importAsset]);
   function exportProject() {
     const url = URL.createObjectURL(
-      new Blob([serializeProject(project)], { type: 'application/json' }),
+      new Blob([serializeSession(snapshot())], { type: 'application/json' }),
     );
     const a = document.createElement('a');
     a.href = url;
@@ -230,19 +816,153 @@ export default function App() {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     setNotice({ text: 'Project exported as JSON.', error: false });
   }
-  const area = round(
-    project.volumes.reduce(
-      (sum, v) => sum + v.dimensions.width * v.dimensions.depth,
-      0,
-    ),
-  );
+  useEffect(() => {
+    let active = true;
+    setMeasuredVolume(null);
+    if (selected && inspectorOpen) {
+      if (isProfile(selected) || isReference(selected)) setMeasuredVolume(0);
+      else
+        void solidStats(selected)
+          .then((s) => {
+            if (active) setMeasuredVolume(s.volume);
+          })
+          .catch((e) => {
+            if (active) reportError(e);
+          });
+    }
+    return () => {
+      active = false;
+    };
+  }, [selected, inspectorOpen]);
+
+  const importFile = async (f: File) => {
+    try {
+      if (f.size > MAX_IMPORT_BYTES)
+        throw new Error('Import files must be smaller than 10 MB.');
+      if (!f.name.toLowerCase().endsWith('.json')) {
+        setNotice({ text: 'Reading your 3D element…', error: false });
+        const asset = await parseMeshAsset(f.name, await f.arrayBuffer());
+        setImportAsset(asset);
+        setNotice({ text: '', error: false });
+        return;
+      }
+      const text = await f.text();
+      const raw = JSON.parse(text);
+      if (raw.project && raw.past) {
+        const imported = parseSession(text);
+        // Preserve the receiving session and the imported timeline. The
+        // latest snapshot remains undo-import; older snapshots are the
+        // imported history, within the documented 50-step limit.
+        localStorage.setItem(
+          'atelier.session.v2.before-import',
+          serializeSession(snapshot()),
+        );
+        undo.current = [...imported.past.slice(-49), current.current];
+        redo.current = imported.future;
+        conversation.current = imported.context;
+        markCreation(current.current, imported.project, false);
+        current.current = imported.project;
+        setProject(imported.project);
+        setHistoryVersion((v) => v + 1);
+      } else commit(parseProject(text), false);
+      setNotice({
+        text: 'Project imported. Undo is available.',
+        error: false,
+      });
+    } catch (err) {
+      reportError(err);
+    }
+  };
+  const addImported = (v: Volume) => {
+    try {
+      const p = current.current;
+      if (p.volumes.length >= 200)
+        throw new Error('This workspace supports up to 200 objects.');
+      let name = v.name,
+        n = 2;
+      while (p.volumes.some((o) => o.name === name))
+        name = `${v.name.slice(0, 65)} ${n++}`;
+      const x = p.volumes.length
+        ? groupBounds(p.volumes).max.x + 2 + v.dimensions.width / 2
+        : 0;
+      const next = { ...v, name, position: { x, y: 0, z: 0 } };
+      const project = {
+        ...p,
+        volumes: [...p.volumes, next],
+        selectedId: next.id,
+        selectedIds: [next.id],
+      };
+      // Check the complete history-bearing save BEFORE changing the workspace.
+      // A dense asset must never silently evict the user's previous project.
+      const candidate = {
+        ...snapshot(),
+        project,
+        past: [...undo.current.slice(-49), p],
+        future: [],
+      };
+      if (serializeSession(candidate).length > 2_000_000)
+        throw new Error(
+          'This mesh would exceed safe browser storage. Import a lighter mesh; your project has not changed.',
+        );
+      if (x > 1000)
+        throw new Error(
+          'There is not enough room beside this model. Move existing objects nearer the origin first.',
+        );
+      commit(project);
+      conversation.current.focusIds = [next.id];
+      conversation.current.lastCreatedIds = [next.id];
+      setPending(null);
+      setImportAsset(null);
+      const text = `${next.name} imported as ${isReference(next) ? 'a reference surface' : 'a closed solid'}. ${next.dimensions.width.toFixed(2)} × ${next.dimensions.depth.toFixed(2)} × ${next.dimensions.height.toFixed(2)} m.`;
+      remember('assistant', text);
+      setNotice({ text, error: false });
+    } catch (e) {
+      reportError(e);
+    }
+  };
   return (
-    <div className="app-shell">
+    <div
+      onDragOver={(e) => {
+        if (e.dataTransfer.types.includes('Files')) {
+          e.preventDefault();
+          setDraggingFile(true);
+        }
+      }}
+      onDragLeave={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node))
+          setDraggingFile(false);
+      }}
+      onDrop={(e) => {
+        e.preventDefault();
+        setDraggingFile(false);
+        const files = e.dataTransfer.files;
+        if (files.length === 1) void importFile(files[0]);
+        else reportError(new Error('Import one file at a time.'));
+      }}
+      className={`app-shell phase-two immersive theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
+    >
+      {importAsset && (
+        <MeshImportDialog
+          asset={importAsset}
+          errorText={notice.error ? notice.text : undefined}
+          onAdd={addImported}
+          onClose={() => setImportAsset(null)}
+        />
+      )}
+      {draggingFile && (
+        <div className="file-drop-overlay">
+          <ArrowUpFromLine size={32} />
+          <strong>Bring it into your space</strong>
+          <span>OBJ · STL · GLB · ATELIER project</span>
+        </div>
+      )}
       <header className="app-header">
         <a className="brand" href="./" aria-label="ATELIER home">
           <span className="brand-mark">A</span> ATELIER
-          <span className="beta">LAB</span>
         </a>
+        {projectMenu?.(
+          busy || modelingBusy > 0 || !!pending || voiceActive || !!importAsset,
+        )}
         <div className="project-title">
           <span>Workspace</span>
           <ChevronRight size={13} />
@@ -250,6 +970,61 @@ export default function App() {
           <span className="project-dot" />
         </div>
         <div className="header-actions">
+          <button
+            className="subtle-button scene-toggle"
+            aria-label={objectsOpen ? 'Hide objects' : 'Show objects'}
+            aria-pressed={objectsOpen}
+            onClick={() => setObjectsOpen(!objectsOpen)}
+          >
+            <Layers size={16} />
+            <span>Objects</span>
+          </button>
+          <button
+            className="subtle-button map-toggle"
+            aria-label="Toggle site map"
+            aria-pressed={mapVisible}
+            title={mapVisible ? 'Hide map' : 'Show map'}
+            onClick={() => {
+              if (project.site) setMapVisible((v) => !v);
+              else {
+                setStudioTab('site');
+                setStudioOpen(true);
+                if (innerWidth <= 800) setInspectorOpen(false);
+              }
+            }}
+          >
+            <MapPin size={16} />
+            <span>Map</span>
+          </button>
+          <button
+            className="connection-button"
+            onClick={() => setSettingsOpen(true)}
+          >
+            <span
+              className={`status-dot ${connectionState.configured ? '' : 'offline'}`}
+            />
+            {connectionState.configured
+              ? connectionState.authenticated
+                ? 'AI settings'
+                : 'Unlock AI'
+              : 'Connect AI'}
+          </button>
+          <button
+            className="icon-button"
+            aria-label={
+              inspectorOpen ? 'Collapse inspector' : 'Expand inspector'
+            }
+            onClick={() => {
+              setInspectorOpen(!inspectorOpen);
+              if (!inspectorOpen && innerWidth <= 800) setStudioOpen(false);
+            }}
+          >
+            {inspectorOpen ? (
+              <PanelRightClose size={17} />
+            ) : (
+              <PanelRightOpen size={17} />
+            )}
+          </button>
           <span className={`save-state ${!saved ? 'warning' : ''}`}>
             <span className="status-dot" />
             {saved
@@ -271,29 +1046,19 @@ export default function App() {
         <input
           ref={file}
           type="file"
-          accept=".json,application/json"
+          accept=".json,.obj,.stl,.glb,application/json"
           aria-label="Import project file"
           hidden
           onChange={async (e) => {
-            const f = e.target.files?.[0];
-            if (!f) return;
-            try {
-              if (f.size > 1_000_000)
-                throw new Error('Project file is too large.');
-              commit(parseProject(await f.text()));
-              setNotice({
-                text: 'Project imported. Undo is available.',
-                error: false,
-              });
-            } catch (err) {
-              reportError(err);
-            }
-            e.target.value = '';
+            const element = e.currentTarget,
+              f = element.files?.[0];
+            if (f) await importFile(f);
+            element.value = '';
           }}
         />
       </header>
       <main className="workspace">
-        <aside className="objects-panel">
+        <aside className="objects-panel" hidden={!objectsOpen}>
           <div className="panel-caption">
             <span>PROJECT</span>
             <Layers size={14} />
@@ -323,12 +1088,16 @@ export default function App() {
           <div className="object-list">
             {project.volumes.map((v, i) => (
               <button
-                className={`object-row ${selected?.id === v.id ? 'selected' : ''}`}
+                className={`object-row ${project.selectedIds?.includes(v.id) || selected?.id === v.id ? 'selected' : ''}`}
                 key={v.id}
-                onClick={() => select(v.id)}
-                aria-pressed={selected?.id === v.id}
+                onClick={(e) =>
+                  select(v.id, e.shiftKey || e.ctrlKey || e.metaKey)
+                }
+                aria-pressed={
+                  project.selectedIds?.includes(v.id) || selected?.id === v.id
+                }
               >
-                <Box size={16} />
+                <Box size={16} style={{ color: v.color ?? undefined }} />
                 <span>
                   {v.name}
                   <small>
@@ -345,39 +1114,91 @@ export default function App() {
               <p className="empty-list">
                 A blank canvas.
                 <br />
-                Add your first volume below.
+                Describe what you would like to build.
               </p>
             )}
           </div>
-          <button
-            className="add-volume"
-            onClick={() => run(COMMAND_EXAMPLES[0])}
-          >
-            <Plus size={15} />
-            Create volume<span>+</span>
-          </button>
-          <div className="project-summary">
-            <div>
-              <span>VOLUMES</span>
-              <strong>{String(project.volumes.length).padStart(2, '0')}</strong>
+          <details className="manual-tools">
+            <summary>Manual tools</summary>
+            <button
+              className="add-volume"
+              aria-label="Create volume"
+              onClick={() => run(COMMAND_EXAMPLES[0])}
+            >
+              <Plus size={15} />
+              Create volume<span>+</span>
+            </button>
+            <div className="primitive-tools">
+              <label>
+                Primitive
+                <select
+                  aria-label="Primitive shape"
+                  value={primitive}
+                  onChange={(e) =>
+                    setPrimitive(e.target.value as typeof primitive)
+                  }
+                >
+                  {['box', 'cylinder', 'sphere', 'rectangle', 'circle'].map(
+                    (shape) => (
+                      <option key={shape} value={shape}>
+                        {shape}
+                      </option>
+                    ),
+                  )}
+                </select>
+              </label>
+              <button
+                onClick={() =>
+                  void propose(
+                    directPlan({
+                      type: 'create',
+                      shape: primitive,
+                      width: 8,
+                      depth: ['circle', 'cylinder', 'sphere'].includes(
+                        primitive,
+                      )
+                        ? 8
+                        : 6,
+                      height: primitive === 'sphere' ? 8 : 4,
+                      count: 1,
+                    }),
+                  )
+                }
+              >
+                <Plus size={14} />
+                Add shape
+              </button>
             </div>
-            <div>
-              <span>GROSS FOOTPRINT</span>
-              <strong>
-                {area.toLocaleString()}
-                <small> m²</small>
-              </strong>
-            </div>
-          </div>
-          <div className="sidebar-note">
-            <span className="small-label">FROM THOUGHT TO FORM</span>
-            <p>
-              Space to explore.
-              <br />
-              Precision to build.
-            </p>
-            <span className="version">ATELIER / EARLY ACCESS 0.1</span>
-          </div>
+            {(project.selectedIds?.length ?? 0) === 2 && (
+              <div className="boolean-tools">
+                {(['union', 'subtract', 'intersect'] as const).map(
+                  (operation) => (
+                    <button
+                      key={operation}
+                      onClick={() =>
+                        void propose({
+                          intent: 'apply',
+                          message: `${operation} the two selected objects in selection order.`,
+                          operations: [
+                            {
+                              type: 'boolean',
+                              operation,
+                              targets: project.selectedIds!,
+                            },
+                          ],
+                        })
+                      }
+                    >
+                      {operation}
+                    </button>
+                  ),
+                )}
+              </div>
+            )}
+          </details>
+          <p className="selection-note">
+            Shift-click to select multiple objects.
+          </p>
         </aside>
         <section className="modeling-area" aria-label="Modeling workspace">
           <div className="viewport-bar">
@@ -387,33 +1208,127 @@ export default function App() {
               <span>/</span>
               <span>Concept model</span>
             </div>
-            <button
-              className={`view-button ${view.mode === 'top' ? 'active' : ''}`}
-              onClick={() =>
+            <select
+              className="view-button"
+              aria-label="Camera view"
+              value={view.mode}
+              onChange={(e) =>
                 setView((v) => ({
-                  mode: v.mode === 'top' ? 'perspective' : 'top',
+                  mode: e.target.value as typeof view.mode,
                   revision: v.revision + 1,
                 }))
               }
             >
-              <Grid2X2 size={13} />
-              {view.mode === 'top' ? 'Top view' : 'Perspective'}
-            </button>
+              <option value="perspective">Perspective</option>
+              <option value="orthographic">Orthographic</option>
+              <option value="top">Top view</option>
+            </select>
           </div>
           <div className="viewport-stage">
+            <button
+              className="studio-launcher"
+              aria-label="Studio appearance and location"
+              aria-expanded={studioOpen}
+              onClick={() => {
+                setStudioOpen(!studioOpen);
+                setStudioTab('appearance');
+                if (!studioOpen && innerWidth <= 800) setInspectorOpen(false);
+              }}
+            >
+              <Settings2 size={17} />
+              <span>Studio</span>
+            </button>
+            {studioOpen && (
+              <StudioPanel
+                key={studioTab}
+                initialTab={studioTab}
+                appearance={appearance}
+                onAppearance={setAppearance}
+                site={project.site}
+                onSite={(site) => commit({ ...current.current, site }, false)}
+                mapVisible={mapVisible}
+                onMap={setMapVisible}
+                onClose={() => setStudioOpen(false)}
+                addPerson={() => {
+                  void propose(
+                    directPlan({
+                      type: 'person',
+                      height: 1.75,
+                      position: null,
+                    }),
+                  );
+                  setStudioOpen(false);
+                }}
+              />
+            )}
+            {mapVisible && project.site && (
+              <div className="map-attribution">
+                <a
+                  href="https://www.openstreetmap.org/copyright"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  © OpenStreetMap contributors
+                </a>
+                <span>Flat site map</span>
+                <button onClick={() => setMapVisible(false)}>Hide</button>
+              </div>
+            )}
+            <div className="north-compass" aria-label="Project north">
+              <span style={{ transform: `rotate(${northAngle}deg)` }}>↑</span>
+              <small>N</small>
+            </div>
             <Viewport
               project={project}
               tool={tool}
               snap={snap}
+              angleSnap={angleSnap}
+              motion={motion}
+              renderMode={renderMode}
+              appearance={appearance}
+              mapVisible={mapVisible}
               view={view}
               onSelect={select}
               onChange={change}
+              onCamera={(c) => {
+                camera.current = c;
+                setNorthAngle(
+                  (Math.atan2(-c.right.z, c.right.x) * 180) / Math.PI,
+                );
+              }}
             />
-            <div className="viewport-heading">
-              <span className="small-label">SPATIAL STUDY / 001</span>
-              <h1>Shape your next idea.</h1>
-              <p>Every great space starts with a simple form.</p>
-            </div>
+            {selected && (
+              <div className="selection-chip">
+                <label className="selection-color" title="Object color">
+                  <input
+                    type="color"
+                    aria-label="Selected object color"
+                    value={selected.color ?? '#e2e7e6'}
+                    onChange={(e) =>
+                      change(selected.id, { color: e.target.value })
+                    }
+                  />
+                </label>
+                <button
+                  className="selection-summary"
+                  onClick={() => {
+                    setInspectorOpen(!inspectorOpen);
+                    if (!inspectorOpen && innerWidth <= 800)
+                      setStudioOpen(false);
+                  }}
+                  aria-label="Edit selected dimensions"
+                >
+                  <span>{selected.name}</span>
+                  <strong>
+                    {selected.dimensions.width} × {selected.dimensions.depth} ×{' '}
+                    {selected.dimensions.height} <small>m</small>
+                  </strong>
+                  {selected.position.y > 0 && (
+                    <small>Raised {selected.position.y} m</small>
+                  )}
+                </button>
+              </div>
+            )}
             <div
               className="tool-palette"
               role="toolbar"
@@ -464,9 +1379,17 @@ export default function App() {
                 onClick={() => setSnap(!snap)}
               >
                 <Grid2X2 size={12} />
-                Snap {snap ? '0.5 m / 15°' : 'off'}
+                Snap {snap ? `0.5 m / ${angleSnap}°` : 'off'}
               </button>
-              <span>Grid · 1 m</span>
+              <select
+                aria-label="Rotation snap angle"
+                value={angleSnap}
+                onChange={(e) => setAngleSnap(Number(e.target.value))}
+              >
+                <option value={15}>15°</option>
+                <option value={45}>45°</option>
+                <option value={90}>90°</option>
+              </select>
             </div>
             <div
               className="axis-indicator"
@@ -482,38 +1405,197 @@ export default function App() {
               Scroll to zoom
             </div>
           </div>
-          <div className="command-area">
-            <div className="command-topline">
-              <span>
-                <Terminal size={13} /> COMMAND STUDIO{' '}
-                <span className="local-badge">LOCAL</span>
-              </span>
-              <button onClick={() => setGuide(true)}>
-                Command guide
-                <ArrowUpRight size={13} />
+          <div className="conversation-area">
+            <div className="conversation-heading">
+              <button
+                aria-expanded={chatExpanded}
+                onClick={() => setChatExpanded(!chatExpanded)}
+              >
+                <Sparkles size={14} />
+                Atelier
+                <span>
+                  {busy
+                    ? 'Thinking…'
+                    : chatExpanded
+                      ? 'Close conversation'
+                      : 'Conversation'}
+                </span>
               </button>
+              <span className="voice-status">
+                {voiceStatus !== 'Off' ? voiceStatus : ''}
+              </span>
             </div>
+            {!chatExpanded &&
+              messages.at(-1)?.role === 'assistant' &&
+              !pending && (
+                <div className="conversation-latest">
+                  <ConversationReply message={messages.at(-1)!} />
+                </div>
+              )}
+            {messages.length === 0 && (
+              <div className="conversation-welcome">
+                <strong>Space for your next idea.</strong>
+                <p>Imagine it. We’ll shape it together.</p>
+              </div>
+            )}
+            {chatExpanded && messages.length > 0 && (
+              <div
+                ref={log}
+                className="conversation-log"
+                role="log"
+                aria-label="Design conversation"
+              >
+                {messages.map((m, i) => (
+                  <div className={`chat-message ${m.role}`} key={i}>
+                    <span>{m.role === 'user' ? 'You' : 'Atelier'}</span>
+                    <ConversationReply message={m} />
+                  </div>
+                ))}
+              </div>
+            )}
+            {busy && (
+              <p className="conversation-working" role="status">
+                Considering your idea…
+              </p>
+            )}
+            {pending && (
+              <div
+                className="operation-review"
+                role="region"
+                aria-label="Review geometry change"
+              >
+                <strong>Shall I make this change?</strong>
+                <p>{pending.plan.message}</p>
+                <p>
+                  {pending.plan.operations.flatMap(reviewDescription).join(' ')}
+                </p>
+                <details className="conversation-measurements">
+                  <summary>Checked result · not applied yet</summary>
+                  <p>{pending.prepared.message}</p>
+                </details>
+                <p className="review-answer-hint">
+                  Reply naturally to approve, cancel, or adjust it.
+                </p>
+                <div>
+                  <button
+                    disabled={busy}
+                    onClick={async () => {
+                      const item = pending;
+                      if (item.fingerprint !== fingerprint()) {
+                        setPending(null);
+                        setNotice({
+                          text: 'Selection or geometry changed. Request this operation again.',
+                          error: true,
+                        });
+                        return;
+                      }
+                      setPending(null);
+                      try {
+                        const result = acceptReview(item);
+                        remember(
+                          'assistant',
+                          result,
+                          displaySummary(item.plan),
+                        );
+                      } catch (e) {
+                        reportError(e);
+                      }
+                    }}
+                  >
+                    Apply change
+                  </button>
+                  <button
+                    disabled={busy}
+                    onClick={() => {
+                      setPending(null);
+                      remember(
+                        'assistant',
+                        'Change cancelled. Geometry was preserved.',
+                      );
+                    }}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+            )}
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                if (run(command)) setCommand('');
+                const text = command.trim();
+                if (text && !busyRef.current) {
+                  setCommand('');
+                  void sendConversation(text);
+                }
               }}
             >
-              <span className="command-prompt">›</span>
-              <input
+              <textarea
                 ref={input}
-                aria-label="Geometry command"
+                rows={2}
+                onKeyDown={(e) => {
+                  if (
+                    e.key === 'Enter' &&
+                    !e.shiftKey &&
+                    !e.nativeEvent.isComposing
+                  ) {
+                    e.preventDefault();
+                    e.currentTarget.form?.requestSubmit();
+                  }
+                }}
+                aria-label="Message Atelier"
                 value={command}
                 onChange={(e) => setCommand(e.target.value)}
-                placeholder="create volume width 12 depth 8 height 6"
+                placeholder="Describe your idea, or tell me what to change…"
                 autoComplete="off"
-                spellCheck={false}
+                maxLength={4000}
               />
-              <kbd>⌘ / Ctrl K</kbd>
+              <button
+                type="button"
+                className={voiceActive ? 'mic-active' : ''}
+                aria-label={
+                  !voiceActive
+                    ? 'Start voice conversation'
+                    : 'Stop voice conversation'
+                }
+                disabled={
+                  !connectionState.voiceConfigured ||
+                  !connectionState.authenticated
+                }
+                title={
+                  connectionState.voiceConfigured
+                    ? 'Continuous voice conversation'
+                    : 'Configure the AI backend to enable voice'
+                }
+                onClick={async () => {
+                  if (voice.current) {
+                    voice.current.stop();
+                    voice.current = null;
+                    return;
+                  }
+                  const v = new VoiceConnection(
+                    (text) => sendRef.current(text),
+                    (status) => {
+                      setVoiceStatus(status);
+                      setVoiceActive(v.active);
+                      if (!v.active && voice.current === v)
+                        voice.current = null;
+                    },
+                  );
+                  voice.current = v;
+                  try {
+                    await v.start();
+                  } catch (e) {
+                    voice.current = null;
+                    reportError(e);
+                  }
+                }}
+              >
+                {!voiceActive ? <Mic size={18} /> : <MicOff size={18} />}
+              </button>
               <button
                 type="submit"
-                aria-label="Run command"
-                disabled={!command.trim()}
+                aria-label="Send message"
+                disabled={!command.trim() || busy}
               >
                 <ArrowUpRight size={19} />
               </button>
@@ -522,19 +1604,30 @@ export default function App() {
               className={`command-feedback ${notice.error ? 'error' : ''}`}
               role={notice.error ? 'alert' : 'status'}
             >
-              {notice.error ? <X size={12} /> : <Check size={12} />}
               <span>{notice.text}</span>
             </div>
           </div>
         </section>
-        <aside className="inspector-panel">
-          <div className="panel-caption">
+        <aside
+          ref={inspectorPanel.ref}
+          style={inspectorPanel.style}
+          onPointerDownCapture={inspectorPanel.raise}
+          className="inspector-panel"
+          aria-label="Object inspector"
+          hidden={!inspectorOpen}
+        >
+          <div
+            className="panel-caption panel-drag-handle"
+            {...inspectorPanel.handle}
+            role="button"
+            tabIndex={0}
+            aria-label="Move Inspector panel"
+          >
             <span>INSPECTOR</span>
             <button
               className="icon-button"
-              aria-label="Clear selection"
-              disabled={!selected}
-              onClick={() => select(null)}
+              aria-label="Close inspector"
+              onClick={() => setInspectorOpen(false)}
             >
               <X size={14} />
             </button>
@@ -546,20 +1639,50 @@ export default function App() {
                   <Box size={22} strokeWidth={1.3} />
                 </div>
                 <div>
-                  <span className="small-label">RECTANGULAR VOLUME</span>
-                  <input
-                    key={selected.id + selected.name}
-                    aria-label="Object name"
-                    defaultValue={selected.name}
-                    maxLength={80}
-                    onBlur={(e) =>
-                      change(selected.id, { name: e.target.value.trim() })
-                    }
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') e.currentTarget.blur();
-                    }}
-                  />
+                  <span className="small-label">
+                    {selected.geometry?.kind ?? 'box'}
+                  </span>
+                  <label className="volume-name-label">
+                    Name
+                    <input
+                      key={selected.id + selected.name}
+                      aria-label="Object name"
+                      defaultValue={selected.name}
+                      maxLength={80}
+                      onBlur={(e) => {
+                        const name = e.target.value.trim();
+                        if (name && name !== selected.name)
+                          change(selected.id, { name });
+                        else e.target.value = selected.name;
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') e.currentTarget.blur();
+                        if (e.key === 'Escape') {
+                          e.currentTarget.value = selected.name;
+                          e.currentTarget.blur();
+                        }
+                      }}
+                    />
+                  </label>
                 </div>
+              </div>
+              <button
+                className="text-action clear-selection"
+                onClick={() => select(null)}
+              >
+                Clear selection
+              </button>
+              <div className="object-palette" aria-label="Object colors">
+                {palette.map((color) => (
+                  <button
+                    key={color}
+                    title={color}
+                    aria-label={`Set object color ${color}`}
+                    aria-pressed={selected.color === color}
+                    style={{ background: color }}
+                    onClick={() => change(selected.id, { color })}
+                  />
+                ))}
               </div>
               <div className="inspector-section">
                 <div className="section-heading">
@@ -572,7 +1695,7 @@ export default function App() {
                       key={selected.id + k}
                       label={k[0].toUpperCase() + k.slice(1)}
                       value={selected.dimensions[k]}
-                      min={0.1}
+                      min={selected.geometry?.kind === 'mesh' ? 0.001 : 0.1}
                       max={500}
                       onChange={(n) =>
                         change(selected.id, {
@@ -585,12 +1708,12 @@ export default function App() {
                 <div className="volume-stat">
                   <span>Volume</span>
                   <strong data-testid="volume-stat">
-                    {round(
-                      selected.dimensions.width *
-                        selected.dimensions.depth *
-                        selected.dimensions.height,
-                    ).toLocaleString()}{' '}
-                    <small>m³</small>
+                    {isReference(selected)
+                      ? 'Reference'
+                      : measuredVolume === null
+                        ? '…'
+                        : round(measuredVolume).toLocaleString()}{' '}
+                    {!isReference(selected) && <small>m³</small>}
                   </strong>
                 </div>
               </div>
@@ -634,6 +1757,174 @@ export default function App() {
                   }
                 />
               </div>
+              {!isProfile(selected) && !isReference(selected) && (
+                <button
+                  className="architecture-action"
+                  aria-label="Create floors and curtain wall"
+                  title="Floors and glazing"
+                  onClick={() =>
+                    void propose({
+                      intent: 'apply',
+                      message: `${selected.geometry?.kind === 'building' ? 'Update the existing floors and curtain wall' : 'Create two floor slabs and a roof with a curtain wall'} inside ${selected.name}, preserving its height and elevation.`,
+                      operations: [buildingEdit(selected)],
+                    })
+                  }
+                >
+                  <Layers size={17} />
+                  <span>Floors & glass</span>
+                </button>
+              )}
+              {selected.geometry?.kind === 'building' && (
+                <div className="inspector-section architecture-fields">
+                  <div className="section-heading">
+                    <h2>Floors & glass</h2>
+                  </div>
+                  <NumericField
+                    label="Floors"
+                    value={selected.geometry.floors}
+                    min={1}
+                    max={30}
+                    unit=""
+                    onChange={(floors) =>
+                      void propose(
+                        directPlan(buildingEdit(selected, { floors })),
+                      )
+                    }
+                  />
+                  <NumericField
+                    label="Slab thickness"
+                    value={buildingSettings(selected)!.slabThickness}
+                    min={0.1}
+                    max={1}
+                    onChange={(slabThickness) =>
+                      void propose(
+                        directPlan(buildingEdit(selected, { slabThickness })),
+                      )
+                    }
+                  />
+                  <NumericField
+                    label="Panel width"
+                    value={buildingSettings(selected)!.panelWidth}
+                    min={0.5}
+                    max={10}
+                    onChange={(panelWidth) =>
+                      void propose(
+                        directPlan(buildingEdit(selected, { panelWidth })),
+                      )
+                    }
+                  />
+                  <p className="field-note">
+                    Floor slabs plus a roof. The original envelope stays
+                    editable.
+                  </p>
+                </div>
+              )}
+              {isProfile(selected) && (
+                <div className="selection-actions">
+                  <button
+                    onClick={() =>
+                      void propose(
+                        directPlan({
+                          type: 'extrude',
+                          target: selected.id,
+                          height: 3,
+                        }),
+                      )
+                    }
+                  >
+                    Extrude 3 m
+                  </button>
+                </div>
+              )}
+              {selected.geometry?.kind === 'boolean' &&
+              selected.geometry.opening ? (
+                <div className="inspector-section">
+                  <div className="section-heading">
+                    <h2>Opening</h2>
+                  </div>
+                  <div className="fields-stack">
+                    <NumericField
+                      label="Opening width"
+                      value={round(
+                        selected.geometry.operands[1].dimensions.width *
+                          openingScale(selected).width,
+                      )}
+                      onChange={(width) =>
+                        void propose(
+                          directPlan({
+                            type: 'edit_opening',
+                            target: selected.id,
+                            width,
+                            height: null,
+                          }),
+                        )
+                      }
+                    />
+                    <NumericField
+                      label="Opening height"
+                      value={round(
+                        selected.geometry.operands[1].dimensions.height *
+                          openingScale(selected).height,
+                      )}
+                      onChange={(height) =>
+                        void propose(
+                          directPlan({
+                            type: 'edit_opening',
+                            target: selected.id,
+                            width: null,
+                            height,
+                          }),
+                        )
+                      }
+                    />
+                  </div>
+                </div>
+              ) : (
+                !isProfile(selected) &&
+                !isReference(selected) && (
+                  <div className="selection-actions">
+                    <button
+                      disabled={
+                        selected.dimensions.width < 0.3 ||
+                        selected.dimensions.height < 0.2
+                      }
+                      onClick={() => {
+                        const width = round(
+                            Math.min(1.2, selected.dimensions.width * 0.3),
+                          ),
+                          height = round(
+                            Math.min(2.1, selected.dimensions.height * 0.7),
+                          );
+                        void propose({
+                          intent: 'apply',
+                          message: `Cut a centered ${width} × ${height} m opening through ${selected.name}, along its local depth.`,
+                          operations: [
+                            {
+                              type: 'opening',
+                              target: selected.id,
+                              width,
+                              height,
+                              sill: 0,
+                              offset: 0,
+                            },
+                          ],
+                        });
+                      }}
+                    >
+                      Cut opening
+                    </button>
+                  </div>
+                )
+              )}
+              {selected.geometry?.kind === 'boolean' && (
+                <div className="recipe-summary">
+                  <span>Operation history</span>
+                  <strong>{selected.geometry.operation}</strong>
+                  {selected.geometry.operands.map((v) => (
+                    <p key={v.id}>{v.name}</p>
+                  ))}
+                </div>
+              )}
               <div className="selection-actions">
                 <button onClick={() => run('duplicate selected')}>
                   <Copy size={14} />
@@ -669,7 +1960,9 @@ export default function App() {
           <span className="status-dot" />
           {project.volumes.length} volumes{' '}
           <span className="footer-divider">|</span>
-          {selected ? '1 selected' : 'No selection'}
+          {selected
+            ? `${project.selectedIds?.length || 1} selected`
+            : 'No selection'}
         </span>
         <div className="history-actions" data-version={historyVersion}>
           <button
@@ -689,75 +1982,87 @@ export default function App() {
             <Redo2 size={14} />
           </button>
           <span className="footer-divider">|</span>
-          <span>Y UP</span>
-          <span>WEBGL</span>
-          <Maximize size={12} />
         </div>
       </footer>
-      {guide && (
-        <CommandGuide
-          onClose={() => setGuide(false)}
-          onChoose={(text) => {
-            setCommand(text);
-            setGuide(false);
-            setTimeout(() => input.current?.focus(), 0);
-          }}
+      {settingsOpen && (
+        <ConnectionDialog
+          state={connectionState}
+          onClose={() => setSettingsOpen(false)}
+          onRefresh={async () => setConnectionState(await connection())}
         />
       )}
     </div>
   );
 }
-function CommandGuide({
+function ConnectionDialog({
+  state,
   onClose,
-  onChoose,
+  onRefresh,
 }: {
+  state: Connection;
   onClose: () => void;
-  onChoose: (text: string) => void;
+  onRefresh: () => Promise<void>;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   useEffect(() => {
-    const d = dialog.current!;
-    d.showModal();
-    return () => d.close();
+    dialog.current?.showModal();
   }, []);
   return (
-    <dialog
-      ref={dialog}
-      className="command-dialog"
-      onCancel={onClose}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
+    <dialog ref={dialog} className="connection-dialog" onCancel={onClose}>
       <div className="dialog-heading">
-        <div>
-          <Command size={20} />
-          <h2>From words to volumes.</h2>
-        </div>
-        <button
-          className="icon-button"
-          onClick={onClose}
-          aria-label="Close command guide"
-        >
+        <h2>Connect your workspace</h2>
+        <button aria-label="Close connection settings" onClick={onClose}>
           <X size={18} />
         </button>
       </div>
       <p>
-        Use these exact commands to shape your model. This first version uses a
-        local command parser, not a connected AI model.
+        {state.configured
+          ? 'The model service is configured on this application server.'
+          : 'Natural conversation and voice require the ATELIER application server with an API credential. Direct modeling, project import/export and saved geometry remain available.'}
       </p>
-      <div className="command-examples">
-        {COMMAND_EXAMPLES.map((text) => (
-          <button key={text} onClick={() => onChoose(text)}>
-            <code>{text}</code>
-            <ArrowUpRight size={15} />
-          </button>
-        ))}
-      </div>
-      <p className="guide-note">
-        Dimensions are width × depth × height in meters. Move sets the absolute
-        base-center position. Rotate sets yaw in degrees around Y. Dimensions:
-        0.1–500 m. Coordinates: ±1,000 m; Y ≥ 0. Changes support undo.
+      {!state.configured && (
+        <p>
+          Configure <code>ATELIER_OPENAI_API_KEY</code> securely on the server,
+          then restart it. Never add a provider key to this browser or the
+          GitHub Pages build. See the repository setup instructions.
+        </p>
+      )}
+      {!state.authenticated && (
+        <form
+          onSubmit={async (e) => {
+            e.preventDefault();
+            const r = await fetch('/api/login', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ password }),
+            });
+            setPassword('');
+            if (r.ok) {
+              await onRefresh();
+              onClose();
+            } else setError('The workspace password was not accepted.');
+          }}
+        >
+          <label>
+            Workspace password
+            <input
+              type="password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </label>
+          <button type="submit">Unlock workspace</button>
+        </form>
+      )}
+      {error && <p role="alert">{error}</p>}
+      <button onClick={() => void onRefresh()}>Check connection</button>
+      <p className="field-note">
+        Text requests share your instruction and scene metadata with the
+        configured model. Voice also sends microphone audio while enabled. Stop
+        the microphone to end the session.
       </p>
     </dialog>
   );

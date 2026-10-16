@@ -15,6 +15,7 @@ const types = {
   '.css': 'text/css',
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
+  '.wasm': 'application/wasm',
 };
 const server = createServer(async (req, res) => {
   try {
@@ -61,14 +62,22 @@ try {
   });
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  page.on('requestfailed', (r) => errors.push(`Failed request: ${r.url()}`));
+  // A static Pages site has no API; only that expected unavailable endpoint is excluded.
+  page.on('requestfailed', (r) => {
+    if (!r.url().endsWith('/api/config'))
+      errors.push(`Failed request: ${r.url()}`);
+  });
   page.on('response', (r) => {
-    if (r.status() >= 400) errors.push(`HTTP ${r.status()}: ${r.url()}`);
+    if (r.status() >= 400 && !r.url().endsWith('/api/config'))
+      errors.push(`HTTP ${r.status()}: ${r.url()}`);
   });
   const response = await page.goto(
     `http://127.0.0.1:${server.address().port}/atelier/`,
   );
   assert.equal(response.status(), 200);
+  await page.getByRole('button', { name: 'Expand inspector' }).click();
+  await page.getByRole('button', { name: 'Show objects' }).click();
+  await page.getByText('Manual tools', { exact: true }).click();
   await page.getByTestId('viewport').locator('canvas').waitFor();
   await page.waitForFunction(
     () =>
@@ -83,9 +92,17 @@ try {
     '14',
   );
   await page
-    .getByRole('textbox', { name: 'Geometry command' })
-    .fill('create box 7 x 5 x 3');
-  await page.getByRole('button', { name: 'Run command', exact: true }).click();
+    .getByRole('button', { name: 'Create volume', exact: true })
+    .click();
+  for (const [label, value] of [
+    ['Width', '7'],
+    ['Depth', '5'],
+    ['Height', '3'],
+  ]) {
+    const field = page.getByRole('spinbutton', { name: label, exact: true });
+    await field.fill(value);
+    await field.press('Enter');
+  }
   await page.waitForFunction(
     () =>
       document.querySelector('[data-testid="volume-stat"]')?.textContent ===
@@ -105,9 +122,39 @@ try {
       .inputValue(),
     '7',
   );
+  assert.equal(
+    await page
+      .getByRole('button', { name: 'Connect AI', exact: true })
+      .isVisible(),
+    true,
+  );
+  assert.equal(
+    await page
+      .getByRole('button', { name: 'Start voice conversation' })
+      .isDisabled(),
+    true,
+  );
+  // Verify lazy map-picker JS/CSS also resolve under the project subpath.
+  await page.route('https://tile.openstreetmap.org/**', (r) =>
+    r.fulfill({
+      contentType: 'image/png',
+      body: Buffer.from(
+        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1cAAAAASUVORK5CYII=',
+        'base64',
+      ),
+    }),
+  );
+  await page.getByRole('button', { name: 'Toggle site map' }).click();
+  await page.getByRole('button', { name: 'Choose on a map' }).click();
+  await page
+    .getByRole('region', { name: 'Choose a site on the map' })
+    .waitFor();
+  await page.waitForFunction(
+    () => document.querySelectorAll('.leaflet-tile-loaded').length > 0,
+  );
   assert.deepEqual(errors, []);
   console.log(
-    'PASS: production app loads at /atelier/ with valid asset paths, WebGL, geometry commands, and reload persistence.',
+    'PASS: production app loads at /atelier/ with valid JS/CSS/WASM paths, actual solid rendering, direct editing, and reload persistence. Static Pages has no AI backend.',
   );
 } finally {
   await browser?.close();
