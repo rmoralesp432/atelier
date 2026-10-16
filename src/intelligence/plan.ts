@@ -15,7 +15,74 @@ const direction = z.enum([
   'down',
 ]);
 const distance = z.number().min(0.01).max(1000).nullable();
+const point = z
+  .object({
+    x: z.number().min(-1000).max(1000),
+    y: z.number().min(0).max(1000),
+    z: z.number().min(-1000).max(1000),
+  })
+  .strict();
 export const operationSchema = z.discriminatedUnion('type', [
+  z
+    .object({
+      type: z.literal('color'),
+      targets: ids,
+      color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('person'),
+      height: z.number().min(0.5).max(2.5),
+      position: point.nullable(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('scale'),
+      targets: ids,
+      factor: z.number().min(0.01).max(100),
+      pivot: point.nullable(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('stretch'),
+      targets: ids,
+      axis: z.enum(['width', 'depth', 'height']),
+      side: z.enum(['min', 'max']),
+      distance: z.number().min(-500).max(500),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('mirror'),
+      targets: ids,
+      axis: z.enum(['x', 'z']),
+      coordinate: z.number().min(-1000).max(1000),
+      copy: z.boolean(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('array_grid'),
+      targets: ids,
+      rows: z.number().int().min(1).max(20),
+      columns: z.number().int().min(1).max(20),
+      spacingX: z.number().min(0.1).max(1000),
+      spacingZ: z.number().min(0.1).max(1000),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('array_polar'),
+      targets: ids,
+      count: z.number().int().min(2).max(20),
+      center: point,
+      angle: z.number().min(-360).max(360),
+      rotate: z.boolean(),
+    })
+    .strict(),
   z
     .object({
       type: z.literal('measure'),

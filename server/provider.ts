@@ -91,6 +91,10 @@ export const requestSchema = z
                 position: vec,
                 rotation: z.number().finite(),
                 shape: z.string().max(40),
+                color: z
+                  .string()
+                  .regex(/^#[0-9a-fA-F]{6}$/)
+                  .optional(),
                 opening: z.boolean(),
                 spatial: z
                   .object({

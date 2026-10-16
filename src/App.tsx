@@ -1,3 +1,5 @@
+import StudioPanel from './studio/StudioPanel';
+import { loadAppearance, palette } from './studio/appearance';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ArrowDownToLine,
@@ -62,6 +64,7 @@ const SESSION_KEY = 'atelier.session.v2';
 const CHAT_KEY = 'atelier.conversation.v2';
 
 import {
+  buildingSettings,
   COMMAND_EXAMPLES,
   executeCommand,
   initialProject,
@@ -110,7 +113,7 @@ function buildingEdit(
   v: Volume,
   patch: Partial<Extract<Operation, { type: 'building' }>> = {},
 ): Operation {
-  const g = v.geometry?.kind === 'building' ? v.geometry : null;
+  const g = buildingSettings(v);
   return {
     type: 'building',
     target: v.id,
@@ -230,7 +233,17 @@ export default function App() {
     },
     [],
   );
-  const [renderMode, setRenderMode] = useState<'studio' | 'outline'>('studio');
+  const [appearance, setAppearance] = useState(loadAppearance);
+  const renderMode = appearance.mode;
+  const [studioOpen, setStudioOpen] = useState(false);
+  const [mapVisible, setMapVisible] = useState(false);
+  useEffect(() => {
+    try {
+      localStorage.setItem('atelier.appearance', JSON.stringify(appearance));
+    } catch {
+      /* Optional view preference. */
+    }
+  }, [appearance]);
   const [northAngle, setNorthAngle] = useState(0);
   const [tool, setTool] = useState<Tool>('select');
   const [snap, setSnap] = useState(true);
@@ -913,7 +926,7 @@ export default function App() {
                   project.selectedIds?.includes(v.id) || selected?.id === v.id
                 }
               >
-                <Box size={16} />
+                <Box size={16} style={{ color: v.color ?? undefined }} />
                 <span>
                   {v.name}
                   <small>
@@ -1038,24 +1051,49 @@ export default function App() {
             </button>
           </div>
           <div className="viewport-stage">
-            <div
-              className="studio-view-switch"
-              role="group"
-              aria-label="Visual style"
+            <button
+              className="studio-launcher"
+              aria-label="Studio appearance and location"
+              aria-expanded={studioOpen}
+              onClick={() => setStudioOpen(!studioOpen)}
             >
-              <button
-                aria-pressed={renderMode === 'studio'}
-                onClick={() => setRenderMode('studio')}
-              >
-                Studio
-              </button>
-              <button
-                aria-pressed={renderMode === 'outline'}
-                onClick={() => setRenderMode('outline')}
-              >
-                Outline
-              </button>
-            </div>
+              <Settings2 size={17} />
+              <span>Studio</span>
+            </button>
+            {studioOpen && (
+              <StudioPanel
+                appearance={appearance}
+                onAppearance={setAppearance}
+                site={project.site}
+                onSite={(site) => commit({ ...current.current, site }, false)}
+                mapVisible={mapVisible}
+                onMap={setMapVisible}
+                onClose={() => setStudioOpen(false)}
+                addPerson={() => {
+                  void propose(
+                    directPlan({
+                      type: 'person',
+                      height: 1.75,
+                      position: null,
+                    }),
+                  );
+                  setStudioOpen(false);
+                }}
+              />
+            )}
+            {mapVisible && project.site && (
+              <div className="map-attribution">
+                <a
+                  href="https://www.openstreetmap.org/copyright"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  © OpenStreetMap contributors
+                </a>
+                <span>Flat site map</span>
+                <button onClick={() => setMapVisible(false)}>Hide</button>
+              </div>
+            )}
             <div className="north-compass" aria-label="Project north">
               <span style={{ transform: `rotate(${northAngle}deg)` }}>↑</span>
               <small>N</small>
@@ -1066,6 +1104,8 @@ export default function App() {
               snap={snap}
               motion={motion}
               renderMode={renderMode}
+              appearance={appearance}
+              mapVisible={mapVisible}
               view={view}
               onSelect={select}
               onChange={change}
@@ -1078,6 +1118,16 @@ export default function App() {
             />
             {selected && (
               <div className="selection-chip">
+                <label className="selection-color" title="Object color">
+                  <input
+                    type="color"
+                    aria-label="Selected object color"
+                    value={selected.color ?? '#e2e7e6'}
+                    onChange={(e) =>
+                      change(selected.id, { color: e.target.value })
+                    }
+                  />
+                </label>
                 <button
                   className="selection-summary"
                   onClick={() => setInspectorOpen(!inspectorOpen)}
@@ -1191,10 +1241,8 @@ export default function App() {
               )}
             {messages.length === 0 && (
               <div className="conversation-welcome">
-                <strong>What would you like to design?</strong>
-                <p>
-                  Start with an idea, in your own words. Refine it as we go.
-                </p>
+                <strong>Space for your next idea.</strong>
+                <p>Imagine it. We’ll shape it together.</p>
               </div>
             )}
             {chatExpanded && messages.length > 0 && (
@@ -1403,6 +1451,18 @@ export default function App() {
                   />
                 </div>
               </div>
+              <div className="object-palette" aria-label="Object colors">
+                {palette.map((color) => (
+                  <button
+                    key={color}
+                    title={color}
+                    aria-label={`Set object color ${color}`}
+                    aria-pressed={selected.color === color}
+                    style={{ background: color }}
+                    onClick={() => change(selected.id, { color })}
+                  />
+                ))}
+              </div>
               <div className="inspector-section">
                 <div className="section-heading">
                   <h2>Dimensions</h2>
@@ -1512,7 +1572,7 @@ export default function App() {
                   />
                   <NumericField
                     label="Slab thickness"
-                    value={selected.geometry.slabThickness}
+                    value={buildingSettings(selected)!.slabThickness}
                     min={0.1}
                     max={1}
                     onChange={(slabThickness) =>
@@ -1523,7 +1583,7 @@ export default function App() {
                   />
                   <NumericField
                     label="Panel width"
-                    value={selected.geometry.panelWidth}
+                    value={buildingSettings(selected)!.panelWidth}
                     min={0.5}
                     max={10}
                     onChange={(panelWidth) =>

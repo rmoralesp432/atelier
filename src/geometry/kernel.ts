@@ -41,6 +41,8 @@ export function validateRecipe(
       'building',
       'polygon',
       'mesh',
+      'person',
+      'mirror',
     ].includes(recipe.kind)
   )
     throw new Error('Unsupported geometry type.');
@@ -50,6 +52,12 @@ export function validateRecipe(
   )
     throw new Error('Unsupported extrusion profile.');
   if (recipe.kind === 'mesh') validateMesh(recipe);
+  if (recipe.kind === 'mirror') {
+    if (!['x', 'z'].includes(recipe.axis))
+      throw new Error('Invalid mirror plane.');
+    validateVolume(recipe.source, false);
+    validateRecipe(recipe.source.geometry, depth + 1, budget);
+  }
   if (recipe.kind === 'polygon') {
     validatePolygon(recipe.points);
     if (
@@ -136,7 +144,53 @@ function evaluated(
   const d = v.dimensions;
   const g = v.geometry;
   let solid: Manifold;
-  if (g?.kind === 'mesh') {
+  if (g?.kind === 'mirror') {
+    const source = evaluated(m, g.source, false, allocated, depth + 1);
+    solid = keep(source.mirror(g.axis === 'x' ? [1, 0, 0] : [0, 0, 1]));
+    solid = keep(
+      solid.scale([
+        d.width / g.source.dimensions.width,
+        d.height / g.source.dimensions.height,
+        d.depth / g.source.dimensions.depth,
+      ]),
+    );
+  } else if (g?.kind === 'person') {
+    // A stylized, genuinely three-dimensional scale figure; normalized Y=0..1.
+    const ellipsoid = (
+      x: number,
+      y: number,
+      rx: number,
+      ry: number,
+      rz: number,
+    ) =>
+      keep(
+        keep(keep(m.Manifold.sphere(1, 24)).scale([rx, ry, rz])).translate([
+          x,
+          y,
+          0,
+        ]),
+      );
+    const limb = (x: number, y: number, height: number, radius: number) =>
+      keep(
+        keep(
+          keep(m.Manifold.cylinder(height, radius, radius, 16)).rotate([
+            -90, 0, 0,
+          ]),
+        ).translate([x, y, 0]),
+      );
+    solid = keep(
+      m.Manifold.union([
+        ellipsoid(0, 0.91, 0.17, 0.09, 0.5),
+        ellipsoid(0, 0.64, 0.32, 0.23, 0.42),
+        limb(-0.16, 0, 0.5, 0.11),
+        limb(0.16, 0, 0.5, 0.11),
+        limb(-0.4, 0.43, 0.35, 0.1),
+        limb(0.4, 0.43, 0.35, 0.1),
+        ellipsoid(0, 0.81, 0.11, 0.07, 0.28),
+      ]),
+    );
+    solid = keep(solid.scale([d.width, d.height, d.depth]));
+  } else if (g?.kind === 'mesh') {
     if (!g.solid)
       throw new Error(
         'This imported surface is a reference mesh, not a closed solid. It can be moved, rotated or resized; solid cuts require a watertight mesh.',
@@ -267,7 +321,41 @@ export async function meshData(v: Volume) {
     false,
   );
 }
-export async function renderMeshData(v: Volume) {
+export type RenderPart = {
+  positions: Float32Array;
+  indices: Uint32Array;
+  volume: number;
+  material: 'solid' | 'glass' | 'frame' | 'reference';
+};
+export async function renderMeshData(v: Volume): Promise<RenderPart[]> {
+  validateVolume(v);
+  if (v.geometry?.kind === 'mirror') {
+    const g = v.geometry,
+      parts = await renderMeshData(g.source);
+    const scale = [
+      v.dimensions.width / g.source.dimensions.width,
+      v.dimensions.height / g.source.dimensions.height,
+      v.dimensions.depth / g.source.dimensions.depth,
+    ];
+    const axis = g.axis === 'x' ? 0 : 2;
+    return parts.map((part) => {
+      const positions = new Float32Array(
+        part.positions.map(
+          (n, i) => n * scale[i % 3] * (i % 3 === axis ? -1 : 1),
+        ),
+      );
+      const indices = new Uint32Array(part.indices);
+      for (let i = 0; i < indices.length; i += 3)
+        [indices[i + 1], indices[i + 2]] = [indices[i + 2], indices[i + 1]];
+      return {
+        ...part,
+        positions,
+        indices,
+        volume: part.volume * scale[0] * scale[1] * scale[2],
+      };
+    });
+  }
+
   if (v.geometry?.kind === 'mesh') {
     validateVolume(v);
     return [

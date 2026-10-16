@@ -1,9 +1,12 @@
+import { validateSite, type Site } from './studio/site';
 import type { MeshRecipe } from './imports/mesh';
 import { validateRecipe } from './geometry/kernel';
 export type Vec3 = { x: number; y: number; z: number };
 export type Dimensions = { width: number; depth: number; height: number };
 export type GeometryRecipe =
   | MeshRecipe
+  | { kind: 'person' }
+  | { kind: 'mirror'; source: Volume; axis: 'x' | 'z' }
   | { kind: 'box' | 'cylinder' | 'sphere' | 'rectangle' | 'circle' }
   | { kind: 'extrusion'; profile: 'rectangle' | 'circle' }
   | { kind: 'polygon'; points: { x: number; z: number }[]; extruded: boolean }
@@ -27,6 +30,7 @@ export type GeometryRecipe =
     };
 export type Volume = {
   geometry?: GeometryRecipe;
+  color?: string;
   id: string;
   name: string;
   dimensions: Dimensions;
@@ -34,6 +38,7 @@ export type Volume = {
   rotation: number;
 };
 export type Project = {
+  site?: Site;
   volumes: Volume[];
   selectedId: string | null;
   selectedIds?: string[];
@@ -77,6 +82,8 @@ export function validateVolume(v: Volume, checkGeometry = true): void {
     throw new Error(
       'Coordinates must be within ±1,000 m; elevation Y cannot be negative.',
     );
+  if (v.color !== undefined && !/^#[0-9a-f]{6}$/i.test(v.color))
+    throw new Error('Use a six-digit hex object color.');
   if (checkGeometry) validateRecipe(v.geometry);
   if (!Number.isFinite(v.rotation))
     throw new Error('Rotation must be a finite number.');
@@ -104,6 +111,17 @@ export function initialProject(): Project {
   b.position = { x: 6.5, y: 0, z: 0 };
   return { volumes: [a, b], selectedId: a.id };
 }
+export function buildingSettings(v: Volume) {
+  const g = v.geometry;
+  if (g?.kind !== 'building') return null;
+  return {
+    floors: g.floors,
+    facade: g.facade,
+    slabThickness: (g.slabThickness * v.dimensions.height) / g.base.height,
+    panelWidth: (g.panelWidth * v.dimensions.width) / g.base.width,
+    mullionWidth: (g.mullionWidth * v.dimensions.width) / g.base.width,
+  };
+}
 export function updateVolume(
   project: Project,
   id: string,
@@ -122,6 +140,7 @@ export function updateVolume(
         // Resize the envelope without silently scaling stated slab/frame sizes.
         next.geometry = {
           ...v.geometry,
+          ...buildingSettings(v),
           base: { ...next.dimensions },
           source: { ...v.geometry.source, dimensions: { ...next.dimensions } },
         };
@@ -139,6 +158,7 @@ export function parseProject(text: string): Project {
     raw.volumes.length > MAX_VOLUMES
   )
     throw new Error('Unsupported project file.');
+  if (raw.site !== undefined) validateSite(raw.site);
   const ids = new Set<string>();
   for (const v of raw.volumes) {
     if (!v || typeof v.id !== 'string' || ids.has(v.id))
@@ -147,6 +167,7 @@ export function parseProject(text: string): Project {
     ids.add(v.id);
   }
   return {
+    ...(raw.site ? { site: raw.site } : {}),
     volumes: raw.volumes,
     selectedId: ids.has(raw.selectedId) ? raw.selectedId : null,
     ...(Array.isArray(raw.selectedIds)
@@ -191,7 +212,12 @@ export function executeCommand(
       height: +m[3],
     });
     return {
-      project: { volumes: [...project.volumes, v], selectedId: v.id },
+      project: {
+        ...project,
+        volumes: [...project.volumes, v],
+        selectedId: v.id,
+        selectedIds: [v.id],
+      },
       message: `Created ${v.name} · ${m[1]} × ${m[2]} × ${m[3]} m`,
     };
   }
@@ -218,8 +244,10 @@ export function executeCommand(
     const v = requireSelection();
     return {
       project: {
+        ...project,
         volumes: project.volumes.filter((item) => item.id !== v.id),
         selectedId: null,
+        selectedIds: [],
       },
       message: `Deleted ${v.name}`,
     };
@@ -235,7 +263,12 @@ export function executeCommand(
     };
     validateVolume(copy);
     return {
-      project: { volumes: [...project.volumes, copy], selectedId: copy.id },
+      project: {
+        ...project,
+        volumes: [...project.volumes, copy],
+        selectedId: copy.id,
+        selectedIds: [copy.id],
+      },
       message: `Duplicated ${v.name}`,
     };
   } else

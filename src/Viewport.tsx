@@ -1,3 +1,6 @@
+import { siteTiles } from './studio/site';
+import type { Appearance } from './studio/appearance';
+import { groupBounds } from './geometry/spatial';
 import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
@@ -16,7 +19,9 @@ type Props = {
   tool: Tool;
   snap: boolean;
   motion: { revision: number; ids: string[] };
-  renderMode: 'studio' | 'outline';
+  renderMode: Appearance['mode'];
+  appearance: Appearance;
+  mapVisible: boolean;
   view: { mode: 'perspective' | 'top'; revision: number };
   onSelect: (id: string | null, additive?: boolean) => void;
   onCamera?: (camera: CameraContext) => void;
@@ -30,6 +35,7 @@ type Runtime = {
   transform: TransformControls;
   objects: Map<string, THREE.Group>;
   signatures: Map<string, string>;
+  updateShadows: () => void;
   fit: (top: boolean) => void;
   beginConstruction: (v: Volume, g: THREE.Group, index: number) => void;
   finishConstruction: () => void;
@@ -50,6 +56,7 @@ export default function Viewport(props: Props) {
   const runtime = useRef<Runtime | null>(null);
   const latest = useRef(props);
   latest.current = props;
+  const [mapError, setMapError] = useState('');
   const [error, setError] = useState('');
   useEffect(() => {
     const container = host.current!;
@@ -63,7 +70,7 @@ export default function Viewport(props: Props) {
       return;
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor('#0b1014');
+    renderer.setClearColor('#151719');
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -76,7 +83,7 @@ export default function Viewport(props: Props) {
     renderer.domElement.setAttribute('tabindex', '0');
     container.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog('#0b1014', 100, 900);
+    scene.fog = new THREE.Fog('#151719', 250, 1800);
     const pmrem = new THREE.PMREMGenerator(renderer);
     const room = new RoomEnvironment();
     const environment = pmrem.fromScene(room);
@@ -115,7 +122,7 @@ export default function Viewport(props: Props) {
     const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(4000, 4000),
       new THREE.MeshStandardMaterial({
-        color: '#080c10',
+        color: '#151719',
         roughness: 0.9,
         metalness: 0.05,
       }),
@@ -337,19 +344,41 @@ export default function Viewport(props: Props) {
         targetFrom: orbit.target.clone(),
         targetTo: center,
       };
-      const shadowSize = Math.max(size.x, size.y, size.z, 25) * 0.85;
+      updateShadows();
+    };
+    const updateShadows = () => {
+      const vs = latest.current.project.volumes;
+      if (!vs.length) return;
+      const bounds = groupBounds(vs);
+      const center = new THREE.Vector3(
+        (bounds.min.x + bounds.max.x) / 2,
+        bounds.max.y / 2,
+        (bounds.min.z + bounds.max.z) / 2,
+      );
+      // Include the ground and a generous margin for projected shadows, not just camera framing.
+      const radius = Math.max(
+        80,
+        Math.hypot(
+          bounds.max.x - bounds.min.x,
+          bounds.max.y,
+          bounds.max.z - bounds.min.z,
+        ) * 0.9,
+      );
       light.position
         .copy(center)
-        .add(new THREE.Vector3(-shadowSize, shadowSize * 2, shadowSize));
+        .add(new THREE.Vector3(-2, 4, 2).multiplyScalar(radius));
       light.target.position.copy(center);
       Object.assign(light.shadow.camera, {
-        left: -shadowSize,
-        right: shadowSize,
-        top: shadowSize,
-        bottom: -shadowSize,
-        far: shadowSize * 6,
+        left: -radius,
+        right: radius,
+        top: radius,
+        bottom: -radius,
+        near: 1,
+        far: radius * 9,
       });
       light.shadow.camera.updateProjectionMatrix();
+      container.dataset.shadowSpan = String(radius * 2);
+      container.dataset.shadowCenter = `${center.x},${center.y},${center.z}`;
     };
     runtime.current = {
       scene,
@@ -359,6 +388,7 @@ export default function Viewport(props: Props) {
       transform,
       objects,
       signatures: new Map(),
+      updateShadows,
       fit,
       beginConstruction,
       finishConstruction,
@@ -553,7 +583,7 @@ export default function Viewport(props: Props) {
               mesh.castShadow = !glass;
               mesh.receiveShadow = true;
               g.add(mesh);
-              if (!glass) {
+              {
                 const edges = new THREE.LineSegments(
                   new THREE.EdgesGeometry(part.geometry, 24),
                   new THREE.LineBasicMaterial({
@@ -586,6 +616,7 @@ export default function Viewport(props: Props) {
           r!.objects.set(id, g);
         });
         r!.signatures = signatures;
+        r!.updateShadows();
         for (const v of props.project.volumes) {
           const g = r!.objects.get(v.id)!;
           g.position.set(v.position.x, v.position.y, v.position.z);
@@ -597,35 +628,59 @@ export default function Viewport(props: Props) {
             if (o instanceof THREE.Mesh) {
               const material = o.material as THREE.MeshPhysicalMaterial;
               const kind = o.userData.materialKind;
+              const mode = props.renderMode;
               material.color.set(
-                kind === 'glass'
-                  ? '#8dc9d2'
-                  : kind === 'frame'
-                    ? '#38464e'
-                    : selected
-                      ? '#c0dfdf'
-                      : '#e2e7e6',
+                mode === 'hidden-line'
+                  ? props.appearance.surfaceColor
+                  : (v.color ??
+                      (kind === 'glass'
+                        ? '#8dc9d2'
+                        : kind === 'frame'
+                          ? '#38464e'
+                          : '#e2e7e6')),
               );
-              material.emissive.set(selected ? '#183033' : '#000000');
-              material.emissiveIntensity = selected ? 0.2 : 0;
-              if (kind !== 'glass') {
-                if (material.transparent !== (props.renderMode === 'outline'))
-                  material.needsUpdate = true;
-                material.transparent = props.renderMode === 'outline';
-                material.opacity = props.renderMode === 'outline' ? 0.055 : 1;
-                material.depthWrite = props.renderMode !== 'outline';
-              }
+              material.emissive.set(
+                mode === 'hidden-line'
+                  ? props.appearance.surfaceColor
+                  : selected
+                    ? '#183033'
+                    : '#000000',
+              );
+              material.emissiveIntensity =
+                mode === 'hidden-line' ? 0.35 : selected ? 0.12 : 0;
+              const transparent =
+                mode === 'wireframe' || (mode === 'studio' && kind === 'glass');
+              if (material.transparent !== transparent)
+                material.needsUpdate = true;
+              material.transparent = transparent;
+              material.opacity =
+                mode === 'wireframe'
+                  ? 0
+                  : mode === 'studio' && kind === 'glass'
+                    ? 0.32
+                    : 1;
+              material.depthWrite =
+                mode === 'hidden-line' ||
+                (mode === 'studio' && kind !== 'glass');
+              material.polygonOffset = mode === 'hidden-line';
+              material.polygonOffsetFactor = 1;
+              material.polygonOffsetUnits = 1;
+              o.castShadow = mode === 'studio' && kind !== 'glass';
+              o.receiveShadow = mode === 'studio';
             } else if (o instanceof THREE.LineSegments) {
               const material = o.material as THREE.LineBasicMaterial;
-              material.color.set(selected ? '#8de2e7' : '#d6e0e2');
-              material.opacity =
-                props.renderMode === 'outline'
+              material.color.set(
+                props.renderMode === 'studio'
                   ? selected
-                    ? 0.9
-                    : 0.6
+                    ? '#b9eeec'
+                    : '#d6e0e2'
                   : selected
-                    ? 0.4
-                    : 0.08;
+                    ? '#a4e4dd'
+                    : props.appearance.lineColor,
+              );
+              material.opacity =
+                props.renderMode === 'studio' ? (selected ? 0.55 : 0.12) : 1;
+              material.depthTest = props.renderMode !== 'wireframe';
             }
           });
         }
@@ -666,12 +721,102 @@ export default function Viewport(props: Props) {
     return () => {
       cancelled = true;
     };
-  }, [props.project, props.tool, props.snap, props.renderMode, props.motion]);
+  }, [
+    props.project,
+    props.tool,
+    props.snap,
+    props.renderMode,
+    props.appearance,
+    props.motion,
+  ]);
   useEffect(() => {
     runtime.current?.fit(props.view.mode === 'top');
   }, [props.view]);
+
+  useEffect(() => {
+    const r = runtime.current,
+      site = props.project.site;
+    if (!r || !site || !props.mapVisible) return;
+    let disposed = false,
+      loaded = 0,
+      failed = 0;
+    const group = new THREE.Group(),
+      textures: THREE.Texture[] = [];
+    group.rotation.y = (site.bearing * Math.PI) / 180;
+    r.scene.add(group);
+    const status = () => {
+      if (host.current) {
+        host.current.dataset.mapTiles = String(loaded);
+        host.current.dataset.mapStatus = failed
+          ? 'error'
+          : loaded === 9
+            ? 'ready'
+            : 'loading';
+      }
+    };
+    status();
+    for (const tile of siteTiles(site)) {
+      const texture = new THREE.TextureLoader().load(
+        tile.url,
+        () => {
+          if (disposed) {
+            texture.dispose();
+            return;
+          }
+          loaded++;
+          status();
+        },
+        undefined,
+        () => {
+          if (!disposed) {
+            failed++;
+            status();
+            setMapError(
+              'Map imagery could not load. Check your connection or hide the map. Your model is preserved.',
+            );
+          }
+        },
+      );
+      textures.push(texture);
+      texture.colorSpace = THREE.SRGBColorSpace;
+      const mesh = new THREE.Mesh(
+        new THREE.PlaneGeometry(tile.size, tile.size),
+        new THREE.MeshStandardMaterial({
+          map: texture,
+          roughness: 1,
+          metalness: 0,
+          color: '#bac3c8',
+        }),
+      );
+      mesh.rotation.x = -Math.PI / 2;
+      mesh.position.set(tile.x, -0.012, tile.z);
+      mesh.receiveShadow = true;
+      group.add(mesh);
+    }
+    setMapError('');
+    return () => {
+      disposed = true;
+      r.scene.remove(group);
+      disposeObject(group);
+      textures.forEach((t) => t.dispose());
+      if (host.current) {
+        delete host.current.dataset.mapStatus;
+        delete host.current.dataset.mapTiles;
+      }
+    };
+  }, [
+    props.project.site?.latitude,
+    props.project.site?.longitude,
+    props.project.site?.bearing,
+    props.mapVisible,
+  ]);
   return (
     <div className="viewport-canvas" ref={host} data-testid="viewport">
+      {props.mapVisible && props.project.site && mapError && (
+        <div className="map-error" role="alert">
+          {mapError}
+        </div>
+      )}
       {error && (
         <div className="webgl-error" role="alert">
           {error}

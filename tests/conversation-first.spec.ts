@@ -82,7 +82,7 @@ test('design question, free-form answer and correction work without choosing pri
   await page.goto('/');
   const input = page.getByRole('textbox', { name: 'Message Atelier' });
   await expect(
-    page.getByText('What would you like to design?', { exact: true }),
+    page.getByText('Space for your next idea.', { exact: true }),
   ).toBeVisible();
   await expect(page.getByLabel('Primitive shape')).toBeHidden();
   await expect(

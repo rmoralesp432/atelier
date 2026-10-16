@@ -196,19 +196,23 @@ test('construction is visual only; footprint rises, settles, and never replays o
     );
   const studioBrightness = await brightness();
   expect(studioBrightness).toBeGreaterThan(100);
-  await page.getByRole('button', { name: 'Outline', exact: true }).click();
+  await page
+    .getByRole('button', { name: 'Studio appearance and location' })
+    .click();
+  await page.getByRole('button', { name: 'Wireframe', exact: true }).click();
   await expect(
-    page.getByRole('button', { name: 'Outline', exact: true }),
+    page.getByRole('button', { name: 'Wireframe', exact: true }),
   ).toHaveAttribute('aria-pressed', 'true');
   expect((await saved(page)).project).toEqual(finished.project);
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-render-mode',
-    'outline',
+    'wireframe',
   );
   await page.waitForTimeout(500);
   expect(await brightness()).toBeLessThan(studioBrightness * 0.6);
   await page.screenshot({ path: 'test-results/atelier-outline.png' });
-  await page.getByRole('button', { name: 'Studio', exact: true }).click();
+  await page.getByRole('button', { name: 'Solid', exact: true }).click();
+  await page.getByRole('button', { name: 'Close studio settings' }).click();
   await page.getByRole('button', { name: 'Undo', exact: true }).click();
   await page.getByRole('button', { name: 'Redo', exact: true }).click();
   await expect(page.getByTestId('viewport')).toHaveAttribute(

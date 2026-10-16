@@ -4,8 +4,8 @@ Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 1
 
 ## Passed
 
-- **75 unit/integration tests** across model compatibility, structured plan validation, camera-relative directions, engine execution, Manifold geometry, history persistence, mesh imports, motion timing, API access protection and actual SDK request/response contracts. Hosting checks verify trusted HTTPS origin configuration behind a proxy, secure login cookies, foreign-origin rejection and authenticated voice-session routing using an explicit provider double. Provider error tests verify actionable billing/key/configuration messages without exposing upstream errors.
-- **22 Chromium scenarios against the production Node server**, covered by the regression suite and focused reruns: rendering/orbit/top view, collapsible inspector, legacy-data preservation, exact editing, profiles/extrusion, raycast selection, conversational UI execution using explicit model-response fixtures, destructive review/stale-plan protection, export/import, translation handles, missing-credential behavior, editable wall openings through reload and undo, session-import timeline preservation, OBJ/STL/GLB imports, reference surfaces, creation motion, reduced-motion and storage-budget protection. The suite also requests the real `/healthz`, `/api/config` and `/api/plan` routes to verify the combined server and honest missing-key behavior.
+- **85 unit/integration tests** across model compatibility, structured plan validation, camera-relative directions, engine execution, Manifold geometry, history persistence, mesh imports, motion timing, API access protection and actual SDK request/response contracts. Hosting checks verify trusted HTTPS origin configuration behind a proxy, secure login cookies, foreign-origin rejection and authenticated voice-session routing using an explicit provider double. Provider error tests verify actionable billing/key/configuration messages without exposing upstream errors.
+- **25 Chromium scenarios against the production Node server**, covered by the regression suite and focused reruns: rendering/orbit/top view, collapsible inspector, legacy-data preservation, exact editing, profiles/extrusion, raycast selection, conversational UI execution using explicit model-response fixtures, destructive review/stale-plan protection, export/import, translation handles, missing-credential behavior, editable wall openings through reload and undo, session-import timeline preservation, OBJ/STL/GLB imports, reference surfaces, creation motion, reduced-motion and storage-budget protection. The suite also requests the real `/healthz`, `/api/config` and `/api/plan` routes to verify the combined server and honest missing-key behavior.
 - **TypeScript check and production build**, including the packaged Manifold WASM asset.
 - **Static Pages smoke test** at `/atelier/`: JS/CSS/WASM paths, actual mesh rendering, direct exact editing, reload persistence and honest disconnected AI/disabled voice state. The expected unavailable `/api/config` endpoint on a static site is explicitly distinguished from failed asset requests.
 - **Application-server startup:** both development and production services returned ATELIER HTML and `/api/config`. Without a credential, `/api/config` reported `configured:false` and `voiceConfigured:false`; `/api/plan` returned HTTP 503 with a configuration explanation.
@@ -71,6 +71,24 @@ The local full browser regression passed 20 of 21 cases initially. Its export/im
 ![Geometry import with explicit units](atelier-import.png)
 
 See the [requirement audit](PHASE2-AUDIT.md) for the complete original Phase 2 checklist and remaining roadmap work.
+
+## Refined studio, appearance and modeling vocabulary
+
+The full production-browser suite passed all 25 scenarios in 6.2 minutes locally. The unit/integration suite passed all 85 tests.
+
+New numerical checks cover object-color persistence and undo, exact 1.75 m person geometry, uniform group scaling (including slab/frame material volume), rotated rectangular end-face stretching, asymmetric solid reflection and reversal, mirrored glass/frame render parts, grid/polar arrays, scene limits, geographic coordinate scale and preservation of map anchors through manual creation.
+
+New Chromium checks exercise real color controls, scale-person creation, persistent display preferences, the 600 m move that previously outgrew shadow coverage, narrow-screen controls, and location persistence. Pixel comparisons verify that hidden-line rendering occludes rear edges and that chosen surface colors change the actual canvas. OpenStreetMap tile success/failure tests use explicit image fixtures, bounded to nine requests, with visible attribution and unchanged model geometry. They are not a live imagery availability test.
+
+The first focused browser run found that a decorative diamond polluted the accessible names of view-style buttons. Marking that decoration aria-hidden fixed the controls; both affected cases then passed, including the actual hidden-line pixel assertions. A separate layout inspection caught and fixed a doubled header offset. Screenshots below are from a real demonstration project rendered by the application, created through structured geometric operations; they are not evidence of a live AI request.
+
+![Refined studio and scale figure](atelier-refined.png)
+
+![Hidden-line geometry with occluded rear edges](atelier-hidden-line.png)
+
+![Narrow-screen workspace](atelier-refined-mobile.png)
+
+See [the studio guide](STUDIO-UPDATE.md) for supported operation meanings, map setup and remaining limits.
 
 ## Not verified live
 

@@ -9,10 +9,10 @@ it('traces a footprint before rising, then settles at exact full height', () => 
     done: false,
   });
   expect(constructionFrame(150).trace).toBeGreaterThan(0);
-  expect(constructionFrame(500).phase).toBe('extruding');
-  expect(constructionFrame(500).height).toBeGreaterThan(0.2);
-  expect(constructionFrame(500).height).toBeLessThan(1);
-  expect(constructionFrame(1250)).toMatchObject({
+  expect(constructionFrame(1700).phase).toBe('extruding');
+  expect(constructionFrame(1700).height).toBeGreaterThan(0.2);
+  expect(constructionFrame(1700).height).toBeLessThan(1);
+  expect(constructionFrame(3000)).toMatchObject({
     height: 1,
     trace: 1,
     opacity: 1,
@@ -20,7 +20,7 @@ it('traces a footprint before rising, then settles at exact full height', () => 
     done: true,
   });
   let previous = 0;
-  for (let t = 0; t < 2000; t += 25) {
+  for (let t = 0; t < 4000; t += 25) {
     const frame = constructionFrame(t);
     expect(frame.height).toBeGreaterThanOrEqual(previous);
     expect(frame.height).toBeLessThanOrEqual(1);

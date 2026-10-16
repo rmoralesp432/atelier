@@ -52,7 +52,7 @@ To publish the static workspace: push/merge the desired version, set **Settings 
 
 ## Use the workspace
 
-The studio update adds a quieter side conversation dock, **Studio / Outline** display, a camera-aware north compass and footprint-to-volume creation motion. Motion respects reduced-motion preferences and never changes model measurements or undo history. Click or drag the model to settle a creation immediately.
+The studio update adds a minimal floating conversation dock, per-object colors, **Solid / Wireframe / Hidden line** views, scale people, and optional geographic map placement. Open **Studio** for appearance and location. See the [studio guide and supported modeling vocabulary](docs/STUDIO-UPDATE.md). The camera-aware north compass and slower, three-second footprint-to-volume creation motion keep the model readable. Motion respects reduced-motion preferences and never changes model measurements or undo history. Click or drag the model to settle a creation immediately.
 
 **Import** accepts **OBJ, STL, self-contained GLB and ATELIER JSON**. Mesh files are added beside existing objects after units/up-axis review; JSON restores a project. Closed meshes can participate in solid operations, while open meshes remain reference surfaces. See [formats and limits](docs/IMPORTS.md) and the [complete Phase 2 requirement audit](docs/PHASE2-AUDIT.md).
 

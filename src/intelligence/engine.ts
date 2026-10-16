@@ -263,7 +263,211 @@ export async function applyPlan(
       continue;
     }
     beforeEdit ??= structuredClone(s.project);
-    if (op.type === 'footprint') {
+    if (op.type === 'color') {
+      const vs = targets(op.targets, s);
+      for (const v of vs)
+        s.project = updateVolume(s.project, v.id, { color: op.color });
+      focus(
+        s,
+        vs.map((v) => v.id),
+      );
+      reports.push(`Updated ${vs.length} object color(s) to ${op.color}.`);
+    } else if (op.type === 'person') {
+      const related = s.project.volumes.filter(
+        (v) => v.geometry?.kind !== 'person',
+      );
+      const bounds = related.length ? groupBounds(related) : null;
+      const v = makeVolume(s.project.volumes.length + 1, {
+        width: (0.5 * op.height) / 1.75,
+        depth: (0.3 * op.height) / 1.75,
+        height: op.height,
+      });
+      v.name = uniqueName('Scale person', s.project.volumes);
+      v.color = '#d58b69';
+      v.geometry = { kind: 'person' };
+      v.position = op.position ?? {
+        x: bounds ? bounds.max.x + 1.5 : 0,
+        y: 0,
+        z: bounds ? bounds.max.z + 1.5 : 0,
+      };
+      validateVolume(v);
+      s.project.volumes.push(v);
+      s.context.lastCreatedIds = [v.id];
+      focus(s, [v.id]);
+      reports.push(
+        `Added a ${op.height} m tall person ${op.position ? 'at the requested position' : 'beside your model'}.`,
+      );
+    } else if (op.type === 'scale') {
+      const vs = targets(op.targets, s),
+        bounds = groupBounds(vs);
+      const pivot = op.pivot ?? {
+        x: (bounds.min.x + bounds.max.x) / 2,
+        y: bounds.min.y,
+        z: (bounds.min.z + bounds.max.z) / 2,
+      };
+      for (const v of vs)
+        s.project = updateVolume(s.project, v.id, {
+          geometry: v.geometry,
+          dimensions: {
+            width: round(v.dimensions.width * op.factor),
+            height: round(v.dimensions.height * op.factor),
+            depth: round(v.dimensions.depth * op.factor),
+          },
+          position: {
+            x: round(pivot.x + (v.position.x - pivot.x) * op.factor),
+            y: round(pivot.y + (v.position.y - pivot.y) * op.factor),
+            z: round(pivot.z + (v.position.z - pivot.z) * op.factor),
+          },
+        });
+      focus(
+        s,
+        vs.map((v) => v.id),
+      );
+      reports.push(
+        `Scaled ${vs.length} objects and their spacing by ${op.factor}, about (${pivot.x}, ${pivot.y}, ${pivot.z}) m.`,
+      );
+    } else if (op.type === 'stretch') {
+      const vs = targets(op.targets, s);
+      for (const v of vs) {
+        const g = v.geometry;
+        if (
+          g &&
+          !(
+            g.kind === 'box' ||
+            g.kind === 'rectangle' ||
+            (g.kind === 'extrusion' && g.profile === 'rectangle')
+          )
+        )
+          throw new Error(
+            'End-face stretch currently supports rectangular volumes and profiles. Which rectangular face should move?',
+          );
+        if (isProfile(v) && op.axis === 'height')
+          throw new Error('Extrude this profile before stretching its height.');
+        const sign = op.side === 'max' ? 1 : -1,
+          a = (v.rotation * Math.PI) / 180;
+        const shift = (op.distance * sign) / 2;
+        const position = { ...v.position };
+        if (op.axis === 'height')
+          position.y += op.side === 'min' ? -op.distance : 0;
+        else {
+          position.x +=
+            shift * (op.axis === 'width' ? Math.cos(a) : Math.sin(a));
+          position.z +=
+            shift * (op.axis === 'width' ? -Math.sin(a) : Math.cos(a));
+        }
+        s.project = updateVolume(s.project, v.id, {
+          dimensions: {
+            ...v.dimensions,
+            [op.axis]: round(v.dimensions[op.axis] + op.distance),
+          },
+          position,
+        });
+      }
+      focus(
+        s,
+        vs.map((v) => v.id),
+      );
+      reports.push(
+        `Stretched ${op.side} ${op.axis} face by ${op.distance} m, holding the opposite face fixed.`,
+      );
+    } else if (op.type === 'mirror') {
+      const vs = targets(op.targets, s),
+        created: Volume[] = [];
+      if (op.copy && s.project.volumes.length + vs.length > MAX_VOLUMES)
+        throw new Error('This workspace supports up to 200 objects.');
+      for (const v of vs) {
+        if (isProfile(v) || isReference(v))
+          throw new Error(
+            'Mirror currently requires a closed 3D solid. Extrude the profile or import a watertight solid first.',
+          );
+        const next: Volume = {
+          ...structuredClone(v),
+          id: op.copy ? crypto.randomUUID() : v.id,
+          name: op.copy
+            ? uniqueName(`${v.name} mirrored`, [
+                ...s.project.volumes,
+                ...created,
+              ])
+            : v.name,
+          position: {
+            ...v.position,
+            [op.axis]: 2 * op.coordinate - v.position[op.axis],
+          },
+          rotation: ((-v.rotation % 360) + 360) % 360,
+          geometry: {
+            kind: 'mirror',
+            source: structuredClone(v),
+            axis: op.axis,
+          },
+        };
+        validateVolume(next);
+        await solidStats(next);
+        if (op.copy) created.push(next);
+        else s.project = updateVolume(s.project, v.id, next);
+      }
+      s.project.volumes.push(...created);
+      const result = op.copy ? created : vs;
+      if (op.copy) s.context.lastCreatedIds = created.map((v) => v.id);
+      focus(
+        s,
+        result.map((v) => v.id),
+      );
+      reports.push(
+        `Mirrored ${vs.length} solid(s) across ${op.axis.toUpperCase()}=${op.coordinate} m; ${op.copy ? 'originals retained' : 'original geometry retained in operation history'}.`,
+      );
+    } else if (op.type === 'array_grid' || op.type === 'array_polar') {
+      const vs = targets(op.targets, s),
+        created: Volume[] = [];
+      const count = op.type === 'array_grid' ? op.rows * op.columns : op.count;
+      if (
+        count > 100 ||
+        s.project.volumes.length + vs.length * (count - 1) > MAX_VOLUMES
+      )
+        throw new Error(
+          'This array exceeds the 200-object workspace limit or 100-instance array limit.',
+        );
+      for (let i = 1; i < count; i++)
+        for (const v of vs) {
+          const copy = {
+            ...structuredClone(v),
+            id: crypto.randomUUID(),
+            name: uniqueName(`${v.name} copy`, [
+              ...s.project.volumes,
+              ...created,
+            ]),
+          };
+          if (op.type === 'array_grid') {
+            copy.position.x += (i % op.columns) * op.spacingX;
+            copy.position.z += Math.floor(i / op.columns) * op.spacingZ;
+          } else {
+            const degrees =
+                (op.angle * i) /
+                (Math.abs(op.angle) === 360 ? count : count - 1),
+              a = (degrees * Math.PI) / 180;
+            const x = v.position.x - op.center.x,
+              z = v.position.z - op.center.z;
+            copy.position.x = round(
+              op.center.x + x * Math.cos(a) + z * Math.sin(a),
+            );
+            copy.position.z = round(
+              op.center.z - x * Math.sin(a) + z * Math.cos(a),
+            );
+            if (op.rotate)
+              copy.rotation = (((v.rotation + degrees) % 360) + 360) % 360;
+          }
+          validateVolume(copy);
+          created.push(copy);
+        }
+      s.project.volumes.push(...created);
+      s.context.lastCreatedIds = created.map((v) => v.id);
+      focus(
+        s,
+        [...vs, ...created].map((v) => v.id),
+      );
+      reports.push(
+        `Created ${count} array instances including the original group (${created.length} new objects).`,
+      );
+    } else if (op.type === 'footprint') {
       if (s.project.volumes.some((v) => v.name === op.name))
         throw new Error('Use a distinct name for the new footprint.');
       const p = normalizePolygon(op.points);
