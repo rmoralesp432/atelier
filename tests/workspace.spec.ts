@@ -101,10 +101,8 @@ test('actual WebGL rendering, orbit, view changes and collapsible inspector', as
   await page.waitForTimeout(500);
   expect((await canvas.screenshot()).equals(before)).toBe(false);
   await page.getByRole('button', { name: 'Frame all', exact: true }).click();
-  await page.getByRole('button', { name: 'Perspective', exact: true }).click();
-  await expect(
-    page.getByRole('button', { name: 'Top view', exact: true }),
-  ).toBeVisible();
+  await page.getByLabel('Camera view').selectOption('top');
+  await expect(page.getByLabel('Camera view')).toHaveValue('top');
   await page.getByRole('button', { name: 'Collapse inspector' }).click();
   await expect(
     page.getByRole('spinbutton', { name: 'Width', exact: true }),
@@ -363,7 +361,7 @@ test('real translation handles preserve snapping and undo', async ({
     'data-model-objects',
     '1',
   );
-  await page.getByRole('button', { name: 'Perspective', exact: true }).click();
+  await page.getByLabel('Camera view').selectOption('top');
   await page.getByRole('button', { name: 'Move', exact: true }).click();
   await page.waitForTimeout(800);
   const r = (await page.locator('canvas').boundingBox())!;

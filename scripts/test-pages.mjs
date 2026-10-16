@@ -134,6 +134,24 @@ try {
       .isDisabled(),
     true,
   );
+  // Verify lazy map-picker JS/CSS also resolve under the project subpath.
+  await page.route('https://tile.openstreetmap.org/**', (r) =>
+    r.fulfill({
+      contentType: 'image/png',
+      body: Buffer.from(
+        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1cAAAAASUVORK5CYII=',
+        'base64',
+      ),
+    }),
+  );
+  await page.getByRole('button', { name: 'Toggle site map' }).click();
+  await page.getByRole('button', { name: 'Choose on a map' }).click();
+  await page
+    .getByRole('region', { name: 'Choose a site on the map' })
+    .waitFor();
+  await page.waitForFunction(
+    () => document.querySelectorAll('.leaflet-tile-loaded').length > 0,
+  );
   assert.deepEqual(errors, []);
   console.log(
     'PASS: production app loads at /atelier/ with valid JS/CSS/WASM paths, actual solid rendering, direct editing, and reload persistence. Static Pages has no AI backend.',

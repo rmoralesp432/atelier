@@ -5,6 +5,11 @@ import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { curvedWireframe } from './geometry/curvedWireframe';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { toCreasedNormals } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { Project, Volume } from './model';
@@ -18,18 +23,23 @@ type Props = {
   project: Project;
   tool: Tool;
   snap: boolean;
+  angleSnap: number;
   motion: { revision: number; ids: string[] };
   renderMode: Appearance['mode'];
   appearance: Appearance;
   mapVisible: boolean;
-  view: { mode: 'perspective' | 'top'; revision: number };
+  view: { mode: 'perspective' | 'orthographic' | 'top'; revision: number };
   onSelect: (id: string | null, additive?: boolean) => void;
   onCamera?: (camera: CameraContext) => void;
   onChange: (id: string, patch: Partial<Volume>) => void;
 };
 type Runtime = {
   scene: THREE.Scene;
-  camera: THREE.PerspectiveCamera;
+  outline: OutlinePass;
+  setTheme: (day: boolean) => void;
+  setMapVisible: (visible: boolean) => void;
+  camera: THREE.PerspectiveCamera | THREE.OrthographicCamera;
+  setProjection: (orthographic: boolean) => void;
   renderer: THREE.WebGLRenderer;
   orbit: OrbitControls;
   transform: TransformControls;
@@ -58,6 +68,16 @@ export default function Viewport(props: Props) {
   latest.current = props;
   const [mapError, setMapError] = useState('');
   const [error, setError] = useState('');
+  const [manipulating, setManipulating] = useState(false);
+  const [measurement, setMeasurement] = useState<{
+    id: string;
+    mode: string;
+    distance: number;
+    position: { x: number; y: number; z: number };
+    delta: { x: number; y: number; z: number };
+    angle: number;
+    turn: number;
+  } | null>(null);
   useEffect(() => {
     const container = host.current!;
     let renderer: THREE.WebGLRenderer;
@@ -91,9 +111,12 @@ export default function Viewport(props: Props) {
     scene.environmentIntensity = 0.45;
     room.dispose();
     pmrem.dispose();
-    const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 5000);
+    let camera: THREE.PerspectiveCamera | THREE.OrthographicCamera =
+      new THREE.PerspectiveCamera(40, 1, 0.1, 5000);
     camera.position.set(32, 26, 34);
-    const orbit = new OrbitControls(camera, renderer.domElement);
+    const orbit = new OrbitControls<
+      THREE.PerspectiveCamera | THREE.OrthographicCamera
+    >(camera, renderer.domElement);
     orbit.enableDamping = true;
     orbit.dampingFactor = 0.08;
     orbit.rotateSpeed = 0.65;
@@ -139,6 +162,84 @@ export default function Viewport(props: Props) {
     const transform = new TransformControls(camera, renderer.domElement);
     transform.setSize(0.85);
     scene.add(transform.getHelper());
+    const composer = new EffectComposer(renderer);
+    const basePass = new RenderPass(scene, camera);
+    composer.addPass(basePass);
+    const outline = new OutlinePass(new THREE.Vector2(1, 1), scene, camera);
+    outline.edgeStrength = 4;
+    outline.edgeGlow = 1.2;
+    outline.edgeThickness = 2;
+    outline.visibleEdgeColor.set('#64e3ed');
+    outline.hiddenEdgeColor.set('#173a40');
+    // Keep transform controls out of the selection mask (their visibility setters
+    // deliberately override traversal visibility, unlike ordinary meshes).
+    const renderOutline = outline.render.bind(outline);
+    outline.render = (...args) => {
+      const helper = transform.getHelper(),
+        visible = helper.visible;
+      helper.visible = false;
+      try {
+        renderOutline(...args);
+      } finally {
+        helper.visible = visible;
+      }
+    };
+    outline.overlayMaterial.uniforms.daylight = { value: false };
+    outline.overlayMaterial.uniforms.selectionTint = {
+      value: new THREE.Color('#008bad'),
+    };
+    outline.overlayMaterial.fragmentShader =
+      outline.overlayMaterial.fragmentShader
+        .replace(
+          'uniform bool usePatternTexture;',
+          'uniform bool usePatternTexture; uniform bool daylight; uniform vec3 selectionTint;',
+        )
+        .replace(
+          'gl_FragColor = finalColor;',
+          'gl_FragColor = daylight ? vec4(selectionTint, clamp(max(finalColor.r, max(finalColor.g, finalColor.b)), 0.0, 1.0)) : finalColor;',
+        );
+    composer.addPass(outline);
+    composer.addPass(new OutputPass());
+    const setTheme = (day: boolean) => {
+      const color = day ? '#f5f6f8' : '#151719';
+      renderer.setClearColor(color);
+      (scene.fog as THREE.Fog).color.set(color);
+      ground.material.color.set(color);
+      ambient.groundColor.set(day ? '#b5c3ce' : '#252c34');
+      ambient.intensity = day ? 1.2 : 0.8;
+      outline.visibleEdgeColor.set(day ? '#ffffff' : '#64e3ed');
+      outline.overlayMaterial.uniforms.daylight.value = day;
+      outline.overlayMaterial.blending = day
+        ? THREE.NormalBlending
+        : THREE.AdditiveBlending;
+      outline.overlayMaterial.needsUpdate = true;
+      (grid.material as THREE.Material).opacity = day ? 0.12 : 0.045;
+    };
+    const setProjection = (orthographic: boolean) => {
+      if (orthographic === camera instanceof THREE.OrthographicCamera) return;
+      const next = orthographic
+        ? new THREE.OrthographicCamera(-20, 20, 20, -20, 0.1, 5000)
+        : new THREE.PerspectiveCamera(
+            40,
+            container.clientWidth / Math.max(1, container.clientHeight),
+            0.1,
+            5000,
+          );
+      next.position.copy(camera.position);
+      next.quaternion.copy(camera.quaternion);
+      camera = next;
+      orbit.object = next;
+      transform.camera = next;
+      basePass.camera = next;
+      outline.renderCamera = next;
+      outline.prepareMaskMaterial.fragmentShader =
+        outline.prepareMaskMaterial.fragmentShader.replace(
+          /(?:perspective|orthographic)DepthToViewZ/g,
+          orthographic ? 'orthographicDepthToViewZ' : 'perspectiveDepthToViewZ',
+        );
+      outline.prepareMaskMaterial.needsUpdate = true;
+      if (runtime.current) runtime.current.camera = next;
+    };
     const objects = new Map<string, THREE.Group>();
     const constructions = new Map<
       string,
@@ -237,9 +338,129 @@ export default function Viewport(props: Props) {
       container.dataset.constructionPhase = 'footprint';
     };
     let dragging = false;
+    let dragStart: {
+      position: THREE.Vector3;
+      rotation: number;
+      lastYaw: number | null;
+      totalYaw: number;
+    } | null = null;
+    const pointer = new THREE.Vector2();
+    const trackPointer = (e: PointerEvent) => {
+      const rect = renderer.domElement.getBoundingClientRect();
+      pointer.set(
+        ((e.clientX - rect.left) / rect.width) * 2 - 1,
+        (-(e.clientY - rect.top) / rect.height) * 2 + 1,
+      );
+    };
+    renderer.domElement.addEventListener('pointerdown', trackPointer, true);
+    renderer.domElement.addEventListener('pointermove', trackPointer, true);
+    const yawAtPointer = (origin: THREE.Vector3) => {
+      const ray = new THREE.Raycaster();
+      ray.setFromCamera(pointer, camera);
+      const hit = ray.ray.intersectPlane(
+        new THREE.Plane(new THREE.Vector3(0, 1, 0), -origin.y),
+        new THREE.Vector3(),
+      );
+      if (!hit || Math.hypot(hit.x - origin.x, hit.z - origin.z) < 0.0001)
+        return null;
+      return Math.atan2(-(hit.z - origin.z), hit.x - origin.x);
+    };
+    const trail = new THREE.Line(
+      new THREE.BufferGeometry(),
+      new THREE.LineBasicMaterial({
+        color: '#55cbdc',
+        depthTest: false,
+        transparent: true,
+        opacity: 0.9,
+      }),
+    );
+    trail.visible = false;
+    trail.renderOrder = 10;
+    scene.add(trail);
+    const updateMeasurement = () => {
+      const obj = transform.object;
+      if (!obj || !dragStart) return;
+      if (transform.mode === 'rotate' && transform.axis === 'Y') {
+        const yaw = yawAtPointer(dragStart.position);
+        if (yaw !== null && dragStart.lastYaw !== null) {
+          dragStart.totalYaw += Math.atan2(
+            Math.sin(yaw - dragStart.lastYaw),
+            Math.cos(yaw - dragStart.lastYaw),
+          );
+          let angle = dragStart.rotation + dragStart.totalYaw;
+          if (latest.current.snap) {
+            const step = THREE.MathUtils.degToRad(latest.current.angleSnap);
+            angle = Math.round(angle / step) * step;
+          }
+          obj.rotation.set(0, angle, 0);
+        }
+        if (yaw !== null) dragStart.lastYaw = yaw;
+      }
+      obj.position.y = Math.max(0, obj.position.y);
+      const delta = obj.position.clone().sub(dragStart.position);
+      const angle = THREE.MathUtils.radToDeg(obj.rotation.y),
+        turn = angle - THREE.MathUtils.radToDeg(dragStart.rotation);
+      setMeasurement({
+        id: obj.userData.id,
+        mode: transform.mode,
+        distance: delta.length(),
+        position: { x: obj.position.x, y: obj.position.y, z: obj.position.z },
+        delta: { x: delta.x, y: delta.y, z: delta.z },
+        angle: ((angle % 360) + 360) % 360,
+        turn,
+      });
+      const points: THREE.Vector3[] = [];
+      if (transform.mode === 'rotate') {
+        const v = latest.current.project.volumes.find(
+          (v) => v.id === obj.userData.id,
+        )!;
+        const radius = Math.max(v.dimensions.width, v.dimensions.depth) * 0.65;
+        const base = obj.position.clone().add(new THREE.Vector3(0, 0.06, 0));
+        points.push(base);
+        for (let i = 0; i <= 64; i++) {
+          const a =
+            dragStart.rotation +
+            ((obj.rotation.y - dragStart.rotation) * i) / 64;
+          points.push(
+            base
+              .clone()
+              .add(
+                new THREE.Vector3(
+                  Math.cos(a) * radius,
+                  0,
+                  -Math.sin(a) * radius,
+                ),
+              ),
+          );
+        }
+        points.push(base);
+      } else
+        points.push(
+          dragStart.position.clone().add(new THREE.Vector3(0, 0.06, 0)),
+          obj.position.clone().add(new THREE.Vector3(0, 0.06, 0)),
+        );
+      trail.geometry.dispose();
+      trail.geometry = new THREE.BufferGeometry().setFromPoints(points);
+      trail.visible = true;
+    };
+    transform.addEventListener('objectChange', updateMeasurement);
     transform.addEventListener('dragging-changed', (event) => {
       dragging = Boolean(event.value);
+      setManipulating(dragging);
       orbit.enabled = !dragging;
+      if (dragging && transform.object) {
+        dragStart = {
+          position: transform.object.position.clone(),
+          rotation: transform.object.rotation.y,
+          lastYaw: yawAtPointer(transform.object.position),
+          totalYaw: 0,
+        };
+        updateMeasurement();
+      }
+      if (!dragging) {
+        dragStart = null;
+        trail.visible = false;
+      }
       if (!dragging && transform.object) {
         const obj = transform.object;
         latest.current.onChange(obj.userData.id, {
@@ -320,9 +541,22 @@ export default function Viewport(props: Props) {
         : box.getSize(new THREE.Vector3());
       const distance =
         ((Math.max(size.x, size.y, size.z, 10) /
-          (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)))) *
+          (2 * Math.tan(THREE.MathUtils.degToRad(20)))) *
           1.65) /
-        Math.min(camera.aspect, 1);
+        Math.min(
+          container.clientWidth / Math.max(container.clientHeight, 1),
+          1,
+        );
+      if (camera instanceof THREE.OrthographicCamera) {
+        const half = distance * Math.tan(THREE.MathUtils.degToRad(20)),
+          aspect = container.clientWidth / Math.max(container.clientHeight, 1);
+        camera.left = -half * aspect;
+        camera.right = half * aspect;
+        camera.top = half;
+        camera.bottom = -half;
+        camera.zoom = 1;
+        camera.updateProjectionMatrix();
+      }
       const to = center
         .clone()
         .add(
@@ -382,6 +616,14 @@ export default function Viewport(props: Props) {
     };
     runtime.current = {
       scene,
+      outline,
+      setTheme,
+      setProjection,
+      setMapVisible: (visible) => {
+        ground.visible = !visible;
+        grid.visible = !visible;
+        container.dataset.baseGroundVisible = String(!visible);
+      },
       camera,
       renderer,
       orbit,
@@ -397,7 +639,14 @@ export default function Viewport(props: Props) {
     const resize = new ResizeObserver(() => {
       const { width, height } = container.getBoundingClientRect();
       renderer.setSize(width, height);
-      camera.aspect = width / Math.max(height, 1);
+      composer.setSize(width, height);
+      if (camera instanceof THREE.PerspectiveCamera)
+        camera.aspect = width / Math.max(height, 1);
+      else {
+        const halfWidth = camera.top * (width / Math.max(height, 1));
+        camera.left = -halfWidth;
+        camera.right = halfWidth;
+      }
       camera.updateProjectionMatrix();
       if (objects.size) fit(latest.current.view.mode === 'top');
     });
@@ -474,7 +723,9 @@ export default function Viewport(props: Props) {
       container.dataset.constructionActive = String(constructions.size > 0);
       if (!constructions.size) container.dataset.constructionPhase = 'complete';
       orbit.update();
-      renderer.render(scene, camera);
+      container.dataset.projection = camera.type;
+      if (outline.selectedObjects.length) composer.render();
+      else renderer.render(scene, camera);
       if (renderer.info.render.triangles > 0)
         container.dataset.rendered = 'true';
       frame = requestAnimationFrame(render);
@@ -491,6 +742,16 @@ export default function Viewport(props: Props) {
       cancelAnimationFrame(frame);
       finishConstruction();
       resize.disconnect();
+      renderer.domElement.removeEventListener(
+        'pointerdown',
+        trackPointer,
+        true,
+      );
+      renderer.domElement.removeEventListener(
+        'pointermove',
+        trackPointer,
+        true,
+      );
       renderer.domElement.removeEventListener('pointerdown', down);
       renderer.domElement.removeEventListener('pointerup', up);
       renderer.domElement.removeEventListener('webglcontextlost', lost);
@@ -498,6 +759,8 @@ export default function Viewport(props: Props) {
       orbit.dispose();
       disposeObject(scene);
       environment.dispose();
+      composer.passes.forEach((pass) => pass.dispose());
+      composer.dispose();
       renderer.dispose();
       renderer.domElement.remove();
       runtime.current = null;
@@ -507,6 +770,7 @@ export default function Viewport(props: Props) {
     const r = runtime.current;
     if (!r) return;
     r.finishConstruction();
+    r.setTheme(props.appearance.theme === 'day');
     let cancelled = false;
     const built = new Map<string, THREE.Group>();
     async function rebuild() {
@@ -559,6 +823,18 @@ export default function Viewport(props: Props) {
                 if (shaded !== geometry) geometry.dispose();
                 geometries.push({ geometry: shaded, material: part.material });
               }
+            const curves = curvedWireframe(v);
+            if (curves.length) {
+              const lines = new THREE.LineSegments(
+                new THREE.BufferGeometry().setAttribute(
+                  'position',
+                  new THREE.Float32BufferAttribute(curves, 3),
+                ),
+                new THREE.LineBasicMaterial({ transparent: true }),
+              );
+              lines.userData.symbolicWireframe = true;
+              g.add(lines);
+            }
             for (const part of geometries) {
               const glass = part.material === 'glass',
                 frame = part.material === 'frame';
@@ -617,6 +893,7 @@ export default function Viewport(props: Props) {
         });
         r!.signatures = signatures;
         r!.updateShadows();
+        r!.outline.selectedObjects = [];
         for (const v of props.project.volumes) {
           const g = r!.objects.get(v.id)!;
           g.position.set(v.position.x, v.position.y, v.position.z);
@@ -626,6 +903,7 @@ export default function Viewport(props: Props) {
             props.project.selectedIds?.includes(v.id);
           g.traverse((o) => {
             if (o instanceof THREE.Mesh) {
+              if (selected) r!.outline.selectedObjects.push(o);
               const material = o.material as THREE.MeshPhysicalMaterial;
               const kind = o.userData.materialKind;
               const mode = props.renderMode;
@@ -668,6 +946,8 @@ export default function Viewport(props: Props) {
               o.castShadow = mode === 'studio' && kind !== 'glass';
               o.receiveShadow = mode === 'studio';
             } else if (o instanceof THREE.LineSegments) {
+              if (o.userData.symbolicWireframe)
+                o.visible = props.renderMode === 'wireframe';
               const material = o.material as THREE.LineBasicMaterial;
               material.color.set(
                 props.renderMode === 'studio'
@@ -691,7 +971,16 @@ export default function Viewport(props: Props) {
         r!.transform.showY = true;
         r!.transform.showZ = props.tool !== 'rotate';
         r!.transform.setTranslationSnap(props.snap ? 0.5 : null);
-        r!.transform.setRotationSnap(props.snap ? Math.PI / 12 : null);
+        r!.transform.setRotationSnap(
+          props.snap ? THREE.MathUtils.degToRad(props.angleSnap) : null,
+        );
+        host.current!.dataset.selectionGlow = String(
+          r!.outline.selectedObjects.length,
+        );
+        host.current!.dataset.transformTool = r!.transform.object
+          ? props.tool
+          : 'none';
+        host.current!.dataset.theme = props.appearance.theme;
         host.current!.dataset.modelObjects = String(r!.objects.size);
         host.current!.dataset.renderMode = props.renderMode;
         host.current!.dataset.meshBuilds = String(
@@ -725,11 +1014,13 @@ export default function Viewport(props: Props) {
     props.project,
     props.tool,
     props.snap,
+    props.angleSnap,
     props.renderMode,
     props.appearance,
     props.motion,
   ]);
   useEffect(() => {
+    runtime.current?.setProjection(props.view.mode !== 'perspective');
     runtime.current?.fit(props.view.mode === 'top');
   }, [props.view]);
 
@@ -737,6 +1028,7 @@ export default function Viewport(props: Props) {
     const r = runtime.current,
       site = props.project.site;
     if (!r || !site || !props.mapVisible) return;
+    r.setMapVisible(true);
     let disposed = false,
       loaded = 0,
       failed = 0;
@@ -786,6 +1078,9 @@ export default function Viewport(props: Props) {
           roughness: 1,
           metalness: 0,
           color: '#bac3c8',
+          polygonOffset: true,
+          polygonOffsetFactor: -1,
+          polygonOffsetUnits: -1,
         }),
       );
       mesh.rotation.x = -Math.PI / 2;
@@ -796,6 +1091,7 @@ export default function Viewport(props: Props) {
     setMapError('');
     return () => {
       disposed = true;
+      r.setMapVisible(false);
       r.scene.remove(group);
       disposeObject(group);
       textures.forEach((t) => t.dispose());
@@ -812,6 +1108,55 @@ export default function Viewport(props: Props) {
   ]);
   return (
     <div className="viewport-canvas" ref={host} data-testid="viewport">
+      {props.project.selectedId &&
+        props.tool !== 'select' &&
+        (() => {
+          const v = props.project.volumes.find(
+            (v) => v.id === props.project.selectedId,
+          )!;
+          const m =
+            measurement?.id === v.id &&
+            measurement.mode === props.tool &&
+            (manipulating ||
+              (Math.abs(measurement.angle - v.rotation) < 0.01 &&
+                Math.hypot(
+                  measurement.position.x - v.position.x,
+                  measurement.position.y - v.position.y,
+                  measurement.position.z - v.position.z,
+                ) < 0.01))
+              ? measurement
+              : null;
+          const fmt = (n: number) => Number(n.toFixed(2));
+          return (
+            <div
+              className="transform-readout"
+              aria-label="Transform measurements"
+            >
+              {props.tool === 'rotate' ? (
+                <>
+                  <strong>{fmt(m?.angle ?? v.rotation)}°</strong>
+                  <span>
+                    {m
+                      ? `Turn ${m.turn >= 0 ? '+' : ''}${fmt(m.turn)}° · `
+                      : ''}
+                    {props.snap ? `${props.angleSnap}° snap` : 'Free rotation'}
+                  </span>
+                </>
+              ) : (
+                <>
+                  <strong>
+                    {m ? `${fmt(m.distance)} m moved` : 'Drag an arrow to move'}
+                  </strong>
+                  <span>
+                    {m
+                      ? `ΔX ${fmt(m.delta.x)} · ΔY ${fmt(m.delta.y)} · ΔZ ${fmt(m.delta.z)} m`
+                      : 'Distances in meters'}
+                  </span>
+                </>
+              )}
+            </div>
+          );
+        })()}
       {props.mapVisible && props.project.site && mapError && (
         <div className="map-error" role="alert">
           {mapError}

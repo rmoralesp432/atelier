@@ -22,7 +22,29 @@ const point = z
     z: z.number().min(-1000).max(1000),
   })
   .strict();
+export const workspaceActionSchema = z.enum([
+  'map_on',
+  'map_off',
+  'map_toggle',
+  'view_perspective',
+  'view_orthographic',
+  'view_top',
+  'theme_day',
+  'theme_night',
+  'display_solid',
+  'display_wireframe',
+  'display_hidden_line',
+  'frame_all',
+  'inspector_open',
+  'inspector_close',
+  'objects_open',
+  'objects_close',
+]);
+export type WorkspaceAction = z.infer<typeof workspaceActionSchema>;
 export const operationSchema = z.discriminatedUnion('type', [
+  z
+    .object({ type: z.literal('workspace'), action: workspaceActionSchema })
+    .strict(),
   z
     .object({
       type: z.literal('color'),

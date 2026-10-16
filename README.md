@@ -8,6 +8,8 @@ An architectural modeling workspace built with React, TypeScript, Three.js and t
 
 **Existing application:** https://atelier-emxi.onrender.com. Future tested updates use this same service and address; do not create another Render service or API key just to update the app.
 
+Use the **folder/project name** beside ATELIER to create and switch separate projects. Each retains its geometry, conversation, site and undo history in this browser; export JSON backups for safekeeping or another device. **Studio** offers Day/Night and display styles; the camera menu offers Perspective, Orthographic and Top view. The header **Map** button opens a visual location picker or toggles the saved site map. See the [studio guide](docs/STUDIO-UPDATE.md) for the updated controls.
+
 **For a new installation only:** follow [Activate AI and voice on Render](docs/HOSTING.md). The included blueprint hosts the app and private backend together over HTTPS; you only need a hosting account and an OpenAI API key. Export your current project before changing website addresses.
 
 Use Node.js 24 and npm. All code, server integration, tests and setup scripts are in this repository.

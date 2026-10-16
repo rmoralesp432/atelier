@@ -127,6 +127,10 @@ test('map anchoring uses bounded tiles, keeps geometry and saves the location; t
     });
   });
   await page.goto('/');
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-model-objects',
+    '2',
+  );
   const before = (await saved(page)).project.volumes;
   await openStudio(page);
   await page.getByRole('button', { name: 'Location', exact: true }).click();

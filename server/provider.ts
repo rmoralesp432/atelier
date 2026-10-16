@@ -17,6 +17,16 @@ const vec = z
 const refs = z.array(z.string().max(100)).max(200);
 export const requestSchema = z
   .object({
+    workspace: z
+      .object({
+        mapVisible: z.boolean(),
+        mapConfigured: z.boolean(),
+        view: z.enum(['perspective', 'orthographic', 'top']),
+        theme: z.enum(['day', 'night']),
+        renderMode: z.enum(['studio', 'wireframe', 'hidden-line']),
+      })
+      .strict()
+      .optional(),
     pendingReview: z
       .object({
         message: z.string().max(4000),
@@ -178,6 +188,7 @@ export function createProvider(
             role: 'user',
             content: JSON.stringify({
               instruction: input.message,
+              workspace: input.workspace ?? null,
               scene: input.scene,
               pendingReview: input.pendingReview ?? null,
               historyAvailability: input.historyAvailability ?? null,
@@ -206,7 +217,7 @@ export function createProvider(
           type: 'realtime',
           model: process.env.ATELIER_VOICE_MODEL || 'gpt-realtime',
           instructions:
-            'You are the voice of ATELIER, a conversational architectural assistant. Let the user describe ideas naturally; never require primitive selection or tool menus. Ask one useful design question at a time and listen for the answer. For EVERY modeling request, answer to a design question, or design discussion call design with the user’s natural instruction verbatim, including references, corrections, and explicit approvals or cancellations. The design tool has the current scene, pending review and conversation. Never invent geometry changes or say an edit succeeded until the tool returns success. If a review is pending, briefly describe it and ask for confirmation; send the user’s spoken answer to design so the same validated review is used for voice and text. Speak briefly in the user’s language, summarizing the actual result without reading out internal coordinates. You can have continuous spoken conversation. Never ask for API keys.',
+            'You are the voice of ATELIER, a conversational architectural assistant. Let the user describe ideas naturally; never require primitive selection or tool menus. Ask one useful design question at a time and listen for the answer. For EVERY modeling request, workspace control request (map on/off, camera perspective/orthographic/top, theme, wireframe, panels), answer to a design question, or design discussion call design with the user’s natural instruction verbatim, including references, corrections, and explicit approvals or cancellations. The design tool has the current scene, pending review and conversation. Never invent geometry changes or say an edit succeeded until the tool returns success. If a review is pending, briefly describe it and ask for confirmation; send the user’s spoken answer to design so the same validated review is used for voice and text. Speak briefly in the user’s language, summarizing the actual result without reading out internal coordinates. You can have continuous spoken conversation. Never ask for API keys.',
           audio: {
             input: {
               turn_detection: {
@@ -222,7 +233,7 @@ export function createProvider(
               type: 'function',
               name: 'design',
               description:
-                'Interpret the user instruction against the current architectural model and execute validated geometry operations. Returns actual measurements or clarification.',
+                'Interpret the user instruction against the current architectural model and execute validated geometry operations or workspace controls. Returns actual measurements or clarification.',
               parameters: {
                 type: 'object',
                 properties: { instruction: { type: 'string' } },

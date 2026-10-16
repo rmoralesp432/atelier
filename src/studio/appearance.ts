@@ -1,10 +1,12 @@
 export type RenderMode = 'studio' | 'wireframe' | 'hidden-line';
 export type Appearance = {
+  theme: 'day' | 'night';
   mode: RenderMode;
   lineColor: string;
   surfaceColor: string;
 };
 export const defaultAppearance: Appearance = {
+  theme: 'night',
   mode: 'studio',
   lineColor: '#d9e4e4',
   surfaceColor: '#22282c',
@@ -28,7 +30,7 @@ export function loadAppearance(): Appearance {
       /^#[0-9a-f]{6}$/i.test(a.lineColor) &&
       /^#[0-9a-f]{6}$/i.test(a.surfaceColor)
     )
-      return a;
+      return { ...a, theme: a.theme === 'day' ? 'day' : 'night' };
   } catch {
     /* Use the studio default if preferences are unavailable. */
   }

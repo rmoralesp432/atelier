@@ -174,6 +174,9 @@ export async function applyPlan(
   const reports: string[] = [];
   let beforeEdit: Project | null = null;
   for (const op of plan.operations) {
+    // Workspace effects run only after the complete geometric transaction validates.
+    // They neither edit project data nor replace the last modeling context.
+    if (op.type === 'workspace') continue;
     if (op.type === 'undo' || op.type === 'redo') {
       if (beforeEdit)
         throw new Error(

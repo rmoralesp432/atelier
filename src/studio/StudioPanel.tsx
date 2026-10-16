@@ -1,9 +1,19 @@
-import { useState } from 'react';
-import { X, UserRound, MapPin, SlidersHorizontal } from 'lucide-react';
+import { useFloatingPanel } from './useFloatingPanel';
+import { lazy, Suspense, useState } from 'react';
+const MapPicker = lazy(() => import('./MapPicker'));
+import {
+  X,
+  UserRound,
+  MapPin,
+  SlidersHorizontal,
+  Sun,
+  Moon,
+} from 'lucide-react';
 import type { Appearance } from './appearance';
 import type { Site } from './site';
 import { googleMapsUrl, validateSite } from './site';
 export default function StudioPanel({
+  initialTab = 'appearance',
   appearance,
   onAppearance,
   site,
@@ -13,6 +23,7 @@ export default function StudioPanel({
   addPerson,
   onClose,
 }: {
+  initialTab?: 'appearance' | 'site';
   appearance: Appearance;
   onAppearance: (a: Appearance) => void;
   site?: Site;
@@ -22,11 +33,49 @@ export default function StudioPanel({
   addPerson: () => void;
   onClose: () => void;
 }) {
-  const [tab, setTab] = useState<'appearance' | 'site'>('appearance');
+  const floating = useFloatingPanel();
+  const [tab, setTab] = useState<'appearance' | 'site'>(initialTab);
   const [error, setError] = useState('');
+  const [pickOpen, setPickOpen] = useState(false);
+  const [latitude, setLatitude] = useState(site ? String(site.latitude) : '');
+  const [longitude, setLongitude] = useState(
+    site ? String(site.longitude) : '',
+  );
+  const [pickerCenter, setPickerCenter] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(site ?? null);
+  const locateCoordinates = () => {
+    if (
+      latitude !== '' &&
+      longitude !== '' &&
+      Number.isFinite(Number(latitude)) &&
+      Number.isFinite(Number(longitude)) &&
+      Math.abs(Number(latitude)) <= 85 &&
+      Math.abs(Number(longitude)) <= 180
+    )
+      setPickerCenter({
+        latitude: Number(latitude),
+        longitude: Number(longitude),
+      });
+  };
+  const [locating, setLocating] = useState(false);
+
   return (
-    <section className="studio-panel" aria-label="Studio settings">
-      <div className="studio-panel-heading">
+    <section
+      ref={floating.ref}
+      style={floating.style}
+      className="studio-panel"
+      aria-label="Studio settings"
+      onPointerDownCapture={floating.raise}
+    >
+      <div
+        className="studio-panel-heading panel-drag-handle"
+        {...floating.handle}
+        aria-label="Move Studio panel"
+        role="button"
+        tabIndex={0}
+      >
         <strong>Your studio</strong>
         <button aria-label="Close studio settings" onClick={onClose}>
           <X size={17} />
@@ -47,6 +96,23 @@ export default function StudioPanel({
       </div>
       {tab === 'appearance' ? (
         <>
+          <label className="studio-label">Light</label>
+          <div className="theme-options" aria-label="Workspace theme">
+            <button
+              aria-pressed={appearance.theme === 'day'}
+              onClick={() => onAppearance({ ...appearance, theme: 'day' })}
+            >
+              <Sun size={16} />
+              Day
+            </button>
+            <button
+              aria-pressed={appearance.theme === 'night'}
+              onClick={() => onAppearance({ ...appearance, theme: 'night' })}
+            >
+              <Moon size={16} />
+              Night
+            </button>
+          </div>
           <label className="studio-label">View style</label>
           <div className="mode-options">
             {(['studio', 'wireframe', 'hidden-line'] as const).map((mode) => (
@@ -128,6 +194,67 @@ export default function StudioPanel({
             Place your model on a map. The location marks your workspace origin;
             dimensions stay in meters.
           </p>
+          <div className="map-pick-actions">
+            <button
+              type="button"
+              className="choose-map-button"
+              aria-expanded={pickOpen}
+              onClick={() => {
+                locateCoordinates();
+                setPickOpen((v) => !v);
+              }}
+            >
+              {pickOpen ? 'Close map picker' : 'Choose on a map'}
+            </button>
+            <button
+              type="button"
+              className="text-action"
+              disabled={locating}
+              onClick={() => {
+                if (!navigator.geolocation) {
+                  setError(
+                    'Device location is unavailable. Choose on the map or enter coordinates.',
+                  );
+                  return;
+                }
+                setLocating(true);
+                setError('');
+                navigator.geolocation.getCurrentPosition(
+                  (p) => {
+                    setLatitude(p.coords.latitude.toFixed(6));
+                    setLongitude(p.coords.longitude.toFixed(6));
+                    setPickerCenter({
+                      latitude: p.coords.latitude,
+                      longitude: p.coords.longitude,
+                    });
+                    setPickOpen(true);
+                    setLocating(false);
+                  },
+                  () => {
+                    setError(
+                      'Location access was unavailable. Choose on the map or enter coordinates.',
+                    );
+                    setLocating(false);
+                  },
+                  { timeout: 10000, maximumAge: 60000 },
+                );
+              }}
+            >
+              {locating ? 'Finding location…' : 'Use my location'}
+            </button>
+          </div>
+          {pickOpen && (
+            <Suspense fallback={<p>Loading map picker…</p>}>
+              <MapPicker
+                center={pickerCenter}
+                onPick={(p) => {
+                  setLatitude(p.latitude.toFixed(6));
+                  setLongitude(p.longitude.toFixed(6));
+                }}
+              />
+            </Suspense>
+          )}
+          <p className="studio-caption">Or enter exact coordinates</p>
           <label>
             Latitude
             <input
@@ -137,7 +264,9 @@ export default function StudioPanel({
               min="-85"
               max="85"
               required
-              defaultValue={site?.latitude}
+              value={latitude}
+              onChange={(e) => setLatitude(e.target.value)}
+              onBlur={locateCoordinates}
               placeholder="e.g. 20.9674"
             />
           </label>
@@ -150,7 +279,9 @@ export default function StudioPanel({
               min="-180"
               max="180"
               required
-              defaultValue={site?.longitude}
+              value={longitude}
+              onChange={(e) => setLongitude(e.target.value)}
+              onBlur={locateCoordinates}
               placeholder="e.g. −89.5926"
             />
           </label>

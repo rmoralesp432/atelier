@@ -31,6 +31,13 @@ export async function requestPlan(
     operations: Operation[];
     outcome: string;
   } | null,
+  workspace?: {
+    mapVisible: boolean;
+    mapConfigured: boolean;
+    view: 'perspective' | 'orthographic' | 'top';
+    theme: 'day' | 'night';
+    renderMode: 'studio' | 'wireframe' | 'hidden-line';
+  },
 ) {
   const r = await fetch('/api/plan', {
     method: 'POST',
@@ -38,6 +45,7 @@ export async function requestPlan(
     body: JSON.stringify({
       message,
       pendingReview,
+      workspace,
       historyAvailability: {
         undo: session.past.length,
         redo: session.future.length,

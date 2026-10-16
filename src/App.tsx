@@ -1,6 +1,14 @@
+import { useFloatingPanel } from './studio/useFloatingPanel';
 import StudioPanel from './studio/StudioPanel';
 import { loadAppearance, palette } from './studio/appearance';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
+import type { WorkspaceSnapshot } from './projects/library';
 import {
   ArrowDownToLine,
   ArrowUpFromLine,
@@ -13,6 +21,7 @@ import {
   Grid2X2,
   Layers,
   Maximize,
+  MapPin,
   MousePointer2,
   Move3D,
   Plus,
@@ -207,8 +216,24 @@ function NumericField({
     </label>
   );
 }
-export default function App() {
-  const [boot] = useState(load);
+export default function App({
+  initialWorkspace,
+  onSnapshot,
+  projectMenu,
+}: {
+  initialWorkspace?: WorkspaceSnapshot;
+  onSnapshot?: (snapshot: WorkspaceSnapshot, safe: boolean) => void;
+  projectMenu?: (blocked: boolean) => ReactNode;
+}) {
+  const [boot] = useState(() =>
+    initialWorkspace
+      ? {
+          session: parseSession(initialWorkspace.session),
+          message: 'Workspace restored.',
+          storageSafe: true,
+        }
+      : load(),
+  );
   const [project, setProject] = useState(boot.session.project);
   const current = useRef(project);
   current.current = project;
@@ -236,6 +261,9 @@ export default function App() {
   const [appearance, setAppearance] = useState(loadAppearance);
   const renderMode = appearance.mode;
   const [studioOpen, setStudioOpen] = useState(false);
+  const [studioTab, setStudioTab] = useState<'appearance' | 'site'>(
+    'appearance',
+  );
   const [mapVisible, setMapVisible] = useState(false);
   useEffect(() => {
     try {
@@ -247,8 +275,13 @@ export default function App() {
   const [northAngle, setNorthAngle] = useState(0);
   const [tool, setTool] = useState<Tool>('select');
   const [snap, setSnap] = useState(true);
+  const [angleSnap, setAngleSnap] = useState(45);
+  const inspectorPanel = useFloatingPanel();
+  useEffect(() => {
+    if (project.selectedId) setTool('translate');
+  }, [project.selectedId]);
   const [view, setView] = useState<{
-    mode: 'perspective' | 'top';
+    mode: 'perspective' | 'orthographic' | 'top';
     revision: number;
   }>({ mode: 'perspective', revision: 0 });
   const [command, setCommand] = useState('');
@@ -269,7 +302,9 @@ export default function App() {
   }, [inspectorOpen, objectsOpen]);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [chatExpanded, setChatExpanded] = useState(true);
-  const [messages, setMessages] = useState<Message[]>(loadMessages);
+  const [messages, setMessages] = useState<Message[]>(
+    () => initialWorkspace?.messages ?? loadMessages(),
+  );
   const log = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (log.current) log.current.scrollTop = log.current.scrollHeight;
@@ -284,6 +319,7 @@ export default function App() {
     voiceConfigured: false,
   });
   const [busy, setBusy] = useState(false);
+  const [modelingBusy, setModelingBusy] = useState(0);
   const busyRef = useRef(false);
   const [pending, setPending] = useState<{
     plan: Plan;
@@ -300,6 +336,91 @@ export default function App() {
     'box' | 'cylinder' | 'sphere' | 'rectangle' | 'circle'
   >('box');
   const [measuredVolume, setMeasuredVolume] = useState<number | null>(null);
+  const workspaceRef = useRef({
+    mapVisible,
+    view: view.mode,
+    theme: appearance.theme,
+    renderMode: appearance.mode,
+  });
+  workspaceRef.current = {
+    mapVisible,
+    view: view.mode,
+    theme: appearance.theme,
+    renderMode: appearance.mode,
+  };
+  const applyWorkspace = (plan: Plan) => {
+    const state = { ...workspaceRef.current };
+    const reports: string[] = [];
+    for (const op of plan.operations) {
+      if (op.type !== 'workspace') continue;
+      const a = op.action;
+      if (a === 'map_on' || a === 'map_off' || a === 'map_toggle') {
+        const visible = a === 'map_toggle' ? !state.mapVisible : a === 'map_on';
+        if (visible && !current.current.site) {
+          setStudioTab('site');
+          setStudioOpen(true);
+          if (innerWidth <= 800) setInspectorOpen(false);
+          reports.push(
+            'Choose a site on the map, or enter coordinates, then show the model.',
+          );
+        } else {
+          state.mapVisible = visible;
+          setMapVisible(visible);
+          reports.push(visible ? 'Map enabled.' : 'Map hidden.');
+        }
+      } else if (a.startsWith('view_')) {
+        state.view =
+          a === 'view_top'
+            ? 'top'
+            : a === 'view_orthographic'
+              ? 'orthographic'
+              : 'perspective';
+        setView((v) => ({ mode: state.view, revision: v.revision + 1 }));
+        reports.push(
+          state.view === 'top'
+            ? 'Top view.'
+            : state.view === 'orthographic'
+              ? 'Orthographic view.'
+              : 'Perspective view.',
+        );
+      } else if (a === 'theme_day' || a === 'theme_night') {
+        state.theme = a === 'theme_day' ? 'day' : 'night';
+        setAppearance((v) => ({ ...v, theme: state.theme }));
+        reports.push(state.theme === 'day' ? 'Day mode.' : 'Night mode.');
+      } else if (a.startsWith('display_')) {
+        state.renderMode =
+          a === 'display_solid'
+            ? 'studio'
+            : a === 'display_wireframe'
+              ? 'wireframe'
+              : 'hidden-line';
+        setAppearance((v) => ({ ...v, mode: state.renderMode }));
+        reports.push(
+          a === 'display_solid'
+            ? 'Solid view.'
+            : a === 'display_wireframe'
+              ? 'Wireframe view.'
+              : 'Hidden line view.',
+        );
+      } else if (a === 'frame_all') {
+        setView((v) => ({ ...v, revision: v.revision + 1 }));
+        reports.push('Framed the model.');
+      } else if (a === 'inspector_open' || a === 'inspector_close') {
+        setInspectorOpen(a === 'inspector_open');
+        if (a === 'inspector_open' && innerWidth <= 800) setStudioOpen(false);
+        reports.push(
+          a === 'inspector_open' ? 'Inspector opened.' : 'Inspector closed.',
+        );
+      } else {
+        setObjectsOpen(a === 'objects_open');
+        reports.push(
+          a === 'objects_open' ? 'Object list opened.' : 'Object list closed.',
+        );
+      }
+    }
+    workspaceRef.current = state;
+    return reports.join('\n');
+  };
   const snapshot = (): Session => ({
     project: current.current,
     past: undo.current,
@@ -381,8 +502,16 @@ export default function App() {
       result.session,
       !plan.operations.some((op) => op.type === 'undo' || op.type === 'redo'),
     );
-    setNotice({ text: result.message, error: false });
-    return result.message;
+    if (
+      plan.operations.some((op) => op.type === 'select') &&
+      result.session.project.selectedId
+    )
+      setTool('translate');
+    const message = [result.message, applyWorkspace(plan)]
+      .filter(Boolean)
+      .join('\n');
+    setNotice({ text: message, error: false });
+    return message;
   };
   const prepareReview = async (
     plan: Plan,
@@ -404,14 +533,18 @@ export default function App() {
         'Selection or geometry changed. Request this operation again.',
       );
     install(item.prepared.session);
-    setNotice({ text: item.prepared.message, error: false });
-    return item.prepared.message;
+    const message = [item.prepared.message, applyWorkspace(item.plan)]
+      .filter(Boolean)
+      .join('\n');
+    setNotice({ text: message, error: false });
+    return message;
   };
   const displaySummary = (plan: Plan) =>
     plan.operations.some((op) => op.type === 'measure')
       ? undefined
       : plan.message;
   const propose = async (plan: Plan) => {
+    setModelingBusy((n) => n + 1);
     try {
       if (needsConfirmation(plan)) {
         await prepareReview(plan);
@@ -421,6 +554,8 @@ export default function App() {
       remember('assistant', message);
     } catch (e) {
       reportError(e);
+    } finally {
+      setModelingBusy((n) => n - 1);
     }
   };
   const sendConversation = async (text: string): Promise<string> => {
@@ -448,6 +583,10 @@ export default function App() {
               outcome: reviewing.prepared.message.slice(0, 16000),
             }
           : null,
+        {
+          ...workspaceRef.current,
+          mapConfigured: Boolean(current.current.site),
+        },
       );
       if (before !== fingerprint())
         throw new Error(
@@ -552,6 +691,7 @@ export default function App() {
     [commit],
   );
   const select = useCallback((id: string | null, additive = false) => {
+    if (id) setTool('translate');
     const p = current.current;
     const ids = id
       ? additive
@@ -627,7 +767,15 @@ export default function App() {
     }
   }, [project, historyVersion, boot.storageSafe]);
   useEffect(() => {
+    onSnapshot?.(
+      { session: serializeSession(snapshot()), messages },
+      boot.storageSafe,
+    );
+  }, [project, historyVersion, messages, boot.storageSafe, onSnapshot]);
+  useEffect(() => {
     const key = (e: KeyboardEvent) => {
+      // A modal owns keyboard input; never edit the underlying project while switching.
+      if (document.querySelector('dialog[open]')) return;
       const editing =
         e.target instanceof HTMLElement &&
         (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) ||
@@ -791,7 +939,7 @@ export default function App() {
         if (files.length === 1) void importFile(files[0]);
         else reportError(new Error('Import one file at a time.'));
       }}
-      className={`app-shell phase-two immersive ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
+      className={`app-shell phase-two immersive theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
     >
       {importAsset && (
         <MeshImportDialog
@@ -812,6 +960,9 @@ export default function App() {
         <a className="brand" href="./" aria-label="ATELIER home">
           <span className="brand-mark">A</span> ATELIER
         </a>
+        {projectMenu?.(
+          busy || modelingBusy > 0 || !!pending || voiceActive || !!importAsset,
+        )}
         <div className="project-title">
           <span>Workspace</span>
           <ChevronRight size={13} />
@@ -827,6 +978,23 @@ export default function App() {
           >
             <Layers size={16} />
             <span>Objects</span>
+          </button>
+          <button
+            className="subtle-button map-toggle"
+            aria-label="Toggle site map"
+            aria-pressed={mapVisible}
+            title={mapVisible ? 'Hide map' : 'Show map'}
+            onClick={() => {
+              if (project.site) setMapVisible((v) => !v);
+              else {
+                setStudioTab('site');
+                setStudioOpen(true);
+                if (innerWidth <= 800) setInspectorOpen(false);
+              }
+            }}
+          >
+            <MapPin size={16} />
+            <span>Map</span>
           </button>
           <button
             className="connection-button"
@@ -846,7 +1014,10 @@ export default function App() {
             aria-label={
               inspectorOpen ? 'Collapse inspector' : 'Expand inspector'
             }
-            onClick={() => setInspectorOpen(!inspectorOpen)}
+            onClick={() => {
+              setInspectorOpen(!inspectorOpen);
+              if (!inspectorOpen && innerWidth <= 800) setStudioOpen(false);
+            }}
           >
             {inspectorOpen ? (
               <PanelRightClose size={17} />
@@ -1037,31 +1208,40 @@ export default function App() {
               <span>/</span>
               <span>Concept model</span>
             </div>
-            <button
-              className={`view-button ${view.mode === 'top' ? 'active' : ''}`}
-              onClick={() =>
+            <select
+              className="view-button"
+              aria-label="Camera view"
+              value={view.mode}
+              onChange={(e) =>
                 setView((v) => ({
-                  mode: v.mode === 'top' ? 'perspective' : 'top',
+                  mode: e.target.value as typeof view.mode,
                   revision: v.revision + 1,
                 }))
               }
             >
-              <Grid2X2 size={13} />
-              {view.mode === 'top' ? 'Top view' : 'Perspective'}
-            </button>
+              <option value="perspective">Perspective</option>
+              <option value="orthographic">Orthographic</option>
+              <option value="top">Top view</option>
+            </select>
           </div>
           <div className="viewport-stage">
             <button
               className="studio-launcher"
               aria-label="Studio appearance and location"
               aria-expanded={studioOpen}
-              onClick={() => setStudioOpen(!studioOpen)}
+              onClick={() => {
+                setStudioOpen(!studioOpen);
+                setStudioTab('appearance');
+                if (!studioOpen && innerWidth <= 800) setInspectorOpen(false);
+              }}
             >
               <Settings2 size={17} />
               <span>Studio</span>
             </button>
             {studioOpen && (
               <StudioPanel
+                key={studioTab}
+                initialTab={studioTab}
                 appearance={appearance}
                 onAppearance={setAppearance}
                 site={project.site}
@@ -1102,6 +1282,7 @@ export default function App() {
               project={project}
               tool={tool}
               snap={snap}
+              angleSnap={angleSnap}
               motion={motion}
               renderMode={renderMode}
               appearance={appearance}
@@ -1130,7 +1311,11 @@ export default function App() {
                 </label>
                 <button
                   className="selection-summary"
-                  onClick={() => setInspectorOpen(!inspectorOpen)}
+                  onClick={() => {
+                    setInspectorOpen(!inspectorOpen);
+                    if (!inspectorOpen && innerWidth <= 800)
+                      setStudioOpen(false);
+                  }}
                   aria-label="Edit selected dimensions"
                 >
                   <span>{selected.name}</span>
@@ -1194,9 +1379,17 @@ export default function App() {
                 onClick={() => setSnap(!snap)}
               >
                 <Grid2X2 size={12} />
-                Snap {snap ? '0.5 m / 15°' : 'off'}
+                Snap {snap ? `0.5 m / ${angleSnap}°` : 'off'}
               </button>
-              <span>Grid · 1 m</span>
+              <select
+                aria-label="Rotation snap angle"
+                value={angleSnap}
+                onChange={(e) => setAngleSnap(Number(e.target.value))}
+              >
+                <option value={15}>15°</option>
+                <option value={45}>45°</option>
+                <option value={90}>90°</option>
+              </select>
             </div>
             <div
               className="axis-indicator"
@@ -1415,14 +1608,26 @@ export default function App() {
             </div>
           </div>
         </section>
-        <aside className="inspector-panel" hidden={!inspectorOpen}>
-          <div className="panel-caption">
+        <aside
+          ref={inspectorPanel.ref}
+          style={inspectorPanel.style}
+          onPointerDownCapture={inspectorPanel.raise}
+          className="inspector-panel"
+          aria-label="Object inspector"
+          hidden={!inspectorOpen}
+        >
+          <div
+            className="panel-caption panel-drag-handle"
+            {...inspectorPanel.handle}
+            role="button"
+            tabIndex={0}
+            aria-label="Move Inspector panel"
+          >
             <span>INSPECTOR</span>
             <button
               className="icon-button"
-              aria-label="Clear selection"
-              disabled={!selected}
-              onClick={() => select(null)}
+              aria-label="Close inspector"
+              onClick={() => setInspectorOpen(false)}
             >
               <X size={14} />
             </button>
@@ -1437,20 +1642,36 @@ export default function App() {
                   <span className="small-label">
                     {selected.geometry?.kind ?? 'box'}
                   </span>
-                  <input
-                    key={selected.id + selected.name}
-                    aria-label="Object name"
-                    defaultValue={selected.name}
-                    maxLength={80}
-                    onBlur={(e) =>
-                      change(selected.id, { name: e.target.value.trim() })
-                    }
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') e.currentTarget.blur();
-                    }}
-                  />
+                  <label className="volume-name-label">
+                    Name
+                    <input
+                      key={selected.id + selected.name}
+                      aria-label="Object name"
+                      defaultValue={selected.name}
+                      maxLength={80}
+                      onBlur={(e) => {
+                        const name = e.target.value.trim();
+                        if (name && name !== selected.name)
+                          change(selected.id, { name });
+                        else e.target.value = selected.name;
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') e.currentTarget.blur();
+                        if (e.key === 'Escape') {
+                          e.currentTarget.value = selected.name;
+                          e.currentTarget.blur();
+                        }
+                      }}
+                    />
+                  </label>
                 </div>
               </div>
+              <button
+                className="text-action clear-selection"
+                onClick={() => select(null)}
+              >
+                Clear selection
+              </button>
               <div className="object-palette" aria-label="Object colors">
                 {palette.map((color) => (
                   <button
