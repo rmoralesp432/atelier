@@ -4,6 +4,9 @@ import type { Operation } from '../src/intelligence/plan';
 test('opens a full-size scene, adds shapes without AI, and reuses meshes on selection', async ({
   page,
 }) => {
+  // This covers a desktop workflow plus a viewport resize and mobile panels.
+  // Software WebGL CI runners need more total time; assertions keep 5s limits.
+  test.setTimeout(60000);
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/');

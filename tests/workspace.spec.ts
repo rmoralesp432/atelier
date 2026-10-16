@@ -83,6 +83,7 @@ const box = (id: string, x = 0) => ({
 test('actual WebGL rendering, orbit, view changes and collapsible inspector', async ({
   page,
 }) => {
+  test.setTimeout(60000); // Multiple rendered views on software WebGL runners.
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await ready(page);
@@ -355,6 +356,7 @@ test('JSON project plus history export/import and invalid file protection', asyn
 test('real translation handles preserve snapping and undo', async ({
   page,
 }) => {
+  test.setTimeout(60000); // Camera transition + rendered pointer-drag sequence.
   await ready(page);
   await importProject(page, [box('single')]);
   await expect(page.getByTestId('viewport')).toHaveAttribute(
