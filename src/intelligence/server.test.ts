@@ -21,6 +21,52 @@ const request = {
   history: [],
   scene: sceneContext(initialProject(), emptyContext(), defaultCamera),
 };
+it.each([
+  'credit_balance_exhausted',
+  'insufficient_quota',
+  'invalid_api_key',
+  'invalid_json_schema',
+  'unknown_failure',
+])(
+  'reports safe actionable provider errors for text and voice (%s)',
+  async (code) => {
+    const upstream = Object.assign(
+      new Error('sensitive upstream credential and private prompt'),
+      { code },
+    );
+    const fail = async (): Promise<never> => {
+      throw upstream;
+    };
+    await serve({ plan: fail, voice: fail }, async (url) => {
+      for (const [route, body] of [
+        ['/api/plan', request],
+        ['/api/voice', { sdp: 'v=0\r\n' }],
+      ] as const) {
+        const response = await fetch(url + route, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        });
+        expect(response.status).toBe(502);
+        const result = await response.json();
+        expect(result.error).not.toContain(upstream.message);
+        if (
+          code === 'credit_balance_exhausted' ||
+          code === 'insufficient_quota'
+        )
+          expect(result.error).toContain('OpenAI Platform billing');
+        if (code === 'invalid_api_key')
+          expect(result.error).toContain('hosting settings');
+        if (code === 'invalid_json_schema')
+          expect(result.error).toContain('server update');
+        if (code === 'unknown_failure')
+          expect(result.error).toContain(
+            route === '/api/plan' ? 'valid plan' : 'voice service',
+          );
+      }
+    });
+  },
+);
 it('reports missing credentials honestly and never fabricates a plan', async () =>
   serve(null, async (url) => {
     expect((await (await fetch(url + '/api/config')).json()).configured).toBe(

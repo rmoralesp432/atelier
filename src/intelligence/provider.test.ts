@@ -46,6 +46,19 @@ it('uses the actual Responses SDK contract with strict schema, scene context and
   expect(body.store).toBe(false);
   expect(body.text.format.strict).toBe(true);
   expect(body.text.format.type).toBe('json_schema');
+  // A live Responses request rejected `oneOf` at operations.items. Inspect
+  // the actual serialized SDK request so the transport double cannot hide it.
+  const items = body.text.format.schema.properties.operations.items;
+  expect(items.oneOf).toBeUndefined();
+  expect(items.anyOf.length).toBeGreaterThan(1);
+  const types = items.anyOf.map((branch: any) => branch.properties.type.const);
+  expect(new Set(types).size).toBe(types.length);
+  for (const branch of items.anyOf) {
+    expect(branch.additionalProperties).toBe(false);
+    expect([...branch.required].sort()).toEqual(
+      Object.keys(branch.properties).sort(),
+    );
+  }
   expect(body.input[0].content).toContain('toward the street');
 });
 it('uses the realtime Calls SDK with SDP and a tool routed into the modeling planner', async () => {

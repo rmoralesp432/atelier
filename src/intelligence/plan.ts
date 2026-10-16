@@ -130,7 +130,17 @@ export const planSchema = z
   .strict();
 export type Plan = z.infer<typeof planSchema>;
 export type Operation = z.infer<typeof operationSchema>;
-export const planJsonSchema = z.toJSONSchema(planSchema);
+export const planJsonSchema = z.toJSONSchema(planSchema, {
+  override: ({ zodSchema, jsonSchema }) => {
+    // Structured Outputs accepts anyOf, but rejects Zod's discriminated-union
+    // oneOf. Each operation has a distinct literal `type`, so its branches
+    // remain mutually exclusive. Keep the original Zod validator unchanged.
+    if (zodSchema === operationSchema && jsonSchema.oneOf) {
+      jsonSchema.anyOf = jsonSchema.oneOf;
+      delete jsonSchema.oneOf;
+    }
+  },
+});
 export function parsePlan(raw: unknown): Plan {
   const plan = planSchema.parse(raw);
   if (plan.intent === 'clarify' && plan.operations.length)

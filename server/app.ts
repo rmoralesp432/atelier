@@ -2,6 +2,20 @@ import express from 'express';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
 import { parsePlan } from '../src/intelligence/plan';
 import { requestSchema, type Provider } from './provider';
+function providerErrorMessage(error: unknown, fallback: string): string {
+  // Never return raw provider errors: they can contain credentials or prompts.
+  const code =
+    typeof error === 'object' && error !== null && 'code' in error
+      ? error.code
+      : undefined;
+  if (code === 'credit_balance_exhausted' || code === 'insufficient_quota')
+    return 'The OpenAI API account has no available credits or has reached its usage limit. Check OpenAI Platform billing and limits, then try again. A ChatGPT subscription does not include API credits. No geometry was changed.';
+  if (code === 'invalid_api_key')
+    return 'OpenAI rejected the server API key. Update the key securely in the hosting settings, then redeploy. Never enter an API key in this conversation. No geometry was changed.';
+  if (code === 'invalid_json_schema')
+    return 'The AI integration needs a server update before it can process requests. No geometry was changed.';
+  return fallback;
+}
 export function createApi(
   provider: Provider | null,
   options: { password?: string; production?: boolean; origin?: string } = {},
@@ -99,10 +113,12 @@ export function createApi(
     }
     try {
       res.json(parsePlan(await provider!.plan(parsed.data)));
-    } catch {
+    } catch (error) {
       res.status(502).json({
-        error:
+        error: providerErrorMessage(
+          error,
           'The model service could not produce a valid plan. No geometry was changed. Check provider access and try again.',
+        ),
       });
     }
   });
@@ -117,9 +133,12 @@ export function createApi(
     }
     try {
       res.type('application/sdp').send(await provider!.voice(req.body.sdp));
-    } catch {
+    } catch (error) {
       res.status(502).json({
-        error: 'The realtime voice service could not establish a connection.',
+        error: providerErrorMessage(
+          error,
+          'The realtime voice service could not establish a connection.',
+        ),
       });
     }
   });
