@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
 import type { Plan, Operation } from '../src/intelligence/plan';
 // These regression checks exercise the optional precision panels. The separate
 // immersive suite checks the uncluttered default view and panel controls.
@@ -335,9 +336,13 @@ test('JSON project plus history export/import and invalid file protection', asyn
     .getByRole('button', { name: 'Delete volume', exact: true })
     .click();
   await expect(page.locator('.object-row')).toHaveCount(2);
-  await page
-    .getByLabel('Import project file')
-    .setInputFiles((await download.path())!);
+  // Playwright's download.path() is an extensionless temporary UUID. Import
+  // the actual exported filename, as a browser download gives it to the user.
+  await page.getByLabel('Import project file').setInputFiles({
+    name: download.suggestedFilename(),
+    mimeType: 'application/json',
+    buffer: await readFile((await download.path())!),
+  });
   await expect(page.locator('.object-row')).toHaveCount(3);
   await page.getByLabel('Import project file').setInputFiles({
     name: 'bad.json',

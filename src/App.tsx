@@ -27,6 +27,14 @@ import {
   Undo2,
   X,
 } from 'lucide-react';
+import MeshImportDialog from './imports/MeshImportDialog';
+import {
+  parseMeshAsset,
+  isReference,
+  MAX_IMPORT_BYTES,
+  type MeshAsset,
+} from './imports/mesh';
+import { groupBounds } from './geometry/spatial';
 import Viewport, { type Tool } from './Viewport';
 import {
   applyPlan,
@@ -204,6 +212,26 @@ export default function App() {
   const undo = useRef<Project[]>(boot.session.past);
   const redo = useRef<Project[]>(boot.session.future);
   const [historyVersion, setHistoryVersion] = useState(0);
+  const [motion, setMotion] = useState<{ revision: number; ids: string[] }>({
+    revision: 0,
+    ids: [],
+  });
+  const markCreation = useCallback(
+    (before: Project, next: Project, enabled = true) => {
+      const ids = enabled
+        ? next.volumes
+            .filter((v) => {
+              const old = before.volumes.find((o) => o.id === v.id);
+              return !old || (isProfile(old) && !isProfile(v));
+            })
+            .map((v) => v.id)
+        : [];
+      setMotion((m) => ({ revision: m.revision + 1, ids }));
+    },
+    [],
+  );
+  const [renderMode, setRenderMode] = useState<'studio' | 'outline'>('studio');
+  const [northAngle, setNorthAngle] = useState(0);
   const [tool, setTool] = useState<Tool>('select');
   const [snap, setSnap] = useState(true);
   const [view, setView] = useState<{
@@ -270,7 +298,8 @@ export default function App() {
       ...m.slice(-79),
       { role, content, ...(summary ? { summary } : {}) },
     ]);
-  const install = (session: Session) => {
+  const install = (session: Session, animate = true) => {
+    markCreation(current.current, session.project, animate);
     current.current = session.project;
     undo.current = session.past;
     redo.current = session.future;
@@ -335,7 +364,10 @@ export default function App() {
       throw new Error(
         'The scene changed while this edit was being prepared. Please try again.',
       );
-    install(result.session);
+    install(
+      result.session,
+      !plan.operations.some((op) => op.type === 'undo' || op.type === 'redo'),
+    );
     setNotice({ text: result.message, error: false });
     return result.message;
   };
@@ -475,9 +507,12 @@ export default function App() {
   const [saved, setSaved] = useState(true);
   const input = useRef<HTMLTextAreaElement>(null);
   const file = useRef<HTMLInputElement>(null);
+  const [importAsset, setImportAsset] = useState<MeshAsset | null>(null);
+  const [draggingFile, setDraggingFile] = useState(false);
   const selected = project.volumes.find((v) => v.id === project.selectedId);
-  const commit = useCallback((next: Project) => {
+  const commit = useCallback((next: Project, animate = true) => {
     if (JSON.stringify(next) === JSON.stringify(current.current)) return;
+    markCreation(current.current, next, animate);
     undo.current = [...undo.current.slice(-49), current.current];
     redo.current = [];
     current.current = next;
@@ -548,6 +583,7 @@ export default function App() {
     const destination = direction === 'undo' ? redo.current : undo.current;
     const next = source.pop();
     if (!next) return;
+    markCreation(current.current, next, false);
     destination.push(current.current);
     current.current = next;
     setProject(next);
@@ -588,7 +624,7 @@ export default function App() {
         input.current?.focus();
         return;
       }
-      if (editing || settingsOpen) return;
+      if (editing || settingsOpen || importAsset) return;
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
         e.preventDefault();
         travel(e.shiftKey ? 'redo' : 'undo');
@@ -607,7 +643,7 @@ export default function App() {
     };
     window.addEventListener('keydown', key);
     return () => window.removeEventListener('keydown', key);
-  }, [run, select, travel, settingsOpen]);
+  }, [run, select, travel, settingsOpen, importAsset]);
   function exportProject() {
     const url = URL.createObjectURL(
       new Blob([serializeSession(snapshot())], { type: 'application/json' }),
@@ -623,7 +659,7 @@ export default function App() {
     let active = true;
     setMeasuredVolume(null);
     if (selected && inspectorOpen) {
-      if (isProfile(selected)) setMeasuredVolume(0);
+      if (isProfile(selected) || isReference(selected)) setMeasuredVolume(0);
       else
         void solidStats(selected)
           .then((s) => {
@@ -638,10 +674,127 @@ export default function App() {
     };
   }, [selected, inspectorOpen]);
 
+  const importFile = async (f: File) => {
+    try {
+      if (f.size > MAX_IMPORT_BYTES)
+        throw new Error('Import files must be smaller than 10 MB.');
+      if (!f.name.toLowerCase().endsWith('.json')) {
+        setNotice({ text: 'Reading your 3D element…', error: false });
+        const asset = await parseMeshAsset(f.name, await f.arrayBuffer());
+        setImportAsset(asset);
+        setNotice({ text: '', error: false });
+        return;
+      }
+      const text = await f.text();
+      const raw = JSON.parse(text);
+      if (raw.project && raw.past) {
+        const imported = parseSession(text);
+        // Preserve the receiving session and the imported timeline. The
+        // latest snapshot remains undo-import; older snapshots are the
+        // imported history, within the documented 50-step limit.
+        localStorage.setItem(
+          'atelier.session.v2.before-import',
+          serializeSession(snapshot()),
+        );
+        undo.current = [...imported.past.slice(-49), current.current];
+        redo.current = imported.future;
+        conversation.current = imported.context;
+        markCreation(current.current, imported.project, false);
+        current.current = imported.project;
+        setProject(imported.project);
+        setHistoryVersion((v) => v + 1);
+      } else commit(parseProject(text), false);
+      setNotice({
+        text: 'Project imported. Undo is available.',
+        error: false,
+      });
+    } catch (err) {
+      reportError(err);
+    }
+  };
+  const addImported = (v: Volume) => {
+    try {
+      const p = current.current;
+      if (p.volumes.length >= 200)
+        throw new Error('This workspace supports up to 200 objects.');
+      let name = v.name,
+        n = 2;
+      while (p.volumes.some((o) => o.name === name))
+        name = `${v.name.slice(0, 65)} ${n++}`;
+      const x = p.volumes.length
+        ? groupBounds(p.volumes).max.x + 2 + v.dimensions.width / 2
+        : 0;
+      const next = { ...v, name, position: { x, y: 0, z: 0 } };
+      const project = {
+        ...p,
+        volumes: [...p.volumes, next],
+        selectedId: next.id,
+        selectedIds: [next.id],
+      };
+      // Check the complete history-bearing save BEFORE changing the workspace.
+      // A dense asset must never silently evict the user's previous project.
+      const candidate = {
+        ...snapshot(),
+        project,
+        past: [...undo.current.slice(-49), p],
+        future: [],
+      };
+      if (serializeSession(candidate).length > 2_000_000)
+        throw new Error(
+          'This mesh would exceed safe browser storage. Import a lighter mesh; your project has not changed.',
+        );
+      if (x > 1000)
+        throw new Error(
+          'There is not enough room beside this model. Move existing objects nearer the origin first.',
+        );
+      commit(project);
+      conversation.current.focusIds = [next.id];
+      conversation.current.lastCreatedIds = [next.id];
+      setPending(null);
+      setImportAsset(null);
+      const text = `${next.name} imported as ${isReference(next) ? 'a reference surface' : 'a closed solid'}. ${next.dimensions.width.toFixed(2)} × ${next.dimensions.depth.toFixed(2)} × ${next.dimensions.height.toFixed(2)} m.`;
+      remember('assistant', text);
+      setNotice({ text, error: false });
+    } catch (e) {
+      reportError(e);
+    }
+  };
   return (
     <div
+      onDragOver={(e) => {
+        if (e.dataTransfer.types.includes('Files')) {
+          e.preventDefault();
+          setDraggingFile(true);
+        }
+      }}
+      onDragLeave={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node))
+          setDraggingFile(false);
+      }}
+      onDrop={(e) => {
+        e.preventDefault();
+        setDraggingFile(false);
+        const files = e.dataTransfer.files;
+        if (files.length === 1) void importFile(files[0]);
+        else reportError(new Error('Import one file at a time.'));
+      }}
       className={`app-shell phase-two immersive ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
     >
+      {importAsset && (
+        <MeshImportDialog
+          asset={importAsset}
+          errorText={notice.error ? notice.text : undefined}
+          onAdd={addImported}
+          onClose={() => setImportAsset(null)}
+        />
+      )}
+      {draggingFile && (
+        <div className="file-drop-overlay">
+          <ArrowUpFromLine size={32} />
+          <strong>Bring it into your space</strong>
+          <span>OBJ · STL · GLB · ATELIER project</span>
+        </div>
+      )}
       <header className="app-header">
         <a className="brand" href="./" aria-label="ATELIER home">
           <span className="brand-mark">A</span> ATELIER
@@ -709,41 +862,14 @@ export default function App() {
         <input
           ref={file}
           type="file"
-          accept=".json,application/json"
+          accept=".json,.obj,.stl,.glb,application/json"
           aria-label="Import project file"
           hidden
           onChange={async (e) => {
-            const f = e.target.files?.[0];
-            if (!f) return;
-            try {
-              if (f.size > 10_000_000)
-                throw new Error('Project file is too large.');
-              const text = await f.text();
-              const raw = JSON.parse(text);
-              if (raw.project && raw.past) {
-                const imported = parseSession(text);
-                // Preserve the receiving session and the imported timeline. The
-                // latest snapshot remains undo-import; older snapshots are the
-                // imported history, within the documented 50-step limit.
-                localStorage.setItem(
-                  'atelier.session.v2.before-import',
-                  serializeSession(snapshot()),
-                );
-                undo.current = [...imported.past.slice(-49), current.current];
-                redo.current = imported.future;
-                conversation.current = imported.context;
-                current.current = imported.project;
-                setProject(imported.project);
-                setHistoryVersion((v) => v + 1);
-              } else commit(parseProject(text));
-              setNotice({
-                text: 'Project imported. Undo is available.',
-                error: false,
-              });
-            } catch (err) {
-              reportError(err);
-            }
-            e.target.value = '';
+            const element = e.currentTarget,
+              f = element.files?.[0];
+            if (f) await importFile(f);
+            element.value = '';
           }}
         />
       </header>
@@ -912,15 +1038,42 @@ export default function App() {
             </button>
           </div>
           <div className="viewport-stage">
+            <div
+              className="studio-view-switch"
+              role="group"
+              aria-label="Visual style"
+            >
+              <button
+                aria-pressed={renderMode === 'studio'}
+                onClick={() => setRenderMode('studio')}
+              >
+                Studio
+              </button>
+              <button
+                aria-pressed={renderMode === 'outline'}
+                onClick={() => setRenderMode('outline')}
+              >
+                Outline
+              </button>
+            </div>
+            <div className="north-compass" aria-label="Project north">
+              <span style={{ transform: `rotate(${northAngle}deg)` }}>↑</span>
+              <small>N</small>
+            </div>
             <Viewport
               project={project}
               tool={tool}
               snap={snap}
+              motion={motion}
+              renderMode={renderMode}
               view={view}
               onSelect={select}
               onChange={change}
               onCamera={(c) => {
                 camera.current = c;
+                setNorthAngle(
+                  (Math.atan2(-c.right.z, c.right.x) * 180) / Math.PI,
+                );
               }}
             />
             {selected && (
@@ -1261,7 +1414,7 @@ export default function App() {
                       key={selected.id + k}
                       label={k[0].toUpperCase() + k.slice(1)}
                       value={selected.dimensions[k]}
-                      min={0.1}
+                      min={selected.geometry?.kind === 'mesh' ? 0.001 : 0.1}
                       max={500}
                       onChange={(n) =>
                         change(selected.id, {
@@ -1274,10 +1427,12 @@ export default function App() {
                 <div className="volume-stat">
                   <span>Volume</span>
                   <strong data-testid="volume-stat">
-                    {measuredVolume === null
-                      ? '…'
-                      : round(measuredVolume).toLocaleString()}{' '}
-                    <small>m³</small>
+                    {isReference(selected)
+                      ? 'Reference'
+                      : measuredVolume === null
+                        ? '…'
+                        : round(measuredVolume).toLocaleString()}{' '}
+                    {!isReference(selected) && <small>m³</small>}
                   </strong>
                 </div>
               </div>
@@ -1321,7 +1476,7 @@ export default function App() {
                   }
                 />
               </div>
-              {!isProfile(selected) && (
+              {!isProfile(selected) && !isReference(selected) && (
                 <button
                   className="architecture-action"
                   aria-label="Create floors and curtain wall"
@@ -1444,7 +1599,8 @@ export default function App() {
                   </div>
                 </div>
               ) : (
-                !isProfile(selected) && (
+                !isProfile(selected) &&
+                !isReference(selected) && (
                   <div className="selection-actions">
                     <button
                       disabled={

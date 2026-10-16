@@ -5,6 +5,7 @@ import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { toCreasedNormals } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { Project, Volume } from './model';
+import { constructionFrame } from './geometry/construction';
 import { round } from './model';
 import { isProfile, renderMeshData } from './geometry/kernel';
 import type { CameraContext } from './intelligence/context';
@@ -14,6 +15,8 @@ type Props = {
   project: Project;
   tool: Tool;
   snap: boolean;
+  motion: { revision: number; ids: string[] };
+  renderMode: 'studio' | 'outline';
   view: { mode: 'perspective' | 'top'; revision: number };
   onSelect: (id: string | null, additive?: boolean) => void;
   onCamera?: (camera: CameraContext) => void;
@@ -28,6 +31,9 @@ type Runtime = {
   objects: Map<string, THREE.Group>;
   signatures: Map<string, string>;
   fit: (top: boolean) => void;
+  beginConstruction: (v: Volume, g: THREE.Group, index: number) => void;
+  finishConstruction: () => void;
+  motionRevision: number;
 };
 function disposeObject(root: THREE.Object3D) {
   root.traverse((o) => {
@@ -57,12 +63,12 @@ export default function Viewport(props: Props) {
       return;
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor('#20252b');
+    renderer.setClearColor('#0b1014');
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 0.85;
+    renderer.toneMappingExposure = 1.05;
     renderer.domElement.setAttribute(
       'aria-label',
       'Interactive 3D modeling viewport',
@@ -70,12 +76,12 @@ export default function Viewport(props: Props) {
     renderer.domElement.setAttribute('tabindex', '0');
     container.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog('#20252b', 250, 1800);
+    scene.fog = new THREE.Fog('#0b1014', 100, 900);
     const pmrem = new THREE.PMREMGenerator(renderer);
     const room = new RoomEnvironment();
     const environment = pmrem.fromScene(room);
     scene.environment = environment.texture;
-    scene.environmentIntensity = 0.3;
+    scene.environmentIntensity = 0.45;
     room.dispose();
     pmrem.dispose();
     const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 5000);
@@ -108,7 +114,11 @@ export default function Viewport(props: Props) {
     scene.add(light, light.target);
     const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(4000, 4000),
-      new THREE.MeshStandardMaterial({ color: '#141b23', roughness: 1 }),
+      new THREE.MeshStandardMaterial({
+        color: '#080c10',
+        roughness: 0.9,
+        metalness: 0.05,
+      }),
     );
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -0.035;
@@ -116,13 +126,109 @@ export default function Viewport(props: Props) {
     scene.add(ground);
     const grid = new THREE.GridHelper(400, 80, '#556572', '#42515e');
     (grid.material as THREE.Material).transparent = true;
-    (grid.material as THREE.Material).opacity = 0.1;
+    (grid.material as THREE.Material).opacity = 0.045;
     grid.position.y = -0.02;
     scene.add(grid);
     const transform = new TransformControls(camera, renderer.domElement);
     transform.setSize(0.85);
     scene.add(transform.getHelper());
     const objects = new Map<string, THREE.Group>();
+    const constructions = new Map<
+      string,
+      { group: THREE.Group; guide: THREE.Line; start: number; fade: boolean }
+    >();
+    const finishOne = (id: string) => {
+      const c = constructions.get(id);
+      if (!c) return;
+      c.group.scale.set(1, 1, 1);
+      c.group.traverse((o) => {
+        if (o instanceof THREE.Mesh) {
+          const m = o.material as THREE.MeshPhysicalMaterial;
+          m.opacity = o.userData.restOpacity ?? 1;
+          if (m.transparent !== (o.userData.restTransparent ?? false))
+            m.needsUpdate = true;
+          m.transparent = o.userData.restTransparent ?? false;
+        }
+      });
+      c.group.remove(c.guide);
+      c.guide.geometry.dispose();
+      (c.guide.material as THREE.Material).dispose();
+      constructions.delete(id);
+    };
+    const finishConstruction = () => {
+      for (const id of [...constructions.keys()]) finishOne(id);
+      container.dataset.constructionActive = 'false';
+      container.dataset.constructionPhase = 'complete';
+    };
+    const beginConstruction = (v: Volume, g: THREE.Group, index: number) => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const points: THREE.Vector3[] = [];
+      const d = v.dimensions;
+      if (v.geometry?.kind === 'polygon')
+        points.push(
+          ...v.geometry.points.map(
+            (p) => new THREE.Vector3(p.x * d.width, 0.012, p.z * d.depth),
+          ),
+        );
+      else if (
+        v.geometry?.kind === 'cylinder' ||
+        v.geometry?.kind === 'sphere' ||
+        v.geometry?.kind === 'circle' ||
+        (v.geometry?.kind === 'extrusion' && v.geometry.profile === 'circle')
+      )
+        for (let i = 0; i < 64; i++)
+          points.push(
+            new THREE.Vector3(
+              (Math.cos((i * Math.PI) / 32) * d.width) / 2,
+              0.012,
+              (Math.sin((i * Math.PI) / 32) * d.depth) / 2,
+            ),
+          );
+      else
+        points.push(
+          new THREE.Vector3(-d.width / 2, 0.012, -d.depth / 2),
+          new THREE.Vector3(d.width / 2, 0.012, -d.depth / 2),
+          new THREE.Vector3(d.width / 2, 0.012, d.depth / 2),
+          new THREE.Vector3(-d.width / 2, 0.012, d.depth / 2),
+        );
+      points.push(points[0].clone());
+      const traced = points.flatMap((point, i) =>
+        i === points.length - 1
+          ? [point]
+          : Array.from({ length: 16 }, (_, step) =>
+              point.clone().lerp(points[i + 1], step / 16),
+            ),
+      );
+      const guide = new THREE.Line(
+        new THREE.BufferGeometry().setFromPoints(traced),
+        new THREE.LineBasicMaterial({
+          color: '#a4f2e8',
+          transparent: true,
+          opacity: 0.85,
+          depthTest: false,
+        }),
+      );
+      guide.renderOrder = 5;
+      guide.userData.construction = true;
+      g.add(guide);
+      g.traverse((o) => {
+        if (o instanceof THREE.Mesh) {
+          const m = o.material as THREE.MeshPhysicalMaterial;
+          o.userData.restOpacity = m.opacity;
+          o.userData.restTransparent = m.transparent;
+        }
+      });
+      const fade = v.geometry?.kind === 'mesh' || isProfile(v);
+      if (!fade) g.scale.y = 0.002;
+      constructions.set(v.id, {
+        group: g,
+        guide,
+        start: performance.now() + Math.min(index * 60, 180),
+        fade,
+      });
+      container.dataset.constructionActive = 'true';
+      container.dataset.constructionPhase = 'footprint';
+    };
     let dragging = false;
     transform.addEventListener('dragging-changed', (event) => {
       dragging = Boolean(event.value);
@@ -153,6 +259,7 @@ export default function Viewport(props: Props) {
     let pointerStart = { x: 0, y: 0 };
     let usedHandle = false;
     const down = (event: PointerEvent) => {
+      finishConstruction();
       pointerStart = { x: event.clientX, y: event.clientY };
       usedHandle = Boolean(transform.axis);
     };
@@ -253,6 +360,9 @@ export default function Viewport(props: Props) {
       objects,
       signatures: new Map(),
       fit,
+      beginConstruction,
+      finishConstruction,
+      motionRevision: 0,
     };
     const resize = new ResizeObserver(() => {
       const { width, height } = container.getBoundingClientRect();
@@ -303,6 +413,36 @@ export default function Viewport(props: Props) {
         );
         if (t === 1) transition = null;
       }
+      for (const [id, c] of constructions) {
+        const frame = constructionFrame(performance.now() - c.start);
+        if (frame.done) {
+          finishOne(id);
+          publishCamera();
+          continue;
+        }
+        c.guide.geometry.setDrawRange(
+          0,
+          Math.ceil(
+            frame.trace * c.guide.geometry.getAttribute('position').count,
+          ),
+        );
+        (c.guide.material as THREE.LineBasicMaterial).opacity =
+          frame.guideOpacity;
+        if (c.fade)
+          c.group.traverse((o) => {
+            if (o instanceof THREE.Mesh) {
+              const m = o.material as THREE.MeshPhysicalMaterial;
+              if (!m.transparent) m.needsUpdate = true;
+              m.transparent = true;
+              m.opacity = (o.userData.restOpacity ?? 1) * frame.opacity;
+            }
+          });
+        else c.group.scale.y = frame.height;
+        container.dataset.constructionPhase = frame.phase;
+        container.dataset.constructionProgress = String(frame.height);
+      }
+      container.dataset.constructionActive = String(constructions.size > 0);
+      if (!constructions.size) container.dataset.constructionPhase = 'complete';
       orbit.update();
       renderer.render(scene, camera);
       if (renderer.info.render.triangles > 0)
@@ -319,6 +459,7 @@ export default function Viewport(props: Props) {
     renderer.domElement.addEventListener('webglcontextlost', lost);
     return () => {
       cancelAnimationFrame(frame);
+      finishConstruction();
       resize.disconnect();
       renderer.domElement.removeEventListener('pointerdown', down);
       renderer.domElement.removeEventListener('pointerup', up);
@@ -335,6 +476,7 @@ export default function Viewport(props: Props) {
   useEffect(() => {
     const r = runtime.current;
     if (!r) return;
+    r.finishConstruction();
     let cancelled = false;
     const built = new Map<string, THREE.Group>();
     async function rebuild() {
@@ -394,14 +536,16 @@ export default function Viewport(props: Props) {
                 part.geometry,
                 new THREE.MeshPhysicalMaterial({
                   color: glass ? '#8dc9d2' : frame ? '#38464e' : '#d8d9d4',
-                  roughness: glass ? 0.13 : frame ? 0.4 : 0.7,
-                  metalness: frame ? 0.5 : 0.02,
+                  roughness: glass ? 0.13 : frame ? 0.4 : 0.32,
+                  metalness: frame ? 0.5 : 0.08,
                   transparent: glass,
                   opacity: glass ? 0.32 : 1,
                   depthWrite: !glass,
                   side:
-                    isProfile(v) || glass ? THREE.DoubleSide : THREE.FrontSide,
-                  clearcoat: glass ? 1 : 0,
+                    isProfile(v) || glass || part.material === 'reference'
+                      ? THREE.DoubleSide
+                      : THREE.FrontSide,
+                  clearcoat: glass ? 1 : 0.3,
                   envMapIntensity: glass ? 1.4 : 0.35,
                 }),
               );
@@ -460,14 +604,28 @@ export default function Viewport(props: Props) {
                     ? '#38464e'
                     : selected
                       ? '#c0dfdf'
-                      : '#d8d9d4',
+                      : '#e2e7e6',
               );
               material.emissive.set(selected ? '#183033' : '#000000');
-              material.emissiveIntensity = 0.15;
+              material.emissiveIntensity = selected ? 0.2 : 0;
+              if (kind !== 'glass') {
+                if (material.transparent !== (props.renderMode === 'outline'))
+                  material.needsUpdate = true;
+                material.transparent = props.renderMode === 'outline';
+                material.opacity = props.renderMode === 'outline' ? 0.055 : 1;
+                material.depthWrite = props.renderMode !== 'outline';
+              }
             } else if (o instanceof THREE.LineSegments) {
               const material = o.material as THREE.LineBasicMaterial;
               material.color.set(selected ? '#8de2e7' : '#d6e0e2');
-              material.opacity = selected ? 0.5 : 0.12;
+              material.opacity =
+                props.renderMode === 'outline'
+                  ? selected
+                    ? 0.9
+                    : 0.6
+                  : selected
+                    ? 0.4
+                    : 0.08;
             }
           });
         }
@@ -480,11 +638,20 @@ export default function Viewport(props: Props) {
         r!.transform.setTranslationSnap(props.snap ? 0.5 : null);
         r!.transform.setRotationSnap(props.snap ? Math.PI / 12 : null);
         host.current!.dataset.modelObjects = String(r!.objects.size);
+        host.current!.dataset.renderMode = props.renderMode;
         host.current!.dataset.meshBuilds = String(
           Number(host.current!.dataset.meshBuilds || 0) + built.size,
         );
         if ((!hadObjects || added) && r!.objects.size)
           r!.fit(props.view.mode === 'top');
+        if (r!.motionRevision !== props.motion.revision) {
+          r!.motionRevision = props.motion.revision;
+          props.motion.ids.forEach((id, i) => {
+            const v = props.project.volumes.find((o) => o.id === id),
+              g = r!.objects.get(id);
+            if (v && g) r!.beginConstruction(v, g, i);
+          });
+        }
         setError('');
         r!.orbit.dispatchEvent({ type: 'change' });
       } catch (e) {
@@ -499,7 +666,7 @@ export default function Viewport(props: Props) {
     return () => {
       cancelled = true;
     };
-  }, [props.project, props.tool, props.snap]);
+  }, [props.project, props.tool, props.snap, props.renderMode, props.motion]);
   useEffect(() => {
     runtime.current?.fit(props.view.mode === 'top');
   }, [props.view]);

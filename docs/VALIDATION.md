@@ -4,8 +4,8 @@ Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 1
 
 ## Passed
 
-- **68 unit/integration tests** across model compatibility, structured plan validation, camera-relative directions, engine execution, Manifold geometry, history persistence, API access protection and actual SDK request/response contracts. Hosting checks verify trusted HTTPS origin configuration behind a proxy, secure login cookies, foreign-origin rejection and authenticated voice-session routing using an explicit provider double. Provider error tests verify actionable billing/key/configuration messages without exposing upstream errors.
-- **16 Chromium tests against the production Node server:** rendering/orbit/top view, collapsible inspector, legacy-data preservation, exact editing, profiles/extrusion, raycast selection, conversational UI execution using explicit model-response fixtures, destructive review/stale-plan protection, export/import, translation handles, missing-credential behavior, editable wall openings through reload and undo, and session-import timeline preservation with a receiving-session backup. The suite also requests the real `/healthz`, `/api/config` and `/api/plan` routes to verify the combined server and honest missing-key behavior.
+- **75 unit/integration tests** across model compatibility, structured plan validation, camera-relative directions, engine execution, Manifold geometry, history persistence, mesh imports, motion timing, API access protection and actual SDK request/response contracts. Hosting checks verify trusted HTTPS origin configuration behind a proxy, secure login cookies, foreign-origin rejection and authenticated voice-session routing using an explicit provider double. Provider error tests verify actionable billing/key/configuration messages without exposing upstream errors.
+- **22 Chromium scenarios against the production Node server**, covered by the regression suite and focused reruns: rendering/orbit/top view, collapsible inspector, legacy-data preservation, exact editing, profiles/extrusion, raycast selection, conversational UI execution using explicit model-response fixtures, destructive review/stale-plan protection, export/import, translation handles, missing-credential behavior, editable wall openings through reload and undo, session-import timeline preservation, OBJ/STL/GLB imports, reference surfaces, creation motion, reduced-motion and storage-budget protection. The suite also requests the real `/healthz`, `/api/config` and `/api/plan` routes to verify the combined server and honest missing-key behavior.
 - **TypeScript check and production build**, including the packaged Manifold WASM asset.
 - **Static Pages smoke test** at `/atelier/`: JS/CSS/WASM paths, actual mesh rendering, direct exact editing, reload persistence and honest disconnected AI/disabled voice state. The expected unavailable `/api/config` endpoint on a static site is explicitly distinguished from failed asset requests.
 - **Application-server startup:** both development and production services returned ATELIER HTML and `/api/config`. Without a credential, `/api/config` reported `configured:false` and `voiceConfigured:false`; `/api/plan` returned HTTP 503 with a configuration explanation.
@@ -54,6 +54,24 @@ The browser regression run passed 15 cases; its former stale-review fixture requ
 
 The full saved conversation (up to 80 messages) is scrollable; the last 20 bounded messages are sent as model history. Newly generated/resized solids are checked before an atomic commit. Destructive reviews store a checked candidate result and require an unchanged session before installation.
 
+## Studio and mesh import milestone — October 16, 2026
+
+OBJ cube import measures 24 m³ and a genuine subtraction leaves 12 m³. ASCII/binary STL tests cover units and Z-up conversion. Embedded GLB tests bake mirrored transforms while preserving closed topology. External buffers, invalid geometry and unsupported GPU instancing are rejected; external texture URLs are stripped without a network request. Open OBJ triangles render as references, remain transformable and persist through undo; their solid volume is explicitly unavailable. Planner context includes reference status while excluding vertex/index arrays, and passes the actual server request schema.
+
+The browser tests use real file inputs and a file-drop event. They verify existing objects are unchanged, dimensions/solid volume survive reload, import is undoable, file-unit choices work, bad imports are atomic, references remain editable, and the import dialog fits a 390-pixel viewport. A history-bearing session above the conservative import save budget rejects an additional mesh without changing the saved session. That fixture stays within the supported 50-snapshot history limit.
+
+Construction tests observe footprint/extrusion/completion phases and verify that final dimensions and undo counts never contain intermediate animation values. Restore and reduced-motion checks show final geometry without replaying creation. A pixel-level browser check verifies that Outline actually darkens surface interiors while leaving the model unchanged. Visual inspection found that toggling Three.js transparency needed a shader refresh; this was fixed and the pixel check passed. Screenshots were inspected from the actual application, not generated mockups.
+
+The local full browser regression passed 20 of 21 cases initially. Its export/import test used Playwright's extensionless temporary download path, which the new format-aware importer correctly rejected. The fixture now uses the real exported `.json` filename. The corrected JSON case and the five initial import/motion cases passed on the final application build; the additional storage-budget case then passed separately. Together these cover all 22 current scenarios. No paid provider request was made.
+
+![Studio workspace](atelier-studio.png)
+
+![Actual outline rendering](atelier-outline.png)
+
+![Geometry import with explicit units](atelier-import.png)
+
+See the [requirement audit](PHASE2-AUDIT.md) for the complete original Phase 2 checklist and remaining roadmap work.
+
 ## Not verified live
 
 During initial setup, `npm run test:live-ai` exited **2**, explicitly reporting that `ATELIER_OPENAI_API_KEY` was absent. These tests do **not** establish arbitrary language understanding, live pronoun/spatial disambiguation quality, or bilingual quality. See the subsequent live API diagnosis below.
@@ -90,7 +108,7 @@ A genuine Manifold wall cut with editable opening dimensions:
 
 ## Practical limits
 
-Vite builds successfully with its size advisory (approximately 1 MB application JavaScript before compression, plus approximately 541 kB WASM). Manifold's conditional Node-only module is externalized in the browser build; the production browser tests exercised the browser path successfully. Large-model performance, Safari/mobile behavior, multi-user hosting and exact analytic CAD/BIM exports are not certified. Terrain/site workflows remain on the roadmap.
+Vite builds successfully with its size advisory (approximately 1.16 MB application JavaScript before compression, 320 kB compressed, plus approximately 541 kB WASM). Manifold's conditional Node-only module is externalized in the browser build; the production browser tests exercised the browser path successfully. Large-model performance, Safari/mobile behavior, multi-user hosting and exact analytic CAD/BIM exports are not certified. Terrain/site workflows remain on the roadmap.
 
 Local test results alone do not establish a public deployment, GitHub Actions execution, new cloud snapshot or live AI/voice session. The existing Phase 1 `main` branch is preserved while Phase 2 is prepared on its feature branch.
 

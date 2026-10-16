@@ -1,7 +1,9 @@
+import type { MeshRecipe } from './imports/mesh';
 import { validateRecipe } from './geometry/kernel';
 export type Vec3 = { x: number; y: number; z: number };
 export type Dimensions = { width: number; depth: number; height: number };
 export type GeometryRecipe =
+  | MeshRecipe
   | { kind: 'box' | 'cylinder' | 'sphere' | 'rectangle' | 'circle' }
   | { kind: 'extrusion'; profile: 'rectangle' | 'circle' }
   | { kind: 'polygon'; points: { x: number; z: number }[]; extruded: boolean }
@@ -55,11 +57,14 @@ export function validateVolume(v: Volume, checkGeometry = true): void {
     !['width', 'depth', 'height'].every(
       (k) =>
         Number.isFinite(v.dimensions[k as keyof Dimensions]) &&
-        v.dimensions[k as keyof Dimensions] >= 0.1 &&
+        v.dimensions[k as keyof Dimensions] >=
+          (v.geometry?.kind === 'mesh' ? 0.001 : 0.1) &&
         v.dimensions[k as keyof Dimensions] <= 500,
     )
   )
-    throw new Error('Dimensions must be between 0.1 and 500 meters.');
+    throw new Error(
+      `Dimensions must be between ${v.geometry?.kind === 'mesh' ? '0.001' : '0.1'} and 500 meters.`,
+    );
   if (
     !v.position ||
     !['x', 'y', 'z'].every(

@@ -3,6 +3,7 @@ import type { Dimensions, GeometryRecipe, Vec3, Volume } from '../model';
 import { validateVolume } from '../model';
 import { isFlat } from './spatial';
 import { validatePolygon } from './polygon';
+import { validateMesh, isReference } from '../imports/mesh';
 import { buildingParts } from './architecture';
 let wasmUrl: string | undefined;
 let kernel: Promise<ManifoldToplevel> | undefined;
@@ -39,6 +40,7 @@ export function validateRecipe(
       'boolean',
       'building',
       'polygon',
+      'mesh',
     ].includes(recipe.kind)
   )
     throw new Error('Unsupported geometry type.');
@@ -47,6 +49,7 @@ export function validateRecipe(
     !['rectangle', 'circle'].includes(recipe.profile)
   )
     throw new Error('Unsupported extrusion profile.');
+  if (recipe.kind === 'mesh') validateMesh(recipe);
   if (recipe.kind === 'polygon') {
     validatePolygon(recipe.points);
     if (
@@ -133,7 +136,22 @@ function evaluated(
   const d = v.dimensions;
   const g = v.geometry;
   let solid: Manifold;
-  if (g?.kind === 'building') {
+  if (g?.kind === 'mesh') {
+    if (!g.solid)
+      throw new Error(
+        'This imported surface is a reference mesh, not a closed solid. It can be moved, rotated or resized; solid cuts require a watertight mesh.',
+      );
+    solid = keep(
+      new m.Manifold(
+        new m.Mesh({
+          numProp: 3,
+          vertProperties: new Float32Array(g.positions),
+          triVerts: new Uint32Array(g.indices),
+        }),
+      ),
+    );
+    solid = keep(solid.scale([d.width, d.height, d.depth]));
+  } else if (g?.kind === 'building') {
     const source = evaluated(m, g.source, false, allocated, depth + 1);
     const parts = buildingParts(m, source, g, keep);
     solid = keep(m.Manifold.union(parts.map((p) => p.solid)));
@@ -250,6 +268,25 @@ export async function meshData(v: Volume) {
   );
 }
 export async function renderMeshData(v: Volume) {
+  if (v.geometry?.kind === 'mesh') {
+    validateVolume(v);
+    return [
+      {
+        positions: new Float32Array(
+          v.geometry.positions.map(
+            (n, i) =>
+              n *
+              [v.dimensions.width, v.dimensions.height, v.dimensions.depth][
+                i % 3
+              ],
+          ),
+        ),
+        indices: new Uint32Array(v.geometry.indices),
+        volume: 0,
+        material: isReference(v) ? ('reference' as const) : ('solid' as const),
+      },
+    ];
+  }
   if (v.geometry?.kind !== 'building')
     return [{ ...(await meshData(v)), material: 'solid' as const }];
   validateVolume(v);

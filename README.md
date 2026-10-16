@@ -52,6 +52,10 @@ To publish the static workspace: push/merge the desired version, set **Settings 
 
 ## Use the workspace
 
+The studio update adds a quieter side conversation dock, **Studio / Outline** display, a camera-aware north compass and footprint-to-volume creation motion. Motion respects reduced-motion preferences and never changes model measurements or undo history. Click or drag the model to settle a creation immediately.
+
+**Import** accepts **OBJ, STL, self-contained GLB and ATELIER JSON**. Mesh files are added beside existing objects after units/up-axis review; JSON restores a project. Closed meshes can participate in solid operations, while open meshes remain reference surfaces. See [formats and limits](docs/IMPORTS.md) and the [complete Phase 2 requirement audit](docs/PHASE2-AUDIT.md).
+
 Start by describing what you want to design, in your own words. The AI chooses supported geometry internally and asks useful architectural questions when needed. You do not need to choose a primitive or follow the pavilion example as a template. Short answers and corrections continue the same conversation. The main screen has no shape picker or specialized building buttons; **Objects → Manual tools** and the contextual inspector preserve optional direct controls.
 
 Enter sends a message; Shift+Enter adds a line. Conversation stays visible, and successful replies lead with the intended architectural result. Expand **Measurements & changes** for the engine's actual output. The planner receives those verified measurements on later turns. The saved conversation remains scrollable (up to 80 messages). Measurement questions return actual engine results without changing geometry or consuming undo history. Questions do not change the scene, and in-flight requests do not discard a draft typed while waiting.

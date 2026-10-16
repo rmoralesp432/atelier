@@ -22,6 +22,7 @@ import {
   envelopeBounds,
   groupBounds,
 } from '../geometry/spatial';
+import { isReference } from '../imports/mesh';
 import { normalizePolygon, polygonArea } from '../geometry/polygon';
 import {
   defaultCamera,
@@ -200,6 +201,17 @@ export async function applyPlan(
     }
     if (op.type === 'measure') {
       const vs = targets(op.targets, s);
+      if (vs.some(isReference)) {
+        reports.push(
+          vs
+            .map(
+              (v) =>
+                `${v.name}: ${v.dimensions.width} × ${v.dimensions.depth} × ${v.dimensions.height} m envelope. ${isReference(v) ? 'Imported reference surface; solid volume is unavailable.' : 'Closed solid; ask about this object separately for material measurements.'}`,
+            )
+            .join('\n'),
+        );
+        continue;
+      }
       if (op.metric === 'relationship') {
         if (vs.length !== 2)
           throw new Error('Which two volumes should I compare?');
@@ -757,6 +769,7 @@ export async function applyPlan(
       const previous = beforeEdit.volumes.find((old) => old.id === v.id);
       if (
         !isProfile(v) &&
+        !isReference(v) &&
         (!previous ||
           JSON.stringify([previous.dimensions, previous.geometry]) !==
             JSON.stringify([v.dimensions, v.geometry]))

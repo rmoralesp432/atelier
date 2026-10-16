@@ -96,6 +96,7 @@ export const requestSchema = z
                   .object({
                     envelopeBounds: z.object({ min: vec, max: vec }).strict(),
                     flat: z.boolean(),
+                    reference: z.boolean().optional(),
                     footprint: z
                       .array(
                         z
