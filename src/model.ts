@@ -38,7 +38,7 @@ export type Project = {
 };
 export const STORAGE_KEY = 'atelier.project.v1';
 export const MAX_VOLUMES = 200;
-export const round = (n: number) => Math.round(n * 1000) / 1000 || 0;
+export const round = (n: number) => Math.round(n * 1000) / 1000 + 0;
 export function validateVolume(v: Volume, checkGeometry = true): void {
   if (
     typeof v.id !== 'string' ||
