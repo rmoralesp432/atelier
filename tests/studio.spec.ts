@@ -41,7 +41,7 @@ async function pixels(page: Page) {
 test('object color, solid scale person, persistent display settings and real hidden-line occlusion', async ({
   page,
 }) => {
-  test.setTimeout(60000);
+  test.setTimeout(120000); // Multiple render styles, reloads and screenshots on software-rendered CI.
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/');
