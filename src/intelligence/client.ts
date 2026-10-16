@@ -1,4 +1,4 @@
-import { parsePlan } from './plan';
+import { parsePlan, type Operation } from './plan';
 import { sceneContext, type CameraContext } from './context';
 import type { Session } from './engine';
 export type Message = {
@@ -26,7 +26,11 @@ export async function requestPlan(
   camera: CameraContext,
   history: Message[],
   signal?: AbortSignal,
-  pendingReview?: { message: string } | null,
+  pendingReview?: {
+    message: string;
+    operations: Operation[];
+    outcome: string;
+  } | null,
 ) {
   const r = await fetch('/api/plan', {
     method: 'POST',
@@ -34,6 +38,10 @@ export async function requestPlan(
     body: JSON.stringify({
       message,
       pendingReview,
+      historyAvailability: {
+        undo: session.past.length,
+        redo: session.future.length,
+      },
       scene: sceneContext(session.project, session.context, camera),
       history: history
         .slice(-20)
@@ -60,9 +68,21 @@ export class VoiceConnection {
   private stream: MediaStream | null = null;
   private channel: RTCDataChannel | null = null;
   private audio: HTMLAudioElement | null = null;
-  private closed = false;
+  private closed = true;
+  get active() {
+    return !this.closed;
+  }
   private request: AbortController | null = null;
   private handled = new Set<string>();
+  private queue: Promise<void> = Promise.resolve();
+  private idleTimer: ReturnType<typeof setTimeout> | null = null;
+  private keepListening() {
+    if (this.idleTimer) clearTimeout(this.idleTimer);
+    this.idleTimer = setTimeout(() => {
+      this.stop();
+      this.onStatus('Voice stopped after five minutes without speech.');
+    }, 5 * 60_000);
+  }
   constructor(
     private onInstruction: (text: string) => Promise<string>,
     private onStatus: (status: string) => void,
@@ -97,9 +117,25 @@ export class VoiceConnection {
       };
       this.stream.getTracks().forEach((t) => peer.addTrack(t, this.stream!));
       const channel = (this.channel = peer.createDataChannel('oai-events'));
-      channel.onopen = () => this.onStatus('Listening');
+      channel.onopen = () => {
+        if (this.closed) return;
+        this.keepListening();
+        this.onStatus('Listening');
+      };
       channel.onmessage = (e) => {
-        void this.event(e.data);
+        // Keep speech/transport events immediate, but serialize modeling turns
+        // so a spoken follow-up sees the preceding turn's resulting scene.
+        let event;
+        try {
+          event = JSON.parse(e.data);
+        } catch {
+          return;
+        }
+        if (event.type === 'response.function_call_arguments.done') {
+          this.queue = this.queue
+            .then(() => this.event(e.data))
+            .catch(() => {});
+        } else void this.event(e.data);
       };
       peer.onconnectionstatechange = () => {
         if (
@@ -166,8 +202,10 @@ export class VoiceConnection {
         this.onStatus('Voice service error. Reconnect to continue.');
         return;
       }
-      if (e.type === 'input_audio_buffer.speech_started')
+      if (e.type === 'input_audio_buffer.speech_started') {
+        this.keepListening();
         this.onStatus('Listening');
+      }
       if (
         e.type !== 'response.function_call_arguments.done' ||
         e.name !== 'design' ||
@@ -175,6 +213,7 @@ export class VoiceConnection {
       )
         return;
       this.handled.add(e.call_id);
+      this.keepListening();
       this.onStatus('Working');
       let output: string;
       try {
@@ -207,6 +246,8 @@ export class VoiceConnection {
   }
   stop() {
     this.closed = true;
+    if (this.idleTimer) clearTimeout(this.idleTimer);
+    this.idleTimer = null;
     this.request?.abort();
     this.request = null;
     this.channel?.close();

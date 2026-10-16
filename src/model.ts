@@ -4,6 +4,7 @@ export type Dimensions = { width: number; depth: number; height: number };
 export type GeometryRecipe =
   | { kind: 'box' | 'cylinder' | 'sphere' | 'rectangle' | 'circle' }
   | { kind: 'extrusion'; profile: 'rectangle' | 'circle' }
+  | { kind: 'polygon'; points: { x: number; z: number }[]; extruded: boolean }
   | {
       kind: 'building';
       source: Volume;
@@ -37,7 +38,7 @@ export type Project = {
 };
 export const STORAGE_KEY = 'atelier.project.v1';
 export const MAX_VOLUMES = 200;
-export const round = (n: number) => Math.round(n * 1000) / 1000;
+export const round = (n: number) => Math.round(n * 1000) / 1000 || 0;
 export function validateVolume(v: Volume, checkGeometry = true): void {
   if (
     typeof v.id !== 'string' ||

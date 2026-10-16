@@ -355,12 +355,23 @@ export default function Viewport(props: Props) {
               material: string;
             }[] = [];
             if (!parts) {
-              const geometry =
-                v.geometry?.kind === 'circle'
+              const polygon =
+                v.geometry?.kind === 'polygon' ? v.geometry : null;
+              const geometry = polygon
+                ? new THREE.ShapeGeometry(
+                    new THREE.Shape(
+                      polygon.points.map((p) => new THREE.Vector2(p.x, -p.z)),
+                    ),
+                  )
+                : v.geometry?.kind === 'circle'
                   ? new THREE.CircleGeometry(1, 64)
                   : new THREE.PlaneGeometry(2, 2);
               geometry.rotateX(-Math.PI / 2);
-              geometry.scale(v.dimensions.width / 2, 1, v.dimensions.depth / 2);
+              geometry.scale(
+                v.dimensions.width / (polygon ? 1 : 2),
+                1,
+                v.dimensions.depth / (polygon ? 1 : 2),
+              );
               geometry.translate(0, 0.015, 0);
               geometries.push({ geometry, material: 'solid' });
             } else

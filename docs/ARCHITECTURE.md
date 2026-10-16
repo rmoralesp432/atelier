@@ -16,9 +16,21 @@ Model plans operate on stable IDs. Internal references `$selected`, `$focus`, `$
 
 Units are meters. X/Z is the ground plane; Y is up; project north is −Z. Camera right comes from the live Three.js camera, projected onto the ground plane. Forward is its perpendicular on that plane. View-relative directions do not silently turn into world X/Z. Visible object centers and normalized screen positions are included in model context so references such as “the building on the right” have evidence to use.
 
-Approximate translation uses 10% of the largest object dimension, with a minimum 0.25 m. Approximate enlargement uses a 1.1 scale factor; shrinkage uses 0.9. Actual resulting measurements are reported by the engine. “Next to” uses bounding extents plus a stated gap; “overlap” uses half the combined extents. Alignment currently aligns base centers along a chosen world axis. The model must ask when axis, target, subtraction order or opening placement is unclear.
+Approximate translation uses 10% of the largest object dimension, with a minimum 0.25 m. Approximate enlargement uses a 1.1 scale factor; shrinkage uses 0.9. Actual resulting measurements are reported by the engine. “Next to” uses bounding extents plus a stated gap; “overlap” uses half the combined extents. Alignment supports base centers and explicit envelope min/center/max alignment (including common roof elevations). Group yaw uses a shared envelope center or a reference volume; ordinary yaw remains per-object. Oriented-envelope projections use the direction dot local axes, avoiding inflated spacing from projecting world AABBs. Approximate group moves and arrays use a common offset; approximate spreading increases the largest existing projected gap. The model must ask when axis, target, subtraction order or opening placement is unclear.
 
 Openings cut through the wall's local Z direction. Their cutter and original wall remain in the recipe; width/height edits rebuild the solid. Arbitrary face picking, curved-wall openings and general BREP feature editing are outside this milestone.
+
+## Grounded queries and checked changes
+
+`measure` returns actual Manifold material volume/surface area or profile area. Pair queries report center distance, clearly labeled world-envelope gaps and real intersection volume. Measurements leave project, selection, context and both history stacks unchanged; selection alone does not consume an undo entry. Measurement plans display engine output directly, suppressing any model-proposed numerical summary.
+
+Scene context includes modeling envelopes, flat/solid state, normalized-footprint dimensions in meters, editable opening sizes and preserved Boolean operand identities. Read-only engine measurements enter subsequent conversation history. The planner receives actual undo/redo counts and pending review operations/outcome, not just a prose description.
+
+Destructive plans execute against a cloned session before review. Invalid plans never reach approval. The UI stores the validated result; approval installs it only if a fingerprint of the entire original session (including history and context) still matches. No second model call or geometry recomputation is needed for button approval. Unrelated scene edits invalidate the review; read-only measurement questions keep it pending. Newly created/resized recipe geometry is evaluated before commit. This is local validation, not an automatic paid model-repair loop.
+
+## Custom footprints
+
+Polygon recipes store a simple ordered boundary normalized to a centered unit envelope, plus an explicit flat/extruded flag. Incoming meter coordinates are validated for crossings, touches, repeated corners and degeneracy; imports also validate normalization. CrossSection extrusion uses the same Manifold kernel as other solids. Inverting section Z before X-axis rotation preserves asymmetric footprints. The Three.js flat shape uses the corresponding coordinate convention. Polygons participate in Booleans, proportional dimension edits, architectural slabs and existing persistence without a format migration. Direct hole lists, splines, lofts, arbitrary-axis tilts and analytic BREP remain unsupported; holes can be modeled by subtraction.
 
 ## Geometry kernel evaluation
 
@@ -28,7 +40,7 @@ Openings cut through the wall's local Z direction. Their cutter and original wal
 
 Boxes have exact rectangular dimensions. Curved primitives are tessellated (64 segments for circles/cylinders, 48 for sphere construction). Real union/subtraction/intersection meshes replace the operands in the active scene. The first operand ID survives; both original operands are stored recursively. Empty intersections and non-intersecting cuts are rejected without removing the originals. Boolean results can be transformed or resized; doing so scales the evaluated result relative to its original bounds.
 
-Current safeguards: at most 200 active objects, 20 copies per operation, 12 operations per AI plan, 10 nested recipe levels and 100 nodes per recipe. Modeling remains on the browser thread; large studies require future worker/caching work and performance profiling.
+Current safeguards: at most 64 corners per simple footprint, 200 active objects, 20 copies per operation, 12 operations per AI plan, 10 nested recipe levels and 100 nodes per recipe. Modeling remains on the browser thread; large studies require future worker/caching work and performance profiling.
 
 ## Architectural envelopes and display
 
@@ -50,7 +62,7 @@ The browser stores an optional conversational `summary` alongside the engine's a
 
 The browser requests microphone permission only after the user presses the microphone button. It creates a WebRTC offer; the backend uses OpenAI Realtime Calls to exchange SDP using the server-side key. The browser receives SDP, never a provider key. Realtime uses semantic turn detection for continuous conversation and a `design` function. That function invokes the same text planner, context and validated geometry engine. The function returns executed measurements or a clarification/review state before the voice model is instructed to describe the outcome.
 
-Stopping voice closes the peer connection and data channel and stops every microphone track. A pending destructive review can be accepted by button or explicit natural-language approval. The real planner receives the pending review description and returns a no-operation `confirm`/`cancel` intent. The client applies only the stored, unchanged reviewed plan; a missing or stale review cannot be approved. The voice model routes spoken approvals to the same planner. Actual microphone permission, media transport, spoken recognition, turn-taking and audible responses require live testing with a configured account. SDK-contract and UI tests are not proof those work.
+Spoken tool calls are serialized so follow-ups see the preceding result. Five minutes without speech ends capture; stopping discards queued calls, while an already submitted modeling request may complete. Active microphone state is separate from informational status text. Stopping voice closes the peer connection and data channel and stops every microphone track. A pending destructive review can be accepted by button or explicit natural-language approval. The real planner receives the pending review description and returns a no-operation `confirm`/`cancel` intent. The client installs only the stored, validated result of the unchanged reviewed plan; a missing or stale review cannot be approved. The voice model routes spoken approvals to the same planner. Actual microphone permission, media transport, spoken recognition, turn-taking and audible responses require live testing with a configured account. SDK-contract and UI tests are not proof those work.
 
 ## Server boundary
 

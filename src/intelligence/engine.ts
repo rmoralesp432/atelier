@@ -14,7 +14,15 @@ import {
   isProfile,
   openingScale,
   solidStats,
+  sharedVolume,
 } from '../geometry/kernel';
+import {
+  projectedExtent as extent,
+  center,
+  envelopeBounds,
+  groupBounds,
+} from '../geometry/spatial';
+import { normalizePolygon, polygonArea } from '../geometry/polygon';
 import {
   defaultCamera,
   directionVector,
@@ -60,6 +68,9 @@ export function parseSession(text: string): Session {
   };
   if (
     raw.context &&
+    (raw.context.lastOperation === null ||
+      (typeof raw.context.lastOperation === 'string' &&
+        raw.context.lastOperation.length <= 100)) &&
     ['focusIds', 'lastCreatedIds', 'lastOperands'].every(
       (k) =>
         Array.isArray(raw.context[k]) &&
@@ -134,20 +145,15 @@ function focus(s: Session, ids: string[]) {
     selectedIds: ids,
   };
 }
+function uniqueName(base: string, volumes: Volume[]) {
+  const names = new Set(volumes.map((v) => v.name));
+  let name = base.slice(0, 80),
+    n = 2;
+  while (names.has(name)) name = `${base.slice(0, 70)} (${n++})`;
+  return name;
+}
 const small = (v: Volume) =>
   round(Math.max(0.25, Math.max(...Object.values(v.dimensions)) * 0.1));
-function extent(v: Volume, d: { x: number; y: number; z: number }) {
-  const a = (v.rotation * Math.PI) / 180;
-  return (
-    Math.abs(d.x) *
-      (Math.abs(Math.cos(a)) * v.dimensions.width +
-        Math.abs(Math.sin(a)) * v.dimensions.depth) +
-    Math.abs(d.y) * (isProfile(v) ? 0 : v.dimensions.height) +
-    Math.abs(d.z) *
-      (Math.abs(Math.sin(a)) * v.dimensions.width +
-        Math.abs(Math.cos(a)) * v.dimensions.depth)
-  );
-}
 const report = (v: Volume) =>
   `${v.name}: ${round(v.dimensions.width)} × ${round(v.dimensions.depth)} × ${round(v.dimensions.height)} m; base (${round(v.position.x)}, ${round(v.position.y)}, ${round(v.position.z)}) m.`;
 export async function applyPlan(
@@ -180,13 +186,160 @@ export async function applyPlan(
         destination.push(s.project);
         s.project = source.pop()!;
       }
+      s.context.focusIds = (
+        s.project.selectedIds?.length
+          ? s.project.selectedIds
+          : s.project.selectedId
+            ? [s.project.selectedId]
+            : []
+      ).filter((id) => s.project.volumes.some((v) => v.id === id));
       reports.push(
         `${op.type === 'undo' ? 'Undid' : 'Restored'} ${op.count} change(s).`,
       );
       continue;
     }
+    if (op.type === 'measure') {
+      const vs = targets(op.targets, s);
+      if (op.metric === 'relationship') {
+        if (vs.length !== 2)
+          throw new Error('Which two volumes should I compare?');
+        const [a, b] = vs,
+          ca = center(a),
+          cb = center(b);
+        const ba = envelopeBounds(a),
+          bb = envelopeBounds(b);
+        const gaps = (['x', 'y', 'z'] as const).map((axis) =>
+          round(
+            Math.max(
+              0,
+              bb.min[axis] - ba.max[axis],
+              ba.min[axis] - bb.max[axis],
+            ),
+          ),
+        );
+        const overlap =
+          isProfile(a) || isProfile(b) ? null : await sharedVolume(a, b);
+        reports.push(
+          `${a.name} and ${b.name}: center distance ${round(Math.hypot(ca.x - cb.x, ca.y - cb.y, ca.z - cb.z))} m. World-envelope gaps X/Y/Z: ${gaps.join(' / ')} m (bounding-envelope distances, not nearest surface distance).${overlap === null ? ' Extrude profiles to measure shared solid volume.' : ` Shared solid volume ${round(overlap)} m³.`}`,
+        );
+      } else
+        for (const v of vs) {
+          if (isProfile(v)) {
+            const area =
+              v.geometry?.kind === 'circle'
+                ? (Math.PI * v.dimensions.width * v.dimensions.depth) / 4
+                : v.geometry?.kind === 'polygon'
+                  ? polygonArea(v.geometry.points) *
+                    v.dimensions.width *
+                    v.dimensions.depth
+                  : v.dimensions.width * v.dimensions.depth;
+            reports.push(
+              `${v.name}: profile area ${round(area)} m²; elevation ${v.position.y} m. No solid volume until extruded.`,
+            );
+          } else {
+            const stats = await solidStats(v);
+            reports.push(
+              `${report(v)} Material volume ${round(stats.volume)} m³; surface area ${round(stats.surfaceArea)} m²; lowest/highest elevation ${round(stats.bounds.min[1])} / ${round(stats.bounds.max[1])} m.${v.geometry?.kind === 'building' ? ' Material volume includes slabs, glass and frames; it is not enclosed interior volume.' : ''}`,
+            );
+          }
+        }
+      continue;
+    }
+    if (op.type === 'select') {
+      focus(s, resolveIds(op.targets, s));
+      reports.push(`Selected ${s.context.focusIds.length} object(s).`);
+      continue;
+    }
     beforeEdit ??= structuredClone(s.project);
-    if (op.type === 'create_at') {
+    if (op.type === 'footprint') {
+      if (s.project.volumes.some((v) => v.name === op.name))
+        throw new Error('Use a distinct name for the new footprint.');
+      const p = normalizePolygon(op.points);
+      const v = makeVolume(s.project.volumes.length + 1, {
+        width: p.width,
+        depth: p.depth,
+        height: op.extruded ? op.height : 0.1,
+      });
+      v.name = op.name;
+      v.geometry = { kind: 'polygon', points: p.points, extruded: op.extruded };
+      v.position = { x: op.x, y: op.y, z: op.z };
+      v.rotation = ((op.rotation % 360) + 360) % 360;
+      validateVolume(v);
+      if (op.extruded) await solidStats(v);
+      s.project.volumes.push(v);
+      s.context.lastCreatedIds = [v.id];
+      focus(s, [v.id]);
+      reports.push(
+        `${report(v)} Footprint area ${round(polygonArea(op.points))} m².`,
+      );
+    } else if (op.type === 'rename') {
+      const v = one(op.target, s);
+      const name = op.name.trim();
+      if (
+        s.project.volumes.some(
+          (other) => other.id !== v.id && other.name === name,
+        )
+      )
+        throw new Error(
+          'Another volume already has that name. Choose a distinct name.',
+        );
+      s.project = updateVolume(s.project, v.id, { name });
+      focus(s, [v.id]);
+      reports.push(`Named ${v.name} “${name}”.`);
+    } else if (op.type === 'rotate_group') {
+      const vs = targets(op.targets, s);
+      const bounds = groupBounds(vs);
+      const pivot = op.pivot
+        ? center(one(op.pivot, s))
+        : {
+            x: (bounds.min.x + bounds.max.x) / 2,
+            y: 0,
+            z: (bounds.min.z + bounds.max.z) / 2,
+          };
+      const a = (op.degrees * Math.PI) / 180;
+      for (const v of vs) {
+        const x = v.position.x - pivot.x,
+          z = v.position.z - pivot.z;
+        s.project = updateVolume(s.project, v.id, {
+          position: {
+            x: round(pivot.x + x * Math.cos(a) + z * Math.sin(a)),
+            y: v.position.y,
+            z: round(pivot.z - x * Math.sin(a) + z * Math.cos(a)),
+          },
+          rotation: round((((v.rotation + op.degrees) % 360) + 360) % 360),
+        });
+      }
+      focus(
+        s,
+        vs.map((v) => v.id),
+      );
+      reports.push(
+        `Rotated ${vs.length} volumes together ${op.degrees}° around ${op.pivot ? 'the reference volume' : 'their shared center'}; relative layout and elevations preserved.`,
+      );
+    } else if (op.type === 'align_edges') {
+      const vs = targets(op.targets, s);
+      if (vs.length < 2)
+        throw new Error('Which volumes should I align? I need at least two.');
+      const value = (v: Volume) =>
+        op.edge === 'center'
+          ? center(v)[op.axis]
+          : envelopeBounds(v)[op.edge][op.axis];
+      const reference = value(vs[0]);
+      for (const v of vs.slice(1))
+        s.project = updateVolume(s.project, v.id, {
+          position: {
+            ...v.position,
+            [op.axis]: round(v.position[op.axis] + reference - value(v)),
+          },
+        });
+      focus(
+        s,
+        vs.map((v) => v.id),
+      );
+      reports.push(
+        `Aligned ${vs.length} volumes by ${op.edge === 'max' && op.axis === 'y' ? 'top elevation' : `${op.edge} world-envelope ${op.axis.toUpperCase()}`} at ${round(reference)} m.`,
+      );
+    } else if (op.type === 'create_at') {
       if (s.project.volumes.some((v) => v.name === op.name))
         throw new Error('Use a distinct name for the new volume.');
       const v = makeVolume(s.project.volumes.length + 1, {
@@ -312,14 +465,11 @@ export async function applyPlan(
       s.context.lastCreatedIds = created.map((v) => v.id);
       focus(s, s.context.lastCreatedIds);
       reports.push(...created.map(report));
-    } else if (op.type === 'select') {
-      focus(s, resolveIds(op.targets, s));
-      reports.push(`Selected ${s.context.focusIds.length} object(s).`);
     } else if (op.type === 'move') {
       const d = directionVector(op.direction, camera);
       const vs = targets(op.targets, s);
+      const n = op.distance ?? Math.max(...vs.map(small));
       for (const v of vs) {
-        const n = op.distance ?? small(v);
         s.project = updateVolume(s.project, v.id, {
           position: {
             x: round(v.position.x + d.x * n),
@@ -373,13 +523,26 @@ export async function applyPlan(
       const vs = targets(op.targets, s);
       const d = directionVector(op.direction, camera),
         created: Volume[] = [];
+      const projections = vs.map((v) => ({
+        center: center(v).x * d.x + center(v).y * d.y + center(v).z * d.z,
+        half: extent(v, d) / 2,
+      }));
+      const step =
+        op.distance ??
+        Math.max(...projections.map((p) => p.center + p.half)) -
+          Math.min(...projections.map((p) => p.center - p.half)) +
+          2;
+      if (s.project.volumes.length + vs.length * op.count > MAX_VOLUMES)
+        throw new Error('This workspace supports up to 200 objects.');
       for (const v of vs)
         for (let i = 1; i <= op.count; i++) {
-          const step = op.distance ?? extent(v, d) + 2;
           const copy = {
             ...structuredClone(v),
             id: crypto.randomUUID(),
-            name: `${v.name.slice(0, 65)} copy ${i}`,
+            name: uniqueName(`${v.name.slice(0, 65)} copy ${i}`, [
+              ...s.project.volumes,
+              ...created,
+            ]),
             position: {
               x: round(v.position.x + d.x * step * i),
               y: round(v.position.y + d.y * step * i),
@@ -393,7 +556,7 @@ export async function applyPlan(
       s.context.lastCreatedIds = created.map((v) => v.id);
       focus(s, [...vs.map((v) => v.id), ...created.map((v) => v.id)]);
       reports.push(
-        `Created ${created.length} copies. ${op.distance === null ? 'Spacing: object extent + 2 m.' : `Center spacing: ${op.distance} m.`}`,
+        `Created ${created.length} copies. ${op.distance === null ? `Center spacing: group extent + 2 m (${round(step)} m).` : `Center spacing: ${op.distance} m.`}`,
       );
     } else if (op.type === 'spread') {
       const vs = targets(op.targets, s);
@@ -402,14 +565,32 @@ export async function applyPlan(
           'Which volumes should I spread apart? I need at least two.',
         );
       const d = directionVector(op.direction, camera);
-      const gap = op.gap ?? small(vs[0]);
+      const currentGaps = vs.slice(1).map((v, i) => {
+        const a = center(vs[i]),
+          b = center(v);
+        return (
+          (b.x - a.x) * d.x +
+          (b.y - a.y) * d.y +
+          (b.z - a.z) * d.z -
+          (extent(vs[i], d) + extent(v, d)) / 2
+        );
+      });
+      const gap =
+        op.gap ??
+        round(Math.max(0, ...currentGaps) + Math.max(...vs.map(small)));
       let offset = 0;
       for (let i = 1; i < vs.length; i++) {
         offset += (extent(vs[i - 1], d) + extent(vs[i], d)) / 2 + gap;
         s.project = updateVolume(s.project, vs[i].id, {
           position: {
             x: round(vs[0].position.x + d.x * offset),
-            y: round(vs[0].position.y + d.y * offset),
+            y: round(
+              vs[0].position.y +
+                (d.y
+                  ? vs[0].dimensions.height / 2 - vs[i].dimensions.height / 2
+                  : 0) +
+                d.y * offset,
+            ),
             z: round(vs[0].position.z + d.z * offset),
           },
         });
@@ -478,21 +659,26 @@ export async function applyPlan(
       );
     } else if (op.type === 'extrude') {
       const v = one(op.target, s);
-      if (!isProfile(v) && v.geometry?.kind !== 'extrusion')
-        throw new Error(
-          'I can extrude a rectangular or circular profile. Which profile should I use?',
-        );
+      if (
+        !isProfile(v) &&
+        v.geometry?.kind !== 'extrusion' &&
+        v.geometry?.kind !== 'polygon'
+      )
+        throw new Error('Which flat footprint should I extrude?');
       s.project = updateVolume(s.project, v.id, {
         dimensions: { ...v.dimensions, height: op.height },
-        geometry: {
-          kind: 'extrusion',
-          profile:
-            v.geometry?.kind === 'circle'
-              ? 'circle'
-              : v.geometry?.kind === 'extrusion'
-                ? v.geometry.profile
-                : 'rectangle',
-        },
+        geometry:
+          v.geometry?.kind === 'polygon'
+            ? { ...v.geometry, extruded: true }
+            : {
+                kind: 'extrusion',
+                profile:
+                  v.geometry?.kind === 'circle'
+                    ? 'circle'
+                    : v.geometry?.kind === 'extrusion'
+                      ? v.geometry.profile
+                      : 'rectangle',
+              },
       });
       focus(s, [v.id]);
       reports.push(`Extruded ${v.name} to ${op.height} m.`);
@@ -537,7 +723,13 @@ export async function applyPlan(
         cutter.dimensions.width = op.width / openingScale(v).width;
       if (op.height !== null)
         cutter.dimensions.height = op.height / openingScale(v).height;
+      const wallAngle = (base.rotation * Math.PI) / 180;
+      const localOffset =
+        (cutter.position.x - base.position.x) * Math.cos(wallAngle) -
+        (cutter.position.z - base.position.z) * Math.sin(wallAngle);
       if (
+        Math.abs(localOffset) + cutter.dimensions.width / 2 >=
+          base.dimensions.width / 2 ||
         cutter.dimensions.width >= base.dimensions.width ||
         cutter.position.y + cutter.dimensions.height >
           base.position.y + base.dimensions.height
@@ -561,6 +753,21 @@ export async function applyPlan(
     s.context.lastOperation = op.type;
   }
   if (beforeEdit) {
+    for (const v of s.project.volumes) {
+      const previous = beforeEdit.volumes.find((old) => old.id === v.id);
+      if (
+        !isProfile(v) &&
+        (!previous ||
+          JSON.stringify([previous.dimensions, previous.geometry]) !==
+            JSON.stringify([v.dimensions, v.geometry]))
+      ) {
+        const stats = await solidStats(v);
+        if (stats.volume < 0.000001)
+          throw new Error(
+            'This change leaves no solid. Your previous geometry was preserved.',
+          );
+      }
+    }
     s.past = [...s.past.slice(-49), beforeEdit];
     s.future = [];
   }

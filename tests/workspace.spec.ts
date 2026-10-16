@@ -300,6 +300,9 @@ test('clarification and stale destructive reviews preserve existing geometry', a
         ),
   );
   await ready(page);
+  // Preflight now rejects non-intersecting cuts before review. Use overlapping
+  // solids so this test specifically exercises invalidation of a valid review.
+  await importProject(page, [box('pavilion'), box('annex', 1)]);
   await say(page, 'Align these.');
   await expect(page.getByRole('log')).toContainText('which axis');
   await expect(page.locator('.object-row')).toHaveCount(2);

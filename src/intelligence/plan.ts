@@ -18,6 +18,59 @@ const distance = z.number().min(0.01).max(1000).nullable();
 export const operationSchema = z.discriminatedUnion('type', [
   z
     .object({
+      type: z.literal('measure'),
+      targets: ids,
+      metric: z.enum(['properties', 'relationship']),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('rename'),
+      target: z.string(),
+      name: z.string().min(1).max(80),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('rotate_group'),
+      targets: ids,
+      degrees: z.number().min(-3600).max(3600),
+      pivot: z.string().nullable(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('align_edges'),
+      targets: ids,
+      axis: z.enum(['x', 'y', 'z']),
+      edge: z.enum(['min', 'center', 'max']),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('footprint'),
+      name: z.string().min(1).max(80),
+      points: z
+        .array(
+          z
+            .object({
+              x: z.number().min(-500).max(500),
+              z: z.number().min(-500).max(500),
+            })
+            .strict(),
+        )
+        .min(3)
+        .max(64),
+      height: dimension,
+      extruded: z.boolean(),
+      x: z.number().min(-1000).max(1000),
+      y: z.number().min(0).max(1000),
+      z: z.number().min(-1000).max(1000),
+      rotation: z.number().min(-3600).max(3600),
+    })
+    .strict(),
+  z
+    .object({
       type: z.literal('create_at'),
       name: z.string().min(1).max(80),
       shape: z.enum(['box', 'cylinder', 'sphere', 'rectangle', 'circle']),

@@ -248,10 +248,12 @@ export default function App() {
     plan: Plan;
     fingerprint: string;
     camera: CameraContext;
+    prepared: { session: Session; message: string };
   } | null>(null);
   const pendingRef = useRef(pending);
   pendingRef.current = pending;
   const [voiceStatus, setVoiceStatus] = useState('Off');
+  const [voiceActive, setVoiceActive] = useState(false);
   const voice = useRef<VoiceConnection | null>(null);
   const [primitive, setPrimitive] = useState<
     'box' | 'cylinder' | 'sphere' | 'rectangle' | 'circle'
@@ -276,7 +278,7 @@ export default function App() {
     setProject(session.project);
     setHistoryVersion((v) => v + 1);
   };
-  const fingerprint = () => serializeProject(current.current);
+  const fingerprint = () => serializeSession(snapshot());
   const reviewName = (ref: string): string => {
     if (ref.startsWith('$name:')) return ref.slice(6);
     const ids =
@@ -337,14 +339,37 @@ export default function App() {
     setNotice({ text: result.message, error: false });
     return result.message;
   };
+  const prepareReview = async (
+    plan: Plan,
+    frame = structuredClone(camera.current),
+  ) => {
+    const before = fingerprint();
+    const prepared = await applyPlan(snapshot(), plan, frame, true);
+    if (before !== fingerprint())
+      throw new Error(
+        'The scene changed while this change was being checked. Please ask again.',
+      );
+    const item = { plan, fingerprint: before, camera: frame, prepared };
+    setPending(item);
+    return item;
+  };
+  const acceptReview = (item: NonNullable<typeof pending>) => {
+    if (item.fingerprint !== fingerprint())
+      throw new Error(
+        'Selection or geometry changed. Request this operation again.',
+      );
+    install(item.prepared.session);
+    setNotice({ text: item.prepared.message, error: false });
+    return item.prepared.message;
+  };
+  const displaySummary = (plan: Plan) =>
+    plan.operations.some((op) => op.type === 'measure')
+      ? undefined
+      : plan.message;
   const propose = async (plan: Plan) => {
     try {
       if (needsConfirmation(plan)) {
-        setPending({
-          plan,
-          fingerprint: fingerprint(),
-          camera: structuredClone(camera.current),
-        });
+        await prepareReview(plan);
         return;
       }
       const message = await execute(plan);
@@ -371,7 +396,13 @@ export default function App() {
         frame,
         history,
         AbortSignal.timeout(60_000),
-        reviewing ? { message: reviewing.plan.message } : null,
+        reviewing
+          ? {
+              message: reviewing.plan.message,
+              operations: reviewing.plan.operations,
+              outcome: reviewing.prepared.message.slice(0, 16000),
+            }
+          : null,
       );
       if (before !== fingerprint())
         throw new Error(
@@ -396,24 +427,27 @@ export default function App() {
         const message =
           plan.intent === 'cancel'
             ? 'Change cancelled. Geometry was preserved.'
-            : await execute(reviewing.plan, true, reviewing.camera);
+            : acceptReview(reviewing);
         remember(
           'assistant',
           message,
-          plan.intent === 'confirm' ? reviewing.plan.message : undefined,
+          plan.intent === 'confirm'
+            ? displaySummary(reviewing.plan)
+            : undefined,
         );
         return message;
       }
-      setPending(null);
+      if (!plan.operations.every((op) => op.type === 'measure'))
+        setPending(null);
       if (needsConfirmation(plan)) {
-        setPending({ plan, fingerprint: before, camera: frame });
+        await prepareReview(plan, frame);
         const message =
           plan.message + ' Shall I go ahead? You can answer here or by voice.';
         remember('assistant', message);
         return message;
       }
       const result = await execute(plan, false, frame);
-      remember('assistant', result, plan.message);
+      remember('assistant', result, displaySummary(plan));
       return result;
     } catch (e) {
       const message = e instanceof Error ? e.message : 'The request failed.';
@@ -1017,7 +1051,7 @@ export default function App() {
                 role="log"
                 aria-label="Design conversation"
               >
-                {messages.slice(-8).map((m, i) => (
+                {messages.map((m, i) => (
                   <div className={`chat-message ${m.role}`} key={i}>
                     <span>{m.role === 'user' ? 'You' : 'Atelier'}</span>
                     <ConversationReply message={m} />
@@ -1041,11 +1075,16 @@ export default function App() {
                 <p>
                   {pending.plan.operations.flatMap(reviewDescription).join(' ')}
                 </p>
+                <details className="conversation-measurements">
+                  <summary>Checked result · not applied yet</summary>
+                  <p>{pending.prepared.message}</p>
+                </details>
                 <p className="review-answer-hint">
                   Reply naturally to approve, cancel, or adjust it.
                 </p>
                 <div>
                   <button
+                    disabled={busy}
                     onClick={async () => {
                       const item = pending;
                       if (item.fingerprint !== fingerprint()) {
@@ -1058,12 +1097,12 @@ export default function App() {
                       }
                       setPending(null);
                       try {
-                        const result = await execute(
-                          item.plan,
-                          true,
-                          item.camera,
+                        const result = acceptReview(item);
+                        remember(
+                          'assistant',
+                          result,
+                          displaySummary(item.plan),
                         );
-                        remember('assistant', result, item.plan.message);
                       } catch (e) {
                         reportError(e);
                       }
@@ -1072,6 +1111,7 @@ export default function App() {
                     Apply change
                   </button>
                   <button
+                    disabled={busy}
                     onClick={() => {
                       setPending(null);
                       remember(
@@ -1117,9 +1157,9 @@ export default function App() {
               />
               <button
                 type="button"
-                className={voiceStatus !== 'Off' ? 'mic-active' : ''}
+                className={voiceActive ? 'mic-active' : ''}
                 aria-label={
-                  voiceStatus === 'Off'
+                  !voiceActive
                     ? 'Start voice conversation'
                     : 'Stop voice conversation'
                 }
@@ -1140,7 +1180,12 @@ export default function App() {
                   }
                   const v = new VoiceConnection(
                     (text) => sendRef.current(text),
-                    setVoiceStatus,
+                    (status) => {
+                      setVoiceStatus(status);
+                      setVoiceActive(v.active);
+                      if (!v.active && voice.current === v)
+                        voice.current = null;
+                    },
                   );
                   voice.current = v;
                   try {
@@ -1151,11 +1196,7 @@ export default function App() {
                   }
                 }}
               >
-                {voiceStatus === 'Off' ? (
-                  <Mic size={18} />
-                ) : (
-                  <MicOff size={18} />
-                )}
+                {!voiceActive ? <Mic size={18} /> : <MicOff size={18} />}
               </button>
               <button
                 type="submit"

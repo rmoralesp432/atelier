@@ -1,7 +1,12 @@
 import OpenAI from 'openai';
 import { z } from 'zod';
-import { parsePlan, planJsonSchema, type Plan } from '../src/intelligence/plan';
-import { SYSTEM_PROMPT } from '../src/intelligence/context';
+import {
+  parsePlan,
+  planJsonSchema,
+  operationSchema,
+  type Plan,
+} from '../src/intelligence/plan';
+import { SYSTEM_PROMPT, SPATIAL_PROMPT } from '../src/intelligence/context';
 const vec = z
   .object({
     x: z.number().finite(),
@@ -13,9 +18,20 @@ const refs = z.array(z.string().max(100)).max(200);
 export const requestSchema = z
   .object({
     pendingReview: z
-      .object({ message: z.string().max(4000) })
+      .object({
+        message: z.string().max(4000),
+        operations: z.array(operationSchema).max(12).optional(),
+        outcome: z.string().max(16000).optional(),
+      })
       .strict()
       .nullable()
+      .optional(),
+    historyAvailability: z
+      .object({
+        undo: z.number().int().min(0).max(50),
+        redo: z.number().int().min(0).max(50),
+      })
+      .strict()
       .optional(),
     message: z.string().min(1).max(4000),
     history: z
@@ -76,6 +92,41 @@ export const requestSchema = z
                 rotation: z.number().finite(),
                 shape: z.string().max(40),
                 opening: z.boolean(),
+                spatial: z
+                  .object({
+                    envelopeBounds: z.object({ min: vec, max: vec }).strict(),
+                    flat: z.boolean(),
+                    footprint: z
+                      .array(
+                        z
+                          .object({
+                            x: z.number().finite(),
+                            z: z.number().finite(),
+                          })
+                          .strict(),
+                      )
+                      .max(64)
+                      .nullable(),
+                    openingSize: z
+                      .object({
+                        width: z.number().finite(),
+                        height: z.number().finite(),
+                      })
+                      .strict()
+                      .nullable(),
+                    operands: z
+                      .array(
+                        z
+                          .object({
+                            id: z.string().max(100),
+                            name: z.string().max(80),
+                          })
+                          .strict(),
+                      )
+                      .max(2),
+                  })
+                  .strict()
+                  .optional(),
                 architecture: z
                   .object({
                     floors: z.number(),
@@ -115,7 +166,7 @@ export function createProvider(
         model: process.env.ATELIER_TEXT_MODEL || 'gpt-4.1',
         store: false,
         max_output_tokens: 3500,
-        instructions: SYSTEM_PROMPT,
+        instructions: SYSTEM_PROMPT + SPATIAL_PROMPT,
         input: [
           ...input.history,
           {
@@ -124,6 +175,7 @@ export function createProvider(
               instruction: input.message,
               scene: input.scene,
               pendingReview: input.pendingReview ?? null,
+              historyAvailability: input.historyAvailability ?? null,
             }),
           },
         ],

@@ -1,6 +1,8 @@
 import Module, { type Manifold, type ManifoldToplevel } from 'manifold-3d';
 import type { Dimensions, GeometryRecipe, Vec3, Volume } from '../model';
 import { validateVolume } from '../model';
+import { isFlat } from './spatial';
+import { validatePolygon } from './polygon';
 import { buildingParts } from './architecture';
 let wasmUrl: string | undefined;
 let kernel: Promise<ManifoldToplevel> | undefined;
@@ -15,8 +17,7 @@ export function getKernel() {
     return m;
   }));
 }
-export const isProfile = (v: Volume) =>
-  v.geometry?.kind === 'rectangle' || v.geometry?.kind === 'circle';
+export const isProfile = isFlat;
 export function validateRecipe(
   recipe: GeometryRecipe | undefined,
   depth = 0,
@@ -37,6 +38,7 @@ export function validateRecipe(
       'extrusion',
       'boolean',
       'building',
+      'polygon',
     ].includes(recipe.kind)
   )
     throw new Error('Unsupported geometry type.');
@@ -45,6 +47,22 @@ export function validateRecipe(
     !['rectangle', 'circle'].includes(recipe.profile)
   )
     throw new Error('Unsupported extrusion profile.');
+  if (recipe.kind === 'polygon') {
+    validatePolygon(recipe.points);
+    if (
+      typeof recipe.extruded !== 'boolean' ||
+      recipe.points.some(
+        (p) => Math.abs(p.x) > 0.500001 || Math.abs(p.z) > 0.500001,
+      ) ||
+      (['x', 'z'] as const).some(
+        (axis) =>
+          Math.abs(Math.min(...recipe.points.map((p) => p[axis])) + 0.5) >
+            1e-6 ||
+          Math.abs(Math.max(...recipe.points.map((p) => p[axis])) - 0.5) > 1e-6,
+      )
+    )
+      throw new Error('Invalid normalized footprint.');
+  }
   if (recipe.kind === 'boolean') {
     if (
       !['union', 'subtract', 'intersect'].includes(recipe.operation) ||
@@ -146,7 +164,24 @@ function evaluated(
     );
   } else if (isProfile(v))
     throw new Error('Extrude the 2D shape before applying solid operations.');
-  else if (g?.kind === 'sphere') {
+  else if (g?.kind === 'polygon') {
+    // CrossSection XY becomes world XZ after -90° X rotation; invert Z
+    // before extrusion so asymmetric footprints keep their intended side.
+    const section = new m.CrossSection(
+      [
+        g.points.map(
+          (p) => [p.x * d.width, -p.z * d.depth] as [number, number],
+        ),
+      ],
+      'EvenOdd',
+    );
+    try {
+      solid = keep(section.extrude(d.height));
+    } finally {
+      section.delete();
+    }
+    solid = keep(solid.rotate([-90, 0, 0]));
+  } else if (g?.kind === 'sphere') {
     solid = keep(m.Manifold.sphere(1, 48));
     solid = keep(solid.scale([d.width / 2, d.height / 2, d.depth / 2]));
     solid = keep(solid.translate([0, d.height / 2, 0]));
@@ -189,7 +224,7 @@ export async function withSolid<T>(
     const s = evaluated(m, v, world, allocated);
     if (s.status() !== 'NoError')
       throw new Error(`Invalid solid: ${s.status()}`);
-    return read(s);
+    return await read(s);
   } finally {
     allocated.reverse().forEach((s) => s.delete());
   }
@@ -263,6 +298,7 @@ export async function renderMeshData(v: Volume) {
 export async function solidStats(v: Volume) {
   return withSolid(v, (s) => ({
     volume: s.volume(),
+    surfaceArea: s.surfaceArea(),
     bounds: s.boundingBox(),
     triangles: s.numTri(),
     status: s.status(),
@@ -351,4 +387,19 @@ export function openingScale(v: Volume): { width: number; height: number } {
     ),
     height: v.dimensions.height / g.base.height,
   };
+}
+
+export async function sharedVolume(a: Volume, b: Volume) {
+  return withSolid(a, async (sa) =>
+    withSolid(b, (sb) => {
+      const intersection = sa.intersect(sb);
+      try {
+        if (intersection.status() !== 'NoError')
+          throw new Error('The solids could not be compared.');
+        return intersection.volume();
+      } finally {
+        intersection.delete();
+      }
+    }),
+  );
 }

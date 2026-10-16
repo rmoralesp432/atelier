@@ -144,3 +144,84 @@ it('aborts an in-flight voice session request when stopped without reporting can
   expect(b.track.stop).toHaveBeenCalledOnce();
   expect(b.peer.setRemoteDescription).not.toHaveBeenCalled();
 });
+
+it('serializes overlapping spoken turns so corrections see the preceding result', async () => {
+  const b = browser();
+  let finish!: (value: string) => void;
+  let completed = false;
+  const design = vi.fn(async (text: string) => {
+    if (text === 'First') {
+      const result = await new Promise<string>((resolve) => {
+        finish = resolve;
+      });
+      completed = true;
+      return result;
+    }
+    expect(completed).toBe(true);
+    return 'Correction applied to the previous result.';
+  });
+  const voice = new VoiceConnection(design, vi.fn());
+  await voice.start();
+  const send = (id: string, text: string) =>
+    b.channel.onmessage({
+      data: JSON.stringify({
+        type: 'response.function_call_arguments.done',
+        name: 'design',
+        call_id: id,
+        arguments: JSON.stringify({ instruction: text }),
+      }),
+    });
+  send('a', 'First');
+  send('b', 'Make it wider.');
+  await vi.waitFor(() => expect(design).toHaveBeenCalledTimes(1));
+  finish('Created.');
+  await vi.waitFor(() => expect(design).toHaveBeenCalledTimes(2));
+  expect(b.channel.send).toHaveBeenCalledTimes(4);
+  voice.stop();
+});
+it('ends idle capture and discards queued edits when stopped', async () => {
+  const b = browser(),
+    status = vi.fn();
+  let finish!: (value: string) => void;
+  const design = vi.fn(
+    () =>
+      new Promise<string>((resolve) => {
+        finish = resolve;
+      }),
+  );
+  const voice = new VoiceConnection(design, status);
+  await voice.start();
+  b.channel.onopen();
+  const send = (id: string) =>
+    b.channel.onmessage({
+      data: JSON.stringify({
+        type: 'response.function_call_arguments.done',
+        name: 'design',
+        call_id: id,
+        arguments: JSON.stringify({ instruction: 'Move it.' }),
+      }),
+    });
+  send('a');
+  send('b');
+  await vi.waitFor(() => expect(design).toHaveBeenCalledOnce());
+  voice.stop();
+  finish('Completed existing request.');
+  await new Promise((resolve) => setTimeout(resolve, 0));
+  expect(design).toHaveBeenCalledOnce();
+  expect(b.channel.send).not.toHaveBeenCalled();
+  // Separate active connection: five idle minutes release all media resources.
+  const idle = new VoiceConnection(vi.fn(), status);
+  vi.useFakeTimers();
+  try {
+    await idle.start();
+    b.channel.onopen();
+    await vi.advanceTimersByTimeAsync(5 * 60_000);
+    expect(status).toHaveBeenLastCalledWith(
+      'Voice stopped after five minutes without speech.',
+    );
+    expect(b.track.stop).toHaveBeenCalledTimes(2);
+  } finally {
+    idle.stop();
+    vi.useRealTimers();
+  }
+});
