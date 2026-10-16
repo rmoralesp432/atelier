@@ -38,6 +38,7 @@ async function ready(page: Page) {
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-model-objects',
     '2',
+    { timeout: 20000 }, // IndexedDB restoration + WASM/WebGL initialization on software-rendered CI.
   );
   await expect(page.locator('canvas')).toBeVisible();
   await page.getByText('Manual tools', { exact: true }).click();
@@ -186,6 +187,7 @@ test('direct primitives, extrusion, viewport selection and exact measurements re
 test('success sequence through UI and genuine CSG using explicit model-response fixtures (not live AI)', async ({
   page,
 }) => {
+  test.setTimeout(90000); // Seven sequential edits, real CSG and software-rendered redraws.
   let turn = 0;
   await fixture(page, (body) => {
     const objects = body.scene.objects;
@@ -280,6 +282,7 @@ test('success sequence through UI and genuine CSG using explicit model-response 
 test('clarification and stale destructive reviews preserve existing geometry', async ({
   page,
 }) => {
+  test.setTimeout(60000); // Includes initial solid construction and checked Boolean review.
   let turn = 0;
   await fixture(page, (body) =>
     turn++ === 0
