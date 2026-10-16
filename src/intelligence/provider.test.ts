@@ -41,6 +41,9 @@ it('uses the actual Responses SDK contract with strict schema, scene context and
     message: 'Could you nudge the pavilion toward the street?',
     history: [],
     scene: sceneContext(initialProject(), emptyContext(), defaultCamera),
+    pendingReview: {
+      message: 'Replace Main pavilion with two floor slabs and a roof.',
+    },
   });
   expect(plan.intent).toBe('clarify');
   expect(body.store).toBe(false);
@@ -60,6 +63,9 @@ it('uses the actual Responses SDK contract with strict schema, scene context and
     );
   }
   expect(body.input[0].content).toContain('toward the street');
+  expect(JSON.parse(body.input[0].content).pendingReview.message).toContain(
+    'two floor slabs',
+  );
 });
 it('uses the realtime Calls SDK with SDP and a tool routed into the modeling planner', async () => {
   let form: FormData | undefined;
@@ -79,4 +85,5 @@ it('uses the realtime Calls SDK with SDP and a tool routed into the modeling pla
   expect(session.audio.input.turn_detection.type).toBe('semantic_vad');
   expect(session.tools[0].name).toBe('design');
   expect(session.instructions).toContain('Never invent geometry changes');
+  expect(session.instructions).toContain('spoken answer to design');
 });

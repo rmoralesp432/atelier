@@ -91,6 +91,29 @@ function load(): { session: Session; message: string; storageSafe: boolean } {
     };
   }
 }
+function preference(key: string) {
+  try {
+    return localStorage.getItem(key) === 'true';
+  } catch {
+    return false;
+  }
+}
+function buildingEdit(
+  v: Volume,
+  patch: Partial<Extract<Operation, { type: 'building' }>> = {},
+): Operation {
+  const g = v.geometry?.kind === 'building' ? v.geometry : null;
+  return {
+    type: 'building',
+    target: v.id,
+    floors: g?.floors ?? 2,
+    slabThickness: g?.slabThickness ?? 0.25,
+    facade: g?.facade ?? true,
+    panelWidth: g?.panelWidth ?? 1.5,
+    mullionWidth: g?.mullionWidth ?? 0.06,
+    ...patch,
+  };
+}
 function loadMessages(): Message[] {
   try {
     const raw = JSON.parse(localStorage.getItem(CHAT_KEY) || '[]');
@@ -171,9 +194,23 @@ export default function App() {
   }>({ mode: 'perspective', revision: 0 });
   const [command, setCommand] = useState('');
   const [notice, setNotice] = useState({ text: boot.message, error: false });
-  const [inspectorOpen, setInspectorOpen] = useState(true);
+  const [inspectorOpen, setInspectorOpen] = useState(() =>
+    preference('atelier.ui.details'),
+  );
+  const [objectsOpen, setObjectsOpen] = useState(() =>
+    preference('atelier.ui.objects'),
+  );
+  const [createOpen, setCreateOpen] = useState(false);
+  useEffect(() => {
+    try {
+      localStorage.setItem('atelier.ui.details', String(inspectorOpen));
+      localStorage.setItem('atelier.ui.objects', String(objectsOpen));
+    } catch {
+      /* Preferences must not block modeling. */
+    }
+  }, [inspectorOpen, objectsOpen]);
   const [settingsOpen, setSettingsOpen] = useState(false);
-  const [chatExpanded, setChatExpanded] = useState(true);
+  const [chatExpanded, setChatExpanded] = useState(false);
   const [messages, setMessages] = useState<Message[]>(loadMessages);
   const log = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -195,6 +232,8 @@ export default function App() {
     fingerprint: string;
     camera: CameraContext;
   } | null>(null);
+  const pendingRef = useRef(pending);
+  pendingRef.current = pending;
   const [voiceStatus, setVoiceStatus] = useState('Off');
   const voice = useRef<VoiceConnection | null>(null);
   const [primitive, setPrimitive] = useState<
@@ -219,6 +258,7 @@ export default function App() {
   };
   const fingerprint = () => serializeProject(current.current);
   const reviewName = (ref: string): string => {
+    if (ref.startsWith('$name:')) return ref.slice(6);
     const ids =
       ref === '$operands'
         ? conversation.current.lastOperands
@@ -238,6 +278,29 @@ export default function App() {
           'previous object',
       )
       .join(', ');
+  };
+  const reviewDescription = (op: Operation): string[] => {
+    if (op.type === 'boolean') {
+      const names = op.targets.map(reviewName);
+      return [
+        op.operation === 'intersect'
+          ? `Keep only the shared solid of ${names.join(' and ')}.`
+          : op.operation === 'subtract'
+            ? `Cut ${names[1]} out of ${names[0]}.`
+            : `Join ${names.join(' and ')} into one solid.`,
+      ];
+    }
+    if (op.type === 'building')
+      return [
+        `${reviewName(op.target)}: ${op.floors} floor slabs plus a roof, ${op.slabThickness} m thick${op.facade ? `, with glazing and frames spaced at most ${op.panelWidth} m apart` : ''}.`,
+      ];
+    if (op.type === 'opening')
+      return [
+        `Cut a ${op.width} × ${op.height} m opening through ${reviewName(op.target)}.`,
+      ];
+    if (op.type === 'delete')
+      return [`Remove ${op.targets.map(reviewName).join(', ')}.`];
+    return [];
   };
   const execute = async (
     plan: Plan,
@@ -274,7 +337,7 @@ export default function App() {
     if (busyRef.current) return 'Please wait for the current edit to finish.';
     busyRef.current = true;
     setBusy(true);
-    setPending(null);
+    const reviewing = pendingRef.current;
     const before = fingerprint();
     const frame = structuredClone(camera.current);
     const history = [...messagesRef.current];
@@ -286,6 +349,7 @@ export default function App() {
         frame,
         history,
         AbortSignal.timeout(60_000),
+        reviewing ? { message: reviewing.plan.message } : null,
       );
       if (before !== fingerprint())
         throw new Error(
@@ -295,6 +359,24 @@ export default function App() {
         remember('assistant', plan.message);
         return plan.message;
       }
+      if (plan.intent === 'confirm' || plan.intent === 'cancel') {
+        if (
+          !reviewing ||
+          reviewing !== pendingRef.current ||
+          reviewing.fingerprint !== fingerprint()
+        )
+          throw new Error(
+            'There is no unchanged pending operation to confirm. Request the change again.',
+          );
+        setPending(null);
+        const message =
+          plan.intent === 'cancel'
+            ? 'Change cancelled. Geometry was preserved.'
+            : await execute(reviewing.plan, true, reviewing.camera);
+        remember('assistant', message);
+        return message;
+      }
+      setPending(null);
       if (needsConfirmation(plan)) {
         setPending({ plan, fingerprint: before, camera: frame });
         const message =
@@ -479,7 +561,7 @@ export default function App() {
   useEffect(() => {
     let active = true;
     setMeasuredVolume(null);
-    if (selected) {
+    if (selected && inspectorOpen) {
       if (isProfile(selected)) setMeasuredVolume(0);
       else
         void solidStats(selected)
@@ -493,11 +575,11 @@ export default function App() {
     return () => {
       active = false;
     };
-  }, [selected]);
+  }, [selected, inspectorOpen]);
 
   return (
     <div
-      className={`app-shell phase-two ${inspectorOpen ? '' : 'inspector-collapsed'}`}
+      className={`app-shell phase-two immersive ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
     >
       <header className="app-header">
         <a className="brand" href="./" aria-label="ATELIER home">
@@ -511,6 +593,15 @@ export default function App() {
         </div>
         <div className="header-actions">
           <button
+            className="subtle-button scene-toggle"
+            aria-label={objectsOpen ? 'Hide objects' : 'Show objects'}
+            aria-pressed={objectsOpen}
+            onClick={() => setObjectsOpen(!objectsOpen)}
+          >
+            <Layers size={16} />
+            <span>Objects</span>
+          </button>
+          <button
             className="connection-button"
             onClick={() => setSettingsOpen(true)}
           >
@@ -519,7 +610,7 @@ export default function App() {
             />
             {connectionState.configured
               ? connectionState.authenticated
-                ? 'AI configured'
+                ? 'AI settings'
                 : 'Unlock AI'
               : 'Connect AI'}
           </button>
@@ -596,7 +687,7 @@ export default function App() {
         />
       </header>
       <main className="workspace">
-        <aside className="objects-panel">
+        <aside className="objects-panel" hidden={!objectsOpen}>
           <div className="panel-caption">
             <span>PROJECT</span>
             <Layers size={14} />
@@ -766,6 +857,95 @@ export default function App() {
                 camera.current = c;
               }}
             />
+            <div className="creation-dock">
+              <button
+                className={createOpen ? 'active' : ''}
+                aria-label="Add a shape"
+                aria-expanded={createOpen}
+                onClick={() => setCreateOpen(!createOpen)}
+              >
+                <Plus size={18} />
+                <span>Add</span>
+              </button>
+              {createOpen && (
+                <div
+                  className="shape-menu"
+                  role="group"
+                  aria-label="Add a shape"
+                >
+                  {(
+                    [
+                      'box',
+                      'cylinder',
+                      'sphere',
+                      'rectangle',
+                      'circle',
+                    ] as const
+                  ).map((shape) => (
+                    <button
+                      key={shape}
+                      onClick={() => {
+                        setCreateOpen(false);
+                        void propose(
+                          directPlan({
+                            type: 'create',
+                            shape,
+                            width: 12,
+                            depth: ['sphere', 'cylinder', 'circle'].includes(
+                              shape,
+                            )
+                              ? 12
+                              : 8,
+                            height: shape === 'sphere' ? 12 : 6,
+                            count: 1,
+                          }),
+                        );
+                      }}
+                    >
+                      <Box size={17} />
+                      {shape === 'box'
+                        ? 'Volume'
+                        : shape[0].toUpperCase() + shape.slice(1)}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+            {selected && (
+              <div className="selection-chip">
+                <button
+                  className="selection-summary"
+                  onClick={() => setInspectorOpen(!inspectorOpen)}
+                  aria-label="Edit selected dimensions"
+                >
+                  <span>{selected.name}</span>
+                  <strong>
+                    {selected.dimensions.width} × {selected.dimensions.depth} ×{' '}
+                    {selected.dimensions.height} <small>m</small>
+                  </strong>
+                  {selected.position.y > 0 && (
+                    <small>Raised {selected.position.y} m</small>
+                  )}
+                </button>
+                {!isProfile(selected) && (
+                  <button
+                    className="architecture-action"
+                    aria-label="Create floors and curtain wall"
+                    title="Floors and glazing"
+                    onClick={() =>
+                      void propose({
+                        intent: 'apply',
+                        message: `${selected.geometry?.kind === 'building' ? 'Update the existing floors and curtain wall' : 'Create two floor slabs and a roof with a curtain wall'} inside ${selected.name}, preserving its height and elevation.`,
+                        operations: [buildingEdit(selected)],
+                      })
+                    }
+                  >
+                    <Layers size={17} />
+                    <span>Floors & glass</span>
+                  </button>
+                )}
+              </div>
+            )}
             <div
               className="tool-palette"
               role="toolbar"
@@ -841,12 +1021,26 @@ export default function App() {
                 onClick={() => setChatExpanded(!chatExpanded)}
               >
                 <Sparkles size={14} />
-                Atelier<span>{busy ? 'Thinking…' : 'Conversation'}</span>
+                Atelier
+                <span>
+                  {busy
+                    ? 'Thinking…'
+                    : chatExpanded
+                      ? 'Close conversation'
+                      : 'Conversation'}
+                </span>
               </button>
               <span className="voice-status">
                 {voiceStatus !== 'Off' ? voiceStatus : ''}
               </span>
             </div>
+            {!chatExpanded &&
+              messages.at(-1)?.role === 'assistant' &&
+              !pending && (
+                <p className="conversation-latest">
+                  {messages.at(-1)?.content}
+                </p>
+              )}
             {chatExpanded && messages.length > 0 && (
               <div
                 ref={log}
@@ -871,13 +1065,7 @@ export default function App() {
                 <strong>Review change</strong>
                 <p>{pending.plan.message}</p>
                 <p>
-                  {pending.plan.operations
-                    .map((op) =>
-                      op.type === 'boolean'
-                        ? `${op.operation}: ${op.targets.map((id) => reviewName(id)).join(' → ')}`
-                        : op.type,
-                    )
-                    .join('; ')}
+                  {pending.plan.operations.flatMap(reviewDescription).join(' ')}
                 </p>
                 <span>Original operands and undo history are preserved.</span>
                 <div>
@@ -936,7 +1124,7 @@ export default function App() {
                 aria-label="Message Atelier"
                 value={command}
                 onChange={(e) => setCommand(e.target.value)}
-                placeholder="Describe what you want to create or change…"
+                placeholder="What would you like to create?"
                 autoComplete="off"
                 maxLength={4000}
               />
@@ -1105,6 +1293,51 @@ export default function App() {
                   }
                 />
               </div>
+              {selected.geometry?.kind === 'building' && (
+                <div className="inspector-section architecture-fields">
+                  <div className="section-heading">
+                    <h2>Floors & glass</h2>
+                  </div>
+                  <NumericField
+                    label="Floors"
+                    value={selected.geometry.floors}
+                    min={1}
+                    max={30}
+                    unit=""
+                    onChange={(floors) =>
+                      void propose(
+                        directPlan(buildingEdit(selected, { floors })),
+                      )
+                    }
+                  />
+                  <NumericField
+                    label="Slab thickness"
+                    value={selected.geometry.slabThickness}
+                    min={0.1}
+                    max={1}
+                    onChange={(slabThickness) =>
+                      void propose(
+                        directPlan(buildingEdit(selected, { slabThickness })),
+                      )
+                    }
+                  />
+                  <NumericField
+                    label="Panel width"
+                    value={selected.geometry.panelWidth}
+                    min={0.5}
+                    max={10}
+                    onChange={(panelWidth) =>
+                      void propose(
+                        directPlan(buildingEdit(selected, { panelWidth })),
+                      )
+                    }
+                  />
+                  <p className="field-note">
+                    Floor slabs plus a roof. The original envelope stays
+                    editable.
+                  </p>
+                </div>
+              )}
               {isProfile(selected) && (
                 <div className="selection-actions">
                   <button
@@ -1267,9 +1500,6 @@ export default function App() {
             <Redo2 size={14} />
           </button>
           <span className="footer-divider">|</span>
-          <span>Y UP</span>
-          <span>WEBGL</span>
-          <Maximize size={12} />
         </div>
       </footer>
       {settingsOpen && (

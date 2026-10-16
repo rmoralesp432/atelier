@@ -2,11 +2,13 @@
 
 An architectural modeling workspace built with React, TypeScript, Three.js and the Manifold solid kernel. Natural conversation is the primary input: a real model proposes structured edits, the geometry engine validates them, and the workspace reports actual resulting measurements.
 
-**Current verification:** direct modeling, geometry operations, persistence and the conversation UI contract have automated coverage. Live natural-language understanding and continuous microphone conversation require a provider credential and have **not** been verified in this cloud session. No keyword fallback pretends to be AI.
+**Current verification:** direct modeling, geometry operations, persistence and the conversation UI contract have automated coverage. The existing Render credential reaches OpenAI, but the latest live request returned **credit_balance_exhausted**. End-to-end natural-language modeling and continuous microphone conversation remain unverified until API billing is funded. No keyword fallback pretends to be AI.
 
 ## Run the application
 
-**Use it entirely from your browser:** follow [Activate AI and voice on Render](docs/HOSTING.md). The included blueprint hosts the app and private backend together over HTTPS; you only need a hosting account and an OpenAI API key. Export your current project before changing website addresses.
+**Existing application:** https://atelier-emxi.onrender.com. Future tested updates use this same service and address; do not create another Render service or API key just to update the app.
+
+**For a new installation only:** follow [Activate AI and voice on Render](docs/HOSTING.md). The included blueprint hosts the app and private backend together over HTTPS; you only need a hosting account and an OpenAI API key. Export your current project before changing website addresses.
 
 Use Node.js 24 and npm. All code, server integration, tests and setup scripts are in this repository.
 
@@ -46,20 +48,26 @@ This Codex Cloud onboarding session does not provide a public web preview. A clo
 
 GitHub Pages can still host the **static modeling workspace**, including the bundled WASM geometry engine. The existing manual **Deploy ATELIER to Pages** workflow builds and tests the `/atelier/` path before publishing. Pages cannot run the credential-holding API server, so real AI and voice require the Node deployment described above. No secret should be placed in a Pages build. The app shows its disconnected state honestly when no backend is available.
 
-To publish the static workspace: push/merge the desired version, set **Settings → Pages → Source → GitHub Actions**, then run **Actions → Deploy ATELIER to Pages**. Open GitHub's reported deployment URL after success. The workflow is manual; adding code does not itself publish a site. No Phase 2 deployment has been verified here.
+To publish the static workspace: push/merge the desired version, set **Settings → Pages → Source → GitHub Actions**, then run **Actions → Deploy ATELIER to Pages**. Open GitHub's reported deployment URL after success. The workflow is manual; adding code does not itself publish a site. A Phase 2 **Pages** deployment has not been verified; the existing full application uses Render.
 
 ## Use the workspace
 
 - Describe what you want in the conversational input: for example, “Create two boxes,” “Move the second one to the right,” or “Make it taller.” These requests go to the real configured model; users do not need to learn a command syntax.
 - Select objects in the viewport or scene list. Shift-click adds objects to a group. The selected object and conversation context are sent with each request.
-- Left-drag to orbit, right-drag to pan, scroll to zoom. **F** frames the scene. **G** activates translation handles, **R** yaw handles, and **V** selection. The inspector remains available for exact measurements and can be collapsed.
+- Left-drag to orbit, right-drag to pan, scroll to zoom. **F** frames the scene. **G** activates translation handles, **R** yaw handles, and **V** selection. The viewport fills the workspace. Open **Objects** when needed; click the selected dimensions or the inspector icon for exact measurements. Both panels stay collapsed by default. Camera framing animates smoothly; selection and transforms reuse unchanged meshes.
 - Approximate moves use 10% of the object's largest dimension (minimum 0.25 m). Approximate enlargement normally adds 10%. The engine reports the actual distance or dimension. Camera-relative left/right differs from project north (−Z).
 - Create boxes, cylinders, spheres, rectangle/circle profiles from the primitive controls. Extrude a profile into a solid. Select two solids in order to expose union, subtraction and intersection. For subtraction the first selection is the retained base and the second is the cutter.
 - Destructive AI operations and Booleans show a review. Clarification questions do not change geometry. Empty/invalid Boolean results leave original objects intact. Operands remain in the result recipe and can be restored with undo.
 - Use Ctrl/⌘ Z to undo, Ctrl/⌘ Shift Z to redo, Ctrl/⌘ D to duplicate and Delete to remove the selected object. Direct delete remains immediately undoable. Ctrl/⌘ K focuses the conversation.
 - Version-1 projects migrate into a new version-2 session without overwriting the old local-storage key. Up to 50 modeling snapshots persist across reloads. Export JSON to back up the model and its recipes/history; import accepts old projects and new sessions. Local storage is per-browser/per-origin and is not a cloud account backup.
 
-For continuous voice, configure the backend, open the application over HTTPS, unlock it if prompted, press the microphone and allow microphone permission. The application uses WebRTC and the Realtime API with semantic turn detection. Voice invokes the same planner and geometry engine as text. Stop the microphone to end the connection and release capture. Review confirmations still happen in the workspace. Actual spoken behavior is unverified until tested with a configured account and a real microphone.
+For continuous voice, configure the backend, open the application over HTTPS, unlock it if prompted, press the microphone and allow microphone permission. The application uses WebRTC and the Realtime API with semantic turn detection. Voice invokes the same planner and geometry engine as text. Stop the microphone to end the connection and release capture. Reviews can be accepted with the **Apply change** button or an explicit conversational approval through the same planner. Spoken confirmation routing and microphone cleanup are covered by transport doubles; this does not establish successful live audio. Actual spoken behavior is unverified until tested with a configured account and a real microphone.
+
+## Architectural modeling
+
+Raised volumes, signed rectangular footprint offsets, exact stacking/centering, real cylinder intersections, and editable floors/curtain walls are implemented. **Floors & glass** works directly on a selected solid without an API call. Two floors create two occupied floor slabs plus a roof slab while retaining the original envelope height and elevation. Glazing and mullions are separate closed solids; curtain walls currently require a constant vertical footprint.
+
+See [the architectural example and downloadable projects](docs/ARCHITECTURAL-EXAMPLE.md) for the 100 × 20 × 8 m raised pavilion, 45° rotation, radius-4 m cylinder and floor conversion. These projects include undo history and can be inspected without API credits. They are authored geometric examples, not evidence of live language understanding.
 
 ## Verification
 

@@ -12,6 +12,11 @@ const vec = z
 const refs = z.array(z.string().max(100)).max(200);
 export const requestSchema = z
   .object({
+    pendingReview: z
+      .object({ message: z.string().max(4000) })
+      .strict()
+      .nullable()
+      .optional(),
     message: z.string().min(1).max(4000),
     history: z
       .array(
@@ -71,6 +76,16 @@ export const requestSchema = z
                 rotation: z.number().finite(),
                 shape: z.string().max(40),
                 opening: z.boolean(),
+                architecture: z
+                  .object({
+                    floors: z.number(),
+                    slabThickness: z.number(),
+                    facade: z.boolean(),
+                    panelWidth: z.number(),
+                    mullionWidth: z.number(),
+                  })
+                  .nullable()
+                  .optional(),
               })
               .strict(),
           )
@@ -108,6 +123,7 @@ export function createProvider(
             content: JSON.stringify({
               instruction: input.message,
               scene: input.scene,
+              pendingReview: input.pendingReview ?? null,
             }),
           },
         ],
@@ -133,7 +149,7 @@ export function createProvider(
           type: 'realtime',
           model: process.env.ATELIER_VOICE_MODEL || 'gpt-realtime',
           instructions:
-            'You are the voice of ATELIER. For EVERY modeling request call design with the user’s natural instruction verbatim, including references and corrections. The design tool has the current scene and conversation. Never invent geometry changes or say an edit succeeded until the tool returns success. If a review is pending, ask the user to confirm in the workspace. Speak briefly in the user’s language. You can have continuous spoken conversation. Never ask for API keys.',
+            'You are the voice of ATELIER. For EVERY modeling request call design with the user’s natural instruction verbatim, including references, corrections, and explicit approvals or cancellations. The design tool has the current scene, pending review and conversation. Never invent geometry changes or say an edit succeeded until the tool returns success. If a review is pending, briefly describe it and ask for confirmation; send the user’s spoken answer to design so the same validated review is used for voice and text. Speak briefly in the user’s language. You can have continuous spoken conversation. Never ask for API keys.',
           audio: {
             input: {
               turn_detection: {

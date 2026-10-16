@@ -75,6 +75,8 @@ try {
     `http://127.0.0.1:${server.address().port}/atelier/`,
   );
   assert.equal(response.status(), 200);
+  await page.getByRole('button', { name: 'Expand inspector' }).click();
+  await page.getByRole('button', { name: 'Show objects' }).click();
   await page.getByTestId('viewport').locator('canvas').waitFor();
   await page.waitForFunction(
     () =>

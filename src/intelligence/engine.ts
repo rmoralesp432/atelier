@@ -90,7 +90,18 @@ function resolveIds(refs: string[], s: Session): string[] {
           ? s.context.lastCreatedIds
           : ref === '$operands'
             ? s.context.lastOperands
-            : [ref],
+            : ref.startsWith('$name:')
+              ? (() => {
+                  const matches = s.project.volumes.filter(
+                    (v) => v.name === ref.slice(6),
+                  );
+                  if (matches.length !== 1)
+                    throw new Error(
+                      'That name does not identify one object. Please select the intended volume.',
+                    );
+                  return [matches[0].id];
+                })()
+              : [ref],
   );
   if (!result.length)
     throw new Error('Which object should I use? Select it in the workspace.');
@@ -144,7 +155,7 @@ export async function applyPlan(
   confirmed = false,
 ): Promise<{ session: Session; message: string }> {
   const plan = parsePlan(raw);
-  if (plan.intent === 'clarify')
+  if (plan.intent !== 'apply')
     return { session: original, message: plan.message };
   if (needsConfirmation(plan) && !confirmed)
     throw new Error(
@@ -173,7 +184,117 @@ export async function applyPlan(
       continue;
     }
     beforeEdit ??= structuredClone(s.project);
-    if (op.type === 'create') {
+    if (op.type === 'create_at') {
+      if (s.project.volumes.some((v) => v.name === op.name))
+        throw new Error('Use a distinct name for the new volume.');
+      const v = makeVolume(s.project.volumes.length + 1, {
+        width: op.width,
+        depth: op.depth,
+        height: ['rectangle', 'circle'].includes(op.shape) ? 0.1 : op.height,
+      });
+      v.name = op.name;
+      v.geometry = { kind: op.shape };
+      v.position = { x: op.x, y: op.y, z: op.z };
+      v.rotation = ((op.rotation % 360) + 360) % 360;
+      validateVolume(v);
+      s.project.volumes.push(v);
+      s.context.lastCreatedIds = [v.id];
+      focus(s, [v.id]);
+      reports.push(report(v));
+    } else if (op.type === 'position') {
+      const vs = targets(op.targets, s);
+      for (const v of vs) {
+        s.project = updateVolume(s.project, v.id, {
+          position: {
+            x: op.x ?? v.position.x,
+            y: op.y ?? v.position.y,
+            z: op.z ?? v.position.z,
+          },
+        });
+        reports.push(
+          report(s.project.volumes.find((item) => item.id === v.id)!),
+        );
+      }
+      focus(
+        s,
+        vs.map((v) => v.id),
+      );
+    } else if (op.type === 'offset_base') {
+      const upper = one(op.target, s);
+      if (upper.geometry && !['box', 'rectangle'].includes(upper.geometry.kind))
+        throw new Error(
+          'Footprint offsets currently require a rectangular volume.',
+        );
+      if (s.project.volumes.some((v) => v.name === op.name))
+        throw new Error('Use a distinct name for the new base.');
+      const lower = makeVolume(s.project.volumes.length + 1, {
+        width: upper.dimensions.width + 2 * op.offset,
+        depth: upper.dimensions.depth + 2 * op.offset,
+        height: op.height,
+      });
+      lower.name = op.name;
+      lower.position = { ...upper.position, y: upper.position.y - op.height };
+      lower.rotation = upper.rotation;
+      validateVolume(lower);
+      s.project.volumes.push(lower);
+      s.context.lastCreatedIds = [lower.id];
+      s.context.lastOperands = [upper.id, lower.id];
+      focus(s, [upper.id]);
+      reports.push(
+        `${report(lower)} Footprint offset ${op.offset} m on each side. Upper volume remains selected.`,
+      );
+    } else if (op.type === 'center_on') {
+      const v = one(op.target, s),
+        ref = one(op.reference, s);
+      if (v.id === ref.id)
+        throw new Error('Placement needs two different objects.');
+      const y =
+        op.vertical === 'base'
+          ? ref.position.y
+          : op.vertical === 'center'
+            ? ref.position.y + (ref.dimensions.height - v.dimensions.height) / 2
+            : op.vertical === 'above'
+              ? ref.position.y + ref.dimensions.height + op.gap
+              : ref.position.y - v.dimensions.height - op.gap;
+      s.project = updateVolume(s.project, v.id, {
+        position: { x: ref.position.x, y, z: ref.position.z },
+      });
+      focus(s, [v.id]);
+      s.context.lastOperands = [ref.id, v.id];
+      reports.push(
+        `Centered ${v.name} ${op.vertical === 'above' ? 'above' : op.vertical === 'below' ? 'below' : 'on'} ${ref.name}; base elevation ${round(y)} m.`,
+      );
+    } else if (op.type === 'building') {
+      const v = one(op.target, s);
+      if (isProfile(v))
+        throw new Error('Extrude this shape before creating floors.');
+      const source = structuredClone(
+        v.geometry?.kind === 'building'
+          ? { ...v.geometry.source, dimensions: v.dimensions }
+          : v,
+      );
+      source.position = { x: 0, y: 0, z: 0 };
+      source.rotation = 0;
+      const next: Volume = {
+        ...v,
+        geometry: {
+          kind: 'building',
+          source,
+          base: { ...v.dimensions },
+          floors: op.floors,
+          slabThickness: op.slabThickness,
+          facade: op.facade,
+          panelWidth: op.panelWidth,
+          mullionWidth: op.mullionWidth,
+        },
+      };
+      await solidStats(next);
+      s.project = updateVolume(s.project, v.id, next);
+      focus(s, [v.id]);
+      reports.push(
+        `${v.name}: ${op.floors} floor slabs plus a roof, ${op.slabThickness} m thick; total height ${v.dimensions.height} m and base elevation ${v.position.y} m preserved.${op.facade ? ` Curtain wall with real glass panels and frames, maximum panel width ${op.panelWidth} m.` : ''} Original envelope preserved for editing and undo.`,
+      );
+    } else if (op.type === 'create') {
       const created: Volume[] = [];
       for (let i = 0; i < op.count; i++) {
         const v = makeVolume(s.project.volumes.length + i + 1, {
@@ -322,7 +443,14 @@ export async function applyPlan(
       s.project = updateVolume(s.project, v.id, {
         position: {
           x: round(ref.position.x + d.x * n),
-          y: round(ref.position.y + d.y * n),
+          y: round(
+            d.y
+              ? ref.position.y +
+                  ref.dimensions.height / 2 +
+                  d.y * n -
+                  v.dimensions.height / 2
+              : ref.position.y,
+          ),
           z: round(ref.position.z + d.z * n),
         },
       });

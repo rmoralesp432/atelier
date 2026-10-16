@@ -18,6 +18,58 @@ const distance = z.number().min(0.01).max(1000).nullable();
 export const operationSchema = z.discriminatedUnion('type', [
   z
     .object({
+      type: z.literal('create_at'),
+      name: z.string().min(1).max(80),
+      shape: z.enum(['box', 'cylinder', 'sphere', 'rectangle', 'circle']),
+      width: dimension,
+      depth: dimension,
+      height: dimension,
+      x: z.number().min(-1000).max(1000),
+      y: z.number().min(0).max(1000),
+      z: z.number().min(-1000).max(1000),
+      rotation: z.number().min(-3600).max(3600),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('position'),
+      targets: ids,
+      x: z.number().min(-1000).max(1000).nullable(),
+      y: z.number().min(0).max(1000).nullable(),
+      z: z.number().min(-1000).max(1000).nullable(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('offset_base'),
+      target: z.string(),
+      offset: z.number().min(-100).max(100),
+      height: dimension,
+      name: z.string().min(1).max(80),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('center_on'),
+      target: z.string(),
+      reference: z.string(),
+      vertical: z.enum(['base', 'center', 'above', 'below']),
+      gap: z.number().min(0).max(100),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('building'),
+      target: z.string(),
+      floors: z.number().int().min(1).max(30),
+      slabThickness: z.number().min(0.1).max(1),
+      facade: z.boolean(),
+      panelWidth: z.number().min(0.5).max(10),
+      mullionWidth: z.number().min(0.03).max(0.3),
+    })
+    .strict(),
+  z
+    .object({
       type: z.literal('create'),
       shape: z.enum(['box', 'cylinder', 'sphere', 'rectangle', 'circle']),
       width: dimension,
@@ -123,7 +175,7 @@ export const operationSchema = z.discriminatedUnion('type', [
 ]);
 export const planSchema = z
   .object({
-    intent: z.enum(['apply', 'clarify']),
+    intent: z.enum(['apply', 'clarify', 'confirm', 'cancel']),
     message: z.string().min(1).max(2000),
     operations: z.array(operationSchema).max(12),
   })
@@ -143,8 +195,10 @@ export const planJsonSchema = z.toJSONSchema(planSchema, {
 });
 export function parsePlan(raw: unknown): Plan {
   const plan = planSchema.parse(raw);
-  if (plan.intent === 'clarify' && plan.operations.length)
-    throw new Error('A clarification cannot change the model.');
+  if (plan.intent !== 'apply' && plan.operations.length)
+    throw new Error(
+      'A clarification or review response cannot contain new operations.',
+    );
   if (plan.intent === 'apply' && !plan.operations.length)
     throw new Error('An edit must contain an operation.');
   return plan;
@@ -152,5 +206,8 @@ export function parsePlan(raw: unknown): Plan {
 export const needsConfirmation = (plan: Plan) =>
   plan.operations.some(
     (op) =>
-      op.type === 'delete' || op.type === 'boolean' || op.type === 'opening',
+      op.type === 'delete' ||
+      op.type === 'boolean' ||
+      op.type === 'opening' ||
+      op.type === 'building',
   );

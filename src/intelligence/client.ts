@@ -22,12 +22,14 @@ export async function requestPlan(
   camera: CameraContext,
   history: Message[],
   signal?: AbortSignal,
+  pendingReview?: { message: string } | null,
 ) {
   const r = await fetch('/api/plan', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       message,
+      pendingReview,
       scene: sceneContext(session.project, session.context, camera),
       history: history
         .slice(-20)
@@ -55,6 +57,7 @@ export class VoiceConnection {
   private channel: RTCDataChannel | null = null;
   private audio: HTMLAudioElement | null = null;
   private closed = false;
+  private request: AbortController | null = null;
   private handled = new Set<string>();
   constructor(
     private onInstruction: (text: string) => Promise<string>,
@@ -104,6 +107,7 @@ export class VoiceConnection {
         }
       };
       const offer = await peer.createOffer();
+      if (this.closed) return;
       await peer.setLocalDescription(offer);
       await new Promise<void>((resolve, reject) => {
         if (peer.iceGatheringState === 'complete') {
@@ -123,11 +127,16 @@ export class VoiceConnection {
         };
         peer.addEventListener('icegatheringstatechange', change);
       });
+      if (this.closed) return;
+      this.request = new AbortController();
       const response = await fetch('/api/voice', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ sdp: peer.localDescription?.sdp }),
-        signal: AbortSignal.timeout(45_000),
+        signal: AbortSignal.any([
+          this.request.signal,
+          AbortSignal.timeout(45_000),
+        ]),
       });
       if (!response.ok) {
         const data = await response
@@ -139,11 +148,13 @@ export class VoiceConnection {
       if (this.closed) return;
       await peer.setRemoteDescription({ type: 'answer', sdp });
     } catch (e) {
+      if (this.closed) return;
       this.stop();
       throw e;
     }
   }
   private async event(raw: string) {
+    if (this.closed) return;
     try {
       const e = JSON.parse(raw);
       if (e.type === 'error') {
@@ -192,6 +203,8 @@ export class VoiceConnection {
   }
   stop() {
     this.closed = true;
+    this.request?.abort();
+    this.request = null;
     this.channel?.close();
     this.peer?.close();
     this.stream?.getTracks().forEach((t) => t.stop());

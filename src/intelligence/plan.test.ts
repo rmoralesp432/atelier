@@ -49,6 +49,21 @@ describe('model output validation', () => {
     expect(directionVector('north', camera)).toEqual({ x: 0, y: 0, z: -1 });
     expect(directionVector('left', camera).z).toBe(-1);
   });
+  it('allows conversational approval/cancellation without smuggling new edits', () => {
+    for (const intent of ['confirm', 'cancel']) {
+      expect(
+        parsePlan({ intent, message: 'Review response', operations: [] })
+          .intent,
+      ).toBe(intent);
+      expect(() =>
+        parsePlan({
+          intent,
+          message: 'Review response',
+          operations: [{ type: 'delete', targets: ['$selected'] }],
+        }),
+      ).toThrow('cannot contain new operations');
+    }
+  });
   it('includes stable IDs, ordinals, selection and recent operation context', () => {
     const p = initialProject();
     const c = sceneContext(

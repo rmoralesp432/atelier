@@ -1,5 +1,15 @@
 import { expect, test, type Page } from '@playwright/test';
 import type { Plan, Operation } from '../src/intelligence/plan';
+// These regression checks exercise the optional precision panels. The separate
+// immersive suite checks the uncluttered default view and panel controls.
+test.beforeEach(async ({ page }) => {
+  await page.addInitScript(() => {
+    if (localStorage.getItem('atelier.ui.details') === null)
+      localStorage.setItem('atelier.ui.details', 'true');
+    if (localStorage.getItem('atelier.ui.objects') === null)
+      localStorage.setItem('atelier.ui.objects', 'true');
+  });
+});
 test('serves the real backend with honest unconfigured AI status', async ({
   request,
 }) => {
@@ -31,6 +41,9 @@ async function ready(page: Page) {
   await expect(page.locator('canvas')).toBeVisible();
 }
 async function say(page: Page, text: string) {
+  const conversation = page.locator('.conversation-heading button');
+  if ((await conversation.getAttribute('aria-expanded')) === 'false')
+    await conversation.click();
   await page.getByRole('textbox', { name: 'Message Atelier' }).fill(text);
   await page.getByRole('button', { name: 'Send message', exact: true }).click();
 }

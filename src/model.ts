@@ -5,6 +5,16 @@ export type GeometryRecipe =
   | { kind: 'box' | 'cylinder' | 'sphere' | 'rectangle' | 'circle' }
   | { kind: 'extrusion'; profile: 'rectangle' | 'circle' }
   | {
+      kind: 'building';
+      source: Volume;
+      base: Dimensions;
+      floors: number;
+      slabThickness: number;
+      facade: boolean;
+      panelWidth: number;
+      mullionWidth: number;
+    }
+  | {
       kind: 'boolean';
       operation: 'union' | 'subtract' | 'intersect';
       operands: Volume[];
@@ -98,6 +108,18 @@ export function updateVolume(
     volumes: project.volumes.map((v) => {
       if (v.id !== id) return v;
       const next = { ...v, ...patch };
+      if (
+        patch.dimensions &&
+        !patch.geometry &&
+        v.geometry?.kind === 'building'
+      ) {
+        // Resize the envelope without silently scaling stated slab/frame sizes.
+        next.geometry = {
+          ...v.geometry,
+          base: { ...next.dimensions },
+          source: { ...v.geometry.source, dimensions: { ...next.dimensions } },
+        };
+      }
       validateVolume(next);
       return next;
     }),

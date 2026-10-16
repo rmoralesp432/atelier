@@ -2,9 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { TransformControls } from 'three/addons/controls/TransformControls.js';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { toCreasedNormals } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { Project, Volume } from './model';
 import { round } from './model';
-import { isProfile, meshData } from './geometry/kernel';
+import { isProfile, renderMeshData } from './geometry/kernel';
 import type { CameraContext } from './intelligence/context';
 
 export type Tool = 'select' | 'translate' | 'rotate';
@@ -24,6 +26,7 @@ type Runtime = {
   orbit: OrbitControls;
   transform: TransformControls;
   objects: Map<string, THREE.Group>;
+  signatures: Map<string, string>;
   fit: (top: boolean) => void;
 };
 function disposeObject(root: THREE.Object3D) {
@@ -54,10 +57,12 @@ export default function Viewport(props: Props) {
       return;
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor('#202326');
+    renderer.setClearColor('#20252b');
     renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFShadowMap;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 0.85;
     renderer.domElement.setAttribute(
       'aria-label',
       'Interactive 3D modeling viewport',
@@ -65,19 +70,28 @@ export default function Viewport(props: Props) {
     renderer.domElement.setAttribute('tabindex', '0');
     container.appendChild(renderer.domElement);
     const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog('#202326', 140, 500);
+    scene.fog = new THREE.Fog('#20252b', 250, 1800);
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    const room = new RoomEnvironment();
+    const environment = pmrem.fromScene(room);
+    scene.environment = environment.texture;
+    scene.environmentIntensity = 0.3;
+    room.dispose();
+    pmrem.dispose();
     const camera = new THREE.PerspectiveCamera(40, 1, 0.1, 5000);
     camera.position.set(32, 26, 34);
     const orbit = new OrbitControls(camera, renderer.domElement);
     orbit.enableDamping = true;
-    orbit.dampingFactor = 0.12;
+    orbit.dampingFactor = 0.08;
+    orbit.rotateSpeed = 0.65;
+    orbit.zoomSpeed = 0.8;
     orbit.maxPolarAngle = Math.PI / 2 - 0.015;
     orbit.minDistance = 2;
     orbit.maxDistance = 2500;
     orbit.target.set(0, 2, 0);
-    const ambient = new THREE.HemisphereLight('#e7f0ed', '#3b454b', 2.6);
+    const ambient = new THREE.HemisphereLight('#e7edf3', '#252c34', 0.8);
     scene.add(ambient);
-    const light = new THREE.DirectionalLight('#fff4df', 3.2);
+    const light = new THREE.DirectionalLight('#fff4df', 2);
     light.position.set(-25, 50, 30);
     light.castShadow = true;
     light.shadow.mapSize.set(2048, 2048);
@@ -89,17 +103,20 @@ export default function Viewport(props: Props) {
       near: 1,
       far: 180,
     });
-    light.shadow.bias = -0.001;
-    scene.add(light);
+    light.shadow.bias = -0.00015;
+    light.shadow.normalBias = 0.025;
+    scene.add(light, light.target);
     const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(4000, 4000),
-      new THREE.MeshStandardMaterial({ color: '#25292c', roughness: 1 }),
+      new THREE.MeshStandardMaterial({ color: '#141b23', roughness: 1 }),
     );
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -0.035;
     ground.receiveShadow = true;
     scene.add(ground);
-    const grid = new THREE.GridHelper(200, 200, '#59616a', '#353c42');
+    const grid = new THREE.GridHelper(400, 80, '#556572', '#42515e');
+    (grid.material as THREE.Material).transparent = true;
+    (grid.material as THREE.Material).opacity = 0.1;
     grid.position.y = -0.02;
     scene.add(grid);
     const transform = new TransformControls(camera, renderer.domElement);
@@ -158,8 +175,9 @@ export default function Viewport(props: Props) {
         ),
         camera,
       );
-      const meshes = [...objects.values()].map((g) => g.children[0]);
-      const hit = raycaster.intersectObjects(meshes, false)[0];
+      const hit = raycaster
+        .intersectObjects([...objects.values()], true)
+        .find((hit) => hit.object instanceof THREE.Mesh);
       latest.current.onSelect(
         hit ? hit.object.parent!.userData.id : null,
         event.shiftKey || event.ctrlKey || event.metaKey,
@@ -167,6 +185,16 @@ export default function Viewport(props: Props) {
     };
     renderer.domElement.addEventListener('pointerdown', down);
     renderer.domElement.addEventListener('pointerup', up);
+    let transition: {
+      start: number;
+      from: THREE.Vector3;
+      to: THREE.Vector3;
+      targetFrom: THREE.Vector3;
+      targetTo: THREE.Vector3;
+    } | null = null;
+    orbit.addEventListener('start', () => {
+      transition = null;
+    });
     const fit = (top: boolean) => {
       const box = new THREE.Box3();
       objects.forEach((g) => box.expandByObject(g));
@@ -179,17 +207,42 @@ export default function Viewport(props: Props) {
       const distance =
         ((Math.max(size.x, size.y, size.z, 10) /
           (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)))) *
-          1.6) /
+          1.65) /
         Math.min(camera.aspect, 1);
-      orbit.target.copy(center);
-      camera.position
-        .copy(center)
+      const to = center
+        .clone()
         .add(
-          (top ? new THREE.Vector3(0, 1, 0.001) : new THREE.Vector3(1, 0.8, 1))
+          (top
+            ? new THREE.Vector3(0, 1, 0.001)
+            : new THREE.Vector3(1, 0.7, 1.6)
+          )
             .normalize()
             .multiplyScalar(distance),
         );
-      orbit.update();
+      transition = {
+        start:
+          performance.now() -
+          (window.matchMedia('(prefers-reduced-motion: reduce)').matches
+            ? 500
+            : 0),
+        from: camera.position.clone(),
+        to,
+        targetFrom: orbit.target.clone(),
+        targetTo: center,
+      };
+      const shadowSize = Math.max(size.x, size.y, size.z, 25) * 0.85;
+      light.position
+        .copy(center)
+        .add(new THREE.Vector3(-shadowSize, shadowSize * 2, shadowSize));
+      light.target.position.copy(center);
+      Object.assign(light.shadow.camera, {
+        left: -shadowSize,
+        right: shadowSize,
+        top: shadowSize,
+        bottom: -shadowSize,
+        far: shadowSize * 6,
+      });
+      light.shadow.camera.updateProjectionMatrix();
     };
     runtime.current = {
       scene,
@@ -198,6 +251,7 @@ export default function Viewport(props: Props) {
       orbit,
       transform,
       objects,
+      signatures: new Map(),
       fit,
     };
     const resize = new ResizeObserver(() => {
@@ -205,6 +259,7 @@ export default function Viewport(props: Props) {
       renderer.setSize(width, height);
       camera.aspect = width / Math.max(height, 1);
       camera.updateProjectionMatrix();
+      if (objects.size) fit(latest.current.view.mode === 'top');
     });
     resize.observe(container);
     const publishCamera = () => {
@@ -237,6 +292,17 @@ export default function Viewport(props: Props) {
     orbit.addEventListener('change', publishCamera);
     let frame = 0;
     const render = () => {
+      if (transition) {
+        const t = Math.min(1, (performance.now() - transition.start) / 500);
+        const ease = 1 - Math.pow(1 - t, 3);
+        camera.position.lerpVectors(transition.from, transition.to, ease);
+        orbit.target.lerpVectors(
+          transition.targetFrom,
+          transition.targetTo,
+          ease,
+        );
+        if (t === 1) transition = null;
+      }
       orbit.update();
       renderer.render(scene, camera);
       if (renderer.info.render.triangles > 0)
@@ -260,6 +326,7 @@ export default function Viewport(props: Props) {
       transform.dispose();
       orbit.dispose();
       disposeObject(scene);
+      environment.dispose();
       renderer.dispose();
       renderer.domElement.remove();
       runtime.current = null;
@@ -269,73 +336,130 @@ export default function Viewport(props: Props) {
     const r = runtime.current;
     if (!r) return;
     let cancelled = false;
-    const groups = new Map<string, THREE.Group>();
+    const built = new Map<string, THREE.Group>();
     async function rebuild() {
       try {
+        const signatures = new Map<string, string>();
         await Promise.all(
           props.project.volumes.map(async (v) => {
-            const selected =
-              v.id === props.project.selectedId ||
-              props.project.selectedIds?.includes(v.id);
-            let geometry: THREE.BufferGeometry;
-            if (isProfile(v)) {
-              geometry =
+            const signature = JSON.stringify([v.dimensions, v.geometry]);
+            signatures.set(v.id, signature);
+            if (r!.signatures.get(v.id) === signature) return;
+            const g = new THREE.Group();
+            g.userData.id = v.id;
+            built.set(v.id, g);
+            const parts = isProfile(v) ? null : await renderMeshData(v);
+            if (cancelled) return;
+            const geometries: {
+              geometry: THREE.BufferGeometry;
+              material: string;
+            }[] = [];
+            if (!parts) {
+              const geometry =
                 v.geometry?.kind === 'circle'
                   ? new THREE.CircleGeometry(1, 64)
                   : new THREE.PlaneGeometry(2, 2);
               geometry.rotateX(-Math.PI / 2);
               geometry.scale(v.dimensions.width / 2, 1, v.dimensions.depth / 2);
               geometry.translate(0, 0.015, 0);
-            } else {
-              const data = await meshData(v);
-              geometry = new THREE.BufferGeometry();
-              geometry.setAttribute(
-                'position',
-                new THREE.BufferAttribute(data.positions, 3),
+              geometries.push({ geometry, material: 'solid' });
+            } else
+              for (const part of parts) {
+                const geometry = new THREE.BufferGeometry();
+                geometry.setAttribute(
+                  'position',
+                  new THREE.BufferAttribute(part.positions, 3),
+                );
+                geometry.setIndex(new THREE.BufferAttribute(part.indices, 1));
+                // Preserve crisp slab/box corners while smoothing curved sides.
+                const shaded = toCreasedNormals(geometry, Math.PI / 6);
+                if (shaded !== geometry) geometry.dispose();
+                geometries.push({ geometry: shaded, material: part.material });
+              }
+            for (const part of geometries) {
+              const glass = part.material === 'glass',
+                frame = part.material === 'frame';
+              const mesh = new THREE.Mesh(
+                part.geometry,
+                new THREE.MeshPhysicalMaterial({
+                  color: glass ? '#8dc9d2' : frame ? '#38464e' : '#d8d9d4',
+                  roughness: glass ? 0.13 : frame ? 0.4 : 0.7,
+                  metalness: frame ? 0.5 : 0.02,
+                  transparent: glass,
+                  opacity: glass ? 0.32 : 1,
+                  depthWrite: !glass,
+                  side:
+                    isProfile(v) || glass ? THREE.DoubleSide : THREE.FrontSide,
+                  clearcoat: glass ? 1 : 0,
+                  envMapIntensity: glass ? 1.4 : 0.35,
+                }),
               );
-              geometry.setIndex(new THREE.BufferAttribute(data.indices, 1));
-              geometry.computeVertexNormals();
+              mesh.userData.materialKind = part.material;
+              mesh.castShadow = !glass;
+              mesh.receiveShadow = true;
+              g.add(mesh);
+              if (!glass) {
+                const edges = new THREE.LineSegments(
+                  new THREE.EdgesGeometry(part.geometry, 24),
+                  new THREE.LineBasicMaterial({
+                    color: '#d6e0e2',
+                    transparent: true,
+                    opacity: 0.12,
+                  }),
+                );
+                g.add(edges);
+              }
             }
-            const g = new THREE.Group();
-            g.userData.id = v.id;
-            g.position.set(v.position.x, v.position.y, v.position.z);
-            g.rotation.y = THREE.MathUtils.degToRad(v.rotation);
-            const mesh = new THREE.Mesh(
-              geometry,
-              new THREE.MeshStandardMaterial({
-                color: selected ? '#b7d6dc' : '#9fa8b0',
-                roughness: 0.85,
-                metalness: 0.02,
-                flatShading: true,
-                side: isProfile(v) ? THREE.DoubleSide : THREE.FrontSide,
-              }),
-            );
-            mesh.castShadow = true;
-            mesh.receiveShadow = true;
-            const edges = new THREE.LineSegments(
-              new THREE.EdgesGeometry(geometry, 20),
-              new THREE.LineBasicMaterial({
-                color: selected ? '#95e0ed' : '#c1c9ce',
-              }),
-            );
-            g.add(mesh, edges);
-            groups.set(v.id, g);
           }),
         );
         if (cancelled) {
-          groups.forEach(disposeObject);
+          built.forEach(disposeObject);
           return;
         }
+        const hadObjects = r!.objects.size;
+        const added = props.project.volumes.some((v) => !r!.objects.has(v.id));
         r!.transform.detach();
-        r!.objects.forEach((g) => {
-          r!.scene.remove(g);
-          disposeObject(g);
-        });
-        r!.objects.clear();
-        groups.forEach((g, id) => {
+        for (const [id, group] of r!.objects) {
+          if (!signatures.has(id) || built.has(id)) {
+            r!.scene.remove(group);
+            disposeObject(group);
+            r!.objects.delete(id);
+          }
+        }
+        built.forEach((g, id) => {
           r!.scene.add(g);
           r!.objects.set(id, g);
         });
+        r!.signatures = signatures;
+        for (const v of props.project.volumes) {
+          const g = r!.objects.get(v.id)!;
+          g.position.set(v.position.x, v.position.y, v.position.z);
+          g.rotation.y = THREE.MathUtils.degToRad(v.rotation);
+          const selected =
+            v.id === props.project.selectedId ||
+            props.project.selectedIds?.includes(v.id);
+          g.traverse((o) => {
+            if (o instanceof THREE.Mesh) {
+              const material = o.material as THREE.MeshPhysicalMaterial;
+              const kind = o.userData.materialKind;
+              material.color.set(
+                kind === 'glass'
+                  ? '#8dc9d2'
+                  : kind === 'frame'
+                    ? '#38464e'
+                    : selected
+                      ? '#c0dfdf'
+                      : '#d8d9d4',
+              );
+              material.emissive.set(selected ? '#183033' : '#000000');
+              material.emissiveIntensity = 0.15;
+            } else if (o instanceof THREE.LineSegments) {
+              const material = o.material as THREE.LineBasicMaterial;
+              material.color.set(selected ? '#8de2e7' : '#d6e0e2');
+              material.opacity = selected ? 0.5 : 0.12;
+            }
+          });
+        }
         const selected = r!.objects.get(props.project.selectedId ?? '');
         if (selected && props.tool !== 'select') r!.transform.attach(selected);
         r!.transform.setMode(props.tool === 'rotate' ? 'rotate' : 'translate');
@@ -344,11 +468,16 @@ export default function Viewport(props: Props) {
         r!.transform.showZ = props.tool !== 'rotate';
         r!.transform.setTranslationSnap(props.snap ? 0.5 : null);
         r!.transform.setRotationSnap(props.snap ? Math.PI / 12 : null);
-        host.current!.dataset.modelObjects = String(groups.size);
+        host.current!.dataset.modelObjects = String(r!.objects.size);
+        host.current!.dataset.meshBuilds = String(
+          Number(host.current!.dataset.meshBuilds || 0) + built.size,
+        );
+        if ((!hadObjects || added) && r!.objects.size)
+          r!.fit(props.view.mode === 'top');
         setError('');
         r!.orbit.dispatchEvent({ type: 'change' });
       } catch (e) {
-        groups.forEach(disposeObject);
+        built.forEach(disposeObject);
         if (!cancelled)
           setError(
             e instanceof Error ? e.message : 'Geometry could not be rendered.',

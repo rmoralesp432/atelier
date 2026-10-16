@@ -1,6 +1,7 @@
 import Module, { type Manifold, type ManifoldToplevel } from 'manifold-3d';
 import type { Dimensions, GeometryRecipe, Vec3, Volume } from '../model';
 import { validateVolume } from '../model';
+import { buildingParts } from './architecture';
 let wasmUrl: string | undefined;
 let kernel: Promise<ManifoldToplevel> | undefined;
 export const setKernelWasmUrl = (url: string) => {
@@ -35,6 +36,7 @@ export function validateRecipe(
       'circle',
       'extrusion',
       'boolean',
+      'building',
     ].includes(recipe.kind)
   )
     throw new Error('Unsupported geometry type.');
@@ -65,6 +67,38 @@ export function validateRecipe(
       validateRecipe(v.geometry, depth + 1, budget);
     });
   }
+  if (recipe.kind === 'building') {
+    if (
+      !Number.isInteger(recipe.floors) ||
+      recipe.floors < 1 ||
+      recipe.floors > 30 ||
+      !Number.isFinite(recipe.slabThickness) ||
+      recipe.slabThickness < 0.1 ||
+      recipe.slabThickness > 1 ||
+      !Number.isFinite(recipe.panelWidth) ||
+      recipe.panelWidth < 0.5 ||
+      recipe.panelWidth > 10 ||
+      !Number.isFinite(recipe.mullionWidth) ||
+      recipe.mullionWidth < 0.03 ||
+      recipe.mullionWidth > 0.3 ||
+      typeof recipe.facade !== 'boolean'
+    )
+      throw new Error('Invalid floor or curtain-wall parameters.');
+    validateVolume(
+      {
+        id: 'base',
+        name: 'base',
+        position: { x: 0, y: 0, z: 0 },
+        rotation: 0,
+        dimensions: recipe.base,
+      },
+      false,
+    );
+    validateVolume(recipe.source, false);
+    if (recipe.base.height / recipe.floors < recipe.slabThickness + 0.3)
+      throw new Error('There is not enough height between these floor slabs.');
+    validateRecipe(recipe.source.geometry, depth + 1, budget);
+  }
 }
 function evaluated(
   m: ManifoldToplevel,
@@ -81,7 +115,18 @@ function evaluated(
   const d = v.dimensions;
   const g = v.geometry;
   let solid: Manifold;
-  if (g?.kind === 'boolean') {
+  if (g?.kind === 'building') {
+    const source = evaluated(m, g.source, false, allocated, depth + 1);
+    const parts = buildingParts(m, source, g, keep);
+    solid = keep(m.Manifold.union(parts.map((p) => p.solid)));
+    solid = keep(
+      solid.scale([
+        d.width / g.base.width,
+        d.height / g.base.height,
+        d.depth / g.base.depth,
+      ]),
+    );
+  } else if (g?.kind === 'boolean') {
     const a = evaluated(m, g.operands[0], true, allocated, depth + 1),
       b = evaluated(m, g.operands[1], true, allocated, depth + 1);
     solid = keep(
@@ -168,6 +213,52 @@ export async function meshData(v: Volume) {
     },
     false,
   );
+}
+export async function renderMeshData(v: Volume) {
+  if (v.geometry?.kind !== 'building')
+    return [{ ...(await meshData(v)), material: 'solid' as const }];
+  validateVolume(v);
+  const m = await getKernel(),
+    allocated: Manifold[] = [];
+  const keep = (s: Manifold) => {
+    allocated.push(s);
+    return s;
+  };
+  const recipe = v.geometry;
+  try {
+    const source = evaluated(m, recipe.source, false, allocated, 1);
+    return buildingParts(m, source, recipe, keep)
+      .filter((p) => !p.solid.isEmpty())
+      .map((part) => {
+        const s = keep(
+          part.solid.scale([
+            v.dimensions.width / recipe.base.width,
+            v.dimensions.height / recipe.base.height,
+            v.dimensions.depth / recipe.base.depth,
+          ]),
+        );
+        if (s.status() !== 'NoError')
+          throw new Error('Invalid architectural component.');
+        const mesh = s.getMesh();
+        const positions = new Float32Array(mesh.numVert * 3);
+        for (let i = 0; i < mesh.numVert; i++)
+          positions.set(
+            mesh.vertProperties.subarray(
+              i * mesh.numProp,
+              i * mesh.numProp + 3,
+            ),
+            i * 3,
+          );
+        return {
+          material: part.material,
+          positions,
+          indices: new Uint32Array(mesh.triVerts),
+          volume: s.volume(),
+        };
+      });
+  } finally {
+    allocated.reverse().forEach((s) => s.delete());
+  }
 }
 export async function solidStats(v: Volume) {
   return withSolid(v, (s) => ({

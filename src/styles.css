@@ -1632,3 +1632,580 @@ button {
     max-height: 100px;
   }
 }
+
+/* Spatial workspace: the scene stays full size while optional controls float. */
+[hidden] {
+  display: none !important;
+}
+.immersive {
+  --accent: #a8dce0;
+  --muted: #91a0aa;
+  --line: #ffffff12;
+  min-height: 420px;
+  color: #e0e7e9;
+  background: #20252b;
+}
+.immersive .app-header {
+  height: 58px;
+  padding: 0 24px;
+  background: #181e24;
+  border-bottom: 1px solid #ffffff08;
+  gap: 24px;
+}
+.immersive .brand {
+  font-size: 14px;
+  letter-spacing: 4px;
+  gap: 9px;
+}
+.immersive .brand-mark {
+  font-size: 26px;
+  font-weight: 400;
+  color: #dce6e7;
+}
+.immersive .project-title {
+  font-size: 11px;
+  opacity: 0.6;
+}
+.immersive .project-title > span,
+.immersive .project-title svg {
+  display: none;
+}
+.immersive .header-actions {
+  gap: 15px;
+}
+.immersive .save-state {
+  display: none;
+}
+.immersive .save-state.warning {
+  display: flex;
+  position: fixed;
+  top: 65px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: #442d25;
+  color: #ffe0cd;
+  white-space: nowrap;
+}
+.immersive .connection-button {
+  font-size: 10px;
+  color: #9dafb8;
+}
+.immersive .subtle-button,
+.immersive .export-button {
+  padding: 7px 10px;
+  font-size: 11px;
+  color: #b6c4cc;
+  border: 1px solid #ffffff10;
+  background: transparent;
+  border-radius: 8px;
+}
+.immersive .export-button {
+  background: #d8e7e8;
+  color: #233038;
+  border-color: transparent;
+}
+.immersive .scene-toggle {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.immersive .workspace {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: block;
+  overflow: hidden;
+}
+.immersive .modeling-area {
+  position: absolute;
+  inset: 0;
+  display: block;
+  min-height: 0;
+}
+.immersive .viewport-stage {
+  position: absolute;
+  inset: 0;
+  min-height: 0;
+}
+.immersive .viewport-canvas {
+  position: absolute;
+  inset: 0;
+}
+.immersive .viewport-bar {
+  position: absolute;
+  top: 20px;
+  right: 22px;
+  z-index: 2;
+  height: auto;
+  border: 0;
+  padding: 0;
+  background: transparent;
+}
+.immersive .viewport-title {
+  display: none;
+}
+.immersive .view-button {
+  border: 1px solid #ffffff14;
+  border-radius: 10px;
+  padding: 9px 12px;
+  background: #1b222bcc;
+  font-size: 10px;
+  color: #a4b5c0;
+}
+.immersive .tool-palette {
+  top: 20px;
+  left: 20px;
+  padding: 5px;
+  border: 1px solid #ffffff14;
+  border-radius: 13px;
+  background: #171e26cf;
+  box-shadow: 0 12px 35px #0000001c;
+  backdrop-filter: blur(18px);
+  gap: 3px;
+}
+.immersive .tool-palette button {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  color: #91a5b2;
+}
+.immersive .tool-palette button.active {
+  color: #d4f1f1;
+  background: #78bcc32b;
+  border-color: transparent;
+}
+.immersive .tool-palette .tool-divider {
+  margin: 3px 6px;
+  background: #ffffff12;
+}
+.creation-dock {
+  position: absolute;
+  top: 20px;
+  left: 82px;
+  z-index: 5;
+}
+.creation-dock > button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 15px;
+  background: #d8e7e8;
+  color: #27393e;
+  border-radius: 12px;
+  font-size: 12px;
+  box-shadow: 0 8px 30px #0002;
+}
+.shape-menu {
+  margin-top: 8px;
+  width: 170px;
+  padding: 7px;
+  background: #1c242ef2;
+  backdrop-filter: blur(20px);
+  border: 1px solid #ffffff18;
+  border-radius: 14px;
+  box-shadow: 0 15px 50px #0005;
+}
+.shape-menu button {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+  color: #c5d7df;
+  border-radius: 8px;
+  text-align: left;
+  font-size: 12px;
+}
+.shape-menu button:hover {
+  background: #a8dce014;
+}
+.immersive .objects-panel,
+.immersive .inspector-panel {
+  position: absolute;
+  z-index: 6;
+  top: 78px;
+  bottom: 230px;
+  width: 240px;
+  min-height: 160px;
+  border: 1px solid #ffffff18;
+  border-radius: 16px;
+  background: #19212be8;
+  backdrop-filter: blur(22px);
+  box-shadow: 0 12px 50px #0002;
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #526672 transparent;
+}
+.immersive .objects-panel {
+  display: flex;
+  flex-direction: column;
+  left: 82px;
+}
+.immersive .inspector-panel {
+  right: 20px;
+  width: 260px;
+}
+.immersive .objects-panel .panel-caption,
+.immersive .study,
+.immersive .selection-note,
+.immersive .precision-note {
+  display: none;
+}
+.immersive .section-heading {
+  padding-top: 4px;
+}
+.immersive .objects-panel > .section-heading {
+  padding: 18px 16px 8px;
+}
+.immersive .object-row {
+  margin: 3px 7px;
+  border-radius: 9px;
+  width: calc(100% - 14px);
+  border: 1px solid transparent;
+  padding: 11px;
+}
+.immersive .object-row.selected {
+  background: #9fd9dd12;
+  border-color: #9fd9dd30;
+}
+.immersive .object-row small {
+  color: #7f96a5;
+  margin-top: 5px;
+}
+.immersive .object-index {
+  display: none;
+}
+.immersive .panel-caption {
+  color: #91a6b3;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  border: 0;
+  padding: 18px 18px 8px;
+}
+.immersive .selection-heading {
+  padding: 12px 18px 18px;
+}
+.immersive .inspector-section {
+  padding: 15px 18px;
+  border-color: #ffffff0b;
+}
+.immersive .selection-heading input {
+  font-size: 13px;
+}
+.immersive .volume-stat,
+.immersive .recipe-summary {
+  display: none;
+}
+.immersive .numeric-field {
+  margin-top: 10px;
+}
+.immersive .field-note {
+  color: #7e95a2;
+  line-height: 1.6;
+}
+.immersive .viewport-bottom-left {
+  left: 20px;
+  bottom: 48px;
+  gap: 10px;
+  font-size: 10px;
+  opacity: 0.65;
+}
+.immersive .viewport-bottom-left > span {
+  display: none;
+}
+.immersive .axis-indicator,
+.immersive .viewport-top-right,
+.immersive .navigation-hint {
+  display: none;
+}
+.selection-chip {
+  position: absolute;
+  top: 22px;
+  right: 170px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 9px 13px;
+  border-radius: 12px;
+  border: 1px solid #ffffff12;
+  background: #17212ab0;
+  backdrop-filter: blur(18px);
+}
+.selection-summary {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+  padding: 0;
+}
+.selection-summary > span {
+  font-size: 10px;
+  color: #91aab7;
+  max-width: 175px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.selection-summary strong {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+.selection-summary small {
+  font-size: 9px;
+  color: #83a1b0;
+  font-weight: 400;
+}
+.architecture-action {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  color: #add5dc;
+  font-size: 10px;
+  padding: 7px;
+  border-left: 1px solid #ffffff14;
+}
+.immersive .conversation-area {
+  position: absolute;
+  z-index: 8;
+  left: 50%;
+  bottom: 45px;
+  transform: translateX(-50%);
+  width: min(650px, calc(100% - 170px));
+  border: 1px solid #ffffff1c;
+  border-radius: 22px;
+  padding: 13px 16px 12px;
+  background: #131c27e8;
+  box-shadow:
+    0 18px 65px #0005,
+    inset 0 1px 0 #ffffff06;
+  backdrop-filter: blur(24px);
+}
+.immersive .conversation-heading {
+  margin: 0 5px 9px;
+}
+.immersive .conversation-heading button {
+  font-size: 11px;
+  color: #c1dce1;
+  gap: 8px;
+}
+.immersive .conversation-heading button span {
+  font-size: 10px;
+  font-weight: 400;
+  color: #718d9f;
+}
+.immersive .conversation-area form {
+  background: #ffffff04;
+  border: 1px solid #ffffff0b;
+  border-radius: 13px;
+  padding: 6px;
+}
+.immersive .conversation-area form:focus-within {
+  border-color: #83c8d15c;
+  box-shadow: none;
+}
+.immersive .conversation-area input {
+  font-size: 13px;
+  padding: 10px;
+  min-width: 0;
+}
+.immersive .conversation-area input::placeholder {
+  color: #859ba9;
+}
+.immersive .conversation-area form button {
+  border-radius: 9px;
+}
+.immersive .conversation-area form button[type='submit'] {
+  background: #bbdfe2;
+}
+.immersive .conversation-log {
+  max-height: min(230px, 30vh);
+  margin: 12px 0;
+  gap: 9px;
+}
+.immersive .chat-message {
+  border: 0;
+  padding: 9px 12px;
+  border-radius: 12px;
+}
+.immersive .chat-message.user {
+  margin-left: 28px;
+  background: #ffffff06;
+}
+.immersive .chat-message > span {
+  display: none;
+}
+.immersive .chat-message p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.conversation-latest {
+  font-size: 11px;
+  line-height: 1.55;
+  color: #b3c9d4;
+  margin: 0 6px 10px;
+  max-height: 52px;
+  overflow: auto;
+  white-space: pre-wrap;
+  scrollbar-width: thin;
+}
+.immersive .command-feedback {
+  display: none;
+}
+.immersive .command-feedback.error {
+  display: block;
+  font-size: 10px;
+  max-height: 54px;
+  margin: 9px 6px 0;
+  color: #e0b3a7;
+}
+.immersive .operation-review {
+  max-height: 180px;
+  padding: 12px;
+  border-color: #8bc3cb45;
+  border-radius: 12px;
+  background: #344c5b40;
+}
+.immersive .operation-review > span {
+  display: none;
+}
+.immersive .operation-review button {
+  border-radius: 8px;
+  padding: 9px 13px;
+}
+.immersive .status-bar {
+  position: absolute;
+  z-index: 4;
+  bottom: 14px;
+  left: 22px;
+  right: 22px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #81949f;
+  font-size: 10px;
+  pointer-events: none;
+}
+.immersive .history-actions {
+  pointer-events: auto;
+  gap: 8px;
+}
+.immersive .history-actions button {
+  padding: 6px;
+  border-radius: 8px;
+  background: #17212a70;
+}
+.immersive .status-bar .footer-divider {
+  display: none;
+}
+.immersive .connection-dialog {
+  background: #1b2530;
+  border-radius: 20px;
+  border-color: #ffffff20;
+}
+@media (max-width: 1050px) {
+  .immersive .project-title {
+    display: none;
+  }
+  .immersive .selection-chip {
+    right: 150px;
+  }
+  .architecture-action span {
+    display: none;
+  }
+  .immersive .conversation-area {
+    width: min(600px, calc(100% - 155px));
+  }
+}
+@media (max-width: 650px) {
+  .immersive .app-header {
+    height: 54px;
+    padding: 0 12px;
+  }
+  .immersive .header-actions {
+    gap: 5px;
+  }
+  .immersive .scene-toggle span,
+  .immersive .project-title {
+    display: none;
+  }
+  .immersive .export-button {
+    font-size: 0;
+    padding: 7px;
+    gap: 0;
+  }
+  .immersive .import-button {
+    display: flex;
+    font-size: 0;
+    padding: 7px;
+    gap: 0;
+  }
+  .immersive .brand {
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+  .immersive .brand-mark {
+    display: none;
+  }
+  .immersive .conversation-area {
+    width: calc(100% - 24px);
+    bottom: 44px;
+    padding: 11px;
+    border-radius: 18px;
+  }
+  .immersive .tool-palette {
+    left: 12px;
+    top: 16px;
+  }
+  .creation-dock {
+    left: 70px;
+    top: 16px;
+  }
+  .immersive .viewport-bar {
+    right: 12px;
+    top: 16px;
+  }
+  .selection-chip {
+    top: 72px;
+    right: 12px !important;
+    max-width: 220px;
+  }
+  .immersive .objects-panel {
+    left: 12px;
+    top: 70px;
+    bottom: 245px;
+  }
+  .immersive .inspector-panel {
+    right: 12px;
+    top: 70px;
+    bottom: 245px;
+  }
+  .immersive .viewport-bottom-left {
+    display: none;
+  }
+  .immersive .status-bar {
+    left: 15px;
+    right: 15px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .immersive * {
+    transition: none !important;
+  }
+}
+.immersive .inspector-panel .volume-stat {
+  display: flex;
+  padding-top: 12px;
+  color: #8fa7b5;
+  font-size: 10px;
+}
+.immersive .inspector-panel .recipe-summary {
+  display: block;
+  border-color: #ffffff0b;
+  font-size: 10px;
+}
