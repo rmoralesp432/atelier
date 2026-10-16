@@ -8,6 +8,9 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   timeout: 30_000,
+  // Publish actionable failures in the Checks API as well as downloadable logs.
+  // Cloud environments can allow api.github.com without allowing log storage.
+  reporter: process.env.CI ? [['list'], ['github']] : 'list',
   use: {
     baseURL: 'http://127.0.0.1:4173',
     viewport: { width: 1440, height: 1000 },
