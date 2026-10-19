@@ -17,7 +17,7 @@ Projects are stored in this browser's IndexedDB, with a synchronous checkpoint f
 ## Day, night and direct manipulation
 
 - **Studio → Appearance → Day / Night** switches the whole workspace and scene lighting. Day uses white surfaces and dark text; Night uses graphite. This preference saves in your browser independently of project geometry and object colors.
-- Selecting a volume by clicking, the Objects list, or an AI `select` operation gives it a soft cyan silhouette and activates move arrows. Click **Rotate** (or press **R**) for the rotation ring; **G** returns to Move. Explicit tool choices stay active until the next selection.
+- Selecting a volume by clicking, the Objects list, or an AI `select` operation gives it a soft highlighted silhouette and activates move arrows. Click **Rotate** (or press **Q**) for the rotation ring; **M** or **G** returns to Move. Explicit tool choices stay active until the next selection.
 - Drag an arrow to see the traveled distance and X/Y/Z displacement in meters, plus a line from the starting point. Drag the rotation ring to see the current angle, angle change and swept arc. Each completed drag remains a single undoable edit.
 - The snap control offers **15°, 45° or 90°** rotation increments; translation snaps every **0.5 m**. Toggle Snap off for free movement. Exact conversational dimensions are not rounded to mouse snap increments.
 - Open the inspector with the selected object's dimension chip or the header icon. Edit **Name**, then press Enter or click elsewhere. Escape cancels the name edit; an empty name restores the previous name. Names persist in project exports/history and remain available to the conversational engine.

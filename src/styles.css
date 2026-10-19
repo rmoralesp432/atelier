@@ -4898,3 +4898,220 @@ summary:focus-visible {
     transition: none !important;
   }
 }
+
+/* Small, contextual drawing desk. The preview itself lives in world space. */
+.sketch-bar {
+  position: absolute;
+  z-index: 14;
+  top: 80px;
+  left: 76px;
+  width: 282px;
+  padding: 16px;
+  border-radius: 20px;
+  color: var(--text, #e6e8e7);
+  background: color-mix(in srgb, var(--panel, #222628) 90%, transparent);
+  border: 1px solid rgba(180, 198, 191, 0.18);
+  backdrop-filter: blur(24px);
+  box-shadow: 0 16px 50px #0003;
+  max-height: calc(100% - 180px);
+  overflow: auto;
+  animation: sketch-arrive 300ms ease-out;
+}
+.sketch-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+}
+.sketch-heading span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sketch-heading i {
+  width: 5px;
+  height: 5px;
+  background: #d6e8df;
+  border-radius: 50%;
+  box-shadow: 0 0 14px #d6e8df88;
+}
+.sketch-bar button {
+  color: inherit;
+  border: 1px solid #9cb2a62a;
+  background: transparent;
+  border-radius: 9px;
+  padding: 7px 9px;
+  cursor: pointer;
+}
+.sketch-modes {
+  display: flex;
+  gap: 5px;
+}
+.sketch-modes button {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  font-size: 10px;
+  padding: 10px 4px;
+}
+.sketch-modes button[aria-pressed='true'] {
+  background: #c8ddd521;
+  border-color: #c8ddd568;
+}
+.sketch-readout {
+  display: block;
+  margin-top: 18px;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+}
+.sketch-bar p {
+  font-size: 11px;
+  line-height: 1.6;
+  color: inherit;
+  opacity: 0.8;
+  margin: 8px 0;
+}
+.sketch-bar small {
+  font-size: 10px;
+  opacity: 0.5;
+  display: block;
+  line-height: 1.6;
+}
+.sketch-bar details {
+  margin-top: 16px;
+  font-size: 11px;
+}
+.sketch-bar summary {
+  cursor: pointer;
+  opacity: 0.65;
+}
+.sketch-bar label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 10px 0;
+}
+.sketch-bar input {
+  width: 96px;
+  border: 1px solid #9cb2a633;
+  background: transparent;
+  color: inherit;
+  padding: 7px;
+  border-radius: 8px;
+}
+.sketch-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 10px;
+}
+.sketch-actions button {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.sketch-actions span {
+  opacity: 0.5;
+  margin-left: auto;
+}
+.sketch-bar button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+.sketch-bar [role='alert'] {
+  color: #e8ae91;
+  opacity: 1;
+}
+@keyframes sketch-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 800px) {
+  .sketch-bar {
+    top: 65px;
+    left: 65px;
+    width: min(260px, calc(100% - 80px));
+    max-height: 48%;
+    padding: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sketch-bar {
+    animation: none;
+  }
+}
+.spatial-creation-label {
+  position: absolute;
+  pointer-events: none;
+  z-index: 4;
+  transform: translate(24px, -100%);
+  padding: 10px 14px;
+  border-left: 1px solid #d6e5dc77;
+  color: #e6ede8;
+  background: linear-gradient(90deg, #202623bb, transparent);
+  backdrop-filter: blur(5px);
+  border-radius: 0 10px 10px 0;
+}
+.spatial-creation-label::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  bottom: 0;
+  width: 24px;
+  border-top: 1px solid #d6e5dc77;
+  transform: rotate(-35deg);
+  transform-origin: right;
+}
+.spatial-creation-label strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+.spatial-creation-label span {
+  display: block;
+  font-size: 10px;
+  opacity: 0.65;
+  margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.theme-day .spatial-creation-label {
+  color: #26342c;
+  background: linear-gradient(90deg, #f6f8f2cc, transparent);
+  border-color: #516a5c66;
+}
+.theme-day .sketch-bar {
+  color: #25312c;
+}
+.viewport-stage:has(.sketch-bar) .selection-chip {
+  display: none;
+}
+@media (max-width: 800px) {
+  .pull-feedback {
+    left: 74px;
+    right: 12px;
+    top: 132px;
+    transform: none;
+    padding: 10px 12px;
+    align-items: flex-start;
+    font-size: 11px;
+  }
+  .pull-feedback span,
+  .pull-feedback small {
+    white-space: normal;
+    line-height: 1.4;
+  }
+}

@@ -1,3 +1,4 @@
+import type { DrawingMode } from '../drawing/profile';
 import { useState } from 'react';
 import {
   X,
@@ -15,12 +16,14 @@ import { useFloatingPanel } from './useFloatingPanel';
 export default function ModelPanel({
   project,
   onOperation,
+  onDraw,
   onTool,
   onGroups,
   onClose,
 }: {
   project: Project;
   onOperation: (op: Operation) => void;
+  onDraw: (mode: DrawingMode) => void;
   onTool: (t: 'translate' | 'reshape') => void;
   onGroups: () => void;
   onClose: () => void;
@@ -65,7 +68,16 @@ export default function ModelPanel({
           <X size={17} />
         </button>
       </div>
-      <h3>Start with a shape</h3>
+      <h3>Draw a face, then pull it into space</h3>
+      <div className="theme-options">
+        <button onClick={() => onDraw('rectangle')}>Draw rectangle</button>
+        <button onClick={() => onDraw('circle')}>Draw circle</button>
+        <button onClick={() => onDraw('outline')}>Draw outline</button>
+      </div>
+      <p className="studio-caption">
+        Click directly in the workspace. Or create a face by dimensions below.
+      </p>
+      <h3>Start with dimensions</h3>
       <form
         onSubmit={(e) => {
           e.preventDefault();

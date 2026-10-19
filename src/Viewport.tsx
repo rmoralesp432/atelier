@@ -1,3 +1,7 @@
+import { spatialGrid } from './geometry/spatialGrid';
+import Sketch from './drawing/Sketch';
+import type { DrawingTool } from './drawing/profile';
+import type { Operation } from './intelligence/plan';
 import { sectionPlaneControls } from './geometry/SectionPlaneControls';
 import { shiftMap, type Site } from './studio/site';
 import { transformSelection } from './geometry/selectionTransform';
@@ -34,10 +38,12 @@ import { round } from './model';
 import { isProfile, renderMeshData } from './geometry/kernel';
 import type { CameraContext } from './intelligence/context';
 
-export type Tool = 'select' | 'translate' | 'rotate' | 'reshape';
+export type Tool = 'select' | 'translate' | 'rotate' | 'reshape' | DrawingTool;
 type Props = {
   project: Project;
   tool: Tool;
+  onDraw: (operation: Operation) => Promise<void>;
+  onTool: (tool: Tool) => void;
   presenting: boolean;
   suspended: boolean;
   cameraSettings: CameraSettings;
@@ -75,7 +81,7 @@ type Runtime = {
   signatures: Map<string, string>;
   updateShadows: () => void;
   applyLens: () => void;
-  fit: (top: boolean) => void;
+  fit: (top: boolean, focusIds?: string[]) => void;
   beginConstruction: (
     v: Volume,
     g: THREE.Group,
@@ -180,22 +186,31 @@ export default function Viewport(props: Props) {
     light.shadow.normalBias = 0.025;
     scene.add(light, light.target);
     const ground = new THREE.Mesh(
-      new THREE.PlaneGeometry(4000, 4000),
+      new THREE.PlaneGeometry(40000, 40000),
       new THREE.MeshStandardMaterial({
         color: '#151719',
         roughness: 0.9,
         metalness: 0.05,
       }),
     );
+    // Fade the floor before the far clipping plane, so extreme zoom never
+    // reveals a hard floor boundary against the studio background.
+    ground.material.transparent = true;
+    ground.material.depthWrite = false;
+    ground.material.onBeforeCompile = (shader) => {
+      shader.fragmentShader = shader.fragmentShader.replace(
+        '#include <dithering_fragment>',
+        '#include <dithering_fragment>\n gl_FragColor.a *= 1.0 - smoothstep(1200.0, 2500.0, length(vViewPosition));',
+      );
+    };
     ground.rotation.x = -Math.PI / 2;
     ground.position.y = -0.035;
     ground.receiveShadow = true;
+    // The fading floor must render before glass and construction context.
+    ground.renderOrder = -2;
     scene.add(ground);
-    const grid = new THREE.GridHelper(400, 80, '#556572', '#42515e');
-    (grid.material as THREE.Material).transparent = true;
-    (grid.material as THREE.Material).opacity = 0.045;
-    grid.position.y = -0.02;
-    scene.add(grid);
+    const grid = spatialGrid();
+    scene.add(grid.mesh);
     const transform = new TransformControls(camera, renderer.domElement);
     transform.setSize(0.85);
     scene.add(transform.getHelper());
@@ -206,7 +221,7 @@ export default function Viewport(props: Props) {
     outline.edgeStrength = 4;
     outline.edgeGlow = 1.2;
     outline.edgeThickness = 2;
-    outline.visibleEdgeColor.set('#64e3ed');
+    outline.visibleEdgeColor.set('#d2e8dd');
     outline.hiddenEdgeColor.set('#173a40');
     // Keep transform controls out of the selection mask (their visibility setters
     // deliberately override traversal visibility, unlike ordinary meshes).
@@ -215,10 +230,13 @@ export default function Viewport(props: Props) {
       const helper = transform.getHelper(),
         visible = helper.visible;
       helper.visible = false;
+      const gridVisible = grid.mesh.visible;
+      grid.mesh.visible = false;
       try {
         renderOutline(...args);
       } finally {
         helper.visible = visible;
+        grid.mesh.visible = gridVisible;
       }
     };
     outline.overlayMaterial.uniforms.daylight = { value: false };
@@ -264,13 +282,13 @@ export default function Viewport(props: Props) {
       ground.material.color.set(color);
       ambient.groundColor.set(day ? '#b5c3ce' : '#252c34');
       ambient.intensity = day ? 1.2 : 0.8;
-      outline.visibleEdgeColor.set(day ? '#ffffff' : '#64e3ed');
+      outline.visibleEdgeColor.set(day ? '#ffffff' : '#d2e8dd');
       outline.overlayMaterial.uniforms.daylight.value = day;
       outline.overlayMaterial.blending = day
         ? THREE.NormalBlending
         : THREE.AdditiveBlending;
       outline.overlayMaterial.needsUpdate = true;
-      (grid.material as THREE.Material).opacity = day ? 0.12 : 0.045;
+      grid.theme(day);
     };
     const setProjection = (orthographic: boolean) => {
       if (orthographic === camera instanceof THREE.OrthographicCamera) return;
@@ -311,6 +329,44 @@ export default function Viewport(props: Props) {
         editing: boolean;
       }
     >();
+    const formationContext = new Map<
+      THREE.Material,
+      { opacity: number; transparent: boolean; depthWrite: boolean }
+    >();
+    let contextStart = 0;
+    const restoreContext = () => {
+      for (const [material, original] of formationContext) {
+        Object.assign(material, original);
+        material.needsUpdate = true;
+      }
+      formationContext.clear();
+      container.dataset.formationContext = '0';
+    };
+    const softenContext = () => {
+      if (formationContext.size) return;
+      contextStart = performance.now();
+      objects.forEach((group, id) => {
+        if (latest.current.motion.ids.includes(id)) return;
+        group.traverse((object) => {
+          if (object instanceof THREE.Mesh || object instanceof THREE.Line) {
+            for (const material of Array.isArray(object.material)
+              ? object.material
+              : [object.material]) {
+              if (formationContext.has(material)) continue;
+              formationContext.set(material, {
+                opacity: material.opacity,
+                transparent: material.transparent,
+                depthWrite: material.depthWrite,
+              });
+              material.transparent = true;
+              material.depthWrite = false;
+              material.needsUpdate = true;
+            }
+          }
+        });
+      });
+      container.dataset.formationContext = String(formationContext.size);
+    };
     const progress = document.createElement('div');
     progress.className = 'creation-progress';
     progress.setAttribute('aria-label', 'Geometry formation');
@@ -319,6 +375,13 @@ export default function Viewport(props: Props) {
     progress.append(progressLabel, progressBar);
     progress.hidden = true;
     container.appendChild(progress);
+    const spatialLabel = document.createElement('div');
+    spatialLabel.className = 'spatial-creation-label';
+    spatialLabel.hidden = true;
+    const spatialName = document.createElement('strong'),
+      spatialMeasure = document.createElement('span');
+    spatialLabel.append(spatialName, spatialMeasure);
+    container.appendChild(spatialLabel);
     const finishOne = (id: string) => {
       const c = constructions.get(id);
       if (!c) return;
@@ -341,10 +404,12 @@ export default function Viewport(props: Props) {
       c.guide.geometry.dispose();
       (c.guide.material as THREE.Material).dispose();
       constructions.delete(id);
+      if (!constructions.size) restoreContext();
     };
     const finishConstruction = () => {
       for (const id of [...constructions.keys()]) finishOne(id);
       progress.hidden = true;
+      spatialLabel.hidden = true;
       container.dataset.constructionActive = 'false';
       container.dataset.constructionPhase = 'complete';
     };
@@ -355,6 +420,7 @@ export default function Viewport(props: Props) {
       editing = false,
     ) => {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (!editing) softenContext();
       const points: THREE.Vector3[] = [];
       const d = v.dimensions;
       if (v.geometry?.kind === 'polygon')
@@ -413,7 +479,7 @@ export default function Viewport(props: Props) {
       const guide = new Line(
         guideGeometry,
         new THREE.LineBasicMaterial({
-          color: '#a4f2e8',
+          color: '#d7e5db',
           transparent: true,
           opacity: 0.85,
           depthTest: false,
@@ -435,7 +501,7 @@ export default function Viewport(props: Props) {
         : new THREE.Line(
             guide.geometry.clone(),
             new THREE.LineBasicMaterial({
-              color: '#c6fff4',
+              color: '#f1eadb',
               transparent: true,
               opacity: 0.65,
               depthTest: false,
@@ -649,6 +715,7 @@ export default function Viewport(props: Props) {
     };
     const up = (event: PointerEvent) => {
       if (
+        latest.current.tool.startsWith('draw_') ||
         event.button !== 0 ||
         dragging ||
         usedHandle ||
@@ -742,7 +809,9 @@ export default function Viewport(props: Props) {
       current: () => ({
         project: latest.current.project,
         section: latest.current.section,
-        interactive: latest.current.sectionEditing,
+        interactive:
+          latest.current.sectionEditing &&
+          !latest.current.tool.startsWith('draw_'),
         enabled:
           !latest.current.presenting &&
           !latest.current.alignMap &&
@@ -764,7 +833,8 @@ export default function Viewport(props: Props) {
         !latest.current.cameraSettings.walk &&
         !latest.current.presenting &&
         !latest.current.alignMap &&
-        !latest.current.sectionEditing,
+        !latest.current.sectionEditing &&
+        !latest.current.tool.startsWith('draw_'),
       selectMode: () => latest.current.tool === 'select',
       onSelect: (ids, additive) => latest.current.onSelectMany(ids, additive),
     });
@@ -778,32 +848,60 @@ export default function Viewport(props: Props) {
     orbit.addEventListener('start', () => {
       transition = null;
     });
-    const fit = (top: boolean) => {
+    const fit = (top: boolean, focusIds?: string[]) => {
       const box = new THREE.Box3();
-      objects.forEach((g) => box.expandByObject(g));
+      if (focusIds?.length) {
+        const volumes = latest.current.project.volumes.filter(
+          (v) =>
+            focusIds.includes(v.id) && isVisible(v, latest.current.project),
+        );
+        if (!volumes.length) return;
+        const b = groupBounds(volumes);
+        box.set(
+          new THREE.Vector3(b.min.x, b.min.y, b.min.z),
+          new THREE.Vector3(b.max.x, b.max.y, b.max.z),
+        );
+      } else
+        objects.forEach((g) => {
+          if (g.visible) box.expandByObject(g);
+        });
       const center = box.isEmpty()
         ? new THREE.Vector3(0, 2, 0)
         : box.getCenter(new THREE.Vector3());
       const size = box.isEmpty()
         ? new THREE.Vector3(20, 10, 20)
         : box.getSize(new THREE.Vector3());
-      const distance =
-        ((Math.max(size.x, size.y, size.z, 10) /
+      let distance =
+        ((Math.max(size.x, size.y, size.z, focusIds ? 1 : 10) /
           (2 *
             Math.tan(
               THREE.MathUtils.degToRad(latest.current.cameraSettings.fov / 2),
             ))) *
-          1.65) /
+          (focusIds ? 1.6 : 1.65)) /
         Math.min(
           container.clientWidth / Math.max(container.clientHeight, 1),
           1,
         );
+      if (focusIds)
+        distance = Math.min(distance, camera.position.distanceTo(orbit.target));
+      container.dataset.cameraFraming = focusIds ? 'creation' : 'all';
+      container.dataset.cameraFocusIds = focusIds?.join(',') ?? '';
+      container.dataset.cameraGoalDistance = String(distance);
       if (camera instanceof THREE.OrthographicCamera) {
-        const half =
-            distance *
-            Math.tan(
-              THREE.MathUtils.degToRad(latest.current.cameraSettings.fov / 2),
-            ),
+        const half = focusIds
+            ? Math.min(
+                (camera.top - camera.bottom) / camera.zoom / 2,
+                distance *
+                  Math.tan(
+                    THREE.MathUtils.degToRad(
+                      latest.current.cameraSettings.fov / 2,
+                    ),
+                  ),
+              )
+            : distance *
+              Math.tan(
+                THREE.MathUtils.degToRad(latest.current.cameraSettings.fov / 2),
+              ),
           aspect = container.clientWidth / Math.max(container.clientHeight, 1);
         camera.left = -half * aspect;
         camera.right = half * aspect;
@@ -817,7 +915,9 @@ export default function Viewport(props: Props) {
         .add(
           (top
             ? new THREE.Vector3(0, 1, 0.001)
-            : new THREE.Vector3(1, 0.7, 1.6)
+            : focusIds
+              ? camera.position.clone().sub(orbit.target)
+              : new THREE.Vector3(1, 0.7, 1.6)
           )
             .normalize()
             .multiplyScalar(distance),
@@ -958,7 +1058,7 @@ export default function Viewport(props: Props) {
       setProjection,
       setMapVisible: (visible) => {
         ground.visible = !visible;
-        grid.visible = !visible;
+        grid.mesh.visible = !visible;
         container.dataset.baseGroundVisible = String(!visible);
       },
       camera,
@@ -1038,12 +1138,26 @@ export default function Viewport(props: Props) {
         );
         if (t === 1) transition = null;
       }
+      container.dataset.gridSpacing = String(grid.update(camera, orbit.target));
+      container.dataset.cameraDistance = String(
+        camera.position.distanceTo(orbit.target),
+      );
+      ground.position.x = camera.position.x;
+      ground.position.z = camera.position.z;
       sectionPlane.update();
       if (
         constructions.size &&
         window.matchMedia('(prefers-reduced-motion: reduce)').matches
       )
         finishConstruction();
+      if (formationContext.size) {
+        const elapsed = performance.now() - contextStart;
+        const restore = THREE.MathUtils.smoothstep(elapsed, 2700, 3600);
+        const soften =
+          THREE.MathUtils.smoothstep(elapsed, 0, 300) * (1 - restore);
+        for (const [material, original] of formationContext)
+          material.opacity = original.opacity * (1 - 0.82 * soften);
+      }
       for (const [id, c] of constructions) {
         const frame = constructionFrame(
           performance.now() - c.start,
@@ -1073,6 +1187,24 @@ export default function Viewport(props: Props) {
             frame.phase === 'footprint' ? 0 : frame.guideOpacity * 0.7;
         }
         progress.hidden = false;
+        const volume = latest.current.project.volumes.find((v) => v.id === id);
+        if (volume) {
+          const pos = new THREE.Vector3(
+            volume.position.x,
+            volume.position.y +
+              (isProfile(volume) ? 0 : volume.dimensions.height * frame.height),
+            volume.position.z,
+          ).project(camera);
+          spatialLabel.hidden =
+            pos.z > 1 ||
+            pos.z < -1 ||
+            Math.abs(pos.x) > 0.85 ||
+            Math.abs(pos.y) > 0.85;
+          spatialLabel.style.left = `${((pos.x + 1) * container.clientWidth) / 2}px`;
+          spatialLabel.style.top = `${((-pos.y + 1) * container.clientHeight) / 2}px`;
+          spatialName.textContent = volume.name;
+          spatialMeasure.textContent = `${volume.dimensions.width} × ${volume.dimensions.depth}${isProfile(volume) ? '' : ` × ${volume.dimensions.height}`} m`;
+        }
         const phaseLabel = c.editing
           ? 'Revealing the updated geometry'
           : frame.phase === 'footprint'
@@ -1111,6 +1243,7 @@ export default function Viewport(props: Props) {
       }
       container.dataset.constructionActive = String(constructions.size > 0);
       if (!constructions.size) {
+        spatialLabel.hidden = true;
         container.dataset.constructionPhase = 'complete';
         progress.hidden = true;
       }
@@ -1173,6 +1306,7 @@ export default function Viewport(props: Props) {
       renderer.dispose();
       renderer.domElement.remove();
       progress.remove();
+      spatialLabel.remove();
       runtime.current = null;
     };
   }, []);
@@ -1317,7 +1451,6 @@ export default function Viewport(props: Props) {
           return;
         }
         const hadObjects = r!.objects.size;
-        const added = props.project.volumes.some((v) => !r!.objects.has(v.id));
         r!.transform.detach();
         for (const [id, group] of r!.objects) {
           if (!signatures.has(id) || built.has(id)) {
@@ -1413,8 +1546,7 @@ export default function Viewport(props: Props) {
           selected &&
           selectedVolume &&
           !isLocked(selectedVolume, props.project) &&
-          props.tool !== 'select' &&
-          props.tool !== 'reshape' &&
+          (props.tool === 'translate' || props.tool === 'rotate') &&
           !props.sectionEditing &&
           !props.cameraSettings.walk
         )
@@ -1439,10 +1571,12 @@ export default function Viewport(props: Props) {
         host.current!.dataset.meshBuilds = String(
           Number(host.current!.dataset.meshBuilds || 0) + built.size,
         );
-        if ((!hadObjects || added) && r!.objects.size)
+        if (!hadObjects && r!.objects.size && !props.motion.ids.length)
           r!.fit(props.view.mode === 'top');
         if (r!.motionRevision !== props.motion.revision) {
           r!.motionRevision = props.motion.revision;
+          if (props.motion.ids.length && !props.cameraSettings.walk)
+            r!.fit(props.view.mode === 'top', props.motion.ids);
           props.motion.ids.forEach((id, i) => {
             const v = props.project.volumes.find((o) => o.id === id),
               g = r!.objects.get(id);
@@ -1750,6 +1884,19 @@ export default function Viewport(props: Props) {
       data-testid="viewport"
       data-align-map={props.alignMap}
     >
+      {props.tool.startsWith('draw_') &&
+        !props.suspended &&
+        !props.cameraSettings.walk && (
+          <Sketch
+            mode={props.tool.slice(5) as 'rectangle' | 'circle' | 'outline'}
+            project={props.project}
+            snap={props.snap}
+            getRuntime={() => runtime.current}
+            onMode={(mode) => props.onTool(`draw_${mode}`)}
+            onCommit={props.onDraw}
+            onClose={() => props.onTool('select')}
+          />
+        )}
       {props.alignMap && (
         <div className="pull-feedback" role="status">
           <strong>Move the map</strong>
@@ -1757,8 +1904,7 @@ export default function Viewport(props: Props) {
         </div>
       )}
       {props.project.selectedId &&
-        props.tool !== 'select' &&
-        props.tool !== 'reshape' &&
+        (props.tool === 'translate' || props.tool === 'rotate') &&
         !props.sectionEditing &&
         (() => {
           const v = props.project.volumes.find(

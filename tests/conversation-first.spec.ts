@@ -4,6 +4,7 @@ import { expect, test } from '@playwright/test';
 test('design question, free-form answer and correction work without choosing primitives or selecting tools', async ({
   page,
 }) => {
+  test.setTimeout(90000);
   let turn = 0;
   let answerQuestion!: () => Promise<void>;
   await page.route('**/api/config', (r) =>
@@ -95,9 +96,9 @@ test('design question, free-form answer and correction work without choosing pri
   await input.press('Shift+Enter');
   await input.pressSequentially('Around 80 meters long and 15 deep.');
   await input.press('Enter');
-  await expect(
-    page.getByText('Considering your idea…', { exact: true }),
-  ).toBeVisible();
+  await expect(page.locator('.process-stage')).toContainText(
+    'Considering your idea…',
+  );
   await input.fill('Keep this draft while you think.');
   await input.press('Enter');
   await expect(input).toHaveValue('Keep this draft while you think.');

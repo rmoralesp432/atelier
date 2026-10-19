@@ -44,6 +44,7 @@ import {
   MousePointer2,
   Move3D,
   Plus,
+  PenLine,
   Redo2,
   RotateCcw,
   RotateCw,
@@ -366,12 +367,26 @@ export default function App({
   }, [appearance]);
   const [northAngle, setNorthAngle] = useState(0);
   const [tool, setTool] = useState<Tool>('select');
+  const activateTool = (next: Tool) => {
+    setTool(next);
+    if (next.startsWith('draw_')) {
+      setAlignMap(false);
+      setPresentation(false);
+      setObjectsOpen(false);
+      setChatExpanded(false);
+      setCameraSettings((v) => ({ ...v, walk: false }));
+      if (panels.active) panels.setters[panels.active](false);
+    }
+  };
   const [multiSelect, setMultiSelect] = useState(false);
   const [snap, setSnap] = useState(true);
   const [angleSnap, setAngleSnap] = useState(45);
   const inspectorPanel = useFloatingPanel();
   useEffect(() => {
-    if (project.selectedId) setTool('translate');
+    if (project.selectedId)
+      setTool((t) =>
+        t === 'reshape' || t.startsWith('draw_') ? t : 'translate',
+      );
   }, [project.selectedId]);
   const [view, setView] = useState<{
     mode: 'perspective' | 'orthographic' | 'top';
@@ -473,6 +488,33 @@ export default function App({
       }
       if (op.type !== 'workspace') continue;
       const a = op.action;
+      if (
+        a === 'draw_rectangle' ||
+        a === 'draw_circle' ||
+        a === 'draw_outline' ||
+        a === 'tool_pushpull' ||
+        a === 'tool_move' ||
+        a === 'tool_rotate' ||
+        a === 'tool_select'
+      ) {
+        activateTool(
+          a === 'tool_pushpull'
+            ? 'reshape'
+            : a === 'tool_move'
+              ? 'translate'
+              : a === 'tool_rotate'
+                ? 'rotate'
+                : a === 'tool_select'
+                  ? 'select'
+                  : a,
+        );
+        reports.push(
+          a.startsWith('draw_')
+            ? 'Drawing ready. Click in the workspace to place your first point; close the face, then use Push / pull.'
+            : 'Modeling tool ready.',
+        );
+        continue;
+      }
       if (a === 'moodboard_open' || a === 'moodboard_close') {
         setMoodboardOpen(a === 'moodboard_open');
         reports.push(
@@ -1083,7 +1125,7 @@ export default function App({
         input.current?.focus();
         return;
       }
-      if (editing || settingsOpen || importAsset) return;
+      if (editing || settingsOpen || importAsset || e.defaultPrevented) return;
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
         e.preventDefault();
         travel(e.shiftKey ? 'redo' : 'undo');
@@ -1093,9 +1135,14 @@ export default function App({
       } else if (e.key === 'Delete' || e.key === 'Backspace') {
         e.preventDefault();
         run('delete selected');
-      } else if (e.key.toLowerCase() === 'v') setTool('select');
-      else if (e.key.toLowerCase() === 'g') setTool('translate');
-      else if (e.key.toLowerCase() === 'r') setTool('rotate');
+      } else if (e.key.toLowerCase() === 'v' || e.code === 'Space') {
+        e.preventDefault();
+        setTool('select');
+      } else if (['g', 'm'].includes(e.key.toLowerCase())) setTool('translate');
+      else if (e.key.toLowerCase() === 'q') setTool('rotate');
+      else if (e.key.toLowerCase() === 'r') activateTool('draw_rectangle');
+      else if (e.key.toLowerCase() === 'c') activateTool('draw_circle');
+      else if (e.key.toLowerCase() === 'l') activateTool('draw_outline');
       else if (e.key.toLowerCase() === 'p') setTool('reshape');
       else if (e.key.toLowerCase() === 'f')
         setView((v) => ({ ...v, revision: v.revision + 1 }));
@@ -1826,6 +1873,7 @@ export default function App({
               <ModelPanel
                 project={project}
                 onOperation={(op) => void propose(directPlan(op))}
+                onDraw={(mode) => activateTool(`draw_${mode}`)}
                 onTool={(t) => {
                   setTool(t);
                   panels.setters.model(false);
@@ -1955,6 +2003,21 @@ export default function App({
             </div>
             <Viewport
               project={project}
+              onTool={activateTool}
+              onDraw={async (op) => {
+                if (busyRef.current)
+                  throw new Error(
+                    'Wait for the current edit to finish, then finish your drawing.',
+                  );
+                setModelingBusy((n) => n + 1);
+                try {
+                  const message = await execute(directPlan(op));
+                  remember('assistant', message);
+                  setTool('reshape');
+                } finally {
+                  setModelingBusy((n) => n - 1);
+                }
+              }}
               tool={presentation || alignMap ? 'select' : tool}
               presenting={presentation}
               suspended={arActive || moodboardOpen}
@@ -2063,8 +2126,13 @@ export default function App({
                     key: 'V',
                     Icon: MousePointer2,
                   },
-                  { id: 'translate', label: 'Move', key: 'G', Icon: Move3D },
-                  { id: 'rotate', label: 'Rotate', key: 'R', Icon: RotateCw },
+                  {
+                    id: 'translate',
+                    label: 'Move',
+                    key: 'M / G',
+                    Icon: Move3D,
+                  },
+                  { id: 'rotate', label: 'Rotate', key: 'Q', Icon: RotateCw },
                   {
                     id: 'reshape',
                     label: 'Push / pull',
@@ -2085,6 +2153,16 @@ export default function App({
                 </button>
               ))}
               <div className="tool-divider" />
+              <button
+                className="create-tools-button"
+                aria-label="Draw 2D"
+                title="Draw a face (R rectangle · C circle · L outline)"
+                aria-pressed={tool.startsWith('draw_')}
+                onClick={() => activateTool('draw_rectangle')}
+              >
+                <PenLine size={18} />
+                <span>Draw</span>
+              </button>
               <button
                 className="create-tools-button"
                 aria-label="Create and transform"
@@ -2140,9 +2218,11 @@ export default function App({
             <div className="navigation-hint">
               {cameraSettings.walk
                 ? 'WASD to walk · drag to look'
-                : tool === 'select'
-                  ? 'Drag a selection box · Alt-drag to orbit'
-                  : 'Drag to orbit · Shift-drag to select · Scroll to zoom'}
+                : tool.startsWith('draw_')
+                  ? 'Click to draw · Middle-drag to orbit · Scroll to zoom'
+                  : tool === 'select'
+                    ? 'Drag a selection box · Alt-drag to orbit'
+                    : 'Drag to orbit · Shift-drag to select · Scroll to zoom'}
             </div>
           </div>
           <div className="conversation-area">
@@ -2172,7 +2252,7 @@ export default function App({
                   <ConversationReply message={messages.at(-1)!} />
                 </div>
               )}
-            {messages.length === 0 && (
+            {messages.length === 0 && !tool.startsWith('draw_') && (
               <div className="conversation-welcome">
                 <strong>Space for your next idea.</strong>
                 <p>Imagine it. We’ll shape it together.</p>

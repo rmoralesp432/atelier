@@ -23,6 +23,13 @@ const point = z
   })
   .strict();
 export const workspaceActionSchema = z.enum([
+  'draw_rectangle',
+  'draw_circle',
+  'draw_outline',
+  'tool_pushpull',
+  'tool_move',
+  'tool_rotate',
+  'tool_select',
   'solar_settings',
   'solar_on',
   'solar_off',

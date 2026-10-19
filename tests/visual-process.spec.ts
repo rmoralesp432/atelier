@@ -55,6 +55,17 @@ test('processing feedback follows a real pending request, then geometry formatio
     'true',
   );
   await expect(page.getByLabel('Geometry formation')).toBeVisible();
+  await expect(page.locator('.spatial-creation-label')).toBeVisible();
+  await expect
+    .poll(async () =>
+      Number(
+        await page
+          .getByTestId('viewport')
+          .getAttribute('data-formation-context'),
+      ),
+    )
+    .toBeGreaterThan(0);
+  await page.screenshot({ path: 'test-results/spatial-volume-formation.png' });
   await expect(page.locator('.conversation-working')).toBeHidden();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-active',
@@ -62,6 +73,10 @@ test('processing feedback follows a real pending request, then geometry formatio
     { timeout: 10000 },
   );
   await expect(page.getByLabel('Geometry formation')).toBeHidden();
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-formation-context',
+    '0',
+  );
   const saved = await page.evaluate(() =>
     JSON.parse(localStorage.getItem('atelier.session.v2')!),
   );
