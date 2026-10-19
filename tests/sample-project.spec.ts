@@ -19,7 +19,7 @@ test('sample house opens from the first-screen invitation, stays editable and pr
     .click();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-model-objects',
-    '133',
+    '134',
     { timeout: 30000 },
   );
   await expect(
@@ -33,7 +33,7 @@ test('sample house opens from the first-screen invitation, stays editable and pr
   await width.press('Enter');
   await expect(width).toHaveValue('14');
   await page.getByRole('button', { name: 'Undo', exact: true }).click();
-  await expect(width).toHaveValue('12');
+  await expect(width).toHaveValue('16.68');
   await page
     .getByRole('button', { name: 'Close inspector', exact: true })
     .click();
@@ -52,7 +52,7 @@ test('sample house opens from the first-screen invitation, stays editable and pr
   await page.reload();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-model-objects',
-    '133',
+    '134',
     { timeout: 30000 },
   );
   await page.getByRole('button', { name: 'Projects', exact: true }).click();
@@ -72,7 +72,7 @@ test('sample house opens from the first-screen invitation, stays editable and pr
     .click();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-model-objects',
-    '133',
+    '134',
     { timeout: 30000 },
   );
   expect((await saved(page)).project.volumes[0].id).not.toBe(
@@ -92,7 +92,7 @@ test('phone sample exposes searchable editable windows without replacing the ori
     .click();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-model-objects',
-    '133',
+    '134',
     { timeout: 30000 },
   );
   await page.getByRole('button', { name: 'Show objects', exact: true }).click();

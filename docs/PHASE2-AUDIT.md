@@ -54,6 +54,6 @@ See [validation evidence](VALIDATION.md) for the automated checks and their limi
 
 ## Detailed sample and component editing — 2026-10-19
 
-The Farnsworth-inspired sample now contains 133 independently editable parts and six groups; existing sample copies are preserved. Procedural buildings can be separated into grouped solid components with a reviewed `components` operation and exact undo. Glass material survives editing and project round trips. Native trees are transparent branching silhouettes in the workspace and shared AR/moodboard renderer. New people use a Modulor-inspired raised-arm silhouette with an explicitly stated reach/head height.
+The Farnsworth-inspired sample now contains 134 independently editable parts and six groups; existing sample copies are preserved. Procedural buildings can be separated into grouped solid components with a reviewed `components` operation and exact undo. Glass material survives editing and project round trips. Native trees are transparent branching silhouettes in the workspace and shared AR/moodboard renderer. New people use a Modulor-inspired raised-arm silhouette with an explicitly stated reach/head height.
 
 The sample's provisional Illinois map center is prefilled. Precise site topography remains blocked by unapproved outbound access to official house/USGS services and has not been simulated. This update does not establish live AI understanding, physical-device AR performance or survey accuracy. See [SAMPLE-PROJECT.md](SAMPLE-PROJECT.md) for controls, representation changes and limitations.

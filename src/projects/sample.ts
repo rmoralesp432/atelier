@@ -70,10 +70,10 @@ export function sampleHouse(): SavedProject {
   add('Porch · travertine floor', 6, 8.8, 0.25, -10, 1.5, 0, 0);
   add('Porch · roof', 6, 8.8, 0.25, -10, 4.45, 0, 0);
   for (const [side, z] of [
-    ['North', -4.48],
-    ['South', 4.48],
+    ['North', -4.52],
+    ['South', 4.52],
   ] as const) {
-    [-12.6, -5.1, 2.4, 10.6].forEach((x, i) => {
+    [-11.231, -4.525, 2.18, 8.886].forEach((x, i) => {
       const column = add(
         `${side} · steel column ${i + 1}`,
         0.2,
@@ -226,34 +226,58 @@ export function sampleHouse(): SavedProject {
   facade('South', 'x', 4.3, -7, 18, 6);
   facade('East', 'z', 10.9, -4.3, 8.6, 3);
   facade('West', 'z', -6.9, -4.3, 8.6, 3);
-  const terrace = add('Lower terrace', 12, 6, 0.25, -7, 0.5, 8, 4, '#c9c3b1');
+  // Reference reconstruction: lower bed 16.679 × 6.876 m; its west edge
+  // projects 6.571 m beyond the upper slab. Keep the sample's local axes.
+  // Unlike the previous west-aligned 12 m platform, this forms the staggered plan.
+  const terrace = add(
+    'Lower terrace',
+    16.68,
+    6.88,
+    0.25,
+    -11.23,
+    0.5,
+    8.08,
+    4,
+    '#d9d3c1',
+  );
   for (let i = 0; i < 4; i++)
     add(
       `Porch step ${i + 1}`,
-      3,
+      3.66,
       0.4,
-      0.25,
-      -10,
-      0.75 + i * 0.25,
-      5.75 - i * 0.35,
+      0.08,
+      -9.66,
+      0.75 + (i + 1) * 0.2 - 0.08,
+      5.8 - i * 0.4,
       4,
       '#d9d3c1',
     );
-  for (let i = 0; i < 3; i++)
+  for (let i = 0; i < 4; i++)
     add(
       `Garden step ${i + 1}`,
-      3,
+      3.66,
       0.4,
-      0.25,
-      -10,
-      i * 0.25,
-      12 - i * 0.4,
+      0.08,
+      -9.66,
+      (i + 1) * 0.15 - 0.08,
+      12.92 - i * 0.4,
       4,
       '#d9d3c1',
     );
-  for (const x of [-12.3, -1.7])
-    for (const z of [5.3, 10.7])
-      add('Terrace · support', 0.16, 0.2, 0.5, x, 0, z, 4);
+  // Three front posts and one west return; the two porch-side posts are
+  // shared with the upper pavilion's frame, as in the reference arrangement.
+  const columnProfile = volumes.find(
+    (v) => v.name === 'North · steel column 1',
+  )!.geometry;
+  for (const [x, z] of [
+    [-17.937, 4.52],
+    [-17.937, 11.64],
+    [-11.231, 11.64],
+    [-4.525, 11.64],
+  ]) {
+    const support = add('Terrace · support', 0.2, 0.25, 0.5, x, 0, z, 4);
+    support.geometry = structuredClone(columnProfile);
+  }
   // Core panels, hearth, counter and furniture remain individually editable.
   add(
     'Core · north timber wall',
@@ -341,14 +365,14 @@ export function sampleHouse(): SavedProject {
   add('Sleeping · mattress', 1.9, 2.0, 0.22, 7.6, 2.03, -2, 3, '#e1dbcd');
   const person = add(
     'Modulor · 1.83 m head / 2.26 m reach',
-    0.65,
-    0.1,
+    0.85,
+    0.025,
     2.26,
     -9,
     1.75,
     2.3,
     5,
-    '#8f785d',
+    '#4f5652',
   );
   person.geometry = { kind: 'person' };
   for (const [i, x, z, w, h] of [

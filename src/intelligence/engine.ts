@@ -594,10 +594,11 @@ export async function applyPlan(
       );
       const bounds = related.length ? groupBounds(related) : null;
       const v = makeVolume(s.project.volumes.length + 1, {
-        width: (0.65 * op.height) / 2.26,
+        width: (0.85 * op.height) / 2.26,
         depth: 0.1,
         height: op.height,
       });
+      v.dimensions.depth = 0.025;
       v.name = uniqueName('Modulor scale figure', s.project.volumes);
       v.color = '#d58b69';
       v.geometry = { kind: 'person' };

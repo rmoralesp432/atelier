@@ -80,6 +80,8 @@ export const STORAGE_KEY = 'atelier.project.v1';
 export const MAX_VOLUMES = 200;
 export const round = (n: number) => Math.round(n * 1000) / 1000 + 0;
 export function validateVolume(v: Volume, checkGeometry = true): void {
+  const minimum =
+    v.geometry?.kind === 'mesh' || v.geometry?.kind === 'person' ? 0.001 : 0.1;
   if (v.visible !== undefined && typeof v.visible !== 'boolean')
     throw new Error('Object visibility must be true or false.');
   if (
@@ -97,14 +99,11 @@ export function validateVolume(v: Volume, checkGeometry = true): void {
     !['width', 'depth', 'height'].every(
       (k) =>
         Number.isFinite(v.dimensions[k as keyof Dimensions]) &&
-        v.dimensions[k as keyof Dimensions] >=
-          (v.geometry?.kind === 'mesh' ? 0.001 : 0.1) &&
+        v.dimensions[k as keyof Dimensions] >= minimum &&
         v.dimensions[k as keyof Dimensions] <= 500,
     )
   )
-    throw new Error(
-      `Dimensions must be between ${v.geometry?.kind === 'mesh' ? '0.001' : '0.1'} and 500 meters.`,
-    );
+    throw new Error(`Dimensions must be between ${minimum} and 500 meters.`);
   if (
     !v.position ||
     !['x', 'y', 'z'].every(

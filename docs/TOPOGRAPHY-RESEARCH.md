@@ -13,10 +13,12 @@ This is a setting for the Codex cloud development environment. It is not a Rende
    - `epqs.nationalmap.gov`
    - `elevation.nationalmap.gov`
    - `apps.nationalmap.gov`
+   - `www.loc.gov`
+   - `tile.loc.gov`
 4. Save the domain changes, then use **Publicar / Publish** in the environment panel. If these domains already appear in the proposed configuration, save/publish that configuration rather than adding duplicates.
 5. Return to the task and say **“Published the topography access settings.”** The next step is to recheck access, locate the authoritative dataset, and verify its resolution, vertical accuracy and coordinate/datum metadata.
 
-The additions were saved as a proposed environment configuration. On 19 October 2026 the current runtime still had only the original GitHub/OpenAI/Render domains; the topography additions were not active. No new secret or OpenAI credits are required to allow these public websites. A source may require other download domains later; those must be verified from the actual dataset before adding them.
+The additions were saved as a proposed environment configuration. The two Library of Congress domains support checking the house’s original drawings; the other additions support house/site and elevation research. On 19 October 2026 the current runtime still had only the original GitHub/OpenAI/Render domains; the topography additions were not active. No new secret or OpenAI credits are required to allow these public websites. A source may require other download domains later; those must be verified from the actual dataset before adding them.
 
 **Terrain is still pending implementation and data verification.** Enabling these websites allows research; it does not turn flat satellite imagery into topography. For another project site, provide its location and, if available, a surveyor's elevation GeoTIFF or ground-classified LAS/LAZ plus accuracy, CRS and vertical-datum metadata. These are proposed terrain inputs, not currently supported ATELIER import formats.
 

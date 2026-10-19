@@ -2,6 +2,18 @@
 
 Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 154 and software WebGL. This file distinguishes geometric execution, UI/provider contracts and live AI/audio behavior.
 
+## Farnsworth terrace and scale-figure correction — October 19, 2026
+
+**146 unit/integration tests in 37 files pass.** The sample now has 134 positive-volume editable objects. Additional checks verify the lower platform's 6.57 m west projection, 16.68 m length and 0.24 m separation in plan; three front terrace supports, one return and two shared pavilion-side posts; independent thin treads without slab intersections; and genuine closed scale-figure geometry with 0.85 m width, 25 mm thickness, 2.26 m reach and a 1.83 m head landmark. Existing projects, dimensions and object identities are preserved.
+
+**Seven production-browser scenarios passed** for the sample on desktop/phone, colors/scale figures/line styles, map anchoring, shadows/mobile controls and visibility recovery. The final two-case sample regression passed again after the support-grid correction. TypeScript/Vite, formatting and whitespace checks pass. The final static `/atelier/` smoke passes with real JS/CSS/WASM, geometry, editing/reload and lazy 3D assets. The final perspective and top views, plus the full-size figure contour, were visually inspected. No paid model or microphone tests were made.
+
+![Corrected terrace and shared column layout](atelier-sample-house.png)
+
+![Authored scale-figure contour used by the solid geometry](atelier-scale-figure.png)
+
+The platform corrections use inspected rectangle parameters and placements in the documented FreeCAD reconstruction, which cites primary drawings. Direct Library of Congress access was blocked (CONNECT 403); original drawing verification is still pending. Source limitations and dimensions are recorded in [the sample guide](SAMPLE-PROJECT.md#corrected-terrace-layout). The authored silhouette was visually inspected at full size; no third-party drawing or CAD geometry is redistributed.
+
 ## Object visibility — October 19, 2026
 
 **144 unit/integration tests in 36 files pass.** New coverage exercises multi-object hiding, retained identities/geometry, cleared viewport selection with preserved conversational focus, showing that focus again, saved project/session round trips, undo, locked-layer visibility, isolated recovery from hidden groups, and actual exclusion from OBJ and AR snapshots. Invalid visibility data is rejected; older objects default to visible.
