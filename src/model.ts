@@ -40,6 +40,8 @@ export type GeometryRecipe =
       opening?: boolean;
     };
 export type Volume = {
+  /** Material of an independently editable architectural component. */
+  material?: 'solid' | 'glass' | 'frame';
   geometry?: GeometryRecipe;
   groupId?: string;
   display?: {
@@ -117,6 +119,11 @@ export function validateVolume(v: Volume, checkGeometry = true): void {
       typeof v.display.glass !== 'boolean')
   )
     throw new Error('Invalid building display settings.');
+  if (
+    v.material !== undefined &&
+    !['solid', 'glass', 'frame'].includes(v.material)
+  )
+    throw new Error('Invalid component material.');
   if (v.color !== undefined && !/^#[0-9a-f]{6}$/i.test(v.color))
     throw new Error('Use a six-digit hex object color.');
   if (checkGeometry) validateRecipe(v.geometry);

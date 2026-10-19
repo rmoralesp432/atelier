@@ -183,7 +183,7 @@ export default function StudioPanel({
           <button className="scale-person-action" onClick={addPerson}>
             <UserRound size={20} />
             <span>
-              Add a person<small>1.75 m · for a sense of scale</small>
+              Add a person<small>Modulor · 1.83 m head / 2.26 m reach</small>
             </span>
             <span>+</span>
           </button>

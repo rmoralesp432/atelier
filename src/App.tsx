@@ -405,6 +405,7 @@ export default function App({
   }, [panels.active, cameraSettings.walk, tool]);
   const [modelAction, setModelAction] = useState<string | null>(null);
   const [multiSelect, setMultiSelect] = useState(false);
+  const [objectSearch, setObjectSearch] = useState('');
   const [snap, setSnap] = useState(true);
   const [angleSnap, setAngleSnap] = useState(45);
   const inspectorPanel = useFloatingPanel();
@@ -803,6 +804,10 @@ export default function App({
     if (op.type === 'building')
       return [
         `${reviewName(op.target)}: ${op.floors} floor slabs plus a roof, ${op.slabThickness} m thick${op.facade ? `, with glazing and frames spaced at most ${op.panelWidth} m apart` : ''}.`,
+      ];
+    if (op.type === 'components')
+      return [
+        `Separate ${reviewName(op.target)} into editable windows, slabs and frame members. Procedural building controls become direct part edits; Undo restores them.`,
       ];
     if (op.type === 'opening')
       return [
@@ -1722,34 +1727,50 @@ export default function App({
               <X size={16} />
             </button>
           </div>
+          <label className="object-search">
+            <input
+              type="search"
+              aria-label="Find objects"
+              placeholder="Find a window, column…"
+              value={objectSearch}
+              onChange={(e) => setObjectSearch(e.target.value)}
+            />
+          </label>
           <div className="object-list">
-            {project.volumes.map((v, i) => (
-              <button
-                className={`object-row ${project.selectedIds?.includes(v.id) || selected?.id === v.id ? 'selected' : ''}`}
-                key={v.id}
-                onClick={(e) =>
-                  select(
-                    v.id,
-                    multiSelect || e.shiftKey || e.ctrlKey || e.metaKey,
-                  )
-                }
-                aria-pressed={
-                  project.selectedIds?.includes(v.id) || selected?.id === v.id
-                }
-              >
-                <Box size={16} style={{ color: v.color ?? undefined }} />
-                <span>
-                  {v.name}
-                  <small>
-                    {v.dimensions.width} × {v.dimensions.depth} ×{' '}
-                    {v.dimensions.height} m
-                  </small>
-                </span>
-                <span className="object-index">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-              </button>
-            ))}
+            {project.volumes
+              .map((v, i) => ({ v, i }))
+              .filter(({ v }) =>
+                `${v.name} ${project.groups?.find((g) => g.id === v.groupId)?.name ?? ''}`
+                  .toLowerCase()
+                  .includes(objectSearch.trim().toLowerCase()),
+              )
+              .map(({ v, i }) => (
+                <button
+                  className={`object-row ${project.selectedIds?.includes(v.id) || selected?.id === v.id ? 'selected' : ''}`}
+                  key={v.id}
+                  onClick={(e) =>
+                    select(
+                      v.id,
+                      multiSelect || e.shiftKey || e.ctrlKey || e.metaKey,
+                    )
+                  }
+                  aria-pressed={
+                    project.selectedIds?.includes(v.id) || selected?.id === v.id
+                  }
+                >
+                  <Box size={16} style={{ color: v.color ?? undefined }} />
+                  <span>
+                    {v.name}
+                    <small>
+                      {v.dimensions.width} × {v.dimensions.depth} ×{' '}
+                      {v.dimensions.height} m
+                    </small>
+                  </span>
+                  <span className="object-index">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                </button>
+              ))}
             {!project.volumes.length && (
               <p className="empty-list">
                 A blank canvas.
@@ -1917,7 +1938,7 @@ export default function App({
                   void propose(
                     directPlan({
                       type: 'person',
-                      height: 1.75,
+                      height: 2.26,
                       position: null,
                     }),
                   );
@@ -3030,6 +3051,20 @@ export default function App({
                   <p className="field-note">
                     Floor slabs plus a roof. The original envelope stays
                     editable.
+                  </p>
+                  <button
+                    className="secondary-button"
+                    onClick={() =>
+                      void propose(
+                        directPlan({ type: 'components', target: selected.id }),
+                      )
+                    }
+                  >
+                    Edit individual components
+                  </button>
+                  <p className="field-note">
+                    Separate windows, slabs and frames for direct editing. Undo
+                    restores the building controls.
                   </p>
                 </div>
               )}

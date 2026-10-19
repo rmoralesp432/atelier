@@ -2,6 +2,20 @@
 
 Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 154 and software WebGL. This file distinguishes geometric execution, UI/provider contracts and live AI/audio behavior.
 
+## Detailed house, editable components and silhouettes — October 19, 2026
+
+**141 unit/integration tests in 35 files pass.** The sample's 133 objects all evaluate to valid positive-volume solids. Tests cover fresh identities, six editable groups, independent window edits, terrace end-face stretching, undo, session round trips and provisional site settings. Building-component tests verify actual material volume and world bounds after separating a raised, rotated building; isolated window edits; group preservation; locked-object rejection; and undo back to the procedural envelope. Native tree geometry is sparse, closed and tagged for transparency, including wrapped rotations and AR materials. The Modulor-inspired cutout's actual bounds match its stated dimensions.
+
+**Nine targeted production-browser scenarios pass across the runs:** detailed sample opening/editing/undo/reload/project preservation; phone component search and thin-window dimensions; reviewed building separation, window resizing and persisted undo; object color/person creation/wireframe/hidden-line occlusion; map placement/failure handling; expanded shadows/mobile controls; native USDZ handoff; and shared WebXR conversation/model refresh in both themes. The final three-case component/sample run passed together. The new browser selector was corrected to use the existing accessible “Show objects” name, and slow-render animation assertions wait for completion without removing geometry assertions.
+
+TypeScript/Vite production build, formatting and whitespace checks pass. The static `/atelier/` compatibility smoke also passes with actual JS/CSS/WASM loading, real solid rendering, direct edits/reload and lazy 3D moodboard/model assets. Desktop and phone screenshots were visually inspected. AR transport/native capability scenarios remain explicit fixtures, not physical-device tracking or microphone verification. No paid model requests were made.
+
+**Site limitation:** the prefilled map center is provisional, not surveyed. Measured topography has not been added: official house/USGS destinations returned outbound-policy denials. The saved environment network draft requires user review/save and publication before data can be obtained and verified. No invented terrain is labeled as real.
+
+![Detailed editable house with translucent tree silhouettes](atelier-sample-house.png)
+
+![Phone editing an individual 25 mm glazing panel](atelier-sample-phone.png)
+
 ## Spatial tools, phone AR and editable sample — October 19, 2026
 
 This update preserves the existing app/service and project formats. **138 unit/integration tests in 34 files pass**, including exact bounded map coverage/UV crops, atomic camera placement, meter-based AR fitting and invalid-input rejection, tracked-camera conversion into project axes, WebXR lifecycle/model-update fixtures, and genuine solids for all 24 objects in the new sample house. Existing provider SDK tests now carry AR workspace context. No paid requests were made.

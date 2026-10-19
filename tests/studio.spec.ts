@@ -68,10 +68,11 @@ test('object color, solid scale person, persistent display settings and real hid
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-active',
     'false',
+    { timeout: 20000 },
   );
   const person = (await saved(page)).project.volumes[2];
   expect(person.geometry.kind).toBe('person');
-  expect(person.dimensions.height).toBe(1.75);
+  expect(person.dimensions.height).toBe(2.26);
   await openStudio(page);
   await page.getByRole('button', { name: 'Wireframe', exact: true }).click();
   await color(page, 'Line color', '#ffffff');

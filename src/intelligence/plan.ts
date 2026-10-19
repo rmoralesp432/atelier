@@ -126,6 +126,12 @@ export const operationSchema = z.discriminatedUnion('type', [
     .strict(),
   z
     .object({
+      type: z.literal('components'),
+      target: z.string(),
+    })
+    .strict(),
+  z
+    .object({
       type: z.literal('window_module'),
       target: z.string(),
       width: z.number().min(0.3).max(10).nullable(),
@@ -530,6 +536,7 @@ export const needsConfirmation = (plan: Plan) =>
       op.type === 'boolean' ||
       op.type === 'opening' ||
       op.type === 'building' ||
+      op.type === 'components' ||
       op.type === 'hollow' ||
       (op.type === 'attach' && op.liftExisting) ||
       ((op.type === 'sweep' || op.type === 'loft') && op.target !== null),

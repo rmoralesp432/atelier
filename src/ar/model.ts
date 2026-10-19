@@ -36,7 +36,8 @@ export async function createARModel(
         );
         geometry.setIndex(new THREE.BufferAttribute(part.indices, 1));
         geometry.computeVertexNormals();
-        const glass = part.material === 'glass';
+        const glass = part.material === 'glass',
+          foliage = part.material === 'foliage';
         group.add(
           new THREE.Mesh(
             geometry,
@@ -46,8 +47,9 @@ export async function createARModel(
               roughness: glass ? 0.15 : 0.75,
               metalness: 0,
               flatShading: true,
-              transparent: glass,
-              opacity: glass ? 0.3 : 1,
+              transparent: glass || foliage,
+              opacity: foliage ? 0.42 : glass ? 0.3 : 1,
+              depthWrite: !glass && !foliage,
               side: THREE.DoubleSide,
             }),
           ),

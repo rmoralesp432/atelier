@@ -13,6 +13,7 @@ import {
 } from '../model';
 import {
   getKernel,
+  editableBuildingComponents,
   orientVolume,
   booleanVolume,
   isProfile,
@@ -574,7 +575,7 @@ export async function applyPlan(
       s.context.lastCreatedIds = created;
       focus(s, created);
       reports.push(
-        `Added ${created.length} volumetric tree(s), ${op.height} m tall with ${op.crown} m crowns${target ? ` around ${target.name}, at least ${op.clearance} m clear of its footprint` : ''}.${created.length < count ? ' Positions blocked by other object envelopes were skipped.' : ''}`,
+        `Added ${created.length} tree silhouette(s), ${op.height} m tall with ${op.crown} m crowns${target ? ` around ${target.name}, at least ${op.clearance} m clear of its footprint` : ''}.${created.length < count ? ' Positions blocked by other object envelopes were skipped.' : ''}`,
       );
     } else if (op.type === 'person') {
       const related = s.project.volumes.filter(
@@ -582,11 +583,11 @@ export async function applyPlan(
       );
       const bounds = related.length ? groupBounds(related) : null;
       const v = makeVolume(s.project.volumes.length + 1, {
-        width: (0.5 * op.height) / 1.75,
-        depth: (0.3 * op.height) / 1.75,
+        width: (0.65 * op.height) / 2.26,
+        depth: 0.1,
         height: op.height,
       });
-      v.name = uniqueName('Scale person', s.project.volumes);
+      v.name = uniqueName('Modulor scale figure', s.project.volumes);
       v.color = '#d58b69';
       v.geometry = { kind: 'person' };
       v.position = op.position ?? {
@@ -599,7 +600,7 @@ export async function applyPlan(
       s.context.lastCreatedIds = [v.id];
       focus(s, [v.id]);
       reports.push(
-        `Added a ${op.height} m tall person ${op.position ? 'at the requested position' : 'beside your model'}.`,
+        `Added a Modulor-inspired silhouette with ${op.height} m raised-arm reach (head height ${round(op.height * 0.81)} m) ${op.position ? 'at the requested position' : 'beside your model'}.`,
       );
     } else if (op.type === 'scale') {
       const vs = targets(op.targets, s),
@@ -938,6 +939,35 @@ export async function applyPlan(
       s.context.lastOperands = [ref.id, v.id];
       reports.push(
         `Centered ${v.name} ${op.vertical === 'above' ? 'above' : op.vertical === 'below' ? 'below' : 'on'} ${ref.name}; base elevation ${round(y)} m.`,
+      );
+    } else if (op.type === 'components') {
+      const v = one(op.target, s);
+      if (isLocked(v, s.project))
+        throw new Error('Unlock this group before editing its components.');
+      const components = await editableBuildingComponents(v);
+      if (s.project.volumes.length - 1 + components.length > MAX_VOLUMES)
+        throw new Error(
+          'The components would exceed the 200-object workspace limit. Use fewer floors or wider panels first.',
+        );
+      if (!v.groupId) {
+        if ((s.project.groups?.length ?? 0) >= 50)
+          throw new Error('The workspace already has 50 groups.');
+        const group = {
+          id: crypto.randomUUID(),
+          name: v.name,
+          visible: true,
+          locked: false,
+        };
+        s.project.groups = [...(s.project.groups ?? []), group];
+        components.forEach((c) => (c.groupId = group.id));
+      }
+      s.project.volumes = s.project.volumes.flatMap((o) =>
+        o.id === v.id ? components : [o],
+      );
+      s.context.lastCreatedIds = components.map((c) => c.id);
+      focus(s, [components[0].id]);
+      reports.push(
+        `${v.name}: ${components.length} editable slabs, windows and frame members. Select any part to move, resize or recolor it. Parts stay grouped; Undo restores the procedural building and its floor/window controls.`,
       );
     } else if (op.type === 'building') {
       const v = one(op.target, s);

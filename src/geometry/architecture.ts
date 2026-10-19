@@ -28,6 +28,7 @@ export function buildingParts(
   source: Manifold,
   recipe: BuildingRecipe,
   keep: (solid: Manifold) => Manifold,
+  separate = false,
 ): SolidPart[] {
   const { width: w, height: h, depth: d } = recipe.base;
   const { floors, slabThickness: t, mullionWidth: mw } = recipe;
@@ -46,7 +47,11 @@ export function buildingParts(
   );
   slabBands.push(band(h - t, t));
   const slabs = keep(source.intersect(keep(m.Manifold.union(slabBands))));
-  const result: SolidPart[] = [{ material: 'solid', solid: slabs }];
+  const result: SolidPart[] = separate
+    ? slabs
+        .decompose()
+        .map((solid) => ({ material: 'solid', solid: keep(solid) }))
+    : [{ material: 'solid', solid: slabs }];
   if (!recipe.facade) return result;
 
   const sections: CrossSection[] = [];
@@ -142,10 +147,31 @@ export function buildingParts(
         keep(extrude(glassRing, h).intersect(source)).subtract(slabs),
       ).subtract(frames),
     );
-    result.push(
-      { material: 'frame', solid: frames },
-      { material: 'glass', solid: glass },
-    );
+    if (separate) {
+      if (columns.length > 180)
+        throw new Error(
+          'Use wider panels or fewer floors before editing components (maximum 180 frame members).',
+        );
+      // Partition the actual evaluated frame, avoiding overlapping members.
+      let remaining = frames;
+      for (const column of columns) {
+        const member = keep(remaining.intersect(column));
+        if (!member.isEmpty()) {
+          for (const solid of member.decompose())
+            result.push({ material: 'frame', solid: keep(solid) });
+          remaining = keep(remaining.subtract(member));
+        }
+      }
+      if (!remaining.isEmpty())
+        for (const solid of remaining.decompose())
+          result.push({ material: 'frame', solid: keep(solid) });
+      for (const solid of glass.decompose())
+        result.push({ material: 'glass', solid: keep(solid) });
+    } else
+      result.push(
+        { material: 'frame', solid: frames },
+        { material: 'glass', solid: glass },
+      );
     return result;
   } finally {
     sections.reverse().forEach((s) => s.delete());

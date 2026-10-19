@@ -6,6 +6,7 @@ import { validatePolygon } from './polygon';
 import { validateMesh, isReference } from '../imports/mesh';
 import { validateForm } from './forms';
 import { buildingParts } from './architecture';
+import { entourageSolid } from './entourage';
 let wasmUrl: string | undefined;
 let kernel: Promise<ManifoldToplevel> | undefined;
 export const setKernelWasmUrl = (url: string) => {
@@ -271,59 +272,10 @@ function evaluated(
         d.depth / g.source.dimensions.depth,
       ]),
     );
-  } else if (g?.kind === 'tree') {
-    // Closed stylized canopy and trunk, joined into one editable solid.
-    const crown = keep(
-      keep(keep(m.Manifold.sphere(1, 24)).scale([0.5, 0.34, 0.5])).translate([
-        0, 0.66, 0,
-      ]),
-    );
-    const trunk = keep(
-      keep(m.Manifold.cylinder(0.58, 0.055, 0.04, 16)).rotate([-90, 0, 0]),
-    );
+  } else if (g?.kind === 'tree' || g?.kind === 'person') {
     solid = keep(
-      keep(m.Manifold.union([crown, trunk])).scale([
-        d.width,
-        d.height,
-        d.depth,
-      ]),
+      entourageSolid(m, g.kind, keep).scale([d.width, d.height, d.depth]),
     );
-  } else if (g?.kind === 'person') {
-    // A stylized, genuinely three-dimensional scale figure; normalized Y=0..1.
-    const ellipsoid = (
-      x: number,
-      y: number,
-      rx: number,
-      ry: number,
-      rz: number,
-    ) =>
-      keep(
-        keep(keep(m.Manifold.sphere(1, 24)).scale([rx, ry, rz])).translate([
-          x,
-          y,
-          0,
-        ]),
-      );
-    const limb = (x: number, y: number, height: number, radius: number) =>
-      keep(
-        keep(
-          keep(m.Manifold.cylinder(height, radius, radius, 16)).rotate([
-            -90, 0, 0,
-          ]),
-        ).translate([x, y, 0]),
-      );
-    solid = keep(
-      m.Manifold.union([
-        ellipsoid(0, 0.91, 0.17, 0.09, 0.5),
-        ellipsoid(0, 0.64, 0.32, 0.23, 0.42),
-        limb(-0.16, 0, 0.5, 0.11),
-        limb(0.16, 0, 0.5, 0.11),
-        limb(-0.4, 0.43, 0.35, 0.1),
-        limb(0.4, 0.43, 0.35, 0.1),
-        ellipsoid(0, 0.81, 0.11, 0.07, 0.28),
-      ]),
-    );
-    solid = keep(solid.scale([d.width, d.height, d.depth]));
   } else if (g?.kind === 'mesh') {
     if (!g.solid)
       throw new Error(
@@ -459,8 +411,14 @@ export type RenderPart = {
   positions: Float32Array;
   indices: Uint32Array;
   volume: number;
-  material: 'solid' | 'glass' | 'frame' | 'reference';
+  material: 'solid' | 'glass' | 'frame' | 'reference' | 'foliage';
 };
+function inheritedMaterial(v: Volume): RenderPart['material'] {
+  if (v.geometry?.kind === 'tree') return 'foliage';
+  if (v.geometry?.kind === 'oriented' || v.geometry?.kind === 'mirror')
+    return inheritedMaterial(v.geometry.source);
+  return v.material ?? 'solid';
+}
 export async function renderMeshData(v: Volume): Promise<RenderPart[]> {
   validateVolume(v);
   if (v.geometry?.kind === 'building' && v.display?.mode === 'volume')
@@ -511,12 +469,19 @@ export async function renderMeshData(v: Volume): Promise<RenderPart[]> {
         ),
         indices: new Uint32Array(v.geometry.indices),
         volume: 0,
-        material: isReference(v) ? ('reference' as const) : ('solid' as const),
+        material:
+          v.material ??
+          (isReference(v) ? ('reference' as const) : ('solid' as const)),
       },
     ];
   }
   if (v.geometry?.kind !== 'building')
-    return [{ ...(await meshData(v)), material: 'solid' as const }];
+    return [
+      {
+        ...(await meshData(v)),
+        material: inheritedMaterial(v),
+      },
+    ];
   validateVolume(v);
   const m = await getKernel(),
     allocated: Manifold[] = [];
@@ -729,4 +694,93 @@ export async function orientVolume(v: Volume, degrees: Vec3): Promise<Volume> {
     },
     false,
   );
+}
+
+/** Bake real building parts into editable solids in world placement. Undo retains
+ * the full procedural envelope. No hidden duplicate geometry is left behind. */
+export async function editableBuildingComponents(v: Volume): Promise<Volume[]> {
+  if (v.geometry?.kind !== 'building')
+    throw new Error('Select a building with floors or glazing.');
+  validateVolume(v);
+  const recipe = v.geometry,
+    m = await getKernel(),
+    allocated: Manifold[] = [];
+  const keep = (s: Manifold) => {
+    allocated.push(s);
+    return s;
+  };
+  try {
+    const source = evaluated(m, recipe.source, false, allocated, 1);
+    const parts = buildingParts(m, source, recipe, keep, true);
+    const counts = { solid: 0, frame: 0, glass: 0 };
+    return parts
+      .filter((p) => !p.solid.isEmpty())
+      .map((part, index) => {
+        const solid = keep(
+          part.solid.scale([
+            v.dimensions.width / recipe.base.width,
+            v.dimensions.height / recipe.base.height,
+            v.dimensions.depth / recipe.base.depth,
+          ]),
+        );
+        if (solid.status() !== 'NoError')
+          throw new Error('Invalid architectural component.');
+        const b = solid.boundingBox(),
+          mesh = solid.getMesh();
+        const width = Math.max(0.001, b.max[0] - b.min[0]),
+          height = Math.max(0.001, b.max[1] - b.min[1]),
+          depth = Math.max(0.001, b.max[2] - b.min[2]);
+        const x = (b.min[0] + b.max[0]) / 2,
+          z = (b.min[2] + b.max[2]) / 2;
+        const a = (v.rotation * Math.PI) / 180;
+        const positions: number[] = [];
+        for (let i = 0; i < mesh.numVert; i++)
+          positions.push(
+            (mesh.vertProperties[i * mesh.numProp] - x) / width,
+            (mesh.vertProperties[i * mesh.numProp + 1] - b.min[1]) / height,
+            (mesh.vertProperties[i * mesh.numProp + 2] - z) / depth,
+          );
+        const box =
+          Math.min(width, height, depth) >= 0.1 &&
+          mesh.triVerts.length === 36 &&
+          positions.every((n, i) =>
+            i % 3 === 1
+              ? Math.min(Math.abs(n), Math.abs(n - 1)) < 1e-7
+              : Math.abs(Math.abs(n) - 0.5) < 1e-7,
+          );
+        const label =
+          part.material === 'solid'
+            ? 'Slab'
+            : part.material === 'glass'
+              ? 'Window'
+              : 'Frame';
+        const component: Volume = {
+          id: index === 0 ? v.id : crypto.randomUUID(),
+          name: `${v.name.slice(0, 55)} · ${label} ${++counts[part.material]}`,
+          groupId: v.groupId,
+          material: part.material,
+          color: part.material === 'glass' ? '#b8d7d6' : (v.color ?? '#e2e7e6'),
+          dimensions: { width, height, depth },
+          position: {
+            x: v.position.x + x * Math.cos(a) + z * Math.sin(a),
+            y: Math.max(0, v.position.y + b.min[1]),
+            z: v.position.z - x * Math.sin(a) + z * Math.cos(a),
+          },
+          rotation: v.rotation,
+          geometry: box
+            ? { kind: 'box' }
+            : {
+                kind: 'mesh',
+                positions,
+                indices: Array.from(mesh.triVerts),
+                solid: true,
+                source: 'Editable architectural component',
+              },
+        };
+        validateVolume(component);
+        return component;
+      });
+  } finally {
+    allocated.reverse().forEach((s) => s.delete());
+  }
 }

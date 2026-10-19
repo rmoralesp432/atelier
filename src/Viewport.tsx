@@ -1362,6 +1362,7 @@ export default function Viewport(props: Props) {
                 v.dimensions,
                 v.geometry,
                 v.display,
+                v.material,
               ]);
               signatures.set(v.id, signature);
               if (r!.signatures.get(v.id) === signature) return;
@@ -1429,7 +1430,8 @@ export default function Viewport(props: Props) {
               }
               for (const part of geometries) {
                 const glass = part.material === 'glass',
-                  frame = part.material === 'frame';
+                  frame = part.material === 'frame',
+                  foliage = part.material === 'foliage';
                 const mesh = new THREE.Mesh(
                   part.geometry,
                   new THREE.MeshPhysicalMaterial({
@@ -1443,11 +1445,14 @@ export default function Viewport(props: Props) {
                             ? 0.4
                             : 0.32,
                     metalness: frame ? 0.5 : 0.08,
-                    transparent: glass,
-                    opacity: glass ? 0.32 : 1,
-                    depthWrite: !glass,
+                    transparent: glass || foliage,
+                    opacity: foliage ? 0.42 : glass ? 0.32 : 1,
+                    depthWrite: !glass && !foliage,
                     side:
-                      isProfile(v) || glass || part.material === 'reference'
+                      isProfile(v) ||
+                      glass ||
+                      foliage ||
+                      part.material === 'reference'
                         ? THREE.DoubleSide
                         : THREE.FrontSide,
                     clippingPlanes: latest.current.section.enabled
@@ -1475,6 +1480,7 @@ export default function Viewport(props: Props) {
                       opacity: 0.12,
                     }),
                   );
+                  edges.userData.materialKind = part.material;
                   g.add(edges);
                 }
               }
@@ -1540,19 +1546,24 @@ export default function Viewport(props: Props) {
               material.emissiveIntensity =
                 mode === 'hidden-line' ? 0.35 : selected ? 0.12 : 0;
               const transparent =
-                mode === 'wireframe' || (mode === 'studio' && kind === 'glass');
+                mode === 'wireframe' ||
+                kind === 'foliage' ||
+                (mode === 'studio' && kind === 'glass');
               if (material.transparent !== transparent)
                 material.needsUpdate = true;
               material.transparent = transparent;
               material.opacity =
                 mode === 'wireframe'
                   ? 0
-                  : mode === 'studio' && kind === 'glass'
-                    ? 0.32
-                    : 1;
+                  : kind === 'foliage'
+                    ? 0.42
+                    : mode === 'studio' && kind === 'glass'
+                      ? 0.32
+                      : 1;
               material.depthWrite =
-                mode === 'hidden-line' ||
-                (mode === 'studio' && kind !== 'glass');
+                kind !== 'foliage' &&
+                (mode === 'hidden-line' ||
+                  (mode === 'studio' && kind !== 'glass'));
               material.polygonOffset = mode === 'hidden-line';
               material.polygonOffsetFactor = 1;
               material.polygonOffsetUnits = 1;
@@ -1572,7 +1583,17 @@ export default function Viewport(props: Props) {
                     : props.appearance.lineColor,
               );
               material.opacity =
-                props.renderMode === 'studio' ? (selected ? 0.55 : 0.12) : 1;
+                o.userData.materialKind === 'foliage'
+                  ? selected
+                    ? 0.55
+                    : props.renderMode === 'studio'
+                      ? 0.1
+                      : 0.4
+                  : props.renderMode === 'studio'
+                    ? selected
+                      ? 0.55
+                      : 0.12
+                    : 1;
               material.depthTest = props.renderMode !== 'wireframe';
             }
           });
@@ -1611,8 +1632,26 @@ export default function Viewport(props: Props) {
         host.current!.dataset.meshBuilds = String(
           Number(host.current!.dataset.meshBuilds || 0) + built.size,
         );
-        if (!hadObjects && r!.objects.size && !props.motion.ids.length)
-          r!.fit(props.view.mode === 'top');
+        if (!hadObjects && r!.objects.size && !props.motion.ids.length) {
+          // Open architectural scenes close to the work; distant entourage
+          // remains available through Frame all without shrinking the house.
+          const architecture = props.project.volumes.filter(
+            (v) =>
+              isVisible(v, props.project) &&
+              v.geometry?.kind !== 'tree' &&
+              v.geometry?.kind !== 'person',
+          );
+          const hasEntourage =
+            architecture.length <
+            props.project.volumes.filter((v) => isVisible(v, props.project))
+              .length;
+          r!.fit(
+            props.view.mode === 'top',
+            hasEntourage && architecture.length
+              ? architecture.map((v) => v.id)
+              : undefined,
+          );
+        }
         if (r!.motionRevision !== props.motion.revision) {
           r!.motionRevision = props.motion.revision;
           if (props.motion.ids.length && !props.cameraSettings.walk)

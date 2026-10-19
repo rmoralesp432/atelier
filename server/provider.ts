@@ -148,6 +148,10 @@ export const requestSchema = z
                 position: vec,
                 rotation: z.number().finite(),
                 shape: z.string().max(40),
+                material: z
+                  .enum(['solid', 'glass', 'frame'])
+                  .nullable()
+                  .optional(),
                 color: z
                   .string()
                   .regex(/^#[0-9a-fA-F]{6}$/)

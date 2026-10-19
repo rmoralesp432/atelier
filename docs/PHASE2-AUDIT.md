@@ -51,3 +51,9 @@ ATELIER now has the implemented modeling foundation and a real provider integrat
 Fund the OpenAI API project attached to the already configured server key. Keep the existing Render service and credentials. Then run the live text check and the original success sequence, including clarification, corrections and Boolean order. Finally test a real microphone session in the HTTPS application: repeated turns, interruptions, spoken approval/cancellation and stopping capture. Failed or ambiguous steps must be recorded rather than counted as passes.
 
 See [validation evidence](VALIDATION.md) for the automated checks and their limits. The current upgrade does not require another hosting setup or new API key.
+
+## Detailed sample and component editing — 2026-10-19
+
+The Farnsworth-inspired sample now contains 133 independently editable parts and six groups; existing sample copies are preserved. Procedural buildings can be separated into grouped solid components with a reviewed `components` operation and exact undo. Glass material survives editing and project round trips. Native trees are transparent branching silhouettes in the workspace and shared AR/moodboard renderer. New people use a Modulor-inspired raised-arm silhouette with an explicitly stated reach/head height.
+
+The sample's provisional Illinois map center is prefilled. Precise site topography remains blocked by unapproved outbound access to official house/USGS services and has not been simulated. This update does not establish live AI understanding, physical-device AR performance or survey accuracy. See [SAMPLE-PROJECT.md](SAMPLE-PROJECT.md) for controls, representation changes and limitations.

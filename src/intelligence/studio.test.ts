@@ -58,7 +58,13 @@ it('creates a recognizable solid scale figure at exact height with ground contac
   expect(stats.bounds.min[1]).toBeCloseTo(0);
   expect(stats.bounds.max[1]).toBeCloseTo(1.75);
   expect(stats.status).toBe('NoError');
-  expect(stats.volume).toBeGreaterThan(0.02);
+  expect(stats.bounds.max[0] - stats.bounds.min[0]).toBeCloseTo(
+    person.dimensions.width,
+  );
+  expect(stats.volume).toBeGreaterThan(0);
+  expect(stats.bounds.max[2] - stats.bounds.min[2]).toBeCloseTo(
+    person.dimensions.depth,
+  );
   expect(
     sceneContext(result.session.project, result.session.context, defaultCamera)
       .objects[1].shape,

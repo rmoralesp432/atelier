@@ -33,7 +33,8 @@ it('places real volumetric trees around a rotated footprint with clearance and o
     expect(Math.max(Math.abs(lx) - 10, Math.abs(lz) - 5)).toBeCloseTo(3.5, 5);
     expect(t.position.y).toBe(0);
   }
-  expect((await solidStats(trees[0])).volume).toBeGreaterThan(10);
+  expect((await solidStats(trees[0])).volume).toBeGreaterThan(0);
+  expect((await solidStats(trees[0])).volume).toBeLessThan(1);
   expect(result.session.past).toHaveLength(1);
   expect(
     parseProject(serializeProject(result.session.project)).volumes,
