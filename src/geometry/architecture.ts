@@ -1,6 +1,20 @@
 import type { Manifold, ManifoldToplevel, CrossSection } from 'manifold-3d';
 import type { GeometryRecipe } from '../model';
 
+export function fixedWindowLayout(
+  length: number,
+  width: number,
+  mullion: number,
+) {
+  const pitch = width + 2 * mullion,
+    count = Math.floor((length - 2 * mullion) / pitch);
+  if (count < 1)
+    throw new Error(
+      'That facade edge cannot fit a full fixed-width window. Use a smaller window or release the width constraint.',
+    );
+  return { count, pitch, infill: (length - (count * pitch + 2 * mullion)) / 2 };
+}
+
 export type BuildingRecipe = Extract<GeometryRecipe, { kind: 'building' }>;
 export type SolidPart = {
   material: 'solid' | 'glass' | 'frame';
@@ -70,25 +84,47 @@ export function buildingParts(
         const a = polygon[i],
           b = polygon[(i + 1) % polygon.length];
         const length = Math.hypot(b[0] - a[0], b[1] - a[1]);
-        const divisions = Math.max(1, Math.ceil(length / recipe.panelWidth));
-        if ((count += divisions) > 800)
+        const pitch =
+          recipe.fixedWindowWidth === undefined
+            ? null
+            : recipe.fixedWindowWidth + 2 * mw;
+        const layout =
+          recipe.fixedWindowWidth === undefined
+            ? null
+            : fixedWindowLayout(length, recipe.fixedWindowWidth, mw);
+        const divisions =
+          layout?.count ?? Math.max(1, Math.ceil(length / recipe.panelWidth));
+        if (divisions < 1)
+          throw new Error(
+            'That facade edge cannot fit a full fixed-width window. Use a smaller window or release the width constraint.',
+          );
+        if ((count += divisions + 1) > 800)
           throw new Error(
             'Use wider curtain-wall panels for this footprint (maximum 800 frames).',
           );
-        for (let j = 0; j < divisions; j++) {
-          const u = j / divisions;
-          const x = a[0] + (b[0] - a[0]) * u;
-          const z = -(a[1] + (b[1] - a[1]) * u);
-          columns.push(
-            keep(
-              keep(m.Manifold.cube([mw * 2, h, mw * 2])).translate([
-                x - mw,
-                0,
-                z - mw,
-              ]),
-            ),
+        const remainder = layout?.infill ?? 0;
+        const angle = (Math.atan2(b[1] - a[1], b[0] - a[0]) * 180) / Math.PI;
+        const strip = (center: number, width: number) => {
+          const u = center / length,
+            x = a[0] + (b[0] - a[0]) * u,
+            z = -(a[1] + (b[1] - a[1]) * u);
+          let part = keep(m.Manifold.cube([width, h, Math.max(0.3, mw * 4)]));
+          part = keep(
+            part.translate([-width / 2, 0, -Math.max(0.3, mw * 4) / 2]),
           );
-        }
+          part = keep(part.rotate([0, angle, 0]));
+          columns.push(keep(part.translate([x, 0, z])));
+        };
+        if (pitch) {
+          if (remainder > 1e-6) {
+            strip(remainder / 2, remainder);
+            strip(length - remainder / 2, remainder);
+          }
+          for (let j = 0; j <= divisions; j++)
+            strip(remainder + mw + j * pitch, 2 * mw);
+        } else
+          for (let j = 0; j < divisions; j++)
+            strip((j * length) / divisions, 2 * mw);
       }
     }
     for (let i = 0; i <= floors; i++)

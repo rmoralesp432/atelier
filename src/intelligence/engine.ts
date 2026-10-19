@@ -1,4 +1,5 @@
 import {
+  isLocked,
   makeVolume,
   MAX_VOLUMES,
   parseProject,
@@ -10,6 +11,8 @@ import {
   type Volume,
 } from '../model';
 import {
+  getKernel,
+  orientVolume,
   booleanVolume,
   isProfile,
   openingScale,
@@ -23,6 +26,7 @@ import {
   groupBounds,
 } from '../geometry/spatial';
 import { isReference } from '../imports/mesh';
+import { formMesh, type FormDefinition } from '../geometry/forms';
 import { normalizePolygon, polygonArea } from '../geometry/polygon';
 import {
   defaultCamera,
@@ -176,7 +180,7 @@ export async function applyPlan(
   for (const op of plan.operations) {
     // Workspace effects run only after the complete geometric transaction validates.
     // They neither edit project data nor replace the last modeling context.
-    if (op.type === 'workspace') continue;
+    if (op.type === 'workspace' || op.type === 'section') continue;
     if (op.type === 'undo' || op.type === 'redo') {
       if (beforeEdit)
         throw new Error(
@@ -265,8 +269,202 @@ export async function applyPlan(
       reports.push(`Selected ${s.context.focusIds.length} object(s).`);
       continue;
     }
+    const lockedBefore = s.project.volumes
+      .filter((v) => isLocked(v, s.project))
+      .map((v) => structuredClone(v));
     beforeEdit ??= structuredClone(s.project);
-    if (op.type === 'color') {
+    if (op.type === 'group_create') {
+      if ((s.project.groups?.length ?? 0) >= 50)
+        throw new Error('This project supports up to 50 groups.');
+      const ids = op.targets.length ? resolveIds(op.targets, s) : [],
+        id = crypto.randomUUID();
+      s.project.groups = [
+        ...(s.project.groups ?? []),
+        { id, name: op.name, visible: true, locked: false },
+      ];
+      s.project.volumes = s.project.volumes.map((v) =>
+        ids.includes(v.id) ? { ...v, groupId: id } : v,
+      );
+      reports.push(`Created group ${op.name} with ${ids.length} objects.`);
+    } else if (op.type === 'group_edit') {
+      if (!s.project.groups?.some((g) => g.id === op.id))
+        throw new Error('Which existing group should I change?');
+      s.project.groups = s.project.groups.map((g) =>
+        g.id === op.id
+          ? {
+              ...g,
+              name: op.name ?? g.name,
+              visible: op.visible ?? g.visible,
+              locked: op.locked ?? g.locked,
+            }
+          : g,
+      );
+      reports.push('Group settings updated.');
+    } else if (op.type === 'map_rotation') {
+      if (!s.project.site)
+        throw new Error('Set a map location before rotating it.');
+      const angle = op.degrees + (op.relative ? s.project.site.bearing : 0);
+      s.project.site = {
+        ...s.project.site,
+        bearing: ((((angle + 180) % 360) + 360) % 360) - 180,
+      };
+      reports.push(
+        `Map rotation ${s.project.site.bearing}°. Model axes unchanged.`,
+      );
+    } else if (op.type === 'window_module') {
+      const v = one(op.target, s);
+      if (v.geometry?.kind !== 'building' || !v.geometry.facade)
+        throw new Error(
+          'Create a floor and glass assembly before setting a window module.',
+        );
+      const geometry = { ...v.geometry };
+      if (op.width === null) delete geometry.fixedWindowWidth;
+      else geometry.fixedWindowWidth = op.width;
+      s.project = updateVolume(s.project, v.id, { geometry });
+      focus(s, [v.id]);
+      reports.push(
+        op.width === null
+          ? 'Released the fixed window width.'
+          : `Window clear width fixed at ${op.width} m. Full windows repeat; solid end infill absorbs remaining width when the building changes.`,
+      );
+    } else if (op.type === 'building_display') {
+      const vs = targets(op.targets, s);
+      for (const v of vs) {
+        if (v.geometry?.kind !== 'building')
+          throw new Error(
+            'This object has no floor/glass assembly yet. Create floors and glazing first; its original volume will be retained.',
+          );
+        s.project = updateVolume(s.project, v.id, {
+          display: { mode: op.mode, floors: op.floors, glass: op.glass },
+        });
+      }
+      reports.push(
+        `Building display: ${op.mode === 'volume' ? 'original massing' : `${op.floors ? 'floors' : 'no floors'}, ${op.glass ? 'glass and frames' : 'no glass'}`}. Geometry parameters preserved.`,
+      );
+    } else if (op.type === 'attach') {
+      let ref = one(op.target, s);
+      if (isProfile(ref)) throw new Error('Extrude the reference first.');
+      let y = ref.position.y,
+        x = op.offsetX,
+        z = op.offsetZ;
+      if (op.side === 'below') {
+        y = ref.position.y - op.height - op.gap;
+        if (y < 0) {
+          if (!op.liftExisting)
+            throw new Error(
+              'There is no room underneath. Ask whether to lift the existing volume before adding the lower floor.',
+            );
+          s.project = updateVolume(s.project, ref.id, {
+            position: { ...ref.position, y: ref.position.y - y },
+          });
+          ref = one(ref.id, s);
+          y = 0;
+        }
+      } else if (op.side === 'above')
+        y = ref.position.y + ref.dimensions.height + op.gap;
+      else if (op.side === 'left' || op.side === 'right')
+        x +=
+          (op.side === 'left' ? -1 : 1) *
+          ((ref.dimensions.width + op.width) / 2 + op.gap);
+      else
+        z +=
+          (op.side === 'front' ? 1 : -1) *
+          ((ref.dimensions.depth + op.depth) / 2 + op.gap);
+      const a = (ref.rotation * Math.PI) / 180;
+      const v = {
+        ...makeVolume(s.project.volumes.length + 1, {
+          width: op.width,
+          depth: op.depth,
+          height: op.height,
+        }),
+        name: uniqueName(op.name, s.project.volumes),
+        position: {
+          x: ref.position.x + x * Math.cos(a) + z * Math.sin(a),
+          y,
+          z: ref.position.z - x * Math.sin(a) + z * Math.cos(a),
+        },
+        rotation: ref.rotation,
+      };
+      validateVolume(v);
+      s.project.volumes.push(v);
+      s.context.lastCreatedIds = [v.id];
+      s.context.lastOperands = [ref.id, v.id];
+      focus(s, [v.id]);
+      reports.push(
+        `${report(v)} Added ${op.side} ${ref.name}; both parts remain independently editable. Union can join them when needed.`,
+      );
+    } else if (op.type === 'sweep' || op.type === 'loft') {
+      const previous = op.target ? one(op.target, s) : null;
+      if (
+        s.project.volumes.some(
+          (v) => v.id !== previous?.id && v.name === op.name,
+        )
+      )
+        throw new Error('Choose a unique name for the new form.');
+      const definition: FormDefinition =
+        op.type === 'sweep'
+          ? {
+              method: 'sweep',
+              profile: op.profile,
+              path: op.path,
+              smooth: op.smooth,
+            }
+          : { method: 'loft', sections: op.sections };
+      const result = formMesh(await getKernel(), definition);
+      const v: Volume = {
+        ...(previous ??
+          makeVolume(s.project.volumes.length + 1, result.dimensions)),
+        dimensions: result.dimensions,
+        name: op.name,
+        position: op.position,
+        rotation: 0,
+        geometry: { kind: 'form', mesh: result.mesh, definition },
+      };
+      validateVolume(v);
+      if (previous)
+        s.project.volumes = s.project.volumes.map((o) =>
+          o.id === v.id ? v : o,
+        );
+      else s.project.volumes.push(v);
+      s.context.lastCreatedIds = [v.id];
+      focus(s, [v.id]);
+      reports.push(
+        `${report(v)} Closed ${op.type} solid; profile/path parameters preserved.`,
+      );
+    } else if (op.type === 'orient') {
+      const vs = targets(op.targets, s);
+      for (const v of vs) {
+        const next = await orientVolume(v, { x: op.x, y: op.y, z: op.z });
+        s.project.volumes = s.project.volumes.map((o) =>
+          o.id === v.id ? next : o,
+        );
+      }
+      focus(
+        s,
+        vs.map((v) => v.id),
+      );
+      reports.push(
+        `Rotated ${vs.length} solid(s) about their centers: X ${op.x}°, Y ${op.y}°, Z ${op.z}°. Source geometry retained.`,
+      );
+    } else if (op.type === 'hollow') {
+      const v = one(op.target, s);
+      const source = v.geometry?.kind === 'hollow' ? v.geometry.source : v;
+      s.project = updateVolume(s.project, v.id, {
+        geometry: {
+          kind: 'hollow',
+          source: {
+            ...structuredClone(source),
+            dimensions: { ...v.dimensions },
+          },
+          thickness: op.thickness,
+          openTop: op.openTop,
+        },
+      });
+      focus(s, [v.id]);
+      reports.push(
+        `Hollowed ${v.name}: ${op.thickness} m walls and floor, ${op.openTop ? 'open top' : 'closed roof'}.`,
+      );
+    } else if (op.type === 'color') {
       const vs = targets(op.targets, s);
       for (const v of vs)
         s.project = updateVolume(s.project, v.id, { color: op.color });
@@ -275,6 +473,103 @@ export async function applyPlan(
         vs.map((v) => v.id),
       );
       reports.push(`Updated ${vs.length} object color(s) to ${op.color}.`);
+    } else if (op.type === 'trees') {
+      const target = op.target ? one(op.target, s) : null;
+      const margin = op.clearance + op.crown / 2;
+      const w = target ? target.dimensions.width + 2 * margin : 0;
+      const d = target ? target.dimensions.depth + 2 * margin : 0;
+      const perimeter = 2 * (w + d);
+      const count =
+        op.count ??
+        (target
+          ? Math.max(4, Math.min(60, Math.floor(perimeter / (op.crown * 1.5))))
+          : 1);
+      if (!target && count > 1)
+        throw new Error(
+          'Choose a volume to arrange trees around, or add a single tree at a position.',
+        );
+      if (target && count > 1 && perimeter / count < op.crown * 1.42)
+        throw new Error(
+          'These tree crowns would overlap. Use fewer trees, smaller crowns or more clearance.',
+        );
+      const obstacles = s.project.volumes.filter(
+        (o) =>
+          o.id !== target?.id &&
+          !isProfile(o) &&
+          o.geometry?.kind !== 'person' &&
+          o.position.y < op.height,
+      );
+      const created: string[] = [];
+      for (let i = 0; i < count; i++) {
+        const v = makeVolume(s.project.volumes.length + 1, {
+          width: op.crown,
+          depth: op.crown,
+          height: op.height,
+        });
+        v.name = uniqueName('Tree', s.project.volumes);
+        v.geometry = { kind: 'tree' };
+        v.color = '#88a68b';
+        if (target) {
+          const t = ((i + 0.5) * perimeter) / count;
+          const x =
+            t < w
+              ? -w / 2 + t
+              : t < w + d
+                ? w / 2
+                : t < 2 * w + d
+                  ? w / 2 - (t - w - d)
+                  : -w / 2;
+          const z =
+            t < w
+              ? -d / 2
+              : t < w + d
+                ? -d / 2 + t - w
+                : t < 2 * w + d
+                  ? d / 2
+                  : d / 2 - (t - 2 * w - d);
+          const a = (target.rotation * Math.PI) / 180;
+          v.position = {
+            x: target.position.x + x * Math.cos(a) + z * Math.sin(a),
+            y: 0,
+            z: target.position.z - x * Math.sin(a) + z * Math.cos(a),
+          };
+        } else v.position = op.position ?? { x: 0, y: 0, z: 0 };
+        const blocked =
+          target &&
+          obstacles.some((o) => {
+            const a = (o.rotation * Math.PI) / 180,
+              dx = v.position.x - o.position.x,
+              dz = v.position.z - o.position.z;
+            const x = dx * Math.cos(a) - dz * Math.sin(a),
+              z = dx * Math.sin(a) + dz * Math.cos(a);
+            return (
+              Math.hypot(
+                Math.max(0, Math.abs(x) - o.dimensions.width / 2),
+                Math.max(0, Math.abs(z) - o.dimensions.depth / 2),
+              ) <
+              op.crown / 2 + 0.1
+            );
+          });
+        if (blocked) {
+          if (op.count !== null)
+            throw new Error(
+              'Another object blocks this tree arrangement. Increase clearance, change the count, or allow automatic spacing.',
+            );
+          continue;
+        }
+        validateVolume(v);
+        s.project.volumes.push(v);
+        created.push(v.id);
+      }
+      if (!created.length)
+        throw new Error(
+          'There is no clear ground around this footprint for the trees. Increase clearance or choose another volume.',
+        );
+      s.context.lastCreatedIds = created;
+      focus(s, created);
+      reports.push(
+        `Added ${created.length} volumetric tree(s), ${op.height} m tall with ${op.crown} m crowns${target ? ` around ${target.name}, at least ${op.clearance} m clear of its footprint` : ''}.${created.length < count ? ' Positions blocked by other object envelopes were skipped.' : ''}`,
+      );
     } else if (op.type === 'person') {
       const related = s.project.volumes.filter(
         (v) => v.geometry?.kind !== 'person',
@@ -659,6 +954,10 @@ export async function applyPlan(
           slabThickness: op.slabThickness,
           facade: op.facade,
           panelWidth: op.panelWidth,
+          ...(v.geometry?.kind === 'building' &&
+          v.geometry.fixedWindowWidth !== undefined
+            ? { fixedWindowWidth: v.geometry.fixedWindowWidth }
+            : {}),
           mullionWidth: op.mullionWidth,
         },
       };
@@ -966,6 +1265,14 @@ export async function applyPlan(
       focus(s, []);
       reports.push(`Removed ${ids.length} object(s); undo is available.`);
     }
+    if (
+      lockedBefore.some(
+        (v) =>
+          JSON.stringify(s.project.volumes.find((o) => o.id === v.id)) !==
+          JSON.stringify(v),
+      )
+    )
+      throw new Error('This change affects a locked group. Unlock it first.');
     if (s.project.volumes.length > MAX_VOLUMES)
       throw new Error('This workspace supports up to 200 objects.');
     s.project.volumes.forEach((v) => validateVolume(v));

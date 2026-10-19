@@ -25,3 +25,7 @@ An open or non-manifold mesh is labeled **Reference surface**. It remains visibl
 - Dense assets can exceed browser save capacity once history is included. The import checks a conservative two-million-character session budget before changing the workspace. A rejected import leaves the current project intact. Subsequent edits can still grow history; heed a storage warning and export a backup.
 - Imported data is stored on this browser/origin, not uploaded to a project database. The planner gets object names, bounds and reference/solid status, not the entire triangle payload. It does not visually recognize an imported chair or building solely from its mesh.
 - RVT, IFC, DWG, STEP, PDF, images and terrain are not supported by this importer. See the [Phase 2 audit](PHASE2-AUDIT.md) for remaining roadmap requirements.
+
+## References and export
+
+The conversation photo button separately accepts PNG/JPEG/WebP design references for the real multimodal model. It does not import them as geometry or calibrated reference planes. The export menu now writes world-space OBJ geometry with meter/Y-up instructions. ATELIER JSON remains the modeling-history backup. See [the expressive studio guide](EXPRESSIVE-STUDIO.md).

@@ -1,3 +1,4 @@
+import type { ValidationFeedback } from './checkedPlanner';
 import { parsePlan, type Operation } from './plan';
 import { sceneContext, type CameraContext } from './context';
 import type { Session } from './engine';
@@ -5,6 +6,7 @@ export type Message = {
   role: 'user' | 'assistant';
   content: string;
   summary?: string;
+  images?: string[];
 };
 export type Connection = {
   configured: boolean;
@@ -38,12 +40,16 @@ export async function requestPlan(
     theme: 'day' | 'night';
     renderMode: 'studio' | 'wireframe' | 'hidden-line';
   },
+  validationFeedback?: ValidationFeedback,
+  images?: string[],
 ) {
   const r = await fetch('/api/plan', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       message,
+      validationFeedback,
+      images,
       pendingReview,
       workspace,
       historyAvailability: {
@@ -51,9 +57,15 @@ export async function requestPlan(
         redo: session.future.length,
       },
       scene: sceneContext(session.project, session.context, camera),
-      history: history
-        .slice(-20)
-        .map((m) => ({ role: m.role, content: m.content.slice(0, 4000) })),
+      history: history.slice(-20).map((m) => ({
+        role: m.role,
+        content: m.content.slice(0, 4000),
+        ...(m.role === 'user' &&
+        m === [...history].reverse().find((m) => m.images?.length) &&
+        !images?.length
+          ? { images: m.images }
+          : {}),
+      })),
     }),
     signal,
   });

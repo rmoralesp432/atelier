@@ -3,9 +3,19 @@ import type { MeshRecipe } from './imports/mesh';
 import { validateRecipe } from './geometry/kernel';
 export type Vec3 = { x: number; y: number; z: number };
 export type Dimensions = { width: number; depth: number; height: number };
+import type { FormRecipe } from './geometry/forms';
 export type GeometryRecipe =
+  | FormRecipe
+  | {
+      kind: 'oriented';
+      source: Volume;
+      degrees: Vec3;
+      origin: Vec3;
+      base: Dimensions;
+    }
+  | { kind: 'hollow'; source: Volume; thickness: number; openTop: boolean }
   | MeshRecipe
-  | { kind: 'person' }
+  | { kind: 'person' | 'tree' }
   | { kind: 'mirror'; source: Volume; axis: 'x' | 'z' }
   | { kind: 'box' | 'cylinder' | 'sphere' | 'rectangle' | 'circle' }
   | { kind: 'extrusion'; profile: 'rectangle' | 'circle' }
@@ -18,6 +28,7 @@ export type GeometryRecipe =
       slabThickness: number;
       facade: boolean;
       panelWidth: number;
+      fixedWindowWidth?: number;
       mullionWidth: number;
     }
   | {
@@ -30,6 +41,12 @@ export type GeometryRecipe =
     };
 export type Volume = {
   geometry?: GeometryRecipe;
+  groupId?: string;
+  display?: {
+    mode: 'architecture' | 'volume';
+    floors: boolean;
+    glass: boolean;
+  };
   color?: string;
   id: string;
   name: string;
@@ -37,7 +54,18 @@ export type Volume = {
   position: Vec3;
   rotation: number;
 };
+export type ObjectGroup = {
+  id: string;
+  name: string;
+  visible: boolean;
+  locked: boolean;
+};
+export const isVisible = (v: Volume, p: Project) =>
+  p.groups?.find((g) => g.id === v.groupId)?.visible !== false;
+export const isLocked = (v: Volume, p: Project) =>
+  p.groups?.find((g) => g.id === v.groupId)?.locked === true;
 export type Project = {
+  groups?: ObjectGroup[];
   site?: Site;
   volumes: Volume[];
   selectedId: string | null;
@@ -82,6 +110,13 @@ export function validateVolume(v: Volume, checkGeometry = true): void {
     throw new Error(
       'Coordinates must be within ±1,000 m; elevation Y cannot be negative.',
     );
+  if (
+    v.display &&
+    (!['architecture', 'volume'].includes(v.display.mode) ||
+      typeof v.display.floors !== 'boolean' ||
+      typeof v.display.glass !== 'boolean')
+  )
+    throw new Error('Invalid building display settings.');
   if (v.color !== undefined && !/^#[0-9a-f]{6}$/i.test(v.color))
     throw new Error('Use a six-digit hex object color.');
   if (checkGeometry) validateRecipe(v.geometry);
@@ -131,6 +166,10 @@ export function updateVolume(
     ...project,
     volumes: project.volumes.map((v) => {
       if (v.id !== id) return v;
+      if (isLocked(v, project))
+        throw new Error(
+          'This group is locked. Unlock it before editing its objects.',
+        );
       const next = { ...v, ...patch };
       if (
         patch.dimensions &&
@@ -145,6 +184,11 @@ export function updateVolume(
           source: { ...v.geometry.source, dimensions: { ...next.dimensions } },
         };
       }
+      if (patch.dimensions && !patch.geometry && v.geometry?.kind === 'hollow')
+        next.geometry = {
+          ...v.geometry,
+          source: { ...v.geometry.source, dimensions: { ...next.dimensions } },
+        };
       validateVolume(next);
       return next;
     }),
@@ -159,14 +203,36 @@ export function parseProject(text: string): Project {
   )
     throw new Error('Unsupported project file.');
   if (raw.site !== undefined) validateSite(raw.site);
+  if (
+    raw.groups !== undefined &&
+    (!Array.isArray(raw.groups) ||
+      raw.groups.length > 50 ||
+      raw.groups.some(
+        (g: any) =>
+          !g ||
+          typeof g.id !== 'string' ||
+          !g.id ||
+          g.id.length > 100 ||
+          typeof g.name !== 'string' ||
+          !g.name.trim() ||
+          g.name.length > 80 ||
+          typeof g.visible !== 'boolean' ||
+          typeof g.locked !== 'boolean',
+      ) ||
+      new Set(raw.groups.map((g: any) => g.id)).size !== raw.groups.length)
+  )
+    throw new Error('Invalid project groups.');
   const ids = new Set<string>();
   for (const v of raw.volumes) {
     if (!v || typeof v.id !== 'string' || ids.has(v.id))
       throw new Error('Invalid volume identifier.');
     validateVolume(v);
+    if (v.groupId && !raw.groups?.some((g: any) => g.id === v.groupId))
+      throw new Error('Object refers to a missing group.');
     ids.add(v.id);
   }
   return {
+    ...(raw.groups ? { groups: raw.groups } : {}),
     ...(raw.site ? { site: raw.site } : {}),
     volumes: raw.volumes,
     selectedId: ids.has(raw.selectedId) ? raw.selectedId : null,
@@ -223,6 +289,8 @@ export function executeCommand(
   }
   const selected = project.volumes.find((v) => v.id === project.selectedId);
   const requireSelection = () => {
+    if (selected && isLocked(selected, project))
+      throw new Error('This group is locked. Unlock it before editing.');
     if (!selected) throw new Error('Select a volume first.');
     return selected;
   };

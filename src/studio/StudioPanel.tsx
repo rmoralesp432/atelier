@@ -10,7 +10,7 @@ import {
   Moon,
 } from 'lucide-react';
 import type { Appearance } from './appearance';
-import type { Site } from './site';
+import type { Site, MapStyle } from './site';
 import { googleMapsUrl, validateSite } from './site';
 export default function StudioPanel({
   initialTab = 'appearance',
@@ -36,7 +36,9 @@ export default function StudioPanel({
   const floating = useFloatingPanel();
   const [tab, setTab] = useState<'appearance' | 'site'>(initialTab);
   const [error, setError] = useState('');
-  const [pickOpen, setPickOpen] = useState(false);
+  const [pickOpen, setPickOpen] = useState(initialTab === 'site');
+  const [mapStyle, setMapStyle] = useState<MapStyle>(site?.style ?? 'street');
+  const [bearing, setBearing] = useState(site?.bearing ?? 0);
   const [latitude, setLatitude] = useState(site ? String(site.latitude) : '');
   const [longitude, setLongitude] = useState(
     site ? String(site.longitude) : '',
@@ -179,7 +181,8 @@ export default function StudioPanel({
               const next = {
                 latitude: Number(form.get('latitude')),
                 longitude: Number(form.get('longitude')),
-                bearing: Number(form.get('bearing')),
+                bearing,
+                style: mapStyle,
               };
               validateSite(next);
               onSite(next);
@@ -194,6 +197,21 @@ export default function StudioPanel({
             Place your model on a map. The location marks your workspace origin;
             dimensions stay in meters.
           </p>
+          <div className="theme-options" aria-label="Map imagery">
+            {(['street', 'satellite'] as const).map((style) => (
+              <button
+                type="button"
+                key={style}
+                aria-pressed={mapStyle === style}
+                onClick={() => {
+                  setMapStyle(style);
+                  if (site) onSite({ ...site, style });
+                }}
+              >
+                {style === 'street' ? 'Street' : 'Satellite'}
+              </button>
+            ))}
+          </div>
           <div className="map-pick-actions">
             <button
               type="button"
@@ -247,6 +265,7 @@ export default function StudioPanel({
             <Suspense fallback={<p>Loading map picker…</p>}>
               <MapPicker
                 center={pickerCenter}
+                style={mapStyle}
                 onPick={(p) => {
                   setLatitude(p.latitude.toFixed(6));
                   setLongitude(p.longitude.toFixed(6));
@@ -286,17 +305,50 @@ export default function StudioPanel({
             />
           </label>
           <label>
-            Orientation · clockwise from north
+            Map rotation · {bearing}°
             <input
               name="bearing"
+              aria-label="Map rotation"
               type="number"
               step="any"
               min="-360"
               max="360"
               required
-              defaultValue={site?.bearing ?? 0}
+              value={bearing}
+              onChange={(e) => setBearing(Number(e.target.value))}
             />
           </label>
+          <input
+            type="range"
+            aria-label="Rotate map"
+            min="-180"
+            max="180"
+            step="1"
+            value={bearing}
+            onChange={(e) => {
+              const value = Number(e.target.value);
+              setBearing(value);
+              if (site) onSite({ ...site, bearing: value });
+            }}
+          />
+          <div className="map-bearing-presets">
+            {[0, 45, 90, -90].map((value) => (
+              <button
+                type="button"
+                key={value}
+                onClick={() => {
+                  setBearing(value);
+                  if (site) onSite({ ...site, bearing: value });
+                }}
+              >
+                {value === 0 ? 'North up' : `${value}°`}
+              </button>
+            ))}
+          </div>
+          <p className="studio-caption">
+            Rotates the map only. Model axes and orthographic views stay fixed.
+            True north follows the map; project north stays on your grid.
+          </p>
           <button className="primary-studio-action" type="submit">
             Show model on map
           </button>
@@ -315,9 +367,9 @@ export default function StudioPanel({
             </>
           )}
           <p className="studio-caption">
-            OpenStreetMap · flat map under your 3D geometry, not terrain or
-            satellite imagery. Location is sent to the map tile service when
-            shown.
+            Street: OpenStreetMap. Satellite: Esri World Imagery. Both are flat
+            reference layers; no terrain heights. Your location is sent to the
+            selected imagery provider when shown.
           </p>
           {error && <p role="alert">{error}</p>}
         </form>

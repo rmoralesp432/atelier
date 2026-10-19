@@ -53,7 +53,7 @@ The picker loads only when opened, uses Leaflet and OSM tiles, and preserves OSM
 
 The chosen point anchors the **workspace origin**, not the selected object's center. Project north starts at geographic north; orientation is clockwise from north. The 3D objects stay in meters and retain their local positions. Location saves in project export/history. Maps load only after an explicit action and remain off after reloading the app.
 
-This is an **OpenStreetMap flat ground map beneath actual 3D geometry**, not Google imagery, terrain, satellite imagery, geodetic surveying or surrounding 3D buildings. A Google Maps link opens the location separately; it does not upload or display the model in Google Maps. No map API key is required for this bounded OSM view. The browser requests nine displayed tiles at zoom 17, using normal HTTP caching and visible attribution. Tile requests reveal the approximate site to OSM. There is no prefetch, bulk export or offline tile download. For a heavily used public deployment, configure a suitable hosted tile provider before exceeding community tile service capacity.
+The current version offers **OpenStreetMap streets or Esri satellite imagery as a flat ground map beneath actual 3D geometry**. It is not Google 3D imagery, terrain, geodetic surveying or surrounding 3D buildings. A Google Maps link opens the location separately; it does not upload or display the model in Google Maps. No map API key is required for this bounded OSM view. The browser requests nine displayed tiles at zoom 17, using normal HTTP caching and visible attribution. Tile requests reveal the approximate site to OSM. There is no prefetch, bulk export or offline tile download. For a heavily used public deployment, configure a suitable hosted tile provider before exceeding community tile service capacity.
 
 Live OSM imagery could not be verified from this cloud environment's restricted network. Browser tests use explicitly labeled image fixtures to verify geographic placement, loading, attribution, errors and preservation of project data. Loading failure is visible; it never substitutes invented imagery.
 
@@ -79,8 +79,12 @@ These operations are available to the existing structured-output AI planner and 
 | Extrude / floors / curtain wall | Profiles to solids, floor slabs, panel-and-frame facades                                 | Existing architectural constraints remain                                                      |
 | Color / person                  | Natural color requests and measurable scale entourage                                    | No material-texture library or animated people                                                 |
 
-The planner is instructed to clarify missing mirror planes, array centers, copy intent and ambiguous targets. It explicitly identifies unsupported fillet, chamfer, sweep, loft, path arrays, arbitrary vertex editing and unrestricted Autodesk command compatibility. See the [modeling intent review](MODELING-INTENT-REVIEW.md) for the official Autodesk developer sources actually inspected, the resulting model instructions, and the remaining compatibility and live-language testing limits.
+The planner is instructed to clarify missing mirror planes, array centers, copy intent and ambiguous targets. It explicitly identifies unsupported fillet, chamfer, path arrays, arbitrary vertex editing and unrestricted Autodesk command compatibility. See the [modeling intent review](MODELING-INTENT-REVIEW.md) for the official Autodesk developer sources actually inspected, the resulting model instructions, and the remaining compatibility and live-language testing limits.
 
 ## AI and voice configuration
 
 The existing Render backend and API credentials are reused. No new OpenAI key or service is required. Colors, view modes, scale-person button, direct edits and maps work without AI credits. Conversational requests still need a funded API account; live AI/voice verification remains outstanding. No paid model calls were made for this iteration.
+
+## Expressive studio extension
+
+See [the latest guide](EXPRESSIVE-STUDIO.md) for bounded sweeps/lofts, section cuts, satellite/map rotation, sun studies, walkthroughs, groups, photo references, trees and OBJ export.

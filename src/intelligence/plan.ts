@@ -23,9 +23,24 @@ const point = z
   })
   .strict();
 export const workspaceActionSchema = z.enum([
+  'solar_settings',
+  'solar_on',
+  'solar_off',
+  'camera_settings',
+  'walk_on',
+  'walk_off',
+  'layers_open',
+  'layers_close',
   'map_on',
   'map_off',
   'map_toggle',
+  'map_settings',
+  'map_street',
+  'map_satellite',
+  'section_on',
+  'section_off',
+  'presentation_on',
+  'presentation_off',
   'view_perspective',
   'view_orthographic',
   'view_top',
@@ -41,7 +56,149 @@ export const workspaceActionSchema = z.enum([
   'objects_close',
 ]);
 export type WorkspaceAction = z.infer<typeof workspaceActionSchema>;
+const profilePoints = z
+  .array(
+    z
+      .object({
+        x: z.number().min(-500).max(500),
+        z: z.number().min(-500).max(500),
+      })
+      .strict(),
+  )
+  .min(3)
+  .max(64);
+const formPosition = point;
 export const operationSchema = z.discriminatedUnion('type', [
+  z
+    .object({
+      type: z.literal('trees'),
+      target: z.string().nullable(),
+      count: z.number().int().min(1).max(60).nullable(),
+      height: z.number().min(1).max(30),
+      crown: z.number().min(0.5).max(20),
+      clearance: z.number().min(0.1).max(100),
+      position: point.nullable(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('group_create'),
+      name: z.string().min(1).max(80),
+      targets: z.array(z.string().min(1).max(100)).max(200),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('group_edit'),
+      id: z.string(),
+      name: z.string().min(1).max(80).nullable(),
+      visible: z.boolean().nullable(),
+      locked: z.boolean().nullable(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('map_rotation'),
+      degrees: z.number().min(-360).max(360),
+      relative: z.boolean(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('window_module'),
+      target: z.string(),
+      width: z.number().min(0.3).max(10).nullable(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('building_display'),
+      targets: ids,
+      mode: z.enum(['architecture', 'volume']),
+      floors: z.boolean(),
+      glass: z.boolean(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('attach'),
+      target: z.string(),
+      name: z.string().min(1).max(80),
+      side: z.enum(['above', 'below', 'left', 'right', 'front', 'back']),
+      width: dimension,
+      depth: dimension,
+      height: dimension,
+      gap: z.number().min(0).max(500),
+      offsetX: z.number().min(-500).max(500),
+      offsetZ: z.number().min(-500).max(500),
+      liftExisting: z.boolean(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('sweep'),
+      target: z.string().nullable(),
+      name: z.string().min(1).max(80),
+      profile: profilePoints,
+      path: z
+        .array(
+          z
+            .object({
+              x: z.number().min(-500).max(500),
+              y: z.number().min(-500).max(500),
+              z: z.number().min(-500).max(500),
+            })
+            .strict(),
+        )
+        .min(2)
+        .max(24),
+      smooth: z.boolean(),
+      position: formPosition,
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('loft'),
+      target: z.string().nullable(),
+      name: z.string().min(1).max(80),
+      sections: z
+        .array(
+          z
+            .object({ y: z.number().min(-500).max(500), points: profilePoints })
+            .strict(),
+        )
+        .min(2)
+        .max(16),
+      position: formPosition,
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('orient'),
+      targets: ids,
+      x: z.number().min(-360).max(360),
+      y: z.number().min(-360).max(360),
+      z: z.number().min(-360).max(360),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('hollow'),
+      target: z.string(),
+      thickness: z.number().min(0.05).max(100),
+      openTop: z.boolean(),
+    })
+    .strict(),
+  z
+    .object({
+      type: z.literal('section'),
+      enabled: z.boolean(),
+      axis: z.enum(['x', 'y', 'z']),
+      position: z.number().min(-1000).max(1000),
+      flip: z.boolean(),
+    })
+    .strict(),
+
   z
     .object({ type: z.literal('workspace'), action: workspaceActionSchema })
     .strict(),
@@ -351,5 +508,8 @@ export const needsConfirmation = (plan: Plan) =>
       op.type === 'delete' ||
       op.type === 'boolean' ||
       op.type === 'opening' ||
-      op.type === 'building',
+      op.type === 'building' ||
+      op.type === 'hollow' ||
+      (op.type === 'attach' && op.liftExisting) ||
+      ((op.type === 'sweep' || op.type === 'loft') && op.target !== null),
   );

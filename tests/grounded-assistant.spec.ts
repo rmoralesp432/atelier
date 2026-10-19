@@ -17,6 +17,16 @@ test('custom footprint conversation, measured answers, checked review and correc
   );
   await page.route('**/api/plan', (r) => {
     const body = r.request().postDataJSON();
+    if (body.validationFeedback) {
+      expect(body.validationFeedback.error).toContain('opening must fit');
+      return r.fulfill({
+        json: {
+          intent: 'apply',
+          message: 'Same invalid opening.',
+          operations: body.validationFeedback.operations,
+        },
+      });
+    }
     const index = turn++;
     if (index === 5) {
       expect(body.pendingReview.operations[0].type).toBe('building');

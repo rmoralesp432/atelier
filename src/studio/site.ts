@@ -1,8 +1,34 @@
-export type Site = { latitude: number; longitude: number; bearing: number };
+export type MapStyle = 'street' | 'satellite';
+export type Site = {
+  latitude: number;
+  longitude: number;
+  bearing: number;
+  style?: MapStyle;
+};
+export const mapSources = {
+  street: {
+    url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+    credit: '© OpenStreetMap contributors',
+    link: 'https://www.openstreetmap.org/copyright',
+  },
+  satellite: {
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    credit: 'Tiles © Esri · Maxar · Earthstar Geographics · GIS User Community',
+    link: 'https://www.arcgis.com/home/item.html?id=10df2279f9684e4a9f6a7f08febac2a9',
+  },
+};
+export const trueNorth = (bearing: number) => ({
+  x: -Math.sin((bearing * Math.PI) / 180),
+  y: 0,
+  z: -Math.cos((bearing * Math.PI) / 180),
+});
+
 const circumference = 40075016.68557849;
 export function validateSite(site: Site) {
   if (
     !site ||
+    (site.style !== undefined &&
+      !['street', 'satellite'].includes(site.style)) ||
     !Number.isFinite(site.latitude) ||
     Math.abs(site.latitude) > 85 ||
     !Number.isFinite(site.longitude) ||
@@ -31,7 +57,10 @@ export function siteTiles(site: Site, zoom = 17) {
         y = Math.floor(ty) + dy;
       if (y < 0 || y >= n) continue;
       tiles.push({
-        url: `https://tile.openstreetmap.org/${zoom}/${((x % n) + n) % n}/${y}.png`,
+        url: mapSources[site.style ?? 'street'].url
+          .replace('{z}', String(zoom))
+          .replace('{x}', String(((x % n) + n) % n))
+          .replace('{y}', String(y)),
         x: (x + 0.5 - tx) * size,
         z: (y + 0.5 - ty) * size,
         size,

@@ -2,7 +2,27 @@
 
 Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 154 and software WebGL. This file distinguishes geometric execution, UI/provider contracts and live AI/audio behavior.
 
-## Passed
+## Expressive studio — October 19, 2026
+
+The latest implementation is described in [the expressive studio guide](EXPRESSIVE-STUDIO.md). **112 unit/integration tests in 23 files pass**, along with TypeScript, the production Vite build, formatting and whitespace checks.
+
+New numerical checks cover analytic loft volume and winding, closed straight/curved sweeps, rejection of a folded crossing sweep, arbitrary-axis solid rotation with stable center/identity, exact hollow-box material volume, real section-cap area with cavities, opposite-face push/pull anchoring, independently sized lower floors with reviewed lifting, fixed clear glazing widths after narrowing, locked-group protection, tree placement around a rotated envelope and avoidance of neighboring object envelopes, world-space OBJ dimensions and hidden-layer exclusion. Solar tests check equinox noon altitude/azimuth, true-north bearing rotation and explicit UTC-offset conversion. Provider tests verify real multimodal SDK payloads, strict schema, one bounded geometry-repair attempt and no automatic repeat of a billing rejection.
+
+The 41-case production Chromium regression initially passed 37 cases. Focused reruns passed all four affected cases after fixing the late-loading map coordinate overwrite, inspector/addition overlap, presentation exit visibility and project-dialog cancellation during list refresh. The added delayed-map-loading regression brings the browser suite to 42 scenarios, all covered by passing production regression/focused runs. Final map interaction, solar/camera, image-reference and tree/group/OBJ workflows were rerun successfully. The static `/atelier/` smoke test also passes with JS/CSS/WASM and lazy map assets, real solid rendering, exact editing and reload persistence. Tests use explicit provider/map fixtures where indicated; the application has no fake AI fallback.
+
+The browser checks exercise capped section cuts, satellite/provider switching and map-only rotation, direct face dragging, floor/glass/envelope toggles, corrected sweep/loft transactions, true solar lighting, eye-level keyboard movement, camera lens settings, marquee selection, persistent hidden/locked groups, solid trees, actual OBJ download contents, and downsampled reference photos through follow-up and reload. Existing projects, original Boolean success sequence, imports, direct transforms, mobile layout and voice transport contracts remain covered.
+
+No paid text, image or voice requests were made. Live language/image interpretation, audible voice quality and satellite imagery availability are not claimed verified. The public Render hostname is outside this cloud environment's network allowlist; deployment status is checked through the authorized Render API, while actual browser tests run against the production Node server in the cloud.
+
+![Actual expressive solids in night mode](atelier-expressive-night.png)
+
+![The same workspace in day mode](atelier-expressive-day.png)
+
+![Volumetric trees around the model](atelier-trees.png)
+
+![Solar study controls in the real viewport](atelier-solar.png)
+
+## Earlier validation milestones
 
 - **89 unit/integration tests** across model compatibility, structured plan validation, camera-relative directions, engine execution, Manifold geometry, history persistence, mesh imports, motion timing, API access protection and actual SDK request/response contracts. Hosting checks verify trusted HTTPS origin configuration behind a proxy, secure login cookies, foreign-origin rejection and authenticated voice-session routing using an explicit provider double. Provider error tests verify actionable billing/key/configuration messages without exposing upstream errors.
 - **33 Chromium scenarios against the production Node server**, covered by the regression suite and focused reruns: rendering/orbit/top view, collapsible inspector, legacy-data preservation, exact editing, profiles/extrusion, raycast selection, conversational UI execution using explicit model-response fixtures, destructive review/stale-plan protection, export/import, translation handles, missing-credential behavior, editable wall openings through reload and undo, session-import timeline preservation, OBJ/STL/GLB imports, reference surfaces, creation motion, reduced-motion and storage-budget protection. The suite also requests the real `/healthz`, `/api/config` and `/api/plan` routes to verify the combined server and honest missing-key behavior.

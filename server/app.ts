@@ -27,7 +27,7 @@ export function createApi(
     res.setHeader('Cache-Control', 'no-store');
     res.json({ status: 'ok' });
   });
-  app.use(express.json({ limit: '256kb' }));
+  app.use(express.json({ limit: '4mb' }));
   const sessions = new Map<string, number>();
   const rate = new Map<string, { time: number; count: number }>();
   app.use('/api', (req, res, next) => {

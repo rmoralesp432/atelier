@@ -145,7 +145,6 @@ try {
     }),
   );
   await page.getByRole('button', { name: 'Toggle site map' }).click();
-  await page.getByRole('button', { name: 'Choose on a map' }).click();
   await page
     .getByRole('region', { name: 'Choose a site on the map' })
     .waitFor();

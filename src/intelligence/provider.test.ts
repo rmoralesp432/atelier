@@ -40,6 +40,7 @@ it('uses the actual Responses SDK contract with strict schema, scene context and
   const plan = await provider.plan({
     message: 'Could you nudge the pavilion toward the street?',
     history: [],
+    images: ['data:image/png;base64,aGVsbG8='],
     scene: sceneContext(initialProject(), emptyContext(), defaultCamera),
     pendingReview: {
       message: 'Replace Main pavilion with two floor slabs and a roof.',
@@ -47,6 +48,11 @@ it('uses the actual Responses SDK contract with strict schema, scene context and
   });
   expect(plan.intent).toBe('clarify');
   expect(body.store).toBe(false);
+  expect(body.input[0].content[1]).toEqual({
+    type: 'input_image',
+    image_url: 'data:image/png;base64,aGVsbG8=',
+    detail: 'auto',
+  });
   expect(body.text.format.strict).toBe(true);
   expect(body.text.format.type).toBe('json_schema');
   // A live Responses request rejected `oneOf` at operations.items. Inspect
@@ -62,10 +68,10 @@ it('uses the actual Responses SDK contract with strict schema, scene context and
       Object.keys(branch.properties).sort(),
     );
   }
-  expect(body.input[0].content).toContain('toward the street');
-  expect(JSON.parse(body.input[0].content).pendingReview.message).toContain(
-    'two floor slabs',
-  );
+  expect(body.input[0].content[0].text).toContain('toward the street');
+  expect(
+    JSON.parse(body.input[0].content[0].text).pendingReview.message,
+  ).toContain('two floor slabs');
 });
 it('uses the realtime Calls SDK with SDP and a tool routed into the modeling planner', async () => {
   let form: FormData | undefined;
@@ -86,4 +92,28 @@ it('uses the realtime Calls SDK with SDP and a tool routed into the modeling pla
   expect(session.tools[0].name).toBe('design');
   expect(session.instructions).toContain('Never invent geometry changes');
   expect(session.instructions).toContain('spoken answer to design');
+});
+it('does not automatically repeat a provider billing rejection', async () => {
+  let requests = 0;
+  const provider = createProvider('test-only-not-a-credential', async () => {
+    requests++;
+    return new Response(
+      JSON.stringify({
+        error: {
+          message: 'Insufficient credit',
+          type: 'insufficient_quota',
+          code: 'insufficient_quota',
+        },
+      }),
+      { status: 429, headers: { 'Content-Type': 'application/json' } },
+    );
+  });
+  await expect(
+    provider.plan({
+      message: 'Create a pavilion.',
+      history: [],
+      scene: sceneContext(initialProject(), emptyContext(), defaultCamera),
+    }),
+  ).rejects.toThrow();
+  expect(requests).toBe(1);
 });

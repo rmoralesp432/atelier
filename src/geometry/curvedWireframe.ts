@@ -4,6 +4,7 @@ export function curvedWireframe(v: Volume): number[] {
   const kind = v.geometry?.kind;
   if (
     kind !== 'sphere' &&
+    kind !== 'tree' &&
     kind !== 'cylinder' &&
     !(kind === 'extrusion' && v.geometry?.profile === 'circle')
   )
@@ -11,10 +12,12 @@ export function curvedWireframe(v: Volume): number[] {
   const { width: w, depth: d, height: h } = v.dimensions;
   const points: number[] = [];
   const line = (a: number[], b: number[]) => points.push(...a, ...b);
-  if (kind === 'sphere') {
+  if (kind === 'sphere' || kind === 'tree') {
     const point = (a: number, b: number) => [
       (Math.cos(a) * Math.sin(b) * w) / 2,
-      ((Math.cos(b) + 1) * h) / 2,
+      kind === 'tree'
+        ? (0.66 + Math.cos(b) * 0.34) * h
+        : ((Math.cos(b) + 1) * h) / 2,
       (Math.sin(a) * Math.sin(b) * d) / 2,
     ];
     for (let j = 0; j < 8; j++)
@@ -38,5 +41,13 @@ export function curvedWireframe(v: Volume): number[] {
       );
     }
   }
+  if (kind === 'tree')
+    for (let j = 0; j < 4; j++) {
+      const a = (j * Math.PI) / 2;
+      line(
+        [Math.cos(a) * w * 0.055, 0, Math.sin(a) * d * 0.055],
+        [Math.cos(a) * w * 0.055, h * 0.34, Math.sin(a) * d * 0.055],
+      );
+    }
   return points;
 }

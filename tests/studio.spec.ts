@@ -136,7 +136,7 @@ test('map anchoring uses bounded tiles, keeps geometry and saves the location; t
   await page.getByRole('button', { name: 'Location', exact: true }).click();
   await page.getByLabel('Latitude', { exact: true }).fill('20.9674');
   await page.getByLabel('Longitude', { exact: true }).fill('-89.5926');
-  await page.getByLabel('Orientation').fill('45');
+  await page.getByLabel('Map rotation', { exact: true }).fill('45');
   await page.getByRole('button', { name: 'Show model on map' }).click();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-map-status',
@@ -149,6 +149,7 @@ test('map anchoring uses bounded tiles, keeps geometry and saves the location; t
     latitude: 20.9674,
     longitude: -89.5926,
     bearing: 45,
+    style: 'street',
   });
   await expect(
     page.getByRole('link', { name: '© OpenStreetMap contributors' }),

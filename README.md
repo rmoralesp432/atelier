@@ -102,4 +102,8 @@ The requested seven-statement sequence is covered at the structured-operation an
 
 [Architecture and kernel choice](docs/ARCHITECTURE.md) · [Cloud operations](docs/CLOUD.md) · [Preserved roadmap](docs/ROADMAP.md)
 
-Terrain imports, site modeling, PDF/image references, advanced snapping, verified bilingual conversations, design alternatives and professional CAD/BIM export remain on the roadmap. This milestone does not fabricate those capabilities. Solid modeling is tessellated Manifold geometry, not certified CAD or exact analytic BREP.
+Terrain imports, site modeling, calibrated PDF/image reference planes, advanced snapping, verified bilingual conversations, design alternatives and native CAD/BIM export remain on the roadmap. Image attachments for the multimodal planner and geometry-only OBJ export are now implemented. This milestone does not fabricate those capabilities. Solid modeling is tessellated Manifold geometry, not certified CAD or exact analytic BREP.
+
+## Expressive studio
+
+[Open the control guide](docs/EXPRESSIVE-STUDIO.md) for sweeps/lofts, hollowing, push/pull, sections, satellite maps, solar studies, walkthrough cameras, groups, photo references, volumetric trees and OBJ export. The existing server and API configuration continue to apply. Live model/voice quality still requires funded verification.

@@ -486,7 +486,9 @@ test('model-driven workspace controls use real projections and do not consume mo
   expect(requests[1].workspace.view).toBe('orthographic');
   expect(requests[1].workspace.theme).toBe('day');
   await say('Use night mode and move the missing object.');
-  await expect(page.getByRole('alert')).toBeVisible();
+  await expect(
+    page.getByRole('alert').filter({ hasText: 'That object is no longer' }),
+  ).toBeVisible();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-theme',
     'day',

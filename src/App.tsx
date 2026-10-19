@@ -1,3 +1,15 @@
+import { exportObj } from './geometry/export';
+import { referenceImage } from './imports/reference';
+import LayersPanel from './studio/LayersPanel';
+import SolarPanel from './studio/SolarPanel';
+import CameraPanel from './studio/CameraPanel';
+import { defaultSolar } from './studio/solar';
+import { defaultCameraSettings } from './studio/camera';
+import AddVolumePanel from './studio/AddVolumePanel';
+import { checkedPlan } from './intelligence/checkedPlanner';
+import SectionPanel from './studio/SectionPanel';
+import { defaultSection, sectionRange } from './studio/section';
+import { mapSources, trueNorth } from './studio/site';
 import { useFloatingPanel } from './studio/useFloatingPanel';
 import StudioPanel from './studio/StudioPanel';
 import { loadAppearance, palette } from './studio/appearance';
@@ -34,6 +46,12 @@ import {
   PanelRightOpen,
   Settings2,
   Sparkles,
+  Scissors,
+  Presentation,
+  Sun,
+  Camera,
+  ImagePlus,
+  ChevronDown,
   Trash2,
   Undo2,
   X,
@@ -149,6 +167,18 @@ function loadMessages(): Message[] {
             role: m.role,
             content: m.content,
             ...(typeof m.summary === 'string' ? { summary: m.summary } : {}),
+            ...(Array.isArray(m.images)
+              ? {
+                  images: m.images
+                    .filter(
+                      (v: unknown) =>
+                        typeof v === 'string' &&
+                        v.length <= 1000000 &&
+                        /^data:image\/(jpeg|png|webp);base64,/.test(v),
+                    )
+                    .slice(0, 2),
+                }
+              : {}),
           }))
       : [];
   } catch {
@@ -265,6 +295,18 @@ export default function App({
     'appearance',
   );
   const [mapVisible, setMapVisible] = useState(false);
+  const [section, setSection] = useState(defaultSection);
+  const [sectionOpen, setSectionOpen] = useState(false);
+  const [solar, setSolar] = useState(defaultSolar);
+  const [solarOpen, setSolarOpen] = useState(false);
+  const [cameraSettings, setCameraSettings] = useState(defaultCameraSettings);
+  const [cameraOpen, setCameraOpen] = useState(false);
+  const [layersOpen, setLayersOpen] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
+  const [addingVolume, setAddingVolume] = useState(false);
+  const [presentation, setPresentation] = useState(false);
+  const [turntable, setTurntable] = useState(false);
+  const [workStage, setWorkStage] = useState('Considering your idea…');
   useEffect(() => {
     try {
       localStorage.setItem('atelier.appearance', JSON.stringify(appearance));
@@ -319,6 +361,11 @@ export default function App({
     voiceConfigured: false,
   });
   const [busy, setBusy] = useState(false);
+  const [referenceImages, setReferenceImages] = useState<string[]>([]);
+  const imageInput = useRef<HTMLInputElement>(null);
+  const [imageLoading, setImageLoading] = useState(false);
+  const [exportOpen, setExportOpen] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const [modelingBusy, setModelingBusy] = useState(0);
   const busyRef = useRef(false);
   const [pending, setPending] = useState<{
@@ -352,9 +399,101 @@ export default function App({
     const state = { ...workspaceRef.current };
     const reports: string[] = [];
     for (const op of plan.operations) {
+      if (op.type === 'section') {
+        setSection({
+          enabled: op.enabled,
+          axis: op.axis,
+          position: op.position,
+          flip: op.flip,
+        });
+        setSectionOpen(op.enabled);
+        reports.push(
+          op.enabled
+            ? `Section ${op.axis.toUpperCase()} at ${op.position} m. Geometry preserved.`
+            : 'Whole model visible.',
+        );
+        continue;
+      }
       if (op.type !== 'workspace') continue;
       const a = op.action;
-      if (a === 'map_on' || a === 'map_off' || a === 'map_toggle') {
+      if (a === 'solar_settings' || a === 'solar_on' || a === 'solar_off') {
+        setSolarOpen(true);
+        setCameraOpen(false);
+        setSectionOpen(false);
+        if (a !== 'solar_settings' && current.current.site)
+          setSolar((v) => ({ ...v, enabled: a === 'solar_on' }));
+        reports.push(
+          current.current.site
+            ? 'Solar study controls opened.'
+            : 'Choose your site location to calculate sunlight.',
+        );
+      } else if (
+        a === 'camera_settings' ||
+        a === 'walk_on' ||
+        a === 'walk_off'
+      ) {
+        setCameraOpen(true);
+        setSolarOpen(false);
+        setSectionOpen(false);
+        if (a !== 'camera_settings') {
+          setCameraSettings((v) => ({ ...v, walk: a === 'walk_on' }));
+          if (a === 'walk_on') setView((v) => ({ ...v, mode: 'perspective' }));
+        }
+        reports.push(
+          a === 'walk_on'
+            ? 'Walkthrough enabled. Click the canvas and use W A S D to walk.'
+            : 'Camera controls opened.',
+        );
+      } else if (a === 'layers_open' || a === 'layers_close') {
+        setLayersOpen(a === 'layers_open');
+        reports.push(a === 'layers_open' ? 'Groups opened.' : 'Groups closed.');
+      } else if (a === 'map_settings') {
+        setStudioTab('site');
+        setStudioOpen(true);
+        reports.push('Location controls opened.');
+      } else if (a === 'map_street' || a === 'map_satellite') {
+        if (current.current.site) {
+          commit(
+            {
+              ...current.current,
+              site: {
+                ...current.current.site,
+                style: a === 'map_satellite' ? 'satellite' : 'street',
+              },
+            },
+            false,
+          );
+          setMapVisible(true);
+          reports.push(
+            a === 'map_satellite'
+              ? 'Satellite imagery enabled.'
+              : 'Street map enabled.',
+          );
+        } else {
+          setStudioTab('site');
+          setStudioOpen(true);
+          reports.push('Choose a location first.');
+        }
+      } else if (a === 'section_on' || a === 'section_off') {
+        const r = sectionRange(current.current, 'y');
+        setSection((v) => ({
+          ...v,
+          enabled: a === 'section_on',
+          axis: 'y',
+          position: (r.min + r.max) / 2,
+        }));
+        setSectionOpen(a === 'section_on');
+        reports.push(
+          a === 'section_on' ? 'Section view enabled.' : 'Whole model visible.',
+        );
+      } else if (a === 'presentation_on' || a === 'presentation_off') {
+        setPresentation(a === 'presentation_on');
+        reports.push(
+          a === 'presentation_on'
+            ? 'Presentation mode.'
+            : 'Editing controls restored.',
+        );
+      } else if (a === 'map_on' || a === 'map_off' || a === 'map_toggle') {
         const visible = a === 'map_toggle' ? !state.mapVisible : a === 'map_on';
         if (visible && !current.current.site) {
           setStudioTab('site');
@@ -375,6 +514,7 @@ export default function App({
             : a === 'view_orthographic'
               ? 'orthographic'
               : 'perspective';
+        setCameraSettings((v) => ({ ...v, walk: false }));
         setView((v) => ({ mode: state.view, revision: v.revision + 1 }));
         reports.push(
           state.view === 'top'
@@ -427,10 +567,20 @@ export default function App({
     future: redo.current,
     context: conversation.current,
   });
-  const remember = (role: Message['role'], content: string, summary?: string) =>
+  const remember = (
+    role: Message['role'],
+    content: string,
+    summary?: string,
+    images?: string[],
+  ) =>
     setMessages((m) => [
       ...m.slice(-79),
-      { role, content, ...(summary ? { summary } : {}) },
+      {
+        role,
+        content,
+        ...(summary ? { summary } : {}),
+        ...(images?.length ? { images } : {}),
+      },
     ]);
   const install = (session: Session, animate = true) => {
     markCreation(current.current, session.project, animate);
@@ -482,6 +632,18 @@ export default function App({
     if (op.type === 'opening')
       return [
         `Cut a ${op.width} × ${op.height} m opening through ${reviewName(op.target)}.`,
+      ];
+    if (op.type === 'attach' && op.liftExisting)
+      return [
+        `Lift ${reviewName(op.target)} enough to fit a ${op.height} m lower volume with ${op.gap} m clearance.`,
+      ];
+    if (op.type === 'hollow')
+      return [
+        `Hollow ${reviewName(op.target)} with ${op.thickness} m walls; ${op.openTop ? 'open top' : 'closed roof'}.`,
+      ];
+    if ((op.type === 'sweep' || op.type === 'loft') && op.target)
+      return [
+        `Replace ${reviewName(op.target)} with a ${op.type}, preserving its identity.`,
       ];
     if (op.type === 'delete')
       return [`Remove ${op.targets.map(reviewName).join(', ')}.`];
@@ -562,31 +724,42 @@ export default function App({
     if (busyRef.current) return 'Please wait for the current edit to finish.';
     busyRef.current = true;
     setBusy(true);
+    setWorkStage('Considering your idea…');
     setChatExpanded(true);
     setNotice({ text: '', error: false });
     const reviewing = pendingRef.current;
     const before = fingerprint();
     const frame = structuredClone(camera.current);
     const history = [...messagesRef.current];
-    remember('user', text);
+    const images = [...referenceImages];
+    setReferenceImages([]);
+    remember('user', text, undefined, images);
     try {
-      const plan = await requestPlan(
-        text,
+      const plan = await checkedPlan(
         snapshot(),
         frame,
-        history,
-        AbortSignal.timeout(60_000),
-        reviewing
-          ? {
-              message: reviewing.plan.message,
-              operations: reviewing.plan.operations,
-              outcome: reviewing.prepared.message.slice(0, 16000),
-            }
-          : null,
-        {
-          ...workspaceRef.current,
-          mapConfigured: Boolean(current.current.site),
-        },
+        (feedback) =>
+          requestPlan(
+            text,
+            snapshot(),
+            frame,
+            history,
+            AbortSignal.timeout(60_000),
+            reviewing
+              ? {
+                  message: reviewing.plan.message,
+                  operations: reviewing.plan.operations,
+                  outcome: reviewing.prepared.message.slice(0, 16000),
+                }
+              : null,
+            {
+              ...workspaceRef.current,
+              mapConfigured: Boolean(current.current.site),
+            },
+            feedback,
+            images,
+          ),
+        setWorkStage,
       );
       if (before !== fingerprint())
         throw new Error(
@@ -681,12 +854,39 @@ export default function App({
     });
   const change = useCallback(
     (id: string, patch: Partial<Volume>) => {
-      try {
-        commit(updateVolume(current.current, id, patch));
-        setNotice({ text: 'Geometry updated.', error: false });
-      } catch (e) {
-        reportError(e);
-      }
+      const original = current.current;
+      const finish = async () => {
+        try {
+          const next = updateVolume(original, id, patch),
+            v = next.volumes.find((o) => o.id === id);
+          if (
+            v &&
+            (patch.dimensions || patch.geometry) &&
+            !isProfile(v) &&
+            !isReference(v)
+          ) {
+            setModelingBusy((n) => n + 1);
+            try {
+              const stats = await solidStats(v);
+              if (stats.volume < 0.000001)
+                throw new Error(
+                  'The edit would leave no solid. Your previous geometry was preserved.',
+                );
+            } finally {
+              setModelingBusy((n) => n - 1);
+            }
+          }
+          if (current.current !== original)
+            throw new Error(
+              'The model changed while this edit was checked. Please try the edit again.',
+            );
+          commit(next);
+          setNotice({ text: 'Geometry updated.', error: false });
+        } catch (e) {
+          reportError(e);
+        }
+      };
+      void finish();
     },
     [commit],
   );
@@ -798,13 +998,17 @@ export default function App({
       } else if (e.key.toLowerCase() === 'v') setTool('select');
       else if (e.key.toLowerCase() === 'g') setTool('translate');
       else if (e.key.toLowerCase() === 'r') setTool('rotate');
+      else if (e.key.toLowerCase() === 'p') setTool('reshape');
       else if (e.key.toLowerCase() === 'f')
         setView((v) => ({ ...v, revision: v.revision + 1 }));
-      else if (e.key === 'Escape') select(null);
+      else if (e.key === 'Escape') {
+        if (presentation) setPresentation(false);
+        else select(null);
+      }
     };
     window.addEventListener('keydown', key);
     return () => window.removeEventListener('keydown', key);
-  }, [run, select, travel, settingsOpen, importAsset]);
+  }, [run, select, travel, settingsOpen, importAsset, presentation]);
   function exportProject() {
     const url = URL.createObjectURL(
       new Blob([serializeSession(snapshot())], { type: 'application/json' }),
@@ -939,7 +1143,7 @@ export default function App({
         if (files.length === 1) void importFile(files[0]);
         else reportError(new Error('Import one file at a time.'));
       }}
-      className={`app-shell phase-two immersive theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
+      className={`app-shell phase-two immersive ${presentation ? 'presentation-mode' : ''} theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
     >
       {importAsset && (
         <MeshImportDialog
@@ -997,6 +1201,105 @@ export default function App({
             <span>Map</span>
           </button>
           <button
+            className="subtle-button map-settings-button"
+            aria-label="Change map location"
+            title="Location, satellite and map rotation"
+            onClick={() => {
+              setStudioTab('site');
+              setStudioOpen(true);
+              if (innerWidth <= 800) setInspectorOpen(false);
+            }}
+          >
+            <ChevronDown size={14} />
+            <span>Location</span>
+          </button>
+          <button
+            className="subtle-button compact-tools-toggle"
+            aria-label="Design tools"
+            aria-expanded={toolsOpen}
+            onClick={() => setToolsOpen((v) => !v)}
+          >
+            <Layers size={16} />
+          </button>
+          <div
+            className={`studio-tool-group ${toolsOpen ? 'tools-open' : ''}`}
+            onClick={(e) => {
+              if ((e.target as HTMLElement).closest('button'))
+                setToolsOpen(false);
+            }}
+          >
+            <button
+              className="subtle-button section-toggle"
+              aria-label="Section view"
+              aria-pressed={section.enabled}
+              onClick={() => {
+                if (!section.enabled) {
+                  const r = sectionRange(project, section.axis);
+                  setSection({
+                    ...section,
+                    enabled: true,
+                    position: (r.min + r.max) / 2,
+                  });
+                }
+                setSectionOpen((v) => !v);
+                setInspectorOpen(false);
+                setStudioOpen(false);
+                setSolarOpen(false);
+                setCameraOpen(false);
+              }}
+            >
+              <Scissors size={16} />
+              <span>Section</span>
+            </button>
+            <button
+              className="subtle-button presentation-toggle"
+              aria-label={
+                presentation ? 'Exit presentation' : 'Presentation mode'
+              }
+              aria-pressed={presentation}
+              onClick={() => setPresentation(!presentation)}
+            >
+              <Presentation size={16} />
+              <span>{presentation ? 'Edit' : 'Present'}</span>
+            </button>
+            <button
+              className="subtle-button layers-toggle"
+              aria-label="Layers and groups"
+              onClick={() => setLayersOpen((v) => !v)}
+            >
+              <Layers size={16} />
+              <span>Groups</span>
+            </button>
+            <button
+              className="subtle-button study-toggle"
+              aria-label="Solar study"
+              onClick={() => {
+                setSolarOpen((v) => !v);
+                setInspectorOpen(false);
+                setStudioOpen(false);
+                setCameraOpen(false);
+                setSectionOpen(false);
+              }}
+            >
+              <Sun size={16} />
+              <span>Sun</span>
+            </button>
+            <button
+              className="subtle-button camera-toggle"
+              aria-label="Camera settings"
+              onClick={() => {
+                setCameraOpen((v) => !v);
+                setInspectorOpen(false);
+                setStudioOpen(false);
+                setSolarOpen(false);
+                setSectionOpen(false);
+              }}
+            >
+              <Camera size={16} />
+              <span>Camera</span>
+            </button>
+          </div>
+          <button
             className="connection-button"
             onClick={() => setSettingsOpen(true)}
           >
@@ -1042,6 +1345,57 @@ export default function App({
             <ArrowDownToLine size={14} />
             Export project
           </button>
+          <div className="export-options">
+            <button
+              className="subtle-button"
+              aria-label="More export formats"
+              aria-expanded={exportOpen}
+              onClick={() => setExportOpen((v) => !v)}
+            >
+              <ChevronDown size={14} />
+            </button>
+            {exportOpen && (
+              <div className="export-menu">
+                <button
+                  disabled={exporting}
+                  onClick={async () => {
+                    setExporting(true);
+                    try {
+                      const text = await exportObj(current.current);
+                      const url = URL.createObjectURL(
+                        new Blob([text], { type: 'text/plain' }),
+                      );
+                      const a = document.createElement('a');
+                      a.href = url;
+                      a.download = 'atelier-model.obj';
+                      a.click();
+                      setTimeout(() => URL.revokeObjectURL(url), 1000);
+                      setExportOpen(false);
+                      setNotice({
+                        text: 'OBJ exported in meters. Visible objects included; editable history stays in the ATELIER project backup.',
+                        error: false,
+                      });
+                    } catch (e) {
+                      reportError(e);
+                    } finally {
+                      setExporting(false);
+                    }
+                  }}
+                >
+                  {exporting ? 'Preparing geometry…' : 'Export OBJ'}
+                </button>
+                <small>Visible geometry · meters · Y up</small>
+                <button
+                  onClick={() => {
+                    exportProject();
+                    setExportOpen(false);
+                  }}
+                >
+                  ATELIER project backup
+                </button>
+              </div>
+            )}
+          </div>
         </div>
         <input
           ref={file}
@@ -1212,12 +1566,13 @@ export default function App({
               className="view-button"
               aria-label="Camera view"
               value={view.mode}
-              onChange={(e) =>
+              onChange={(e) => {
+                setCameraSettings((v) => ({ ...v, walk: false }));
                 setView((v) => ({
                   mode: e.target.value as typeof view.mode,
                   revision: v.revision + 1,
-                }))
-              }
+                }));
+              }}
             >
               <option value="perspective">Perspective</option>
               <option value="orthographic">Orthographic</option>
@@ -1261,32 +1616,162 @@ export default function App({
                 }}
               />
             )}
+            {addingVolume && selected && (
+              <AddVolumePanel
+                key={selected.id}
+                volume={selected}
+                onClose={() => {
+                  setAddingVolume(false);
+                  setInspectorOpen(true);
+                }}
+                onAdd={(op) => {
+                  setAddingVolume(false);
+                  setInspectorOpen(true);
+                  void propose(directPlan(op));
+                }}
+              />
+            )}
+            {layersOpen && (
+              <LayersPanel
+                project={project}
+                onChange={(p) => commit(p, false)}
+                onClose={() => setLayersOpen(false)}
+              />
+            )}
+            {solarOpen && (
+              <SolarPanel
+                site={project.site}
+                value={solar}
+                onChange={setSolar}
+                onClose={() => setSolarOpen(false)}
+                onLocation={() => {
+                  setSolarOpen(false);
+                  setStudioTab('site');
+                  setStudioOpen(true);
+                }}
+              />
+            )}
+            {cameraOpen && (
+              <CameraPanel
+                value={cameraSettings}
+                onClose={() => setCameraOpen(false)}
+                onChange={(v) => {
+                  setCameraSettings(v);
+                  if (v.walk)
+                    setView((old) => ({ ...old, mode: 'perspective' }));
+                }}
+              />
+            )}
+            {sectionOpen && (
+              <SectionPanel
+                project={project}
+                value={section}
+                onChange={setSection}
+                onClose={() => setSectionOpen(false)}
+              />
+            )}
+            {presentation && (
+              <div className="presentation-label">
+                <span className="project-dot" /> Design in space{' '}
+                <button
+                  onClick={() => setTurntable((v) => !v)}
+                  aria-pressed={turntable}
+                >
+                  {turntable ? 'Pause orbit' : 'Orbit model'}
+                </button>
+                <button onClick={() => setPresentation(false)}>
+                  Back to editing
+                </button>
+              </div>
+            )}
             {mapVisible && project.site && (
               <div className="map-attribution">
                 <a
-                  href="https://www.openstreetmap.org/copyright"
+                  href={mapSources[project.site.style ?? 'street'].link}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  © OpenStreetMap contributors
+                  {mapSources[project.site.style ?? 'street'].credit}
                 </a>
-                <span>Flat site map</span>
+                <button
+                  onClick={() => {
+                    setStudioTab('site');
+                    setStudioOpen(true);
+                  }}
+                >
+                  Change location
+                </button>
+                <button
+                  onClick={() =>
+                    commit(
+                      {
+                        ...project,
+                        site: {
+                          ...project.site!,
+                          style:
+                            project.site?.style === 'satellite'
+                              ? 'street'
+                              : 'satellite',
+                        },
+                      },
+                      false,
+                    )
+                  }
+                >
+                  {project.site.style === 'satellite' ? 'Street' : 'Satellite'}
+                </button>
                 <button onClick={() => setMapVisible(false)}>Hide</button>
               </div>
             )}
             <div className="north-compass" aria-label="Project north">
               <span style={{ transform: `rotate(${northAngle}deg)` }}>↑</span>
-              <small>N</small>
+              <small>Project N</small>
+              {mapVisible && project.site && (
+                <i
+                  className="true-north-mark"
+                  title="True north"
+                  style={{
+                    transform: `rotate(${(Math.atan2(trueNorth(project.site.bearing).x * camera.current.right.x + trueNorth(project.site.bearing).z * camera.current.right.z, trueNorth(project.site.bearing).x * camera.current.forward.x + trueNorth(project.site.bearing).z * camera.current.forward.z) * 180) / Math.PI}deg)`,
+                  }}
+                >
+                  ↑<b>True N</b>
+                </i>
+              )}
             </div>
             <Viewport
               project={project}
-              tool={tool}
+              tool={presentation ? 'select' : tool}
+              presenting={presentation}
+              cameraSettings={cameraSettings}
+              solar={solar}
+              onSelectMany={(ids, additive) => {
+                const p = current.current,
+                  nextIds = [
+                    ...new Set([
+                      ...(additive
+                        ? (p.selectedIds ??
+                          (p.selectedId ? [p.selectedId] : []))
+                        : []),
+                      ...ids,
+                    ]),
+                  ];
+                const next = {
+                  ...p,
+                  selectedId: nextIds.at(-1) ?? null,
+                  selectedIds: nextIds,
+                };
+                current.current = next;
+                setProject(next);
+                conversation.current.focusIds = nextIds;
+              }}
+              turntable={presentation && turntable}
               snap={snap}
               angleSnap={angleSnap}
               motion={motion}
               renderMode={renderMode}
               appearance={appearance}
               mapVisible={mapVisible}
+              section={section}
               view={view}
               onSelect={select}
               onChange={change}
@@ -1344,6 +1829,12 @@ export default function App({
                   },
                   { id: 'translate', label: 'Move', key: 'G', Icon: Move3D },
                   { id: 'rotate', label: 'Rotate', key: 'R', Icon: RotateCw },
+                  {
+                    id: 'reshape',
+                    label: 'Push / pull',
+                    key: 'P',
+                    Icon: Maximize,
+                  },
                 ] as const
               ).map((t) => (
                 <button
@@ -1401,8 +1892,11 @@ export default function App({
               <i />
             </div>
             <div className="navigation-hint">
-              Drag to orbit <span>·</span> Right-drag to pan <span>·</span>{' '}
-              Scroll to zoom
+              {cameraSettings.walk
+                ? 'WASD to walk · drag to look'
+                : tool === 'select'
+                  ? 'Drag a selection box · Alt-drag to orbit'
+                  : 'Drag to orbit · Shift-drag to select · Scroll to zoom'}
             </div>
           </div>
           <div className="conversation-area">
@@ -1448,6 +1942,17 @@ export default function App({
                 {messages.map((m, i) => (
                   <div className={`chat-message ${m.role}`} key={i}>
                     <span>{m.role === 'user' ? 'You' : 'Atelier'}</span>
+                    {m.images?.length ? (
+                      <div className="reference-thumbnails">
+                        {m.images.map((src, i) => (
+                          <img
+                            key={i}
+                            src={src}
+                            alt={`Design reference ${i + 1}`}
+                          />
+                        ))}
+                      </div>
+                    ) : null}
                     <ConversationReply message={m} />
                   </div>
                 ))}
@@ -1455,7 +1960,8 @@ export default function App({
             )}
             {busy && (
               <p className="conversation-working" role="status">
-                Considering your idea…
+                <span className="thinking-orbit" aria-hidden="true" />
+                {workStage}
               </p>
             )}
             {pending && (
@@ -1519,16 +2025,73 @@ export default function App({
                 </div>
               </div>
             )}
+            {referenceImages.length > 0 && (
+              <div className="reference-thumbnails pending-references">
+                {referenceImages.map((src, i) => (
+                  <div key={i}>
+                    <img src={src} alt={`Attached design reference ${i + 1}`} />
+                    <button
+                      aria-label={`Remove reference ${i + 1}`}
+                      onClick={() =>
+                        setReferenceImages((old) =>
+                          old.filter((_, j) => j !== i),
+                        )
+                      }
+                    >
+                      <X size={12} />
+                    </button>
+                  </div>
+                ))}
+                <small>
+                  Sent to the AI with your next message. Specify a real
+                  dimension for scale.
+                </small>
+              </div>
+            )}
+            <input
+              ref={imageInput}
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              hidden
+              aria-label="Attach reference image file"
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                e.target.value = '';
+                if (!file) return;
+                setImageLoading(true);
+                try {
+                  const image = await referenceImage(file);
+                  setReferenceImages((old) => [...old, image].slice(-2));
+                } catch (error) {
+                  reportError(error);
+                } finally {
+                  setImageLoading(false);
+                }
+              }}
+            />
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                const text = command.trim();
+                const text =
+                  command.trim() ||
+                  (referenceImages.length
+                    ? 'Help me develop a design from this reference. Ask me about scale and intent.'
+                    : '');
                 if (text && !busyRef.current) {
                   setCommand('');
                   void sendConversation(text);
                 }
               }}
             >
+              <button
+                type="button"
+                className="attach-reference"
+                aria-label="Attach a reference photo"
+                disabled={imageLoading || referenceImages.length >= 2}
+                onClick={() => imageInput.current?.click()}
+              >
+                <ImagePlus size={18} />
+              </button>
               <textarea
                 ref={input}
                 rows={2}
@@ -1595,7 +2158,11 @@ export default function App({
               <button
                 type="submit"
                 aria-label="Send message"
-                disabled={!command.trim() || busy}
+                disabled={
+                  (!command.trim() && !referenceImages.length) ||
+                  busy ||
+                  imageLoading
+                }
               >
                 <ArrowUpRight size={19} />
               </button>
@@ -1757,6 +2324,40 @@ export default function App({
                   }
                 />
               </div>
+              <button
+                className="architecture-action"
+                onClick={() => {
+                  setAddingVolume(true);
+                  setInspectorOpen(false);
+                  setStudioOpen(false);
+                }}
+              >
+                <Plus size={17} />
+                <span>Add volume to this</span>
+              </button>
+              <button
+                className="architecture-action"
+                onClick={() =>
+                  void propose({
+                    intent: 'apply',
+                    message: 'Add volumetric trees around this volume.',
+                    operations: [
+                      {
+                        type: 'trees',
+                        target: selected.id,
+                        count: null,
+                        height: 4.5,
+                        crown: 3,
+                        clearance: 2,
+                        position: null,
+                      },
+                    ],
+                  })
+                }
+              >
+                <Plus size={17} />
+                <span>Trees around this</span>
+              </button>
               {!isProfile(selected) && !isReference(selected) && (
                 <button
                   className="architecture-action"
@@ -1778,6 +2379,67 @@ export default function App({
                 <div className="inspector-section architecture-fields">
                   <div className="section-heading">
                     <h2>Floors & glass</h2>
+                  </div>
+                  <div
+                    className="building-display"
+                    aria-label="Building representation"
+                  >
+                    <div className="theme-options">
+                      {(['volume', 'architecture'] as const).map((mode) => (
+                        <button
+                          key={mode}
+                          aria-pressed={
+                            (selected.display?.mode ?? 'architecture') === mode
+                          }
+                          onClick={() =>
+                            change(selected.id, {
+                              display: {
+                                floors: true,
+                                glass: true,
+                                ...selected.display,
+                                mode,
+                              },
+                            })
+                          }
+                        >
+                          {mode === 'volume' ? 'Volume' : 'Floors & glass'}
+                        </button>
+                      ))}
+                    </div>
+                    <label>
+                      <input
+                        type="checkbox"
+                        aria-label="Show floor slabs"
+                        checked={selected.display?.floors !== false}
+                        onChange={(e) =>
+                          change(selected.id, {
+                            display: {
+                              mode: 'architecture',
+                              floors: e.target.checked,
+                              glass: selected.display?.glass ?? true,
+                            },
+                          })
+                        }
+                      />{' '}
+                      Floors
+                    </label>
+                    <label>
+                      <input
+                        type="checkbox"
+                        aria-label="Show glass and frames"
+                        checked={selected.display?.glass !== false}
+                        onChange={(e) =>
+                          change(selected.id, {
+                            display: {
+                              mode: 'architecture',
+                              floors: selected.display?.floors ?? true,
+                              glass: e.target.checked,
+                            },
+                          })
+                        }
+                      />{' '}
+                      Glass & frames
+                    </label>
                   </div>
                   <NumericField
                     label="Floors"
@@ -1813,6 +2475,40 @@ export default function App({
                       )
                     }
                   />
+                  <label className="window-lock">
+                    <input
+                      type="checkbox"
+                      aria-label="Keep window width fixed"
+                      checked={selected.geometry.fixedWindowWidth !== undefined}
+                      onChange={(e) =>
+                        void propose(
+                          directPlan({
+                            type: 'window_module',
+                            target: selected.id,
+                            width: e.target.checked ? 1.2 : null,
+                          }),
+                        )
+                      }
+                    />{' '}
+                    Keep window width fixed
+                  </label>
+                  {selected.geometry.fixedWindowWidth !== undefined && (
+                    <NumericField
+                      label="Clear window width"
+                      value={selected.geometry.fixedWindowWidth}
+                      min={0.3}
+                      max={10}
+                      onChange={(width) =>
+                        void propose(
+                          directPlan({
+                            type: 'window_module',
+                            target: selected.id,
+                            width,
+                          }),
+                        )
+                      }
+                    />
+                  )}
                   <p className="field-note">
                     Floor slabs plus a roof. The original envelope stays
                     editable.

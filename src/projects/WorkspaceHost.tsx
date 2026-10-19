@@ -222,7 +222,7 @@ export default function WorkspaceHost() {
               className="projects-dialog"
               ref={dialog}
               onCancel={(e) => {
-                if (working) e.preventDefault();
+                if (switching.current) e.preventDefault();
                 else setOpen(false);
               }}
             >

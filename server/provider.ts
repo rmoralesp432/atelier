@@ -6,7 +6,11 @@ import {
   operationSchema,
   type Plan,
 } from '../src/intelligence/plan';
-import { SYSTEM_PROMPT, SPATIAL_PROMPT } from '../src/intelligence/context';
+import {
+  SYSTEM_PROMPT,
+  SPATIAL_PROMPT,
+  FORM_PROMPT,
+} from '../src/intelligence/context';
 const vec = z
   .object({
     x: z.number().finite(),
@@ -15,8 +19,24 @@ const vec = z
   })
   .strict();
 const refs = z.array(z.string().max(100)).max(200);
+const imageList = z
+  .array(
+    z
+      .string()
+      .max(1_000_000)
+      .regex(/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/),
+  )
+  .max(2);
 export const requestSchema = z
   .object({
+    images: imageList.optional(),
+    validationFeedback: z
+      .object({
+        error: z.string().max(2000),
+        operations: z.array(operationSchema).max(12),
+      })
+      .strict()
+      .optional(),
     workspace: z
       .object({
         mapVisible: z.boolean(),
@@ -50,6 +70,7 @@ export const requestSchema = z
           .object({
             role: z.enum(['user', 'assistant']),
             content: z.string().max(4000),
+            images: imageList.optional(),
           })
           .strict(),
       )
@@ -58,6 +79,20 @@ export const requestSchema = z
       .object({
         units: z.literal('meters'),
         north: z.literal('-Z'),
+        groups: z
+          .array(
+            z
+              .object({
+                id: z.string().max(100),
+                name: z.string().max(80),
+                visible: z.boolean(),
+                locked: z.boolean(),
+              })
+              .strict(),
+          )
+          .max(50)
+          .optional(),
+        mapBearing: z.number().nullable().optional(),
         selectedIds: refs,
         conversation: z
           .object({
@@ -90,6 +125,7 @@ export const requestSchema = z
               .object({
                 id: z.string().max(100),
                 ordinal: z.number().int(),
+                groupId: z.string().nullable().optional(),
                 name: z.string().max(80),
                 dimensions: z
                   .object({
@@ -142,6 +178,17 @@ export const requestSchema = z
                   })
                   .strict()
                   .optional(),
+                fixedWindowWidth: z.number().nullable().optional(),
+                display: z
+                  .object({
+                    mode: z.enum(['architecture', 'volume']),
+                    floors: z.boolean(),
+                    glass: z.boolean(),
+                  })
+                  .strict()
+                  .nullable()
+                  .optional(),
+                formDefinition: z.string().max(24000).nullable().optional(),
                 architecture: z
                   .object({
                     floors: z.number(),
@@ -172,7 +219,7 @@ export function createProvider(
   const client = new OpenAI({
     apiKey: key,
     timeout: 45_000,
-    maxRetries: 1,
+    maxRetries: 0,
     ...(fetchOverride ? { fetch: fetchOverride } : {}),
   });
   return {
@@ -180,19 +227,43 @@ export function createProvider(
       const response = await client.responses.create({
         model: process.env.ATELIER_TEXT_MODEL || 'gpt-4.1',
         store: false,
-        max_output_tokens: 3500,
-        instructions: SYSTEM_PROMPT + SPATIAL_PROMPT,
+        max_output_tokens: 6000,
+        instructions: SYSTEM_PROMPT + SPATIAL_PROMPT + FORM_PROMPT,
         input: [
-          ...input.history,
+          ...input.history.map((m) => ({
+            role: m.role,
+            content:
+              m.images?.length && m.role === 'user'
+                ? [
+                    { type: 'input_text' as const, text: m.content },
+                    ...m.images.map((image_url) => ({
+                      type: 'input_image' as const,
+                      image_url,
+                      detail: 'auto' as const,
+                    })),
+                  ]
+                : m.content,
+          })),
           {
             role: 'user',
-            content: JSON.stringify({
-              instruction: input.message,
-              workspace: input.workspace ?? null,
-              scene: input.scene,
-              pendingReview: input.pendingReview ?? null,
-              historyAvailability: input.historyAvailability ?? null,
-            }),
+            content: [
+              {
+                type: 'input_text' as const,
+                text: JSON.stringify({
+                  instruction: input.message,
+                  validationFeedback: input.validationFeedback ?? null,
+                  workspace: input.workspace ?? null,
+                  scene: input.scene,
+                  pendingReview: input.pendingReview ?? null,
+                  historyAvailability: input.historyAvailability ?? null,
+                }),
+              },
+              ...(input.images ?? []).map((image_url) => ({
+                type: 'input_image' as const,
+                image_url,
+                detail: 'auto' as const,
+              })),
+            ],
           },
         ],
         text: {

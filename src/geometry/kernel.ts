@@ -4,6 +4,7 @@ import { validateVolume } from '../model';
 import { isFlat } from './spatial';
 import { validatePolygon } from './polygon';
 import { validateMesh, isReference } from '../imports/mesh';
+import { validateForm } from './forms';
 import { buildingParts } from './architecture';
 let wasmUrl: string | undefined;
 let kernel: Promise<ManifoldToplevel> | undefined;
@@ -42,7 +43,11 @@ export function validateRecipe(
       'polygon',
       'mesh',
       'person',
+      'tree',
       'mirror',
+      'form',
+      'oriented',
+      'hollow',
     ].includes(recipe.kind)
   )
     throw new Error('Unsupported geometry type.');
@@ -52,6 +57,40 @@ export function validateRecipe(
   )
     throw new Error('Unsupported extrusion profile.');
   if (recipe.kind === 'mesh') validateMesh(recipe);
+  if (recipe.kind === 'form') {
+    validateMesh(recipe.mesh);
+    validateForm(recipe.definition);
+    if (!recipe.mesh.solid) throw new Error('A generated form must be solid.');
+  }
+  if (recipe.kind === 'oriented' || recipe.kind === 'hollow') {
+    validateVolume(recipe.source, false);
+    validateRecipe(recipe.source.geometry, depth + 1, budget);
+    if (recipe.kind === 'oriented') {
+      if (
+        ![recipe.degrees, recipe.origin].every(
+          (p) =>
+            p &&
+            ['x', 'y', 'z'].every(
+              (k) =>
+                Number.isFinite(p[k as keyof Vec3]) &&
+                Math.abs(p[k as keyof Vec3]) <= 10000,
+            ),
+        ) ||
+        !recipe.base ||
+        !Object.values(recipe.base).every(
+          (n) => Number.isFinite(n) && n >= 0.1 && n <= 500,
+        )
+      )
+        throw new Error('Invalid spatial rotation.');
+    } else if (
+      !Number.isFinite(recipe.thickness) ||
+      recipe.thickness < 0.05 ||
+      recipe.thickness > 100 ||
+      typeof recipe.openTop !== 'boolean'
+    )
+      throw new Error('Invalid shell thickness.');
+  }
+
   if (recipe.kind === 'mirror') {
     if (!['x', 'z'].includes(recipe.axis))
       throw new Error('Invalid mirror plane.');
@@ -110,6 +149,10 @@ export function validateRecipe(
       !Number.isFinite(recipe.mullionWidth) ||
       recipe.mullionWidth < 0.03 ||
       recipe.mullionWidth > 0.3 ||
+      (recipe.fixedWindowWidth !== undefined &&
+        (!Number.isFinite(recipe.fixedWindowWidth) ||
+          recipe.fixedWindowWidth < 0.3 ||
+          recipe.fixedWindowWidth > 10)) ||
       typeof recipe.facade !== 'boolean'
     )
       throw new Error('Invalid floor or curtain-wall parameters.');
@@ -144,7 +187,81 @@ function evaluated(
   const d = v.dimensions;
   const g = v.geometry;
   let solid: Manifold;
-  if (g?.kind === 'mirror') {
+  if (g?.kind === 'oriented') {
+    solid = evaluated(m, g.source, false, allocated, depth + 1);
+    solid = keep(solid.rotate([0, g.source.rotation, 0]));
+    solid = keep(solid.translate([0, -g.source.dimensions.height / 2, 0]));
+    solid = keep(solid.rotate([g.degrees.x, g.degrees.y, g.degrees.z]));
+    solid = keep(solid.translate([-g.origin.x, -g.origin.y, -g.origin.z]));
+    solid = keep(
+      solid.scale([
+        d.width / g.base.width,
+        d.height / g.base.height,
+        d.depth / g.base.depth,
+      ]),
+    );
+  } else if (g?.kind === 'hollow') {
+    const source = g.source,
+      sd = source.dimensions,
+      shape = source.geometry;
+    if (
+      shape &&
+      !['box', 'cylinder', 'extrusion', 'polygon'].includes(shape.kind)
+    )
+      throw new Error(
+        'Hollowing currently needs a vertical box, cylinder or extruded footprint.',
+      );
+    const originalCircle =
+      shape?.kind === 'cylinder' ||
+      (shape?.kind === 'extrusion' && shape.profile === 'circle')
+        ? m.CrossSection.circle(1, 64)
+        : null;
+    const section =
+      shape?.kind === 'polygon'
+        ? new m.CrossSection([
+            shape.points.map(
+              (p) => [p.x * sd.width, -p.z * sd.depth] as [number, number],
+            ),
+          ])
+        : shape?.kind === 'cylinder' ||
+            (shape?.kind === 'extrusion' && shape.profile === 'circle')
+          ? originalCircle!.scale([sd.width / 2, sd.depth / 2])
+          : m.CrossSection.square([sd.width, sd.depth], true);
+    const inset = section.offset(-g.thickness, 'Round', 2, 64);
+    try {
+      const height = sd.height - g.thickness * (g.openTop ? 1 : 2);
+      if (inset.isEmpty() || height < 0.05)
+        throw new Error('That wall thickness leaves no interior space.');
+      let cutter = keep(inset.extrude(height + (g.openTop ? 0.01 : 0)));
+      cutter = keep(cutter.rotate([-90, 0, 0]));
+      cutter = keep(cutter.translate([0, g.thickness, 0]));
+      solid = keep(
+        evaluated(m, source, false, allocated, depth + 1).subtract(cutter),
+      );
+      solid = keep(
+        solid.scale([
+          d.width / sd.width,
+          d.height / sd.height,
+          d.depth / sd.depth,
+        ]),
+      );
+    } finally {
+      inset.delete();
+      section.delete();
+      originalCircle?.delete();
+    }
+  } else if (g?.kind === 'form') {
+    solid = keep(
+      new m.Manifold(
+        new m.Mesh({
+          numProp: 3,
+          vertProperties: new Float32Array(g.mesh.positions),
+          triVerts: new Uint32Array(g.mesh.indices),
+        }),
+      ),
+    );
+    solid = keep(solid.scale([d.width, d.height, d.depth]));
+  } else if (g?.kind === 'mirror') {
     const source = evaluated(m, g.source, false, allocated, depth + 1);
     solid = keep(source.mirror(g.axis === 'x' ? [1, 0, 0] : [0, 0, 1]));
     solid = keep(
@@ -152,6 +269,23 @@ function evaluated(
         d.width / g.source.dimensions.width,
         d.height / g.source.dimensions.height,
         d.depth / g.source.dimensions.depth,
+      ]),
+    );
+  } else if (g?.kind === 'tree') {
+    // Closed stylized canopy and trunk, joined into one editable solid.
+    const crown = keep(
+      keep(keep(m.Manifold.sphere(1, 24)).scale([0.5, 0.34, 0.5])).translate([
+        0, 0.66, 0,
+      ]),
+    );
+    const trunk = keep(
+      keep(m.Manifold.cylinder(0.58, 0.055, 0.04, 16)).rotate([-90, 0, 0]),
+    );
+    solid = keep(
+      keep(m.Manifold.union([crown, trunk])).scale([
+        d.width,
+        d.height,
+        d.depth,
       ]),
     );
   } else if (g?.kind === 'person') {
@@ -329,6 +463,12 @@ export type RenderPart = {
 };
 export async function renderMeshData(v: Volume): Promise<RenderPart[]> {
   validateVolume(v);
+  if (v.geometry?.kind === 'building' && v.display?.mode === 'volume')
+    return renderMeshData({
+      ...v.geometry.source,
+      dimensions: v.dimensions,
+      display: undefined,
+    });
   if (v.geometry?.kind === 'mirror') {
     const g = v.geometry,
       parts = await renderMeshData(g.source);
@@ -388,7 +528,13 @@ export async function renderMeshData(v: Volume): Promise<RenderPart[]> {
   try {
     const source = evaluated(m, recipe.source, false, allocated, 1);
     return buildingParts(m, source, recipe, keep)
-      .filter((p) => !p.solid.isEmpty())
+      .filter(
+        (p) =>
+          !p.solid.isEmpty() &&
+          (p.material === 'solid'
+            ? v.display?.floors !== false
+            : v.display?.glass !== false),
+      )
       .map((part) => {
         const s = keep(
           part.solid.scale([
@@ -526,5 +672,61 @@ export async function sharedVolume(a: Volume, b: Volume) {
         intersection.delete();
       }
     }),
+  );
+}
+
+export async function orientVolume(v: Volume, degrees: Vec3): Promise<Volume> {
+  return withSolid(
+    v,
+    (s) => {
+      const allocated: Manifold[] = [];
+      const keep = (a: Manifold) => {
+        allocated.push(a);
+        return a;
+      };
+      try {
+        let result = keep(s.rotate([0, v.rotation, 0]));
+        result = keep(result.translate([0, -v.dimensions.height / 2, 0]));
+        result = keep(result.rotate([degrees.x, degrees.y, degrees.z]));
+        const b = result.boundingBox();
+        const origin = {
+          x: (b.min[0] + b.max[0]) / 2,
+          y: b.min[1],
+          z: (b.min[2] + b.max[2]) / 2,
+        };
+        const base = {
+          width: b.max[0] - b.min[0],
+          height: b.max[1] - b.min[1],
+          depth: b.max[2] - b.min[2],
+        };
+        const next: Volume = {
+          ...v,
+          rotation: 0,
+          position: {
+            x: v.position.x + origin.x,
+            y: v.position.y + v.dimensions.height / 2 + origin.y,
+            z: v.position.z + origin.z,
+          },
+          dimensions: base,
+          geometry: {
+            kind: 'oriented',
+            source: structuredClone(v),
+            degrees,
+            origin,
+            base,
+          },
+        };
+        if (next.position.y < -1e-6)
+          throw new Error(
+            'This rotation would put geometry below ground. Lift it first or choose a smaller angle.',
+          );
+        next.position.y = Math.max(0, next.position.y);
+        validateVolume(next);
+        return next;
+      } finally {
+        allocated.reverse().forEach((s) => s.delete());
+      }
+    },
+    false,
   );
 }

@@ -1,3 +1,16 @@
+import { isVisible, isLocked } from './model';
+import { boxSelection } from './geometry/BoxSelection';
+import { WalkControls } from './geometry/WalkControls';
+import type { CameraSettings } from './studio/camera';
+import type { SolarStudy } from './studio/solar';
+import { solarPosition } from './studio/solar';
+import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
+import {
+  FacePullControls,
+  type PullFeedback,
+} from './geometry/FacePullControls';
+import type { SectionView } from './studio/section';
+import { sectionCap } from './geometry/section';
 import { siteTiles } from './studio/site';
 import type { Appearance } from './studio/appearance';
 import { groupBounds } from './geometry/spatial';
@@ -18,16 +31,22 @@ import { round } from './model';
 import { isProfile, renderMeshData } from './geometry/kernel';
 import type { CameraContext } from './intelligence/context';
 
-export type Tool = 'select' | 'translate' | 'rotate';
+export type Tool = 'select' | 'translate' | 'rotate' | 'reshape';
 type Props = {
   project: Project;
   tool: Tool;
+  presenting: boolean;
+  cameraSettings: CameraSettings;
+  solar: SolarStudy;
+  onSelectMany: (ids: string[], additive: boolean) => void;
+  turntable: boolean;
   snap: boolean;
   angleSnap: number;
   motion: { revision: number; ids: string[] };
   renderMode: Appearance['mode'];
   appearance: Appearance;
   mapVisible: boolean;
+  section: SectionView;
   view: { mode: 'perspective' | 'orthographic' | 'top'; revision: number };
   onSelect: (id: string | null, additive?: boolean) => void;
   onCamera?: (camera: CameraContext) => void;
@@ -46,6 +65,7 @@ type Runtime = {
   objects: Map<string, THREE.Group>;
   signatures: Map<string, string>;
   updateShadows: () => void;
+  applyLens: () => void;
   fit: (top: boolean) => void;
   beginConstruction: (v: Volume, g: THREE.Group, index: number) => void;
   finishConstruction: () => void;
@@ -53,7 +73,7 @@ type Runtime = {
 };
 function disposeObject(root: THREE.Object3D) {
   root.traverse((o) => {
-    if (o instanceof THREE.Mesh || o instanceof THREE.LineSegments) {
+    if (o instanceof THREE.Mesh || o instanceof THREE.Line) {
       o.geometry.dispose();
       (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) =>
         m.dispose(),
@@ -66,6 +86,8 @@ export default function Viewport(props: Props) {
   const runtime = useRef<Runtime | null>(null);
   const latest = useRef(props);
   latest.current = props;
+  const clippingPlane = useRef(new THREE.Plane(new THREE.Vector3(0, -1, 0), 3));
+  const [pullFeedback, setPullFeedback] = useState<PullFeedback | null>(null);
   const [mapError, setMapError] = useState('');
   const [error, setError] = useState('');
   const [manipulating, setManipulating] = useState(false);
@@ -91,6 +113,7 @@ export default function Viewport(props: Props) {
     }
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor('#151719');
+    renderer.localClippingEnabled = true;
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -199,7 +222,27 @@ export default function Viewport(props: Props) {
           'gl_FragColor = daylight ? vec4(selectionTint, clamp(max(finalColor.r, max(finalColor.g, finalColor.b)), 0.0, 1.0)) : finalColor;',
         );
     composer.addPass(outline);
+    const bokeh = new BokehPass(scene, camera, {
+      focus: 20,
+      aperture: 0,
+      maxblur: 0.008,
+    });
+    bokeh.enabled = false;
+    composer.addPass(bokeh);
     composer.addPass(new OutputPass());
+    const applyLens = () => {
+      const settings = latest.current.cameraSettings;
+      if (camera instanceof THREE.PerspectiveCamera) {
+        camera.fov = settings.fov;
+        camera.updateProjectionMatrix();
+      }
+      bokeh.camera = camera;
+      const uniforms = bokeh.uniforms as Record<string, { value: number }>;
+      uniforms.focus.value = settings.focus;
+      uniforms.aperture.value = settings.blur * 0.0002;
+      bokeh.enabled =
+        settings.blur > 0 && camera instanceof THREE.PerspectiveCamera;
+    };
     const setTheme = (day: boolean) => {
       const color = day ? '#f5f6f8' : '#151719';
       renderer.setClearColor(color);
@@ -232,6 +275,8 @@ export default function Viewport(props: Props) {
       transform.camera = next;
       basePass.camera = next;
       outline.renderCamera = next;
+      bokeh.camera = next;
+      applyLens();
       outline.prepareMaskMaterial.fragmentShader =
         outline.prepareMaskMaterial.fragmentShader.replace(
           /(?:perspective|orthographic)DepthToViewZ/g,
@@ -512,7 +557,12 @@ export default function Viewport(props: Props) {
       );
       const hit = raycaster
         .intersectObjects([...objects.values()], true)
-        .find((hit) => hit.object instanceof THREE.Mesh);
+        .find(
+          (hit) =>
+            hit.object instanceof THREE.Mesh &&
+            (!latest.current.section.enabled ||
+              clippingPlane.current.distanceToPoint(hit.point) >= 0),
+        );
       latest.current.onSelect(
         hit ? hit.object.parent!.userData.id : null,
         event.shiftKey || event.ctrlKey || event.metaKey,
@@ -520,6 +570,66 @@ export default function Viewport(props: Props) {
     };
     renderer.domElement.addEventListener('pointerdown', down);
     renderer.domElement.addEventListener('pointerup', up);
+    const facePull = new FacePullControls({
+      scene,
+      canvas: renderer.domElement,
+      camera: () => camera,
+      objects,
+      current: () => ({
+        enabled:
+          latest.current.tool === 'reshape' &&
+          !latest.current.cameraSettings.walk,
+        snap: latest.current.snap,
+        volume: latest.current.project.volumes.find(
+          (v) =>
+            v.id === latest.current.project.selectedId &&
+            isVisible(v, latest.current.project) &&
+            !isLocked(v, latest.current.project),
+        ),
+      }),
+      onDrag: (active) => {
+        orbit.enabled = !active;
+        dragging = active;
+        setManipulating(active);
+      },
+      onCommit: (v) => {
+        const before = latest.current.project.volumes.find(
+          (o) => o.id === v.id,
+        );
+        latest.current.onChange(v.id, {
+          dimensions: v.dimensions,
+          position: v.position,
+          ...(JSON.stringify(before?.geometry) !== JSON.stringify(v.geometry)
+            ? { geometry: v.geometry }
+            : {}),
+        });
+      },
+      onFeedback: setPullFeedback,
+      finishMotion: finishConstruction,
+    });
+    const walk = new WalkControls(
+      renderer.domElement,
+      () => camera,
+      orbit,
+      () => latest.current.cameraSettings,
+      () => {
+        const b = new THREE.Box3();
+        objects.forEach((g) => {
+          if (g.visible) b.expandByObject(g);
+        });
+        return b;
+      },
+    );
+    const disposeBoxSelection = boxSelection({
+      canvas: renderer.domElement,
+      container,
+      camera: () => camera,
+      objects,
+      enabled: () =>
+        !latest.current.cameraSettings.walk && !latest.current.presenting,
+      selectMode: () => latest.current.tool === 'select',
+      onSelect: (ids, additive) => latest.current.onSelectMany(ids, additive),
+    });
     let transition: {
       start: number;
       from: THREE.Vector3;
@@ -541,14 +651,21 @@ export default function Viewport(props: Props) {
         : box.getSize(new THREE.Vector3());
       const distance =
         ((Math.max(size.x, size.y, size.z, 10) /
-          (2 * Math.tan(THREE.MathUtils.degToRad(20)))) *
+          (2 *
+            Math.tan(
+              THREE.MathUtils.degToRad(latest.current.cameraSettings.fov / 2),
+            ))) *
           1.65) /
         Math.min(
           container.clientWidth / Math.max(container.clientHeight, 1),
           1,
         );
       if (camera instanceof THREE.OrthographicCamera) {
-        const half = distance * Math.tan(THREE.MathUtils.degToRad(20)),
+        const half =
+            distance *
+            Math.tan(
+              THREE.MathUtils.degToRad(latest.current.cameraSettings.fov / 2),
+            ),
           aspect = container.clientWidth / Math.max(container.clientHeight, 1);
         camera.left = -half * aspect;
         camera.right = half * aspect;
@@ -580,6 +697,8 @@ export default function Viewport(props: Props) {
       };
       updateShadows();
     };
+    const sunPath = new THREE.Group();
+    scene.add(sunPath);
     const updateShadows = () => {
       const vs = latest.current.project.volumes;
       if (!vs.length) return;
@@ -611,6 +730,86 @@ export default function Viewport(props: Props) {
         far: radius * 9,
       });
       light.shadow.camera.updateProjectionMatrix();
+      sunPath.children.slice().forEach((o) => {
+        sunPath.remove(o);
+        disposeObject(o);
+      });
+      const site = latest.current.project.site,
+        study = latest.current.solar;
+      if (site && study.enabled) {
+        const sun = solarPosition(site, study),
+          dir = new THREE.Vector3(
+            sun.direction.x,
+            sun.direction.y,
+            sun.direction.z,
+          );
+        light.position
+          .copy(center)
+          .addScaledVector(dir, Math.max(100, radius * 2));
+        light.intensity = sun.altitude > 0 ? 2 : 0;
+        ambient.intensity = sun.altitude > 0 ? 0.7 : 0.12;
+        container.dataset.sunAltitude = String(sun.altitude);
+        container.dataset.sunAzimuth = String(sun.azimuth);
+        if (study.path) {
+          const points: THREE.Vector3[] = [];
+          for (let minutes = 0; minutes < 1440; minutes += 10) {
+            const p = solarPosition(site, { ...study, minutes });
+            if (p.altitude > 0)
+              points.push(
+                new THREE.Vector3(p.direction.x, p.direction.y, p.direction.z)
+                  .multiplyScalar(
+                    Math.max(
+                      12,
+                      Math.hypot(
+                        bounds.max.x - bounds.min.x,
+                        bounds.max.y - bounds.min.y,
+                        bounds.max.z - bounds.min.z,
+                      ) * 0.7,
+                    ),
+                  )
+                  .add(center),
+              );
+          }
+          if (points.length > 1)
+            sunPath.add(
+              new THREE.Line(
+                new THREE.BufferGeometry().setFromPoints(points),
+                new THREE.LineBasicMaterial({
+                  color: '#e6be7a',
+                  transparent: true,
+                  opacity: 0.5,
+                }),
+              ),
+            );
+          if (sun.altitude > 0) {
+            const sphere = new THREE.Mesh(
+              new THREE.SphereGeometry(Math.max(0.3, radius * 0.008), 16, 12),
+              new THREE.MeshBasicMaterial({ color: '#ffe0a1' }),
+            );
+            sphere.position
+              .copy(center)
+              .addScaledVector(
+                dir,
+                Math.max(
+                  12,
+                  Math.hypot(
+                    bounds.max.x - bounds.min.x,
+                    bounds.max.y - bounds.min.y,
+                    bounds.max.z - bounds.min.z,
+                  ) * 0.7,
+                ),
+              );
+            sunPath.add(sphere);
+          }
+        }
+      } else {
+        light.intensity = 2;
+        ambient.intensity =
+          latest.current.appearance.theme === 'day' ? 1.2 : 0.8;
+        delete container.dataset.sunAltitude;
+        delete container.dataset.sunAzimuth;
+      }
+
       container.dataset.shadowSpan = String(radius * 2);
       container.dataset.shadowCenter = `${center.x},${center.y},${center.z}`;
     };
@@ -631,6 +830,7 @@ export default function Viewport(props: Props) {
       objects,
       signatures: new Map(),
       updateShadows,
+      applyLens,
       fit,
       beginConstruction,
       finishConstruction,
@@ -679,9 +879,13 @@ export default function Viewport(props: Props) {
       });
     };
     orbit.addEventListener('change', publishCamera);
-    let frame = 0;
+    let frame = 0,
+      lastFrame = performance.now();
     const render = () => {
-      if (transition) {
+      const now = performance.now(),
+        delta = (now - lastFrame) / 1000;
+      lastFrame = now;
+      if (transition && !latest.current.cameraSettings.walk) {
         const t = Math.min(1, (performance.now() - transition.start) / 500);
         const ease = 1 - Math.pow(1 - t, 3);
         camera.position.lerpVectors(transition.from, transition.to, ease);
@@ -722,9 +926,19 @@ export default function Viewport(props: Props) {
       }
       container.dataset.constructionActive = String(constructions.size > 0);
       if (!constructions.size) container.dataset.constructionPhase = 'complete';
-      orbit.update();
+      walk.update(delta);
+      orbit.autoRotate =
+        latest.current.turntable && !latest.current.cameraSettings.walk;
+      orbit.autoRotateSpeed = 0.35;
+      if (!latest.current.cameraSettings.walk) orbit.update(delta);
+      else publishCamera();
+      facePull.update();
       container.dataset.projection = camera.type;
-      if (outline.selectedObjects.length) composer.render();
+      outline.enabled =
+        outline.selectedObjects.length > 0 &&
+        !latest.current.section.enabled &&
+        !latest.current.presenting;
+      if (outline.enabled || bokeh.enabled) composer.render();
       else renderer.render(scene, camera);
       if (renderer.info.render.triangles > 0)
         container.dataset.rendered = 'true';
@@ -740,6 +954,11 @@ export default function Viewport(props: Props) {
     renderer.domElement.addEventListener('webglcontextlost', lost);
     return () => {
       cancelAnimationFrame(frame);
+      facePull.dispose();
+      walk.dispose();
+      disposeBoxSelection();
+      disposeObject(sunPath);
+      bokeh.dispose();
       finishConstruction();
       resize.disconnect();
       renderer.domElement.removeEventListener(
@@ -777,101 +996,130 @@ export default function Viewport(props: Props) {
       try {
         const signatures = new Map<string, string>();
         await Promise.all(
-          props.project.volumes.map(async (v) => {
-            const signature = JSON.stringify([v.dimensions, v.geometry]);
-            signatures.set(v.id, signature);
-            if (r!.signatures.get(v.id) === signature) return;
-            const g = new THREE.Group();
-            g.userData.id = v.id;
-            built.set(v.id, g);
-            const parts = isProfile(v) ? null : await renderMeshData(v);
-            if (cancelled) return;
-            const geometries: {
-              geometry: THREE.BufferGeometry;
-              material: string;
-            }[] = [];
-            if (!parts) {
-              const polygon =
-                v.geometry?.kind === 'polygon' ? v.geometry : null;
-              const geometry = polygon
-                ? new THREE.ShapeGeometry(
-                    new THREE.Shape(
-                      polygon.points.map((p) => new THREE.Vector2(p.x, -p.z)),
-                    ),
-                  )
-                : v.geometry?.kind === 'circle'
-                  ? new THREE.CircleGeometry(1, 64)
-                  : new THREE.PlaneGeometry(2, 2);
-              geometry.rotateX(-Math.PI / 2);
-              geometry.scale(
-                v.dimensions.width / (polygon ? 1 : 2),
-                1,
-                v.dimensions.depth / (polygon ? 1 : 2),
-              );
-              geometry.translate(0, 0.015, 0);
-              geometries.push({ geometry, material: 'solid' });
-            } else
-              for (const part of parts) {
-                const geometry = new THREE.BufferGeometry();
-                geometry.setAttribute(
-                  'position',
-                  new THREE.BufferAttribute(part.positions, 3),
+          props.project.volumes
+            .filter((v) => isVisible(v, props.project))
+            .map(async (v) => {
+              const signature = JSON.stringify([
+                v.dimensions,
+                v.geometry,
+                v.display,
+              ]);
+              signatures.set(v.id, signature);
+              if (r!.signatures.get(v.id) === signature) return;
+              const g = new THREE.Group();
+              g.userData.id = v.id;
+              built.set(v.id, g);
+              const parts = isProfile(v) ? null : await renderMeshData(v);
+              if (cancelled) return;
+              const geometries: {
+                geometry: THREE.BufferGeometry;
+                material: string;
+              }[] = [];
+              if (!parts) {
+                const polygon =
+                  v.geometry?.kind === 'polygon' ? v.geometry : null;
+                const geometry = polygon
+                  ? new THREE.ShapeGeometry(
+                      new THREE.Shape(
+                        polygon.points.map((p) => new THREE.Vector2(p.x, -p.z)),
+                      ),
+                    )
+                  : v.geometry?.kind === 'circle'
+                    ? new THREE.CircleGeometry(1, 64)
+                    : new THREE.PlaneGeometry(2, 2);
+                geometry.rotateX(-Math.PI / 2);
+                geometry.scale(
+                  v.dimensions.width / (polygon ? 1 : 2),
+                  1,
+                  v.dimensions.depth / (polygon ? 1 : 2),
                 );
-                geometry.setIndex(new THREE.BufferAttribute(part.indices, 1));
-                // Preserve crisp slab/box corners while smoothing curved sides.
-                const shaded = toCreasedNormals(geometry, Math.PI / 6);
-                if (shaded !== geometry) geometry.dispose();
-                geometries.push({ geometry: shaded, material: part.material });
-              }
-            const curves = curvedWireframe(v);
-            if (curves.length) {
-              const lines = new THREE.LineSegments(
-                new THREE.BufferGeometry().setAttribute(
-                  'position',
-                  new THREE.Float32BufferAttribute(curves, 3),
-                ),
-                new THREE.LineBasicMaterial({ transparent: true }),
-              );
-              lines.userData.symbolicWireframe = true;
-              g.add(lines);
-            }
-            for (const part of geometries) {
-              const glass = part.material === 'glass',
-                frame = part.material === 'frame';
-              const mesh = new THREE.Mesh(
-                part.geometry,
-                new THREE.MeshPhysicalMaterial({
-                  color: glass ? '#8dc9d2' : frame ? '#38464e' : '#d8d9d4',
-                  roughness: glass ? 0.13 : frame ? 0.4 : 0.32,
-                  metalness: frame ? 0.5 : 0.08,
-                  transparent: glass,
-                  opacity: glass ? 0.32 : 1,
-                  depthWrite: !glass,
-                  side:
-                    isProfile(v) || glass || part.material === 'reference'
-                      ? THREE.DoubleSide
-                      : THREE.FrontSide,
-                  clearcoat: glass ? 1 : 0.3,
-                  envMapIntensity: glass ? 1.4 : 0.35,
-                }),
-              );
-              mesh.userData.materialKind = part.material;
-              mesh.castShadow = !glass;
-              mesh.receiveShadow = true;
-              g.add(mesh);
-              {
-                const edges = new THREE.LineSegments(
-                  new THREE.EdgesGeometry(part.geometry, 24),
+                geometry.translate(0, 0.015, 0);
+                geometries.push({ geometry, material: 'solid' });
+              } else
+                for (const part of parts) {
+                  const geometry = new THREE.BufferGeometry();
+                  geometry.setAttribute(
+                    'position',
+                    new THREE.BufferAttribute(part.positions, 3),
+                  );
+                  geometry.setIndex(new THREE.BufferAttribute(part.indices, 1));
+                  // Preserve crisp slab/box corners while smoothing curved sides.
+                  const shaded = toCreasedNormals(geometry, Math.PI / 6);
+                  if (shaded !== geometry) geometry.dispose();
+                  geometries.push({
+                    geometry: shaded,
+                    material: part.material,
+                  });
+                }
+              const curves = curvedWireframe(v);
+              if (curves.length) {
+                const lines = new THREE.LineSegments(
+                  new THREE.BufferGeometry().setAttribute(
+                    'position',
+                    new THREE.Float32BufferAttribute(curves, 3),
+                  ),
                   new THREE.LineBasicMaterial({
-                    color: '#d6e0e2',
                     transparent: true,
-                    opacity: 0.12,
+                    clippingPlanes: latest.current.section.enabled
+                      ? [clippingPlane.current]
+                      : [],
                   }),
                 );
-                g.add(edges);
+                lines.userData.symbolicWireframe = true;
+                g.add(lines);
               }
-            }
-          }),
+              for (const part of geometries) {
+                const glass = part.material === 'glass',
+                  frame = part.material === 'frame';
+                const mesh = new THREE.Mesh(
+                  part.geometry,
+                  new THREE.MeshPhysicalMaterial({
+                    color: glass ? '#8dc9d2' : frame ? '#38464e' : '#d8d9d4',
+                    roughness:
+                      v.geometry?.kind === 'tree'
+                        ? 0.85
+                        : glass
+                          ? 0.13
+                          : frame
+                            ? 0.4
+                            : 0.32,
+                    metalness: frame ? 0.5 : 0.08,
+                    transparent: glass,
+                    opacity: glass ? 0.32 : 1,
+                    depthWrite: !glass,
+                    side:
+                      isProfile(v) || glass || part.material === 'reference'
+                        ? THREE.DoubleSide
+                        : THREE.FrontSide,
+                    clippingPlanes: latest.current.section.enabled
+                      ? [clippingPlane.current]
+                      : [],
+                    clipShadows: true,
+                    clearcoat:
+                      v.geometry?.kind === 'tree' ? 0 : glass ? 1 : 0.3,
+                    envMapIntensity: glass ? 1.4 : 0.35,
+                  }),
+                );
+                mesh.userData.materialKind = part.material;
+                mesh.castShadow = !glass;
+                mesh.receiveShadow = true;
+                g.add(mesh);
+                {
+                  const edges = new THREE.LineSegments(
+                    new THREE.EdgesGeometry(part.geometry, 24),
+                    new THREE.LineBasicMaterial({
+                      clippingPlanes: latest.current.section.enabled
+                        ? [clippingPlane.current]
+                        : [],
+                      color: '#d6e0e2',
+                      transparent: true,
+                      opacity: 0.12,
+                    }),
+                  );
+                  g.add(edges);
+                }
+              }
+            }),
         );
         if (cancelled) {
           built.forEach(disposeObject);
@@ -894,7 +1142,9 @@ export default function Viewport(props: Props) {
         r!.signatures = signatures;
         r!.updateShadows();
         r!.outline.selectedObjects = [];
-        for (const v of props.project.volumes) {
+        for (const v of props.project.volumes.filter((v) =>
+          isVisible(v, props.project),
+        )) {
           const g = r!.objects.get(v.id)!;
           g.position.set(v.position.x, v.position.y, v.position.z);
           g.rotation.y = THREE.MathUtils.degToRad(v.rotation);
@@ -945,7 +1195,7 @@ export default function Viewport(props: Props) {
               material.polygonOffsetUnits = 1;
               o.castShadow = mode === 'studio' && kind !== 'glass';
               o.receiveShadow = mode === 'studio';
-            } else if (o instanceof THREE.LineSegments) {
+            } else if (o instanceof THREE.Line) {
               if (o.userData.symbolicWireframe)
                 o.visible = props.renderMode === 'wireframe';
               const material = o.material as THREE.LineBasicMaterial;
@@ -965,7 +1215,18 @@ export default function Viewport(props: Props) {
           });
         }
         const selected = r!.objects.get(props.project.selectedId ?? '');
-        if (selected && props.tool !== 'select') r!.transform.attach(selected);
+        const selectedVolume = props.project.volumes.find(
+          (v) => v.id === props.project.selectedId,
+        );
+        if (
+          selected &&
+          selectedVolume &&
+          !isLocked(selectedVolume, props.project) &&
+          props.tool !== 'select' &&
+          props.tool !== 'reshape' &&
+          !props.cameraSettings.walk
+        )
+          r!.transform.attach(selected);
         r!.transform.setMode(props.tool === 'rotate' ? 'rotate' : 'translate');
         r!.transform.showX = props.tool !== 'rotate';
         r!.transform.showY = true;
@@ -1018,11 +1279,102 @@ export default function Viewport(props: Props) {
     props.renderMode,
     props.appearance,
     props.motion,
+    props.presenting,
+    props.cameraSettings.walk,
   ]);
+  useEffect(() => {
+    const r = runtime.current;
+    if (!r) return;
+    if (props.cameraSettings.walk) r.setProjection(false);
+    r.applyLens();
+  }, [props.cameraSettings]);
+  useEffect(() => {
+    runtime.current?.updateShadows();
+  }, [props.solar, props.project.site]);
   useEffect(() => {
     runtime.current?.setProjection(props.view.mode !== 'perspective');
     runtime.current?.fit(props.view.mode === 'top');
   }, [props.view]);
+
+  useEffect(() => {
+    const r = runtime.current;
+    if (!r) return;
+    const section = props.section,
+      axis = { x: 0, y: 1, z: 2 }[section.axis],
+      normal = new THREE.Vector3();
+    normal.setComponent(axis, section.flip ? 1 : -1);
+    clippingPlane.current.set(
+      normal,
+      -section.position * normal.getComponent(axis),
+    );
+    r.objects.forEach((g) =>
+      g.traverse((o) => {
+        if (o instanceof THREE.Mesh || o instanceof THREE.Line) {
+          const materials = Array.isArray(o.material)
+            ? o.material
+            : [o.material];
+          materials.forEach((m) => {
+            m.clippingPlanes = section.enabled ? [clippingPlane.current] : [];
+            m.needsUpdate = true;
+          });
+        }
+      }),
+    );
+    if (host.current) {
+      host.current.dataset.section = section.enabled ? section.axis : 'off';
+      host.current.dataset.sectionPosition = String(section.position);
+    }
+    let cancelled = false;
+    const caps = new THREE.Group();
+    r.scene.add(caps);
+    const timer = setTimeout(() => {
+      if (!section.enabled) return;
+      void Promise.all(
+        props.project.volumes
+          .filter((v) => isVisible(v, props.project))
+          .map((v) => sectionCap(v, section)),
+      )
+        .then((parts) => {
+          if (cancelled) return;
+          const positions = parts.flat();
+          if (positions.length) {
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute(
+              'position',
+              new THREE.Float32BufferAttribute(positions, 3),
+            );
+            geometry.computeVertexNormals();
+            const mesh = new THREE.Mesh(
+              geometry,
+              new THREE.MeshBasicMaterial({
+                color: props.appearance.theme === 'day' ? '#297f85' : '#80d4cd',
+                side: THREE.DoubleSide,
+                polygonOffset: true,
+                polygonOffsetFactor: -1,
+                polygonOffsetUnits: -1,
+              }),
+            );
+            caps.add(mesh);
+          }
+          if (host.current)
+            host.current.dataset.sectionCapTriangles = String(
+              positions.length / 9,
+            );
+        })
+        .catch(() => {
+          if (!cancelled)
+            setError(
+              'Section faces could not be calculated. Turn off section to see the whole model.',
+            );
+        });
+    }, 140);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+      r.scene.remove(caps);
+      disposeObject(caps);
+    };
+  }, [props.section, props.project.volumes, props.appearance.theme]);
 
   useEffect(() => {
     const r = runtime.current,
@@ -1104,12 +1456,14 @@ export default function Viewport(props: Props) {
     props.project.site?.latitude,
     props.project.site?.longitude,
     props.project.site?.bearing,
+    props.project.site?.style,
     props.mapVisible,
   ]);
   return (
     <div className="viewport-canvas" ref={host} data-testid="viewport">
       {props.project.selectedId &&
         props.tool !== 'select' &&
+        props.tool !== 'reshape' &&
         (() => {
           const v = props.project.volumes.find(
             (v) => v.id === props.project.selectedId,
@@ -1157,6 +1511,35 @@ export default function Viewport(props: Props) {
             </div>
           );
         })()}
+      {props.tool === 'reshape' && props.project.selectedId && (
+        <div className="pull-feedback" role="status">
+          {pullFeedback ? (
+            <>
+              <strong>
+                {pullFeedback.extruding
+                  ? 'Extrude'
+                  : pullFeedback.axis === 'y'
+                    ? 'Height'
+                    : pullFeedback.axis === 'x'
+                      ? 'Width'
+                      : 'Depth'}{' '}
+                {pullFeedback.size.toFixed(2)} m
+              </strong>
+              <span>
+                Δ {pullFeedback.delta >= 0 ? '+' : ''}
+                {pullFeedback.delta.toFixed(2)} m · release to keep · Esc to
+                cancel
+              </span>
+            </>
+          ) : (
+            <>
+              <strong>Pull a face to shape it</strong>
+              <span>Drag a luminous handle · opposite side stays fixed</span>
+              <small>Curved and cut forms resize along the chosen axis.</small>
+            </>
+          )}
+        </div>
+      )}
       {props.mapVisible && props.project.site && mapError && (
         <div className="map-error" role="alert">
           {mapError}
