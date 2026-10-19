@@ -39,6 +39,8 @@ import {
   ChevronRight,
   Copy,
   Focus,
+  Eye,
+  EyeOff,
   Grid2X2,
   Layers,
   Maximize,
@@ -1727,6 +1729,34 @@ export default function App({
               <X size={16} />
             </button>
           </div>
+          <div className="object-visibility-tools">
+            <button
+              disabled={!project.selectedId && !project.selectedIds?.length}
+              onClick={() =>
+                void propose(
+                  directPlan({
+                    type: 'visibility',
+                    targets: ['$selected'],
+                    visible: false,
+                  }),
+                )
+              }
+            >
+              <EyeOff size={14} /> Hide selected
+            </button>
+            <button
+              disabled={!project.volumes.some((v) => !isVisible(v, project))}
+              onClick={() => void propose(directPlan({ type: 'show_all' }))}
+            >
+              <Eye size={14} /> Show all
+            </button>
+          </div>
+          {project.volumes.some((v) => !isVisible(v, project)) && (
+            <p className="hidden-object-count" role="status">
+              {project.volumes.filter((v) => !isVisible(v, project)).length}{' '}
+              hidden · still saved in your project
+            </p>
+          )}
           <label className="object-search">
             <input
               type="search"
@@ -1745,31 +1775,59 @@ export default function App({
                   .includes(objectSearch.trim().toLowerCase()),
               )
               .map(({ v, i }) => (
-                <button
-                  className={`object-row ${project.selectedIds?.includes(v.id) || selected?.id === v.id ? 'selected' : ''}`}
+                <div
+                  className={`object-list-item ${isVisible(v, project) ? '' : 'is-hidden'}`}
                   key={v.id}
-                  onClick={(e) =>
-                    select(
-                      v.id,
-                      multiSelect || e.shiftKey || e.ctrlKey || e.metaKey,
-                    )
-                  }
-                  aria-pressed={
-                    project.selectedIds?.includes(v.id) || selected?.id === v.id
-                  }
                 >
-                  <Box size={16} style={{ color: v.color ?? undefined }} />
-                  <span>
-                    {v.name}
-                    <small>
-                      {v.dimensions.width} × {v.dimensions.depth} ×{' '}
-                      {v.dimensions.height} m
-                    </small>
-                  </span>
-                  <span className="object-index">
-                    {String(i + 1).padStart(2, '0')}
-                  </span>
-                </button>
+                  <button
+                    className={`object-row ${project.selectedIds?.includes(v.id) || selected?.id === v.id ? 'selected' : ''}`}
+                    onClick={(e) =>
+                      select(
+                        v.id,
+                        multiSelect || e.shiftKey || e.ctrlKey || e.metaKey,
+                      )
+                    }
+                    aria-pressed={
+                      project.selectedIds?.includes(v.id) ||
+                      selected?.id === v.id
+                    }
+                  >
+                    <Box size={16} style={{ color: v.color ?? undefined }} />
+                    <span>
+                      {v.name}
+                      <small>
+                        {v.dimensions.width} × {v.dimensions.depth} ×{' '}
+                        {v.dimensions.height} m
+                        {!isVisible(v, project) && ' · Hidden'}
+                      </small>
+                    </span>
+                    <span className="object-index">
+                      {String(i + 1).padStart(2, '0')}
+                    </span>
+                  </button>
+                  <button
+                    className="object-visibility-button"
+                    aria-label={`${isVisible(v, project) ? 'Hide' : 'Show'} object ${v.name}`}
+                    title={
+                      isVisible(v, project) ? 'Hide object' : 'Show object'
+                    }
+                    onClick={() =>
+                      void propose(
+                        directPlan({
+                          type: 'visibility',
+                          targets: [v.id],
+                          visible: !isVisible(v, project),
+                        }),
+                      )
+                    }
+                  >
+                    {isVisible(v, project) ? (
+                      <Eye size={16} />
+                    ) : (
+                      <EyeOff size={16} />
+                    )}
+                  </button>
+                </div>
               ))}
             {!project.volumes.length && (
               <p className="empty-list">
@@ -2270,6 +2328,21 @@ export default function App({
                   >
                     <Maximize size={15} />
                     Push / pull
+                  </button>
+                  <button
+                    aria-label="Hide selected objects"
+                    onClick={() =>
+                      void propose(
+                        directPlan({
+                          type: 'visibility',
+                          targets: ['$selected'],
+                          visible: false,
+                        }),
+                      )
+                    }
+                  >
+                    <EyeOff size={15} />
+                    Hide
                   </button>
                   {['Scale', 'Stretch', 'Copy', 'Mirror', 'Array'].map(
                     (label) => (

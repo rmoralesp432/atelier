@@ -1,4 +1,5 @@
 import { resolveWalkPlacement } from '../studio/walkPlacement';
+import { setObjectVisibility } from '../studio/visibility';
 import {
   isLocked,
   makeVolume,
@@ -280,7 +281,17 @@ export async function applyPlan(
       .filter((v) => isLocked(v, s.project))
       .map((v) => structuredClone(v));
     beforeEdit ??= structuredClone(s.project);
-    if (op.type === 'group_create') {
+    if (op.type === 'visibility') {
+      const ids = resolveIds(op.targets, s);
+      s.project = setObjectVisibility(s.project, ids, op.visible);
+      s.context.focusIds = ids;
+      reports.push(
+        `${op.visible ? 'Shown' : 'Hidden'} ${ids.length} object(s).${op.visible ? '' : ' Nothing deleted; use Show all in Objects to restore them.'}`,
+      );
+    } else if (op.type === 'show_all') {
+      s.project = setObjectVisibility(s.project, 'all', true);
+      reports.push('All objects and layers are visible.');
+    } else if (op.type === 'group_create') {
       if ((s.project.groups?.length ?? 0) >= 50)
         throw new Error('This project supports up to 50 groups.');
       const ids = op.targets.length ? resolveIds(op.targets, s) : [],
@@ -1302,6 +1313,8 @@ export async function applyPlan(
       reports.push(`Removed ${ids.length} object(s); undo is available.`);
     }
     if (
+      op.type !== 'visibility' &&
+      op.type !== 'show_all' &&
       lockedBefore.some(
         (v) =>
           JSON.stringify(s.project.volumes.find((o) => o.id === v.id)) !==

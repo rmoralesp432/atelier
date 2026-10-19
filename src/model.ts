@@ -40,6 +40,8 @@ export type GeometryRecipe =
       opening?: boolean;
     };
 export type Volume = {
+  /** Omitted in older projects; objects are visible by default. */
+  visible?: boolean;
   /** Material of an independently editable architectural component. */
   material?: 'solid' | 'glass' | 'frame';
   geometry?: GeometryRecipe;
@@ -63,6 +65,7 @@ export type ObjectGroup = {
   locked: boolean;
 };
 export const isVisible = (v: Volume, p: Project) =>
+  v.visible !== false &&
   p.groups?.find((g) => g.id === v.groupId)?.visible !== false;
 export const isLocked = (v: Volume, p: Project) =>
   p.groups?.find((g) => g.id === v.groupId)?.locked === true;
@@ -77,6 +80,8 @@ export const STORAGE_KEY = 'atelier.project.v1';
 export const MAX_VOLUMES = 200;
 export const round = (n: number) => Math.round(n * 1000) / 1000 + 0;
 export function validateVolume(v: Volume, checkGeometry = true): void {
+  if (v.visible !== undefined && typeof v.visible !== 'boolean')
+    throw new Error('Object visibility must be true or false.');
   if (
     typeof v.id !== 'string' ||
     !v.id ||

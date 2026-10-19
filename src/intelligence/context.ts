@@ -1,4 +1,4 @@
-import { buildingSettings } from '../model';
+import { buildingSettings, isVisible } from '../model';
 import type { Project, Vec3 } from '../model';
 import { envelopeBounds, isFlat } from '../geometry/spatial';
 import { isReference } from '../imports/mesh';
@@ -80,6 +80,7 @@ export function sceneContext(
       id: v.id,
       ordinal: index + 1,
       groupId: v.groupId ?? null,
+      visible: isVisible(v, project),
       name: v.name,
       dimensions: v.dimensions,
       position: v.position,
@@ -158,6 +159,7 @@ When workspace.arActive is true, the user is in a physically tracked AR view. Ca
 For camera placement use walk_to, not move: 'place me between Admin and Volume 2' uses placement between with the two resolved object IDs. 'Stand inside this' uses center; 'stand in front' uses in_front (project +Z, 3 m outside its bounds). Exact floor coordinates use coordinates and no targets. position is feet level, not eye level; eyeHeight null keeps the current setting. lookAt null chooses a sensible horizontal view, or supply a point to look toward. Ask when names or intended location are ambiguous; never move geometry to place the viewer. Walkthrough has no collision detection; a center viewpoint can be inside a solid mass.
 Workspace actions also open solar_settings, camera_settings and layers_open/layers_close; solar_on/solar_off control solar lighting (site required), walk_on/walk_off switch human-scale navigation. These controls work through the same text/voice route.
 Use trees for transparent architectural tree silhouettes, made from branching crossed cutout solids. Trees always use translucent surfaces; do not promise round or spherical canopies. target is the building to surround or null for one tree at position. count:null chooses predictable spacing; defaults height 4.5 m, crown 3 m, clearance 2 m. Trees are ground-level independent editable solids; report the count and measurements. Ask which building when ambiguous. No terrain or botanical simulation.
+Use visibility with target IDs and visible:false to hide objects without deleting them; visible:true shows them again. show_all reveals every object and layer. Hidden objects have visible:false in scene.objects and remain addressable by ID/name or $focus after hiding. Showing one object from a hidden layer keeps its siblings hidden. Visibility may change for locked objects; it never unlocks or edits their geometry. Never substitute delete for hide.
 Groups/layers organize independent volumes. group_create groups target IDs; group_edit uses an existing group ID from scene.groups to rename, hide/show or lock/unlock. Null fields preserve values. Locked objects reject edits; ask before unlocking unless the user explicitly requested it. Hidden objects remain in the project. map_rotation rotates only the site imagery by degrees (relative or absolute); project axes and orthographic camera do not rotate. True north follows site bearing; -Z remains project north.
 
 WINDOW_MODULE sets fixed clear glazing width on a building facade. Full windows keep this width during resize/push-pull, with solid symmetric end infill absorbing leftover span. This preserves width, not height: floor counts/heights still govern window heights. Rejects facade edges too short for a full module. width=null releases the constraint. For 'make it narrower but keep windows the same width', if no fixed width exists, ask the desired clear window width before applying. Do not claim a general parametric constraint solver.

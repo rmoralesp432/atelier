@@ -119,6 +119,14 @@ export const operationSchema = z.discriminatedUnion('type', [
     .strict(),
   z
     .object({
+      type: z.literal('visibility'),
+      targets: z.array(z.string().min(1).max(100)).min(1).max(200),
+      visible: z.boolean(),
+    })
+    .strict(),
+  z.object({ type: z.literal('show_all') }).strict(),
+  z
+    .object({
       type: z.literal('map_rotation'),
       degrees: z.number().min(-360).max(360),
       relative: z.boolean(),

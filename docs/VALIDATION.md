@@ -2,6 +2,14 @@
 
 Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 154 and software WebGL. This file distinguishes geometric execution, UI/provider contracts and live AI/audio behavior.
 
+## Object visibility — October 19, 2026
+
+**144 unit/integration tests in 36 files pass.** New coverage exercises multi-object hiding, retained identities/geometry, cleared viewport selection with preserved conversational focus, showing that focus again, saved project/session round trips, undo, locked-layer visibility, isolated recovery from hidden groups, and actual exclusion from OBJ and AR snapshots. Invalid visibility data is rejected; older objects default to visible.
+
+**Four production-browser scenarios pass:** desktop and phone hide/show/reload/multi-selection/show-all/undo, plus desktop and phone detailed-sample editing regressions. The viewport actually removes hidden meshes and selection glow/handles; tests also verify preserved object names/counts, no horizontal page overflow and no browser errors. TypeScript/Vite build, formatting and whitespace checks pass. The static `/atelier/` smoke passes with actual JS/CSS/WASM loading, solid rendering, editing/reload and lazy assets. Shared provider context now includes effective object visibility and the operation schema supports visibility/show_all. These are deterministic execution and browser checks, not live voice/language verification; no paid provider calls were made.
+
+See [Hide and show objects](VISIBILITY.md) and [topography access steps](TOPOGRAPHY-RESEARCH.md#enabling-source-access-in-codex). The running cloud environment still lacks the official terrain-source domains; saving/publishing their proposed network configuration remains necessary before source verification. This does not itself install terrain support.
+
 ## Detailed house, editable components and silhouettes — October 19, 2026
 
 **141 unit/integration tests in 35 files pass.** The sample's 133 objects all evaluate to valid positive-volume solids. Tests cover fresh identities, six editable groups, independent window edits, terrace end-face stretching, undo, session round trips and provisional site settings. Building-component tests verify actual material volume and world bounds after separating a raised, rotated building; isolated window edits; group preservation; locked-object rejection; and undo back to the procedural envelope. Native tree geometry is sparse, closed and tagged for transparency, including wrapped rotations and AR materials. The Modulor-inspired cutout's actual bounds match its stated dimensions.

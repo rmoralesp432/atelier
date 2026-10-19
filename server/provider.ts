@@ -137,6 +137,7 @@ export const requestSchema = z
                 id: z.string().max(100),
                 ordinal: z.number().int(),
                 groupId: z.string().nullable().optional(),
+                visible: z.boolean().optional(),
                 name: z.string().max(80),
                 dimensions: z
                   .object({

@@ -2,6 +2,24 @@
 
 Research reviewed 19 October 2026. This is an implementation recommendation, not an installed terrain importer or a verified survey of your site. ATELIER's current street/satellite maps are flat imagery. The expanded map coverage does not add elevation or improve geographic accuracy.
 
+## Enabling source access in Codex
+
+This is a setting for the Codex cloud development environment. It is not a Render variable, an API key, or a switch that installs terrain in ATELIER.
+
+1. In this Codex task, open **Entorno / Environment** for `atelier`.
+2. Find **Acceso a Internet / Internet access**. Keep Internet access enabled.
+3. Edit **Dominios permitidos adicionales / Additional allowed domains**. Keep the existing domains and add the following hostnames (one per entry, with no `https://`):
+   - `edithfarnsworthhouse.org`
+   - `epqs.nationalmap.gov`
+   - `elevation.nationalmap.gov`
+   - `apps.nationalmap.gov`
+4. Save the domain changes, then use **Publicar / Publish** in the environment panel. If these domains already appear in the proposed configuration, save/publish that configuration rather than adding duplicates.
+5. Return to the task and say **“Published the topography access settings.”** The next step is to recheck access, locate the authoritative dataset, and verify its resolution, vertical accuracy and coordinate/datum metadata.
+
+The additions were saved as a proposed environment configuration. On 19 October 2026 the current runtime still had only the original GitHub/OpenAI/Render domains; the topography additions were not active. No new secret or OpenAI credits are required to allow these public websites. A source may require other download domains later; those must be verified from the actual dataset before adding them.
+
+**Terrain is still pending implementation and data verification.** Enabling these websites allows research; it does not turn flat satellite imagery into topography. For another project site, provide its location and, if available, a surveyor's elevation GeoTIFF or ground-classified LAS/LAZ plus accuracy, CRS and vertical-datum metadata. These are proposed terrain inputs, not currently supported ATELIER import formats.
+
 ## Recommended approach
 
 Use a **bare-earth DTM** supplied by a surveyor or an authoritative LiDAR survey with published accuracy metadata. Import a georeferenced elevation GeoTIFF, or ground-classified LAS/LAZ through a separate processing service. For a surveyed design site, this is preferable to treating a generic global elevation map as precise topography. Satellite photographs contain no usable surveyed heights by themselves.
