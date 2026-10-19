@@ -4,6 +4,8 @@ export type Site = {
   longitude: number;
   bearing: number;
   style?: MapStyle;
+  /** Exact square coverage in local meters. Omitted preserves legacy tile coverage. */
+  coverage?: number;
 };
 export const mapSources = {
   street: {
@@ -29,6 +31,10 @@ export function validateSite(site: Site) {
     !site ||
     (site.style !== undefined &&
       !['street', 'satellite'].includes(site.style)) ||
+    (site.coverage !== undefined &&
+      (!Number.isFinite(site.coverage) ||
+        site.coverage < 250 ||
+        site.coverage > 5000)) ||
     !Number.isFinite(site.latitude) ||
     Math.abs(site.latitude) > 85 ||
     !Number.isFinite(site.longitude) ||
@@ -37,33 +43,65 @@ export function validateSite(site: Site) {
     Math.abs(site.bearing) > 360
   )
     throw new Error(
-      'Use latitude −85 to 85, longitude −180 to 180, and orientation −360° to 360°.',
+      'Use latitude −85 to 85, longitude −180 to 180, orientation −360° to 360°, and map coverage 250–5000 m.',
     );
 }
 // Local metric approximation to Web Mercator over a small architectural site.
 // World +X is east, world -Z is north before clockwise site bearing.
 export function siteTiles(site: Site, zoom = 17) {
   validateSite(site);
-  const n = 2 ** zoom,
-    lat = (site.latitude * Math.PI) / 180;
+  const lat = (site.latitude * Math.PI) / 180;
+  // A larger area uses fewer, lower-zoom tiles, never bulk-prefetches imagery.
+  // At most five tiles per axis (25 total), with the boundary tiles cropped.
+  if (site.coverage !== undefined)
+    zoom = Math.max(
+      0,
+      Math.min(
+        19,
+        Math.floor(
+          Math.log2((circumference * Math.cos(lat) * 4) / site.coverage),
+        ),
+      ),
+    );
+  const n = 2 ** zoom;
   const tx = ((site.longitude + 180) / 360) * n,
     ty = ((1 - Math.asinh(Math.tan(lat)) / Math.PI) / 2) * n;
   const size = (circumference * Math.cos(lat)) / n;
+  const half = site.coverage === undefined ? null : site.coverage / 2;
+  const minX =
+    half === null ? Math.floor(tx) - 1 : Math.floor(tx - half / size);
+  const maxX =
+    half === null ? Math.floor(tx) + 1 : Math.ceil(tx + half / size) - 1;
+  const minY =
+    half === null ? Math.floor(ty) - 1 : Math.floor(ty - half / size);
+  const maxY =
+    half === null ? Math.floor(ty) + 1 : Math.ceil(ty + half / size) - 1;
   const tiles = [];
-  // Only the displayed, bounded 3 × 3 site; no panning prefetch or offline download.
-  for (let dy = -1; dy <= 1; dy++)
-    for (let dx = -1; dx <= 1; dx++) {
-      const x = Math.floor(tx) + dx,
-        y = Math.floor(ty) + dy;
+  for (let y = minY; y <= maxY; y++)
+    for (let x = minX; x <= maxX; x++) {
       if (y < 0 || y >= n) continue;
+      const left = (x - tx) * size,
+        top = (y - ty) * size;
+      const x0 = half === null ? left : Math.max(-half, left);
+      const z0 = half === null ? top : Math.max(-half, top);
+      const x1 = half === null ? left + size : Math.min(half, left + size);
+      const z1 = half === null ? top + size : Math.min(half, top + size);
       tiles.push({
         url: mapSources[site.style ?? 'street'].url
           .replace('{z}', String(zoom))
           .replace('{x}', String(((x % n) + n) % n))
           .replace('{y}', String(y)),
-        x: (x + 0.5 - tx) * size,
-        z: (y + 0.5 - ty) * size,
+        x: (x0 + x1) / 2,
+        z: (z0 + z1) / 2,
         size,
+        width: x1 - x0,
+        depth: z1 - z0,
+        uv: {
+          u0: (x0 - left) / size,
+          u1: (x1 - left) / size,
+          v0: 1 - (z1 - top) / size,
+          v1: 1 - (z0 - top) / size,
+        },
       });
     }
   return tiles;

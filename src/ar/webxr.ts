@@ -1,9 +1,14 @@
 import * as THREE from 'three';
+import { fitToRealWidth } from './placement';
+import { arCameraContext } from './context';
+import type { CameraContext } from '../intelligence/context';
 export type ARSessionControl = {
   end: () => Promise<void>;
   scale: (value: number) => void;
   rotate: (degrees: number) => void;
   reposition: () => void;
+  fitWidth: (width: number) => void;
+  updateModel: (model: THREE.Group) => void;
 };
 /** Actual camera tracking and surface hit testing, only when immersive-ar is supported. */
 export async function startAR(
@@ -13,13 +18,14 @@ export async function startAR(
   status: (text: string) => void,
   onEnd: () => void,
   signal?: AbortSignal,
+  onFit?: (scale: number, rotation: number) => void,
+  onCamera?: (camera: CameraContext) => void,
 ): Promise<ARSessionControl> {
   if (signal?.aborted) throw new Error('AR was closed.');
   if (!navigator.xr) throw new Error('This browser does not support WebXR AR.');
   // Invoke the permission request in the original button gesture.
   const session = await navigator.xr.requestSession('immersive-ar', {
-    requiredFeatures: ['hit-test'],
-    optionalFeatures: ['dom-overlay'],
+    requiredFeatures: ['hit-test', 'dom-overlay'],
     domOverlay: { root: overlay },
   });
   if (signal?.aborted) {
@@ -31,7 +37,7 @@ export async function startAR(
   };
   signal?.addEventListener('abort', abort, { once: true });
   const suppressUISelect = (e: Event) => {
-    if ((e.target as HTMLElement).closest('button,input,select'))
+    if ((e.target as HTMLElement).closest('.ar-controls,.conversation-area'))
       e.preventDefault();
   };
   let renderer: THREE.WebGLRenderer | undefined,
@@ -44,8 +50,8 @@ export async function startAR(
       0.01,
       10000,
     );
-  const anchor = new THREE.Group(),
-    copy = model.clone(true);
+  const anchor = new THREE.Group();
+  let copy = model.clone(true);
   copy.scale.setScalar(scale);
   anchor.add(copy);
   anchor.visible = false;
@@ -62,6 +68,7 @@ export async function startAR(
   reticle.visible = false;
   scene.add(reticle);
   let placed = false;
+  let fitting: { width: number; first?: THREE.Vector3 } | null = null;
   const cleanup = () => {
     if (ended) return;
     ended = true;
@@ -94,35 +101,118 @@ export async function startAR(
     if (!source)
       throw new Error('Surface detection is unavailable on this device.');
     const place = () => {
-      if (!reticle.visible || placed) return;
-      anchor.position.setFromMatrixPosition(reticle.matrix);
+      if (!reticle.visible || (placed && !fitting)) return;
+      const point = new THREE.Vector3().setFromMatrixPosition(reticle.matrix);
+      if (fitting) {
+        if (!fitting.first) {
+          fitting.first = point;
+          status(
+            'First point set. Move to the other end of the width and tap.',
+          );
+          return;
+        }
+        try {
+          const fit = fitToRealWidth(fitting.first, point, fitting.width);
+          copy.scale.setScalar(fit.scale);
+          copy.rotation.y = (fit.rotation * Math.PI) / 180;
+          // Live edits can move the footprint relative to the original anchor.
+          // Center the current footprint, not just its original project origin.
+          const unscaled = copy.clone(true);
+          unscaled.scale.setScalar(1);
+          unscaled.rotation.set(0, 0, 0);
+          unscaled.updateMatrixWorld(true);
+          const center = new THREE.Box3()
+            .setFromObject(unscaled)
+            .getCenter(new THREE.Vector3());
+          center.y = 0;
+          center
+            .multiplyScalar(fit.scale)
+            .applyAxisAngle(new THREE.Vector3(0, 1, 0), copy.rotation.y);
+          anchor.position.copy(fit.position).sub(center);
+          onFit?.(fit.scale, fit.rotation);
+          fitting = null;
+          placed = true;
+          anchor.visible = true;
+          reticle.visible = false;
+          status(
+            `Width fitted to ${fit.distance.toFixed(2)} m in your room. Tracking is approximate.`,
+          );
+        } catch (e) {
+          status(e instanceof Error ? e.message : 'Try those points again.');
+          if (fitting) fitting.first = undefined;
+        }
+        return;
+      }
+      anchor.position.copy(point);
       anchor.visible = true;
       placed = true;
       reticle.visible = false;
-      status(
-        'Placed. Walk around your model. Use Reposition to place it again.',
-      );
+      status('Placed. Walk around your model. Use Place again to move it.');
     };
     session.addEventListener('select', place);
     overlay.addEventListener('beforexrselect', suppressUISelect);
     status(
       'Move your phone slowly to find a surface. Tap the ring to place the model.',
     );
-    renderer.setAnimationLoop((_time, frame) => {
+    let lastContext = -Infinity;
+    const trackedCamera = new THREE.PerspectiveCamera();
+    renderer.setAnimationLoop((time, frame) => {
       const ref = renderer!.xr.getReferenceSpace();
-      if (frame && source && ref && !placed) {
+      if (frame && source && ref && (!placed || fitting)) {
         const hit = frame.getHitTestResults(source)[0],
           pose = hit?.getPose(ref);
         reticle.visible = !!pose;
-        if (pose) reticle.matrix.fromArray(pose.transform.matrix);
+        if (pose) {
+          reticle.matrix.fromArray(pose.transform.matrix);
+          // Model elevations are measured above a floor, not a wall.
+          reticle.visible =
+            new THREE.Vector3()
+              .setFromMatrixColumn(reticle.matrix, 1)
+              .normalize().y >= 0.85;
+        }
+      }
+      if (frame && ref && placed && onCamera && time - lastContext >= 200) {
+        const view = frame.getViewerPose(ref)?.views[0];
+        if (view) {
+          trackedCamera.matrix.fromArray(view.transform.matrix);
+          trackedCamera.matrix.decompose(
+            trackedCamera.position,
+            trackedCamera.quaternion,
+            trackedCamera.scale,
+          );
+          trackedCamera.projectionMatrix.fromArray(view.projectionMatrix);
+          trackedCamera.projectionMatrixInverse
+            .copy(trackedCamera.projectionMatrix)
+            .invert();
+          onCamera(arCameraContext(copy, trackedCamera));
+          lastContext = time;
+        }
       }
       renderer!.render(scene, camera);
     });
     return {
       end: () => session.end(),
-      scale: (value) => copy.scale.setScalar(value),
+      scale: (value) => {
+        if (Number.isFinite(value) && value >= 0.001 && value <= 1)
+          copy.scale.setScalar(value);
+      },
+      updateModel: (model) => {
+        fitting = null;
+        const next = model.clone(true);
+        next.scale.copy(copy.scale);
+        next.rotation.copy(copy.rotation);
+        anchor.remove(copy);
+        copy = next;
+        anchor.add(copy);
+      },
+      fitWidth: (width) => {
+        if (!(width > 0)) return;
+        fitting = { width };
+        status('Tap the first end of the real-world width on a level surface.');
+      },
       rotate: (degrees) => (copy.rotation.y = (degrees * Math.PI) / 180),
       reposition: () => {
+        fitting = null;
         placed = false;
         anchor.visible = false;
         status('Find a surface and tap to place again.');

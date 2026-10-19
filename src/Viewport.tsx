@@ -1,3 +1,5 @@
+import WalkPlacement from './studio/WalkPlacement';
+import type { WalkPlacement as Placement } from './studio/walkPlacement';
 import { spatialGrid } from './geometry/spatialGrid';
 import Sketch from './drawing/Sketch';
 import type { DrawingTool } from './drawing/profile';
@@ -56,8 +58,11 @@ type Props = {
   renderMode: Appearance['mode'];
   appearance: Appearance;
   mapVisible: boolean;
+  mapFrame: number;
   alignMap: boolean;
   onMapSite: (site: Site) => void;
+  placingCamera: boolean;
+  onPlaceCamera: (placement: Placement | null) => void;
   section: SectionView;
   sectionEditing: boolean;
   onSectionChange: (section: SectionView) => void;
@@ -81,7 +86,7 @@ type Runtime = {
   signatures: Map<string, string>;
   updateShadows: () => void;
   applyLens: () => void;
-  fit: (top: boolean, focusIds?: string[]) => void;
+  fit: (top: boolean, focusIds?: string[], mapSpan?: number) => void;
   beginConstruction: (
     v: Volume,
     g: THREE.Group,
@@ -293,12 +298,12 @@ export default function Viewport(props: Props) {
     const setProjection = (orthographic: boolean) => {
       if (orthographic === camera instanceof THREE.OrthographicCamera) return;
       const next = orthographic
-        ? new THREE.OrthographicCamera(-20, 20, 20, -20, 0.1, 5000)
+        ? new THREE.OrthographicCamera(-20, 20, 20, -20, 0.1, camera.far)
         : new THREE.PerspectiveCamera(
             40,
             container.clientWidth / Math.max(1, container.clientHeight),
             0.1,
-            5000,
+            camera.far,
           );
       next.position.copy(camera.position);
       next.quaternion.copy(camera.quaternion);
@@ -333,7 +338,8 @@ export default function Viewport(props: Props) {
       THREE.Material,
       { opacity: number; transparent: boolean; depthWrite: boolean }
     >();
-    let contextStart = 0;
+    let contextStart = 0,
+      animationTime = 0;
     const restoreContext = () => {
       for (const [material, original] of formationContext) {
         Object.assign(material, original);
@@ -344,7 +350,7 @@ export default function Viewport(props: Props) {
     };
     const softenContext = () => {
       if (formationContext.size) return;
-      contextStart = performance.now();
+      contextStart = animationTime;
       objects.forEach((group, id) => {
         if (latest.current.motion.ids.includes(id)) return;
         group.traverse((object) => {
@@ -519,7 +525,7 @@ export default function Viewport(props: Props) {
         guide,
         scan,
         editing,
-        start: performance.now() + Math.min(index * 60, 180),
+        start: animationTime + Math.min(index * 60, 180),
         fade,
       });
       container.dataset.constructionActive = 'true';
@@ -716,6 +722,7 @@ export default function Viewport(props: Props) {
     const up = (event: PointerEvent) => {
       if (
         latest.current.tool.startsWith('draw_') ||
+        latest.current.placingCamera ||
         event.button !== 0 ||
         dragging ||
         usedHandle ||
@@ -759,6 +766,7 @@ export default function Viewport(props: Props) {
       current: () => ({
         enabled:
           latest.current.tool === 'reshape' &&
+          !latest.current.placingCamera &&
           !latest.current.sectionEditing &&
           !latest.current.cameraSettings.walk,
         snap: latest.current.snap,
@@ -814,6 +822,7 @@ export default function Viewport(props: Props) {
           !latest.current.tool.startsWith('draw_'),
         enabled:
           !latest.current.presenting &&
+          !latest.current.placingCamera &&
           !latest.current.alignMap &&
           !latest.current.cameraSettings.walk,
         snap: latest.current.snap,
@@ -831,6 +840,7 @@ export default function Viewport(props: Props) {
       objects,
       enabled: () =>
         !latest.current.cameraSettings.walk &&
+        !latest.current.placingCamera &&
         !latest.current.presenting &&
         !latest.current.alignMap &&
         !latest.current.sectionEditing &&
@@ -848,9 +858,14 @@ export default function Viewport(props: Props) {
     orbit.addEventListener('start', () => {
       transition = null;
     });
-    const fit = (top: boolean, focusIds?: string[]) => {
+    const fit = (top: boolean, focusIds?: string[], mapSpan?: number) => {
       const box = new THREE.Box3();
-      if (focusIds?.length) {
+      if (mapSpan)
+        box.set(
+          new THREE.Vector3(-mapSpan / 2, 0, -mapSpan / 2),
+          new THREE.Vector3(mapSpan / 2, 0, mapSpan / 2),
+        );
+      else if (focusIds?.length) {
         const volumes = latest.current.project.volumes.filter(
           (v) =>
             focusIds.includes(v.id) && isVisible(v, latest.current.project),
@@ -884,7 +899,11 @@ export default function Viewport(props: Props) {
         );
       if (focusIds)
         distance = Math.min(distance, camera.position.distanceTo(orbit.target));
-      container.dataset.cameraFraming = focusIds ? 'creation' : 'all';
+      container.dataset.cameraFraming = mapSpan
+        ? 'map'
+        : focusIds
+          ? 'creation'
+          : 'all';
       container.dataset.cameraFocusIds = focusIds?.join(',') ?? '';
       container.dataset.cameraGoalDistance = String(distance);
       if (camera instanceof THREE.OrthographicCamera) {
@@ -1057,6 +1076,12 @@ export default function Viewport(props: Props) {
       setTheme,
       setProjection,
       setMapVisible: (visible) => {
+        const coverage = visible
+          ? (latest.current.project.site?.coverage ?? 0)
+          : 0;
+        orbit.maxDistance = Math.max(2500, coverage * 8);
+        camera.far = Math.max(5000, coverage * 12);
+        camera.updateProjectionMatrix();
         ground.visible = !visible;
         grid.mesh.visible = !visible;
         container.dataset.baseGroundVisible = String(!visible);
@@ -1127,6 +1152,9 @@ export default function Viewport(props: Props) {
         frame = requestAnimationFrame(render);
         return;
       }
+      // Slow frames and a background tab must not skip the formation the user came to see.
+      if (document.visibilityState === 'visible')
+        animationTime += Math.min(delta * 1000, 250);
       if (transition && !latest.current.cameraSettings.walk) {
         const t = Math.min(1, (performance.now() - transition.start) / 500);
         const ease = 1 - Math.pow(1 - t, 3);
@@ -1151,7 +1179,7 @@ export default function Viewport(props: Props) {
       )
         finishConstruction();
       if (formationContext.size) {
-        const elapsed = performance.now() - contextStart;
+        const elapsed = animationTime - contextStart;
         const restore = THREE.MathUtils.smoothstep(elapsed, 2700, 3600);
         const soften =
           THREE.MathUtils.smoothstep(elapsed, 0, 300) * (1 - restore);
@@ -1160,7 +1188,7 @@ export default function Viewport(props: Props) {
       }
       for (const [id, c] of constructions) {
         const frame = constructionFrame(
-          performance.now() - c.start,
+          animationTime - c.start,
           c.editing ? 1800 : 3600,
         );
         if (frame.done) {
@@ -1221,7 +1249,7 @@ export default function Viewport(props: Props) {
               1,
               Math.max(
                 0,
-                (performance.now() - c.start) / (c.editing ? 1800 : 3600),
+                (animationTime - c.start) / (c.editing ? 1800 : 3600),
               ),
             ),
           ),
@@ -1313,7 +1341,13 @@ export default function Viewport(props: Props) {
   useEffect(() => {
     const r = runtime.current;
     if (!r) return;
-    r.finishConstruction();
+    // Selection/tool updates must not cancel the creation they just triggered.
+    if (
+      r.motionRevision !== props.motion.revision ||
+      props.cameraSettings.walk ||
+      props.presenting
+    )
+      r.finishConstruction();
     r.setTheme(props.appearance.theme === 'day');
     let cancelled = false;
     const built = new Map<string, THREE.Group>();
@@ -1477,7 +1511,12 @@ export default function Viewport(props: Props) {
             props.project.selectedIds?.includes(v.id);
           g.traverse((o) => {
             if (o instanceof THREE.Mesh) {
-              if (selected) r!.outline.selectedObjects.push(o);
+              if (
+                selected &&
+                !props.placingCamera &&
+                !props.cameraSettings.walk
+              )
+                r!.outline.selectedObjects.push(o);
               const material = o.material as THREE.MeshPhysicalMaterial;
               const kind = o.userData.materialKind;
               const mode = props.renderMode;
@@ -1548,7 +1587,8 @@ export default function Viewport(props: Props) {
           !isLocked(selectedVolume, props.project) &&
           (props.tool === 'translate' || props.tool === 'rotate') &&
           !props.sectionEditing &&
-          !props.cameraSettings.walk
+          !props.cameraSettings.walk &&
+          !props.placingCamera
         )
           r!.transform.attach(selected);
         r!.transform.setMode(props.tool === 'rotate' ? 'rotate' : 'translate');
@@ -1612,6 +1652,7 @@ export default function Viewport(props: Props) {
     props.motion,
     props.presenting,
     props.cameraSettings.walk,
+    props.placingCamera,
     props.sectionEditing,
   ]);
   useEffect(() => {
@@ -1621,12 +1662,27 @@ export default function Viewport(props: Props) {
     r.applyLens();
   }, [props.cameraSettings]);
   useEffect(() => {
+    if (props.placingCamera) runtime.current?.finishConstruction();
+  }, [props.placingCamera]);
+  useEffect(() => {
     runtime.current?.updateShadows();
   }, [props.solar, props.project.site]);
   useEffect(() => {
     runtime.current?.setProjection(props.view.mode !== 'perspective');
     runtime.current?.fit(props.view.mode === 'top');
   }, [props.view]);
+  useEffect(() => {
+    const site = props.project.site,
+      r = runtime.current;
+    if (!props.mapFrame || !site || !r) return;
+    const coverage = site.coverage ?? siteTiles(site)[0].size * 4;
+    const a = (site.bearing * Math.PI) / 180;
+    r.fit(
+      true,
+      undefined,
+      coverage * (Math.abs(Math.sin(a)) + Math.abs(Math.cos(a))),
+    );
+  }, [props.mapFrame]);
 
   useEffect(() => {
     const r = runtime.current;
@@ -1721,18 +1777,19 @@ export default function Viewport(props: Props) {
     group.name = 'site-map';
     group.rotation.y = (site.bearing * Math.PI) / 180;
     r.scene.add(group);
+    const tiles = siteTiles(site);
     const status = () => {
       if (host.current) {
         host.current.dataset.mapTiles = String(loaded);
         host.current.dataset.mapStatus = failed
           ? 'error'
-          : loaded === 9
+          : loaded === tiles.length
             ? 'ready'
             : 'loading';
       }
     };
     status();
-    for (const tile of siteTiles(site)) {
+    for (const tile of tiles) {
       const texture = new THREE.TextureLoader().load(
         tile.url,
         () => {
@@ -1756,13 +1813,22 @@ export default function Viewport(props: Props) {
       );
       textures.push(texture);
       texture.colorSpace = THREE.SRGBColorSpace;
+      const geometry = new THREE.PlaneGeometry(tile.width, tile.depth);
+      const uv = geometry.getAttribute('uv');
+      for (let i = 0; i < uv.count; i++)
+        uv.setXY(
+          i,
+          THREE.MathUtils.lerp(tile.uv.u0, tile.uv.u1, uv.getX(i)),
+          THREE.MathUtils.lerp(tile.uv.v0, tile.uv.v1, uv.getY(i)),
+        );
       const mesh = new THREE.Mesh(
-        new THREE.PlaneGeometry(tile.size, tile.size),
+        geometry,
         new THREE.MeshStandardMaterial({
           map: texture,
           roughness: 1,
           metalness: 0,
           color: '#bac3c8',
+          fog: false,
           polygonOffset: true,
           polygonOffsetFactor: -1,
           polygonOffsetUnits: -1,
@@ -1789,6 +1855,7 @@ export default function Viewport(props: Props) {
     props.project.site?.latitude,
     props.project.site?.longitude,
     props.project.site?.style,
+    props.project.site?.coverage,
     props.mapVisible,
   ]);
   useEffect(() => {
@@ -1897,6 +1964,14 @@ export default function Viewport(props: Props) {
             onClose={() => props.onTool('select')}
           />
         )}
+      {props.placingCamera && (
+        <WalkPlacement
+          getRuntime={() => runtime.current}
+          eyeHeight={props.cameraSettings.eyeHeight}
+          floor={props.cameraSettings.level}
+          onComplete={props.onPlaceCamera}
+        />
+      )}
       {props.alignMap && (
         <div className="pull-feedback" role="status">
           <strong>Move the map</strong>

@@ -115,6 +115,10 @@ test('visible creation tools make a 2D profile, extrude, scale, stretch, and rep
   await expect
     .poll(async () => (await saved(page)).project.volumes.at(-1).geometry.kind)
     .toBe('extrusion');
+  await page
+    .getByRole('toolbar', { name: 'Shape selected objects' })
+    .getByRole('button', { name: 'Scale', exact: true })
+    .click();
   await page.getByLabel('Scale factor', { exact: true }).fill('1.5');
   await page
     .getByRole('button', { name: 'Scale selection', exact: true })
@@ -124,7 +128,10 @@ test('visible creation tools make a 2D profile, extrude, scale, stretch, and rep
       async () => (await saved(page)).project.volumes.at(-1).dimensions.width,
     )
     .toBe(15);
-  await page.getByText('Stretch a side precisely', { exact: true }).click();
+  await page
+    .getByRole('toolbar', { name: 'Shape selected objects' })
+    .getByRole('button', { name: 'Stretch', exact: true })
+    .click();
   await page.getByLabel('Stretch distance · m', { exact: true }).fill('2');
   await page
     .getByRole('button', { name: 'Stretch selection', exact: true })

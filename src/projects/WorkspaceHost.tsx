@@ -1,3 +1,4 @@
+import { sampleHouse } from './sample';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FolderOpen, X, Plus, Check } from 'lucide-react';
 import App from '../App';
@@ -205,6 +206,11 @@ export default function WorkspaceHost() {
       key={generation}
       initialWorkspace={initial ?? undefined}
       onSnapshot={capture}
+      onOpenSample={() => {
+        if (!working && available.current && !switching.current)
+          void switchTo(sampleHouse());
+      }}
+      sampleBusy={working || !available.current}
       projectMenu={(blocked) => (
         <>
           <button
@@ -247,6 +253,24 @@ export default function WorkspaceHost() {
                 Separate spaces for separate ideas. Saved in this browser;
                 export a backup to take a project elsewhere.
               </p>
+              <button
+                className="sample-project-card"
+                disabled={working || !available.current}
+                onClick={() => void switchTo(sampleHouse())}
+              >
+                <span className="sample-pavilion-icon" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                <span>
+                  <strong>Open sample house</strong>
+                  <small>
+                    A raised glass pavilion inspired by Farnsworth House. Start
+                    an editable copy; keep your current project.
+                  </small>
+                </span>
+              </button>
               <form
                 onSubmit={async (e) => {
                   e.preventDefault();

@@ -2,6 +2,28 @@
 
 Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 154 and software WebGL. This file distinguishes geometric execution, UI/provider contracts and live AI/audio behavior.
 
+## Spatial tools, phone AR and editable sample — October 19, 2026
+
+This update preserves the existing app/service and project formats. **138 unit/integration tests in 34 files pass**, including exact bounded map coverage/UV crops, atomic camera placement, meter-based AR fitting and invalid-input rejection, tracked-camera conversion into project axes, WebXR lifecycle/model-update fixtures, and genuine solids for all 24 objects in the new sample house. Existing provider SDK tests now carry AR workspace context. No paid requests were made.
+
+Production Chromium checks in this turn include a passing **10-case spatial/AR regression**, followed by a passing **16-case phone/interface regression**. They exercise real geometry and interaction: 5 km map overview without scaling buildings; selection shortcuts and direct pull labels; two-click walk placement; camera placement between named objects; preservation of old extrusion and opening controls; phone tool sheets with unobscured buttons; import, drawing, inspector, projects and moodboard; formation and replacement animations; and unsupported/denied AR paths. A final **9-case production follow-up passed** for sample creation/editing/undo/reload/project preservation, both day/night AR conversation layouts, native handoff, phone modeling controls, project-save failures and the existing extrusion/opening workflows. The sample flow passed once more after the final header cleanup. These are targeted production-browser runs, not a claim that the entire GitHub Actions suite is green.
+
+The final TypeScript/Vite build, formatting and whitespace checks pass. The static **`/atelier/` smoke test passes** with actual JS/CSS/WASM loading, solid rendering, direct editing/reload persistence and lazy moodboard/model assets. The same artifact is used by the production Node server; static Pages alone still has no AI backend.
+
+The AR browser scenarios explicitly mock native capability detection or the WebXR transport. The actual shared conversation, request validation, geometry engine, USDZ export and AR-model rebuilding run in the browser. A separate session test uses real Three.js scene objects with fixture hit poses and a renderer double to check placement, two-point scale/rotation, updates, control-tap isolation, rejection of wall placement and cleanup. This does **not** establish real camera tracking, surface precision, microphone/camera coexistence or iPhone native rendering. iPhone Quick Look does not host ATELIER chat; it pauses voice and requires returning to the app. WebXR integration keeps the shared conversation overlay and passes AR-relative camera context, while protecting physical viewing scale from ordinary modeling dimensions.
+
+The phone interface uses a labeled Tools menu and one bottom sheet, with larger targets and conversation hidden only while that sheet needs the space. Desktop retains movable panels. Fixes also prevent automatic Move-tool activation from cancelling construction, preserve animation stages across slow/background frames, and keep new selection styles separate from existing inspector controls.
+
+The [sample house](SAMPLE-PROJECT.md) is a locally generated conceptual study inspired by Farnsworth House, not a measured replica or a model-provider response. The first screen offers it and Projects can create another editable copy without overwriting the current project. The [topography research](TOPOGRAPHY-RESEARCH.md) reviews official GDAL/PDAL/GeoTIFF and LiDAR catalogue sources; no terrain has been imported and no site accuracy is claimed.
+
+![Phone AR preparation with explicit real-world viewing width](atelier-phone-ar-scale.png)
+
+![Phone modeling sheet with an unobscured Stretch action](atelier-tools-phone.png)
+
+![World-anchored pull measurements in the spatial-tool check](atelier-spatial-pull.png)
+
+Render status is checked through its API. The public app hostname and map providers are outside this cloud environment's network allowlist, so browser checks use the actual production Node server locally and explicit map tiles. No Render service or API key is recreated.
+
 ## Interaction, spatial references and motion — October 19, 2026
 
 See [the interaction and phone-viewing guide](INTERACTION-REFINEMENT.md). **124 unit/integration tests in 28 files pass**. Added numerical checks cover rigid multi-selection transforms with a common ground clamp, locked-member protection, map displacement under a rotated bearing, meter-based USDZ geometry/scaling, AR cancellation and unavailable-device handling, and validated moodboard snapshots/limits. The actual provider SDK contract also carries current section state.

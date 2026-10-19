@@ -6,11 +6,13 @@ export default function CameraPanel({
   onChange,
   onClose,
   onAR,
+  onPlace,
 }: {
   value: CameraSettings;
   onChange: (v: CameraSettings) => void;
   onClose: () => void;
   onAR: () => void;
+  onPlace: () => void;
 }) {
   const floating = useFloatingPanel();
   return (
@@ -49,6 +51,13 @@ export default function CameraPanel({
           </button>
         ))}
       </div>
+      <button className="primary-studio-action" onClick={onPlace}>
+        Place me in the model
+      </button>
+      <p className="studio-caption">
+        Click a floor or ground point, then click where to look. Or ask: “Place
+        me between Admin and Volume 2.”
+      </p>
       <label>
         Field of view <output>{value.fov}°</output>
         <input

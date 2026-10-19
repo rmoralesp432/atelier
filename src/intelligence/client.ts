@@ -35,6 +35,7 @@ export async function requestPlan(
   } | null,
   workspace?: {
     mapVisible: boolean;
+    arActive?: boolean;
     mapConfigured: boolean;
     view: 'perspective' | 'orthographic' | 'top';
     theme: 'day' | 'night';

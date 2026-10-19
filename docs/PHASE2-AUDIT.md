@@ -2,6 +2,10 @@
 
 ATELIER now has the implemented modeling foundation and a real provider integration. **Phase 2 is not fully verified end to end.** Workspace controls also use the shared text/voice planner; their execution is fixture-tested. The latest live OpenAI diagnosis was `credit_balance_exhausted`. No paid text or voice requests were made during the studio/import upgrade. Passing fixture tests does not establish arbitrary language understanding or “perfect mastery of 3D.”
 
+## Latest spatial, phone and sample update
+
+[Interaction guide](INTERACTION-REFINEMENT.md): expanded map coverage (up to 5 km), visible selection tools, oriented pull measurements, clicked/named-object walkthrough placement and phone-specific sheets/tool menu. WebXR uses tracked camera-relative context and retains the shared text/voice engine while updating actual geometry; real hardware/audio remain unverified. Native iPhone Quick Look cannot host the chat overlay and requires returning to the app to converse. [Sample project](SAMPLE-PROJECT.md): an editable Farnsworth-inspired pavilion, created locally as a separate project. [Terrain research](TOPOGRAPHY-RESEARCH.md): authoritative DTM/LiDAR and closed stepped contours proposed; no terrain importer or site accuracy claimed.
+
 ## Latest expressive studio iteration
 
 [Expressive studio guide](EXPRESSIVE-STUDIO.md) covers the additional sweeps/lofts, pitch/roll, hollowing, direct face handles, independently sized additions, fixed-width glazing, section caps, satellite/map rotation, solar studies, walkthrough camera, layers, reference photos, volumetric trees and OBJ export. These extend the existing engine; they do not establish arbitrary AI mastery.

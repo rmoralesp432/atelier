@@ -1,8 +1,13 @@
 import { test, expect, type Page } from '@playwright/test';
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
-const open = (page: Page) =>
-  page.getByRole('button', { name: 'Pull up moodboard' }).click();
+const open = async (page: Page) => {
+  if ((page.viewportSize()?.width ?? 1440) <= 800)
+    await page
+      .getByRole('button', { name: 'Design tools', exact: true })
+      .click();
+  await page.getByRole('button', { name: 'Pull up moodboard' }).click();
+};
 const persisted = (page: Page) =>
   page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((resolve, reject) => {

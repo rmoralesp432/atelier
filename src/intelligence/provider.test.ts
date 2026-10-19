@@ -41,6 +41,7 @@ it('uses the actual Responses SDK contract with strict schema, scene context and
     message: 'Could you nudge the pavilion toward the street?',
     workspace: {
       mapVisible: false,
+      arActive: true,
       mapConfigured: false,
       view: 'perspective',
       theme: 'night',
@@ -62,6 +63,9 @@ it('uses the actual Responses SDK contract with strict schema, scene context and
   });
   expect(plan.intent).toBe('clarify');
   expect(body.store).toBe(false);
+  expect(JSON.parse(body.input[0].content[0].text).workspace.arActive).toBe(
+    true,
+  );
   expect(JSON.parse(body.input[0].content[0].text).workspace.section).toEqual({
     enabled: true,
     planeVisible: false,

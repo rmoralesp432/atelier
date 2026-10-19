@@ -1,3 +1,4 @@
+import { resolveWalkPlacement } from '../studio/walkPlacement';
 import {
   isLocked,
   makeVolume,
@@ -180,7 +181,12 @@ export async function applyPlan(
   for (const op of plan.operations) {
     // Workspace effects run only after the complete geometric transaction validates.
     // They neither edit project data nor replace the last modeling context.
-    if (op.type === 'workspace' || op.type === 'section') continue;
+    if (
+      op.type === 'workspace' ||
+      op.type === 'section' ||
+      op.type === 'walk_to'
+    )
+      continue;
     if (op.type === 'undo' || op.type === 'redo') {
       if (beforeEdit)
         throw new Error(
@@ -1278,6 +1284,8 @@ export async function applyPlan(
     s.project.volumes.forEach((v) => validateVolume(v));
     s.context.lastOperation = op.type;
   }
+  for (const op of plan.operations)
+    if (op.type === 'walk_to') resolveWalkPlacement(s.project, op);
   if (beforeEdit) {
     for (const v of s.project.volumes) {
       const previous = beforeEdit.volumes.find((old) => old.id === v.id);

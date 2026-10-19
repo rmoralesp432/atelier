@@ -11,6 +11,27 @@ export type PullFeedback = {
 export class FacePullControls {
   private root = new THREE.Group();
   private handles: THREE.Mesh[] = [];
+  private hovered: THREE.Mesh | null = null;
+  private label: HTMLDivElement;
+  private brackets = new THREE.LineSegments(
+    new THREE.BufferGeometry(),
+    new THREE.LineBasicMaterial({
+      color: '#8e9d88',
+      transparent: true,
+      opacity: 0.7,
+      depthTest: false,
+    }),
+  );
+  private halo = new THREE.Mesh(
+    new THREE.RingGeometry(1.35, 1.55, 40),
+    new THREE.MeshBasicMaterial({
+      color: '#52624c',
+      transparent: true,
+      opacity: 0.9,
+      depthTest: false,
+      side: THREE.DoubleSide,
+    }),
+  );
   private drag: {
     v: Volume;
     axis: FaceAxis;
@@ -50,13 +71,27 @@ export class FacePullControls {
       finishMotion: () => void;
     },
   ) {
+    this.label = document.createElement('div');
+    this.label.className = 'face-dimension-label';
+    this.label.hidden = true;
+    this.label.setAttribute('aria-label', 'Live face dimension');
+    config.canvas.parentElement?.append(this.label);
+    this.brackets.geometry.setAttribute(
+      'position',
+      new THREE.BufferAttribute(new Float32Array(144), 3),
+    );
+    this.brackets.frustumCulled = false;
+    this.brackets.renderOrder = 18;
+    this.halo.renderOrder = 21;
+    this.halo.visible = false;
+    config.scene.add(this.brackets, this.halo);
     const geometry = new THREE.SphereGeometry(1, 16, 10);
     for (const axis of ['x', 'y', 'z'] as const)
       for (const side of [-1, 1] as const) {
         const handle = new THREE.Mesh(
           geometry,
           new THREE.MeshBasicMaterial({
-            color: axis === 'y' ? '#b5f1e8' : '#faf7e8',
+            color: axis === 'y' ? '#cbbb97' : '#aeb9a6',
             depthTest: false,
             transparent: true,
             opacity: 0.95,
@@ -214,8 +249,10 @@ export class FacePullControls {
     });
     listen('pointermove', (e) => {
       if (!this.drag) {
-        if (config.current().enabled)
-          config.canvas.style.cursor = hit(e) ? 'grab' : '';
+        if (config.current().enabled) {
+          this.hovered = (hit(e)?.object as THREE.Mesh | undefined) ?? null;
+          config.canvas.style.cursor = this.hovered ? 'grab' : '';
+        }
         return;
       }
       e.stopImmediatePropagation();
@@ -299,7 +336,36 @@ export class FacePullControls {
     const state = this.config.current(),
       v = this.drag?.next ?? state.volume;
     this.root.visible = state.enabled && !!v;
+    this.brackets.visible = this.root.visible;
+    this.label.hidden = !this.root.visible;
+    this.halo.visible = false;
     if (!v || !state.enabled) return;
+    const positions = this.brackets.geometry.getAttribute('position');
+    const flat = isFlat(v),
+      sizes = [
+        v.dimensions.width,
+        flat ? 0 : v.dimensions.height,
+        v.dimensions.depth,
+      ];
+    let i = 0;
+    for (const x of [-1, 1])
+      for (const y of [-1, 1])
+        for (const z of [-1, 1]) {
+          const corner = [
+            (x * sizes[0]) / 2,
+            ((y + 1) * sizes[1]) / 2,
+            (z * sizes[2]) / 2,
+          ];
+          for (let axis = 0; axis < 3; axis++) {
+            positions.setXYZ(i++, ...(corner as [number, number, number]));
+            const end = [...corner];
+            end[axis] -= [x, y, z][axis] * sizes[axis] * 0.16;
+            positions.setXYZ(i++, ...(end as [number, number, number]));
+          }
+        }
+    positions.needsUpdate = true;
+    this.brackets.position.set(v.position.x, v.position.y, v.position.z);
+    this.brackets.rotation.y = (v.rotation * Math.PI) / 180;
     const camera = this.config.camera(),
       rect = this.config.canvas.getBoundingClientRect();
     const points: Record<string, { x: number; y: number }> = {};
@@ -325,6 +391,36 @@ export class FacePullControls {
           y: ((1 - p.y) * rect.height) / 2 + rect.top,
         };
     }
+    const active = this.drag
+      ? this.handles.find(
+          (h) =>
+            h.userData.axis === this.drag!.axis &&
+            h.userData.side === this.drag!.side,
+        )!
+      : this.hovered?.visible
+        ? this.hovered
+        : this.handles.find(
+            (h) => h.userData.axis === 'y' && h.userData.side === 1,
+          )!;
+    const key = { x: 'width', y: 'height', z: 'depth' }[
+      active.userData.axis as FaceAxis
+    ] as 'width' | 'height' | 'depth';
+    const p = active.position.clone().project(camera);
+    this.label.hidden =
+      p.z < -1 || p.z > 1 || Math.abs(p.x) > 0.95 || Math.abs(p.y) > 0.95;
+    this.label.style.left = `${((p.x + 1) * rect.width) / 2}px`;
+    this.label.style.top = `${((1 - p.y) * rect.height) / 2 - 30}px`;
+    const delta = this.drag
+      ? v.dimensions[key] -
+        (isFlat(this.drag.v) ? 0 : this.drag.v.dimensions[key])
+      : null;
+    const labelText = `${flat ? 'Extrude this face' : `${key[0].toUpperCase() + key.slice(1)} · ${v.dimensions[key].toFixed(2)} m`}${delta === null ? '' : `  /  ${delta >= 0 ? '+' : ''}${delta.toFixed(2)} m`}`;
+    if (this.label.textContent !== labelText)
+      this.label.textContent = labelText;
+    this.halo.visible = true;
+    this.halo.position.copy(active.position);
+    this.halo.quaternion.copy(camera.quaternion);
+    this.halo.scale.copy(active.scale);
     this.config.canvas.dataset.pullHandles = JSON.stringify(points);
   }
   private finish(commit: boolean) {
@@ -352,7 +448,12 @@ export class FacePullControls {
   dispose() {
     this.finish(false);
     this.cleanups.forEach((f) => f());
-    this.config.scene.remove(this.root, this.trail);
+    this.config.scene.remove(this.root, this.trail, this.brackets, this.halo);
+    this.label.remove();
+    this.brackets.geometry.dispose();
+    (this.brackets.material as THREE.Material).dispose();
+    this.halo.geometry.dispose();
+    (this.halo.material as THREE.Material).dispose();
     this.handles[0].geometry.dispose();
     this.handles.forEach((h) => (h.material as THREE.Material).dispose());
     this.trail.geometry.dispose();

@@ -22,6 +22,7 @@ export default function StudioPanel({
   alignMap,
   onAlignMap,
   onMap,
+  onFrameMap,
   addPerson,
   onClose,
 }: {
@@ -34,6 +35,7 @@ export default function StudioPanel({
   alignMap: boolean;
   onAlignMap: (value: boolean) => void;
   onMap: (v: boolean) => void;
+  onFrameMap: () => void;
   addPerson: () => void;
   onClose: () => void;
 }) {
@@ -42,6 +44,8 @@ export default function StudioPanel({
   const [error, setError] = useState('');
   const [pickOpen, setPickOpen] = useState(initialTab === 'site');
   const [mapStyle, setMapStyle] = useState<MapStyle>(site?.style ?? 'street');
+  const [coverage, setCoverage] = useState(site?.coverage);
+  useEffect(() => setCoverage(site?.coverage), [site?.coverage]);
   const [bearing, setBearing] = useState(site?.bearing ?? 0);
   const [latitude, setLatitude] = useState(site ? String(site.latitude) : '');
   const [longitude, setLongitude] = useState(
@@ -198,6 +202,7 @@ export default function StudioPanel({
                 longitude: Number(form.get('longitude')),
                 bearing,
                 style: mapStyle,
+                ...(coverage === undefined ? {} : { coverage }),
               };
               validateSite(next);
               onSite(next);
@@ -227,6 +232,45 @@ export default function StudioPanel({
               </button>
             ))}
           </div>
+          <label className="map-coverage-field">
+            Map area
+            <select
+              aria-label="Map area"
+              value={coverage ?? 'original'}
+              onChange={(e) => {
+                const next =
+                  e.target.value === 'original'
+                    ? undefined
+                    : Number(e.target.value);
+                setCoverage(next);
+                if (site) {
+                  const updated = { ...site };
+                  if (next === undefined) delete updated.coverage;
+                  else updated.coverage = next;
+                  onSite(updated);
+                }
+              }}
+            >
+              <option value="original">Original area</option>
+              <option value="500">500 m × 500 m · Site</option>
+              <option value="1000">1 km × 1 km · Neighborhood</option>
+              <option value="2000">2 km × 2 km · District</option>
+              <option value="5000">5 km × 5 km · Context</option>
+            </select>
+          </label>
+          <p className="studio-caption">
+            Larger coverage uses less detailed imagery. Buildings keep their
+            exact dimensions.
+          </p>
+          {site && (
+            <button
+              type="button"
+              className="primary-studio-action"
+              onClick={onFrameMap}
+            >
+              See entire map
+            </button>
+          )}
           <div className="map-pick-actions">
             <button
               type="button"

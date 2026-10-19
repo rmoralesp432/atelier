@@ -1,3 +1,4 @@
+import type { WalkPlacement } from './walkPlacement';
 export type CameraSettings = {
   fov: number;
   walk: boolean;
@@ -5,6 +6,7 @@ export type CameraSettings = {
   level: number;
   blur: number;
   focus: number;
+  placement?: WalkPlacement & { revision: number };
 };
 export const defaultCameraSettings: CameraSettings = {
   fov: 40,

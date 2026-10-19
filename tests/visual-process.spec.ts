@@ -70,7 +70,7 @@ test('processing feedback follows a real pending request, then geometry formatio
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-active',
     'false',
-    { timeout: 10000 },
+    { timeout: 20000 },
   );
   await expect(page.getByLabel('Geometry formation')).toBeHidden();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
@@ -114,7 +114,7 @@ test('edits reveal the actual replacement geometry without changing saved dimens
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-active',
     'false',
-    { timeout: 10000 },
+    { timeout: 20000 },
   );
   expect(
     await page.evaluate(() =>

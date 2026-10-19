@@ -13,7 +13,10 @@ export function disposeARModel(root: THREE.Object3D) {
   });
 }
 /** A detached, meter-based snapshot. No map imagery or private project upload. */
-export async function createARModel(project: Project): Promise<THREE.Group> {
+export async function createARModel(
+  project: Project,
+  origin?: { x: number; z: number },
+): Promise<THREE.Group> {
   const root = new THREE.Group();
   try {
     for (const v of project.volumes.filter(
@@ -21,6 +24,7 @@ export async function createARModel(project: Project): Promise<THREE.Group> {
     )) {
       const group = new THREE.Group();
       group.name = v.name;
+      group.userData.id = v.id;
       group.position.set(v.position.x, v.position.y, v.position.z);
       group.rotation.y = (v.rotation * Math.PI) / 180;
       root.add(group);
@@ -55,9 +59,10 @@ export async function createARModel(project: Project): Promise<THREE.Group> {
     const bounds = new THREE.Box3().setFromObject(root),
       center = bounds.getCenter(new THREE.Vector3());
     root.children.forEach((g) => {
-      g.position.x -= center.x;
-      g.position.z -= center.z;
+      g.position.x -= origin?.x ?? center.x;
+      g.position.z -= origin?.z ?? center.z;
     });
+    root.userData.origin = origin ?? { x: center.x, z: center.z };
     root.updateMatrixWorld(true);
     return root;
   } catch (error) {

@@ -58,3 +58,41 @@ it('reports an empty AR scene and rejects unsupported scale', async () => {
   await expect(exportARModel(model, 0)).rejects.toThrow('scale');
   disposeARModel(model);
 });
+it('keeps the initial project origin during live AR edits so existing objects do not jump', async () => {
+  const p: Project = {
+    selectedId: null,
+    volumes: [
+      {
+        id: 'a',
+        name: 'A',
+        dimensions: { width: 10, depth: 4, height: 3 },
+        position: { x: 100, y: 0, z: 80 },
+        rotation: 0,
+      },
+    ],
+  };
+  const first = await createARModel(p);
+  const updated = await createARModel(
+    {
+      ...p,
+      volumes: [
+        ...p.volumes,
+        {
+          ...p.volumes[0],
+          id: 'b',
+          name: 'B',
+          position: { x: 150, y: 0, z: 80 },
+        },
+      ],
+    },
+    first.userData.origin,
+  );
+  expect(updated.children[0].position.toArray()).toEqual(
+    first.children[0].position.toArray(),
+  );
+  expect(updated.children[1].position.x - updated.children[0].position.x).toBe(
+    50,
+  );
+  disposeARModel(first);
+  disposeARModel(updated);
+});

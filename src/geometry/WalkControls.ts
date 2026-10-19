@@ -5,6 +5,7 @@ export class WalkControls {
   private keys = new Set<string>();
   private drag: { x: number; y: number } | null = null;
   private active = false;
+  private placementRevision = -1;
   private previous: { position: THREE.Vector3; target: THREE.Vector3 } | null =
     null;
   private cleanup: (() => void)[] = [];
@@ -122,6 +123,25 @@ export class WalkControls {
       this.drag = null;
     }
     if (!settings.walk) return;
+    if (
+      settings.placement &&
+      settings.placement.revision !== this.placementRevision
+    ) {
+      const { position, lookAt, revision } = settings.placement;
+      camera.position.set(
+        position.x,
+        settings.level + settings.eyeHeight,
+        position.z,
+      );
+      const dx = lookAt.x - position.x,
+        dz = lookAt.z - position.z;
+      camera.lookAt(
+        position.x + (Math.hypot(dx, dz) < 0.001 ? 0 : dx),
+        camera.position.y,
+        position.z + (Math.hypot(dx, dz) < 0.001 ? -1 : dz),
+      );
+      this.placementRevision = revision;
+    }
     const direction = new THREE.Vector3();
     camera.getWorldDirection(direction);
     direction.y = 0;

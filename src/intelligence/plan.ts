@@ -82,6 +82,16 @@ const formPosition = point;
 export const operationSchema = z.discriminatedUnion('type', [
   z
     .object({
+      type: z.literal('walk_to'),
+      placement: z.enum(['coordinates', 'between', 'center', 'in_front']),
+      targets: z.array(z.string().min(1).max(100)).max(2),
+      position: point.nullable(),
+      lookAt: point.nullable(),
+      eyeHeight: z.number().min(0.5).max(2.5).nullable(),
+    })
+    .strict(),
+  z
+    .object({
       type: z.literal('trees'),
       target: z.string().nullable(),
       count: z.number().int().min(1).max(60).nullable(),

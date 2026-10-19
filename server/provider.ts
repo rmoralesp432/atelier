@@ -40,6 +40,7 @@ export const requestSchema = z
     workspace: z
       .object({
         mapVisible: z.boolean(),
+        arActive: z.boolean().optional(),
         mapConfigured: z.boolean(),
         view: z.enum(['perspective', 'orthographic', 'top']),
         theme: z.enum(['day', 'night']),

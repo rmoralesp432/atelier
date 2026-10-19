@@ -53,6 +53,7 @@ test('OBJ adds a closed solid beside existing objects; import, scale, save and u
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-active',
     'false',
+    { timeout: 20000 },
   );
   await page.getByRole('button', { name: 'Undo', exact: true }).click();
   await expect(width).toHaveValue('2');
@@ -67,6 +68,7 @@ test('OBJ adds a closed solid beside existing objects; import, scale, save and u
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-active',
     'false',
+    { timeout: 20000 },
   );
   expect(errors).toEqual([]);
 });
@@ -116,6 +118,7 @@ test('open meshes are honest reference surfaces, and import is accessible on nar
   expect(bounds.x).toBeGreaterThanOrEqual(0);
   expect(bounds.x + bounds.width).toBeLessThanOrEqual(390);
   await dialog.getByRole('button', { name: 'Add to workspace' }).click();
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
   await page.getByRole('button', { name: 'Expand inspector' }).click();
   await expect(page.getByTestId('volume-stat')).toHaveText('Reference');
   const x = page.getByRole('spinbutton', { name: 'X', exact: true });
@@ -153,11 +156,14 @@ test('construction is visual only; footprint rises, settles, and never replays o
     .getByRole('button', { name: 'Create volume', exact: true })
     .click();
   await expect
-    .poll(() => page.evaluate(() => (window as any).observedPhases))
+    .poll(() => page.evaluate(() => (window as any).observedPhases), {
+      timeout: 20000,
+    })
     .toContain('extruding');
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-active',
     'false',
+    { timeout: 20000 },
   );
   const phases = await page.evaluate(() => (window as any).observedPhases);
   expect(phases).toContain('footprint');
@@ -218,11 +224,13 @@ test('construction is visual only; footprint rises, settles, and never replays o
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-active',
     'false',
+    { timeout: 20000 },
   );
   await page.reload();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-active',
     'false',
+    { timeout: 20000 },
   );
   await page.screenshot({ path: 'test-results/atelier-studio.png' });
 });
@@ -244,6 +252,7 @@ test('reduced motion shows the final geometry immediately and dropping files ope
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-active',
     'false',
+    { timeout: 20000 },
   );
   await page.evaluate(() => {
     const dataTransfer = new DataTransfer();

@@ -58,16 +58,25 @@ test('opens a full-size scene, adds shapes without AI, and reuses meshes on sele
   await page.getByRole('button', { name: 'Show objects' }).click();
   await expect(page.locator('.objects-panel')).toBeVisible();
   await page.getByRole('button', { name: 'Hide objects' }).click();
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
   await page.getByRole('button', { name: 'Expand inspector' }).click();
   await expect(page.locator('.inspector-panel')).toBeVisible();
-  await page.getByRole('button', { name: 'Collapse inspector' }).click();
-  for (const name of ['Import', 'Export project', 'Send message']) {
+  await page
+    .getByRole('button', { name: 'Close inspector', exact: true })
+    .click();
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
+  for (const name of ['Import', 'Export project']) {
     const bounds = await page
       .getByRole('button', { name, exact: true })
       .boundingBox();
     expect(bounds!.x).toBeGreaterThanOrEqual(0);
     expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(390);
   }
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
+  const send = (await page
+    .getByRole('button', { name: 'Send message' })
+    .boundingBox())!;
+  expect(send.x + send.width).toBeLessThanOrEqual(390);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(
     390,
   );

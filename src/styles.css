@@ -4085,11 +4085,11 @@ summary:focus-visible {
   border-radius: 18px;
   padding: 9px 10px;
 }
-.immersive .header-actions .compact-tools-toggle {
+.immersive .app-header > .compact-tools-toggle {
   display: none;
 }
 @media (max-width: 1100px) {
-  .immersive .header-actions .compact-tools-toggle {
+  .immersive .app-header > .compact-tools-toggle {
     display: inline-flex;
   }
   .studio-tool-group {
@@ -5114,4 +5114,590 @@ summary:focus-visible {
     white-space: normal;
     line-height: 1.4;
   }
+}
+
+/* Tools stay close to the selection; dimensional feedback stays in model space. */
+.spatial-actions {
+  position: absolute;
+  top: 94px;
+  left: 91px;
+  z-index: 8;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  max-width: min(460px, calc(100% - 180px));
+  padding: 4px;
+  border: 1px solid #e7efd91a;
+  border-radius: 14px;
+  background: #222628d9;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 8px 28px #00000020;
+  animation: selection-tools-enter 220ms ease-out;
+}
+.spatial-actions button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  border-radius: 10px;
+  color: #c8d1ca;
+  font-size: 11px;
+}
+.spatial-actions button:hover,
+.spatial-actions button[aria-pressed='true'] {
+  background: #e5efd61c;
+  color: #f2f5ec;
+}
+.face-dimension-label {
+  position: absolute;
+  z-index: 8;
+  transform: translate(-50%, -100%);
+  pointer-events: none;
+  padding: 7px 12px;
+  background: #202824de;
+  color: #edf4e3;
+  border: 1px solid #e8f3d53d;
+  border-radius: 20px;
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 5px 22px #0002;
+}
+.model-action-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin: 16px 0 22px;
+}
+.model-action-grid button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+  min-height: 64px;
+  padding: 12px;
+  border: 1px solid #ffffff13;
+  background: #ffffff04;
+  border-radius: 12px;
+  text-align: left;
+}
+.model-action-grid button:hover,
+.model-action-grid button[aria-pressed='true'] {
+  background: #dbe7d312;
+  border-color: #dbe7d340;
+}
+.model-action-grid strong {
+  font-size: 12px;
+  font-weight: 500;
+}
+.model-action-grid small {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+.model-panel h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  scroll-margin-top: 12px;
+}
+.model-panel section {
+  scroll-margin-top: 12px;
+  margin-top: 24px;
+}
+.model-field-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.model-field-pair input {
+  min-width: 0;
+}
+.walk-placement-bar {
+  position: absolute;
+  z-index: 12;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  max-width: calc(100% - 32px);
+  width: max-content;
+  border-radius: 18px;
+  border: 1px solid #e5efd633;
+  background: #252c29ee;
+  color: #edf4e6;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 12px 50px #0004;
+}
+.walk-placement-bar div {
+  display: grid;
+  gap: 4px;
+}
+.walk-placement-bar strong {
+  font-size: 12px;
+  font-weight: 500;
+}
+.walk-placement-bar div span {
+  font-size: 11px;
+  color: #abb8ac;
+}
+.walk-placement-bar button {
+  border: 0;
+  border-radius: 10px;
+  background: #ffffff10;
+  padding: 10px;
+}
+.placement-step {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid #e5efd638;
+  font-size: 11px;
+}
+.viewport-stage:has(.walk-placement-bar)
+  :is(
+    .selection-chip,
+    .spatial-actions,
+    .conversation-panel,
+    .transform-readout,
+    .tool-palette
+  ) {
+  display: none;
+}
+.theme-day .spatial-actions,
+.theme-day .walk-placement-bar,
+.theme-day .face-dimension-label {
+  background: #fffffff0;
+  color: #293b32;
+  border-color: #25362b24;
+  box-shadow: 0 8px 24px #18322212;
+}
+.theme-day .spatial-actions button {
+  color: #47584b;
+}
+.theme-day .spatial-actions button:hover,
+.theme-day .spatial-actions button[aria-pressed='true'] {
+  background: #213b2312;
+  color: #192b20;
+}
+.presentation-mode .spatial-actions {
+  display: none;
+}
+@keyframes selection-tools-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 800px) {
+  .spatial-actions {
+    top: 132px;
+    left: 16px;
+    max-width: calc(100% - 32px);
+    gap: 0;
+  }
+  .spatial-actions button {
+    padding: 8px;
+    font-size: 10px;
+  }
+  .face-dimension-label {
+    font-size: 10px;
+    max-width: 230px;
+    white-space: normal;
+  }
+  .walk-placement-bar {
+    bottom: 60px;
+    padding: 12px;
+    gap: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .spatial-actions {
+    animation: none;
+  }
+}
+.modeling-area:has(.walk-placement-bar) .conversation-area {
+  display: none;
+}
+@media (max-width: 800px) {
+  .viewport-stage:has(.spatial-actions) .pull-feedback {
+    top: 182px;
+  }
+  .app-shell:not(.inspector-collapsed) .spatial-actions,
+  .objects-open .spatial-actions,
+  .app-shell:has(.section-panel, .studio-panel) .spatial-actions {
+    display: none;
+  }
+}
+.viewport-stage:has(.spatial-actions) .transform-readout {
+  top: 144px;
+}
+@media (max-width: 800px) {
+  .viewport-stage:has(.spatial-actions) .transform-readout {
+    top: 182px;
+  }
+}
+@media (min-width: 801px) {
+  .app-shell:not(.inspector-collapsed) .spatial-actions,
+  .objects-open .spatial-actions,
+  .objects-open .transform-readout {
+    left: 340px;
+    max-width: calc(100% - 380px);
+  }
+}
+.model-action-grid button {
+  position: relative;
+}
+.model-action-grid kbd {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  font-size: 9px;
+  color: #8f9c93;
+  font-family: inherit;
+}
+.model-action-grid small {
+  color: #8f9c93;
+  line-height: 1.35;
+}
+.viewport-stage:has(.walk-placement-bar)
+  :is(.navigation-hint, .viewport-bottom-left) {
+  display: none;
+}
+
+/* Phone workspace: one thumb-reachable sheet, with the model visible above it. */
+@media (max-width: 800px) {
+  .immersive
+    :is(.section-panel, .studio-panel, .inspector-panel:not([hidden])) {
+    position: fixed !important;
+    left: 8px !important;
+    right: 8px !important;
+    top: auto !important;
+    bottom: max(8px, env(safe-area-inset-bottom)) !important;
+    width: auto !important;
+    height: auto !important;
+    max-height: min(68dvh, calc(100dvh - 100px)) !important;
+    border-radius: 24px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: max(18px, env(safe-area-inset-bottom));
+  }
+  .immersive
+    :is(.section-panel, .studio-panel, .inspector-panel)
+    :is(button, select) {
+    min-height: 44px;
+  }
+  .immersive
+    :is(.section-panel, .studio-panel, .inspector-panel)
+    input:not([type='range']):not([type='checkbox']) {
+    min-height: 44px;
+    font-size: 16px;
+  }
+  .app-shell:has(.section-panel, .studio-panel, .inspector-panel:not([hidden]))
+    .modeling-area
+    > .conversation-area {
+    display: none;
+  }
+  .app-shell:has(.section-panel, .studio-panel, .inspector-panel:not([hidden]))
+    .tool-palette {
+    visibility: hidden;
+  }
+  .model-action-grid kbd {
+    display: none;
+  }
+}
+.ar-size-card {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  margin-block: 12px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.ar-size-card span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.ar-scale-lock {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ar-scale-lock input {
+  width: auto;
+}
+.ar-overlay .ar-controls {
+  top: max(12px, env(safe-area-inset-top));
+  bottom: auto;
+  max-height: 44dvh;
+  overflow-y: auto;
+  pointer-events: auto;
+}
+.ar-adjustments {
+  width: 100%;
+}
+.ar-adjustments summary {
+  cursor: pointer;
+  padding: 10px 0;
+}
+.ar-adjustments label {
+  margin-block: 12px;
+}
+.ar-adjustments input[type='range'] {
+  flex: 1;
+  min-width: 90px;
+}
+.ar-adjustments p {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.immersive .ar-overlay .conversation-area {
+  display: block !important;
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  width: auto;
+  max-width: 600px;
+  transform: none;
+  z-index: 3;
+  max-height: 40dvh;
+  overflow-y: auto;
+  background: #19201fef;
+  color: #f1f5f3;
+  --muted: #afbeb8;
+  --panel: #19201f;
+}
+.ar-overlay .conversation-area .conversation-log {
+  max-height: 13dvh;
+}
+.ar-overlay .conversation-area .conversation-welcome {
+  display: none;
+}
+.ar-overlay .conversation-area button {
+  min-height: 44px;
+}
+.immersive .ar-overlay .conversation-area textarea {
+  color: #f1f5f3;
+  font-size: 16px;
+}
+.ar-overlay .conversation-area .conversation-heading button {
+  color: #f1f5f3;
+}
+/* Desktop uses a command bar; phone uses a labeled tool menu. */
+.app-header > .scene-toggle {
+  margin-left: auto;
+}
+.compact-tools-toggle span {
+  display: none;
+}
+@media (max-width: 800px) {
+  .immersive .app-header {
+    gap: 8px;
+    padding-inline: 12px;
+  }
+  .immersive .brand {
+    display: flex;
+  }
+  .immersive .project-switcher {
+    display: flex;
+    max-width: 125px;
+    min-width: 0;
+  }
+  .app-header > .scene-toggle,
+  .app-header > .compact-tools-toggle {
+    display: inline-flex;
+    gap: 6px;
+    min-height: 44px;
+    padding: 8px;
+  }
+  .app-header > .compact-tools-toggle span {
+    display: inline;
+  }
+  .immersive .header-actions {
+    display: none;
+  }
+  .immersive .header-actions.phone-tools-open {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    position: fixed;
+    top: 66px;
+    left: 12px;
+    right: 12px;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--panel);
+    box-shadow: 0 18px 50px #0005;
+    max-height: calc(100dvh - 96px);
+    overflow-y: auto;
+    z-index: 100;
+  }
+  .immersive .header-actions.phone-tools-open .studio-tool-group {
+    display: contents;
+  }
+  .immersive .header-actions.phone-tools-open button {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    min-height: 48px;
+    font-size: 12px !important;
+    padding: 10px !important;
+    width: 100%;
+    white-space: normal;
+    border-radius: 12px;
+  }
+  .immersive .header-actions.phone-tools-open button span {
+    display: inline !important;
+  }
+  .header-actions.phone-tools-open > .icon-button::after,
+  .header-actions.phone-tools-open .export-options > button::after {
+    content: attr(aria-label);
+  }
+  .header-actions.phone-tools-open .save-state {
+    display: none;
+  }
+  .header-actions.phone-tools-open .export-options {
+    position: static;
+  }
+  .header-actions.phone-tools-open .export-menu {
+    position: static;
+    width: auto;
+  }
+  .app-shell:has(.phone-tools-open) .modeling-area > .conversation-area {
+    visibility: hidden;
+  }
+}
+@media (max-width: 800px) {
+  .immersive .project-switcher {
+    min-height: 44px;
+  }
+  .immersive .project-switcher span {
+    display: inline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+.ar-panel input[type='number'] {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #151b1d;
+  color: inherit;
+}
+.ar-size-card {
+  min-width: 0;
+}
+.ar-size-card > * {
+  min-width: 0;
+}
+.ar-panel .studio-caption {
+  overflow-wrap: anywhere;
+}
+.theme-day .ar-panel input[type='number'] {
+  background: #f4f6f5;
+  color: #27342e;
+}
+@media (max-width: 800px) {
+  .immersive .brand-mark {
+    display: inline;
+  }
+  .immersive .app-header > .scene-toggle span {
+    display: inline;
+  }
+  .immersive
+    :is(.section-panel, .studio-panel, .inspector-panel:not([hidden])) {
+    max-width: calc(100vw - 16px);
+  }
+}
+
+.immersive.theme-day .ar-overlay .conversation-area {
+  background: #f4f7f5f5;
+  color: #27342e;
+  --panel: #f4f7f5;
+  --muted: #637481;
+}
+.immersive.theme-day
+  .ar-overlay
+  .conversation-area
+  :is(textarea, .conversation-heading button) {
+  color: #27342e;
+}
+.sample-project-card {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  width: 100%;
+  margin: 18px 0;
+  padding: 18px;
+  background: #879b8112;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  color: inherit;
+  text-align: left;
+}
+.sample-project-card strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+}
+.sample-project-card small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.sample-pavilion-icon {
+  flex: 0 0 68px;
+  height: 60px;
+  position: relative;
+  transform: skewY(-12deg);
+}
+.sample-pavilion-icon i {
+  position: absolute;
+  left: 4px;
+  width: 58px;
+  height: 4px;
+  background: #c3cbbb;
+}
+.sample-pavilion-icon i:nth-child(1) {
+  top: 5px;
+}
+.sample-pavilion-icon i:nth-child(2) {
+  top: 10px;
+  height: 27px;
+  border-inline: 3px solid #c3cbbb;
+  background: #bed6cb2b;
+}
+.sample-pavilion-icon i:nth-child(3) {
+  top: 39px;
+  left: -2px;
+  box-shadow: -5px 10px 0 #8b9a84;
+}
+.immersive .conversation-welcome .sample-start {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: transparent;
+  color: inherit;
+  padding: 10px 0 0;
+  font-size: 12px;
+  min-height: 44px;
 }

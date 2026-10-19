@@ -2,13 +2,19 @@
 
 An architectural modeling workspace built with React, TypeScript, Three.js and the Manifold solid kernel. Natural conversation is the primary input: a real model proposes structured edits, the geometry engine validates them, and the workspace reports actual resulting measurements.
 
-**Current verification:** direct modeling, geometry operations, persistence and the conversation UI contract have automated coverage. The existing Render credential reaches OpenAI, but the latest live request returned **credit_balance_exhausted**. End-to-end natural-language modeling and continuous microphone conversation remain unverified until API billing is funded. No keyword fallback pretends to be AI.
+**Current verification:** direct modeling, geometry operations, persistence and the conversation UI contract have automated coverage. Earlier live verification reached OpenAI but returned **credit_balance_exhausted**. Billing was not rechecked in the latest interface update; successful live natural-language modeling and continuous microphone conversation remain unverified. No keyword fallback pretends to be AI.
 
 ## Run the application
 
 **Existing application:** https://atelier-emxi.onrender.com. Future tested updates use this same service and address; do not create another Render service or API key just to update the app.
 
 Use the **folder/project name** beside ATELIER to create and switch separate projects. Each retains its geometry, conversation, site and undo history in this browser; export JSON backups for safekeeping or another device. **Studio** offers Day/Night and display styles; the camera menu offers Perspective, Orthographic and Top view. The header **Map** button opens a visual location picker or toggles the saved site map. See the [studio guide](docs/STUDIO-UPDATE.md) for the updated controls.
+
+**Latest spatial update:** choose **Map → Location → Map area** for coverage up to **5 km × 5 km**. Selecting geometry exposes **Push / pull, Scale, Stretch, Copy, Mirror and Array**; face handles show dimensions directly in 3D. Use **Camera → Place me in the model** to click a floor point and look direction. The AI integration also supports validated camera placement between named objects. Read the [accurate stepped-topography research](docs/TOPOGRAPHY-RESEARCH.md) for the proposed survey-backed terrain workflow; terrain is not yet implemented.
+
+**Editable sample:** choose **Explore an editable sample house** on the opening screen or **Projects → Open sample house**. The raised glass pavilion is inspired by Farnsworth House, with 24 editable objects and five unlocked groups. Each opening creates a separate copy and preserves the current project. Preparing this sample uses no AI credits. See the [sample guide](docs/SAMPLE-PROJECT.md).
+
+**Phone and AR update:** phones use focused bottom sheets and larger touch targets; desktop retains movable panels. AR reports real viewing width and offers a fixed-scale iPhone handoff. WebXR adds two-point width fitting and the shared AI conversation with live model updates. iPhone Quick Look requires returning to ATELIER to converse; actual camera/voice performance still needs device verification. See the [phone and AR guide](docs/INTERACTION-REFINEMENT.md#phone-camera--ar).
 
 **Latest drawing update:** use **Draw** to place rectangles, circles and closed outlines directly in the viewport, with live measurements, snapping, optional exact sizes and immediate push/pull. Creation framing moves closer to the new geometry; a camera-sized fading grid and world-anchored formation labels keep the space legible. **R/C/L** draw, **P** pulls, **M** moves, **Q** rotates.
 

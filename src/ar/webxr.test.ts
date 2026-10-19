@@ -30,8 +30,7 @@ it('requests actual surface hit testing and propagates denied camera/session acc
     ),
   ).rejects.toThrow('Permission denied');
   expect(requestSession).toHaveBeenCalledWith('immersive-ar', {
-    requiredFeatures: ['hit-test'],
-    optionalFeatures: ['dom-overlay'],
+    requiredFeatures: ['hit-test', 'dom-overlay'],
     domOverlay: { root: overlay },
   });
 });

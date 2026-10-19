@@ -1,3 +1,5 @@
+import { createPortal } from 'react-dom';
+import { resolveWalkPlacement } from './studio/walkPlacement';
 import ARPanel from './ar/ARPanel';
 import { parseBoard } from './moodboard/data';
 import ModelPanel from './studio/ModelPanel';
@@ -101,6 +103,8 @@ const CHAT_KEY = 'atelier.conversation.v2';
 
 import {
   buildingSettings,
+  isLocked,
+  isVisible,
   COMMAND_EXAMPLES,
   executeCommand,
   initialProject,
@@ -255,10 +259,21 @@ function NumericField({
     </label>
   );
 }
+function ConversationSurface({
+  target,
+  children,
+}: {
+  target: HTMLElement | null;
+  children: ReactNode;
+}) {
+  return target ? createPortal(children, target) : children;
+}
 export default function App({
   initialWorkspace,
   onSnapshot,
   projectMenu,
+  onOpenSample,
+  sampleBusy,
 }: {
   initialWorkspace?: WorkspaceSnapshot;
   onSnapshot?: (
@@ -266,6 +281,8 @@ export default function App({
     safe: boolean,
   ) => void | Promise<void>;
   projectMenu?: (blocked: boolean) => ReactNode;
+  onOpenSample?: () => void;
+  sampleBusy?: boolean;
 }) {
   const [boot] = useState(() =>
     initialWorkspace
@@ -329,6 +346,7 @@ export default function App({
     'appearance',
   );
   const [mapVisible, setMapVisible] = useState(false);
+  const [mapFrame, setMapFrame] = useState(0);
   const [alignMap, setAlignMap] = useState(false);
   useEffect(() => {
     if (!studioOpen || !mapVisible) setAlignMap(false);
@@ -347,6 +365,8 @@ export default function App({
     setLayersOpen = panels.setters.layers;
   const [toolsOpen, setToolsOpen] = useState(false);
   const [arActive, setARActive] = useState(false);
+  const [arConversationHost, setARConversationHost] =
+    useState<HTMLDivElement | null>(null);
   const [moodboard, setMoodboard] = useState(() =>
     parseBoard(initialWorkspace?.moodboard),
   );
@@ -378,6 +398,12 @@ export default function App({
       if (panels.active) panels.setters[panels.active](false);
     }
   };
+  const [placingCamera, setPlacingCamera] = useState(false);
+  useEffect(() => {
+    if (panels.active || cameraSettings.walk || tool.startsWith('draw_'))
+      setPlacingCamera(false);
+  }, [panels.active, cameraSettings.walk, tool]);
+  const [modelAction, setModelAction] = useState<string | null>(null);
   const [multiSelect, setMultiSelect] = useState(false);
   const [snap, setSnap] = useState(true);
   const [angleSnap, setAngleSnap] = useState(45);
@@ -423,6 +449,15 @@ export default function App({
   messagesRef.current = messages;
   const conversation = useRef(boot.session.context);
   const camera = useRef<CameraContext>(defaultCamera);
+  const beforeARCamera = useRef<CameraContext | null>(null);
+  const setARSessionActive = useCallback((active: boolean) => {
+    if (active) beforeARCamera.current = structuredClone(camera.current);
+    else if (beforeARCamera.current) {
+      camera.current = beforeARCamera.current;
+      beforeARCamera.current = null;
+    }
+    setARActive(active);
+  }, []);
   const [connectionState, setConnectionState] = useState<Connection>({
     configured: false,
     authenticated: true,
@@ -469,6 +504,28 @@ export default function App({
     const state = { ...workspaceRef.current };
     const reports: string[] = [];
     for (const op of plan.operations) {
+      if (op.type === 'walk_to') {
+        const placement = resolveWalkPlacement(current.current, op);
+        setPlacingCamera(false);
+        setAlignMap(false);
+        setTool('select');
+        setCameraSettings((v) => ({
+          ...v,
+          walk: true,
+          fov: 65,
+          level: placement.position.y,
+          eyeHeight: op.eyeHeight ?? v.eyeHeight,
+          placement: {
+            ...placement,
+            revision: (v.placement?.revision ?? 0) + 1,
+          },
+        }));
+        setView((v) => ({ ...v, mode: 'perspective' }));
+        reports.push(
+          `Viewpoint placed at ${placement.position.x.toFixed(2)}, ${placement.position.z.toFixed(2)} m; floor ${placement.position.y.toFixed(2)} m. No geometry moved.`,
+        );
+        continue;
+      }
       if (op.type === 'section') {
         sectionInitialized.current = true;
         setSection((v) => ({
@@ -873,6 +930,7 @@ export default function App({
             {
               ...workspaceRef.current,
               mapConfigured: Boolean(current.current.site),
+              arActive,
             },
             feedback,
             images,
@@ -1357,20 +1415,40 @@ export default function App({
           <strong>Untitled study</strong>
           <span className="project-dot" />
         </div>
-        <div className="header-actions">
-          <button
-            className="subtle-button scene-toggle"
-            aria-label={objectsOpen ? 'Hide objects' : 'Show objects'}
-            aria-pressed={objectsOpen}
-            onClick={() => {
-              setObjectsOpen(!objectsOpen);
-              if (!objectsOpen && innerWidth <= 800 && panels.active)
-                panels.setters[panels.active](false);
-            }}
-          >
-            <Layers size={16} />
-            <span>Objects</span>
-          </button>
+        <button
+          className="subtle-button scene-toggle"
+          aria-label={objectsOpen ? 'Hide objects' : 'Show objects'}
+          aria-pressed={objectsOpen}
+          onClick={() => {
+            setObjectsOpen(!objectsOpen);
+            if (!objectsOpen && innerWidth <= 800 && panels.active)
+              panels.setters[panels.active](false);
+          }}
+        >
+          <Layers size={16} />
+          <span>Objects</span>
+        </button>
+        <button
+          className="subtle-button compact-tools-toggle"
+          aria-label="Design tools"
+          aria-expanded={toolsOpen}
+          onClick={() => setToolsOpen((v) => !v)}
+        >
+          <Layers size={16} />
+          <span>Tools</span>
+        </button>
+        <div
+          className={`header-actions ${toolsOpen ? 'phone-tools-open' : ''}`}
+          onClick={(e) => {
+            const button = (e.target as HTMLElement).closest('button');
+            if (
+              innerWidth <= 800 &&
+              button &&
+              button.getAttribute('aria-label') !== 'More export formats'
+            )
+              setToolsOpen(false);
+          }}
+        >
           <button
             className="subtle-button map-toggle"
             aria-label="Toggle site map"
@@ -1400,14 +1478,6 @@ export default function App({
           >
             <ChevronDown size={14} />
             <span>Location</span>
-          </button>
-          <button
-            className="subtle-button compact-tools-toggle"
-            aria-label="Design tools"
-            aria-expanded={toolsOpen}
-            onClick={() => setToolsOpen((v) => !v)}
-          >
-            <Layers size={16} />
           </button>
           <button
             className="subtle-button moodboard-toggle"
@@ -1834,6 +1904,14 @@ export default function App({
                 }}
                 mapVisible={mapVisible}
                 onMap={setMapVisible}
+                onFrameMap={() => {
+                  setMapVisible(true);
+                  setAlignMap(false);
+                  setPlacingCamera(false);
+                  setCameraSettings((v) => ({ ...v, walk: false }));
+                  setView((v) => ({ mode: 'top', revision: v.revision + 1 }));
+                  setMapFrame((v) => v + 1);
+                }}
                 onClose={() => setStudioOpen(false)}
                 addPerson={() => {
                   void propose(
@@ -1865,13 +1943,22 @@ export default function App({
             {panels.active === 'ar' && (
               <ARPanel
                 project={project}
-                onActive={setARActive}
+                onActive={setARSessionActive}
+                onConversationHost={setARConversationHost}
+                onCamera={(c) => {
+                  camera.current = c;
+                }}
+                onNativeOpen={() => {
+                  voice.current?.stop();
+                  voice.current = null;
+                }}
                 onClose={() => panels.setters.ar(false)}
               />
             )}
             {panels.active === 'model' && (
               <ModelPanel
                 project={project}
+                initialAction={modelAction}
                 onOperation={(op) => void propose(directPlan(op))}
                 onDraw={(mode) => activateTool(`draw_${mode}`)}
                 onTool={(t) => {
@@ -1916,6 +2003,19 @@ export default function App({
             {cameraOpen && (
               <CameraPanel
                 onAR={() => panels.setters.ar(true)}
+                onPlace={() => {
+                  setCameraSettings((v) => ({ ...v, walk: false }));
+                  setAlignMap(false);
+                  setTool('select');
+                  setSectionOpen(false);
+                  setPlacingCamera(true);
+                  setCameraOpen(false);
+                  setView((v) => ({
+                    ...v,
+                    mode: 'top',
+                    revision: v.revision + 1,
+                  }));
+                }}
                 value={cameraSettings}
                 onClose={() => setCameraOpen(false)}
                 onChange={(v) => {
@@ -2050,7 +2150,24 @@ export default function App({
               renderMode={renderMode}
               appearance={appearance}
               mapVisible={mapVisible}
+              mapFrame={mapFrame}
               alignMap={alignMap}
+              placingCamera={placingCamera}
+              onPlaceCamera={(placement) => {
+                setPlacingCamera(false);
+                if (!placement) return;
+                setCameraSettings((v) => ({
+                  ...v,
+                  walk: true,
+                  fov: 65,
+                  level: placement.position.y,
+                  placement: {
+                    ...placement,
+                    revision: (v.placement?.revision ?? 0) + 1,
+                  },
+                }));
+                setView((v) => ({ ...v, mode: 'perspective' }));
+              }}
               onMapSite={(site) => commit({ ...current.current, site }, false)}
               section={section}
               sectionEditing={sectionOpen && !!section.planeVisible}
@@ -2071,6 +2188,7 @@ export default function App({
                 }
               }}
               onCamera={(c) => {
+                if (arActive) return;
                 camera.current = c;
                 setNorthAngle(
                   (Math.atan2(-c.right.z, c.right.x) * 180) / Math.PI,
@@ -2113,6 +2231,40 @@ export default function App({
                 </button>
               </div>
             )}
+            {selected &&
+              isVisible(selected, project) &&
+              !isLocked(selected, project) &&
+              !tool.startsWith('draw_') &&
+              !cameraSettings.walk &&
+              !placingCamera && (
+                <div
+                  className="spatial-actions"
+                  role="toolbar"
+                  aria-label="Shape selected objects"
+                >
+                  <button
+                    aria-label="Pull selected face"
+                    aria-pressed={tool === 'reshape'}
+                    onClick={() => activateTool('reshape')}
+                  >
+                    <Maximize size={15} />
+                    Push / pull
+                  </button>
+                  {['Scale', 'Stretch', 'Copy', 'Mirror', 'Array'].map(
+                    (label) => (
+                      <button
+                        key={label}
+                        onClick={() => {
+                          setModelAction(label.toLowerCase());
+                          panels.setters.model(true);
+                        }}
+                      >
+                        {label}
+                      </button>
+                    ),
+                  )}
+                </div>
+              )}
             <div
               className="tool-palette"
               role="toolbar"
@@ -2168,7 +2320,10 @@ export default function App({
                 aria-label="Create and transform"
                 title="2D shapes, extrude, scale and stretch"
                 aria-pressed={panels.active === 'model'}
-                onClick={() => panels.setters.model((v) => !v)}
+                onClick={() => {
+                  setModelAction(null);
+                  panels.setters.model((v) => !v);
+                }}
               >
                 <Plus size={18} />
                 <span>Create</span>
@@ -2225,295 +2380,318 @@ export default function App({
                     : 'Drag to orbit · Shift-drag to select · Scroll to zoom'}
             </div>
           </div>
-          <div className="conversation-area">
-            <div className="conversation-heading">
-              <button
-                aria-expanded={chatExpanded}
-                onClick={() => setChatExpanded(!chatExpanded)}
-              >
-                <Sparkles size={14} />
-                Atelier
-                <span>
-                  {busy
-                    ? 'Thinking…'
-                    : chatExpanded
-                      ? 'Close conversation'
-                      : 'Conversation'}
+          <ConversationSurface target={arActive ? arConversationHost : null}>
+            <div className="conversation-area">
+              <div className="conversation-heading">
+                <button
+                  aria-expanded={chatExpanded}
+                  onClick={() => setChatExpanded(!chatExpanded)}
+                >
+                  <Sparkles size={14} />
+                  Atelier
+                  <span>
+                    {busy
+                      ? 'Thinking…'
+                      : chatExpanded
+                        ? 'Close conversation'
+                        : 'Conversation'}
+                  </span>
+                </button>
+                <span className="voice-status">
+                  {voiceStatus !== 'Off' ? voiceStatus : ''}
                 </span>
-              </button>
-              <span className="voice-status">
-                {voiceStatus !== 'Off' ? voiceStatus : ''}
-              </span>
-            </div>
-            {!chatExpanded &&
-              messages.at(-1)?.role === 'assistant' &&
-              !pending && (
-                <div className="conversation-latest">
-                  <ConversationReply message={messages.at(-1)!} />
+              </div>
+              {!chatExpanded &&
+                messages.at(-1)?.role === 'assistant' &&
+                !pending && (
+                  <div className="conversation-latest">
+                    <ConversationReply message={messages.at(-1)!} />
+                  </div>
+                )}
+              {messages.length === 0 && !tool.startsWith('draw_') && (
+                <div className="conversation-welcome">
+                  <strong>Space for your next idea.</strong>
+                  <p>Imagine it. We’ll shape it together.</p>
+                  {onOpenSample && (
+                    <button
+                      className="sample-start"
+                      disabled={
+                        sampleBusy ||
+                        busy ||
+                        modelingBusy > 0 ||
+                        voiceActive ||
+                        !!pending
+                      }
+                      onClick={onOpenSample}
+                    >
+                      Explore an editable sample house{' '}
+                      <ArrowUpRight size={14} />
+                    </button>
+                  )}
                 </div>
               )}
-            {messages.length === 0 && !tool.startsWith('draw_') && (
-              <div className="conversation-welcome">
-                <strong>Space for your next idea.</strong>
-                <p>Imagine it. We’ll shape it together.</p>
-              </div>
-            )}
-            {chatExpanded && messages.length > 0 && (
-              <div
-                ref={log}
-                className="conversation-log"
-                role="log"
-                aria-label="Design conversation"
-              >
-                {messages.map((m, i) => (
-                  <div className={`chat-message ${m.role}`} key={i}>
-                    <span>{m.role === 'user' ? 'You' : 'Atelier'}</span>
-                    {m.images?.length ? (
-                      <div className="reference-thumbnails">
-                        {m.images.map((src, i) => (
-                          <img
-                            key={i}
-                            src={src}
-                            alt={`Design reference ${i + 1}`}
-                          />
-                        ))}
-                      </div>
-                    ) : null}
-                    <ConversationReply message={m} />
-                  </div>
-                ))}
-              </div>
-            )}
-            {(busy || modelingBusy > 0) && (
-              <div className="conversation-working" role="status">
-                <span className="process-orb" aria-hidden="true">
-                  <i />
-                  <i />
-                  <i />
-                </span>
-                <span
-                  key={busy ? workStage : 'geometry'}
-                  className="process-stage"
+              {chatExpanded && messages.length > 0 && (
+                <div
+                  ref={log}
+                  className="conversation-log"
+                  role="log"
+                  aria-label="Design conversation"
                 >
-                  {busy ? workStage : 'Preparing geometry…'}
-                  <small>
-                    {busy
-                      ? 'Working with your current design'
-                      : 'Checking the solid before applying it'}
-                  </small>
-                </span>
-              </div>
-            )}
-            {pending && (
-              <div
-                className="operation-review"
-                role="region"
-                aria-label="Review geometry change"
-              >
-                <strong>Shall I make this change?</strong>
-                <p>{pending.plan.message}</p>
-                <p>
-                  {pending.plan.operations.flatMap(reviewDescription).join(' ')}
-                </p>
-                <details className="conversation-measurements">
-                  <summary>Checked result · not applied yet</summary>
-                  <p>{pending.prepared.message}</p>
-                </details>
-                <p className="review-answer-hint">
-                  Reply naturally to approve, cancel, or adjust it.
-                </p>
-                <div>
-                  <button
-                    disabled={busy}
-                    onClick={async () => {
-                      const item = pending;
-                      if (item.fingerprint !== fingerprint()) {
+                  {messages.map((m, i) => (
+                    <div className={`chat-message ${m.role}`} key={i}>
+                      <span>{m.role === 'user' ? 'You' : 'Atelier'}</span>
+                      {m.images?.length ? (
+                        <div className="reference-thumbnails">
+                          {m.images.map((src, i) => (
+                            <img
+                              key={i}
+                              src={src}
+                              alt={`Design reference ${i + 1}`}
+                            />
+                          ))}
+                        </div>
+                      ) : null}
+                      <ConversationReply message={m} />
+                    </div>
+                  ))}
+                </div>
+              )}
+              {(busy || modelingBusy > 0) && (
+                <div className="conversation-working" role="status">
+                  <span className="process-orb" aria-hidden="true">
+                    <i />
+                    <i />
+                    <i />
+                  </span>
+                  <span
+                    key={busy ? workStage : 'geometry'}
+                    className="process-stage"
+                  >
+                    {busy ? workStage : 'Preparing geometry…'}
+                    <small>
+                      {busy
+                        ? 'Working with your current design'
+                        : 'Checking the solid before applying it'}
+                    </small>
+                  </span>
+                </div>
+              )}
+              {pending && (
+                <div
+                  className="operation-review"
+                  role="region"
+                  aria-label="Review geometry change"
+                >
+                  <strong>Shall I make this change?</strong>
+                  <p>{pending.plan.message}</p>
+                  <p>
+                    {pending.plan.operations
+                      .flatMap(reviewDescription)
+                      .join(' ')}
+                  </p>
+                  <details className="conversation-measurements">
+                    <summary>Checked result · not applied yet</summary>
+                    <p>{pending.prepared.message}</p>
+                  </details>
+                  <p className="review-answer-hint">
+                    Reply naturally to approve, cancel, or adjust it.
+                  </p>
+                  <div>
+                    <button
+                      disabled={busy}
+                      onClick={async () => {
+                        const item = pending;
+                        if (item.fingerprint !== fingerprint()) {
+                          setPending(null);
+                          setNotice({
+                            text: 'Selection or geometry changed. Request this operation again.',
+                            error: true,
+                          });
+                          return;
+                        }
                         setPending(null);
-                        setNotice({
-                          text: 'Selection or geometry changed. Request this operation again.',
-                          error: true,
-                        });
-                        return;
-                      }
-                      setPending(null);
-                      try {
-                        const result = acceptReview(item);
+                        try {
+                          const result = acceptReview(item);
+                          remember(
+                            'assistant',
+                            result,
+                            displaySummary(item.plan),
+                          );
+                        } catch (e) {
+                          reportError(e);
+                        }
+                      }}
+                    >
+                      Apply change
+                    </button>
+                    <button
+                      disabled={busy}
+                      onClick={() => {
+                        setPending(null);
                         remember(
                           'assistant',
-                          result,
-                          displaySummary(item.plan),
+                          'Change cancelled. Geometry was preserved.',
                         );
-                      } catch (e) {
-                        reportError(e);
-                      }
-                    }}
-                  >
-                    Apply change
-                  </button>
-                  <button
-                    disabled={busy}
-                    onClick={() => {
-                      setPending(null);
-                      remember(
-                        'assistant',
-                        'Change cancelled. Geometry was preserved.',
-                      );
-                    }}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            )}
-            {referenceImages.length > 0 && (
-              <div className="reference-thumbnails pending-references">
-                {referenceImages.map((src, i) => (
-                  <div key={i}>
-                    <img src={src} alt={`Attached design reference ${i + 1}`} />
-                    <button
-                      aria-label={`Remove reference ${i + 1}`}
-                      onClick={() =>
-                        setReferenceImages((old) =>
-                          old.filter((_, j) => j !== i),
-                        )
-                      }
+                      }}
                     >
-                      <X size={12} />
+                      Cancel
                     </button>
                   </div>
-                ))}
-                <small>
-                  Sent to the AI with your next message. Specify a real
-                  dimension for scale.
-                </small>
-              </div>
-            )}
-            <input
-              ref={imageInput}
-              type="file"
-              accept="image/jpeg,image/png,image/webp"
-              hidden
-              aria-label="Attach reference image file"
-              onChange={async (e) => {
-                const file = e.target.files?.[0];
-                e.target.value = '';
-                if (!file) return;
-                setImageLoading(true);
-                try {
-                  const image = await referenceImage(file);
-                  setReferenceImages((old) => [...old, image].slice(-2));
-                } catch (error) {
-                  reportError(error);
-                } finally {
-                  setImageLoading(false);
-                }
-              }}
-            />
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                const text =
-                  command.trim() ||
-                  (referenceImages.length
-                    ? 'Help me develop a design from this reference. Ask me about scale and intent.'
-                    : '');
-                if (text && !busyRef.current) {
-                  setCommand('');
-                  void sendConversation(text);
-                }
-              }}
-            >
-              <button
-                type="button"
-                className="attach-reference"
-                aria-label="Attach a reference photo"
-                disabled={imageLoading || referenceImages.length >= 2}
-                onClick={() => imageInput.current?.click()}
-              >
-                <ImagePlus size={18} />
-              </button>
-              <textarea
-                ref={input}
-                rows={2}
-                onKeyDown={(e) => {
-                  if (
-                    e.key === 'Enter' &&
-                    !e.shiftKey &&
-                    !e.nativeEvent.isComposing
-                  ) {
-                    e.preventDefault();
-                    e.currentTarget.form?.requestSubmit();
-                  }
-                }}
-                aria-label="Message Atelier"
-                value={command}
-                onChange={(e) => setCommand(e.target.value)}
-                placeholder="Describe your idea, or tell me what to change…"
-                autoComplete="off"
-                maxLength={4000}
-              />
-              <button
-                type="button"
-                className={voiceActive ? 'mic-active' : ''}
-                aria-label={
-                  !voiceActive
-                    ? 'Start voice conversation'
-                    : 'Stop voice conversation'
-                }
-                disabled={
-                  !connectionState.voiceConfigured ||
-                  !connectionState.authenticated
-                }
-                title={
-                  connectionState.voiceConfigured
-                    ? 'Continuous voice conversation'
-                    : 'Configure the AI backend to enable voice'
-                }
-                onClick={async () => {
-                  if (voice.current) {
-                    voice.current.stop();
-                    voice.current = null;
-                    return;
-                  }
-                  const v = new VoiceConnection(
-                    (text) => sendRef.current(text),
-                    (status) => {
-                      setVoiceStatus(status);
-                      setVoiceActive(v.active);
-                      if (!v.active && voice.current === v)
-                        voice.current = null;
-                    },
-                  );
-                  voice.current = v;
+                </div>
+              )}
+              {referenceImages.length > 0 && (
+                <div className="reference-thumbnails pending-references">
+                  {referenceImages.map((src, i) => (
+                    <div key={i}>
+                      <img
+                        src={src}
+                        alt={`Attached design reference ${i + 1}`}
+                      />
+                      <button
+                        aria-label={`Remove reference ${i + 1}`}
+                        onClick={() =>
+                          setReferenceImages((old) =>
+                            old.filter((_, j) => j !== i),
+                          )
+                        }
+                      >
+                        <X size={12} />
+                      </button>
+                    </div>
+                  ))}
+                  <small>
+                    Sent to the AI with your next message. Specify a real
+                    dimension for scale.
+                  </small>
+                </div>
+              )}
+              <input
+                ref={imageInput}
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                hidden
+                aria-label="Attach reference image file"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  e.target.value = '';
+                  if (!file) return;
+                  setImageLoading(true);
                   try {
-                    await v.start();
-                  } catch (e) {
-                    voice.current = null;
-                    reportError(e);
+                    const image = await referenceImage(file);
+                    setReferenceImages((old) => [...old, image].slice(-2));
+                  } catch (error) {
+                    reportError(error);
+                  } finally {
+                    setImageLoading(false);
+                  }
+                }}
+              />
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const text =
+                    command.trim() ||
+                    (referenceImages.length
+                      ? 'Help me develop a design from this reference. Ask me about scale and intent.'
+                      : '');
+                  if (text && !busyRef.current) {
+                    setCommand('');
+                    void sendConversation(text);
                   }
                 }}
               >
-                {!voiceActive ? <Mic size={18} /> : <MicOff size={18} />}
-              </button>
-              <button
-                type="submit"
-                aria-label="Send message"
-                disabled={
-                  (!command.trim() && !referenceImages.length) ||
-                  busy ||
-                  imageLoading
-                }
+                <button
+                  type="button"
+                  className="attach-reference"
+                  aria-label="Attach a reference photo"
+                  disabled={imageLoading || referenceImages.length >= 2}
+                  onClick={() => imageInput.current?.click()}
+                >
+                  <ImagePlus size={18} />
+                </button>
+                <textarea
+                  ref={input}
+                  rows={2}
+                  onKeyDown={(e) => {
+                    if (
+                      e.key === 'Enter' &&
+                      !e.shiftKey &&
+                      !e.nativeEvent.isComposing
+                    ) {
+                      e.preventDefault();
+                      e.currentTarget.form?.requestSubmit();
+                    }
+                  }}
+                  aria-label="Message Atelier"
+                  value={command}
+                  onChange={(e) => setCommand(e.target.value)}
+                  placeholder="Describe your idea, or tell me what to change…"
+                  autoComplete="off"
+                  maxLength={4000}
+                />
+                <button
+                  type="button"
+                  className={voiceActive ? 'mic-active' : ''}
+                  aria-label={
+                    !voiceActive
+                      ? 'Start voice conversation'
+                      : 'Stop voice conversation'
+                  }
+                  disabled={
+                    !connectionState.voiceConfigured ||
+                    !connectionState.authenticated
+                  }
+                  title={
+                    connectionState.voiceConfigured
+                      ? 'Continuous voice conversation'
+                      : 'Configure the AI backend to enable voice'
+                  }
+                  onClick={async () => {
+                    if (voice.current) {
+                      voice.current.stop();
+                      voice.current = null;
+                      return;
+                    }
+                    const v = new VoiceConnection(
+                      (text) => sendRef.current(text),
+                      (status) => {
+                        setVoiceStatus(status);
+                        setVoiceActive(v.active);
+                        if (!v.active && voice.current === v)
+                          voice.current = null;
+                      },
+                    );
+                    voice.current = v;
+                    try {
+                      await v.start();
+                    } catch (e) {
+                      voice.current = null;
+                      reportError(e);
+                    }
+                  }}
+                >
+                  {!voiceActive ? <Mic size={18} /> : <MicOff size={18} />}
+                </button>
+                <button
+                  type="submit"
+                  aria-label="Send message"
+                  disabled={
+                    (!command.trim() && !referenceImages.length) ||
+                    busy ||
+                    imageLoading
+                  }
+                >
+                  <ArrowUpRight size={19} />
+                </button>
+              </form>
+              <div
+                className={`command-feedback ${notice.error ? 'error' : ''}`}
+                role={notice.error ? 'alert' : 'status'}
               >
-                <ArrowUpRight size={19} />
-              </button>
-            </form>
-            <div
-              className={`command-feedback ${notice.error ? 'error' : ''}`}
-              role={notice.error ? 'alert' : 'status'}
-            >
-              <span>{notice.text}</span>
+                <span>{notice.text}</span>
+              </div>
             </div>
-          </div>
+          </ConversationSurface>
         </section>
         <aside
           ref={inspectorPanel.ref}

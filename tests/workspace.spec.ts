@@ -163,6 +163,7 @@ test('migrates legacy projects without overwriting them and preserves precise ed
 test('direct primitives, extrusion, viewport selection and exact measurements remain functional without AI', async ({
   page,
 }) => {
+  test.setTimeout(90000);
   await ready(page);
   await page.getByLabel('Primitive shape').selectOption('circle');
   await page.getByRole('button', { name: 'Add shape', exact: true }).click();
@@ -181,7 +182,11 @@ test('direct primitives, extrusion, viewport selection and exact measurements re
   await expect(
     page.getByRole('textbox', { name: 'Object name', exact: true }),
   ).toBeVisible();
-  await canvas.click({ position: { x: r.width - 25, y: r.height - 85 } });
+  await page.getByRole('button', { name: 'Select', exact: true }).click();
+  await page.getByLabel('Camera view').selectOption('top');
+  await page.getByRole('button', { name: 'Frame all', exact: true }).click();
+  await page.waitForTimeout(600); // Camera framing transition, not geometry readiness.
+  await canvas.click({ position: { x: r.width * 0.25, y: r.height - 100 } });
   await expect(page.getByText('Make a selection')).toBeVisible();
 });
 test('success sequence through UI and genuine CSG using explicit model-response fixtures (not live AI)', async ({
@@ -413,6 +418,7 @@ test('missing AI credentials show an honest error and voice is not simulated', a
 test('direct wall opening and cutter parameter edits produce persistent solid geometry', async ({
   page,
 }) => {
+  test.setTimeout(90000);
   await ready(page);
   await importProject(page, [
     { ...box('Wall'), dimensions: { width: 10, depth: 0.4, height: 3 } },

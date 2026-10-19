@@ -1,17 +1,24 @@
 import { useEffect, useRef, useState } from 'react';
 import { X, Smartphone } from 'lucide-react';
-import type { Group } from 'three';
+import { Box3, Vector3, type Group } from 'three';
 import type { Project } from '../model';
+import type { CameraContext } from '../intelligence/context';
 import type { ARSessionControl } from './webxr';
 import { useFloatingPanel } from '../studio/useFloatingPanel';
 export default function ARPanel({
   project,
   onClose,
   onActive,
+  onConversationHost,
+  onNativeOpen,
+  onCamera,
 }: {
   project: Project;
   onClose: () => void;
   onActive: (value: boolean) => void;
+  onConversationHost: (node: HTMLDivElement | null) => void;
+  onNativeOpen: () => void;
+  onCamera: (camera: CameraContext) => void;
 }) {
   const floating = useFloatingPanel(),
     [xr, setXR] = useState(false),
@@ -23,7 +30,13 @@ export default function ARPanel({
     [url, setURL] = useState(''),
     [error, setError] = useState(''),
     [active, setActive] = useState(false),
-    [status, setStatus] = useState('');
+    [status, setStatus] = useState(''),
+    [width, setWidth] = useState(0),
+    [realWidth, setRealWidth] = useState('1'),
+    [lockScale, setLockScale] = useState(true),
+    [sessionReady, setSessionReady] = useState(false);
+  const signature = JSON.stringify([project.volumes, project.groups]);
+  const preparedSignature = useRef('');
   const abort = useRef<AbortController | null>(null);
   const prepared = useRef<Group | null>(null),
     session = useRef<ARSessionControl | null>(null),
@@ -58,10 +71,7 @@ export default function ARPanel({
       }
     };
   }, []);
-  useEffect(() => {
-    onActive(active);
-    return () => onActive(false);
-  }, [active, onActive]);
+  useEffect(() => () => onActive(false), [onActive]);
   const prepare = async () => {
     const revision = ++generation.current;
     setBusy(true);
@@ -76,6 +86,8 @@ export default function ARPanel({
       }
       if (prepared.current) m.disposeARModel(prepared.current);
       prepared.current = model;
+      preparedSignature.current = signature;
+      setWidth(new Box3().setFromObject(model).getSize(new Vector3()).x);
       const data = await m.exportARModel(model, scale);
       if (!alive.current || revision !== generation.current) return;
       if (blobURL.current) URL.revokeObjectURL(blobURL.current);
@@ -93,6 +105,7 @@ export default function ARPanel({
   const launch = () => {
     if (!prepared.current || !module.current || !overlay.current) return;
     abort.current = new AbortController();
+    onActive(true);
     setActive(true);
     setRotation(0);
     setError('');
@@ -105,10 +118,18 @@ export default function ARPanel({
         () => {
           if (alive.current) {
             setActive(false);
+            onActive(false);
+            setSessionReady(false);
             session.current = null;
           }
         },
         abort.current.signal,
+        (value, degrees) => {
+          setScale(value);
+          setRotation(degrees);
+          setURL('');
+        },
+        onCamera,
       )
       .then((control) => {
         if (!alive.current) {
@@ -116,10 +137,12 @@ export default function ARPanel({
           return;
         }
         session.current = control;
+        setSessionReady(true);
       })
       .catch((e) => {
         if (alive.current) {
           setActive(false);
+          onActive(false);
           setError(
             e instanceof Error ? e.message : 'Camera access was unavailable.',
           );
@@ -127,6 +150,11 @@ export default function ARPanel({
       });
   };
   const chooseScale = (value: number) => {
+    if (!Number.isFinite(value) || value < 0.001 || value > 1) {
+      setError('Choose a viewing scale between 1:1000 and 1:1.');
+      return;
+    }
+    setError('');
     setScale(value);
     session.current?.scale(value);
     generation.current++;
@@ -136,6 +164,46 @@ export default function ARPanel({
       blobURL.current = '';
     }
   };
+  // Keep the tracked anchor and scale while the shared AI engine edits geometry.
+  useEffect(() => {
+    if (
+      !sessionReady ||
+      !session.current ||
+      preparedSignature.current === signature
+    )
+      return;
+    let cancelled = false;
+    setStatus('Updating the model in your space…');
+    void import('./model')
+      .then(async (m) => {
+        const model = await m.createARModel(
+          project,
+          prepared.current?.userData.origin,
+        );
+        if (cancelled || !session.current) {
+          m.disposeARModel(model);
+          return;
+        }
+        session.current.updateModel(model);
+        if (prepared.current) m.disposeARModel(prepared.current);
+        prepared.current = model;
+        preparedSignature.current = signature;
+        setWidth(new Box3().setFromObject(model).getSize(new Vector3()).x);
+        setURL('');
+        setStatus(
+          'Model updated. Your position and viewing scale are preserved.',
+        );
+      })
+      .catch((e) => {
+        if (!cancelled)
+          setStatus(
+            `AR keeps the previous model: ${e instanceof Error ? e.message : 'update failed'}`,
+          );
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [signature, sessionReady]);
   return (
     <>
       <section
@@ -160,8 +228,9 @@ export default function ARPanel({
           </button>
         </div>
         <p className="studio-caption">
-          Place a copy of your visible model through your phone's camera. Your
-          project stays unchanged.
+          1. Choose a viewing scale. 2. Prepare the model. 3. Place it on a real
+          surface and walk around it. Viewing scale does not resize your
+          project.
         </p>
         <label>
           Viewing scale
@@ -170,21 +239,78 @@ export default function ARPanel({
             value={scale}
             onChange={(e) => chooseScale(Number(e.target.value))}
           >
+            {![1, 0.1, 0.01, 0.001].includes(scale) && (
+              <option value={scale}>
+                Custom · 1:{Number((1 / scale).toFixed(1))}
+              </option>
+            )}
             <option value={1}>1:1 · life size</option>
             <option value={0.1}>1:10</option>
             <option value={0.01}>1:100 · tabletop</option>
             <option value={0.001}>1:1000 · site model</option>
           </select>
         </label>
+        {width > 0 && (
+          <div className="ar-size-card">
+            <strong>{(width * scale).toFixed(2)} m wide in your space</strong>
+            <span>
+              Project width {width.toFixed(2)} m · viewing ratio 1:
+              {Number((1 / scale).toFixed(1))}
+            </span>
+            <label>
+              Fit to a real width · m
+              <input
+                aria-label="Real world model width"
+                type="number"
+                min={width * 0.001}
+                max={width}
+                step="any"
+                value={realWidth}
+                onChange={(e) => setRealWidth(e.target.value)}
+              />
+            </label>
+            <button onClick={() => chooseScale(Number(realWidth) / width)}>
+              Use this width
+            </button>
+          </div>
+        )}
+        {quickLook && (
+          <label className="ar-scale-lock">
+            <input
+              type="checkbox"
+              checked={lockScale}
+              onChange={(e) => setLockScale(e.target.checked)}
+            />{' '}
+            Keep the chosen scale in iPhone AR
+          </label>
+        )}
         <p className="studio-caption">
           {checking
             ? 'Checking device support…'
             : quickLook
-              ? 'iPhone / iPad: opens Apple AR Quick Look. Move your phone to find a surface; pinch to adjust size.'
+              ? 'iPhone / iPad: opens Apple AR Quick Look. Move your phone to find a surface. Unlock the chosen scale above if you want to pinch to resize.'
               : xr
                 ? 'This device supports WebXR camera AR. Find a surface, tap to place, then walk around your model.'
                 : 'Camera AR is unavailable in this browser. Open ATELIER in Safari on an AR-capable iPhone/iPad, or an Android browser with WebXR AR support. You can still download the model below.'}
         </p>
+        {quickLook && (
+          <p className="studio-caption">
+            Apple’s AR viewer cannot show ATELIER chat. Close it to speak or
+            type here, then prepare the updated model and reopen AR. Voice
+            pauses when you enter Apple AR.
+          </p>
+        )}
+        {xr && !quickLook && (
+          <p className="studio-caption">
+            In WebXR, ATELIER text and voice stay with you. Model edits update
+            in place. Camera images are not sent to the AI.
+          </p>
+        )}
+        {url && preparedSignature.current !== signature && (
+          <p role="status">
+            Your project changed. Refresh the AR model before opening it.
+          </p>
+        )}
         <button
           className="primary-studio-action"
           disabled={busy}
@@ -196,13 +322,14 @@ export default function ARPanel({
               ? 'Refresh AR model'
               : 'Prepare AR model'}
         </button>
-        {url && (
+        {url && preparedSignature.current === signature && (
           <>
             {quickLook ? (
               <a
                 className="primary-studio-action"
                 rel="ar"
-                href={url}
+                href={`${url}${lockScale ? '#allowsContentScaling=0' : ''}`}
+                onClick={onNativeOpen}
                 download="atelier.usdz"
               >
                 <img
@@ -237,48 +364,72 @@ export default function ARPanel({
         {active && (
           <div className="ar-controls">
             <strong>{status || 'Opening camera…'}</strong>
-            <label>
-              Scale
-              <select
-                aria-label="Live AR scale"
-                value={scale}
-                onChange={(e) => chooseScale(Number(e.target.value))}
+            <details className="ar-adjustments">
+              <summary>
+                Size & placement · 1:{Number((1 / scale).toFixed(1))}
+              </summary>
+              <label>
+                Scale
+                <select
+                  aria-label="Live AR scale"
+                  value={scale}
+                  onChange={(e) => chooseScale(Number(e.target.value))}
+                >
+                  {![1, 0.1, 0.01, 0.001].includes(scale) && (
+                    <option value={scale}>
+                      Custom · 1:{Number((1 / scale).toFixed(1))}
+                    </option>
+                  )}
+                  <option value={1}>1:1</option>
+                  <option value={0.1}>1:10</option>
+                  <option value={0.01}>1:100</option>
+                  <option value={0.001}>1:1000</option>
+                </select>
+              </label>
+              <label>
+                Fine scale · 1:{Math.round(1 / scale)}
+                <input
+                  aria-label="Fine AR scale"
+                  type="range"
+                  min="-3"
+                  max="0"
+                  step="0.01"
+                  value={Math.log10(scale)}
+                  onChange={(e) => chooseScale(10 ** Number(e.target.value))}
+                />
+              </label>
+              <label>
+                Rotate
+                <input
+                  aria-label="AR rotation"
+                  type="range"
+                  min="-180"
+                  max="180"
+                  value={rotation}
+                  onChange={(e) => {
+                    const v = Number(e.target.value);
+                    setRotation(v);
+                    session.current?.rotate(v);
+                  }}
+                />
+              </label>
+              <button
+                disabled={!sessionReady || !width}
+                onClick={() => session.current?.fitWidth(width)}
               >
-                <option value={1}>1:1</option>
-                <option value={0.1}>1:10</option>
-                <option value={0.01}>1:100</option>
-                <option value={0.001}>1:1000</option>
-              </select>
-            </label>
-            <label>
-              Fine scale · 1:{Math.round(1 / scale)}
-              <input
-                aria-label="Fine AR scale"
-                type="range"
-                min="-3"
-                max="0"
-                step="0.01"
-                value={Math.log10(scale)}
-                onChange={(e) => chooseScale(10 ** Number(e.target.value))}
-              />
-            </label>
-            <label>
-              Rotate
-              <input
-                aria-label="AR rotation"
-                type="range"
-                min="-180"
-                max="180"
-                value={rotation}
-                onChange={(e) => {
-                  const v = Number(e.target.value);
-                  setRotation(v);
-                  session.current?.rotate(v);
-                }}
-              />
-            </label>
-            <button onClick={() => session.current?.reposition()}>
-              Reposition
+                Fit width between two points
+              </button>
+              <p>
+                Tap two ends on the same floor or tabletop. The model fits
+                between them. Device tracking is approximate, not a survey
+                measurement.
+              </p>
+            </details>
+            <button
+              disabled={!sessionReady}
+              onClick={() => session.current?.reposition()}
+            >
+              Place again
             </button>
             <button
               onClick={() => {
@@ -290,6 +441,7 @@ export default function ARPanel({
             </button>
           </div>
         )}
+        <div ref={onConversationHost} className="ar-conversation-host" />
       </div>
     </>
   );
