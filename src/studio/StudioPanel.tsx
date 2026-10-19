@@ -1,5 +1,5 @@
 import { useFloatingPanel } from './useFloatingPanel';
-import { lazy, Suspense, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 const MapPicker = lazy(() => import('./MapPicker'));
 import {
   X,
@@ -11,7 +11,7 @@ import {
 } from 'lucide-react';
 import type { Appearance } from './appearance';
 import type { Site, MapStyle } from './site';
-import { googleMapsUrl, validateSite } from './site';
+import { googleMapsUrl, validateSite, shiftMap } from './site';
 export default function StudioPanel({
   initialTab = 'appearance',
   appearance,
@@ -19,6 +19,8 @@ export default function StudioPanel({
   site,
   onSite,
   mapVisible,
+  alignMap,
+  onAlignMap,
   onMap,
   addPerson,
   onClose,
@@ -29,6 +31,8 @@ export default function StudioPanel({
   site?: Site;
   onSite: (s: Site) => void;
   mapVisible: boolean;
+  alignMap: boolean;
+  onAlignMap: (value: boolean) => void;
   onMap: (v: boolean) => void;
   addPerson: () => void;
   onClose: () => void;
@@ -62,6 +66,17 @@ export default function StudioPanel({
       });
   };
   const [locating, setLocating] = useState(false);
+  const [nudge, setNudge] = useState(1);
+  useEffect(() => {
+    if (site) {
+      setLatitude(String(site.latitude));
+      setLongitude(String(site.longitude));
+      setPickerCenter(site);
+    }
+  }, [site?.latitude, site?.longitude]);
+  useEffect(() => {
+    if (site) setBearing(site.bearing);
+  }, [site?.bearing]);
 
   return (
     <section
@@ -304,6 +319,59 @@ export default function StudioPanel({
               placeholder="e.g. −89.5926"
             />
           </label>
+          {site && (
+            <div className="map-alignment">
+              <h3>Align your site</h3>
+              <button
+                type="button"
+                className="primary-studio-action"
+                aria-pressed={alignMap}
+                onClick={() => onAlignMap(!alignMap)}
+              >
+                {alignMap ? 'Finish moving map' : 'Drag map under model'}
+              </button>
+              <p className="studio-caption">
+                Drag the map in the 3D workspace. Buildings and the project grid
+                stay fixed. Undo restores each adjustment.
+              </p>
+              <label>
+                Alignment step · m
+                <select
+                  aria-label="Map alignment step"
+                  value={nudge}
+                  onChange={(e) => setNudge(Number(e.target.value))}
+                >
+                  <option value={0.1}>0.1</option>
+                  <option value={1}>1</option>
+                  <option value={10}>10</option>
+                </select>
+              </label>
+              <div className="map-nudges">
+                {[
+                  { label: 'left', x: -1, z: 0, symbol: '←' },
+                  { label: 'up', x: 0, z: -1, symbol: '↑' },
+                  { label: 'down', x: 0, z: 1, symbol: '↓' },
+                  { label: 'right', x: 1, z: 0, symbol: '→' },
+                ].map((d) => (
+                  <button
+                    key={d.label}
+                    type="button"
+                    aria-label={`Move map ${d.label}`}
+                    onClick={() => {
+                      try {
+                        onSite(shiftMap(site, d.x * nudge, d.z * nudge));
+                        setError('');
+                      } catch (err) {
+                        setError((err as Error).message);
+                      }
+                    }}
+                  >
+                    {d.symbol}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
           <label>
             Map rotation · {bearing}°
             <input
@@ -315,7 +383,12 @@ export default function StudioPanel({
               max="360"
               required
               value={bearing}
-              onChange={(e) => setBearing(Number(e.target.value))}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                setBearing(value);
+                if (site && Number.isFinite(value) && Math.abs(value) <= 360)
+                  onSite({ ...site, bearing: value });
+              }}
             />
           </label>
           <input

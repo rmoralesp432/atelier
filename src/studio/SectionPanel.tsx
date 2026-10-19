@@ -35,6 +35,28 @@ export default function SectionPanel({
           <X size={17} />
         </button>
       </div>
+      <div className="section-switches">
+        <label>
+          <input
+            type="checkbox"
+            aria-label="Section cut"
+            checked={value.enabled}
+            onChange={(e) => onChange({ ...value, enabled: e.target.checked })}
+          />
+          Section on
+        </label>
+        <label>
+          <input
+            type="checkbox"
+            aria-label="Show section plane"
+            checked={!!value.planeVisible}
+            onChange={(e) =>
+              onChange({ ...value, planeVisible: e.target.checked })
+            }
+          />
+          Show section plane
+        </label>
+      </div>
       <div className="theme-options">
         {(['x', 'y', 'z'] as const).map((axis) => (
           <button
@@ -46,7 +68,6 @@ export default function SectionPanel({
                 ...value,
                 axis,
                 position: (r.min + r.max) / 2,
-                enabled: true,
               });
             }}
           >
@@ -104,7 +125,9 @@ export default function SectionPanel({
         </button>
       </div>
       <p className="studio-caption">
-        A reversible view. Your original geometry stays intact.
+        Drag the amber plane edge or handle to move the cut. Hide the plane for
+        a clean view; turn Section off to see the whole model. Position and
+        direction are kept.
       </p>
     </section>
   );

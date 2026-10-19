@@ -39,6 +39,20 @@ it('uses the actual Responses SDK contract with strict schema, scene context and
   );
   const plan = await provider.plan({
     message: 'Could you nudge the pavilion toward the street?',
+    workspace: {
+      mapVisible: false,
+      mapConfigured: false,
+      view: 'perspective',
+      theme: 'night',
+      renderMode: 'studio',
+      section: {
+        enabled: true,
+        planeVisible: false,
+        axis: 'y',
+        position: 4.5,
+        flip: false,
+      },
+    },
     history: [],
     images: ['data:image/png;base64,aGVsbG8='],
     scene: sceneContext(initialProject(), emptyContext(), defaultCamera),
@@ -48,6 +62,13 @@ it('uses the actual Responses SDK contract with strict schema, scene context and
   });
   expect(plan.intent).toBe('clarify');
   expect(body.store).toBe(false);
+  expect(JSON.parse(body.input[0].content[0].text).workspace.section).toEqual({
+    enabled: true,
+    planeVisible: false,
+    axis: 'y',
+    position: 4.5,
+    flip: false,
+  });
   expect(body.input[0].content[1]).toEqual({
     type: 'input_image',
     image_url: 'data:image/png;base64,aGVsbG8=',

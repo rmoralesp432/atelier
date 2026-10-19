@@ -10,6 +10,8 @@ An architectural modeling workspace built with React, TypeScript, Three.js and t
 
 Use the **folder/project name** beside ATELIER to create and switch separate projects. Each retains its geometry, conversation, site and undo history in this browser; export JSON backups for safekeeping or another device. **Studio** offers Day/Night and display styles; the camera menu offers Perspective, Orthographic and Top view. The header **Map** button opens a visual location picker or toggles the saved site map. See the [studio guide](docs/STUDIO-UPDATE.md) for the updated controls.
 
+**Latest interaction update:** move and rotate multi-selections together, select named groups, create 2D profiles and extrude them from the visible **Create** tool, drag the map beneath the model, and use one organized tool panel at a time. Sections have independent cut/plane switches and a draggable plane. **Moodboard** opens a separate 3D reference desk for images, notes, links and saved model snapshots, saved with each project. **Camera → View in your space · AR** prepares a real USDZ model or starts WebXR on supported phones. See the [interaction and phone-viewing guide](docs/INTERACTION-REFINEMENT.md) for controls and device-verification limits.
+
 **For a new installation only:** follow [Activate AI and voice on Render](docs/HOSTING.md). The included blueprint hosts the app and private backend together over HTTPS; you only need a hosting account and an OpenAI API key. Export your current project before changing website addresses.
 
 Use Node.js 24 and npm. All code, server integration, tests and setup scripts are in this repository.
@@ -54,7 +56,7 @@ To publish the static workspace: push/merge the desired version, set **Settings 
 
 ## Use the workspace
 
-The studio update adds a minimal floating conversation dock, per-object colors, **Solid / Wireframe / Hidden line** views, scale people, and optional geographic map placement. Open **Studio** for appearance and location. See the [studio guide and supported modeling vocabulary](docs/STUDIO-UPDATE.md). The camera-aware north compass and slower, three-second footprint-to-volume creation motion keep the model readable. Motion respects reduced-motion preferences and never changes model measurements or undo history. Click or drag the model to settle a creation immediately.
+The studio update adds a minimal floating conversation dock, per-object colors, **Solid / Wireframe / Hidden line** views, scale people, and optional geographic map placement. Open **Studio** for appearance and location. See the [studio guide and supported modeling vocabulary](docs/STUDIO-UPDATE.md). The camera-aware north compass and slower footprint-to-volume creation motion and animated geometry updates keep the model readable. Motion respects reduced-motion preferences and never changes model measurements or undo history. Click or drag the model to settle a creation immediately.
 
 **Import** accepts **OBJ, STL, self-contained GLB and ATELIER JSON**. Mesh files are added beside existing objects after units/up-axis review; JSON restores a project. Closed meshes can participate in solid operations, while open meshes remain reference surfaces. See [formats and limits](docs/IMPORTS.md) and the [complete Phase 2 requirement audit](docs/PHASE2-AUDIT.md).
 

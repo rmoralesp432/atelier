@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FolderOpen, X, Plus, Check } from 'lucide-react';
 import App from '../App';
+import { parseBoard } from '../moodboard/data';
 import {
   newSession,
   parseSession,
@@ -41,6 +42,7 @@ export default function WorkspaceHost() {
         if (cancelled) return;
         if (p) {
           parseSession(p.session);
+          parseBoard(p.moodboard);
           if (
             !Array.isArray(p.messages) ||
             p.messages.some(
@@ -117,7 +119,10 @@ export default function WorkspaceHost() {
         );
         return;
       }
-      if (!available.current || switching.current) return;
+      if (!available.current || switching.current)
+        return Promise.reject(
+          new Error('Project storage is not available. Export a backup.'),
+        );
       latest.current = snapshot;
       const first = !active.current;
       const record: SavedProject = {
@@ -141,8 +146,9 @@ export default function WorkspaceHost() {
       } catch {
         /* Durable save below still works. */
       }
-      void enqueue(record, true).catch((e) => {
+      return enqueue(record, true).catch((e) => {
         if (mounted.current) setError((e as Error).message);
+        throw e;
       });
     },
     [enqueue],
@@ -170,6 +176,7 @@ export default function WorkspaceHost() {
     setError('');
     try {
       parseSession(record.session);
+      parseBoard(record.moodboard);
       // Complete every pending save, then atomically store and activate the destination.
       if (active.current && latest.current)
         await enqueue({

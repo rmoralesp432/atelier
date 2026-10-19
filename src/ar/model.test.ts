@@ -1,0 +1,60 @@
+import { it, expect } from 'vitest';
+import { Box3, Vector3 } from 'three';
+import { createARModel, disposeARModel, exportARModel } from './model';
+import type { Project } from '../model';
+it('exports a genuine meter-based USDZ snapshot without mutating or including hidden geometry', async () => {
+  const p: Project = {
+    selectedId: null,
+    groups: [{ id: 'hidden', name: 'Hidden', visible: false, locked: false }],
+    volumes: [
+      {
+        id: 'box',
+        name: 'Raised box',
+        dimensions: { width: 8, depth: 4, height: 3 },
+        position: { x: 100, y: 4, z: 80 },
+        rotation: 0,
+      },
+      {
+        id: 'hidden',
+        name: 'Hidden',
+        groupId: 'hidden',
+        dimensions: { width: 50, depth: 50, height: 50 },
+        position: { x: 0, y: 0, z: 0 },
+        rotation: 0,
+      },
+    ],
+  };
+  const original = JSON.stringify(p),
+    model = await createARModel(p),
+    b = new Box3().setFromObject(model);
+  expect(model.children).toHaveLength(1);
+  expect(b.getSize(new Vector3()).toArray()).toEqual([8, 3, 4]);
+  expect(b.min.y).toBe(4);
+  expect(b.getCenter(new Vector3()).x).toBe(0);
+  const usdz = await exportARModel(model, 0.01);
+  expect(Array.from(usdz.slice(0, 4))).toEqual([80, 75, 3, 4]);
+  const text = new TextDecoder().decode(usdz);
+  expect(text).toContain('metersPerUnit = 1');
+  expect(text).toContain('0.01');
+  expect(JSON.stringify(p)).toBe(original);
+  disposeARModel(model);
+});
+it('reports an empty AR scene and rejects unsupported scale', async () => {
+  await expect(
+    createARModel({ volumes: [], selectedId: null }),
+  ).rejects.toThrow('3D object');
+  const model = await createARModel({
+    volumes: [
+      {
+        id: 'b',
+        name: 'B',
+        dimensions: { width: 1, depth: 1, height: 1 },
+        position: { x: 0, y: 0, z: 0 },
+        rotation: 0,
+      },
+    ],
+    selectedId: null,
+  });
+  await expect(exportARModel(model, 0)).rejects.toThrow('scale');
+  disposeARModel(model);
+});

@@ -79,7 +79,10 @@ export function boxSelection(config: {
         camera,
       );
       const hit = ray
-        .intersectObjects([...config.objects.values()], true)
+        .intersectObjects(
+          [...config.objects.values()].filter((g) => g.visible),
+          true,
+        )
         .find((h) => h.object instanceof THREE.Mesh);
       config.onSelect(hit ? [hit.object.parent!.userData.id] : [], s.additive);
       return;

@@ -39,6 +39,7 @@ export async function requestPlan(
     view: 'perspective' | 'orthographic' | 'top';
     theme: 'day' | 'night';
     renderMode: 'studio' | 'wireframe' | 'hidden-line';
+    section?: import('../studio/section').SectionView;
   },
   validationFeedback?: ValidationFeedback,
   images?: string[],

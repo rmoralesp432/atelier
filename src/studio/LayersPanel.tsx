@@ -6,10 +6,12 @@ export default function LayersPanel({
   project,
   onChange,
   onClose,
+  onSelect,
 }: {
   project: Project;
   onChange: (p: Project) => void;
   onClose: () => void;
+  onSelect: (ids: string[]) => void;
 }) {
   const floating = useFloatingPanel(),
     [name, setName] = useState('');
@@ -111,9 +113,19 @@ export default function LayersPanel({
                 });
             }}
           />
-          <small>
-            {project.volumes.filter((v) => v.groupId === g.id).length}
-          </small>
+          <button
+            aria-label={`Select group ${g.name}`}
+            disabled={!g.visible || g.locked}
+            onClick={() =>
+              onSelect(
+                project.volumes
+                  .filter((v) => v.groupId === g.id)
+                  .map((v) => v.id),
+              )
+            }
+          >
+            Select {project.volumes.filter((v) => v.groupId === g.id).length}
+          </button>
           <button
             aria-label={`${g.locked ? 'Unlock' : 'Lock'} group ${g.name}`}
             onClick={() =>

@@ -5,10 +5,12 @@ export default function CameraPanel({
   value,
   onChange,
   onClose,
+  onAR,
 }: {
   value: CameraSettings;
   onChange: (v: CameraSettings) => void;
   onClose: () => void;
+  onAR: () => void;
 }) {
   const floating = useFloatingPanel();
   return (
@@ -31,6 +33,9 @@ export default function CameraPanel({
           <X size={17} />
         </button>
       </div>
+      <button className="primary-studio-action" onClick={onAR}>
+        View in your space · AR
+      </button>
       <div className="theme-options">
         {[false, true].map((walk) => (
           <button

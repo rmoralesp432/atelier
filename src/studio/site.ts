@@ -72,3 +72,23 @@ export function googleMapsUrl(site: Site) {
   validateSite(site);
   return `https://www.google.com/maps/search/?api=1&query=${site.latitude},${site.longitude}`;
 }
+
+/** Move map imagery in fixed project axes; model coordinates and true north do not change. */
+export function shiftMap(site: Site, dx: number, dz: number): Site {
+  if (![dx, dz].every(Number.isFinite))
+    throw new Error('Map movement must be finite.');
+  const a = (site.bearing * Math.PI) / 180,
+    metersPerDegree = circumference / 360;
+  const east = dx * Math.cos(a) - dz * Math.sin(a);
+  const south = dx * Math.sin(a) + dz * Math.cos(a);
+  const latitude = site.latitude + south / metersPerDegree;
+  const longitude =
+    ((site.longitude -
+      east / (metersPerDegree * Math.cos((site.latitude * Math.PI) / 180)) +
+      540) %
+      360) -
+    180;
+  const next = { ...site, latitude, longitude };
+  validateSite(next);
+  return next;
+}

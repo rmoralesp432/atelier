@@ -44,6 +44,16 @@ export const requestSchema = z
         view: z.enum(['perspective', 'orthographic', 'top']),
         theme: z.enum(['day', 'night']),
         renderMode: z.enum(['studio', 'wireframe', 'hidden-line']),
+        section: z
+          .object({
+            enabled: z.boolean(),
+            planeVisible: z.boolean().optional(),
+            axis: z.enum(['x', 'y', 'z']),
+            position: z.number().min(-1000).max(1000),
+            flip: z.boolean(),
+          })
+          .strict()
+          .optional(),
       })
       .strict()
       .optional(),

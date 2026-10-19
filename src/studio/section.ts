@@ -2,12 +2,14 @@ import type { Project } from '../model';
 import { groupBounds } from '../geometry/spatial';
 export type SectionView = {
   enabled: boolean;
+  planeVisible?: boolean;
   axis: 'x' | 'y' | 'z';
   position: number;
   flip: boolean;
 };
 export const defaultSection: SectionView = {
   enabled: false,
+  planeVisible: false,
   axis: 'y',
   position: 3,
   flip: false,

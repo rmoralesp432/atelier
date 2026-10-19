@@ -126,12 +126,7 @@ test('panels close without losing selection, drag with pointer or keyboard, and 
   expect((await saved(page)).project.volumes[0].name).toBe(
     'Courtyard pavilion',
   );
-  await studio(page);
-  const b = (await inspector.boundingBox())!,
-    s = (await page
-      .getByRole('region', { name: 'Studio settings' })
-      .boundingBox())!;
-  expect(s.x + s.width).toBeLessThan(b.x);
+  const b = (await inspector.boundingBox())!;
   const handle = page.getByLabel('Move Inspector panel');
   const r = (await handle.boundingBox())!;
   await page.mouse.move(r.x + 70, r.y + 20);
@@ -139,19 +134,16 @@ test('panels close without losing selection, drag with pointer or keyboard, and 
   await page.mouse.move(r.x - 180, r.y + 60, { steps: 5 });
   await page.mouse.up();
   expect((await inspector.boundingBox())!.x).toBeLessThan(b.x - 150);
+  await studio(page);
+  await expect(inspector).toBeHidden();
+  const studioPanel = page.getByRole('region', { name: 'Studio settings' });
+  const s = (await studioPanel.boundingBox())!;
   const sh = page.getByLabel('Move Studio panel');
   await sh.focus();
   await sh.press('ArrowLeft');
-  expect(
-    (await page.getByRole('region', { name: 'Studio settings' }).boundingBox())!
-      .x,
-  ).toBeLessThan(s.x);
-  await page
-    .getByRole('button', { name: 'Close inspector', exact: true })
-    .click();
-  await expect(inspector).toBeHidden();
-  expect((await saved(page)).project.selectedId).toBe('red');
+  expect((await studioPanel.boundingBox())!.x).toBeLessThan(s.x);
   await page.getByRole('button', { name: 'Close studio settings' }).click();
+  expect((await saved(page)).project.selectedId).toBe('red');
   await page.getByRole('button', { name: 'Expand inspector' }).click();
   await page
     .getByRole('button', { name: 'Clear selection', exact: true })

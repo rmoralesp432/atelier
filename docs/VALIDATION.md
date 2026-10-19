@@ -2,9 +2,29 @@
 
 Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 154 and software WebGL. This file distinguishes geometric execution, UI/provider contracts and live AI/audio behavior.
 
+## Interaction, spatial references and motion — October 19, 2026
+
+See [the interaction and phone-viewing guide](INTERACTION-REFINEMENT.md). **124 unit/integration tests in 28 files pass**. Added numerical checks cover rigid multi-selection transforms with a common ground clamp, locked-member protection, map displacement under a rotated bearing, meter-based USDZ geometry/scaling, AR cancellation and unavailable-device handling, and validated moodboard snapshots/limits. The actual provider SDK contract also carries current section state.
+
+Browser coverage includes whole-selection movement/rotation and Escape cancellation; group selection and phone additive selection; visible 2D profiles/extrusion/scale/stretch; one tool dock with sticky close controls; map dragging/nudging without moving the buildings; dark section caps and independent cut/plane switches with a real draggable plane; genuine USDZ downloads and explicit unsupported/permission-denied AR paths.
+
+The 3D moodboard checks mix a local image, an actual model snapshot and a linked note, drag references, change depth/rotation, undo/redo, inspect exported backup contents, reload and switch projects. Borrowing a model from a saved project does not insert it into the receiving project's geometry. Save failures remain visible and unsaved board data stays exportable. Mobile layout and the shared moodboard workspace action are tested. Images/notes are not silently sent to the provider.
+
+Motion checks exercise footprint/rise/settle, updated-geometry reveals, a genuinely pending provider request (explicit transport fixture), exact measurements during/after animation, and reduced-motion behavior. Undo/reload do not replay construction. Rendering uses actual Three.js meshes and Manifold geometry; fixtures do not establish live AI language or voice quality.
+
+The complete **47-case production regression passed** before the section-plane/moodboard/motion follow-ups. A **19-case focused production run also passed**, covering those additions and the affected import, motion, selection, map and AR paths. Together these cover **55 distinct Chromium scenarios**. The final moodboard build then passed all four moodboard scenarios again, including animation settlement and undo history. The static `/atelier/` smoke test passed with JS/CSS/WASM and lazy map/moodboard/model assets, direct solid editing and reload persistence. TypeScript/Vite, formatting and whitespace checks pass. The suite uses software WebGL; it is functional verification rather than a hardware performance benchmark.
+
+No paid AI calls were made. AR hardware camera tracking, Quick Look display and actual surface placement remain unverified without a compatible phone. Render deployment status is checked through its API; the public application hostname and map providers are outside the cloud network allowlist. Browser verification uses the production Node server in the cloud with explicit map fixtures. Terrain and native RVT/SKP remain outside this update.
+
+![A real 3D moodboard with an image, model and linked note](atelier-moodboard.png)
+
+![Independent section-plane controls and a black cut face](atelier-section-plane.png)
+
+![Feedback during an explicitly held test-provider request](atelier-processing.png)
+
 ## Expressive studio — October 19, 2026
 
-The latest implementation is described in [the expressive studio guide](EXPRESSIVE-STUDIO.md). **112 unit/integration tests in 23 files pass**, along with TypeScript, the production Vite build, formatting and whitespace checks.
+This earlier milestone is described in [the expressive studio guide](EXPRESSIVE-STUDIO.md). **112 unit/integration tests in 23 files pass**, along with TypeScript, the production Vite build, formatting and whitespace checks.
 
 New numerical checks cover analytic loft volume and winding, closed straight/curved sweeps, rejection of a folded crossing sweep, arbitrary-axis solid rotation with stable center/identity, exact hollow-box material volume, real section-cap area with cavities, opposite-face push/pull anchoring, independently sized lower floors with reviewed lifting, fixed clear glazing widths after narrowing, locked-group protection, tree placement around a rotated envelope and avoidance of neighboring object envelopes, world-space OBJ dimensions and hidden-layer exclusion. Solar tests check equinox noon altitude/azimuth, true-north bearing rotation and explicit UTC-offset conversion. Provider tests verify real multimodal SDK payloads, strict schema, one bounded geometry-repair attempt and no automatic repeat of a billing rejection.
 

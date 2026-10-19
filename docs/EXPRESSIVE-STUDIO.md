@@ -2,6 +2,8 @@
 
 This update extends the existing ATELIER application and project format. The existing Render service, API credentials, saved projects, undo history and import pathways remain in use. It does not require another hosting setup. Live model understanding and live microphone conversations still require funded API verification; no paid model calls were made for this update.
 
+**Interaction follow-up:** [Easier modeling and phone viewing](INTERACTION-REFINEMENT.md) documents group movement, the shared tool dock, visible Create/2D/extrude controls, map dragging, independent section-plane controls, persistent 3D moodboards, and device-dependent AR.
+
 ## Find the controls
 
 - **Conversation** remains the primary interface. Describe an outcome, answer a clarification, and review a destructive change before applying it. The assistant receives selection, stable object IDs, dimensions, names, colors, recent dialogue, operation history and camera directions.

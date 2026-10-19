@@ -1,5 +1,10 @@
+import type { Moodboard } from '../moodboard/data';
 import type { Message } from '../intelligence/client';
-export type WorkspaceSnapshot = { session: string; messages: Message[] };
+export type WorkspaceSnapshot = {
+  session: string;
+  messages: Message[];
+  moodboard?: Moodboard;
+};
 export type SavedProject = WorkspaceSnapshot & {
   id: string;
   name: string;

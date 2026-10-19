@@ -151,9 +151,19 @@ try {
   await page.waitForFunction(
     () => document.querySelectorAll('.leaflet-tile-loaded').length > 0,
   );
+  // New reference desk and shared model exporter also load lazily at this subpath.
+  await page.getByRole('button', { name: 'Pull up moodboard' }).click();
+  await page.getByRole('button', { name: 'Add model to board' }).click();
+  await page.waitForFunction(
+    () =>
+      document
+        .querySelector('[data-testid="moodboard-viewport"]')
+        ?.getAttribute('data-items') === '1',
+  );
+  await page.getByRole('button', { name: 'Back to model' }).click();
   assert.deepEqual(errors, []);
   console.log(
-    'PASS: production app loads at /atelier/ with valid JS/CSS/WASM paths, actual solid rendering, direct editing, and reload persistence. Static Pages has no AI backend.',
+    'PASS: production app loads at /atelier/ with valid JS/CSS/WASM paths, actual solid rendering, direct editing, reload persistence and lazy 3D moodboard/model assets. Static Pages has no AI backend.',
   );
 } finally {
   await browser?.close();

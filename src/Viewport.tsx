@@ -1,3 +1,6 @@
+import { sectionPlaneControls } from './geometry/SectionPlaneControls';
+import { shiftMap, type Site } from './studio/site';
+import { transformSelection } from './geometry/selectionTransform';
 import { isVisible, isLocked } from './model';
 import { boxSelection } from './geometry/BoxSelection';
 import { WalkControls } from './geometry/WalkControls';
@@ -36,20 +39,26 @@ type Props = {
   project: Project;
   tool: Tool;
   presenting: boolean;
+  suspended: boolean;
   cameraSettings: CameraSettings;
   solar: SolarStudy;
   onSelectMany: (ids: string[], additive: boolean) => void;
   turntable: boolean;
   snap: boolean;
   angleSnap: number;
-  motion: { revision: number; ids: string[] };
+  motion: { revision: number; ids: string[]; changedIds: string[] };
   renderMode: Appearance['mode'];
   appearance: Appearance;
   mapVisible: boolean;
+  alignMap: boolean;
+  onMapSite: (site: Site) => void;
   section: SectionView;
+  sectionEditing: boolean;
+  onSectionChange: (section: SectionView) => void;
   view: { mode: 'perspective' | 'orthographic' | 'top'; revision: number };
   onSelect: (id: string | null, additive?: boolean) => void;
   onCamera?: (camera: CameraContext) => void;
+  onTransform: (id: string, patch: Partial<Volume>) => void;
   onChange: (id: string, patch: Partial<Volume>) => void;
 };
 type Runtime = {
@@ -67,7 +76,12 @@ type Runtime = {
   updateShadows: () => void;
   applyLens: () => void;
   fit: (top: boolean) => void;
-  beginConstruction: (v: Volume, g: THREE.Group, index: number) => void;
+  beginConstruction: (
+    v: Volume,
+    g: THREE.Group,
+    index: number,
+    editing?: boolean,
+  ) => void;
   finishConstruction: () => void;
   motionRevision: number;
 };
@@ -288,8 +302,23 @@ export default function Viewport(props: Props) {
     const objects = new Map<string, THREE.Group>();
     const constructions = new Map<
       string,
-      { group: THREE.Group; guide: THREE.Line; start: number; fade: boolean }
+      {
+        group: THREE.Group;
+        guide: THREE.Line;
+        scan: THREE.Line | null;
+        start: number;
+        fade: boolean;
+        editing: boolean;
+      }
     >();
+    const progress = document.createElement('div');
+    progress.className = 'creation-progress';
+    progress.setAttribute('aria-label', 'Geometry formation');
+    const progressLabel = document.createElement('span'),
+      progressBar = document.createElement('i');
+    progress.append(progressLabel, progressBar);
+    progress.hidden = true;
+    container.appendChild(progress);
     const finishOne = (id: string) => {
       const c = constructions.get(id);
       if (!c) return;
@@ -303,6 +332,11 @@ export default function Viewport(props: Props) {
           m.transparent = o.userData.restTransparent ?? false;
         }
       });
+      if (c.scan) {
+        c.group.remove(c.scan);
+        c.scan.geometry.dispose();
+        (c.scan.material as THREE.Material).dispose();
+      }
       c.group.remove(c.guide);
       c.guide.geometry.dispose();
       (c.guide.material as THREE.Material).dispose();
@@ -310,10 +344,16 @@ export default function Viewport(props: Props) {
     };
     const finishConstruction = () => {
       for (const id of [...constructions.keys()]) finishOne(id);
+      progress.hidden = true;
       container.dataset.constructionActive = 'false';
       container.dataset.constructionPhase = 'complete';
     };
-    const beginConstruction = (v: Volume, g: THREE.Group, index: number) => {
+    const beginConstruction = (
+      v: Volume,
+      g: THREE.Group,
+      index: number,
+      editing = false,
+    ) => {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       const points: THREE.Vector3[] = [];
       const d = v.dimensions;
@@ -352,8 +392,26 @@ export default function Viewport(props: Props) {
               point.clone().lerp(points[i + 1], step / 16),
             ),
       );
-      const guide = new THREE.Line(
-        new THREE.BufferGeometry().setFromPoints(traced),
+      let guideGeometry = new THREE.BufferGeometry().setFromPoints(traced);
+      if (editing) {
+        const edges: number[] = [];
+        g.traverse((o) => {
+          if (o instanceof THREE.Mesh) {
+            const geometry = new THREE.EdgesGeometry(o.geometry, 24);
+            for (const value of geometry.getAttribute('position').array)
+              edges.push(value);
+            geometry.dispose();
+          }
+        });
+        guideGeometry.dispose();
+        guideGeometry = new THREE.BufferGeometry().setAttribute(
+          'position',
+          new THREE.Float32BufferAttribute(edges, 3),
+        );
+      }
+      const Line = editing ? THREE.LineSegments : THREE.Line;
+      const guide = new Line(
+        guideGeometry,
         new THREE.LineBasicMaterial({
           color: '#a4f2e8',
           transparent: true,
@@ -371,16 +429,36 @@ export default function Viewport(props: Props) {
           o.userData.restTransparent = m.transparent;
         }
       });
-      const fade = v.geometry?.kind === 'mesh' || isProfile(v);
+      const fade = editing || v.geometry?.kind === 'mesh' || isProfile(v);
+      const scan = fade
+        ? null
+        : new THREE.Line(
+            guide.geometry.clone(),
+            new THREE.LineBasicMaterial({
+              color: '#c6fff4',
+              transparent: true,
+              opacity: 0.65,
+              depthTest: false,
+            }),
+          );
+      if (scan) {
+        scan.position.y = v.dimensions.height;
+        scan.renderOrder = 5;
+        scan.userData.construction = true;
+        g.add(scan);
+      }
       if (!fade) g.scale.y = 0.002;
       constructions.set(v.id, {
         group: g,
         guide,
+        scan,
+        editing,
         start: performance.now() + Math.min(index * 60, 180),
         fade,
       });
       container.dataset.constructionActive = 'true';
       container.dataset.constructionPhase = 'footprint';
+      container.dataset.constructionKind = editing ? 'reshape' : 'create';
     };
     let dragging = false;
     let dragStart: {
@@ -442,6 +520,22 @@ export default function Viewport(props: Props) {
         if (yaw !== null) dragStart.lastYaw = yaw;
       }
       obj.position.y = Math.max(0, obj.position.y);
+      let preview: Project;
+      try {
+        preview = transformSelection(latest.current.project, obj.userData.id, {
+          position: { x: obj.position.x, y: obj.position.y, z: obj.position.z },
+          rotation: THREE.MathUtils.radToDeg(obj.rotation.y),
+        });
+      } catch {
+        return;
+      }
+      for (const v of preview.volumes) {
+        const group = objects.get(v.id);
+        if (group) {
+          group.position.set(v.position.x, v.position.y, v.position.z);
+          group.rotation.y = THREE.MathUtils.degToRad(v.rotation);
+        }
+      }
       const delta = obj.position.clone().sub(dragStart.position);
       const angle = THREE.MathUtils.radToDeg(obj.rotation.y),
         turn = angle - THREE.MathUtils.radToDeg(dragStart.rotation);
@@ -508,7 +602,7 @@ export default function Viewport(props: Props) {
       }
       if (!dragging && transform.object) {
         const obj = transform.object;
-        latest.current.onChange(obj.userData.id, {
+        latest.current.onTransform(obj.userData.id, {
           position: {
             x: round(obj.position.x),
             y: Math.max(0, round(obj.position.y)),
@@ -519,15 +613,32 @@ export default function Viewport(props: Props) {
           ),
         });
         // A rejected edit must also restore the visual model.
-        const v = latest.current.project.volumes.find(
-          (v) => v.id === obj.userData.id,
-        );
-        if (v) {
-          obj.position.set(v.position.x, v.position.y, v.position.z);
-          obj.rotation.y = THREE.MathUtils.degToRad(v.rotation);
+        for (const v of latest.current.project.volumes) {
+          const group = objects.get(v.id);
+          if (group) {
+            group.position.set(v.position.x, v.position.y, v.position.z);
+            group.rotation.y = THREE.MathUtils.degToRad(v.rotation);
+          }
         }
       }
     });
+    const cancelTransform = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape' || !transform.dragging) return;
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      dragStart = null;
+      transform.reset();
+      for (const v of latest.current.project.volumes) {
+        const g = objects.get(v.id);
+        if (g) {
+          g.position.set(v.position.x, v.position.y, v.position.z);
+          g.rotation.y = THREE.MathUtils.degToRad(v.rotation);
+        }
+      }
+      transform.dragging = false;
+      setMeasurement(null);
+    };
+    window.addEventListener('keydown', cancelTransform, true);
     const raycaster = new THREE.Raycaster();
     let pointerStart = { x: 0, y: 0 };
     let usedHandle = false;
@@ -556,7 +667,10 @@ export default function Viewport(props: Props) {
         camera,
       );
       const hit = raycaster
-        .intersectObjects([...objects.values()], true)
+        .intersectObjects(
+          [...objects.values()].filter((g) => g.visible),
+          true,
+        )
         .find(
           (hit) =>
             hit.object instanceof THREE.Mesh &&
@@ -578,6 +692,7 @@ export default function Viewport(props: Props) {
       current: () => ({
         enabled:
           latest.current.tool === 'reshape' &&
+          !latest.current.sectionEditing &&
           !latest.current.cameraSettings.walk,
         snap: latest.current.snap,
         volume: latest.current.project.volumes.find(
@@ -620,13 +735,36 @@ export default function Viewport(props: Props) {
         return b;
       },
     );
+    const sectionPlane = sectionPlaneControls({
+      scene,
+      canvas: renderer.domElement,
+      camera: () => camera,
+      current: () => ({
+        project: latest.current.project,
+        section: latest.current.section,
+        interactive: latest.current.sectionEditing,
+        enabled:
+          !latest.current.presenting &&
+          !latest.current.alignMap &&
+          !latest.current.cameraSettings.walk,
+        snap: latest.current.snap,
+      }),
+      onChange: (s) => latest.current.onSectionChange(s),
+      onDrag: (active) => {
+        dragging = active;
+        orbit.enabled = !active;
+      },
+    });
     const disposeBoxSelection = boxSelection({
       canvas: renderer.domElement,
       container,
       camera: () => camera,
       objects,
       enabled: () =>
-        !latest.current.cameraSettings.walk && !latest.current.presenting,
+        !latest.current.cameraSettings.walk &&
+        !latest.current.presenting &&
+        !latest.current.alignMap &&
+        !latest.current.sectionEditing,
       selectMode: () => latest.current.tool === 'select',
       onSelect: (ids, additive) => latest.current.onSelectMany(ids, additive),
     });
@@ -885,6 +1023,10 @@ export default function Viewport(props: Props) {
       const now = performance.now(),
         delta = (now - lastFrame) / 1000;
       lastFrame = now;
+      if (latest.current.suspended) {
+        frame = requestAnimationFrame(render);
+        return;
+      }
       if (transition && !latest.current.cameraSettings.walk) {
         const t = Math.min(1, (performance.now() - transition.start) / 500);
         const ease = 1 - Math.pow(1 - t, 3);
@@ -896,8 +1038,17 @@ export default function Viewport(props: Props) {
         );
         if (t === 1) transition = null;
       }
+      sectionPlane.update();
+      if (
+        constructions.size &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      )
+        finishConstruction();
       for (const [id, c] of constructions) {
-        const frame = constructionFrame(performance.now() - c.start);
+        const frame = constructionFrame(
+          performance.now() - c.start,
+          c.editing ? 1800 : 3600,
+        );
         if (frame.done) {
           finishOne(id);
           publishCamera();
@@ -911,13 +1062,47 @@ export default function Viewport(props: Props) {
         );
         (c.guide.material as THREE.LineBasicMaterial).opacity =
           frame.guideOpacity;
+        if (c.scan) {
+          c.scan.geometry.setDrawRange(
+            0,
+            Math.ceil(
+              frame.trace * c.scan.geometry.getAttribute('position').count,
+            ),
+          );
+          (c.scan.material as THREE.LineBasicMaterial).opacity =
+            frame.phase === 'footprint' ? 0 : frame.guideOpacity * 0.7;
+        }
+        progress.hidden = false;
+        const phaseLabel = c.editing
+          ? 'Revealing the updated geometry'
+          : frame.phase === 'footprint'
+            ? 'Tracing the footprint'
+            : frame.phase === 'extruding'
+              ? 'Forming the volume'
+              : 'Settling into place';
+        if (progressLabel.textContent !== phaseLabel)
+          progressLabel.textContent = phaseLabel;
+        progress.style.setProperty(
+          '--formation',
+          String(
+            Math.min(
+              1,
+              Math.max(
+                0,
+                (performance.now() - c.start) / (c.editing ? 1800 : 3600),
+              ),
+            ),
+          ),
+        );
         if (c.fade)
           c.group.traverse((o) => {
             if (o instanceof THREE.Mesh) {
               const m = o.material as THREE.MeshPhysicalMaterial;
               if (!m.transparent) m.needsUpdate = true;
               m.transparent = true;
-              m.opacity = (o.userData.restOpacity ?? 1) * frame.opacity;
+              m.opacity =
+                (o.userData.restOpacity ?? 1) *
+                (c.editing ? 0.35 + 0.65 * frame.opacity : frame.opacity);
             }
           });
         else c.group.scale.y = frame.height;
@@ -925,7 +1110,10 @@ export default function Viewport(props: Props) {
         container.dataset.constructionProgress = String(frame.height);
       }
       container.dataset.constructionActive = String(constructions.size > 0);
-      if (!constructions.size) container.dataset.constructionPhase = 'complete';
+      if (!constructions.size) {
+        container.dataset.constructionPhase = 'complete';
+        progress.hidden = true;
+      }
       walk.update(delta);
       orbit.autoRotate =
         latest.current.turntable && !latest.current.cameraSettings.walk;
@@ -953,7 +1141,9 @@ export default function Viewport(props: Props) {
     };
     renderer.domElement.addEventListener('webglcontextlost', lost);
     return () => {
+      window.removeEventListener('keydown', cancelTransform, true);
       cancelAnimationFrame(frame);
+      sectionPlane.dispose();
       facePull.dispose();
       walk.dispose();
       disposeBoxSelection();
@@ -982,6 +1172,7 @@ export default function Viewport(props: Props) {
       composer.dispose();
       renderer.dispose();
       renderer.domElement.remove();
+      progress.remove();
       runtime.current = null;
     };
   }, []);
@@ -1224,6 +1415,7 @@ export default function Viewport(props: Props) {
           !isLocked(selectedVolume, props.project) &&
           props.tool !== 'select' &&
           props.tool !== 'reshape' &&
+          !props.sectionEditing &&
           !props.cameraSettings.walk
         )
           r!.transform.attach(selected);
@@ -1256,6 +1448,11 @@ export default function Viewport(props: Props) {
               g = r!.objects.get(id);
             if (v && g) r!.beginConstruction(v, g, i);
           });
+          props.motion.changedIds.forEach((id, i) => {
+            const v = props.project.volumes.find((o) => o.id === id),
+              g = r!.objects.get(id);
+            if (v && g && built.has(id)) r!.beginConstruction(v, g, i, true);
+          });
         }
         setError('');
         r!.orbit.dispatchEvent({ type: 'change' });
@@ -1281,6 +1478,7 @@ export default function Viewport(props: Props) {
     props.motion,
     props.presenting,
     props.cameraSettings.walk,
+    props.sectionEditing,
   ]);
   useEffect(() => {
     const r = runtime.current;
@@ -1347,7 +1545,7 @@ export default function Viewport(props: Props) {
             const mesh = new THREE.Mesh(
               geometry,
               new THREE.MeshBasicMaterial({
-                color: props.appearance.theme === 'day' ? '#297f85' : '#80d4cd',
+                color: '#111318',
                 side: THREE.DoubleSide,
                 polygonOffset: true,
                 polygonOffsetFactor: -1,
@@ -1386,6 +1584,7 @@ export default function Viewport(props: Props) {
       failed = 0;
     const group = new THREE.Group(),
       textures: THREE.Texture[] = [];
+    group.name = 'site-map';
     group.rotation.y = (site.bearing * Math.PI) / 180;
     r.scene.add(group);
     const status = () => {
@@ -1455,15 +1654,112 @@ export default function Viewport(props: Props) {
   }, [
     props.project.site?.latitude,
     props.project.site?.longitude,
-    props.project.site?.bearing,
     props.project.site?.style,
     props.mapVisible,
   ]);
+  useEffect(() => {
+    const group = runtime.current?.scene.getObjectByName('site-map');
+    if (group)
+      group.rotation.y = ((props.project.site?.bearing ?? 0) * Math.PI) / 180;
+  }, [props.project.site?.bearing]);
+  useEffect(() => {
+    const r = runtime.current,
+      site = props.project.site;
+    if (!r || !site || !props.alignMap || !props.mapVisible) return;
+    const canvas = r.renderer.domElement,
+      ray = new THREE.Raycaster(),
+      plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    let start: THREE.Vector3 | null = null,
+      delta = new THREE.Vector3(),
+      pointerId: number | null = null;
+    const point = (e: PointerEvent) => {
+      const b = canvas.getBoundingClientRect();
+      ray.setFromCamera(
+        new THREE.Vector2(
+          ((e.clientX - b.left) / b.width) * 2 - 1,
+          (-(e.clientY - b.top) / b.height) * 2 + 1,
+        ),
+        r.camera,
+      );
+      return ray.ray.intersectPlane(plane, new THREE.Vector3());
+    };
+    const down = (e: PointerEvent) => {
+      if (e.button !== 0 || pointerId !== null) return;
+      e.stopImmediatePropagation();
+      e.preventDefault();
+      start = point(e);
+      delta.set(0, 0, 0);
+      pointerId = e.pointerId;
+      canvas.setPointerCapture(e.pointerId);
+      r.orbit.enabled = false;
+    };
+    const move = (e: PointerEvent) => {
+      if (!start || e.pointerId !== pointerId) return;
+      e.stopImmediatePropagation();
+      const p = point(e);
+      if (!p) return;
+      delta.copy(p).sub(start);
+      r.scene.getObjectByName('site-map')?.position.set(delta.x, 0, delta.z);
+    };
+    const finish = (e?: PointerEvent, cancel = false) => {
+      if (pointerId === null || (e && e.pointerId !== pointerId)) return;
+      e?.stopImmediatePropagation();
+      if (canvas.hasPointerCapture(pointerId))
+        canvas.releasePointerCapture(pointerId);
+      pointerId = null;
+      start = null;
+      r.orbit.enabled = true;
+      r.scene.getObjectByName('site-map')?.position.set(0, 0, 0);
+      if (!cancel && delta.length() > 0.001) {
+        try {
+          latest.current.onMapSite(shiftMap(site, delta.x, delta.z));
+        } catch {
+          setMapError('This movement is outside the supported map extent.');
+        }
+      }
+    };
+    const up = (e: PointerEvent) => finish(e),
+      cancel = (e: PointerEvent) => finish(e, true),
+      escape = (e: KeyboardEvent) => {
+        if (e.key === 'Escape' && pointerId !== null) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          finish(undefined, true);
+        }
+      };
+    canvas.addEventListener('pointerdown', down, true);
+    canvas.addEventListener('pointermove', move, true);
+    canvas.addEventListener('pointerup', up, true);
+    canvas.addEventListener('pointercancel', cancel, true);
+    window.addEventListener('keydown', escape, true);
+    canvas.style.cursor = 'grab';
+    return () => {
+      finish(undefined, true);
+      canvas.style.cursor = '';
+      canvas.removeEventListener('pointerdown', down, true);
+      canvas.removeEventListener('pointermove', move, true);
+      canvas.removeEventListener('pointerup', up, true);
+      canvas.removeEventListener('pointercancel', cancel, true);
+      window.removeEventListener('keydown', escape, true);
+    };
+  }, [props.alignMap, props.mapVisible, props.project.site]);
   return (
-    <div className="viewport-canvas" ref={host} data-testid="viewport">
+    <div
+      className="viewport-canvas"
+      ref={host}
+      data-testid="viewport"
+      data-align-map={props.alignMap}
+    >
+      {props.alignMap && (
+        <div className="pull-feedback" role="status">
+          <strong>Move the map</strong>
+          <span>Drag beneath the model · Escape cancels a drag</span>
+        </div>
+      )}
       {props.project.selectedId &&
         props.tool !== 'select' &&
         props.tool !== 'reshape' &&
+        !props.sectionEditing &&
         (() => {
           const v = props.project.volumes.find(
             (v) => v.id === props.project.selectedId,

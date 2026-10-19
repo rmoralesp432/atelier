@@ -1,3 +1,8 @@
+import ARPanel from './ar/ARPanel';
+import { parseBoard } from './moodboard/data';
+import ModelPanel from './studio/ModelPanel';
+import { useToolPanels } from './studio/useToolPanels';
+import { transformSelection } from './geometry/selectionTransform';
 import { exportObj } from './geometry/export';
 import { referenceImage } from './imports/reference';
 import LayersPanel from './studio/LayersPanel';
@@ -14,6 +19,8 @@ import { useFloatingPanel } from './studio/useFloatingPanel';
 import StudioPanel from './studio/StudioPanel';
 import { loadAppearance, palette } from './studio/appearance';
 import {
+  lazy,
+  Suspense,
   useCallback,
   useEffect,
   useRef,
@@ -87,6 +94,7 @@ import {
   type Connection,
 } from './intelligence/client';
 import { isProfile, openingScale, solidStats } from './geometry/kernel';
+const Moodboard = lazy(() => import('./moodboard/Moodboard'));
 const SESSION_KEY = 'atelier.session.v2';
 const CHAT_KEY = 'atelier.conversation.v2';
 
@@ -252,7 +260,10 @@ export default function App({
   projectMenu,
 }: {
   initialWorkspace?: WorkspaceSnapshot;
-  onSnapshot?: (snapshot: WorkspaceSnapshot, safe: boolean) => void;
+  onSnapshot?: (
+    snapshot: WorkspaceSnapshot,
+    safe: boolean,
+  ) => void | Promise<void>;
   projectMenu?: (blocked: boolean) => ReactNode;
 }) {
   const [boot] = useState(() =>
@@ -270,9 +281,14 @@ export default function App({
   const undo = useRef<Project[]>(boot.session.past);
   const redo = useRef<Project[]>(boot.session.future);
   const [historyVersion, setHistoryVersion] = useState(0);
-  const [motion, setMotion] = useState<{ revision: number; ids: string[] }>({
+  const [motion, setMotion] = useState<{
+    revision: number;
+    ids: string[];
+    changedIds: string[];
+  }>({
     revision: 0,
     ids: [],
+    changedIds: [],
   });
   const markCreation = useCallback(
     (before: Project, next: Project, enabled = true) => {
@@ -284,26 +300,60 @@ export default function App({
             })
             .map((v) => v.id)
         : [];
-      setMotion((m) => ({ revision: m.revision + 1, ids }));
+      const changedIds = enabled
+        ? next.volumes
+            .filter((v) => {
+              const old = before.volumes.find((o) => o.id === v.id);
+              return (
+                old &&
+                !ids.includes(v.id) &&
+                JSON.stringify([old.dimensions, old.geometry, old.display]) !==
+                  JSON.stringify([v.dimensions, v.geometry, v.display])
+              );
+            })
+            .map((v) => v.id)
+        : [];
+      setMotion((m) => ({ revision: m.revision + 1, ids, changedIds }));
     },
     [],
   );
   const [appearance, setAppearance] = useState(loadAppearance);
   const renderMode = appearance.mode;
-  const [studioOpen, setStudioOpen] = useState(false);
+  const panels = useToolPanels(
+    preference('atelier.ui.details') ? 'inspector' : null,
+  );
+  const studioOpen = panels.active === 'studio',
+    setStudioOpen = panels.setters.studio;
   const [studioTab, setStudioTab] = useState<'appearance' | 'site'>(
     'appearance',
   );
   const [mapVisible, setMapVisible] = useState(false);
+  const [alignMap, setAlignMap] = useState(false);
+  useEffect(() => {
+    if (!studioOpen || !mapVisible) setAlignMap(false);
+  }, [studioOpen, mapVisible]);
   const [section, setSection] = useState(defaultSection);
-  const [sectionOpen, setSectionOpen] = useState(false);
+  const sectionInitialized = useRef(false);
+  const sectionOpen = panels.active === 'section',
+    setSectionOpen = panels.setters.section;
   const [solar, setSolar] = useState(defaultSolar);
-  const [solarOpen, setSolarOpen] = useState(false);
+  const solarOpen = panels.active === 'solar',
+    setSolarOpen = panels.setters.solar;
   const [cameraSettings, setCameraSettings] = useState(defaultCameraSettings);
-  const [cameraOpen, setCameraOpen] = useState(false);
-  const [layersOpen, setLayersOpen] = useState(false);
+  const cameraOpen = panels.active === 'camera',
+    setCameraOpen = panels.setters.camera;
+  const layersOpen = panels.active === 'layers',
+    setLayersOpen = panels.setters.layers;
   const [toolsOpen, setToolsOpen] = useState(false);
-  const [addingVolume, setAddingVolume] = useState(false);
+  const [arActive, setARActive] = useState(false);
+  const [moodboard, setMoodboard] = useState(() =>
+    parseBoard(initialWorkspace?.moodboard),
+  );
+  const [moodboardOpen, setMoodboardOpen] = useState(false);
+  const [boardSaved, setBoardSaved] = useState(false);
+  const [boardSaveError, setBoardSaveError] = useState(false);
+  const addingVolume = panels.active === 'adding',
+    setAddingVolume = panels.setters.adding;
   const [presentation, setPresentation] = useState(false);
   const [turntable, setTurntable] = useState(false);
   const [workStage, setWorkStage] = useState('Considering your idea…');
@@ -316,6 +366,7 @@ export default function App({
   }, [appearance]);
   const [northAngle, setNorthAngle] = useState(0);
   const [tool, setTool] = useState<Tool>('select');
+  const [multiSelect, setMultiSelect] = useState(false);
   const [snap, setSnap] = useState(true);
   const [angleSnap, setAngleSnap] = useState(45);
   const inspectorPanel = useFloatingPanel();
@@ -328,9 +379,8 @@ export default function App({
   }>({ mode: 'perspective', revision: 0 });
   const [command, setCommand] = useState('');
   const [notice, setNotice] = useState({ text: boot.message, error: false });
-  const [inspectorOpen, setInspectorOpen] = useState(() =>
-    preference('atelier.ui.details'),
-  );
+  const inspectorOpen = panels.active === 'inspector',
+    setInspectorOpen = panels.setters.inspector;
   const [objectsOpen, setObjectsOpen] = useState(() =>
     preference('atelier.ui.objects'),
   );
@@ -342,6 +392,9 @@ export default function App({
       /* Preferences must not block modeling. */
     }
   }, [inspectorOpen, objectsOpen]);
+  useEffect(() => {
+    if (panels.active && window.innerWidth <= 800) setObjectsOpen(false);
+  }, [panels.active]);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [chatExpanded, setChatExpanded] = useState(true);
   const [messages, setMessages] = useState<Message[]>(
@@ -388,24 +441,28 @@ export default function App({
     view: view.mode,
     theme: appearance.theme,
     renderMode: appearance.mode,
+    section,
   });
   workspaceRef.current = {
     mapVisible,
     view: view.mode,
     theme: appearance.theme,
     renderMode: appearance.mode,
+    section,
   };
   const applyWorkspace = (plan: Plan) => {
     const state = { ...workspaceRef.current };
     const reports: string[] = [];
     for (const op of plan.operations) {
       if (op.type === 'section') {
-        setSection({
+        sectionInitialized.current = true;
+        setSection((v) => ({
+          ...v,
           enabled: op.enabled,
           axis: op.axis,
           position: op.position,
           flip: op.flip,
-        });
+        }));
         setSectionOpen(op.enabled);
         reports.push(
           op.enabled
@@ -416,6 +473,15 @@ export default function App({
       }
       if (op.type !== 'workspace') continue;
       const a = op.action;
+      if (a === 'moodboard_open' || a === 'moodboard_close') {
+        setMoodboardOpen(a === 'moodboard_open');
+        reports.push(
+          a === 'moodboard_open'
+            ? 'Moodboard open. Add images, references and saved model snapshots.'
+            : 'Back to your model.',
+        );
+        continue;
+      }
       if (a === 'solar_settings' || a === 'solar_on' || a === 'solar_off') {
         setSolarOpen(true);
         setCameraOpen(false);
@@ -475,16 +541,26 @@ export default function App({
           reports.push('Choose a location first.');
         }
       } else if (a === 'section_on' || a === 'section_off') {
-        const r = sectionRange(current.current, 'y');
+        const first = !sectionInitialized.current;
+        sectionInitialized.current = true;
+        const r = sectionRange(current.current, section.axis);
         setSection((v) => ({
           ...v,
           enabled: a === 'section_on',
-          axis: 'y',
-          position: (r.min + r.max) / 2,
+          ...(first ? { position: (r.min + r.max) / 2 } : {}),
         }));
         setSectionOpen(a === 'section_on');
         reports.push(
           a === 'section_on' ? 'Section view enabled.' : 'Whole model visible.',
+        );
+      } else if (a === 'section_plane_on' || a === 'section_plane_off') {
+        sectionInitialized.current = true;
+        setSection((v) => ({ ...v, planeVisible: a === 'section_plane_on' }));
+        if (a === 'section_plane_on') setSectionOpen(true);
+        reports.push(
+          a === 'section_plane_on'
+            ? 'Section plane visible. Drag its amber handle to move it.'
+            : 'Section plane hidden; the cut is unchanged.',
         );
       } else if (a === 'presentation_on' || a === 'presentation_off') {
         setPresentation(a === 'presentation_on');
@@ -893,17 +969,15 @@ export default function App({
   const select = useCallback((id: string | null, additive = false) => {
     if (id) setTool('translate');
     const p = current.current;
+    const previous = p.selectedIds ?? (p.selectedId ? [p.selectedId] : []);
     const ids = id
       ? additive
-        ? [
-            ...new Set([
-              ...(p.selectedIds ?? (p.selectedId ? [p.selectedId] : [])),
-              id,
-            ]),
-          ]
+        ? previous.includes(id)
+          ? previous.filter((i) => i !== id)
+          : [...previous, id]
         : [id]
       : [];
-    const next = { ...p, selectedId: id, selectedIds: ids };
+    const next = { ...p, selectedId: ids.at(-1) ?? null, selectedIds: ids };
     current.current = next;
     setProject(next);
     if (ids.length) conversation.current.focusIds = ids;
@@ -967,15 +1041,39 @@ export default function App({
     }
   }, [project, historyVersion, boot.storageSafe]);
   useEffect(() => {
-    onSnapshot?.(
-      { session: serializeSession(snapshot()), messages },
-      boot.storageSafe,
-    );
-  }, [project, historyVersion, messages, boot.storageSafe, onSnapshot]);
+    let active = true;
+    setBoardSaved(false);
+    setBoardSaveError(false);
+    Promise.resolve(
+      onSnapshot?.(
+        { session: serializeSession(snapshot()), messages, moodboard },
+        boot.storageSafe,
+      ),
+    )
+      .then(() => {
+        if (active) setBoardSaved(boot.storageSafe);
+      })
+      .catch(() => {
+        if (active) {
+          setBoardSaved(false);
+          setBoardSaveError(true);
+        }
+      });
+    return () => {
+      active = false;
+    };
+  }, [
+    project,
+    historyVersion,
+    messages,
+    moodboard,
+    boot.storageSafe,
+    onSnapshot,
+  ]);
   useEffect(() => {
     const key = (e: KeyboardEvent) => {
       // A modal owns keyboard input; never edit the underlying project while switching.
-      if (document.querySelector('dialog[open]')) return;
+      if (document.querySelector('dialog[open], .ar-overlay.active')) return;
       const editing =
         e.target instanceof HTMLElement &&
         (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName) ||
@@ -1003,15 +1101,33 @@ export default function App({
         setView((v) => ({ ...v, revision: v.revision + 1 }));
       else if (e.key === 'Escape') {
         if (presentation) setPresentation(false);
+        else if (panels.active) panels.setters[panels.active](false);
         else select(null);
       }
     };
     window.addEventListener('keydown', key);
     return () => window.removeEventListener('keydown', key);
-  }, [run, select, travel, settingsOpen, importAsset, presentation]);
+  }, [
+    run,
+    select,
+    travel,
+    settingsOpen,
+    importAsset,
+    presentation,
+    panels.active,
+    panels.setters,
+  ]);
   function exportProject() {
     const url = URL.createObjectURL(
-      new Blob([serializeSession(snapshot())], { type: 'application/json' }),
+      new Blob(
+        [
+          JSON.stringify({
+            ...JSON.parse(serializeSession(snapshot())),
+            moodboard,
+          }),
+        ],
+        { type: 'application/json' },
+      ),
     );
     const a = document.createElement('a');
     a.href = url;
@@ -1054,6 +1170,8 @@ export default function App({
       const raw = JSON.parse(text);
       if (raw.project && raw.past) {
         const imported = parseSession(text);
+        const importedBoard =
+          raw.moodboard === undefined ? undefined : parseBoard(raw.moodboard);
         // Preserve the receiving session and the imported timeline. The
         // latest snapshot remains undo-import; older snapshots are the
         // imported history, within the documented 50-step limit.
@@ -1067,10 +1185,11 @@ export default function App({
         markCreation(current.current, imported.project, false);
         current.current = imported.project;
         setProject(imported.project);
+        if (importedBoard) setMoodboard(importedBoard);
         setHistoryVersion((v) => v + 1);
       } else commit(parseProject(text), false);
       setNotice({
-        text: 'Project imported. Undo is available.',
+        text: 'Project imported. Geometry undo is available; the imported moodboard is saved separately.',
         error: false,
       });
     } catch (err) {
@@ -1143,8 +1262,26 @@ export default function App({
         if (files.length === 1) void importFile(files[0]);
         else reportError(new Error('Import one file at a time.'));
       }}
-      className={`app-shell phase-two immersive ${presentation ? 'presentation-mode' : ''} theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
+      className={`app-shell phase-two immersive ${busy || modelingBusy > 0 ? 'is-processing' : ''} ${presentation ? 'presentation-mode' : ''} theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
     >
+      {moodboardOpen && (
+        <Suspense
+          fallback={<div className="workspace-loading">Opening moodboard…</div>}
+        >
+          <Moodboard
+            board={moodboard}
+            onChange={(value) => {
+              setBoardSaved(false);
+              setMoodboard(value);
+            }}
+            project={project}
+            onClose={() => setMoodboardOpen(false)}
+            day={appearance.theme === 'day'}
+            saved={boardSaved}
+            saveError={boardSaveError}
+          />
+        </Suspense>
+      )}
       {importAsset && (
         <MeshImportDialog
           asset={importAsset}
@@ -1178,7 +1315,11 @@ export default function App({
             className="subtle-button scene-toggle"
             aria-label={objectsOpen ? 'Hide objects' : 'Show objects'}
             aria-pressed={objectsOpen}
-            onClick={() => setObjectsOpen(!objectsOpen)}
+            onClick={() => {
+              setObjectsOpen(!objectsOpen);
+              if (!objectsOpen && innerWidth <= 800 && panels.active)
+                panels.setters[panels.active](false);
+            }}
           >
             <Layers size={16} />
             <span>Objects</span>
@@ -1221,6 +1362,15 @@ export default function App({
           >
             <Layers size={16} />
           </button>
+          <button
+            className="subtle-button moodboard-toggle"
+            aria-label="Pull up moodboard"
+            title="Moodboard · images, models and references"
+            onClick={() => setMoodboardOpen(true)}
+          >
+            <ImagePlus size={16} />
+            <span>Moodboard</span>
+          </button>
           <div
             className={`studio-tool-group ${toolsOpen ? 'tools-open' : ''}`}
             onClick={(e) => {
@@ -1233,11 +1383,13 @@ export default function App({
               aria-label="Section view"
               aria-pressed={section.enabled}
               onClick={() => {
-                if (!section.enabled) {
+                if (!sectionInitialized.current) {
+                  sectionInitialized.current = true;
                   const r = sectionRange(project, section.axis);
                   setSection({
                     ...section,
                     enabled: true,
+                    planeVisible: true,
                     position: (r.min + r.max) / 2,
                   });
                 }
@@ -1439,13 +1591,30 @@ export default function App({
               <Plus size={16} />
             </button>
           </div>
+          <div className="object-selection-tools">
+            <button
+              aria-pressed={multiSelect}
+              onClick={() => setMultiSelect((v) => !v)}
+            >
+              Select several
+            </button>
+            <button
+              aria-label="Close objects"
+              onClick={() => setObjectsOpen(false)}
+            >
+              <X size={16} />
+            </button>
+          </div>
           <div className="object-list">
             {project.volumes.map((v, i) => (
               <button
                 className={`object-row ${project.selectedIds?.includes(v.id) || selected?.id === v.id ? 'selected' : ''}`}
                 key={v.id}
                 onClick={(e) =>
-                  select(v.id, e.shiftKey || e.ctrlKey || e.metaKey)
+                  select(
+                    v.id,
+                    multiSelect || e.shiftKey || e.ctrlKey || e.metaKey,
+                  )
                 }
                 aria-pressed={
                   project.selectedIds?.includes(v.id) || selected?.id === v.id
@@ -1472,6 +1641,12 @@ export default function App({
               </p>
             )}
           </div>
+          {(project.selectedIds?.length ?? 0) > 1 && (
+            <button className="add-volume" onClick={() => setLayersOpen(true)}>
+              <Layers size={15} />
+              Group selection
+            </button>
+          )}
           <details className="manual-tools">
             <summary>Manual tools</summary>
             <button
@@ -1551,7 +1726,8 @@ export default function App({
             )}
           </details>
           <p className="selection-note">
-            Shift-click to select multiple objects.
+            Shift-click or drag a box to select several. Move them together with
+            the arrows.
           </p>
         </aside>
         <section className="modeling-area" aria-label="Modeling workspace">
@@ -1601,6 +1777,14 @@ export default function App({
                 onAppearance={setAppearance}
                 site={project.site}
                 onSite={(site) => commit({ ...current.current, site }, false)}
+                alignMap={alignMap}
+                onAlignMap={(value) => {
+                  setAlignMap(value);
+                  if (value) {
+                    setMapVisible(true);
+                    setView((v) => ({ mode: 'top', revision: v.revision + 1 }));
+                  }
+                }}
                 mapVisible={mapVisible}
                 onMap={setMapVisible}
                 onClose={() => setStudioOpen(false)}
@@ -1631,10 +1815,40 @@ export default function App({
                 }}
               />
             )}
+            {panels.active === 'ar' && (
+              <ARPanel
+                project={project}
+                onActive={setARActive}
+                onClose={() => panels.setters.ar(false)}
+              />
+            )}
+            {panels.active === 'model' && (
+              <ModelPanel
+                project={project}
+                onOperation={(op) => void propose(directPlan(op))}
+                onTool={(t) => {
+                  setTool(t);
+                  panels.setters.model(false);
+                }}
+                onGroups={() => setLayersOpen(true)}
+                onClose={() => panels.setters.model(false)}
+              />
+            )}
             {layersOpen && (
               <LayersPanel
                 project={project}
                 onChange={(p) => commit(p, false)}
+                onSelect={(ids) => {
+                  const next = {
+                    ...current.current,
+                    selectedIds: ids,
+                    selectedId: ids.at(-1) ?? null,
+                  };
+                  current.current = next;
+                  setProject(next);
+                  setTool('translate');
+                  conversation.current.focusIds = ids;
+                }}
                 onClose={() => setLayersOpen(false)}
               />
             )}
@@ -1653,6 +1867,7 @@ export default function App({
             )}
             {cameraOpen && (
               <CameraPanel
+                onAR={() => panels.setters.ar(true)}
                 value={cameraSettings}
                 onClose={() => setCameraOpen(false)}
                 onChange={(v) => {
@@ -1740,8 +1955,9 @@ export default function App({
             </div>
             <Viewport
               project={project}
-              tool={presentation ? 'select' : tool}
+              tool={presentation || alignMap ? 'select' : tool}
               presenting={presentation}
+              suspended={arActive || moodboardOpen}
               cameraSettings={cameraSettings}
               solar={solar}
               onSelectMany={(ids, additive) => {
@@ -1771,10 +1987,26 @@ export default function App({
               renderMode={renderMode}
               appearance={appearance}
               mapVisible={mapVisible}
+              alignMap={alignMap}
+              onMapSite={(site) => commit({ ...current.current, site }, false)}
               section={section}
+              sectionEditing={sectionOpen && !!section.planeVisible}
+              onSectionChange={setSection}
               view={view}
-              onSelect={select}
+              onSelect={(id, additive) => select(id, additive || multiSelect)}
               onChange={change}
+              onTransform={(id, patch) => {
+                try {
+                  const next = transformSelection(current.current, id, patch);
+                  if (
+                    JSON.stringify(next.volumes) !==
+                    JSON.stringify(current.current.volumes)
+                  )
+                    commit(next, false);
+                } catch (error) {
+                  reportError(error);
+                }
+              }}
               onCamera={(c) => {
                 camera.current = c;
                 setNorthAngle(
@@ -1803,7 +2035,11 @@ export default function App({
                   }}
                   aria-label="Edit selected dimensions"
                 >
-                  <span>{selected.name}</span>
+                  <span>
+                    {(project.selectedIds?.length ?? 0) > 1
+                      ? `${project.selectedIds!.length} objects selected`
+                      : selected.name}
+                  </span>
                   <strong>
                     {selected.dimensions.width} × {selected.dimensions.depth} ×{' '}
                     {selected.dimensions.height} <small>m</small>
@@ -1849,6 +2085,16 @@ export default function App({
                 </button>
               ))}
               <div className="tool-divider" />
+              <button
+                className="create-tools-button"
+                aria-label="Create and transform"
+                title="2D shapes, extrude, scale and stretch"
+                aria-pressed={panels.active === 'model'}
+                onClick={() => panels.setters.model((v) => !v)}
+              >
+                <Plus size={18} />
+                <span>Create</span>
+              </button>
               <button
                 title="Frame all (F)"
                 aria-label="Frame all"
@@ -1958,11 +2204,25 @@ export default function App({
                 ))}
               </div>
             )}
-            {busy && (
-              <p className="conversation-working" role="status">
-                <span className="thinking-orbit" aria-hidden="true" />
-                {workStage}
-              </p>
+            {(busy || modelingBusy > 0) && (
+              <div className="conversation-working" role="status">
+                <span className="process-orb" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                <span
+                  key={busy ? workStage : 'geometry'}
+                  className="process-stage"
+                >
+                  {busy ? workStage : 'Preparing geometry…'}
+                  <small>
+                    {busy
+                      ? 'Working with your current design'
+                      : 'Checking the solid before applying it'}
+                  </small>
+                </span>
+              </div>
             )}
             {pending && (
               <div
