@@ -1,3 +1,4 @@
+import { cloneARView, setARTransparency, disposeARView } from './appearance';
 import * as THREE from 'three';
 import { fitToRealWidth } from './placement';
 import { arCameraContext } from './context';
@@ -16,7 +17,9 @@ export type ARSessionControl = {
   fitWidth: (width: number) => void;
   updateModel: (model: THREE.Group) => void;
   bringInFront: () => void;
-  nudge: (right: number, forward: number) => void;
+  nudge: (right: number, forward: number, up?: number) => void;
+  transparency: (transparent: boolean) => void;
+  fitInView?: () => void;
 };
 /** Actual camera tracking and surface hit testing, only when immersive-ar is supported. */
 export async function startAR(
@@ -60,7 +63,8 @@ export async function startAR(
       10000,
     );
   const anchor = new THREE.Group();
-  let copy = model.clone(true);
+  let copy = cloneARView(model);
+  let transparent = false;
   copy.scale.setScalar(scale);
   copy.rotation.y = (initialRotation * Math.PI) / 180;
   let pivot = new THREE.Vector3();
@@ -89,6 +93,7 @@ export async function startAR(
     renderer?.setAnimationLoop(null);
     renderer?.dispose();
     renderer?.domElement.remove();
+    disposeARView(copy);
     reticle.geometry.dispose();
     reticle.material.dispose();
     onEnd();
@@ -221,10 +226,12 @@ export async function startAR(
       },
       updateModel: (model) => {
         fitting = null;
-        const next = model.clone(true);
+        const next = cloneARView(model);
+        setARTransparency(next, transparent);
         next.scale.copy(copy.scale);
         next.rotation.copy(copy.rotation);
         anchor.remove(copy);
+        disposeARView(copy);
         copy = next;
         anchor.add(copy);
       },
@@ -247,23 +254,29 @@ export async function startAR(
           'Nearest edge is one meter ahead. Rotate or resize around that edge.',
         );
       },
-      nudge: (right, forward) => {
+      transparency: (value) => {
+        transparent = value;
+        setARTransparency(copy, value);
+      },
+      nudge: (right, forward, up = 0) => {
         if (!placed || !hasCamera) {
           status('Place the model on a detected surface first.');
           return;
         }
         if (
-          ![right, forward].every(Number.isFinite) ||
+          ![right, forward, up].every(Number.isFinite) ||
           Math.abs(right) > 10 ||
-          Math.abs(forward) > 10
+          Math.abs(forward) > 10 ||
+          Math.abs(up) > 10
         )
           return;
         const axes = floorDirections(trackedCamera);
         anchor.position
           .addScaledVector(axes.right, right)
           .addScaledVector(axes.forward, forward);
+        anchor.position.y += up;
         status(
-          `Moved ${Math.hypot(right, forward).toFixed(2)} m across the real floor.`,
+          `Moved ${Math.hypot(right, forward, up).toFixed(2)} m${up ? ' vertically' : ' across the floor'}. Placement can overlap real objects.`,
         );
       },
       reposition: () => {

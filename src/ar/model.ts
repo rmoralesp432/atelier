@@ -1,3 +1,4 @@
+import { cloneARView, setARTransparency, disposeARView } from './appearance';
 import * as THREE from 'three';
 import { isVisible, type Project } from '../model';
 import { isProfile, renderMeshData } from '../geometry/kernel';
@@ -76,15 +77,23 @@ export async function exportARModel(
   root: THREE.Group,
   scale: number,
   rotation = 0,
+  transparent = false,
 ): Promise<Uint8Array> {
   if (!Number.isFinite(scale) || scale < 0.001 || scale > 1)
     throw new Error('Choose a scale between 1:1000 and 1:1.');
   if (!Number.isFinite(rotation)) throw new Error('Choose a valid rotation.');
   const scene = new THREE.Scene(),
-    copy = root.clone(true);
+    copy = cloneARView(root);
+  setARTransparency(copy, transparent);
   copy.scale.setScalar(scale);
   copy.rotation.y = (rotation * Math.PI) / 180;
   scene.add(copy);
   scene.updateMatrixWorld(true);
-  return new USDZExporter().parseAsync(scene, { quickLookCompatible: true });
+  try {
+    return await new USDZExporter().parseAsync(scene, {
+      quickLookCompatible: true,
+    });
+  } finally {
+    disposeARView(copy);
+  }
 }

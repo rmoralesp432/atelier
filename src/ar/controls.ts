@@ -1,4 +1,4 @@
-import { Box3, Group, Object3D, Vector3 } from 'three';
+import { Box3, Group, Object3D, PerspectiveCamera, Vector3 } from 'three';
 
 export const AR_SCALES = [1, 2, 5, 10, 20, 25, 50, 100, 200, 500, 1000];
 export const normalizeRotation = (degrees: number) =>
@@ -87,4 +87,26 @@ export function bringModelInFront(
   pivot.clamp(bounds.min, bounds.max);
   pivot.y = 0;
   return pivot;
+}
+
+/** Frame an entire model in the untracked camera overlay without changing its ratio. */
+export function frameCameraModel(
+  anchor: Group,
+  model: Group,
+  camera: PerspectiveCamera,
+) {
+  const copy = model.clone(true);
+  copy.position.set(0, 0, 0);
+  const bounds = new Box3().setFromObject(copy);
+  const size = bounds.getSize(new Vector3()),
+    center = bounds.getCenter(new Vector3());
+  const tan = Math.tan((camera.fov * Math.PI) / 360);
+  const distance =
+    Math.max(size.y / 2 / tan, size.x / 2 / (tan * camera.aspect)) * 1.15 +
+    size.z / 2;
+  anchor.position
+    .copy(camera.position)
+    .add(new Vector3(0, 0, -Math.max(1, distance)))
+    .sub(center);
+  return modelBounds(model).getCenter(new Vector3());
 }

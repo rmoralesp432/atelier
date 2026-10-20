@@ -2,7 +2,7 @@ import { validateMesh, type MeshRecipe } from '../imports/mesh';
 
 // Large mesh arrays are shared across geometry history instead of serialized
 // fifty times. Version 2 remains readable; small sessions keep its plain format.
-export const MAX_IMPORT_SESSION_CHARS = 64_000_000;
+export const MAX_IMPORT_SESSION_CHARS = 256_000_000;
 export function encodeSession(session: object): string {
   const meshes: MeshRecipe[] = [];
   const identities = new WeakMap<object, number>();

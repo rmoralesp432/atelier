@@ -146,6 +146,27 @@ it('places and fits genuine scene geometry using explicit XR tracking fixtures; 
   expect(anchor.position.x - oldPosition.x).toBeCloseTo(1);
   control.nudge(0, 0.1);
   expect(anchor.position.z - oldPosition.z).toBeCloseTo(-0.1);
+  control.nudge(0, 0, 5);
+  expect(anchor.position.y - oldPosition.y).toBeCloseTo(5);
+  control.nudge(0, 0, -5);
+  expect(anchor.position.y).toBeCloseTo(oldPosition.y);
+  control.transparency(true);
+  const shownMaterial = (anchor.children[0].children[0] as THREE.Mesh)
+    .material as THREE.Material;
+  expect(shownMaterial.opacity).toBe(0.25);
+  expect(
+    ((model.children[0] as THREE.Mesh).material as THREE.Material).opacity,
+  ).toBe(1);
+  control.updateModel(updated);
+  expect(
+    ((anchor.children[0].children[0] as THREE.Mesh).material as THREE.Material)
+      .opacity,
+  ).toBe(0.25);
+  control.transparency(false);
+  expect(
+    ((anchor.children[0].children[0] as THREE.Mesh).material as THREE.Material)
+      .opacity,
+  ).toBe(1);
   control.reposition();
   expect(anchor.visible).toBe(false);
   await control.end();

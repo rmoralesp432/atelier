@@ -11,6 +11,7 @@ import {
   bringModelInFront,
   floorDirections,
   transformAround,
+  frameCameraModel,
 } from './controls';
 
 it('keeps a life-size rotated building ahead of the viewer and its near-edge pivot stable', () => {
@@ -66,4 +67,26 @@ it('keeps camera-relative floor moves horizontal even when looking down', () => 
   expect(forward.length()).toBeCloseTo(1);
   expect(forward.dot(right)).toBeCloseTo(0);
   expect(forward.x).toBeCloseTo(-1);
+});
+
+it('frames a full-size building on a portrait camera without changing its scale', () => {
+  const anchor = new Group(),
+    model = new Group(),
+    camera = new PerspectiveCamera(60, 390 / 844, 0.01, 10000);
+  camera.position.set(0, 1.6, 0);
+  camera.updateMatrixWorld(true);
+  model.add(new Mesh(new BoxGeometry(100, 8, 40)));
+  model.rotation.y = Math.PI / 4;
+  anchor.add(model);
+  frameCameraModel(anchor, model, camera);
+  anchor.updateMatrixWorld(true);
+  for (const x of [-50, 50])
+    for (const y of [-4, 4])
+      for (const z of [-20, 20]) {
+        const p = model.localToWorld(new Vector3(x, y, z)).project(camera);
+        expect(Math.abs(p.x)).toBeLessThan(1);
+        expect(Math.abs(p.y)).toBeLessThan(1);
+        expect(p.z).toBeLessThan(1);
+      }
+  expect(model.scale.toArray()).toEqual([1, 1, 1]);
 });

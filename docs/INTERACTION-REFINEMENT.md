@@ -93,3 +93,19 @@ New geometry receives a closer camera frame of its own, without widening to incl
 - Construction now advances on a bounded visible-frame clock, so a slow frame or background tab does not skip the entire creation sequence. Reduced motion and immediate interaction-to-finish remain supported. On slow hardware the presentation can take longer; saved geometry is final throughout.
 
 Accurate stepped topography is researched separately in [TOPOGRAPHY-RESEARCH.md](TOPOGRAPHY-RESEARCH.md). No terrain source or survey accuracy is simulated.
+
+## Large-model AR controls — October 20, 2026
+
+Open **Tools → Camera → View in your space · AR**. Prepare, choose a scale and confirm it. **See-through model** prepares a translucent USDZ for native iPhone AR; changing this option requires preparing again before reopening Apple's viewer. Existing glass and foliage remain naturally transparent in the normal view.
+
+For live ATELIER controls on iPhone, choose **Open camera with manual controls** and allow camera access. This displays the actual rear camera behind the 3D model, keeps conversation available, and offers:
+
+- Left/right, closer/farther and raise/lower buttons, with 1 cm–10 m increments.
+- One-finger drag to position the model; two-finger twist to turn. Size stays locked until **Change scale** is selected; fine scale and presets are under **Size & placement**.
+- Rotation sliders and ±5°/±90° buttons, and a near-edge rotation/scale pivot for large models.
+- **See whole model** in the manual camera view to frame the entire building without changing its scale; **Bring in front of me** for its nearest edge; **Place again** to reset placement.
+- A live **See-through model** switch to compare against the camera surroundings.
+
+**This is manual camera alignment, not world-tracked AR.** Walking or turning the phone does not keep the model fixed in the real world. Camera field of view and physical distance are uncalibrated, so 1:1 is a model ratio, not a verified physical scale. No wall/object detection, collision avoidance or real-world occlusion is claimed. For walking around a tracked model on iPhone, use **Open camera AR**, which launches Apple Quick Look. Apple owns the controls there; ATELIER cannot place its own controls or chat inside that native viewer.
+
+WebXR devices retain genuine floor hit testing and gain the same live transparency and height nudges. **Place again** returns to tracked surface placement. Neither viewing mode modifies project geometry. Exiting the manual camera view stops the camera stream.

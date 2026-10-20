@@ -73,10 +73,8 @@ import {
 import MeshImportDialog from './imports/MeshImportDialog';
 import { importedSession } from './imports/transaction';
 import {
-  parseMeshAsset,
   isReference,
   MAX_IMPORT_BYTES,
-  type MeshAsset,
   type PreparedImport,
 } from './imports/mesh';
 import { groupBounds } from './geometry/spatial';
@@ -1050,7 +1048,7 @@ export default function App({
   const [saved, setSaved] = useState(true);
   const input = useRef<HTMLTextAreaElement>(null);
   const file = useRef<HTMLInputElement>(null);
-  const [importAsset, setImportAsset] = useState<MeshAsset | null>(null);
+  const [importAsset, setImportAsset] = useState<File | null>(null);
   const [draggingFile, setDraggingFile] = useState(false);
   const selected = project.volumes.find((v) => v.id === project.selectedId);
   const commit = useCallback((next: Project, animate = true) => {
@@ -1316,11 +1314,9 @@ export default function App({
   const importFile = async (f: File) => {
     try {
       if (f.size > MAX_IMPORT_BYTES)
-        throw new Error('Import files must be 200 MB or smaller.');
+        throw new Error('Import files must be 512 MB or smaller.');
       if (!f.name.toLowerCase().endsWith('.json')) {
-        setNotice({ text: 'Reading your 3D element…', error: false });
-        const asset = await parseMeshAsset(f.name, await f.arrayBuffer());
-        setImportAsset(asset);
+        setImportAsset(f);
         setNotice({ text: '', error: false });
         return;
       }
@@ -1453,7 +1449,7 @@ export default function App({
       )}
       {importAsset && (
         <MeshImportDialog
-          asset={importAsset}
+          file={importAsset}
           errorText={notice.error ? notice.text : undefined}
           onAdd={addImported}
           onClose={() => setImportAsset(null)}

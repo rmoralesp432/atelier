@@ -1,3 +1,4 @@
+import { detailTargets, type ImportDetail } from './detail';
 import * as THREE from 'three';
 import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
 import { STLLoader } from 'three/addons/loaders/STLLoader.js';
@@ -5,8 +6,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { getKernel } from '../geometry/kernel';
 import { validateVolume, type Volume } from '../model';
 
-export const MAX_IMPORT_BYTES = 200_000_000;
-export const MAX_IMPORT_TRIANGLES = 1_000_000;
+export const MAX_IMPORT_BYTES = 512_000_000;
+export const MAX_IMPORT_TRIANGLES = 5_000_000;
 export type MeshAsset = {
   name: string;
   format: string;
@@ -17,6 +18,8 @@ export type MeshAsset = {
   color?: string;
   metersPerUnit?: number;
   warnings?: string[];
+  sourceTriangles?: number;
+  detail?: ImportDetail;
 };
 export type ImportOptions = {
   units: 'source' | 'm' | 'cm' | 'mm' | 'ft';
@@ -133,9 +136,11 @@ function geometryOnlyGlb(bytes: ArrayBuffer) {
 export async function parseMeshAsset(
   name: string,
   bytes: ArrayBuffer,
+  detail: ImportDetail = 'full',
+  progress: (text: string) => void = () => {},
 ): Promise<MeshAsset> {
   if (bytes.byteLength > MAX_IMPORT_BYTES)
-    throw new Error('Import files must be 200 MB or smaller.');
+    throw new Error('Import files must be 512 MB or smaller.');
   const format = name.split('.').at(-1)?.toLowerCase();
   let root: THREE.Object3D;
   if (format === 'obj')
@@ -157,6 +162,16 @@ export async function parseMeshAsset(
     root = readFbx(bytes);
   } else
     throw new Error('Choose an FBX, OBJ, STL, GLB or ATELIER JSON project.');
+  return extractMeshAsset(root, name, format!, detail, progress);
+}
+/** Shared by the worker and numerical importer tests. The scene is disposed on completion. */
+export async function extractMeshAsset(
+  root: THREE.Object3D,
+  name: string,
+  format: string,
+  detail: ImportDetail = 'full',
+  progress: (text: string) => void = () => {},
+): Promise<MeshAsset> {
   const positions: number[] = [],
     indices: number[] = [],
     parts: MeshAsset[] = [],
@@ -168,7 +183,64 @@ export async function parseMeshAsset(
       'No FBX unit metadata. Assuming centimeters; check the dimensions below.',
     );
   root.updateMatrixWorld(true);
+  let sourceTriangles = 0;
   try {
+    root.traverse((o) => {
+      if (o instanceof THREE.Mesh)
+        sourceTriangles +=
+          (o.geometry.getIndex()?.count ??
+            o.geometry.getAttribute('position')?.count ??
+            0) / 3;
+    });
+    const limit = detail === 'full' ? MAX_IMPORT_TRIANGLES : 20_000_000;
+    if (!Number.isInteger(sourceTriangles) || sourceTriangles > limit)
+      throw new Error(
+        `${sourceTriangles.toLocaleString()} triangles found. ${detail === 'full' ? 'Full detail supports 5,000,000 triangles. Choose Balanced or Phone detail below to reduce a copy.' : 'This file exceeds the 20,000,000-source-triangle processing limit. Export a smaller view.'}`,
+      );
+    const meshes: THREE.Mesh[] = [];
+    root.traverse((o) => {
+      if (o instanceof THREE.Mesh) meshes.push(o);
+    });
+    let processed = 0;
+    for (const mesh of meshes) {
+      const triangles =
+        (mesh.geometry.getIndex()?.count ??
+          mesh.geometry.getAttribute('position')?.count ??
+          0) / 3;
+      if (
+        mesh instanceof THREE.SkinnedMesh ||
+        Object.keys(mesh.geometry.morphAttributes).length
+      )
+        throw new Error(
+          'Export a static FBX without skinning or morph targets.',
+        );
+      if (format === 'fbx' && mesh.geometry.hasAttribute('color'))
+        warnings.add(
+          'Each element uses its first material’s basic color. Per-face colors and textures are not imported.',
+        );
+      processed++;
+      if (triangles && (triangles > 1000 || detail !== 'full')) {
+        progress(
+          `${detail === 'full' ? 'Preparing' : 'Reducing'} geometry · ${processed} / ${meshes.length} elements`,
+        );
+        const { optimizeGeometry } = await import('./optimize');
+        const target = Math.max(
+          12,
+          Math.floor(
+            triangles *
+              Math.min(1, detailTargets[detail] / Math.max(1, sourceTriangles)),
+          ),
+        );
+        const optimized = await optimizeGeometry(
+          mesh.geometry,
+          target,
+          detail !== 'full',
+          mesh.matrixWorld,
+        );
+        mesh.geometry.dispose();
+        mesh.geometry = optimized.geometry;
+      }
+    }
     root.traverse((o) => {
       if (o instanceof THREE.Line || o instanceof THREE.Points)
         warnings.add('Curves and points are not imported; only mesh surfaces.');
@@ -190,7 +262,7 @@ export async function parseMeshAsset(
       const count = index?.count ?? p.count;
       if (count % 3 || indices.length + count > MAX_IMPORT_TRIANGLES * 3)
         throw new Error(
-          'Use a model with at most 1,000,000 triangles. Simplify the Revit 3D view or export it in smaller sections.',
+          'This copy still exceeds 5,000,000 triangles while preserving boundaries. Export a smaller view; no elements were silently removed.',
         );
       const indexStart = indices.length;
       const start = positions.length / 3,
@@ -211,9 +283,9 @@ export async function parseMeshAsset(
           start + (index?.getX(i + (reverse ? 1 : 2)) ?? i + (reverse ? 1 : 2)),
         );
       if (format === 'fbx' && count) {
-        if (parts.length >= 2000)
+        if (parts.length >= 20000)
           throw new Error(
-            'This FBX has more than 2,000 source elements. Export a smaller 3D view.',
+            'This FBX has more than 20,000 source elements. Export a smaller 3D view.',
           );
         const materials = Array.isArray(o.material) ? o.material : [o.material];
         const material = materials[0] as THREE.MeshPhongMaterial;
@@ -259,6 +331,8 @@ export async function parseMeshAsset(
     format: format!,
     positions,
     indices,
+    sourceTriangles,
+    detail,
     ...(format === 'fbx'
       ? { parts, metersPerUnit, warnings: [...warnings] }
       : {}),
@@ -309,9 +383,14 @@ export async function prepareMesh(
   const positions: number[] = [],
     indices: number[] = [],
     vertices = new Map<string, number>();
+  const remap = new Int32Array(normalized.length / 3).fill(-1);
   for (const i of asset.indices) {
     if (!Number.isInteger(i) || i < 0 || i * 3 + 2 >= normalized.length)
       throw new Error('Invalid mesh triangle index.');
+    if (remap[i] >= 0) {
+      indices.push(remap[i]);
+      continue;
+    }
     const p = normalized
       .slice(i * 3, i * 3 + 3)
       .map((n) => Number(n.toFixed(8)));
@@ -322,6 +401,7 @@ export async function prepareMesh(
       positions.push(...p);
       vertices.set(key, vertex);
     }
+    remap[i] = vertex;
     indices.push(vertex);
   }
   let solid = false;

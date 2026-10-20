@@ -42,7 +42,9 @@ export default function ARPanel({
     [sessionReady, setSessionReady] = useState(false),
     [scaleConfirmed, setScaleConfirmed] = useState(false),
     [moveStep, setMoveStep] = useState(0.1),
-    [loadFailed, setLoadFailed] = useState(false);
+    [loadFailed, setLoadFailed] = useState(false),
+    [manualCamera, setManualCamera] = useState(false),
+    [transparent, setTransparent] = useState(false);
   const modelModule = useRef<typeof import('./model') | null>(null);
   const signature = JSON.stringify([project.volumes, project.groups]);
   const preparedSignature = useRef('');
@@ -100,7 +102,7 @@ export default function ARPanel({
       prepared.current = model;
       preparedSignature.current = signature;
       setWidth(new Box3().setFromObject(model).getSize(new Vector3()).x);
-      const data = await m.exportARModel(model, scale, rotation);
+      const data = await m.exportARModel(model, scale, rotation, transparent);
       if (!alive.current || revision !== generation.current) return;
       if (blobURL.current) URL.revokeObjectURL(blobURL.current);
       blobURL.current = URL.createObjectURL(
@@ -123,48 +125,68 @@ export default function ARPanel({
       if (alive.current) setBusy(false);
     }
   };
-  const launch = () => {
+  const launch = (manual = false) => {
     if (
       !scaleConfirmed ||
       !prepared.current ||
-      !module.current ||
+      (!manual && !module.current) ||
       !overlay.current
     )
       return;
     abort.current = new AbortController();
     onActive(true);
     setActive(true);
+    setManualCamera(manual);
     setError('');
-    void module.current
-      .startAR(
-        prepared.current,
-        overlay.current,
-        scale,
-        setStatus,
-        () => {
-          if (alive.current) {
-            setActive(false);
-            onActive(false);
-            setSessionReady(false);
-            session.current = null;
-          }
-        },
-        abort.current.signal,
-        (value, degrees) => {
-          setScale(value);
-          setScaleConfirmed(false);
-          setRotation(degrees);
-          setURL('');
-        },
-        onCamera,
-        rotation,
-      )
+    const ended = () => {
+      if (alive.current) {
+        setActive(false);
+        onActive(false);
+        setSessionReady(false);
+        session.current = null;
+      }
+    };
+    const running = manual
+      ? import('./cameraOverlay').then((m) =>
+          m.startCameraOverlay(
+            prepared.current!,
+            overlay.current!,
+            scale,
+            setStatus,
+            ended,
+            abort.current!.signal,
+            onCamera,
+            rotation,
+            (degrees) => {
+              setRotation(degrees);
+              setURL('');
+            },
+          ),
+        )
+      : module.current!.startAR(
+          prepared.current,
+          overlay.current,
+          scale,
+          setStatus,
+          ended,
+          abort.current.signal,
+          (value, degrees) => {
+            setScale(value);
+            setScaleConfirmed(false);
+            setRotation(degrees);
+            setURL('');
+          },
+          onCamera,
+          rotation,
+        );
+    void running
       .then((control) => {
         if (!alive.current) {
           void control.end();
           return;
         }
         session.current = control;
+        control.transparency?.(transparent);
         setSessionReady(true);
       })
       .catch((e) => {
@@ -201,6 +223,11 @@ export default function ARPanel({
     const angle = normalizeRotation(value);
     setRotation(angle);
     session.current?.rotate(angle);
+    invalidateExport();
+  };
+  const chooseTransparency = (value: boolean) => {
+    setTransparent(value);
+    session.current?.transparency?.(value);
     invalidateExport();
   };
   const scaleOptions = () => (
@@ -372,6 +399,19 @@ export default function ARPanel({
           )}
         </fieldset>
         {width > 0 && confirmation()}
+        <label className="ar-scale-lock">
+          <input
+            type="checkbox"
+            checked={transparent}
+            disabled={busy}
+            onChange={(e) => chooseTransparency(e.target.checked)}
+          />
+          See-through model
+        </label>
+        <p className="studio-caption">
+          See through surfaces to compare with your surroundings. This does not
+          detect collisions or hide geometry behind real objects.
+        </p>
         <details>
           <summary>Orientation · {rotation}°</summary>
           {rotationControls(false)}
@@ -462,11 +502,25 @@ export default function ARPanel({
                 <button
                   className="primary-studio-action"
                   disabled={!scaleConfirmed}
-                  onClick={launch}
+                  onClick={() => launch()}
                 >
                   Open camera AR
                 </button>
               ) : null}
+              <button
+                className="primary-studio-action"
+                disabled={!scaleConfirmed}
+                onClick={() => launch(true)}
+              >
+                Open camera with manual controls
+              </button>
+              <p className="studio-caption">
+                Stay in ATELIER to adjust distance, height, rotation and
+                transparency, and use chat. This camera overlay is manually
+                aligned: it does not track walking, detect obstacles or verify
+                real-world 1:1 scale. Use camera AR above for tracked placement
+                when available.
+              </p>
               <a className="text-action" href={url} download="atelier.usdz">
                 Download AR model (.usdz)
               </a>
@@ -513,6 +567,14 @@ export default function ARPanel({
               <strong>{status || 'Opening camera…'}</strong>
               <div className="ar-button-row ar-quick-actions">
                 {' '}
+                {manualCamera && (
+                  <button
+                    disabled={!sessionReady}
+                    onClick={() => session.current?.fitInView?.()}
+                  >
+                    See whole model
+                  </button>
+                )}
                 <button
                   disabled={!sessionReady}
                   onClick={() => session.current?.bringInFront()}
@@ -528,12 +590,85 @@ export default function ARPanel({
                 <button
                   onClick={() => {
                     if (session.current) void session.current.end();
-                    else onClose();
+                    else {
+                      abort.current?.abort();
+                      onClose();
+                    }
                   }}
                 >
                   Exit AR
                 </button>
               </div>
+              <label className="ar-scale-lock">
+                <input
+                  type="checkbox"
+                  checked={transparent}
+                  disabled={!sessionReady}
+                  onChange={(e) => chooseTransparency(e.target.checked)}
+                />
+                See-through model
+              </label>
+              {manualCamera && (
+                <p className="ar-mode-note">
+                  Manual camera overlay · no walking or obstacle tracking. Use
+                  the controls to align; 1:1 is a model ratio, not calibrated
+                  camera scale.
+                </p>
+              )}
+              <label>
+                Move by
+                <select
+                  aria-label="AR move increment"
+                  value={moveStep}
+                  onChange={(e) => setMoveStep(Number(e.target.value))}
+                >
+                  <option value={0.01}>1 cm</option>
+                  <option value={0.1}>10 cm</option>
+                  <option value={0.5}>50 cm</option>
+                  <option value={1}>1 m</option>
+                  <option value={5}>5 m</option>
+                  <option value={10}>10 m</option>
+                </select>
+              </label>
+              <div className="ar-button-row">
+                <button
+                  disabled={!sessionReady}
+                  onClick={() => session.current?.nudge(-moveStep, 0)}
+                >
+                  Left
+                </button>
+                <button
+                  disabled={!sessionReady}
+                  onClick={() => session.current?.nudge(moveStep, 0)}
+                >
+                  Right
+                </button>
+                <button
+                  disabled={!sessionReady}
+                  onClick={() => session.current?.nudge(0, -moveStep)}
+                >
+                  Closer
+                </button>
+                <button
+                  disabled={!sessionReady}
+                  onClick={() => session.current?.nudge(0, moveStep)}
+                >
+                  Farther
+                </button>
+                <button
+                  disabled={!sessionReady}
+                  onClick={() => session.current?.nudge(0, 0, moveStep)}
+                >
+                  Raise
+                </button>
+                <button
+                  disabled={!sessionReady}
+                  onClick={() => session.current?.nudge(0, 0, -moveStep)}
+                >
+                  Lower
+                </button>
+              </div>
+
               <details className="ar-adjustments">
                 <summary>
                   Size & placement · 1:{Number((1 / scale).toFixed(1))}
@@ -597,57 +732,22 @@ export default function ARPanel({
                     Moves the nearest edge one meter ahead. Ideal at 1:1. That
                     edge stays fixed when you turn or resize the model.
                   </p>
-                  <label>
-                    Move by
-                    <select
-                      aria-label="AR move increment"
-                      value={moveStep}
-                      onChange={(e) => setMoveStep(Number(e.target.value))}
-                    >
-                      <option value={0.01}>1 cm</option>
-                      <option value={0.1}>10 cm</option>
-                      <option value={0.5}>50 cm</option>
-                      <option value={1}>1 m</option>
-                      <option value={5}>5 m</option>
-                    </select>
-                  </label>
-                  <div className="ar-button-row">
-                    <button
-                      disabled={!sessionReady}
-                      onClick={() => session.current?.nudge(-moveStep, 0)}
-                    >
-                      Left
-                    </button>
-                    <button
-                      disabled={!sessionReady}
-                      onClick={() => session.current?.nudge(moveStep, 0)}
-                    >
-                      Right
-                    </button>
-                    <button
-                      disabled={!sessionReady}
-                      onClick={() => session.current?.nudge(0, -moveStep)}
-                    >
-                      Closer
-                    </button>
-                    <button
-                      disabled={!sessionReady}
-                      onClick={() => session.current?.nudge(0, moveStep)}
-                    >
-                      Farther
-                    </button>
-                  </div>
-                  <button
-                    disabled={!sessionReady || !width || scaleConfirmed}
-                    onClick={() => session.current?.fitWidth(width)}
-                  >
-                    Fit width between two points
-                  </button>
-                  <p>
-                    Tap two ends on the same floor or tabletop. The model fits
-                    between them. Device tracking is approximate, not a survey
-                    measurement.
-                  </p>
+                  {!manualCamera && (
+                    <>
+                      <button
+                        disabled={!sessionReady || !width || scaleConfirmed}
+                        onClick={() => session.current?.fitWidth(width)}
+                      >
+                        Fit width between two points
+                      </button>
+                      <p>
+                        Tap two ends on the same floor or tabletop. The model
+                        fits between them. Device tracking is approximate, not a
+                        survey measurement. Real objects do not block model
+                        movement.
+                      </p>
+                    </>
+                  )}
                 </div>
               </details>
             </div>

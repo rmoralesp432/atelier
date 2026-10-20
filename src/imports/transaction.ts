@@ -74,7 +74,7 @@ export function importedSession(
   // exhaust local storage or evict previous work/history on a large import.
   if (serializeSession(candidate).length > MAX_IMPORT_SESSION_CHARS)
     throw new Error(
-      'This import exceeds the 64 MB project-history budget. Import a lighter model or use a new project; your project has not changed.',
+      'This import exceeds the saved-project size limit. Import a lighter model or use a new project; your project has not changed.',
     );
   return candidate;
 }

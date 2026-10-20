@@ -5506,8 +5506,7 @@ summary:focus-visible {
   padding-block: 10px;
 }
 .ar-launch-actions {
-  position: sticky;
-  bottom: -18px;
+  position: relative;
   z-index: 2;
   display: grid;
   gap: 10px;
@@ -6120,4 +6119,72 @@ summary:focus-visible {
     right: 12px;
     max-width: none;
   }
+}
+
+.asset-detail {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 12px;
+}
+.asset-detail select {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: inherit;
+  padding: 8px;
+}
+
+.ar-camera-feed,
+.ar-manual-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.ar-camera-feed {
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+}
+.ar-overlay .ar-manual-canvas {
+  z-index: 1;
+  touch-action: none;
+}
+.ar-overlay .ar-controls,
+.ar-overlay .ar-conversation-host {
+  z-index: 3;
+}
+.ar-mode-note {
+  font-size: 11px;
+  opacity: 0.8;
+  max-width: 48ch;
+}
+
+.ar-overlay .ar-controls {
+  overflow-y: auto;
+  max-height: 60dvh;
+}
+
+.ar-panel {
+  scroll-padding-top: 80px;
+  scroll-padding-bottom: 24px;
+}
+/* Keep chat on its own layer above video/WebGL, without backdrop-filter repaint artifacts. */
+.ar-overlay .ar-conversation-host {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  z-index: 4;
+  pointer-events: none;
+}
+.immersive .ar-overlay .ar-conversation-host .conversation-area {
+  position: relative;
+  inset: auto;
+  width: auto;
+  pointer-events: auto;
+  backdrop-filter: none;
 }
