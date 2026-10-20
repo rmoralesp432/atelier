@@ -4,6 +4,7 @@ import ARPanel from './ar/ARPanel';
 import { parseBoard } from './moodboard/data';
 import ModelPanel from './studio/ModelPanel';
 import { useToolPanels } from './studio/useToolPanels';
+import { trackToolbar } from './studio/trackToolbar';
 import { transformSelection } from './geometry/selectionTransform';
 import { exportObj } from './geometry/export';
 import { referenceImage } from './imports/reference';
@@ -2291,6 +2292,7 @@ export default function App({
               !placingCamera && (
                 <div
                   className="spatial-actions"
+                  ref={trackToolbar}
                   role="toolbar"
                   aria-label="Shape selected objects"
                 >

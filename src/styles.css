@@ -5332,7 +5332,7 @@ summary:focus-visible {
 }
 @media (max-width: 800px) {
   .viewport-stage:has(.spatial-actions) .pull-feedback {
-    top: 182px;
+    top: var(--selection-tools-bottom, 182px);
   }
   .app-shell:not(.inspector-collapsed) .spatial-actions,
   .objects-open .spatial-actions,
@@ -5341,11 +5341,11 @@ summary:focus-visible {
   }
 }
 .viewport-stage:has(.spatial-actions) .transform-readout {
-  top: 144px;
+  top: var(--selection-tools-bottom, 144px);
 }
 @media (max-width: 800px) {
   .viewport-stage:has(.spatial-actions) .transform-readout {
-    top: 182px;
+    top: var(--selection-tools-bottom, 182px);
   }
 }
 @media (min-width: 801px) {

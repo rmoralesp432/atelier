@@ -269,6 +269,15 @@ test('phone tools remain reachable and the placement instruction stays clear of 
   const feedback = page.locator('.pull-feedback');
   await expect(feedback).toBeVisible();
   expect((await feedback.boundingBox())!.y).toBeGreaterThan(b.y + b.height);
+  for (const width of [320, 430, 390]) {
+    await page.setViewportSize({ width, height: 844 });
+    await expect
+      .poll(async () => {
+        const tools = (await toolbar.boundingBox())!;
+        return (await feedback.boundingBox())!.y - tools.y - tools.height;
+      })
+      .toBeGreaterThan(0);
+  }
   await toolbar.getByRole('button', { name: 'Stretch', exact: true }).click();
   await expect(
     page.getByLabel('Stretch distance · m', { exact: true }),
