@@ -2095,6 +2095,23 @@ export default function App({
             )}
             {panels.active === 'ar' && (
               <ARPanel
+                onReload={async () => {
+                  if (!onSnapshot || !boot.storageSafe)
+                    throw new Error(
+                      'Cannot verify your project backup. Export your project before refreshing.',
+                    );
+                  const session = serializeSession(snapshot());
+                  await onSnapshot(
+                    { session, messages, moodboard, panoramas },
+                    boot.storageSafe,
+                  );
+                  if (serializeSession(snapshot()) !== session)
+                    throw new Error(
+                      'Your model changed while saving. Please try Save project and refresh again.',
+                    );
+                  voice.current?.stop();
+                  window.location.reload();
+                }}
                 project={project}
                 onActive={setARSessionActive}
                 onConversationHost={setARConversationHost}

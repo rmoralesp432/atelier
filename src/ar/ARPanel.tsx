@@ -1,3 +1,4 @@
+import { isModuleLoadError } from './loading';
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState } from 'react';
 import { X, Smartphone } from 'lucide-react';
@@ -14,6 +15,7 @@ export default function ARPanel({
   onConversationHost,
   onNativeOpen,
   onCamera,
+  onReload,
 }: {
   project: Project;
   onClose: () => void;
@@ -21,6 +23,7 @@ export default function ARPanel({
   onConversationHost: (node: HTMLDivElement | null) => void;
   onNativeOpen: () => void;
   onCamera: (camera: CameraContext) => void;
+  onReload: () => Promise<void>;
 }) {
   const floating = useFloatingPanel(),
     [xr, setXR] = useState(false),
@@ -38,7 +41,9 @@ export default function ARPanel({
     [lockScale, setLockScale] = useState(true),
     [sessionReady, setSessionReady] = useState(false),
     [scaleConfirmed, setScaleConfirmed] = useState(false),
-    [moveStep, setMoveStep] = useState(0.1);
+    [moveStep, setMoveStep] = useState(0.1),
+    [loadFailed, setLoadFailed] = useState(false);
+  const modelModule = useRef<typeof import('./model') | null>(null);
   const signature = JSON.stringify([project.volumes, project.groups]);
   const preparedSignature = useRef('');
   const abort = useRef<AbortController | null>(null);
@@ -71,7 +76,7 @@ export default function ARPanel({
       if (blobURL.current) URL.revokeObjectURL(blobURL.current);
       if (prepared.current) {
         const model = prepared.current;
-        void import('./model').then((m) => m.disposeARModel(model));
+        modelModule.current?.disposeARModel(model);
       }
     };
   }, []);
@@ -80,9 +85,12 @@ export default function ARPanel({
     const revision = ++generation.current;
     setBusy(true);
     setError('');
+    setLoadFailed(false);
     try {
       const m = await import('./model');
-      module.current = await import('./webxr');
+      modelModule.current = m;
+      // Native Quick Look and USDZ downloads do not need the WebXR runtime.
+      module.current = xr && !quickLook ? await import('./webxr') : null;
       const model = await m.createARModel(project);
       if (!alive.current || revision !== generation.current) {
         m.disposeARModel(model);
@@ -100,8 +108,17 @@ export default function ARPanel({
       );
       setURL(blobURL.current);
     } catch (e) {
-      if (alive.current)
-        setError(e instanceof Error ? e.message : 'Could not prepare AR.');
+      if (alive.current) {
+        const failed = isModuleLoadError(e);
+        setLoadFailed(failed);
+        setError(
+          failed
+            ? 'The AR files could not load. This tab may be from an older update, or the connection may have interrupted the download. Save and refresh to load the current version.'
+            : e instanceof Error
+              ? e.message
+              : 'Could not prepare AR.',
+        );
+      }
     } finally {
       if (alive.current) setBusy(false);
     }
@@ -414,7 +431,7 @@ export default function ARPanel({
         <div className="ar-launch-actions">
           <button
             className={url ? 'text-action' : 'primary-studio-action'}
-            disabled={busy}
+            disabled={busy || checking}
             onClick={() => void prepare()}
           >
             {busy
@@ -461,6 +478,29 @@ export default function ARPanel({
           this device. Placement is visual, not a survey alignment.
         </p>
         {error && <p role="alert">{error}</p>}
+        {loadFailed && (
+          <button
+            className="primary-studio-action"
+            disabled={busy}
+            onClick={async () => {
+              setBusy(true);
+              try {
+                await onReload();
+              } catch (e) {
+                if (alive.current)
+                  setError(
+                    e instanceof Error
+                      ? e.message
+                      : 'Could not save. Export a backup before refreshing.',
+                  );
+              } finally {
+                if (alive.current) setBusy(false);
+              }
+            }}
+          >
+            {busy ? 'Saving your project…' : 'Save project and refresh'}
+          </button>
+        )}
       </section>
       {createPortal(
         <div

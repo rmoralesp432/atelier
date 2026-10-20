@@ -13,8 +13,33 @@ const app = createApi(key ? createProvider(key) : null, {
   origin,
 });
 if (production) {
-  app.use(express.static(resolve('dist')));
-  app.get('/', (_req, res) => res.sendFile(resolve('dist/index.html')));
+  app.use(
+    express.static(resolve('dist'), {
+      setHeaders(res, path) {
+        res.setHeader(
+          'Cache-Control',
+          path.endsWith('.html')
+            ? 'no-store'
+            : path.includes('/assets/')
+              ? 'public, max-age=31536000, immutable'
+              : 'no-cache',
+        );
+      },
+    }),
+  );
+  // Do not cache missing old chunks or return HTML as a JavaScript module.
+  app.use('/assets', (_req, res) =>
+    res
+      .status(404)
+      .set('Cache-Control', 'no-store')
+      .type('text/plain')
+      .send(
+        'This application asset is unavailable. Refresh to load the current version.',
+      ),
+  );
+  app.get('/', (_req, res) =>
+    res.set('Cache-Control', 'no-store').sendFile(resolve('dist/index.html')),
+  );
 } else {
   const { createServer } = await import('vite');
   const vite = await createServer({

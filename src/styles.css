@@ -6108,3 +6108,16 @@ summary:focus-visible {
     max-width: calc(100% - 104px);
   }
 }
+
+/* Passive storage notices must not block the controls needed to recover. */
+.project-storage-warning {
+  pointer-events: none;
+}
+@media (max-width: 800px) {
+  .project-storage-warning {
+    top: 68px;
+    bottom: auto;
+    right: 12px;
+    max-width: none;
+  }
+}

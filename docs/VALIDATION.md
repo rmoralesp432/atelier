@@ -2,6 +2,14 @@
 
 Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 154 and software WebGL. This file distinguishes geometric execution, UI/provider contracts and live AI/audio behavior.
 
+## AR module-loading recovery — October 20, 2026
+
+A user reported Safari's “Importing a module script failed” after an update. The deployed service was live. Code inspection found that native iPhone USDZ preparation unnecessarily imported WebXR, whose hashed filename changes across builds. A stale open tab or interrupted download is consistent with this error; the user's device request log was not available, so the exact failed URL is not confirmed.
+
+Native Quick Look and USDZ downloads now omit WebXR. AR import failures offer **Save project and refresh**, which awaits the full IndexedDB workspace save and refuses to reload after a save failure or concurrent geometry change. Cleanup uses the already loaded model module. HTML and missing-asset responses are not cached; hashed assets are immutable. This does not keep all historic deployment assets online, so an old open tab can still require a refresh. A passive storage warning no longer covers phone recovery controls.
+
+**161 unit/integration tests in 42 files pass**, including Safari/Chromium/Firefox error classification. **Six targeted production browser checks pass across focused runs**: native USDZ export without any WebXR request, genuine module-request 404 recovery with save-failure refusal and project preservation after reload, production cache/404 headers, existing iPhone native handoff, and WebXR shared-conversation/model updates in both themes. The storage-warning obstruction found during the first recovery run was corrected, and all three loading tests then passed together. TypeScript/Vite production build and formatting/whitespace checks pass. Device capabilities and XR transport remain explicit fixtures; physical iPhone Quick Look rendering was not tested in the cloud. No API credentials or hosting configuration were replaced.
+
 ## Phone navigation, larger imports and panoramas — October 20, 2026
 
 **160 unit/integration tests in 41 files pass.** New tests validate shared mesh serialization across all 50 undo snapshots, legacy version-2 restoration, corrupt mesh-reference rejection, panorama metadata/source validation and device-orientation mathematics. Large sessions use a version-3 mesh library without dropping geometry or history.
