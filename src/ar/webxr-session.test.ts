@@ -76,6 +76,17 @@ it('places and fits genuine scene geometry using explicit XR tracking fixtures; 
     const matrix = new THREE.Matrix4().makeTranslation(x, y, z).toArray();
     rendererState.loop!(0, {
       getHitTestResults: () => [{ getPose: () => ({ transform: { matrix } }) }],
+      getViewerPose: () => ({
+        views: [
+          {
+            transform: {
+              matrix: new THREE.Matrix4().makeTranslation(0, 1.7, 0).toArray(),
+            },
+            projectionMatrix:
+              new THREE.PerspectiveCamera().projectionMatrix.toArray(),
+          },
+        ],
+      }),
     } as unknown as XRFrame);
   };
   // A tracked wall is not a suitable ground placement surface.
@@ -125,6 +136,16 @@ it('places and fits genuine scene geometry using explicit XR tracking fixtures; 
   Object.defineProperty(tap, 'target', { value: { closest: () => ({}) } });
   overlay.dispatchEvent(tap);
   expect(tap.defaultPrevented).toBe(true);
+  control.scale(1);
+  control.bringInFront();
+  anchor.updateMatrixWorld(true);
+  const front = new THREE.Box3().setFromObject(anchor);
+  expect(front.max.z).toBeCloseTo(-1);
+  const oldPosition = anchor.position.clone();
+  control.nudge(1, 0);
+  expect(anchor.position.x - oldPosition.x).toBeCloseTo(1);
+  control.nudge(0, 0.1);
+  expect(anchor.position.z - oldPosition.z).toBeCloseTo(-0.1);
   control.reposition();
   expect(anchor.visible).toBe(false);
   await control.end();

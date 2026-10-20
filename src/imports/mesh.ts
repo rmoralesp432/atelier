@@ -5,15 +5,23 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { getKernel } from '../geometry/kernel';
 import { validateVolume, type Volume } from '../model';
 
-export const MAX_IMPORT_BYTES = 10_000_000;
-export const MAX_IMPORT_TRIANGLES = 20_000;
+export const MAX_IMPORT_BYTES = 50_000_000;
+export const MAX_IMPORT_TRIANGLES = 100_000;
 export type MeshAsset = {
   name: string;
   format: string;
   positions: number[];
   indices: number[];
+  /** FBX mesh nodes in their shared source coordinate system. */
+  parts?: MeshAsset[];
+  color?: string;
+  metersPerUnit?: number;
+  warnings?: string[];
 };
-export type ImportOptions = { units: 'm' | 'cm' | 'mm' | 'ft'; up: 'Y' | 'Z' };
+export type ImportOptions = {
+  units: 'source' | 'm' | 'cm' | 'mm' | 'ft';
+  up: 'Y' | 'Z';
+};
 export type MeshRecipe = {
   kind: 'mesh';
   positions: number[];
@@ -127,7 +135,7 @@ export async function parseMeshAsset(
   bytes: ArrayBuffer,
 ): Promise<MeshAsset> {
   if (bytes.byteLength > MAX_IMPORT_BYTES)
-    throw new Error('Import files must be smaller than 10 MB.');
+    throw new Error('Import files must be 50 MB or smaller.');
   const format = name.split('.').at(-1)?.toLowerCase();
   let root: THREE.Object3D;
   if (format === 'obj')
@@ -144,22 +152,50 @@ export async function parseMeshAsset(
     root = (
       await new GLTFLoader(manager).parseAsync(geometryOnlyGlb(bytes), '')
     ).scene;
-  } else throw new Error('Choose an OBJ, STL, GLB or ATELIER JSON project.');
+  } else if (format === 'fbx') {
+    const { readFbx } = await import('./fbx');
+    root = readFbx(bytes);
+  } else
+    throw new Error('Choose an FBX, OBJ, STL, GLB or ATELIER JSON project.');
   const positions: number[] = [],
-    indices: number[] = [];
+    indices: number[] = [],
+    parts: MeshAsset[] = [],
+    warnings = new Set<string>();
+  const sourceUnit = root.userData.unitScaleFactor;
+  const metersPerUnit = format === 'fbx' ? (sourceUnit ?? 1) / 100 : undefined;
+  if (format === 'fbx' && sourceUnit === undefined)
+    warnings.add(
+      'No FBX unit metadata. Assuming centimeters; check the dimensions below.',
+    );
   root.updateMatrixWorld(true);
   try {
     root.traverse((o) => {
+      if (o instanceof THREE.Line || o instanceof THREE.Points)
+        warnings.add('Curves and points are not imported; only mesh surfaces.');
       if (!(o instanceof THREE.Mesh)) return;
+      if (
+        o instanceof THREE.SkinnedMesh ||
+        Object.keys(o.geometry.morphAttributes).length
+      )
+        throw new Error(
+          'Export a static FBX without skinning or morph targets.',
+        );
+      if (o.animations.length || root.animations.length)
+        warnings.add(
+          'Animation is not imported. The exported static pose is used.',
+        );
       const p = o.geometry.getAttribute('position'),
         index = o.geometry.getIndex();
       if (!p) return;
       const count = index?.count ?? p.count;
       if (count % 3 || indices.length + count > MAX_IMPORT_TRIANGLES * 3)
-        throw new Error('Use a triangle mesh with at most 20,000 triangles.');
+        throw new Error(
+          'Use a model with at most 100,000 triangles. Simplify the Revit 3D view or export it in smaller sections.',
+        );
+      const indexStart = indices.length;
       const start = positions.length / 3,
         v = new THREE.Vector3();
-      if (p.count > MAX_IMPORT_TRIANGLES * 3)
+      if (start + p.count > MAX_IMPORT_TRIANGLES * 3)
         throw new Error('The imported mesh has too many vertices.');
       for (let i = 0; i < p.count; i++) {
         v.fromBufferAttribute(p, i).applyMatrix4(o.matrixWorld);
@@ -174,14 +210,45 @@ export async function parseMeshAsset(
           start + (index?.getX(i + (reverse ? 2 : 1)) ?? i + (reverse ? 2 : 1)),
           start + (index?.getX(i + (reverse ? 1 : 2)) ?? i + (reverse ? 1 : 2)),
         );
+      if (format === 'fbx' && count) {
+        if (parts.length >= 2000)
+          throw new Error(
+            'This FBX has more than 2,000 source elements. Export a smaller 3D view.',
+          );
+        const materials = Array.isArray(o.material) ? o.material : [o.material];
+        const material = materials[0] as THREE.MeshPhongMaterial;
+        if (materials.length > 1 || o.geometry.hasAttribute('color'))
+          warnings.add(
+            'Each element uses its first material’s basic color. Per-face colors and textures are not imported.',
+          );
+        parts.push({
+          name:
+            String(
+              o.userData.originalName ||
+                o.name ||
+                `Element ${parts.length + 1}`,
+            )
+              .trim()
+              .slice(0, 70) || 'Imported element',
+          format: 'fbx',
+          positions: positions.slice(start * 3),
+          indices: indices.slice(indexStart).map((i) => i - start),
+          ...(material?.color
+            ? { color: `#${material.color.getHexString()}` }
+            : {}),
+          metersPerUnit,
+        });
+      }
     });
   } finally {
     root.traverse((o) => {
       if (o instanceof THREE.Mesh) {
         o.geometry.dispose();
-        (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) =>
-          m.dispose(),
-        );
+        (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => {
+          for (const value of Object.values(m))
+            if (value instanceof THREE.Texture) value.dispose();
+          m.dispose();
+        });
       }
     });
   }
@@ -192,13 +259,18 @@ export async function parseMeshAsset(
     format: format!,
     positions,
     indices,
+    ...(format === 'fbx'
+      ? { parts, metersPerUnit, warnings: [...warnings] }
+      : {}),
   };
 }
-export async function prepareMesh(
-  asset: MeshAsset,
-  options: ImportOptions,
-): Promise<Volume> {
-  const scale = { m: 1, cm: 0.01, mm: 0.001, ft: 0.3048 }[options.units];
+function convertedBounds(asset: MeshAsset, options: ImportOptions) {
+  const scale =
+    options.units === 'source'
+      ? (asset.metersPerUnit ?? 1)
+      : { m: 1, cm: 0.01, mm: 0.001, ft: 0.3048 }[options.units];
+  if (!Number.isFinite(scale) || scale <= 0)
+    throw new Error('Invalid source units. Choose file units explicitly.');
   const min = [Infinity, Infinity, Infinity],
     max = [-Infinity, -Infinity, -Infinity],
     points: number[] = [];
@@ -220,6 +292,13 @@ export async function prepareMesh(
     throw new Error(
       'Check the source units: imported elements must fit within 500 meters and be at least 1 mm across.',
     );
+  return { min, max, points, size };
+}
+export async function prepareMesh(
+  asset: MeshAsset,
+  options: ImportOptions,
+): Promise<Volume> {
+  const { min, max, points, size } = convertedBounds(asset, options);
   const d = size.map((n) => Math.max(n, 0.001));
   const normalized = points.map(
     (n, i) =>
@@ -232,7 +311,9 @@ export async function prepareMesh(
   for (const i of asset.indices) {
     if (!Number.isInteger(i) || i < 0 || i * 3 + 2 >= normalized.length)
       throw new Error('Invalid mesh triangle index.');
-    const p = normalized.slice(i * 3, i * 3 + 3);
+    const p = normalized
+      .slice(i * 3, i * 3 + 3)
+      .map((n) => Number(n.toFixed(8)));
     const key = p.map((n) => n.toFixed(8)).join(',');
     let vertex = vertices.get(key);
     if (vertex === undefined) {
@@ -266,6 +347,7 @@ export async function prepareMesh(
   const volume: Volume = {
     id: crypto.randomUUID(),
     name: asset.name,
+    ...(asset.color ? { color: asset.color } : {}),
     dimensions: { width: d[0], height: d[1], depth: d[2] },
     position: { x: 0, y: 0, z: 0 },
     rotation: 0,
@@ -273,4 +355,40 @@ export async function prepareMesh(
   };
   validateVolume(volume);
   return volume;
+}
+
+export type PreparedImport = {
+  name: string;
+  volumes: Volume[];
+  dimensions: Volume['dimensions'];
+};
+/** Center the assembly once, preserving all element offsets and elevations. */
+export async function prepareImport(
+  asset: MeshAsset,
+  options: ImportOptions,
+  separate = true,
+): Promise<PreparedImport> {
+  const whole = convertedBounds(asset, options);
+  const parts = separate && asset.parts?.length ? asset.parts : [asset];
+  const volumes: Volume[] = [];
+  for (const part of parts) {
+    const v = await prepareMesh(part, options);
+    const b = convertedBounds(part, options);
+    v.position = {
+      x: (b.min[0] + b.max[0] - whole.min[0] - whole.max[0]) / 2,
+      y: Math.max(0, b.min[1] - whole.min[1]),
+      z: (b.min[2] + b.max[2] - whole.min[2] - whole.max[2]) / 2,
+    };
+    validateVolume(v);
+    volumes.push(v);
+  }
+  return {
+    name: asset.name,
+    volumes,
+    dimensions: {
+      width: whole.size[0],
+      height: whole.size[1],
+      depth: whole.size[2],
+    },
+  };
 }

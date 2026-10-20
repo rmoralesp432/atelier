@@ -2,6 +2,12 @@ import * as THREE from 'three';
 import { fitToRealWidth } from './placement';
 import { arCameraContext } from './context';
 import type { CameraContext } from '../intelligence/context';
+import {
+  bringModelInFront,
+  floorDirections,
+  modelBounds,
+  transformAround,
+} from './controls';
 export type ARSessionControl = {
   end: () => Promise<void>;
   scale: (value: number) => void;
@@ -9,6 +15,8 @@ export type ARSessionControl = {
   reposition: () => void;
   fitWidth: (width: number) => void;
   updateModel: (model: THREE.Group) => void;
+  bringInFront: () => void;
+  nudge: (right: number, forward: number) => void;
 };
 /** Actual camera tracking and surface hit testing, only when immersive-ar is supported. */
 export async function startAR(
@@ -20,6 +28,7 @@ export async function startAR(
   signal?: AbortSignal,
   onFit?: (scale: number, rotation: number) => void,
   onCamera?: (camera: CameraContext) => void,
+  initialRotation = 0,
 ): Promise<ARSessionControl> {
   if (signal?.aborted) throw new Error('AR was closed.');
   if (!navigator.xr) throw new Error('This browser does not support WebXR AR.');
@@ -53,6 +62,8 @@ export async function startAR(
   const anchor = new THREE.Group();
   let copy = model.clone(true);
   copy.scale.setScalar(scale);
+  copy.rotation.y = (initialRotation * Math.PI) / 180;
+  let pivot = new THREE.Vector3();
   anchor.add(copy);
   anchor.visible = false;
   scene.add(anchor);
@@ -117,14 +128,9 @@ export async function startAR(
           copy.rotation.y = (fit.rotation * Math.PI) / 180;
           // Live edits can move the footprint relative to the original anchor.
           // Center the current footprint, not just its original project origin.
-          const unscaled = copy.clone(true);
-          unscaled.scale.setScalar(1);
-          unscaled.rotation.set(0, 0, 0);
-          unscaled.updateMatrixWorld(true);
-          const center = new THREE.Box3()
-            .setFromObject(unscaled)
-            .getCenter(new THREE.Vector3());
+          const center = modelBounds(copy).getCenter(new THREE.Vector3());
           center.y = 0;
+          pivot.copy(center);
           center
             .multiplyScalar(fit.scale)
             .applyAxisAngle(new THREE.Vector3(0, 1, 0), copy.rotation.y);
@@ -144,6 +150,14 @@ export async function startAR(
         return;
       }
       anchor.position.copy(point);
+      pivot = modelBounds(copy).getCenter(new THREE.Vector3());
+      pivot.y = 0;
+      anchor.position.sub(
+        pivot
+          .clone()
+          .multiplyScalar(copy.scale.x)
+          .applyAxisAngle(new THREE.Vector3(0, 1, 0), copy.rotation.y),
+      );
       anchor.visible = true;
       placed = true;
       reticle.visible = false;
@@ -156,6 +170,7 @@ export async function startAR(
     );
     let lastContext = -Infinity;
     const trackedCamera = new THREE.PerspectiveCamera();
+    let hasCamera = false;
     renderer.setAnimationLoop((time, frame) => {
       const ref = renderer!.xr.getReferenceSpace();
       if (frame && source && ref && (!placed || fitting)) {
@@ -171,8 +186,8 @@ export async function startAR(
               .normalize().y >= 0.85;
         }
       }
-      if (frame && ref && placed && onCamera && time - lastContext >= 200) {
-        const view = frame.getViewerPose(ref)?.views[0];
+      if (frame && ref) {
+        const view = frame.getViewerPose?.(ref)?.views[0];
         if (view) {
           trackedCamera.matrix.fromArray(view.transform.matrix);
           trackedCamera.matrix.decompose(
@@ -184,8 +199,11 @@ export async function startAR(
           trackedCamera.projectionMatrixInverse
             .copy(trackedCamera.projectionMatrix)
             .invert();
-          onCamera(arCameraContext(copy, trackedCamera));
-          lastContext = time;
+          hasCamera = true;
+          if (placed && onCamera && time - lastContext >= 200) {
+            onCamera(arCameraContext(copy, trackedCamera));
+            lastContext = time;
+          }
         }
       }
       renderer!.render(scene, camera);
@@ -193,8 +211,13 @@ export async function startAR(
     return {
       end: () => session.end(),
       scale: (value) => {
-        if (Number.isFinite(value) && value >= 0.001 && value <= 1)
-          copy.scale.setScalar(value);
+        transformAround(
+          anchor,
+          copy,
+          pivot,
+          value,
+          (copy.rotation.y * 180) / Math.PI,
+        );
       },
       updateModel: (model) => {
         fitting = null;
@@ -210,7 +233,39 @@ export async function startAR(
         fitting = { width };
         status('Tap the first end of the real-world width on a level surface.');
       },
-      rotate: (degrees) => (copy.rotation.y = (degrees * Math.PI) / 180),
+      rotate: (degrees) =>
+        transformAround(anchor, copy, pivot, copy.scale.x, degrees),
+      bringInFront: () => {
+        if (!placed || !hasCamera) {
+          status('Place the model on a detected surface first.');
+          return;
+        }
+        fitting = null;
+        reticle.visible = false;
+        pivot = bringModelInFront(anchor, copy, trackedCamera);
+        status(
+          'Nearest edge is one meter ahead. Rotate or resize around that edge.',
+        );
+      },
+      nudge: (right, forward) => {
+        if (!placed || !hasCamera) {
+          status('Place the model on a detected surface first.');
+          return;
+        }
+        if (
+          ![right, forward].every(Number.isFinite) ||
+          Math.abs(right) > 10 ||
+          Math.abs(forward) > 10
+        )
+          return;
+        const axes = floorDirections(trackedCamera);
+        anchor.position
+          .addScaledVector(axes.right, right)
+          .addScaledVector(axes.forward, forward);
+        status(
+          `Moved ${Math.hypot(right, forward).toFixed(2)} m across the real floor.`,
+        );
+      },
       reposition: () => {
         fitting = null;
         placed = false;

@@ -298,6 +298,9 @@ test('an explicitly mocked WebXR permission failure exits cleanly and preserves 
     .getByRole('button', { name: 'Prepare AR model', exact: true })
     .click();
   await page
+    .getByRole('button', { name: 'Confirm scale', exact: false })
+    .click();
+  await page
     .getByRole('button', { name: 'Open camera AR', exact: true })
     .click();
   await expect(page.getByRole('alert')).toContainText(

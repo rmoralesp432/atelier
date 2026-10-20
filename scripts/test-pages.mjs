@@ -161,9 +161,24 @@ try {
         ?.getAttribute('data-items') === '1',
   );
   await page.getByRole('button', { name: 'Back to model' }).click();
+  // FBXLoader is a lazy chunk too: verify a real Revit export at /atelier/.
+  await page
+    .getByLabel('Import project file')
+    .setInputFiles('tests/fixtures/fbx/revit-wall.fbx');
+  const importDialog = page.getByRole('dialog', { name: 'Import 3D element' });
+  await importDialog
+    .getByText('6 editable elements · 4 closed solids')
+    .waitFor();
+  await importDialog.getByRole('button', { name: 'Add to workspace' }).click();
+  await page.waitForFunction(
+    () =>
+      document
+        .querySelector('[data-testid="viewport"]')
+        ?.getAttribute('data-model-objects') === '9',
+  );
   assert.deepEqual(errors, []);
   console.log(
-    'PASS: production app loads at /atelier/ with valid JS/CSS/WASM paths, actual solid rendering, direct editing, reload persistence and lazy 3D moodboard/model assets. Static Pages has no AI backend.',
+    'PASS: production app loads at /atelier/ with valid JS/CSS/WASM paths, actual solid rendering, direct editing, reload persistence and lazy 3D moodboard/model assets and a real Revit FBX import. Static Pages has no AI backend.',
   );
 } finally {
   await browser?.close();

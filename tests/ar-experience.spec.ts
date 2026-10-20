@@ -37,6 +37,12 @@ test('iPhone native handoff fixture keeps real USDZ scale explicit and saved geo
   });
   await openAR(page);
   const before = await saved(page);
+  await expect(page.getByRole('link', { name: 'Open camera AR' })).toBeHidden();
+  await page
+    .getByRole('button', { name: 'Confirm scale', exact: false })
+    .click();
+  await expect(page.getByLabel('AR viewing scale')).toBeDisabled();
+  await page.getByText('Using AR on this device', { exact: true }).click();
   await expect(
     page.getByText('Apple’s AR viewer cannot show ATELIER chat.', {
       exact: false,
@@ -46,6 +52,14 @@ test('iPhone native handoff fixture keeps real USDZ scale explicit and saved geo
   await expect(link).toHaveAttribute('href', /#allowsContentScaling=0$/);
   await page.getByLabel('Keep the chosen scale in iPhone AR').uncheck();
   await expect(link).not.toHaveAttribute('href', /#allowsContentScaling/);
+  await page.getByRole('button', { name: 'Change scale', exact: true }).click();
+  await page.getByLabel('AR viewing scale').selectOption('0.04');
+  await page.getByText('Orientation · 0°', { exact: true }).click();
+  await page
+    .getByRole('button', { name: 'Rotate AR 90 degrees', exact: true })
+    .click();
+  await expect(page.getByLabel('Prepared AR rotation')).toHaveValue('90');
+  await page.getByText('Fit a measured width', { exact: true }).click();
   await page
     .getByRole('spinbutton', { name: 'Real world model width' })
     .fill('1');
@@ -56,6 +70,9 @@ test('iPhone native handoff fixture keeps real USDZ scale explicit and saved geo
   await expect(link).toBeHidden();
   await page
     .getByRole('button', { name: 'Prepare AR model', exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: 'Confirm scale', exact: false })
     .click();
   await expect(link).toBeVisible({ timeout: 30000 });
   expect(await saved(page)).toEqual(before);
@@ -91,7 +108,7 @@ for (const theme of ['night', 'day'] as const)
       window.__xrFixture={updates:0,scale,origin:model.userData.origin};
       status('XR transport fixture active');
       onCamera({right:{x:0,y:0,z:1},forward:{x:1,y:0,z:0},visible:[]});
-      return {end:async()=>onEnd(),scale:v=>window.__xrFixture.scale=v,rotate:()=>{},reposition:()=>{},fitWidth:()=>onFit(.1,0),updateModel:m=>{window.__xrFixture.updates++;window.__xrFixture.positions=m.children.map(c=>c.position.x);window.__xrFixture.origin=m.userData.origin;}};
+      return {end:async()=>onEnd(),scale:v=>window.__xrFixture.scale=v,rotate:v=>window.__xrFixture.rotation=v,bringInFront:()=>window.__xrFixture.front=true,nudge:(r,f)=>window.__xrFixture.move=[r,f],reposition:()=>{},fitWidth:()=>onFit(.1,0),updateModel:m=>{window.__xrFixture.updates++;window.__xrFixture.positions=m.children.map(c=>c.position.x);window.__xrFixture.origin=m.userData.origin;}};
     }`,
       }),
     );
@@ -118,11 +135,23 @@ for (const theme of ['night', 'day'] as const)
     );
     await openAR(page);
     const before = await saved(page);
+    await expect(
+      page.getByRole('button', { name: 'Open camera AR', exact: true }),
+    ).toBeDisabled();
+    await page
+      .getByRole('button', { name: 'Confirm scale', exact: false })
+      .click();
     await page
       .getByRole('button', { name: 'Open camera AR', exact: true })
       .click();
     const overlay = page.locator('.ar-overlay');
     await expect(overlay).toBeVisible();
+    await expect(
+      page.getByRole('region', { name: 'View in your space' }),
+    ).toBeHidden();
+    await expect(
+      overlay.getByRole('button', { name: 'Bring in front of me' }),
+    ).toBeVisible();
     await expect(
       overlay.getByRole('textbox', { name: 'Message Atelier' }),
     ).toBeVisible();
@@ -137,10 +166,49 @@ for (const theme of ['night', 'day'] as const)
     ).toBeDisabled();
     expect(await page.locator('.conversation-area').count()).toBe(1);
     await overlay.getByText('Size & placement', { exact: false }).click();
+    await expect(overlay.getByLabel('Live AR scale')).toBeDisabled();
+    await overlay
+      .getByRole('button', { name: 'Change scale', exact: true })
+      .click();
     await overlay.getByLabel('Live AR scale').selectOption('1');
     await expect
       .poll(() => page.evaluate(() => (window as any).__xrFixture.scale))
       .toBe(1);
+    await overlay
+      .getByRole('button', { name: 'Confirm scale', exact: false })
+      .click();
+    await expect(overlay.getByLabel('Fine AR scale')).toBeDisabled();
+    await overlay.getByRole('button', { name: 'Bring in front of me' }).click();
+    await overlay
+      .getByRole('button', { name: 'Rotate AR 5 degrees', exact: true })
+      .click();
+    await overlay.getByLabel('AR move increment').selectOption('1');
+    await overlay.getByRole('button', { name: 'Closer', exact: true }).click();
+    expect(
+      await page.evaluate(() => {
+        const f = (window as any).__xrFixture;
+        return [f.front, f.rotation, f.move];
+      }),
+    ).toEqual([true, 5, [0, -1]]);
+    await overlay
+      .getByRole('button', { name: 'Change scale', exact: true })
+      .click();
+    await overlay
+      .getByRole('button', { name: 'Fit width between two points' })
+      .click();
+    await expect(overlay.getByLabel('Live AR scale')).toHaveValue('0.1');
+    await expect(
+      overlay.getByRole('button', { name: 'Confirm scale', exact: false }),
+    ).toBeVisible();
+    await overlay
+      .getByRole('button', { name: 'Life size · 1:1', exact: true })
+      .click();
+    await overlay
+      .getByRole('button', { name: 'Confirm scale', exact: false })
+      .click();
+    await page.screenshot({
+      path: `test-results/atelier-ar-placement-${theme}.png`,
+    });
     await overlay.getByText('Size & placement', { exact: false }).click();
     await overlay
       .getByRole('textbox', { name: 'Message Atelier' })

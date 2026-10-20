@@ -36,6 +36,20 @@ it('exports a genuine meter-based USDZ snapshot without mutating or including hi
   const text = new TextDecoder().decode(usdz);
   expect(text).toContain('metersPerUnit = 1');
   expect(text).toContain('0.01');
+  const oriented = new TextDecoder().decode(
+    await exportARModel(model, 0.04, 90),
+  );
+  const matrices = [
+    ...oriented.matchAll(/matrix4d xformOp:transform = \(([^\n]+)\)/g),
+  ].map((match) => match[1].replace(/[()]/g, '').split(',').map(Number));
+  const rotationMatrix = matrices.find(
+    (m) => Math.abs(m[2] + 0.04) < 1e-6 && Math.abs(m[8] - 0.04) < 1e-6,
+  );
+  expect(rotationMatrix).toBeDefined();
+  expect(rotationMatrix![0]).toBeCloseTo(0);
+  expect(rotationMatrix![5]).toBeCloseTo(0.04);
+  expect(model.rotation.y).toBe(0);
+  expect(model.scale.x).toBe(1);
   expect(JSON.stringify(p)).toBe(original);
   disposeARModel(model);
 });

@@ -78,3 +78,70 @@ export async function saveProject(project: SavedProject, activate = false) {
       );
   });
 }
+
+export async function renameProject(
+  id: string,
+  name: string,
+): Promise<SavedProject> {
+  name = name.trim();
+  if (!name || name.length > 80)
+    throw new Error('Use a project name between 1 and 80 characters.');
+  const d = await db();
+  return new Promise((resolve, reject) => {
+    const t = d.transaction('projects', 'readwrite');
+    const store = t.objectStore('projects');
+    const request = store.get(id);
+    let renamed: SavedProject;
+    request.onsuccess = () => {
+      if (!request.result) {
+        t.abort();
+        return;
+      }
+      renamed = { ...request.result, name, updatedAt: Date.now() };
+      store.put(renamed);
+    };
+    t.oncomplete = () => resolve(renamed);
+    t.onerror = t.onabort = () =>
+      reject(
+        new Error(
+          'Could not rename this project. Your saved work has not changed.',
+        ),
+      );
+  });
+}
+
+/** Remove the project and, when active, save/activate a blank replacement atomically. */
+export async function deleteProject(
+  id: string,
+  replacement?: SavedProject,
+): Promise<void> {
+  const d = await db();
+  return new Promise((resolve, reject) => {
+    const t = d.transaction(['projects', 'meta'], 'readwrite');
+    const store = t.objectStore('projects'),
+      meta = t.objectStore('meta');
+    const active = meta.get('active');
+    active.onsuccess = () => {
+      if (active.result === id) {
+        if (!replacement || replacement.id === id) {
+          t.abort();
+          return;
+        }
+        store.put(replacement);
+        meta.put(replacement.id, 'active');
+      } else if (replacement) {
+        // The active project changed in another tab. Do not replace that workspace.
+        t.abort();
+        return;
+      }
+      store.delete(id);
+    };
+    t.oncomplete = () => resolve();
+    t.onerror = t.onabort = () =>
+      reject(
+        new Error(
+          'Could not delete this project. Reopen Projects and try again; your saved work has not changed.',
+        ),
+      );
+  });
+}

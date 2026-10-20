@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, Box, X } from 'lucide-react';
-import { prepareMesh, type MeshAsset, type ImportOptions } from './mesh';
-import type { Volume } from '../model';
+import {
+  prepareImport,
+  type MeshAsset,
+  type ImportOptions,
+  type PreparedImport,
+} from './mesh';
 export default function MeshImportDialog({
   asset,
   onAdd,
@@ -10,15 +14,16 @@ export default function MeshImportDialog({
 }: {
   asset: MeshAsset;
   errorText?: string;
-  onAdd: (v: Volume) => void;
+  onAdd: (v: PreparedImport) => void;
   onClose: () => void;
 }) {
   const [options, setOptions] = useState<ImportOptions>({
-    units: 'm',
+    units: asset.format === 'fbx' ? 'source' : 'm',
     up: asset.format === 'stl' ? 'Z' : 'Y',
   });
-  const [prepared, setPrepared] = useState<Volume | null>(null),
+  const [prepared, setPrepared] = useState<PreparedImport | null>(null),
     [error, setError] = useState('');
+  const [separate, setSeparate] = useState((asset.parts?.length ?? 1) <= 200);
   const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     dialog.current?.showModal();
@@ -27,7 +32,7 @@ export default function MeshImportDialog({
     let active = true;
     setPrepared(null);
     setError('');
-    void prepareMesh(asset, options)
+    void prepareImport(asset, options, separate)
       .then((v) => {
         if (active) setPrepared(v);
       })
@@ -37,7 +42,7 @@ export default function MeshImportDialog({
     return () => {
       active = false;
     };
-  }, [asset, options]);
+  }, [asset, options, separate]);
   return (
     <dialog
       ref={dialog}
@@ -59,7 +64,8 @@ export default function MeshImportDialog({
       <h2>{asset.name}</h2>
       <p className="asset-caption">
         {asset.format.toUpperCase()} ·{' '}
-        {(asset.indices.length / 3).toLocaleString()} triangles · geometry only
+        {(asset.indices.length / 3).toLocaleString()} triangles ·{' '}
+        {asset.parts ? `${asset.parts.length} elements` : 'geometry only'}
       </p>
       <div className="asset-options">
         <label>
@@ -74,6 +80,9 @@ export default function MeshImportDialog({
               })
             }
           >
+            {asset.format === 'fbx' && (
+              <option value="source">From FBX file</option>
+            )}
             <option value="m">Meters</option>
             <option value="cm">Centimeters</option>
             <option value="mm">Millimeters</option>
@@ -94,6 +103,22 @@ export default function MeshImportDialog({
           </select>
         </label>
       </div>
+      {asset.parts && (
+        <label className="asset-separate">
+          <input
+            type="checkbox"
+            checked={separate}
+            onChange={(e) => setSeparate(e.target.checked)}
+          />
+          Keep elements separate and grouped
+        </label>
+      )}
+      {(asset.parts?.length ?? 0) > 200 && (
+        <p className="asset-note">
+          This file has more than 200 elements, so it opens combined. Export
+          smaller views to edit every element separately.
+        </p>
+      )}
       {prepared ? (
         <div className="asset-result">
           <strong>
@@ -107,22 +132,34 @@ export default function MeshImportDialog({
             m
           </strong>
           <span>
-            {prepared.geometry?.kind === 'mesh' && prepared.geometry.solid
-              ? 'Closed solid · ready for modeling'
-              : 'Reference surface · move, rotate and scale'}
+            {prepared.volumes.length > 1
+              ? `${prepared.volumes.length} editable elements · ${prepared.volumes.filter((v) => v.geometry?.kind === 'mesh' && v.geometry.solid).length} closed solids`
+              : prepared.volumes[0].geometry?.kind === 'mesh' &&
+                  prepared.volumes[0].geometry.solid
+                ? 'Closed solid · ready for modeling'
+                : 'Reference surface · move, rotate and scale'}
           </span>
         </div>
       ) : (
-        <p role="status">{error || 'Checking the geometry…'}</p>
+        <p role={error ? 'alert' : 'status'}>
+          {error || 'Checking the geometry…'}
+        </p>
       )}
       {errorText && (
         <p role="alert" className="asset-error">
           {errorText}
         </p>
       )}
+      {asset.warnings?.map((warning) => (
+        <p className="asset-note" key={warning}>
+          {warning}
+        </p>
+      ))}
       <p className="asset-note">
-        Added beside your current model. Your existing objects stay in place.
-        Materials and textures use ATELIER’s studio finish.
+        Added beside your current model.{' '}
+        {asset.parts
+          ? 'Relative positions are kept. Separate elements retain their names and basic colors; textures and Revit BIM properties are not imported. Check the dimensions before adding.'
+          : 'Your existing objects stay in place. Materials and textures use ATELIER’s studio finish.'}
       </p>
       <button
         className="asset-submit"

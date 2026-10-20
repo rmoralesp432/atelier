@@ -108,7 +108,7 @@ test('marquee selection, persistent layers, volumetric trees and downloadable OB
   // Shift-drag is available even when selecting an object activates Move.
   const rect = (await page.locator('canvas').boundingBox())!;
   await page.keyboard.down('Shift');
-  await page.mouse.move(rect.x + 120, rect.y + 100);
+  await page.mouse.move(rect.x + 120, rect.y + 200);
   await page.mouse.down();
   await page.mouse.move(rect.x + rect.width - 140, rect.y + rect.height - 70, {
     steps: 8,

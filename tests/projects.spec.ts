@@ -93,7 +93,10 @@ test('projects isolate geometry, conversation, site and history, restore on relo
   );
   const second = await saved(page);
   await menu(page);
-  await page.getByRole('button', { name: /Courtyard study/ }).click();
+  await page
+    .locator('.project-entry')
+    .filter({ hasText: 'Courtyard study' })
+    .click();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-model-objects',
     '2',
@@ -107,7 +110,10 @@ test('projects isolate geometry, conversation, site and history, restore on relo
     first.project.volumes[0].position.x - 2,
   );
   await menu(page);
-  await page.getByRole('button', { name: /Garden house/ }).click();
+  await page
+    .locator('.project-entry')
+    .filter({ hasText: 'Garden house' })
+    .click();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-model-objects',
     '1',
@@ -128,7 +134,10 @@ test('projects isolate geometry, conversation, site and history, restore on relo
   expect(dialog!.x + dialog!.width).toBeLessThanOrEqual(390);
   await page.screenshot({ path: 'test-results/atelier-projects-mobile.png' });
   await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.getByRole('button', { name: /Courtyard study/ }).click();
+  await page
+    .locator('.project-entry')
+    .filter({ hasText: 'Courtyard study' })
+    .click();
   await expect(page.getByRole('dialog')).not.toBeVisible();
   await expect.poll(async () => (await saved(page)).future.length).toBe(1);
   await page.getByRole('button', { name: 'Redo', exact: true }).click();
@@ -169,4 +178,127 @@ test('a failed project save keeps the current workspace and project identity', a
     '2',
   );
   expect(await saved(page)).toEqual(before);
+});
+
+test('rename any project and delete inactive or active projects with cancellation and durable replacement', async ({
+  page,
+}) => {
+  test.setTimeout(120000);
+  await page.goto('/');
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-model-objects',
+    '2',
+  );
+  const original = await saved(page);
+  await menu(page);
+  await page.getByLabel('New project name').fill('Second study');
+  await page.getByRole('button', { name: 'Create', exact: true }).click();
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-model-objects',
+    '0',
+  );
+  await menu(page);
+  await page
+    .getByRole('button', { name: 'Rename project Untitled study', exact: true })
+    .click();
+  await page.getByLabel('Selected project name').fill('Original building');
+  await page.getByRole('button', { name: 'Rename', exact: true }).click();
+  await expect(
+    page.locator('.project-entry').filter({ hasText: 'Original building' }),
+  ).toBeVisible();
+  await page
+    .getByRole('button', {
+      name: 'Delete project Original building',
+      exact: true,
+    })
+    .click();
+  await page.getByRole('button', { name: 'Keep project', exact: true }).click();
+  await page
+    .locator('.project-entry')
+    .filter({ hasText: 'Original building' })
+    .click();
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-model-objects',
+    '2',
+  );
+  expect(await saved(page)).toEqual(original);
+  await menu(page);
+  await page
+    .getByRole('button', { name: 'Delete project Second study', exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: 'Delete permanently', exact: true })
+    .click();
+  await expect(page.locator('.project-entry')).toHaveCount(1);
+  expect(await saved(page)).toEqual(original);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page
+    .getByRole('button', {
+      name: 'Delete project Original building',
+      exact: true,
+    })
+    .click();
+  await expect(
+    page.getByRole('alertdialog', { name: 'Confirm project deletion' }),
+  ).toContainText('A new blank workspace');
+  await page
+    .getByRole('button', { name: 'Delete permanently', exact: true })
+    .click();
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-model-objects',
+    '0',
+  );
+  await page.reload();
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-model-objects',
+    '0',
+  );
+  expect((await saved(page)).past).toHaveLength(0);
+  await menu(page);
+  await expect(page.locator('.project-entry')).toHaveCount(1);
+  await expect(page.locator('.project-entry')).toContainText('Untitled study');
+  await expect(page.locator('.project-entry')).not.toContainText(
+    'Original building',
+  );
+  await page.screenshot({
+    path: 'test-results/atelier-project-actions-mobile.png',
+  });
+});
+
+test('a failed deletion transaction preserves both active project and geometry', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-model-objects',
+    '2',
+  );
+  const before = await saved(page);
+  await menu(page);
+  await page.evaluate(() => {
+    const original = IDBObjectStore.prototype.delete;
+    IDBObjectStore.prototype.delete = function (
+      ...args: Parameters<IDBObjectStore['delete']>
+    ) {
+      const request = original.apply(this, args);
+      if (this.name === 'projects') this.transaction.abort();
+      return request;
+    };
+  });
+  await page
+    .getByRole('button', { name: 'Delete project Untitled study', exact: true })
+    .click();
+  await page
+    .getByRole('button', { name: 'Delete permanently', exact: true })
+    .click();
+  await expect(page.getByRole('alert')).toContainText('Could not delete');
+  expect(await saved(page)).toEqual(before);
+  await page.reload();
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-model-objects',
+    '2',
+  );
+  expect(await saved(page)).toEqual(before);
+  await menu(page);
+  await expect(page.locator('.project-entry')).toHaveCount(1);
 });

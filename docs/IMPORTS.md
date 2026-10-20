@@ -1,15 +1,29 @@
 # Bring 3D elements into ATELIER
 
-Click **Import**, or drop one file onto the workspace. OBJ, STL and GLB open a preview of the resulting size and geometry type. Choose the source units and vertical axis, then **Add to workspace**. The imported element is placed beside the existing model, selected, and available to the conversation. Existing objects stay in place. Undo removes the import; JSON export includes the imported geometry and history so the source file is not needed to reopen it.
+Click **Import**, or drop one file onto the workspace. FBX, OBJ, STL and GLB open a preview of the resulting size and geometry type. Check the dimensions, source units and vertical axis, then **Add to workspace**. Existing objects stay in place. Undo removes the whole import in one step. ATELIER JSON export includes the imported geometry and history so the source file is not needed to reopen it.
 
-| File    | Supported content                                                                                                                                               |
-| ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `.obj`  | Triangle/polygon mesh surfaces, triangulated by Three.js. No MTL or textures.                                                                                   |
-| `.stl`  | ASCII or binary triangle surfaces. Defaults to Z up; verify the source convention.                                                                              |
-| `.glb`  | Self-contained GLB 2 with embedded, static, uncompressed triangle geometry. Scene-node transforms and mirrored winding are retained.                            |
-| `.json` | ATELIER project/session restoration, including older projects. This replaces the active project with an undoable import; it does not merge unrelated JSON data. |
+## Revit → ATELIER, without Blender
 
-Meshes use meters by default. Centimeters, millimeters and feet are supported. OBJ defaults to Y up; GLB uses Y up. The preview reports **width × depth × height** after conversion. All source mesh pieces are combined into one selectable element with its base centered. Source materials use ATELIER's studio finish. External resources are never requested during mesh import.
+1. In Revit, open the **3D view** you want to export. Use a section box or hide unnecessary categories to keep the export manageable. Hide levels/grids/annotations if you do not want those exported as mesh elements.
+2. Choose **File → Export → FBX**. Export the visible view as a static FBX file (7.x / 2011 or newer).
+3. In ATELIER, click **Import** and select the `.fbx` file.
+4. Leave **File units → From FBX file** selected initially. FBX unit metadata is converted to meters, including Revit exports whose internal coordinates are in feet. The loader converts Z-up to ATELIER's Y-up. Check a known dimension; override units or the vertical axis if the source metadata is wrong.
+5. Leave **Keep elements separate and grouped** checked to retain individual mesh elements, their names, basic colors and relative positions. Click **Add to workspace**. The assembly is placed beside existing work and selected as a group.
+6. Select an individual object to edit it; use **Layers and groups** to select/move the imported assembly together. Unchecking the import option combines the file into one element using the studio finish.
+
+This is geometry transfer, not a live Revit connection. Exporting again creates another import; it does not update previously imported elements. Revit families, constraints, BIM properties and schedules are not retained, and changes do not sync back to Revit. Native RVT and IFC import are not implemented. FBX import needs no AI credits, API key or new server configuration.
+
+## Formats
+
+| File    | Supported content                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `.fbx`  | Binary and ASCII FBX 7.x static mesh nodes. Parent transforms and mirrored winding are baked; separate nodes become individually editable elements in one ATELIER group. Original node names are retained within the 70-character import limit, with unique suffixes when needed. The first material's diffuse color is retained per element; multi-material and vertex-color limitations are reported. No textures, rigs or morph targets. Animated files use their static exported pose and show a warning. Cameras/lights are ignored. |
+| `.obj`  | Triangle/polygon mesh surfaces, triangulated by Three.js. No MTL or textures.                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `.stl`  | ASCII or binary triangle surfaces. Defaults to Z up; verify source convention.                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `.glb`  | Self-contained GLB 2 with embedded, static, uncompressed triangle geometry. Scene-node transforms and mirrored winding are retained.                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `.json` | ATELIER project/session restoration, including older projects. This replaces the active project with an undoable import; it does not merge unrelated JSON data.                                                                                                                                                                                                                                                                                                                                                                           |
+
+OBJ/STL/GLB pieces continue to form one selectable element. They default to meters; centimeters, millimeters and feet are supported. OBJ and GLB default to Y up. The preview reports **width × depth × height** after conversion. The assembled import is centered and grounded once, preserving internal offsets and elevations; georeferenced absolute coordinates are not retained. External resources are never requested during mesh import.
 
 ## Solid or reference?
 
@@ -19,13 +33,19 @@ An open or non-manifold mesh is labeled **Reference surface**. It remains visibl
 
 ## Current limits
 
-- One file per import, at most 10 MB and 20,000 triangles; each dimension must fit within 500 m, with at least 1 mm overall extent.
-- Geometry only: no textures, MTL, animation, skinning, morph targets, compressed GLB or GPU-instanced GLB. Export a static uncompressed triangle mesh from the source tool.
-- Standalone `.gltf` with external buffers is not accepted; export a self-contained `.glb`.
-- Dense assets can exceed browser save capacity once history is included. The import checks a conservative two-million-character session budget before changing the workspace. A rejected import leaves the current project intact. Subsequent edits can still grow history; heed a storage warning and export a backup.
-- Imported data is stored on this browser/origin, not uploaded to a project database. The planner gets object names, bounds and reference/solid status, not the entire triangle payload. It does not visually recognize an imported chair or building solely from its mesh.
-- RVT, IFC, DWG, STEP, PDF, images and terrain are not supported by this importer. See the [Phase 2 audit](PHASE2-AUDIT.md) for remaining roadmap requirements.
+- One file per import, **up to 50 MB and 100,000 triangles** (previously 10 MB / 20,000 triangles). Each assembly dimension must fit within 500 m, with at least 1 mm overall extent.
+- At most **200 objects per workspace**, including existing objects; separate FBX nodes count toward this limit. The parser accepts up to 2,000 FBX source nodes; files with more than 200 default to a combined element. Start a new project, combine the import, or export a smaller Revit view when needed. Imports create one group when there are multiple elements; projects support 50 groups.
+- Dense meshes may still exceed the conservative **two-million-character session budget**, which includes undo history. A rejected import leaves the project intact; the larger parser limits are not a guarantee that every 50 MB file will fit. Use a simpler 3D view or a fresh project. A 22,050-triangle facade is covered by import/save/reopen tests. Coordinates are welded/rounded to eight decimal places in normalized mesh space to reduce storage overhead.
+- Textures/MTL, skinning, morph targets, compressed GLB and GPU-instanced GLB are not supported. Export a static uncompressed triangle mesh from the source tool. Standalone `.gltf` with external buffers is not accepted; export a self-contained `.glb`.
+- Imported data is saved in this browser, not uploaded to a project database. The planner receives object names, bounds, colors and solid/reference status, not the full triangle payload. It does not visually recognize a building solely from its mesh.
+- RVT, IFC, DWG, STEP, PDF, images and terrain are not supported by this geometry importer. See the [Phase 2 audit](PHASE2-AUDIT.md).
+
+## Verification
+
+Automated tests exercise a real **Revit FBX 7.7 binary** wall model from the licensed ufbx corpus: four closed wall meshes and two reference annotation meshes, feet-to-meter conversion, Z-up, original names and elevations. A second binary fixture covers FBX 7.4. An authored ASCII assembly covers parent rotation, translation, mirrored instances, colors, unit overrides, grouping, undo/reload and suppression of external texture requests. Fixture provenance and license are in [tests/fixtures/fbx](../tests/fixtures/fbx/README.md).
+
+Revit itself is not installed in the cloud, and a large user building has not been tested. The fixtures verify the importer; they do not establish compatibility with every Revit version/export or every FBX feature.
 
 ## References and export
 
-The conversation photo button separately accepts PNG/JPEG/WebP design references for the real multimodal model. It does not import them as geometry or calibrated reference planes. The export menu now writes world-space OBJ geometry with meter/Y-up instructions. ATELIER JSON remains the modeling-history backup. See [the expressive studio guide](EXPRESSIVE-STUDIO.md).
+The conversation photo button separately accepts PNG/JPEG/WebP design references for the real multimodal model. It does not import them as geometry or calibrated reference planes. The export menu writes world-space OBJ geometry with meter/Y-up instructions. ATELIER JSON remains the modeling-history backup. See the [expressive studio guide](EXPRESSIVE-STUDIO.md).

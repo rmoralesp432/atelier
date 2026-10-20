@@ -69,11 +69,13 @@ import {
   X,
 } from 'lucide-react';
 import MeshImportDialog from './imports/MeshImportDialog';
+import { importedSession } from './imports/transaction';
 import {
   parseMeshAsset,
   isReference,
   MAX_IMPORT_BYTES,
   type MeshAsset,
+  type PreparedImport,
 } from './imports/mesh';
 import { groupBounds } from './geometry/spatial';
 import Viewport, { type Tool } from './Viewport';
@@ -1270,7 +1272,7 @@ export default function App({
   const importFile = async (f: File) => {
     try {
       if (f.size > MAX_IMPORT_BYTES)
-        throw new Error('Import files must be smaller than 10 MB.');
+        throw new Error('Import files must be 50 MB or smaller.');
       if (!f.name.toLowerCase().endsWith('.json')) {
         setNotice({ text: 'Reading your 3D element…', error: false });
         const asset = await parseMeshAsset(f.name, await f.arrayBuffer());
@@ -1308,47 +1310,18 @@ export default function App({
       reportError(err);
     }
   };
-  const addImported = (v: Volume) => {
+  const addImported = (asset: PreparedImport) => {
     try {
-      const p = current.current;
-      if (p.volumes.length >= 200)
-        throw new Error('This workspace supports up to 200 objects.');
-      let name = v.name,
-        n = 2;
-      while (p.volumes.some((o) => o.name === name))
-        name = `${v.name.slice(0, 65)} ${n++}`;
-      const x = p.volumes.length
-        ? groupBounds(p.volumes).max.x + 2 + v.dimensions.width / 2
-        : 0;
-      const next = { ...v, name, position: { x, y: 0, z: 0 } };
-      const project = {
-        ...p,
-        volumes: [...p.volumes, next],
-        selectedId: next.id,
-        selectedIds: [next.id],
-      };
-      // Check the complete history-bearing save BEFORE changing the workspace.
-      // A dense asset must never silently evict the user's previous project.
-      const candidate = {
-        ...snapshot(),
-        project,
-        past: [...undo.current.slice(-49), p],
-        future: [],
-      };
-      if (serializeSession(candidate).length > 2_000_000)
-        throw new Error(
-          'This mesh would exceed safe browser storage. Import a lighter mesh; your project has not changed.',
-        );
-      if (x > 1000)
-        throw new Error(
-          'There is not enough room beside this model. Move existing objects nearer the origin first.',
-        );
-      commit(project);
-      conversation.current.focusIds = [next.id];
-      conversation.current.lastCreatedIds = [next.id];
+      const candidate = importedSession(snapshot(), asset);
+      commit(candidate.project);
+      conversation.current = candidate.context;
       setPending(null);
       setImportAsset(null);
-      const text = `${next.name} imported as ${isReference(next) ? 'a reference surface' : 'a closed solid'}. ${next.dimensions.width.toFixed(2)} × ${next.dimensions.depth.toFixed(2)} × ${next.dimensions.height.toFixed(2)} m.`;
+      const first = asset.volumes[0];
+      const text =
+        asset.volumes.length > 1
+          ? `${asset.name}: ${asset.volumes.length} elements imported as a group, with their relative positions and basic colors. Select any element to edit it individually.`
+          : `${first.name} imported as ${isReference(first) ? 'a reference surface' : 'a closed solid'}. ${first.dimensions.width.toFixed(2)} × ${first.dimensions.depth.toFixed(2)} × ${first.dimensions.height.toFixed(2)} m.`;
       remember('assistant', text);
       setNotice({ text, error: false });
     } catch (e) {
@@ -1406,7 +1379,7 @@ export default function App({
         <div className="file-drop-overlay">
           <ArrowUpFromLine size={32} />
           <strong>Bring it into your space</strong>
-          <span>OBJ · STL · GLB · ATELIER project</span>
+          <span>FBX · OBJ · STL · GLB · ATELIER project</span>
         </div>
       )}
       <header className="app-header">
@@ -1676,7 +1649,7 @@ export default function App({
         <input
           ref={file}
           type="file"
-          accept=".json,.obj,.stl,.glb,application/json"
+          accept=".json,.fbx,.obj,.stl,.glb,application/json"
           aria-label="Import project file"
           hidden
           onChange={async (e) => {
@@ -2343,6 +2316,13 @@ export default function App({
                   >
                     <EyeOff size={15} />
                     Hide
+                  </button>
+                  <button
+                    aria-label="Delete selected objects"
+                    title="Delete selection · Delete / Backspace"
+                    onClick={() => run('delete selected')}
+                  >
+                    <Trash2 size={15} /> Delete
                   </button>
                   {['Scale', 'Stretch', 'Copy', 'Mirror', 'Array'].map(
                     (label) => (
@@ -3253,8 +3233,12 @@ export default function App({
                   Duplicate
                 </button>
                 <button
-                  aria-label="Delete volume"
-                  title="Delete volume"
+                  aria-label={
+                    (project.selectedIds?.length ?? 0) > 1
+                      ? 'Delete selected volumes'
+                      : 'Delete volume'
+                  }
+                  title="Delete selection"
                   onClick={() => run('delete selected')}
                 >
                   <Trash2 size={14} />

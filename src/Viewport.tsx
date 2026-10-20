@@ -1419,6 +1419,7 @@ export default function Viewport(props: Props) {
                     new THREE.Float32BufferAttribute(curves, 3),
                   ),
                   new THREE.LineBasicMaterial({
+                    fog: false,
                     transparent: true,
                     clippingPlanes: latest.current.section.enabled
                       ? [clippingPlane.current]
@@ -1435,6 +1436,10 @@ export default function Viewport(props: Props) {
                 const mesh = new THREE.Mesh(
                   part.geometry,
                   new THREE.MeshPhysicalMaterial({
+                    // Orthographic map cameras can be kilometers away while
+                    // zoomed into a model. Atmospheric fog must not wash out
+                    // architectural materials or their edges.
+                    fog: false,
                     color: glass ? '#8dc9d2' : frame ? '#38464e' : '#d8d9d4',
                     roughness:
                       v.geometry?.kind === 'tree'
@@ -1472,6 +1477,7 @@ export default function Viewport(props: Props) {
                   const edges = new THREE.LineSegments(
                     new THREE.EdgesGeometry(part.geometry, 24),
                     new THREE.LineBasicMaterial({
+                      fog: false,
                       clippingPlanes: latest.current.section.enabled
                         ? [clippingPlane.current]
                         : [],
@@ -1774,6 +1780,7 @@ export default function Viewport(props: Props) {
             const mesh = new THREE.Mesh(
               geometry,
               new THREE.MeshBasicMaterial({
+                fog: false,
                 color: '#111318',
                 side: THREE.DoubleSide,
                 polygonOffset: true,

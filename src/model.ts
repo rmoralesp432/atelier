@@ -320,15 +320,30 @@ export function executeCommand(
     requireSelection();
     patch = { rotation: ((+m[1] % 360) + 360) % 360 };
   } else if (text === 'delete selected') {
-    const v = requireSelection();
+    const ids = new Set(
+      project.selectedIds?.length
+        ? project.selectedIds
+        : project.selectedId
+          ? [project.selectedId]
+          : [],
+    );
+    const targets = project.volumes.filter((v) => ids.has(v.id));
+    if (!targets.length) throw new Error('Select a volume first.');
+    if (targets.some((v) => isLocked(v, project)))
+      throw new Error(
+        'The selection includes a locked group. Unlock it before deleting. Nothing was deleted.',
+      );
     return {
       project: {
         ...project,
-        volumes: project.volumes.filter((item) => item.id !== v.id),
+        volumes: project.volumes.filter((item) => !ids.has(item.id)),
         selectedId: null,
         selectedIds: [],
       },
-      message: `Deleted ${v.name}`,
+      message:
+        targets.length === 1
+          ? `Deleted ${targets[0].name}`
+          : `Deleted ${targets.length} objects. Undo restores the selection.`,
     };
   } else if (text === 'duplicate selected') {
     const v = requireSelection();

@@ -1,6 +1,6 @@
 import { sampleHouse } from './sample';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { FolderOpen, X, Plus, Check } from 'lucide-react';
+import { FolderOpen, X, Plus, Check, Pencil, Trash2 } from 'lucide-react';
 import App from '../App';
 import { parseBoard } from '../moodboard/data';
 import {
@@ -12,6 +12,8 @@ import {
   activeProject,
   listProjects,
   saveProject,
+  renameProject,
+  deleteProject,
   type SavedProject,
   type WorkspaceSnapshot,
 } from './library';
@@ -28,6 +30,9 @@ export default function WorkspaceHost() {
     [error, setError] = useState('');
   const [newName, setNewName] = useState(''),
     [rename, setRename] = useState('');
+  const [renameId, setRenameId] = useState<string | null>(null);
+  const [deleteTarget, setDeleteTarget] = useState<SavedProject | null>(null);
+  const nameInput = useRef<HTMLInputElement>(null);
   const active = useRef<SavedProject | null>(null),
     latest = useRef<WorkspaceSnapshot | null>(null),
     queue = useRef(Promise.resolve()),
@@ -157,6 +162,8 @@ export default function WorkspaceHost() {
   useEffect(() => {
     if (open) {
       setRename(active.current?.name ?? '');
+      setRenameId(active.current?.id ?? null);
+      setDeleteTarget(null);
       dialog.current?.showModal();
     }
   }, [open]);
@@ -192,6 +199,75 @@ export default function WorkspaceHost() {
       setIdentity({ id: record.id, name: record.name });
       setGeneration((n) => n + 1);
       setOpen(false);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      switching.current = false;
+      setWorking(false);
+    }
+  };
+  const renameEntry = async () => {
+    if (
+      !renameId ||
+      !rename.trim() ||
+      working ||
+      deleteTarget ||
+      !available.current
+    )
+      return;
+    setWorking(true);
+    switching.current = true;
+    setError('');
+    try {
+      await queue.current;
+      const renamed = await renameProject(renameId, rename);
+      if (active.current?.id === renamed.id) {
+        active.current = renamed;
+        setIdentity({ id: renamed.id, name: renamed.name });
+      }
+      setEntries(await listProjects());
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      switching.current = false;
+      setWorking(false);
+    }
+  };
+  const removeEntry = async () => {
+    if (!deleteTarget || working || !available.current) return;
+    setWorking(true);
+    switching.current = true;
+    setError('');
+    try {
+      await queue.current;
+      const replacement: SavedProject | undefined =
+        active.current?.id === deleteTarget.id
+          ? {
+              id: crypto.randomUUID(),
+              name: 'Untitled study',
+              updatedAt: Date.now(),
+              session: serializeSession(
+                newSession({ volumes: [], selectedId: null }),
+              ),
+              messages: [],
+            }
+          : undefined;
+      await deleteProject(deleteTarget.id, replacement);
+      if (replacement) {
+        active.current = replacement;
+        latest.current = replacement;
+        setInitial(replacement);
+        setIdentity({ id: replacement.id, name: replacement.name });
+        setGeneration((n) => n + 1);
+        setOpen(false);
+      } else {
+        setEntries(await listProjects());
+        if (renameId === deleteTarget.id) {
+          setRenameId(active.current?.id ?? null);
+          setRename(active.current?.name ?? '');
+        }
+      }
+      setDeleteTarget(null);
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -255,7 +331,7 @@ export default function WorkspaceHost() {
               </p>
               <button
                 className="sample-project-card"
-                disabled={working || !available.current}
+                disabled={working || !!deleteTarget || !available.current}
                 onClick={() => void switchTo(sampleHouse())}
               >
                 <span className="sample-pavilion-icon" aria-hidden="true">
@@ -272,64 +348,84 @@ export default function WorkspaceHost() {
                 </span>
               </button>
               <form
-                onSubmit={async (e) => {
+                onSubmit={(e) => {
                   e.preventDefault();
-                  const name = rename.trim();
-                  if (!name || !active.current) return;
-                  setWorking(true);
-                  try {
-                    const p = {
-                      ...active.current,
-                      name,
-                      updatedAt: Date.now(),
-                    };
-                    await enqueue(p);
-                    active.current = p;
-                    setIdentity({ id: p.id, name });
-                    setEntries(await listProjects());
-                    setError('');
-                  } catch (e) {
-                    setError((e as Error).message);
-                  } finally {
-                    setWorking(false);
-                  }
+                  void renameEntry();
                 }}
               >
                 <label>
-                  Current project name
+                  {renameId === identity?.id
+                    ? 'Current project name'
+                    : 'Selected project name'}
                   <input
-                    aria-label="Current project name"
+                    ref={nameInput}
+                    aria-label={
+                      renameId === identity?.id
+                        ? 'Current project name'
+                        : 'Selected project name'
+                    }
                     value={rename}
                     maxLength={80}
                     onChange={(e) => setRename(e.target.value)}
                     disabled={working}
                   />
                 </label>
-                <button type="submit" disabled={working || !rename.trim()}>
+                <button
+                  type="submit"
+                  disabled={
+                    working ||
+                    !!deleteTarget ||
+                    !available.current ||
+                    !rename.trim()
+                  }
+                >
                   Rename
                 </button>
               </form>
               <div className="project-list">
                 {entries.map((p) => (
-                  <button
-                    key={p.id}
-                    className="project-entry"
-                    disabled={working || !available.current}
-                    aria-current={p.id === identity?.id ? 'true' : undefined}
-                    onClick={() => {
-                      if (p.id === identity?.id) setOpen(false);
-                      else void switchTo(p);
-                    }}
-                  >
-                    <FolderOpen size={18} />
-                    <span>
-                      <strong>{p.name}</strong>
-                      <small>
-                        {new Date(p.updatedAt).toLocaleDateString()}
-                      </small>
-                    </span>
-                    {p.id === identity?.id && <Check size={17} />}
-                  </button>
+                  <div className="project-row" key={p.id}>
+                    <button
+                      className="project-entry"
+                      disabled={working || !!deleteTarget || !available.current}
+                      aria-current={p.id === identity?.id ? 'true' : undefined}
+                      onClick={() => {
+                        if (p.id === identity?.id) setOpen(false);
+                        else void switchTo(p);
+                      }}
+                    >
+                      <FolderOpen size={18} />
+                      <span>
+                        <strong>{p.name}</strong>
+                        <small>
+                          {new Date(p.updatedAt).toLocaleDateString()}
+                        </small>
+                      </span>
+                      {p.id === identity?.id && <Check size={17} />}
+                    </button>
+                    <button
+                      className="project-row-action"
+                      aria-label={`Rename project ${p.name}`}
+                      title="Rename project"
+                      disabled={working || !!deleteTarget || !available.current}
+                      onClick={() => {
+                        setRenameId(p.id);
+                        setRename(p.name);
+                        nameInput.current?.focus();
+                      }}
+                    >
+                      <Pencil size={16} />
+                    </button>
+                    <button
+                      className="project-row-action"
+                      aria-label={`Delete project ${p.name}`}
+                      title="Delete project"
+                      disabled={working || !!deleteTarget || !available.current}
+                      onClick={() => setDeleteTarget(p)}
+                    >
+                      <Trash2 size={16} />
+                    </button>
+                  </div>
                 ))}
               </div>
               <form
@@ -361,12 +457,49 @@ export default function WorkspaceHost() {
                 </label>
                 <button
                   type="submit"
-                  disabled={working || !newName.trim() || !available.current}
+                  disabled={
+                    working ||
+                    !!deleteTarget ||
+                    !newName.trim() ||
+                    !available.current
+                  }
                 >
                   <Plus size={16} />
                   Create
                 </button>
               </form>
+              {deleteTarget && (
+                <div
+                  className="project-delete-confirm"
+                  role="alertdialog"
+                  aria-label="Confirm project deletion"
+                >
+                  <strong>Delete “{deleteTarget.name}”?</strong>
+                  <p>
+                    This removes its model, conversation, moodboard and undo
+                    history from this browser. This cannot be undone. Export a
+                    backup first if you need one.
+                  </p>
+                  {deleteTarget.id === identity?.id && (
+                    <p>A new blank workspace will open.</p>
+                  )}
+                  <div>
+                    <button
+                      autoFocus
+                      disabled={working}
+                      onClick={() => setDeleteTarget(null)}
+                    >
+                      Keep project
+                    </button>
+                    <button
+                      disabled={working}
+                      onClick={() => void removeEntry()}
+                    >
+                      Delete permanently
+                    </button>
+                  </div>
+                </div>
+              )}
               {working && <p role="status">Saving your workspace…</p>}
               {error && <p role="alert">{error}</p>}
             </dialog>

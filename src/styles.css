@@ -4308,8 +4308,8 @@ summary:focus-visible {
   bottom: max(20px, env(safe-area-inset-bottom));
   left: 12px;
   right: 12px;
-  background: rgba(20, 24, 27, 0.88);
-  color: white;
+  background: var(--panel);
+  color: inherit;
   border-radius: 20px;
   padding: 16px;
   display: flex;
@@ -4329,8 +4329,8 @@ summary:focus-visible {
 .ar-controls select {
   padding: 10px;
   border-radius: 12px;
-  background: #30383d;
-  color: white;
+  background: color-mix(in srgb, currentColor 8%, var(--panel));
+  color: inherit;
 }
 /* Keep close and drag controls reachable even in long, scrolling tool panels. */
 .immersive :is(.section-panel, .studio-panel, .inspector) > .panel-drag-handle {
@@ -5440,9 +5440,16 @@ summary:focus-visible {
 .ar-overlay .ar-controls {
   top: max(12px, env(safe-area-inset-top));
   bottom: auto;
-  max-height: 44dvh;
-  overflow-y: auto;
+  max-height: 55dvh;
+  overflow: hidden;
+  display: block;
   pointer-events: auto;
+}
+.ar-adjustment-body {
+  max-height: calc(55dvh - 190px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-bottom: 12px;
 }
 .ar-adjustments {
   width: 100%;
@@ -5461,6 +5468,57 @@ summary:focus-visible {
 .ar-adjustments p {
   font-size: 12px;
   line-height: 1.5;
+}
+.ar-scale-fields {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.ar-scale-fields:disabled :is(input, select) {
+  opacity: 0.55;
+}
+.ar-confirm-scale,
+.ar-rotation-controls {
+  display: grid;
+  gap: 10px;
+  margin-block: 12px;
+}
+.ar-confirm-scale span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.ar-button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ar-button-row button {
+  flex: 1;
+  min-height: 44px;
+}
+.ar-rotation-controls input {
+  width: 100%;
+  min-width: 0;
+}
+.ar-panel summary {
+  cursor: pointer;
+  padding-block: 10px;
+}
+.ar-launch-actions {
+  position: sticky;
+  bottom: -18px;
+  z-index: 2;
+  display: grid;
+  gap: 10px;
+  padding: 14px 0;
+  background: var(--panel);
+  border-top: 1px solid var(--line);
+}
+.ar-quick-actions {
+  width: 100%;
+  background: var(--panel);
+  padding-block: 6px;
 }
 .immersive .ar-overlay .conversation-area {
   display: block !important;
@@ -5768,4 +5826,53 @@ summary:focus-visible {
   color: var(--muted);
   font-size: 10px;
   margin: 8px 0;
+}
+
+.asset-separate {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 16px 0;
+  font-size: 13px;
+}
+.asset-separate input {
+  accent-color: var(--accent, #b8ddd7);
+}
+
+.project-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.project-row .project-entry {
+  flex: 1;
+  min-width: 0;
+}
+.project-row .project-entry span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.project-row-action {
+  flex: 0 0 auto;
+  padding: 10px;
+  border-radius: 10px;
+}
+.project-row-action:hover {
+  background: #80989a22;
+}
+.project-delete-confirm {
+  padding: 16px;
+  border: 1px solid #d58b6966;
+  border-radius: 14px;
+  margin-top: 16px;
+}
+.project-delete-confirm > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.project-delete-confirm button {
+  padding: 10px;
+  border-radius: 8px;
+  background: #80989a22;
 }

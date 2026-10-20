@@ -2,6 +2,20 @@
 
 Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 154 and software WebGL. This file distinguishes geometric execution, UI/provider contracts and live AI/audio behavior.
 
+## FBX, project management and AR controls — October 20, 2026
+
+**156 unit/integration tests in 39 files pass.** New import coverage parses a real Revit-exported binary FBX, a second binary FBX, and authored transformed assemblies. It checks source units/up-axis, separate named elements, diffuse colors, mirrored winding, group placement, actual closed solids, Boolean eligibility, one-step undo/reload, and atomic limits. The FBX fixtures and license/provenance are in `tests/fixtures/fbx`. Materials with multiple slots use the first diffuse color; external textures and animation are intentionally excluded. This is not native Revit/BIM conversion or verification against every Revit export.
+
+Imports now accept **50 MB and 100,000 triangles**. Browser checks cross the old 10 MB file gate with a padded FBX and the old 20,000-triangle gate with genuine 22,050-triangle geometry. They do not establish that every dense 50 MB model fits the unchanged 200-object / 2-million-character history-bearing project budget. Exceeding those limits leaves the project untouched; large FBX assemblies can be combined before import.
+
+**21 distinct targeted production Chromium scenarios passed across focused runs**, including the final five-case AR regression. They cover existing OBJ/STL/GLB import and motion; FBX desktop/phone previews, unit conversion, separate/combined elements, reload and undo; far-camera day/night map colors; real drag selection and bulk deletion/undo; group movement and OBJ export; project rename/delete/cancel/reload and aborted database transactions; and AR preparation and shared conversation in day/night. Map tiles and AI replies are explicit fixtures. No paid API calls were made.
+
+AR adds eleven scale presets, confirmation/locking, real-width fitting, exported orientation, fine size steps, camera-relative floor nudges and a near-edge recovery action for life-size models. Numerical tests verify that a rotated 100 m building's nearest footprint edge is one meter ahead, pivot position survives 1:100 ↔ 1:1 scaling/rotation, physical nudges stay horizontal, and USDZ contains the chosen scale/rotation without changing the project. XR session tests use genuine Three.js geometry with explicit tracked poses and a renderer double. Browser tests replace only native capability / XR transport, keeping actual UI, export, modeling and history code. **Physical iPhone/Android tracking, native Quick Look display and real microphone coexistence remain unverified.** iPhone Quick Look uses native gestures and cannot host ATELIER chat or the custom WebXR placement buttons.
+
+TypeScript/Vite production build, formatting and whitespace checks pass. Phone AR preparation and day/night control screenshots were inspected.
+
+See [imports and Revit workflow](IMPORTS.md) and [AR controls](INTERACTION-REFINEMENT.md#phone-camera--ar). The update reuses the existing Render service and credentials.
+
 ## Farnsworth terrace and scale-figure correction — October 19, 2026
 
 **146 unit/integration tests in 37 files pass.** The sample now has 134 positive-volume editable objects. Additional checks verify the lower platform's 6.57 m west projection, 16.68 m length and 0.24 m separation in plan; three front terrace supports, one return and two shared pavilion-side posts; independent thin treads without slab intersections; and genuine closed scale-figure geometry with 0.85 m width, 25 mm thickness, 2.26 m reach and a 1.83 m head landmark. Existing projects, dimensions and object identities are preserved.
