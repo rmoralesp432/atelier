@@ -46,7 +46,8 @@ export default function ARPanel({
     [manualCamera, setManualCamera] = useState(false),
     [transparent, setTransparent] = useState(false),
     [placementOpen, setPlacementOpen] = useState(false),
-    [chatOpen, setChatOpen] = useState(false);
+    [chatOpen, setChatOpen] = useState(false),
+    [handoff, setHandoff] = useState<'preview' | 'life-size' | null>(null);
   const modelModule = useRef<typeof import('./model') | null>(null);
   const signature = useMemo(
     () => JSON.stringify([project.volumes, project.groups]),
@@ -88,7 +89,7 @@ export default function ARPanel({
     };
   }, []);
   useEffect(() => () => onActive(false), [onActive]);
-  const prepare = async () => {
+  const prepare = async (exportScale = scale) => {
     const revision = ++generation.current;
     setBusy(true);
     setError('');
@@ -107,7 +108,12 @@ export default function ARPanel({
       prepared.current = model;
       preparedSignature.current = signature;
       setWidth(new Box3().setFromObject(model).getSize(new Vector3()).x);
-      const data = await m.exportARModel(model, scale, rotation, transparent);
+      const data = await m.exportARModel(
+        model,
+        exportScale,
+        rotation,
+        transparent,
+      );
       if (!alive.current || revision !== generation.current) return;
       if (blobURL.current) URL.revokeObjectURL(blobURL.current);
       blobURL.current = URL.createObjectURL(
@@ -142,6 +148,7 @@ export default function ARPanel({
     onActive(true);
     setActive(true);
     setManualCamera(manual);
+    setHandoff(null);
     setPlacementOpen(false);
     setChatOpen(false);
     setError('');
@@ -206,6 +213,15 @@ export default function ARPanel({
         }
       });
   };
+  const continueInAR = async () => {
+    if (busy || !sessionReady) return;
+    // Camera-preview coordinates have no tracked-world reference. Never bake
+    // its translation into a USDZ and pretend it is a physical anchor.
+    setHandoff('preview');
+    if (scale === 1 && quickLook) setLockScale(false);
+    await session.current?.end();
+    await prepare();
+  };
   const chooseScale = (value: number) => {
     if (!Number.isFinite(value) || value < 0.001 || value > 1) {
       setError('Choose a viewing scale between 1:1000 and 1:1.');
@@ -256,7 +272,7 @@ export default function ARPanel({
     <div className="ar-confirm-scale">
       <span role="status">
         {scaleConfirmed
-          ? 'Scale confirmed · size controls locked'
+          ? 'Viewing scale confirmed'
           : 'Check the size, then confirm to lock resizing.'}
       </span>
       <button
@@ -339,6 +355,35 @@ export default function ARPanel({
       cancelled = true;
     };
   }, [signature, sessionReady]);
+  useEffect(() => {
+    if (handoff && !active) floating.ref.current?.scrollTo({ top: 0 });
+  }, [handoff, active]);
+  const openTrackedAR = () =>
+    quickLook ? (
+      <a
+        className="primary-studio-action"
+        rel="ar"
+        href={`${url}${lockScale ? '#allowsContentScaling=0' : ''}`}
+        onClick={onNativeOpen}
+        download="atelier.usdz"
+      >
+        <img
+          alt=""
+          width="1"
+          height="1"
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E"
+        />
+        Open real AR
+      </a>
+    ) : xr ? (
+      <button
+        className="primary-studio-action"
+        disabled={!scaleConfirmed}
+        onClick={() => launch()}
+      >
+        Open real AR
+      </button>
+    ) : null;
   return (
     <>
       <section
@@ -363,9 +408,78 @@ export default function ARPanel({
           </button>
         </div>
         <p className="studio-caption">
-          Prepare your model, check its size, then confirm the scale and open
-          AR. Viewing controls never resize your saved project.
+          Real AR anchors the model in your surroundings. Camera preview only
+          overlays an image and cannot be placed in the room. Your saved project
+          stays unchanged.
         </p>
+        {handoff ? (
+          <section
+            className="ar-tracked-guide"
+            aria-label="Continue in real AR"
+          >
+            <strong>Place it in your space</strong>
+            <p>
+              {handoff === 'preview'
+                ? `Size and rotation are kept. Position starts fresh in ${quickLook ? 'Apple AR' : 'tracked AR'}; the camera preview cannot transfer a room anchor.`
+                : 'This exports at 1:1 with resizing allowed in Apple AR, so you can position a smaller model before enlarging it.'}
+            </p>
+            {busy ? (
+              <p role="status">Preparing tracked AR…</p>
+            ) : !scaleConfirmed ? (
+              <p>Confirm the viewing scale below, then open real AR.</p>
+            ) : url && preparedSignature.current === signature ? (
+              openTrackedAR()
+            ) : (
+              <button disabled={busy} onClick={() => void prepare()}>
+                Prepare tracked AR
+              </button>
+            )}
+            <p>
+              {quickLook
+                ? 'In Apple’s viewer, choose AR if needed. Aim at the floor and move your phone slowly until the model appears. Drag the model to position it; use two fingers to turn.'
+                : 'Aim at the floor, find the placement ring and tap to anchor the model.'}
+            </p>
+            {quickLook && scale === 1 && !lockScale && (
+              <p>
+                Resizing is allowed for placement. Pinch smaller if the building
+                surrounds you, move it, then return to 100% for the exported
+                life size.
+              </p>
+            )}
+            {quickLook && (
+              <small>
+                Apple controls placement. ATELIER chat and movement arrows stay
+                in the browser.
+              </small>
+            )}
+            {error && <p role="alert">{error}</p>}
+          </section>
+        ) : (
+          quickLook && (
+            <section
+              className="ar-tracked-guide"
+              aria-label="Life-size placement"
+            >
+              <strong>Building too large to position?</strong>
+              <p>
+                Prepare at 1:1 with resizing allowed in Apple AR. Pinch smaller
+                to position it, then return to 100% for life size.
+              </p>
+              <button
+                disabled={busy || checking}
+                onClick={() => {
+                  chooseScale(1);
+                  setLockScale(false);
+                  setScaleConfirmed(true);
+                  setHandoff('life-size');
+                  void prepare(1);
+                }}
+              >
+                Prepare life-size AR
+              </button>
+            </section>
+          )
+        )}
         <fieldset className="ar-scale-fields" disabled={busy || scaleConfirmed}>
           <label>
             Viewing scale
@@ -489,43 +603,19 @@ export default function ARPanel({
           </button>
           {url && preparedSignature.current === signature && (
             <>
-              {quickLook && scaleConfirmed ? (
-                <a
-                  className="primary-studio-action"
-                  rel="ar"
-                  href={`${url}${lockScale ? '#allowsContentScaling=0' : ''}`}
-                  onClick={onNativeOpen}
-                  download="atelier.usdz"
-                >
-                  <img
-                    alt=""
-                    width="1"
-                    height="1"
-                    src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1' height='1'/%3E"
-                  />
-                  Open camera AR
-                </a>
-              ) : xr && !quickLook ? (
-                <button
-                  className="primary-studio-action"
-                  disabled={!scaleConfirmed}
-                  onClick={() => launch()}
-                >
-                  Open camera AR
-                </button>
-              ) : null}
+              {!handoff && (quickLook ? scaleConfirmed : xr) && openTrackedAR()}
               <button
-                className="primary-studio-action"
+                className="text-action"
                 disabled={!scaleConfirmed}
                 onClick={() => launch(true)}
               >
-                Open camera with manual controls
+                Open camera preview (untracked)
               </button>
               <p className="studio-caption">
                 Stay in ATELIER to adjust distance, height, rotation and
                 transparency, and use chat. This camera overlay is manually
                 aligned: it does not track walking, detect obstacles or verify
-                real-world 1:1 scale. Use camera AR above for tracked placement
+                real-world 1:1 scale. Use real AR above for tracked placement
                 when available.
               </p>
               <a className="text-action" href={url} download="atelier.usdz">
@@ -538,7 +628,7 @@ export default function ARPanel({
           Camera access starts only when you open AR. The model is prepared on
           this device. Placement is visual, not a survey alignment.
         </p>
-        {error && <p role="alert">{error}</p>}
+        {error && !handoff && <p role="alert">{error}</p>}
         {loadFailed && (
           <button
             className="primary-studio-action"
@@ -571,6 +661,19 @@ export default function ARPanel({
         >
           {active && (
             <div className="ar-controls" data-expanded={placementOpen}>
+              {manualCamera && (
+                <div className="ar-preview-mode">
+                  <span>Camera preview · not anchored</span>
+                  {(quickLook || xr) && (
+                    <button
+                      disabled={!sessionReady || busy}
+                      onClick={() => void continueInAR()}
+                    >
+                      Continue in real AR
+                    </button>
+                  )}
+                </div>
+              )}
               <div className="ar-compact-toolbar">
                 <button
                   aria-expanded={placementOpen}

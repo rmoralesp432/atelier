@@ -2,6 +2,16 @@
 
 Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 154 and software WebGL. This file distinguishes geometric execution, UI/provider contracts and live AI/audio behavior.
 
+## Tracked AR handoff clarity — October 20, 2026
+
+The user expected to finish positioning the manual camera preview and then anchor it. Inspection confirmed that this screen uses an untracked Three.js camera overlay, not Apple's tracking session. A preview translation cannot be converted into a real-world anchor by adding a confirmation button.
+
+The interface now distinguishes **Open real AR** from **Open camera preview (untracked)**. The preview always labels itself unanchored and offers **Continue in real AR** on capable devices. This stops its media tracks, exports the current scale/orientation/transparency, explains that position starts fresh, and offers a separate user-gesture launch. **Prepare life-size AR** explicitly exports 1:1 with native resizing allowed so a large building can be positioned at a smaller displayed scale in Quick Look. Saved model dimensions remain unchanged.
+
+**176 unit/integration tests in 48 files pass.** The targeted production-browser tests exercise a real synthetic camera feed, pointer manipulation, camera cleanup, genuine USDZ output, unchanged saved session, native link/scaling flags, and the handoff UI. The new test verifies unit scale and 90-degree rotation in exported USDZ matrices while excluding the preview's distance/height offsets. It tests a trusted click on the launch link with native navigation intercepted; Chromium cannot launch Apple's viewer. Existing AR loading-recovery and explicit WebXR transport/capability regressions are included. Physical iPhone placement/gesture behavior, scale calibration and native tracking success remain unverified.
+
+**10 distinct targeted production Chromium scenarios pass** across the nine-case AR regression and final three-case handoff/permission follow-up. TypeScript/Vite production build, formatting and whitespace checks pass. Phone preview and handoff screenshots were inspected. No native iOS app was built, no tracking service was added, and no paid AI calls were made.
+
 ## Dense edits, compact camera controls and device transfer — October 20, 2026
 
 **176 unit/integration tests in 48 files pass.** New coverage checks immutable geometry comparisons and metadata validation without traversing mesh arrays, bounded autosave encoding reuse, unchanged exact picking under navigation simplification, stale worker replies/failure fallback, and portable project validation including history, conversation and embedded media.

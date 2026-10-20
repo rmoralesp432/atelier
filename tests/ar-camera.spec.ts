@@ -49,7 +49,7 @@ test('real camera-overlay renderer supports life-size positioning, turning, see-
     localStorage.getItem('atelier.session.v2'),
   );
   await page
-    .getByRole('button', { name: 'Open camera with manual controls' })
+    .getByRole('button', { name: 'Open camera preview (untracked)' })
     .click();
   const overlay = page.locator('.ar-overlay.active');
   await expect(overlay).toHaveAttribute('data-camera-scale', '0.01', {
@@ -207,7 +207,7 @@ test('camera rejection returns to the project with an actionable error', async (
   });
   await open(page);
   await page
-    .getByRole('button', { name: 'Open camera with manual controls' })
+    .getByRole('button', { name: 'Open camera preview (untracked)' })
     .click();
   await expect(
     page.getByRole('region', { name: 'View in your space' }).getByRole('alert'),
@@ -217,4 +217,108 @@ test('camera rejection returns to the project with an actionable error', async (
     '2',
   );
   await expect(page.locator('.ar-overlay.active')).toHaveCount(0);
+});
+
+test('manual preview hands size and rotation to a fresh native AR launch, not a simulated room anchor', async ({
+  page,
+}) => {
+  test.setTimeout(120000);
+  await page.addInitScript(() => {
+    const supports = DOMTokenList.prototype.supports;
+    DOMTokenList.prototype.supports = function (token: string) {
+      return token === 'ar' || supports.call(this, token);
+    };
+  });
+  await open(page);
+  const before = await page.evaluate(() =>
+    localStorage.getItem('atelier.session.v2'),
+  );
+  await page
+    .getByRole('button', { name: 'Prepare life-size AR', exact: true })
+    .click();
+  const native = page.getByRole('link', { name: 'Open real AR', exact: true });
+  await expect(native).toBeVisible({ timeout: 30000 });
+  await expect(page.getByLabel('AR viewing scale')).toHaveValue('1');
+  await expect(native).not.toHaveAttribute('href', /allowsContentScaling=0/);
+  await page
+    .getByRole('button', { name: 'Open camera preview (untracked)' })
+    .click();
+  const overlay = page.locator('.ar-overlay.active');
+  await expect(overlay).toHaveAttribute('data-camera-scale', '1');
+  await expect(
+    overlay.getByText('Camera preview · not anchored', { exact: true }),
+  ).toBeVisible();
+  expect(
+    (await overlay.locator('.ar-controls').boundingBox())!.height,
+  ).toBeLessThan(160);
+  await page.evaluate(() => {
+    (window as any).__handoffTracks = (
+      (document.querySelector('.ar-camera-feed') as HTMLVideoElement)
+        .srcObject as MediaStream
+    ).getTracks();
+  });
+  await overlay.getByRole('button', { name: 'Placement', exact: true }).click();
+  await overlay.getByLabel('AR move increment').selectOption('5');
+  await overlay.getByRole('button', { name: 'Farther', exact: true }).click();
+  await overlay.getByRole('button', { name: 'Raise', exact: true }).click();
+  await overlay.getByText('Size & placement', { exact: false }).click();
+  await overlay
+    .getByRole('button', { name: 'Rotate AR 90 degrees', exact: true })
+    .click();
+  await expect(overlay).toHaveAttribute('data-camera-rotation', '90');
+  await overlay.getByRole('button', { name: 'Placement', exact: true }).click();
+  await page.screenshot({
+    path: 'test-results/camera-preview-native-path.png',
+  });
+  await overlay
+    .getByRole('button', { name: 'Continue in real AR', exact: true })
+    .click();
+  await expect(overlay).toBeHidden();
+  const guide = page.getByRole('region', {
+    name: 'Continue in real AR',
+    exact: true,
+  });
+  await expect(guide).toContainText('Position starts fresh');
+  await expect(native).toBeVisible({ timeout: 30000 });
+  await expect(native).toHaveAttribute('rel', 'ar');
+  expect(
+    await page.evaluate(() =>
+      (window as any).__handoffTracks.every(
+        (t: MediaStreamTrack) => t.readyState === 'ended',
+      ),
+    ),
+  ).toBe(true);
+  // Actual USDZ output, not mocked geometry. Translation from the untracked
+  // preview must not be baked in; orientation and life-size units are retained.
+  const text = await native.evaluate(async (a: HTMLAnchorElement) =>
+    new TextDecoder().decode(await (await fetch(a.href)).arrayBuffer()),
+  );
+  expect(text).toContain('metersPerUnit = 1');
+  const matrices = [
+    ...text.matchAll(/matrix4d xformOp:transform = \(([^\n]+)\)/g),
+  ].map((match) => match[1].replace(/[()]/g, '').split(',').map(Number));
+  const rotated = matrices.find(
+    (m) => Math.abs(m[2] + 1) < 1e-6 && Math.abs(m[8] - 1) < 1e-6,
+  );
+  expect(rotated).toBeDefined();
+  expect(rotated!.slice(12, 15)).toEqual([0, 0, 0]);
+  expect(rotated![5]).toBeCloseTo(1);
+  await expect(native).not.toHaveAttribute('href', /allowsContentScaling=0/);
+  // A separate real tap initiates the native handoff; Chromium cannot run Apple's viewer.
+  await native.evaluate((a) =>
+    a.addEventListener(
+      'click',
+      (e) => {
+        e.preventDefault();
+        (window as any).__nativeTap = e.isTrusted;
+      },
+      { once: true },
+    ),
+  );
+  await native.click();
+  expect(await page.evaluate(() => (window as any).__nativeTap)).toBe(true);
+  await page.screenshot({ path: 'test-results/native-ar-handoff-phone.png' });
+  expect(
+    await page.evaluate(() => localStorage.getItem('atelier.session.v2')),
+  ).toBe(before);
 });

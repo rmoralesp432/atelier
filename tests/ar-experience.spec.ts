@@ -37,7 +37,7 @@ test('iPhone native handoff fixture keeps real USDZ scale explicit and saved geo
   });
   await openAR(page);
   const before = await saved(page);
-  await expect(page.getByRole('link', { name: 'Open camera AR' })).toBeHidden();
+  await expect(page.getByRole('link', { name: 'Open real AR' })).toBeHidden();
   await page
     .getByRole('button', { name: 'Confirm scale', exact: false })
     .click();
@@ -48,7 +48,7 @@ test('iPhone native handoff fixture keeps real USDZ scale explicit and saved geo
       exact: false,
     }),
   ).toBeVisible();
-  const link = page.getByRole('link', { name: 'Open camera AR' });
+  const link = page.getByRole('link', { name: 'Open real AR' });
   await expect(link).toHaveAttribute('href', /#allowsContentScaling=0$/);
   await page.getByLabel('Keep the chosen scale in iPhone AR').uncheck();
   await expect(link).not.toHaveAttribute('href', /#allowsContentScaling/);
@@ -136,13 +136,13 @@ for (const theme of ['night', 'day'] as const)
     await openAR(page);
     const before = await saved(page);
     await expect(
-      page.getByRole('button', { name: 'Open camera AR', exact: true }),
+      page.getByRole('button', { name: 'Open real AR', exact: true }),
     ).toBeDisabled();
     await page
       .getByRole('button', { name: 'Confirm scale', exact: false })
       .click();
     await page
-      .getByRole('button', { name: 'Open camera AR', exact: true })
+      .getByRole('button', { name: 'Open real AR', exact: true })
       .click();
     const overlay = page.locator('.ar-overlay');
     await expect(overlay).toBeVisible();
