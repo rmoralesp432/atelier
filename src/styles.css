@@ -5475,6 +5475,26 @@ summary:focus-visible {
   margin: 0;
   min-width: 0;
 }
+.ar-height-fields {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  margin: 12px 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.ar-height-fields legend {
+  padding-inline: 6px;
+  font-weight: 600;
+}
+.ar-height-fields :is(p, small) {
+  margin: 0;
+  line-height: 1.5;
+}
+.ar-height-fields small {
+  color: var(--muted);
+}
 .ar-scale-fields:disabled :is(input, select) {
   opacity: 0.55;
 }

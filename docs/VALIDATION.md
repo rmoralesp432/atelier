@@ -2,6 +2,12 @@
 
 Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 154 and software WebGL. This file distinguishes geometric execution, UI/provider contracts and live AI/audio behavior.
 
+## iPhone AR export height adjustment — October 20, 2026
+
+**179 unit/integration tests in 48 files pass**, along with the TypeScript/Vite production build and **10 targeted production-browser tests** (`ar-camera`, `ar-experience`, `ar-loading`). The height-specific tests inspect actual USDZ transforms: negative and positive offsets, 1:1 and 1:100 ratios, retained rotation and meter units, unchanged dimensions/source bounds, invalid-value rejection and unchanged project data. The phone browser test verifies lower/raise/reset, a selected object's actual upper bound as export ground level, stale-link invalidation, scale-lock URL flags, invalid-input blocking and unchanged saved session. The 390 px layout screenshot was inspected. Existing camera cleanup, manual-preview handoff, WebXR conversation in both themes and stale-module recovery pass.
+
+The adjustment moves the detached USDZ model vertically and scales the offset with the viewing ratio; it does not crop geometry, edit the project, resize dimensions or move a running Apple anchor. Native capability and WebXR transport are explicit browser fixtures. **Physical iPhone ground placement, below-ground visibility and whether Quick Look preserves the export offset remain unverified.** Apple may normalize placement by device/version. This is a testable export workaround, not a verified substitute for custom tracked vertical movement. No new AR engine, account, API usage or subscription was introduced. The full historical browser suite was not rerun.
+
 ## Tracked AR handoff clarity — October 20, 2026
 
 The user expected to finish positioning the manual camera preview and then anchor it. Inspection confirmed that this screen uses an untracked Three.js camera overlay, not Apple's tracking session. A preview translation cannot be converted into a real-world anchor by adding a confirmation button.

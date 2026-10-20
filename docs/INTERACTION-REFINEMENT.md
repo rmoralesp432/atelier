@@ -132,3 +132,16 @@ If you are already in Camera preview, **Continue in real AR** stops its camera a
 The native launch uses a real `rel="ar"` USDZ link, initiated by a separate user tap after export completes. No fake placement confirmation or fabricated tracking state is shown. Apple's viewer owns its gestures and cannot host ATELIER's controls/chat. The browser cannot report whether native placement succeeded. Genuine native iPhone placement, resize behavior and tracking still require an on-device check.
 
 The existing [model-viewer Quick Look handoff](https://github.com/google/model-viewer/blob/master/packages/model-viewer/src/features/ar.ts) was reviewed: it passes a USDZ and native scaling flags, not a web-camera pose or tracking anchor. ATELIER's installed Three.js USDZ exporter emits meter units and horizontal-plane anchoring metadata. These specify the file; Apple performs real-world tracking.
+
+## Try a different ground height in iPhone AR — October 20, 2026
+
+1. Open **Tools → Camera → View in your space · AR** on iPhone.
+2. Under **Height in real AR**, enter an offset such as **−1.5 m** to lower the exported model. **Lower 25 cm**, **Raise 25 cm** and **Reset height** provide small adjustments. These are project meters: at 1:100, a −1.5 m project offset becomes −1.5 cm in the AR export.
+3. Choose **Prepare life-size AR**, then **Open real AR**. This exports at 1:1 and allows Apple's pinch-to-resize gesture. **Keep the chosen scale in iPhone AR** disables native resizing when checked. For a life-size export, 100% in Apple's viewer is the exported 1:1 size.
+4. In Apple's AR view, find the ground, drag to position and use two fingers to rotate. Close the viewer to adjust the height and prepare again if necessary.
+
+For a raised floor, select that floor object in the workspace before opening AR. After preparing, **Use selected object’s top as ground** sets the export offset from the actual rendered object's world-space upper bound. Select the floor slab itself, not the entire building or a roof. The offset applies to the whole export; all original geometry, including legs below the new origin, remains intact. No clipping or resizing is used to mimic lowering.
+
+Height is a transformation in the USDZ export, not a command to Apple's running tracker. Apple owns ground detection and placement and may normalize the model differently by device/version. The exported translation, meter units, unchanged dimensions and launch settings are tested; the resulting native placement must be checked on a physical iPhone. If Apple re-grounds the model and cancels the apparent height change, report that outcome rather than treating this workaround as verified vertical control. [Model-viewer placement discussion](https://github.com/google/model-viewer/issues/1056) distinguishes viewer-specific anchoring behavior; it is historical implementation discussion, not a current Apple placement guarantee.
+
+The height controls are specific to the Apple export path. The untracked camera preview does not inherit them or create a room anchor. WebXR retains its existing live height controls. No account, API subscription or app installation was added. Project geometry, saved dimensions and history remain unchanged.

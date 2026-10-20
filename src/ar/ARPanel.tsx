@@ -31,6 +31,7 @@ export default function ARPanel({
     [checking, setChecking] = useState(true);
   const [scale, setScale] = useState(0.01),
     [rotation, setRotation] = useState(0),
+    [heightInput, setHeightInput] = useState('0'),
     [busy, setBusy] = useState(false),
     [url, setURL] = useState(''),
     [error, setError] = useState(''),
@@ -62,6 +63,11 @@ export default function ARPanel({
     blobURL = useRef('');
   const module = useRef<typeof import('./webxr') | null>(null),
     generation = useRef(0);
+  const heightOffset = Number(heightInput);
+  const heightValid =
+    heightInput.trim() !== '' &&
+    Number.isFinite(heightOffset) &&
+    Math.abs(heightOffset) <= 1000;
   useEffect(() => {
     alive.current = true;
     const link = document.createElement('a');
@@ -90,6 +96,10 @@ export default function ARPanel({
   }, []);
   useEffect(() => () => onActive(false), [onActive]);
   const prepare = async (exportScale = scale) => {
+    if (!heightValid) {
+      setError('Choose an AR height adjustment between −1000 and 1000 m.');
+      return;
+    }
     const revision = ++generation.current;
     setBusy(true);
     setError('');
@@ -113,6 +123,7 @@ export default function ARPanel({
         exportScale,
         rotation,
         transparent,
+        quickLook ? heightOffset : 0,
       );
       if (!alive.current || revision !== generation.current) return;
       if (blobURL.current) URL.revokeObjectURL(blobURL.current);
@@ -253,6 +264,14 @@ export default function ARPanel({
     session.current?.transparency?.(value);
     invalidateExport();
   };
+  const chooseHeight = (value: string) => {
+    setHeightInput(value);
+    setError('');
+    invalidateExport();
+  };
+  const selectedPart = prepared.current?.children.find(
+    (child) => child.userData.id === project.selectedId,
+  );
   const scaleOptions = () => (
     <>
       {!AR_SCALES.some((ratio) => scale === 1 / ratio) && (
@@ -273,7 +292,7 @@ export default function ARPanel({
       <span role="status">
         {scaleConfirmed
           ? 'Viewing scale confirmed'
-          : 'Check the size, then confirm to lock resizing.'}
+          : 'Check the size, then confirm the viewing ratio.'}
       </span>
       <button
         disabled={busy || !width}
@@ -412,6 +431,71 @@ export default function ARPanel({
           overlays an image and cannot be placed in the room. Your saved project
           stays unchanged.
         </p>
+        {quickLook && (
+          <fieldset className="ar-height-fields" disabled={busy}>
+            <legend>Height in real AR</legend>
+            <p className="studio-caption">
+              Lower a raised floor before opening Apple AR. Negative values
+              lower the model; its dimensions stay the same.
+            </p>
+            <label>
+              Height adjustment · project meters
+              <input
+                aria-label="AR height adjustment"
+                type="number"
+                min="-1000"
+                max="1000"
+                step="any"
+                value={heightInput}
+                aria-invalid={!heightValid}
+                onChange={(e) => chooseHeight(e.target.value)}
+              />
+            </label>
+            <div className="ar-button-row">
+              <button
+                disabled={!heightValid || heightOffset < -999.75}
+                onClick={() =>
+                  chooseHeight(String(Number((heightOffset - 0.25).toFixed(3))))
+                }
+              >
+                Lower 25 cm
+              </button>
+              <button
+                disabled={!heightValid || heightOffset > 999.75}
+                onClick={() =>
+                  chooseHeight(String(Number((heightOffset + 0.25).toFixed(3))))
+                }
+              >
+                Raise 25 cm
+              </button>
+              <button onClick={() => chooseHeight('0')}>Reset height</button>
+            </div>
+            {selectedPart && preparedSignature.current === signature && (
+              <button
+                className="text-action"
+                onClick={() => {
+                  const top = new Box3().setFromObject(selectedPart).max.y;
+                  chooseHeight(String(Number((-top).toFixed(3))));
+                }}
+              >
+                Use selected object’s top as ground
+              </button>
+            )}
+            {heightValid ? (
+              <p className="studio-caption" role="status">
+                {heightOffset === 0
+                  ? 'Original project height. To align a floor, select it in the workspace and prepare the model.'
+                  : `${heightOffset < 0 ? 'Lower' : 'Raise'} by ${Number(Math.abs(heightOffset * scale).toFixed(3))} m at 1:${Number((1 / scale).toFixed(1))}. ${url && preparedSignature.current === signature ? 'Ready for Apple AR.' : 'Prepare again to apply.'}`}
+              </p>
+            ) : (
+              <p role="alert">Enter a height between −1000 and 1000 m.</p>
+            )}
+            <small>
+              Applied to the exported model. Apple controls ground placement;
+              verify the height on your iPhone. Return here to adjust it again.
+            </small>
+          </fieldset>
+        )}
         {handoff ? (
           <section
             className="ar-tracked-guide"
@@ -421,7 +505,9 @@ export default function ARPanel({
             <p>
               {handoff === 'preview'
                 ? `Size and rotation are kept. Position starts fresh in ${quickLook ? 'Apple AR' : 'tracked AR'}; the camera preview cannot transfer a room anchor.`
-                : 'This exports at 1:1 with resizing allowed in Apple AR, so you can position a smaller model before enlarging it.'}
+                : lockScale
+                  ? 'This exports at 1:1 with resizing locked. Drag to position it in Apple AR.'
+                  : 'This exports at 1:1 with resizing allowed in Apple AR, so you can position a smaller model before enlarging it.'}
             </p>
             {busy ? (
               <p role="status">Preparing tracked AR…</p>
@@ -430,7 +516,10 @@ export default function ARPanel({
             ) : url && preparedSignature.current === signature ? (
               openTrackedAR()
             ) : (
-              <button disabled={busy} onClick={() => void prepare()}>
+              <button
+                disabled={busy || !heightValid}
+                onClick={() => void prepare()}
+              >
                 Prepare tracked AR
               </button>
             )}
@@ -466,7 +555,7 @@ export default function ARPanel({
                 to position it, then return to 100% for life size.
               </p>
               <button
-                disabled={busy || checking}
+                disabled={busy || checking || !heightValid}
                 onClick={() => {
                   chooseScale(1);
                   setLockScale(false);
@@ -520,6 +609,23 @@ export default function ARPanel({
           )}
         </fieldset>
         {width > 0 && confirmation()}
+        {quickLook && (
+          <label className="ar-scale-lock">
+            <input
+              type="checkbox"
+              checked={lockScale}
+              onChange={(e) => setLockScale(e.target.checked)}
+            />
+            Keep the chosen scale in iPhone AR
+          </label>
+        )}
+        {quickLook && (
+          <p className="studio-caption">
+            Turn this off to pinch to resize in Apple AR. For a 1:1 export, 100%
+            in Apple’s viewer is life size. Drag to move; use two fingers to
+            turn.
+          </p>
+        )}
         <label className="ar-scale-lock">
           <input
             type="checkbox"
@@ -541,19 +647,9 @@ export default function ARPanel({
           <summary>Using AR on this device</summary>
           <p className="studio-caption">
             For a large building, start at 1:100 to find its orientation. At
-            1:1, one project meter equals one real meter. Confirmation locks
-            your chosen ratio; it does not calibrate device tracking.
+            1:1, one project meter equals one real meter. Confirmation keeps
+            your chosen ratio in ATELIER; it does not calibrate device tracking.
           </p>
-          {quickLook && (
-            <label className="ar-scale-lock">
-              <input
-                type="checkbox"
-                checked={lockScale}
-                onChange={(e) => setLockScale(e.target.checked)}
-              />{' '}
-              Keep the chosen scale in iPhone AR
-            </label>
-          )}
           <p className="studio-caption">
             {checking
               ? 'Checking device support…'
@@ -592,7 +688,7 @@ export default function ARPanel({
         <div className="ar-launch-actions">
           <button
             className={url ? 'text-action' : 'primary-studio-action'}
-            disabled={busy || checking}
+            disabled={busy || checking || !heightValid}
             onClick={() => void prepare()}
           >
             {busy

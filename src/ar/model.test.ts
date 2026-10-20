@@ -70,8 +70,56 @@ it('reports an empty AR scene and rejects unsupported scale', async () => {
     selectedId: null,
   });
   await expect(exportARModel(model, 0)).rejects.toThrow('scale');
+  for (const height of [NaN, Infinity, -Infinity, -1001, 1001])
+    await expect(exportARModel(model, 1, 0, false, height)).rejects.toThrow(
+      'height',
+    );
   disposeARModel(model);
 });
+it.each([
+  [1, -1.5],
+  [0.01, -1.5],
+  [1, 2],
+])(
+  'exports height at ratio %s with offset %s without resizing or editing the project',
+  async (scale, offset) => {
+    const project: Project = {
+      selectedId: 'floor',
+      volumes: [
+        {
+          id: 'floor',
+          name: 'Raised floor',
+          dimensions: { width: 20, depth: 10, height: 0.3 },
+          position: { x: 0, y: 1.2, z: 0 },
+          rotation: 0,
+        },
+      ],
+    };
+    const before = JSON.stringify(project);
+    const model = await createARModel(project);
+    const bounds = new Box3().setFromObject(model);
+    const usdz = new TextDecoder().decode(
+      await exportARModel(model, scale, 90, false, offset),
+    );
+    const matrices = [
+      ...usdz.matchAll(/matrix4d xformOp:transform = \(([^\n]+)\)/g),
+    ].map((match) => match[1].replace(/[()]/g, '').split(',').map(Number));
+    const root = matrices.find(
+      (m) => Math.abs(m[2] + scale) < 1e-6 && Math.abs(m[8] - scale) < 1e-6,
+    )!;
+    expect(root).toBeDefined();
+    expect(root[5]).toBeCloseTo(scale);
+    expect(root[12]).toBe(0);
+    expect(root[13]).toBeCloseTo(offset * scale);
+    expect(root[14]).toBe(0);
+    expect(usdz).toContain('metersPerUnit = 1');
+    expect(model.position.y).toBe(0);
+    expect(model.scale.x).toBe(1);
+    expect(new Box3().setFromObject(model).equals(bounds)).toBe(true);
+    expect(JSON.stringify(project)).toBe(before);
+    disposeARModel(model);
+  },
+);
 it('keeps the initial project origin during live AR edits so existing objects do not jump', async () => {
   const p: Project = {
     selectedId: null,

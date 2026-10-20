@@ -78,15 +78,21 @@ export async function exportARModel(
   scale: number,
   rotation = 0,
   transparent = false,
+  heightOffset = 0,
 ): Promise<Uint8Array> {
   if (!Number.isFinite(scale) || scale < 0.001 || scale > 1)
     throw new Error('Choose a scale between 1:1000 and 1:1.');
   if (!Number.isFinite(rotation)) throw new Error('Choose a valid rotation.');
+  if (!Number.isFinite(heightOffset) || Math.abs(heightOffset) > 1000)
+    throw new Error('Choose an AR height adjustment between −1000 and 1000 m.');
   const scene = new THREE.Scene(),
     copy = cloneARView(root);
   setARTransparency(copy, transparent);
   copy.scale.setScalar(scale);
   copy.rotation.y = (rotation * Math.PI) / 180;
+  // Offset is in project meters, so it follows the viewing ratio. Translate
+  // only this detached export; never move the original project or rescale it.
+  copy.position.y += heightOffset * scale;
   scene.add(copy);
   scene.updateMatrixWorld(true);
   try {

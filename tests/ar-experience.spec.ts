@@ -82,6 +82,91 @@ test('iPhone native handoff fixture keeps real USDZ scale explicit and saved geo
   ).toBe(true);
   await page.screenshot({ path: 'test-results/atelier-phone-ar-scale.png' });
 });
+test('native AR height exports lower and raise a life-size model without changing saved geometry', async ({
+  page,
+}) => {
+  test.setTimeout(120000);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.addInitScript(() => {
+    const supports = DOMTokenList.prototype.supports;
+    DOMTokenList.prototype.supports = function (token: string) {
+      return token === 'ar' || supports.call(this, token);
+    };
+  });
+  await openAR(page);
+  const before = await saved(page);
+  const height = page.getByRole('spinbutton', { name: 'AR height adjustment' });
+  const native = page.getByRole('link', { name: 'Open real AR', exact: true });
+  await height.fill('-1.5');
+  await page
+    .getByRole('button', { name: 'Prepare life-size AR', exact: true })
+    .click();
+  await expect(native).toBeVisible({ timeout: 30000 });
+  await expect(page.getByLabel('AR viewing scale')).toHaveValue('1');
+  await expect(native).not.toHaveAttribute('href', /allowsContentScaling=0/);
+  const matrices = async () => {
+    const text = await native.evaluate(async (a: HTMLAnchorElement) =>
+      new TextDecoder().decode(await (await fetch(a.href)).arrayBuffer()),
+    );
+    expect(text).toContain('metersPerUnit = 1');
+    return [...text.matchAll(/matrix4d xformOp:transform = \(([^\n]+)\)/g)].map(
+      (match) => match[1].replace(/[()]/g, '').split(',').map(Number),
+    );
+  };
+  const translated = (await matrices()).find((m) => m[13] === -1.5);
+  expect(translated).toBeDefined();
+  expect([translated![0], translated![5], translated![10]]).toEqual([1, 1, 1]);
+  await page.getByLabel('Keep the chosen scale in iPhone AR').check();
+  await expect(native).toHaveAttribute('href', /allowsContentScaling=0$/);
+  await page.getByRole('button', { name: 'Lower 25 cm', exact: true }).click();
+  await expect(height).toHaveValue('-1.75');
+  await expect(native).toBeHidden(); // Never open a stale height export.
+  await page.getByRole('button', { name: 'Raise 25 cm', exact: true }).click();
+  await expect(height).toHaveValue('-1.5');
+  await page
+    .getByRole('button', { name: 'Use selected object’s top as ground' })
+    .click();
+  const selected = before.project.volumes.find(
+    (v: { id: string }) => v.id === before.project.selectedId,
+  );
+  const expected = -(selected.position.y + selected.dimensions.height);
+  await expect(height).toHaveValue(String(expected));
+  await page
+    .getByRole('button', { name: 'Prepare tracked AR', exact: true })
+    .click();
+  await expect(native).toBeVisible({ timeout: 30000 });
+  expect((await matrices()).some((m) => m[13] === expected && m[5] === 1)).toBe(
+    true,
+  );
+  await height.fill('');
+  await expect(height).toHaveAttribute('aria-invalid', 'true');
+  await expect(native).toBeHidden();
+  await expect(
+    page.getByRole('button', { name: 'Prepare AR model', exact: true }),
+  ).toBeDisabled();
+  await height.fill('-1001');
+  await expect(height).toHaveAttribute('aria-invalid', 'true');
+  await page.getByRole('button', { name: 'Reset height', exact: true }).click();
+  await expect(height).toHaveValue('0');
+  await page
+    .getByRole('button', { name: 'Prepare tracked AR', exact: true })
+    .click();
+  await expect(native).toBeVisible({ timeout: 30000 });
+  expect((await matrices()).every((m) => m[13] >= 0)).toBe(true);
+  expect(await saved(page)).toEqual(before);
+  const panel = page.getByRole('region', {
+    name: 'View in your space',
+    exact: true,
+  });
+  await panel.evaluate((el) => {
+    el.scrollTop = 0;
+  });
+  expect(
+    await panel.evaluate((el) => el.scrollWidth <= el.clientWidth + 1),
+  ).toBe(true);
+  await page.screenshot({ path: 'test-results/ar-height-phone.png' });
+});
+
 for (const theme of ['night', 'day'] as const)
   test(`explicit XR transport fixture hosts shared AI conversation and refreshes genuine geometry in place (${theme})`, async ({
     page,
