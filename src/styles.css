@@ -6188,3 +6188,78 @@ summary:focus-visible {
   pointer-events: auto;
   backdrop-filter: none;
 }
+
+.navigation-detail {
+  position: absolute;
+  bottom: 52px;
+  left: 24px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: var(--panel, #202729);
+  color: var(--text, #dbe4e2);
+  font-size: 11px;
+  pointer-events: none;
+}
+.navigation-detail[hidden] {
+  display: none;
+}
+
+.ar-overlay .ar-controls {
+  max-height: min(48dvh, 450px);
+  overflow-y: auto;
+}
+.ar-overlay .ar-controls[data-expanded='false'] {
+  width: min(560px, calc(100% - 24px));
+  padding: 8px;
+}
+.ar-compact-toolbar {
+  display: flex;
+  gap: 6px;
+}
+.ar-compact-toolbar button {
+  flex: 1;
+  min-width: 0;
+  min-height: 42px;
+  padding: 8px 5px;
+}
+.ar-gesture-hint {
+  display: block;
+  text-align: center;
+  margin: 6px 0 0;
+  font-size: 11px;
+}
+.ar-placement-options {
+  padding-top: 12px;
+}
+.ar-placement-options[hidden],
+.ar-conversation-host[hidden] {
+  display: none !important;
+}
+.ar-overlay .ar-conversation-host {
+  max-height: 36dvh;
+  overflow-y: auto;
+}
+
+.project-transfer {
+  padding: 16px;
+  margin: 12px 0;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+.project-transfer p {
+  font-size: 12px;
+  line-height: 1.6;
+}
+.project-transfer > div {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.project-transfer button {
+  min-height: 44px;
+  flex: 1;
+}
+.project-transfer small {
+  display: block;
+  margin-top: 10px;
+}

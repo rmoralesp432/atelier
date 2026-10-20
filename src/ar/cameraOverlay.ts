@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { TransformControls } from 'three/addons/controls/TransformControls.js';
 import type { ARSessionControl } from './webxr';
 import type { CameraContext } from '../intelligence/context';
 import { arCameraContext } from './context';
@@ -73,8 +74,10 @@ export async function startCameraOverlay(
   const sun = new THREE.DirectionalLight(0xffffff, 2);
   sun.position.set(4, 10, 6);
   scene.add(sun);
+  let localBounds = modelBounds(copy);
   let pivot = new THREE.Vector3(),
     renderer: THREE.WebGLRenderer | undefined;
+  let transform: TransformControls | undefined;
   let frame = 0,
     ended = false,
     lastContext = -Infinity;
@@ -122,6 +125,7 @@ export async function startCameraOverlay(
     removeEventListener('resize', resize);
     signal?.removeEventListener('abort', cleanup);
     renderer?.dispose();
+    transform?.dispose();
     renderer?.domElement.remove();
     disposeARView(copy);
     for (const name of [
@@ -140,7 +144,7 @@ export async function startCameraOverlay(
     renderer.domElement.className = 'ar-manual-canvas';
     renderer.domElement.setAttribute(
       'aria-label',
-      'Drag to position model; two fingers to turn',
+      'Drag to move model; pinch for distance; two fingers to turn',
     );
     overlay.append(video, renderer.domElement);
     await video.play();
@@ -149,18 +153,63 @@ export async function startCameraOverlay(
     addEventListener('resize', resize);
     fit();
     const canvas = renderer.domElement;
+    transform = new TransformControls(camera, canvas);
+    // Route gestures ourselves so a second finger always takes over from a handle.
+    transform.disconnect();
+    canvas.style.touchAction = 'none';
+    transform.setMode('translate');
+    transform.setSize(0.85);
+    transform.attach(anchor);
+    scene.add(transform.getHelper());
+    transform.addEventListener('objectChange', publish);
+    const controlPointer = (e: PointerEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      // Three expects normalized canvas coordinates, despite its PointerEvent type annotation.
+      return {
+        x: ((e.clientX - rect.left) / rect.width) * 2 - 1,
+        y: -((e.clientY - rect.top) / rect.height) * 2 + 1,
+        button: e.button,
+      } as PointerEvent;
+    };
     canvas.onpointerdown = (e) => {
       canvas.setPointerCapture(e.pointerId);
       pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      if (pointers.size === 1) {
+        transform!.pointerHover(controlPointer(e));
+        transform!.pointerDown(controlPointer(e));
+      } else transform!.pointerUp(null);
     };
     canvas.onpointermove = (e) => {
       const previous = pointers.get(e.pointerId);
-      if (!previous) return;
+      if (!previous) {
+        if (!pointers.size) transform!.pointerHover(controlPointer(e));
+        return;
+      }
+      if (pointers.size === 1 && transform!.dragging) {
+        transform!.pointerMove(controlPointer(e));
+        pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        return;
+      }
       const now = { x: e.clientX, y: e.clientY };
       const other = [...pointers.entries()].find(
         ([id]) => id !== e.pointerId,
       )?.[1];
       if (other) {
+        // Pinching changes distance, not the confirmed model ratio. Keep the
+        // nearest model face in front of the camera even at life size.
+        const oldSpan = Math.hypot(previous.x - other.x, previous.y - other.y);
+        const newSpan = Math.hypot(now.x - other.x, now.y - other.y);
+        if (oldSpan > 10 && newSpan > 10) {
+          const depth = Math.max(0.25, camera.position.z - anchor.position.z);
+          copy.updateMatrix();
+          const minDepth = Math.max(
+            0.25,
+            localBounds.clone().applyMatrix4(copy.matrix).max.z + 0.25,
+          );
+          anchor.position.z =
+            camera.position.z -
+            THREE.MathUtils.clamp((depth * oldSpan) / newSpan, minDepth, 10000);
+        }
         const a = Math.atan2(previous.y - other.y, previous.x - other.x);
         const b = Math.atan2(now.y - other.y, now.x - other.x);
         transformAround(
@@ -183,8 +232,12 @@ export async function startCameraOverlay(
       publish();
       if (other) onRotation?.(Math.round((copy.rotation.y * 180) / Math.PI));
     };
-    canvas.onpointerup = canvas.onpointercancel = (e) =>
+    canvas.onpointerup = canvas.onpointercancel = (e) => {
+      transform!.pointerUp(null);
       pointers.delete(e.pointerId);
+      if (canvas.hasPointerCapture(e.pointerId))
+        canvas.releasePointerCapture(e.pointerId);
+    };
     const render = (time: number) => {
       if (ended) return;
       renderer!.render(scene, camera);
@@ -196,7 +249,7 @@ export async function startCameraOverlay(
     };
     frame = requestAnimationFrame(render);
     status(
-      'Manual camera alignment · drag to move, two fingers to turn. Not world tracked.',
+      'Manual alignment · drag or use arrows to move, pinch for distance, twist to turn. Not world tracked.',
     );
     return {
       end: async () => cleanup(),
@@ -259,6 +312,7 @@ export async function startCameraOverlay(
         anchor.remove(copy);
         disposeARView(copy);
         copy = next;
+        localBounds = modelBounds(copy);
         anchor.add(copy);
         pivot.clamp(modelBounds(copy).min, modelBounds(copy).max);
         publish();

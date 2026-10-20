@@ -1,4 +1,6 @@
 import WalkPlacement from './studio/WalkPlacement';
+import { equalData } from './projects/equalData';
+import { NavigationPreview } from './geometry/NavigationPreview';
 import type { WalkPlacement as Placement } from './studio/walkPlacement';
 import { spatialGrid } from './geometry/spatialGrid';
 import Sketch from './drawing/Sketch';
@@ -107,6 +109,8 @@ type Runtime = {
   responsive: boolean;
   invalidate: () => void;
   setResponsive: (enabled: boolean) => void;
+  shadowKey: string;
+  previews: NavigationPreview;
 };
 function disposeObject(root: THREE.Object3D) {
   root.traverse((o) => {
@@ -124,6 +128,13 @@ export default function Viewport(props: Props) {
   const runtime = useRef<Runtime | null>(null);
   const latest = useRef(props);
   latest.current = props;
+  const geometryKey = props.project.volumes
+    .filter((v) => isVisible(v, props.project))
+    .map(
+      (v) =>
+        `${v.id}:${renderSignature(v)}:${JSON.stringify(v.position)}:${v.rotation}`,
+    )
+    .join('|');
   const clippingPlane = useRef(new THREE.Plane(new THREE.Vector3(0, -1, 0), 3));
   const [pullFeedback, setPullFeedback] = useState<PullFeedback | null>(null);
   const [mapError, setMapError] = useState('');
@@ -167,6 +178,16 @@ export default function Viewport(props: Props) {
     const invalidate = () => {
       awakeUntil = performance.now() + 250;
     };
+    const previews = new NavigationPreview(() => {
+      container.dataset.navigationPreviews = String(previews.ready);
+      invalidate();
+    });
+    const previewLabel = document.createElement('div');
+    previewLabel.className = 'navigation-detail';
+    previewLabel.textContent =
+      'Navigation preview · full detail returns when you stop';
+    previewLabel.hidden = true;
+    container.appendChild(previewLabel);
     const interactionEvents = [
       'pointerdown',
       'pointermove',
@@ -848,7 +869,7 @@ export default function Viewport(props: Props) {
         latest.current.onChange(v.id, {
           dimensions: v.dimensions,
           position: v.position,
-          ...(JSON.stringify(before?.geometry) !== JSON.stringify(v.geometry)
+          ...(!equalData(before?.geometry, v.geometry)
             ? { geometry: v.geometry }
             : {}),
         });
@@ -1028,6 +1049,9 @@ export default function Viewport(props: Props) {
     const sunPath = new THREE.Group();
     scene.add(sunPath);
     const updateShadows = () => {
+      container.dataset.shadowUpdates = String(
+        Number(container.dataset.shadowUpdates ?? 0) + 1,
+      );
       renderer.shadowMap.needsUpdate = true;
       invalidate();
       const vs = latest.current.project.volumes;
@@ -1144,6 +1168,8 @@ export default function Viewport(props: Props) {
       container.dataset.shadowCenter = `${center.x},${center.y},${center.z}`;
     };
     runtime.current = {
+      previews,
+      shadowKey: '',
       responsive: false,
       invalidate,
       setResponsive: (enabled) => {
@@ -1234,6 +1260,10 @@ export default function Viewport(props: Props) {
     orbit.addEventListener('change', invalidate);
     let frame = 0,
       lastFrame = performance.now();
+    let navigationUntil = 0;
+    const lastPosition = camera.position.clone(),
+      lastRotation = camera.quaternion.clone();
+    let lastZoom = camera.zoom;
     const render = () => {
       const now = performance.now(),
         delta = (now - lastFrame) / 1000;
@@ -1379,11 +1409,35 @@ export default function Viewport(props: Props) {
       orbit.autoRotate =
         latest.current.turntable && !latest.current.cameraSettings.walk;
       orbit.autoRotateSpeed = 0.35;
-      if (!latest.current.cameraSettings.walk) orbit.update(delta);
-      else publishCamera();
+      if (!latest.current.cameraSettings.walk) {
+        // Keep inertia equally short on slower GPUs instead of decaying once per rendered frame.
+        orbit.dampingFactor = 1 - Math.pow(1 - 0.08, Math.min(delta, 1) * 60);
+        orbit.update(delta);
+      } else publishCamera();
       facePull.update();
       container.dataset.projection = camera.type;
       const responsive = runtime.current?.responsive;
+      if (
+        camera.position.distanceToSquared(lastPosition) > 1e-9 ||
+        1 - Math.abs(camera.quaternion.dot(lastRotation)) > 1e-9 ||
+        camera.zoom !== lastZoom
+      )
+        navigationUntil = performance.now() + 180;
+      lastPosition.copy(camera.position);
+      lastRotation.copy(camera.quaternion);
+      lastZoom = camera.zoom;
+      const previewActive =
+        !!responsive &&
+        latest.current.renderMode === 'studio' &&
+        (performance.now() < navigationUntil || dragging || !!transition);
+      if (previews.setActive(previewActive)) {
+        invalidate();
+        renderer.shadowMap.needsUpdate = true;
+      }
+      previewLabel.hidden = !previewActive || !previews.ready;
+      container.dataset.navigationDetail = previewLabel.hidden
+        ? 'full'
+        : 'preview';
       // Keep controls/damping alive, but stop submitting a dense scene to the
       // GPU when nothing is changing. Async maps/caps explicitly wake the view.
       if (
@@ -1408,6 +1462,16 @@ export default function Viewport(props: Props) {
         !latest.current.presenting;
       if (outline.enabled || (bokeh.enabled && !responsive)) composer.render();
       else renderer.render(scene, camera);
+      let sceneTriangles = 0;
+      objects.forEach((g) =>
+        g.traverse((o) => {
+          if (o instanceof THREE.Mesh)
+            sceneTriangles +=
+              (o.geometry.index?.count ??
+                o.geometry.attributes.position.count) / 3;
+        }),
+      );
+      container.dataset.displayTriangles = String(sceneTriangles);
       container.dataset.renderFrames = String(
         Number(container.dataset.renderFrames ?? 0) + 1,
       );
@@ -1454,6 +1518,7 @@ export default function Viewport(props: Props) {
       renderer.domElement.removeEventListener('webglcontextlost', lost);
       transform.dispose();
       orbit.dispose();
+      previews.dispose();
       disposeObject(scene);
       environment.dispose();
       composer.passes.forEach((pass) => pass.dispose());
@@ -1462,6 +1527,7 @@ export default function Viewport(props: Props) {
       renderer.domElement.remove();
       progress.remove();
       spatialLabel.remove();
+      previewLabel.remove();
       runtime.current = null;
     };
   }, []);
@@ -1493,6 +1559,10 @@ export default function Viewport(props: Props) {
     host.current!.dataset.touchNavigation = props.touchNavigation ?? 'mouse';
     let cancelled = false;
     const built = new Map<string, THREE.Group>();
+    const drop = (g: THREE.Group) => {
+      r.previews.release(g);
+      disposeObject(g);
+    };
     async function rebuild() {
       try {
         const signatures = new Map<string, string>();
@@ -1636,6 +1706,22 @@ export default function Viewport(props: Props) {
                   physical.dispose();
                 }
                 acceleratePicking(mesh);
+                if (responsive) {
+                  const total = props.project.volumes.reduce(
+                    (sum, v) => sum + importedTriangles(v),
+                    0,
+                  );
+                  r!.previews.add(
+                    mesh,
+                    Math.max(
+                      100,
+                      Math.floor(
+                        ((mesh.geometry.index?.count ?? 0) / 3) *
+                          Math.min(1, 150_000 / Math.max(1, total)),
+                      ),
+                    ),
+                  );
+                }
                 mesh.castShadow = !glass;
                 mesh.receiveShadow = true;
                 g.add(mesh);
@@ -1666,7 +1752,7 @@ export default function Viewport(props: Props) {
             }),
         );
         if (cancelled) {
-          built.forEach(disposeObject);
+          built.forEach(drop);
           return;
         }
         const hadObjects = r!.objects.size;
@@ -1674,7 +1760,7 @@ export default function Viewport(props: Props) {
         for (const [id, group] of r!.objects) {
           if (!signatures.has(id) || built.has(id)) {
             r!.scene.remove(group);
-            disposeObject(group);
+            drop(group);
             r!.objects.delete(id);
           }
         }
@@ -1683,8 +1769,11 @@ export default function Viewport(props: Props) {
           r!.objects.set(id, g);
         });
         r!.signatures = signatures;
-        r!.updateShadows();
-        r!.renderer.shadowMap.needsUpdate = true;
+        const shadowKey = `${geometryKey}:${props.renderMode}`;
+        if (r!.shadowKey !== shadowKey) {
+          r!.shadowKey = shadowKey;
+          r!.updateShadows();
+        }
         r!.invalidate();
         r!.outline.selectedObjects = [];
         for (const v of props.project.volumes.filter((v) =>
@@ -1871,7 +1960,7 @@ export default function Viewport(props: Props) {
         setError('');
         r!.orbit.dispatchEvent({ type: 'change' });
       } catch (e) {
-        built.forEach(disposeObject);
+        built.forEach(drop);
         if (!cancelled)
           setError(
             e instanceof Error ? e.message : 'Geometry could not be rendered.',
@@ -2010,7 +2099,7 @@ export default function Viewport(props: Props) {
       r.scene.remove(caps);
       disposeObject(caps);
     };
-  }, [props.section, props.project.volumes, props.appearance.theme]);
+  }, [props.section, geometryKey]);
 
   useEffect(() => {
     const r = runtime.current,

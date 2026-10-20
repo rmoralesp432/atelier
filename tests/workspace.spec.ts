@@ -338,7 +338,7 @@ test('JSON project plus history export/import and invalid file protection', asyn
     .getByRole('button', { name: 'Export project', exact: true })
     .click();
   const download = await downloadPromise;
-  expect(download.suggestedFilename()).toBe('atelier-project.json');
+  expect(download.suggestedFilename()).toMatch(/\.atelier\.json$/);
   await page
     .getByRole('button', { name: 'Delete volume', exact: true })
     .click();

@@ -109,3 +109,9 @@ For live ATELIER controls on iPhone, choose **Open camera with manual controls**
 **This is manual camera alignment, not world-tracked AR.** Walking or turning the phone does not keep the model fixed in the real world. Camera field of view and physical distance are uncalibrated, so 1:1 is a model ratio, not a verified physical scale. No wall/object detection, collision avoidance or real-world occlusion is claimed. For walking around a tracked model on iPhone, use **Open camera AR**, which launches Apple Quick Look. Apple owns the controls there; ATELIER cannot place its own controls or chat inside that native viewer.
 
 WebXR devices retain genuine floor hit testing and gain the same live transparency and height nudges. **Place again** returns to tracked surface placement. Neither viewing mode modifies project geometry. Exiting the manual camera view stops the camera stream.
+
+## Compact manual camera controls — October 20, 2026
+
+The camera view starts with a compact **Placement · Chat · Fit model · Exit AR** toolbar. Placement opens the existing scale, transparency, height and distance controls; Chat opens the shared conversation. Both start collapsed to keep the camera visible.
+
+In the manual camera overlay, drag to move the model across the view, drag a movement handle for an axis, pinch inward to move it farther away, spread your fingers to bring it closer, and twist two fingers to turn. Pinching changes camera distance while preserving the confirmed model ratio, including 1:1. **Fit model** recovers a lost/oversized model without rescaling it. These controls are for the manual overlay; native Apple Quick Look retains Apple's own controls. The overlay is still untracked and cannot infer walking, physical scale calibration, obstacles or real-world occlusion.

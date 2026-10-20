@@ -1,4 +1,7 @@
+import { downloadProject, projectFile } from './projects/transfer';
 import { parsePanoramas, type Panoramas } from './panorama/data';
+import { equalData } from './projects/equalData';
+import { createSessionEncoder } from './projects/sessionCodec';
 import { createPortal } from 'react-dom';
 import { resolveWalkPlacement } from './studio/walkPlacement';
 import ARPanel from './ar/ARPanel';
@@ -275,12 +278,14 @@ function ConversationSurface({
 const PanoramaViewer = lazy(() => import('./panorama/PanoramaViewer'));
 export default function App({
   initialWorkspace,
+  projectName,
   onSnapshot,
   projectMenu,
   onOpenSample,
   sampleBusy,
 }: {
   initialWorkspace?: WorkspaceSnapshot;
+  projectName?: string;
   onSnapshot?: (
     snapshot: WorkspaceSnapshot,
     safe: boolean,
@@ -330,8 +335,10 @@ export default function App({
               return (
                 old &&
                 !ids.includes(v.id) &&
-                JSON.stringify([old.dimensions, old.geometry, old.display]) !==
-                  JSON.stringify([v.dimensions, v.geometry, v.display])
+                !equalData(
+                  [old.dimensions, old.geometry, old.display],
+                  [v.dimensions, v.geometry, v.display],
+                )
               );
             })
             .map((v) => v.id)
@@ -1046,13 +1053,14 @@ export default function App({
     }
   }, [messages]);
   const [saved, setSaved] = useState(true);
+  const [saving, setSaving] = useState(false);
   const input = useRef<HTMLTextAreaElement>(null);
   const file = useRef<HTMLInputElement>(null);
   const [importAsset, setImportAsset] = useState<File | null>(null);
   const [draggingFile, setDraggingFile] = useState(false);
   const selected = project.volumes.find((v) => v.id === project.selectedId);
   const commit = useCallback((next: Project, animate = true) => {
-    if (JSON.stringify(next) === JSON.stringify(current.current)) return;
+    if (equalData(next, current.current)) return;
     markCreation(current.current, next, animate);
     undo.current = [...undo.current.slice(-49), current.current];
     redo.current = [];
@@ -1160,53 +1168,55 @@ export default function App({
       error: false,
     });
   }, []);
-  useEffect(() => {
-    try {
-      if (!boot.storageSafe) {
-        setSaved(false);
-        return;
-      }
-      localStorage.setItem(
-        SESSION_KEY,
-        serializeSession({
-          project,
-          past: undo.current,
-          future: redo.current,
-          context: conversation.current,
-        }),
-      );
-      setSaved(true);
-    } catch {
-      setSaved(false);
-    }
-  }, [project, historyVersion, boot.storageSafe]);
+  const [encodeCheckpoint] = useState(() => createSessionEncoder());
   useEffect(() => {
     let active = true;
     setBoardSaved(false);
     setBoardSaveError(false);
-    Promise.resolve(
-      onSnapshot?.(
-        {
-          session: serializeSession(snapshot()),
-          messages,
-          moodboard,
-          panoramas,
-        },
-        boot.storageSafe,
-      ),
-    )
-      .then(() => {
-        if (active) {
-          setBoardSaved(boot.storageSafe);
-          if (onSnapshot) setSaved(boot.storageSafe);
+    setSaved(false);
+    setSaving(true);
+    const save = async () => {
+      if (!boot.storageSafe) {
+        await onSnapshot?.(
+          {
+            session: encodeCheckpoint(snapshot()),
+            messages,
+            moodboard,
+            panoramas,
+          },
+          false,
+        );
+        return;
+      }
+      // Encode once for both checkpoints. The immutable mesh payload is cached;
+      // selecting/recoloring an object only re-encodes small scene metadata.
+      const session = encodeCheckpoint(snapshot());
+      let localSaved = false;
+      try {
+        // Large models use IndexedDB. Repeatedly attempting an oversized,
+        // synchronous localStorage write blocks input and cannot succeed.
+        if (session.length <= 2_000_000) {
+          localStorage.setItem(SESSION_KEY, session);
+          localSaved = true;
         }
-      })
+      } catch {
+        /* The durable IndexedDB save below remains authoritative. */
+      }
+      await onSnapshot?.({ session, messages, moodboard, panoramas }, true);
+      if (active) {
+        setSaved(!!onSnapshot || localSaved);
+        setBoardSaved(!!onSnapshot || localSaved);
+      }
+    };
+    void save()
       .catch(() => {
         if (active) {
-          setBoardSaved(false);
-          setSaved(false);
           setBoardSaveError(true);
+          setSaved(false);
         }
+      })
+      .finally(() => {
+        if (active) setSaving(false);
       });
     return () => {
       active = false;
@@ -1216,9 +1226,10 @@ export default function App({
     historyVersion,
     messages,
     moodboard,
+    panoramas,
     boot.storageSafe,
     onSnapshot,
-    panoramas,
+    encodeCheckpoint,
   ]);
   useEffect(() => {
     const key = (e: KeyboardEvent) => {
@@ -1273,24 +1284,21 @@ export default function App({
     panels.setters,
   ]);
   function exportProject() {
-    const url = URL.createObjectURL(
-      new Blob(
-        [
-          JSON.stringify({
-            ...JSON.parse(serializeSession(snapshot())),
-            moodboard,
-            panoramas,
-          }),
-        ],
-        { type: 'application/json' },
+    downloadProject(
+      projectFile(
+        {
+          session: serializeSession(snapshot()),
+          messages,
+          moodboard,
+          panoramas,
+        },
+        projectName ?? 'Untitled study',
       ),
     );
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'atelier-project.json';
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    setNotice({ text: 'Project exported as JSON.', error: false });
+    setNotice({
+      text: 'Project copy downloaded. Open it on another device from Projects → Open project copy.',
+      error: false,
+    });
   }
   useEffect(() => {
     let active = true;
@@ -1309,7 +1317,14 @@ export default function App({
     return () => {
       active = false;
     };
-  }, [selected, inspectorOpen]);
+  }, [
+    selected?.id,
+    selected?.geometry,
+    selected?.dimensions.width,
+    selected?.dimensions.height,
+    selected?.dimensions.depth,
+    inspectorOpen,
+  ]);
 
   const importFile = async (f: File) => {
     try {
@@ -1674,11 +1689,13 @@ export default function App({
               <PanelRightOpen size={17} />
             )}
           </button>
-          <span className={`save-state ${!saved ? 'warning' : ''}`}>
+          <span className={`save-state ${!saved && !saving ? 'warning' : ''}`}>
             <span className="status-dot" />
-            {saved
-              ? 'Saved on this browser'
-              : 'Storage unavailable — export to save'}
+            {saving
+              ? 'Saving…'
+              : saved
+                ? 'Saved on this browser'
+                : 'Storage unavailable — export to save'}
           </span>
           <button
             className="subtle-button import-button"
@@ -2345,10 +2362,7 @@ export default function App({
               onTransform={(id, patch) => {
                 try {
                   const next = transformSelection(current.current, id, patch);
-                  if (
-                    JSON.stringify(next.volumes) !==
-                    JSON.stringify(current.current.volumes)
-                  )
+                  if (!equalData(next.volumes, current.current.volumes))
                     commit(next, false);
                 } catch (error) {
                   reportError(error);

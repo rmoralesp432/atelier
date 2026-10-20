@@ -1,3 +1,5 @@
+import { downloadProject, projectFile, readProjectCopy } from './transfer';
+import { MAX_IMPORT_BYTES } from '../imports/mesh';
 import { parsePanoramas } from '../panorama/data';
 import { sampleHouse } from './sample';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -34,6 +36,8 @@ export default function WorkspaceHost() {
   const [renameId, setRenameId] = useState<string | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<SavedProject | null>(null);
   const nameInput = useRef<HTMLInputElement>(null);
+  const transferInput = useRef<HTMLInputElement>(null);
+  const [transferNotice, setTransferNotice] = useState('');
   const active = useRef<SavedProject | null>(null),
     latest = useRef<WorkspaceSnapshot | null>(null),
     queue = useRef(Promise.resolve()),
@@ -288,6 +292,7 @@ export default function WorkspaceHost() {
     <App
       key={generation}
       initialWorkspace={initial ?? undefined}
+      projectName={identity?.name}
       onSnapshot={capture}
       onOpenSample={() => {
         if (!working && available.current && !switching.current)
@@ -318,7 +323,7 @@ export default function WorkspaceHost() {
               className="projects-dialog"
               ref={dialog}
               onCancel={(e) => {
-                if (switching.current) e.preventDefault();
+                if (working || switching.current) e.preventDefault();
                 else setOpen(false);
               }}
             >
@@ -336,6 +341,81 @@ export default function WorkspaceHost() {
                 Separate spaces for separate ideas. Saved in this browser;
                 export a backup to take a project elsewhere.
               </p>
+              <section
+                className="project-transfer"
+                aria-label="Take to another device"
+              >
+                <strong>Take to another device</strong>
+                <p>
+                  Download this project and send the file through email, iCloud
+                  Drive or Google Drive. On your other device, open ATELIER →
+                  Projects → Open project copy. Copies do not sync
+                  automatically.
+                </p>
+                <div>
+                  <button
+                    disabled={working || !latest.current || !!deleteTarget}
+                    onClick={() => {
+                      try {
+                        downloadProject(
+                          projectFile(
+                            latest.current!,
+                            identity?.name ?? 'Untitled study',
+                          ),
+                        );
+                        setTransferNotice(
+                          'Project file downloaded. Send it to your other device, or share a link to the file in your own Drive.',
+                        );
+                      } catch (e) {
+                        setError((e as Error).message);
+                      }
+                    }}
+                  >
+                    Download project copy
+                  </button>
+                  <button
+                    disabled={working || !available.current || !!deleteTarget}
+                    onClick={() => transferInput.current?.click()}
+                  >
+                    Open project copy
+                  </button>
+                </div>
+                <input
+                  ref={transferInput}
+                  hidden
+                  type="file"
+                  accept=".json,application/json"
+                  aria-label="Open project copy file"
+                  onChange={async (e) => {
+                    const element = e.currentTarget,
+                      file = element.files?.[0];
+                    element.value = '';
+                    if (
+                      !file ||
+                      working ||
+                      switching.current ||
+                      !available.current
+                    )
+                      return;
+                    setWorking(true);
+                    try {
+                      if (file.size > MAX_IMPORT_BYTES)
+                        throw new Error(
+                          'Project files must be 512 MB or smaller.',
+                        );
+                      const record = readProjectCopy(await file.text());
+                      await switchTo(record);
+                    } catch (e) {
+                      setError((e as Error).message);
+                    } finally {
+                      setWorking(false);
+                    }
+                  }}
+                />
+                {transferNotice && (
+                  <small role="status">{transferNotice}</small>
+                )}
+              </section>
               <button
                 className="sample-project-card"
                 disabled={working || !!deleteTarget || !available.current}

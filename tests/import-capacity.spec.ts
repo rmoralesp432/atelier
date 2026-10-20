@@ -66,6 +66,38 @@ test('full detail imports over a million genuine faces and restores them from sa
     .toBe(true);
   const before = await viewport.getAttribute('data-camera-position');
   const builds = await viewport.getAttribute('data-mesh-builds');
+  const shadows = await viewport.getAttribute('data-shadow-updates');
+  await page
+    .getByLabel('Selected object color', { exact: true })
+    .evaluate((el) => {
+      Object.getOwnPropertyDescriptor(
+        HTMLInputElement.prototype,
+        'value',
+      )!.set!.call(el, '#336699');
+      el.dispatchEvent(new Event('input', { bubbles: true }));
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+    });
+  await expect(viewport).toHaveAttribute('data-mesh-builds', builds!);
+  await expect(viewport).toHaveAttribute('data-shadow-updates', shadows!);
+  await expect
+    .poll(
+      async () =>
+        Number(await viewport.getAttribute('data-navigation-previews')),
+      { timeout: 60000 },
+    )
+    .toBeGreaterThan(0);
+  await viewport.evaluate((el) => {
+    (window as any).previewFrames = [];
+    new MutationObserver(() => {
+      if ((el as HTMLElement).dataset.navigationDetail === 'preview')
+        (window as any).previewFrames.push(
+          Number((el as HTMLElement).dataset.displayTriangles),
+        );
+    }).observe(el, {
+      attributes: true,
+      attributeFilter: ['data-display-triangles'],
+    });
+  });
   const bounds = (await viewport.boundingBox())!;
   await page.mouse.move(
     bounds.x + bounds.width * 0.4,
@@ -80,6 +112,21 @@ test('full detail imports over a million genuine faces and restores them from sa
   await page.mouse.up();
   await expect(viewport).not.toHaveAttribute('data-camera-position', before!);
   await expect(viewport).toHaveAttribute('data-mesh-builds', builds!);
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        (window as any).previewFrames.some((n: number) => n > 0 && n < 300000),
+      ),
+    )
+    .toBe(true);
+  await expect(viewport).toHaveAttribute('data-navigation-detail', 'full', {
+    timeout: 15000,
+  });
+  await expect
+    .poll(async () =>
+      Number(await viewport.getAttribute('data-display-triangles')),
+    )
+    .toBeGreaterThanOrEqual(1065800);
   await info.attach('dense-view-metrics', {
     body: JSON.stringify(
       {
@@ -107,6 +154,9 @@ test('full detail imports over a million genuine faces and restores them from sa
     '3',
     { timeout: 120000 },
   );
+  await expect(
+    page.getByLabel('Selected object color', { exact: true }),
+  ).toHaveValue('#336699');
   const triangles = await page.evaluate(async () => {
     const db = await new Promise<IDBDatabase>((resolve) => {
       const r = indexedDB.open('atelier-projects');

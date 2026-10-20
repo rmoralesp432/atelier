@@ -2,6 +2,18 @@
 
 Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 154 and software WebGL. This file distinguishes geometric execution, UI/provider contracts and live AI/audio behavior.
 
+## Dense edits, compact camera controls and device transfer — October 20, 2026
+
+**176 unit/integration tests in 48 files pass.** New coverage checks immutable geometry comparisons and metadata validation without traversing mesh arrays, bounded autosave encoding reuse, unchanged exact picking under navigation simplification, stale worker replies/failure fallback, and portable project validation including history, conversation and embedded media.
+
+The production browser regression covers a genuine 1,065,800-triangle import: recoloring retains the existing GPU mesh and shadow pass, navigation displays fewer than 300,000 triangles, full detail returns at rest, and every original face and the edited color survive save/reload. The display preview is generated in a worker and never replaces project geometry. Camera inertia now decays with elapsed time so slower rendering does not prolong movement indefinitely. Remaining limits include GPU/memory capacity and large IndexedDB writes; no hardware frame-rate guarantee is made.
+
+The manual camera overlay starts with controls under 120 px high on a 390 px phone viewport. Actual browser pointer/touch events verify dragging, twist rotation and pinch-to-distance while retaining the 1:1 ratio, plus height/distance controls, transparency, expandable chat, unchanged saved geometry and stopped camera tracks on exit. Tests use Chromium's synthetic camera feed. Native USDZ handoff and shared WebXR conversation use explicit capability/transport fixtures. Physical iPhone performance and tracking remain unverified; manual alignment does not track walking or infer real-world depth.
+
+Project transfer uses a real downloaded `.atelier.json` file opened through a file chooser in a separate browser context with a phone viewport. It verifies editable geometry, project name, conversation, imported undo history, reload, preservation of the receiving library, and rejection of an invalid file without replacing existing projects. Unit tests additionally round-trip moodboard and panorama attachments. The format remains compatible with prior session backups. Project copies do not synchronize; no cloud account, backend storage upgrade or paid AI call is required.
+
+Across the regression and focused reruns, **22 distinct targeted production Chromium scenarios pass**, including real FBX imports, large-file cancellation/reduction, failed saves, project rename/delete, viewing quality, AR loading recovery, and legacy JSON import/export. TypeScript/Vite production build, formatting and whitespace checks pass. This does not represent a rerun of the complete historical browser suite. The final static `/atelier/` production smoke also passes with JS/CSS/WASM, worker imports, geometry editing/reload, moodboard and panorama loading.
+
 ## Dense imports and camera placement — October 20, 2026
 
 File and output geometry caps are now **512 MB / 5 million triangles**, with a 256-million-character compact session budget. Full detail preserves every face while compacting duplicate position records. Optional Balanced/Phone copies use meshoptimizer with locked open boundaries and retained extents; the original/resulting counts are shown before adding. The original file is unchanged. Up to 20 million source triangles may be processed in reduced-copy modes, but the final copy must fit the output cap. These are guardrails, not a guarantee that the largest files fit every device.

@@ -172,8 +172,8 @@ export default function StudioPanel({
           </select>
           <p className="studio-caption">
             Smooth navigation uses simpler lighting, lowers display resolution
-            and replaces glow with a selection frame. All model geometry and
-            exports stay intact.
+            and uses a lighter preview while navigating. Full detail returns
+            when you stop. All model geometry and exports stay intact.
           </p>
           {appearance.mode !== 'studio' && (
             <label className="color-field">

@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { equalData } from '../projects/equalData';
 import type { Volume } from '../model';
 import { pullFace, type FaceAxis } from './pull';
 import { isFlat } from './spatial';
@@ -442,8 +443,7 @@ export class FacePullControls {
     this.config.onDrag(false);
     this.trail.visible = false;
     this.config.onFeedback(null);
-    if (commit && JSON.stringify(d.next) !== JSON.stringify(d.v))
-      this.config.onCommit(d.next);
+    if (commit && !equalData(d.next, d.v)) this.config.onCommit(d.next);
   }
   dispose() {
     this.finish(false);

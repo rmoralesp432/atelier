@@ -200,7 +200,9 @@ export function updateVolume(
           ...v.geometry,
           source: { ...v.geometry.source, dimensions: { ...next.dimensions } },
         };
-      validateVolume(next);
+      // Existing recipes were validated when created/imported. A color, name,
+      // position or dimension edit must not rescan every unchanged mesh index.
+      validateVolume(next, next.geometry !== v.geometry);
       return next;
     }),
   };

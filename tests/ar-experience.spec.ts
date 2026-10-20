@@ -146,6 +146,10 @@ for (const theme of ['night', 'day'] as const)
       .click();
     const overlay = page.locator('.ar-overlay');
     await expect(overlay).toBeVisible();
+    await overlay
+      .getByRole('button', { name: 'Placement', exact: true })
+      .click();
+    await overlay.getByRole('button', { name: 'Chat', exact: true }).click();
     await expect(
       page.getByRole('region', { name: 'View in your space' }),
     ).toBeHidden();

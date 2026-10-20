@@ -55,8 +55,8 @@ formation fade. Smaller volume-creation animations remain enabled.
 
 Dense parts retain shared vertices and use crisp face shading instead of
 duplicating their vertices for smoothed creases. A render-only spatial index
-accelerates exact surface picking. **No triangles are removed, and saved
-geometry, dimensions, history and exports are unchanged.** These changes also
+accelerates exact surface picking. **No triangles are removed from the saved model: geometry, dimensions, history
+and exports are unchanged.** These changes also
 apply to projects imported before this update; reimporting is unnecessary.
 
 Choose **Smooth navigation** explicitly on a slower device, or **Full visual
@@ -85,3 +85,9 @@ Revit itself is not installed in the cloud, and a large user building has not be
 ## References and export
 
 The conversation photo button separately accepts PNG/JPEG/WebP design references for the real multimodal model. It does not import them as geometry or calibrated reference planes. The export menu writes world-space OBJ geometry with meter/Y-up instructions. ATELIER JSON remains the modeling-history backup. See the [expressive studio guide](EXPRESSIVE-STUDIO.md).
+
+### Interaction cost and navigation previews
+
+Selection, color and transform edits now reuse immutable mesh data during comparisons, validation and autosave encoding. Dense sessions go straight to IndexedDB instead of repeatedly attempting an oversized synchronous localStorage write. A color change does not rebuild the mesh or its shadows.
+
+Smooth viewing prepares a temporary navigation mesh in a background worker. While orbiting, transforming or framing, this lighter display copy targets roughly 150,000 faces across the scene, subject to boundary/error constraints. Full detail returns when motion settles. Picking still uses the original surface; project data, export and undo retain every original face. The small navigation label identifies this temporary preview. Simplification can be limited by fragmented or open imported geometry, and very large scenes still require sufficient browser/GPU memory.

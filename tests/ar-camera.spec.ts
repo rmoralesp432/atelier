@@ -55,6 +55,17 @@ test('real camera-overlay renderer supports life-size positioning, turning, see-
   await expect(overlay).toHaveAttribute('data-camera-scale', '0.01', {
     timeout: 30000,
   });
+  await expect(overlay.locator('.ar-controls')).toHaveAttribute(
+    'data-expanded',
+    'false',
+  );
+  expect(
+    (await overlay.locator('.ar-controls').boundingBox())!.height,
+  ).toBeLessThan(120);
+  await expect(
+    overlay.getByRole('textbox', { name: 'Message Atelier' }),
+  ).toBeHidden();
+  await overlay.getByRole('button', { name: 'Placement', exact: true }).click();
   await expect(
     overlay.getByText('Manual camera overlay ·', { exact: false }),
   ).toBeVisible();
@@ -103,9 +114,7 @@ test('real camera-overlay renderer supports life-size positioning, turning, see-
   await expect(overlay).toHaveAttribute('data-camera-transparent', 'true');
   await overlay.getByLabel('See-through model').uncheck();
   await expect(overlay).toHaveAttribute('data-camera-transparent', 'false');
-  await expect(
-    overlay.getByRole('textbox', { name: 'Message Atelier' }),
-  ).toBeVisible();
+  await overlay.getByRole('button', { name: 'Placement', exact: true }).click();
   await page.mouse.move(160, 550);
   await page.mouse.down();
   await page.mouse.move(210, 570, { steps: 4 });
@@ -115,11 +124,8 @@ test('real camera-overlay renderer supports life-size positioning, turning, see-
       .split(',')
       .map(Number)[0],
   ).not.toBe(initial[0]);
-  await overlay
-    .getByRole('button', { name: 'See whole model', exact: true })
-    .click();
+  await overlay.getByRole('button', { name: 'Fit model', exact: true }).click();
   await expect(overlay).toHaveAttribute('data-camera-scale', '1');
-  await overlay.getByLabel('See-through model').check();
   const cdp = await page.context().newCDPSession(page);
   await cdp.send('Input.dispatchTouchEvent', {
     type: 'touchStart',
@@ -141,6 +147,32 @@ test('real camera-overlay renderer supports life-size positioning, turning, see-
   });
   await expect(overlay).not.toHaveAttribute('data-camera-rotation', '90');
   await expect(overlay).toHaveAttribute('data-camera-scale', '1');
+  const depthBefore = Number(
+    (await overlay.getAttribute('data-camera-position'))!.split(',')[2],
+  );
+  await cdp.send('Input.dispatchTouchEvent', {
+    type: 'touchStart',
+    touchPoints: [
+      { x: 100, y: 400, id: 1 },
+      { x: 290, y: 400, id: 2 },
+    ],
+  });
+  await cdp.send('Input.dispatchTouchEvent', {
+    type: 'touchMove',
+    touchPoints: [
+      { x: 140, y: 400, id: 1 },
+      { x: 250, y: 400, id: 2 },
+    ],
+  });
+  await cdp.send('Input.dispatchTouchEvent', {
+    type: 'touchEnd',
+    touchPoints: [],
+  });
+  expect(
+    Number((await overlay.getAttribute('data-camera-position'))!.split(',')[2]),
+  ).toBeLessThan(depthBefore);
+  await expect(overlay).toHaveAttribute('data-camera-scale', '1');
+  await overlay.getByRole('button', { name: 'Chat', exact: true }).click();
   await overlay.getByRole('textbox', { name: 'Message Atelier' }).click();
   await overlay
     .getByRole('textbox', { name: 'Message Atelier' })

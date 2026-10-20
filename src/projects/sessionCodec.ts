@@ -3,7 +3,14 @@ import { validateMesh } from '../imports/mesh';
 // Large mesh arrays are shared across geometry history instead of serialized
 // fifty times. Version 2 remains readable; small sessions keep its plain format.
 export const MAX_IMPORT_SESSION_CHARS = 256_000_000;
-export function encodeSession(session: object): string {
+type EncodingCache = { values: WeakMap<object, string>; characters: number };
+/** One encoder per workspace, for immutable model recipes only. Keep its cache
+ * bounded; imports and external JSON still use the uncached validation path. */
+export function createSessionEncoder() {
+  const cache: EncodingCache = { values: new WeakMap(), characters: 0 };
+  return (session: object) => encodeSession(session, cache);
+}
+export function encodeSession(session: object, cache?: EncodingCache): string {
   const meshes: string[] = [];
   const identities = new WeakMap<object, number>();
   const contents = new Map<string, number>();
@@ -13,7 +20,14 @@ export function encodeSession(session: object): string {
     weight += value.positions.length + value.indices.length;
     let id = identities.get(value);
     if (id === undefined) {
-      const key = JSON.stringify(value);
+      let key = cache?.values.get(value);
+      if (key === undefined) {
+        key = JSON.stringify(value);
+        if (cache && cache.characters + key.length <= 64_000_000) {
+          cache.values.set(value, key);
+          cache.characters += key.length;
+        }
+      }
       id = contents.get(key);
       if (id === undefined) {
         id = meshes.length;
