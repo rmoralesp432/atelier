@@ -4,7 +4,7 @@ ATELIER now has the implemented modeling foundation and a real provider integrat
 
 ## Import, project and AR follow-up — October 20, 2026
 
-Revit FBX can now be imported as separately named/grouped elements or one combined mesh; basic colors, source units and relative transforms are retained. File/triangle limits increased to 50 MB/100,000, with the existing project/history budget enforced atomically. Multiple selected objects delete together with undo, and project rows expose rename/delete with confirmation and transactional preservation. Far-map cameras no longer wash model materials into background fog. AR has explicit scale confirmation and improved life-size positioning; see [verification and limits](VALIDATION.md#fbx-project-management-and-ar-controls--october-20-2026). No new API key or hosting setup is required.
+Revit FBX can now be imported as separately named/grouped elements or one combined mesh; basic colors, source units and relative transforms are retained. File/triangle limits increased to 200 MB/1,000,000, with shared mesh history and durable import transactions. See the current limits in [IMPORTS.md](IMPORTS.md). Multiple selected objects delete together with undo, and project rows expose rename/delete with confirmation and transactional preservation. Far-map cameras no longer wash model materials into background fog. AR has explicit scale confirmation and improved life-size positioning; see [verification and limits](VALIDATION.md#fbx-project-management-and-ar-controls--october-20-2026). No new API key or hosting setup is required.
 
 ## Latest spatial, phone and sample update
 

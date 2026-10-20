@@ -2,6 +2,7 @@ import { groupBounds } from '../geometry/spatial';
 import { serializeSession, type Session } from '../intelligence/engine';
 import { MAX_VOLUMES, validateVolume } from '../model';
 import type { PreparedImport } from './mesh';
+import { MAX_IMPORT_SESSION_CHARS } from '../projects/sessionCodec';
 
 /** Build and validate the entire undoable import before touching the workspace. */
 export function importedSession(
@@ -71,9 +72,9 @@ export function importedSession(
   };
   // Retain the storage guard: increasing the parser cap is not permission to
   // exhaust local storage or evict previous work/history on a large import.
-  if (serializeSession(candidate).length > 2_000_000)
+  if (serializeSession(candidate).length > MAX_IMPORT_SESSION_CHARS)
     throw new Error(
-      'This model would exceed safe browser storage. Import a lighter model or use a new project; your project has not changed.',
+      'This import exceeds the 64 MB project-history budget. Import a lighter model or use a new project; your project has not changed.',
     );
   return candidate;
 }

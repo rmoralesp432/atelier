@@ -5,8 +5,8 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { getKernel } from '../geometry/kernel';
 import { validateVolume, type Volume } from '../model';
 
-export const MAX_IMPORT_BYTES = 50_000_000;
-export const MAX_IMPORT_TRIANGLES = 100_000;
+export const MAX_IMPORT_BYTES = 200_000_000;
+export const MAX_IMPORT_TRIANGLES = 1_000_000;
 export type MeshAsset = {
   name: string;
   format: string;
@@ -135,7 +135,7 @@ export async function parseMeshAsset(
   bytes: ArrayBuffer,
 ): Promise<MeshAsset> {
   if (bytes.byteLength > MAX_IMPORT_BYTES)
-    throw new Error('Import files must be 50 MB or smaller.');
+    throw new Error('Import files must be 200 MB or smaller.');
   const format = name.split('.').at(-1)?.toLowerCase();
   let root: THREE.Object3D;
   if (format === 'obj')
@@ -190,7 +190,7 @@ export async function parseMeshAsset(
       const count = index?.count ?? p.count;
       if (count % 3 || indices.length + count > MAX_IMPORT_TRIANGLES * 3)
         throw new Error(
-          'Use a model with at most 100,000 triangles. Simplify the Revit 3D view or export it in smaller sections.',
+          'Use a model with at most 1,000,000 triangles. Simplify the Revit 3D view or export it in smaller sections.',
         );
       const indexStart = indices.length;
       const start = positions.length / 3,
@@ -297,6 +297,7 @@ function convertedBounds(asset: MeshAsset, options: ImportOptions) {
 export async function prepareMesh(
   asset: MeshAsset,
   options: ImportOptions,
+  checkSolid = true,
 ): Promise<Volume> {
   const { min, max, points, size } = convertedBounds(asset, options);
   const d = size.map((n) => Math.max(n, 0.001));
@@ -324,25 +325,27 @@ export async function prepareMesh(
     indices.push(vertex);
   }
   let solid = false;
-  const m = await getKernel();
-  try {
-    const shape = new m.Manifold(
-      new m.Mesh({
-        numProp: 3,
-        vertProperties: new Float32Array(positions),
-        triVerts: new Uint32Array(indices),
-      }),
-    );
+  if (checkSolid) {
+    const m = await getKernel();
     try {
-      solid =
-        shape.status() === 'NoError' &&
-        !shape.isEmpty() &&
-        shape.volume() > 1e-8;
-    } finally {
-      shape.delete();
+      const shape = new m.Manifold(
+        new m.Mesh({
+          numProp: 3,
+          vertProperties: new Float32Array(positions),
+          triVerts: new Uint32Array(indices),
+        }),
+      );
+      try {
+        solid =
+          shape.status() === 'NoError' &&
+          !shape.isEmpty() &&
+          shape.volume() > 1e-8;
+      } finally {
+        shape.delete();
+      }
+    } catch {
+      /* Open/non-manifold meshes stay visible references, never fake solids. */
     }
-  } catch {
-    /* Open/non-manifold meshes stay visible references, never fake solids. */
   }
   const volume: Volume = {
     id: crypto.randomUUID(),
@@ -367,12 +370,13 @@ export async function prepareImport(
   asset: MeshAsset,
   options: ImportOptions,
   separate = true,
+  checkSolids = true,
 ): Promise<PreparedImport> {
   const whole = convertedBounds(asset, options);
   const parts = separate && asset.parts?.length ? asset.parts : [asset];
   const volumes: Volume[] = [];
   for (const part of parts) {
-    const v = await prepareMesh(part, options);
+    const v = await prepareMesh(part, options, checkSolids);
     const b = convertedBounds(part, options);
     v.position = {
       x: (b.min[0] + b.max[0] - whole.min[0] - whole.max[0]) / 2,

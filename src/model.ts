@@ -206,7 +206,10 @@ export function updateVolume(
   };
 }
 export function parseProject(text: string): Project {
-  const raw = JSON.parse(text);
+  return parseProjectValue(JSON.parse(text));
+}
+/** Validate decoded data without copying shared mesh assets in large histories. */
+export function parseProjectValue(raw: any): Project {
   if (
     ![1, 2].includes(raw.version) ||
     !Array.isArray(raw.volumes) ||

@@ -1,3 +1,4 @@
+import { parsePanoramas } from '../panorama/data';
 import { sampleHouse } from './sample';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FolderOpen, X, Plus, Check, Pencil, Trash2 } from 'lucide-react';
@@ -49,6 +50,7 @@ export default function WorkspaceHost() {
         if (p) {
           parseSession(p.session);
           parseBoard(p.moodboard);
+          parsePanoramas(p.panoramas);
           if (
             !Array.isArray(p.messages) ||
             p.messages.some(
@@ -129,6 +131,8 @@ export default function WorkspaceHost() {
         return Promise.reject(
           new Error('Project storage is not available. Export a backup.'),
         );
+      const previousActive = active.current,
+        previousLatest = latest.current;
       latest.current = snapshot;
       const first = !active.current;
       const record: SavedProject = {
@@ -153,6 +157,8 @@ export default function WorkspaceHost() {
         /* Durable save below still works. */
       }
       return enqueue(record, true).catch((e) => {
+        if (active.current === record) active.current = previousActive;
+        if (latest.current === snapshot) latest.current = previousLatest;
         if (mounted.current) setError((e as Error).message);
         throw e;
       });
@@ -185,6 +191,7 @@ export default function WorkspaceHost() {
     try {
       parseSession(record.session);
       parseBoard(record.moodboard);
+      parsePanoramas(record.panoramas);
       // Complete every pending save, then atomically store and activate the destination.
       if (active.current && latest.current)
         await enqueue({

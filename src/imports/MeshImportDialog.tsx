@@ -14,7 +14,7 @@ export default function MeshImportDialog({
 }: {
   asset: MeshAsset;
   errorText?: string;
-  onAdd: (v: PreparedImport) => void;
+  onAdd: (v: PreparedImport) => void | Promise<void>;
   onClose: () => void;
 }) {
   const [options, setOptions] = useState<ImportOptions>({
@@ -24,6 +24,10 @@ export default function MeshImportDialog({
   const [prepared, setPrepared] = useState<PreparedImport | null>(null),
     [error, setError] = useState('');
   const [separate, setSeparate] = useState((asset.parts?.length ?? 1) <= 200);
+  const [checkingSolids, setCheckingSolids] = useState(
+    asset.indices.length / 3 <= 100000,
+  );
+  const [saving, setSaving] = useState(false);
   const dialog = useRef<HTMLDialogElement>(null);
   useEffect(() => {
     dialog.current?.showModal();
@@ -32,7 +36,7 @@ export default function MeshImportDialog({
     let active = true;
     setPrepared(null);
     setError('');
-    void prepareImport(asset, options, separate)
+    void prepareImport(asset, options, separate, checkingSolids)
       .then((v) => {
         if (active) setPrepared(v);
       })
@@ -42,17 +46,21 @@ export default function MeshImportDialog({
     return () => {
       active = false;
     };
-  }, [asset, options, separate]);
+  }, [asset, options, separate, checkingSolids]);
   return (
     <dialog
       ref={dialog}
       className="asset-dialog"
       aria-label="Import 3D element"
-      onCancel={onClose}
+      onCancel={(event) => {
+        if (saving) event.preventDefault();
+        else onClose();
+      }}
     >
       <button
         className="asset-close"
         aria-label="Cancel import"
+        disabled={saving}
         onClick={onClose}
       >
         <X size={18} />
@@ -67,58 +75,75 @@ export default function MeshImportDialog({
         {(asset.indices.length / 3).toLocaleString()} triangles ·{' '}
         {asset.parts ? `${asset.parts.length} elements` : 'geometry only'}
       </p>
-      <div className="asset-options">
-        <label>
-          File units
-          <select
-            aria-label="File units"
-            value={options.units}
-            onChange={(e) =>
-              setOptions({
-                ...options,
-                units: e.target.value as ImportOptions['units'],
-              })
-            }
-          >
-            {asset.format === 'fbx' && (
-              <option value="source">From FBX file</option>
-            )}
-            <option value="m">Meters</option>
-            <option value="cm">Centimeters</option>
-            <option value="mm">Millimeters</option>
-            <option value="ft">Feet</option>
-          </select>
-        </label>
-        <label>
-          Vertical axis
-          <select
-            aria-label="Vertical axis"
-            value={options.up}
-            onChange={(e) =>
-              setOptions({ ...options, up: e.target.value as 'Y' | 'Z' })
-            }
-          >
-            <option value="Y">Y up</option>
-            <option value="Z">Z up</option>
-          </select>
-        </label>
-      </div>
-      {asset.parts && (
+      <fieldset disabled={saving} className="asset-options-fieldset">
+        <div className="asset-options">
+          <label>
+            File units
+            <select
+              aria-label="File units"
+              value={options.units}
+              onChange={(e) =>
+                setOptions({
+                  ...options,
+                  units: e.target.value as ImportOptions['units'],
+                })
+              }
+            >
+              {asset.format === 'fbx' && (
+                <option value="source">From FBX file</option>
+              )}
+              <option value="m">Meters</option>
+              <option value="cm">Centimeters</option>
+              <option value="mm">Millimeters</option>
+              <option value="ft">Feet</option>
+            </select>
+          </label>
+          <label>
+            Vertical axis
+            <select
+              aria-label="Vertical axis"
+              value={options.up}
+              onChange={(e) =>
+                setOptions({ ...options, up: e.target.value as 'Y' | 'Z' })
+              }
+            >
+              <option value="Y">Y up</option>
+              <option value="Z">Z up</option>
+            </select>
+          </label>
+        </div>
+        {asset.parts && (
+          <label className="asset-separate">
+            <input
+              type="checkbox"
+              checked={separate}
+              onChange={(e) => setSeparate(e.target.checked)}
+            />
+            Keep elements separate and grouped
+          </label>
+        )}
+        {(asset.parts?.length ?? 0) > 200 && (
+          <p className="asset-note">
+            This file has more than 200 elements, so it opens combined. Export
+            smaller views to edit every element separately.
+          </p>
+        )}
         <label className="asset-separate">
           <input
             type="checkbox"
-            checked={separate}
-            onChange={(e) => setSeparate(e.target.checked)}
+            checked={checkingSolids}
+            onChange={(e) => setCheckingSolids(e.target.checked)}
           />
-          Keep elements separate and grouped
+          Check closed-solid modeling eligibility
         </label>
-      )}
-      {(asset.parts?.length ?? 0) > 200 && (
-        <p className="asset-note">
-          This file has more than 200 elements, so it opens combined. Export
-          smaller views to edit every element separately.
-        </p>
-      )}
+        {!checkingSolids && (
+          <p className="asset-note">
+            Faster reference import for large models. Move, rotate, scale and
+            view all surfaces. Enable the check above if you need Boolean
+            modeling.
+          </p>
+        )}
+      </fieldset>
       {prepared ? (
         <div className="asset-result">
           <strong>
@@ -163,10 +188,19 @@ export default function MeshImportDialog({
       </p>
       <button
         className="asset-submit"
-        disabled={!prepared}
-        onClick={() => prepared && onAdd(prepared)}
+        disabled={!prepared || saving}
+        onClick={async () => {
+          if (!prepared) return;
+          setSaving(true);
+          try {
+            await onAdd(prepared);
+          } finally {
+            setSaving(false);
+          }
+        }}
       >
-        Add to workspace <ArrowUpRight size={17} />
+        {saving ? 'Saving model…' : 'Add to workspace'}{' '}
+        <ArrowUpRight size={17} />
       </button>
     </dialog>
   );

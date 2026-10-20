@@ -1,3 +1,4 @@
+import { parsePanoramas, type Panoramas } from './panorama/data';
 import { createPortal } from 'react-dom';
 import { resolveWalkPlacement } from './studio/walkPlacement';
 import ARPanel from './ar/ARPanel';
@@ -273,6 +274,7 @@ function ConversationSurface({
 }) {
   return target ? createPortal(children, target) : children;
 }
+const PanoramaViewer = lazy(() => import('./panorama/PanoramaViewer'));
 export default function App({
   initialWorkspace,
   onSnapshot,
@@ -376,6 +378,23 @@ export default function App({
     parseBoard(initialWorkspace?.moodboard),
   );
   const [moodboardOpen, setMoodboardOpen] = useState(false);
+  const [panoramas, setPanoramas] = useState(() =>
+    parsePanoramas(initialWorkspace?.panoramas),
+  );
+  const [panoramaOpen, setPanoramaOpen] = useState(false);
+  const savePanoramas = async (value: Panoramas) => {
+    const checked = parsePanoramas(value);
+    await onSnapshot?.(
+      {
+        session: serializeSession(snapshot()),
+        messages,
+        moodboard,
+        panoramas: checked,
+      },
+      boot.storageSafe,
+    );
+    setPanoramas(checked);
+  };
   const [boardSaved, setBoardSaved] = useState(false);
   const [boardSaveError, setBoardSaveError] = useState(false);
   const addingVolume = panels.active === 'adding',
@@ -391,8 +410,21 @@ export default function App({
     }
   }, [appearance]);
   const [northAngle, setNorthAngle] = useState(0);
+  const [phoneLayout, setPhoneLayout] = useState(
+    () => matchMedia('(max-width: 800px), (pointer: coarse)').matches,
+  );
+  const [touchNavigation, setTouchNavigation] = useState<
+    'orbit' | 'pan' | 'edit'
+  >('orbit');
+  useEffect(() => {
+    const query = matchMedia('(max-width: 800px), (pointer: coarse)');
+    const update = () => setPhoneLayout(query.matches);
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
   const [tool, setTool] = useState<Tool>('select');
   const activateTool = (next: Tool) => {
+    setTouchNavigation('edit');
     setTool(next);
     if (next.startsWith('draw_')) {
       setAlignMap(false);
@@ -1156,16 +1188,25 @@ export default function App({
     setBoardSaveError(false);
     Promise.resolve(
       onSnapshot?.(
-        { session: serializeSession(snapshot()), messages, moodboard },
+        {
+          session: serializeSession(snapshot()),
+          messages,
+          moodboard,
+          panoramas,
+        },
         boot.storageSafe,
       ),
     )
       .then(() => {
-        if (active) setBoardSaved(boot.storageSafe);
+        if (active) {
+          setBoardSaved(boot.storageSafe);
+          if (onSnapshot) setSaved(boot.storageSafe);
+        }
       })
       .catch(() => {
         if (active) {
           setBoardSaved(false);
+          setSaved(false);
           setBoardSaveError(true);
         }
       });
@@ -1179,6 +1220,7 @@ export default function App({
     moodboard,
     boot.storageSafe,
     onSnapshot,
+    panoramas,
   ]);
   useEffect(() => {
     const key = (e: KeyboardEvent) => {
@@ -1239,6 +1281,7 @@ export default function App({
           JSON.stringify({
             ...JSON.parse(serializeSession(snapshot())),
             moodboard,
+            panoramas,
           }),
         ],
         { type: 'application/json' },
@@ -1273,7 +1316,7 @@ export default function App({
   const importFile = async (f: File) => {
     try {
       if (f.size > MAX_IMPORT_BYTES)
-        throw new Error('Import files must be 50 MB or smaller.');
+        throw new Error('Import files must be 200 MB or smaller.');
       if (!f.name.toLowerCase().endsWith('.json')) {
         setNotice({ text: 'Reading your 3D element…', error: false });
         const asset = await parseMeshAsset(f.name, await f.arrayBuffer());
@@ -1285,22 +1328,41 @@ export default function App({
       const raw = JSON.parse(text);
       if (raw.project && raw.past) {
         const imported = parseSession(text);
+        const importedPanoramas =
+          raw.panoramas === undefined
+            ? undefined
+            : parsePanoramas(raw.panoramas);
         const importedBoard =
           raw.moodboard === undefined ? undefined : parseBoard(raw.moodboard);
         // Preserve the receiving session and the imported timeline. The
         // latest snapshot remains undo-import; older snapshots are the
         // imported history, within the documented 50-step limit.
-        localStorage.setItem(
-          'atelier.session.v2.before-import',
-          serializeSession(snapshot()),
+        const importedPast = [...imported.past.slice(-49), current.current];
+        await onSnapshot?.(
+          {
+            session: serializeSession({ ...imported, past: importedPast }),
+            messages,
+            moodboard: importedBoard ?? moodboard,
+            panoramas: importedPanoramas ?? panoramas,
+          },
+          boot.storageSafe,
         );
-        undo.current = [...imported.past.slice(-49), current.current];
+        try {
+          localStorage.setItem(
+            'atelier.session.v2.before-import',
+            serializeSession(snapshot()),
+          );
+        } catch {
+          /* The receiving geometry is retained in the durable undo history above. */
+        }
+        undo.current = importedPast;
         redo.current = imported.future;
         conversation.current = imported.context;
         markCreation(current.current, imported.project, false);
         current.current = imported.project;
         setProject(imported.project);
         if (importedBoard) setMoodboard(importedBoard);
+        if (importedPanoramas) setPanoramas(importedPanoramas);
         setHistoryVersion((v) => v + 1);
       } else commit(parseProject(text), false);
       setNotice({
@@ -1311,9 +1373,19 @@ export default function App({
       reportError(err);
     }
   };
-  const addImported = (asset: PreparedImport) => {
+  const addImported = async (asset: PreparedImport) => {
     try {
       const candidate = importedSession(snapshot(), asset);
+      // Commit durable storage before installing a large import in the workspace.
+      await onSnapshot?.(
+        {
+          session: serializeSession(candidate),
+          messages,
+          moodboard,
+          panoramas,
+        },
+        boot.storageSafe,
+      );
       commit(candidate.project);
       conversation.current = candidate.context;
       setPending(null);
@@ -1350,6 +1422,17 @@ export default function App({
       }}
       className={`app-shell phase-two immersive ${busy || modelingBusy > 0 ? 'is-processing' : ''} ${presentation ? 'presentation-mode' : ''} theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
     >
+      {panoramaOpen && (
+        <Suspense
+          fallback={<div className="workspace-loading">Opening panoramas…</div>}
+        >
+          <PanoramaViewer
+            collection={panoramas}
+            onChange={savePanoramas}
+            onClose={() => setPanoramaOpen(false)}
+          />
+        </Suspense>
+      )}
       {moodboardOpen && (
         <Suspense
           fallback={<div className="workspace-loading">Opening moodboard…</div>}
@@ -1388,7 +1471,12 @@ export default function App({
           <span className="brand-mark">A</span> ATELIER
         </a>
         {projectMenu?.(
-          busy || modelingBusy > 0 || !!pending || voiceActive || !!importAsset,
+          busy ||
+            modelingBusy > 0 ||
+            !!pending ||
+            voiceActive ||
+            !!importAsset ||
+            panoramaOpen,
         )}
         <div className="project-title">
           <span>Workspace</span>
@@ -1430,6 +1518,18 @@ export default function App({
               setToolsOpen(false);
           }}
         >
+          <button
+            className="subtle-button panorama-button"
+            aria-label="Open panoramas"
+            onClick={() => {
+              voice.current?.stop();
+              voice.current = null;
+              setPanoramaOpen(true);
+            }}
+          >
+            <ImagePlus size={16} />
+            <span>Panoramas</span>
+          </button>
           <button
             className="subtle-button map-toggle"
             aria-label="Toggle site map"
@@ -2171,9 +2271,10 @@ export default function App({
                   setModelingBusy((n) => n - 1);
                 }
               }}
+              touchNavigation={phoneLayout ? touchNavigation : null}
               tool={presentation || alignMap ? 'select' : tool}
               presenting={presentation}
-              suspended={arActive || moodboardOpen}
+              suspended={arActive || moodboardOpen || panoramaOpen}
               cameraSettings={cameraSettings}
               solar={solar}
               onSelectMany={(ids, additive) => {
@@ -2285,6 +2386,7 @@ export default function App({
               </div>
             )}
             {selected &&
+              (!phoneLayout || touchNavigation === 'edit') &&
               isVisible(selected, project) &&
               !isLocked(selected, project) &&
               !tool.startsWith('draw_') &&
@@ -2346,40 +2448,83 @@ export default function App({
               role="toolbar"
               aria-label="Modeling tools"
             >
-              {(
-                [
-                  {
-                    id: 'select',
-                    label: 'Select',
-                    key: 'V',
-                    Icon: MousePointer2,
-                  },
-                  {
-                    id: 'translate',
-                    label: 'Move',
-                    key: 'M / G',
-                    Icon: Move3D,
-                  },
-                  { id: 'rotate', label: 'Rotate', key: 'Q', Icon: RotateCw },
-                  {
-                    id: 'reshape',
-                    label: 'Push / pull',
-                    key: 'P',
-                    Icon: Maximize,
-                  },
-                ] as const
-              ).map((t) => (
-                <button
-                  key={t.id}
-                  title={`${t.label} (${t.key})`}
-                  aria-label={t.label}
-                  aria-pressed={tool === t.id}
-                  className={tool === t.id ? 'active' : ''}
-                  onClick={() => setTool(t.id)}
-                >
-                  <t.Icon size={18} strokeWidth={1.5} />
-                </button>
-              ))}
+              {phoneLayout &&
+                !placingCamera &&
+                !alignMap &&
+                !cameraSettings.walk && (
+                  <div
+                    className="touch-navigation"
+                    role="toolbar"
+                    aria-label="Touch navigation"
+                  >
+                    {(['orbit', 'pan', 'edit'] as const).map((mode) => (
+                      <button
+                        key={mode}
+                        aria-label={`Touch ${mode}`}
+                        aria-pressed={touchNavigation === mode}
+                        onClick={() => {
+                          setTouchNavigation(mode);
+                          setTool(mode === 'edit' ? 'translate' : 'select');
+                        }}
+                      >
+                        {mode === 'orbit' ? (
+                          <RotateCw size={19} />
+                        ) : mode === 'pan' ? (
+                          <Move3D size={19} />
+                        ) : (
+                          <MousePointer2 size={19} />
+                        )}
+                        <span>
+                          {mode === 'edit'
+                            ? 'Edit'
+                            : mode === 'pan'
+                              ? 'Pan'
+                              : 'Orbit'}
+                        </span>
+                      </button>
+                    ))}
+                    <span className="touch-gesture-hint">
+                      {touchNavigation === 'edit'
+                        ? 'Drag handles'
+                        : 'Pinch to zoom'}
+                    </span>
+                  </div>
+                )}
+              {(!phoneLayout || touchNavigation === 'edit') &&
+                (
+                  [
+                    {
+                      id: 'select',
+                      label: 'Select',
+                      key: 'V',
+                      Icon: MousePointer2,
+                    },
+                    {
+                      id: 'translate',
+                      label: 'Move',
+                      key: 'M / G',
+                      Icon: Move3D,
+                    },
+                    { id: 'rotate', label: 'Rotate', key: 'Q', Icon: RotateCw },
+                    {
+                      id: 'reshape',
+                      label: 'Push / pull',
+                      key: 'P',
+                      Icon: Maximize,
+                    },
+                  ] as const
+                ).map((t) => (
+                  <button
+                    key={t.id}
+                    title={`${t.label} (${t.key})`}
+                    aria-label={t.label}
+                    aria-pressed={tool === t.id}
+                    className={tool === t.id ? 'active' : ''}
+                    onClick={() => activateTool(t.id)}
+                  >
+                    <t.Icon size={18} strokeWidth={1.5} />
+                  </button>
+                ))}
               <div className="tool-divider" />
               <button
                 className="create-tools-button"

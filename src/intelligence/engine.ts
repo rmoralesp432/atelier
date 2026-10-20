@@ -1,10 +1,12 @@
 import { resolveWalkPlacement } from '../studio/walkPlacement';
+import { encodeSession, decodeSession } from '../projects/sessionCodec';
 import { setObjectVisibility } from '../studio/visibility';
 import {
   isLocked,
   makeVolume,
   MAX_VOLUMES,
   parseProject,
+  parseProjectValue,
   round,
   serializeProject,
   updateVolume,
@@ -57,7 +59,7 @@ export const newSession = (project: Project): Session => ({
   context: emptyContext(),
 });
 export function parseSession(text: string): Session {
-  const raw = JSON.parse(text);
+  const raw = decodeSession(JSON.parse(text));
   if (
     raw.version !== 2 ||
     !Array.isArray(raw.past) ||
@@ -67,7 +69,7 @@ export function parseSession(text: string): Session {
   )
     throw new Error('Invalid session history.');
   const read = (p: unknown) =>
-    parseProject(JSON.stringify({ version: 2, ...(p as object) }));
+    parseProjectValue({ version: 2, ...(p as object) });
   const session: Session = {
     project: read(raw.project),
     past: raw.past.map(read),
@@ -89,8 +91,7 @@ export function parseSession(text: string): Session {
     session.context = raw.context;
   return session;
 }
-export const serializeSession = (s: Session) =>
-  JSON.stringify({ version: 2, ...s });
+export const serializeSession = (s: Session) => encodeSession(s);
 export function commitProject(s: Session, project: Project): Session {
   if (serializeProject(s.project) === serializeProject(project)) return s;
   return { ...s, project, past: [...s.past.slice(-49), s.project], future: [] };

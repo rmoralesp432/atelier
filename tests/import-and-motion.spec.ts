@@ -273,7 +273,7 @@ test('reduced motion shows the final geometry immediately and dropping files ope
   );
 });
 
-test('import refuses an oversized history-bearing save without changing the existing session', async ({
+test('import preserves a history larger than the former two-million-character budget', async ({
   page,
 }) => {
   const volume = {
@@ -319,15 +319,22 @@ test('import refuses an oversized history-bearing save without changing the exis
   const before = await saved(page);
   const dialog = await upload(
     page,
-    'Too much.obj',
+    'History preserved.obj',
     Buffer.from(new OBJExporter().parse(cube())),
   );
   await expect(dialog).toContainText('Closed solid');
   await dialog.getByRole('button', { name: 'Add to workspace' }).click();
-  await expect(dialog.getByRole('alert')).toContainText('safe browser storage');
-  expect(await saved(page)).toEqual(before);
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-model-objects',
+    '2',
+  );
+  const after = await saved(page);
+  expect(after.past.slice(0, -1)).toEqual(before.past);
+  expect(after.past.at(-1)).toEqual(before.project);
+  await page.getByRole('button', { name: 'Undo', exact: true }).click();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-model-objects',
     '1',
   );
+  expect((await saved(page)).project).toEqual(before.project);
 });

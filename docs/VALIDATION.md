@@ -2,6 +2,20 @@
 
 Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 154 and software WebGL. This file distinguishes geometric execution, UI/provider contracts and live AI/audio behavior.
 
+## Phone navigation, larger imports and panoramas — October 20, 2026
+
+**160 unit/integration tests in 41 files pass.** New tests validate shared mesh serialization across all 50 undo snapshots, legacy version-2 restoration, corrupt mesh-reference rejection, panorama metadata/source validation and device-orientation mathematics. Large sessions use a version-3 mesh library without dropping geometry or history.
+
+**16 distinct targeted production Chromium scenarios pass across focused runs.** Real touch events orbit and pan the model camera and pinch-zoom without changing geometry, history or selection. Explicit Edit mode exposes manipulation controls; phone toolbar tests cover 320/390/430 px widths. Existing Revit FBX, project rename/delete/switch, failed saves and native AR handoff regressions also pass. An initial phone overlay obstruction and a database error-message failure were fixed and their affected checks rerun.
+
+A genuine **131,072-triangle surface** imports, renders, persists through IndexedDB with localStorage checkpoint writes deliberately failing, reloads, undoes and redoes. A separate **51 MB comment-padded OBJ** tests the byte gate, not dense geometry performance. Imports now allow 200 MB / one million triangles, bounded by a 64-million-character compact session and device resources. The maximum-sized dense file and physical iPhone performance are **not** verified. An aborted import transaction preserves the current workspace and saved project after reload.
+
+Panorama browser tests decode/render an actual generated PNG, exercise finger drag/pinch/reset, persist the photo across reload, export/reimport JSON, isolate projects, cancel/remove photos, and constrain narrow partial panoramas on a landscape screen. Permission denial, sensor-driven rotation and stopping motion use **explicit orientation-event fixtures**, not a physical phone. Images remain local to the project; no paid model calls were made. The main modeling viewport is suspended during photo viewing.
+
+TypeScript/Vite production build and formatting/whitespace checks pass. Phone editing and panorama screenshots were inspected. The static `/atelier/` smoke includes the lazy panorama viewer and existing real Revit FBX, geometry, editing/reload and moodboard imports. The entire historical end-to-end suite was not rerun; these are targeted regression results. Physical Safari/iPhone motion permissions, sensor accuracy and large-model performance remain to be tested on-device.
+
+See [phone and panorama instructions](PANORAMAS.md) and [current import limits](IMPORTS.md). Panoraven itself was inaccessible under the cloud network policy; inspected public Pannellum documentation informed the interaction design. No proprietary implementation was copied, and no panorama-to-3D reconstruction is claimed.
+
 ## FBX, project management and AR controls — October 20, 2026
 
 **156 unit/integration tests in 39 files pass.** New import coverage parses a real Revit-exported binary FBX, a second binary FBX, and authored transformed assemblies. It checks source units/up-axis, separate named elements, diffuse colors, mirrored winding, group placement, actual closed solids, Boolean eligibility, one-step undo/reload, and atomic limits. The FBX fixtures and license/provenance are in `tests/fixtures/fbx`. Materials with multiple slots use the first diffuse color; external textures and animation are intentionally excluded. This is not native Revit/BIM conversion or verification against every Revit export.

@@ -172,7 +172,7 @@ it('rejects malformed, oversized and empty geometry before it reaches the projec
     ['broken.obj', buffer('v NaN 0 0\nv 1 0 0\nv 0 1 0\nf 1 2 3')],
     ['empty.obj', buffer('# no triangles')],
     ['wrong.glb', new ArrayBuffer(20)],
-    ['huge.obj', new ArrayBuffer(50_000_001)],
+    ['huge.obj', new ArrayBuffer(200_000_001)],
   ] as const)
     await expect(parseMeshAsset(name, bytes)).rejects.toThrow();
   const asset = await parseMeshAsset(

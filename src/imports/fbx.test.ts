@@ -190,7 +190,7 @@ it('supports more than the old 20,000 triangle cap while retaining the new hard 
   expect(
     parseSession(serializeSession(s)).project.volumes[0].dimensions.width,
   ).toBe(105);
-  expect(MAX_IMPORT_TRIANGLES).toBe(100000);
+  expect(MAX_IMPORT_TRIANGLES).toBe(1000000);
   await expect(
     parseMeshAsset(
       'Too many.obj',
@@ -199,7 +199,7 @@ it('supports more than the old 20,000 triangle cap while retaining the new hard 
           'f 1 2 3\n'.repeat(MAX_IMPORT_TRIANGLES + 1),
       ),
     ),
-  ).rejects.toThrow('100,000');
+  ).rejects.toThrow('1,000,000');
 });
 
 it('can combine an FBX with more source elements than the workspace object limit', async () => {

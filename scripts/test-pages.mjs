@@ -176,9 +176,32 @@ try {
         .querySelector('[data-testid="viewport"]')
         ?.getAttribute('data-model-objects') === '9',
   );
+  // The photo viewer's lazy chunk also works without a server at /atelier/.
+  await page.getByRole('button', { name: 'Open panoramas' }).click();
+  const photo = await page.evaluate(() => {
+    const c = document.createElement('canvas');
+    c.width = 512;
+    c.height = 256;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#567890';
+    ctx.fillRect(0, 0, 512, 256);
+    return c.toDataURL('image/png').split(',')[1];
+  });
+  await page.getByLabel('Panorama image file').setInputFiles({
+    name: 'Site.png',
+    mimeType: 'image/png',
+    buffer: Buffer.from(photo, 'base64'),
+  });
+  await page.waitForFunction(
+    () =>
+      document
+        .querySelector('[data-testid="panorama-viewport"]')
+        ?.getAttribute('data-ready') === 'true',
+  );
+  await page.getByRole('button', { name: 'Back to model' }).click();
   assert.deepEqual(errors, []);
   console.log(
-    'PASS: production app loads at /atelier/ with valid JS/CSS/WASM paths, actual solid rendering, direct editing, reload persistence and lazy 3D moodboard/model assets and a real Revit FBX import. Static Pages has no AI backend.',
+    'PASS: production app loads at /atelier/ with valid JS/CSS/WASM paths, actual solid rendering, direct editing, reload persistence and lazy 3D moodboard/model assets and real Revit FBX / panorama imports. Static Pages has no AI backend.',
   );
 } finally {
   await browser?.close();

@@ -23,6 +23,7 @@ export function boxSelection(config: {
   };
   listen('pointerdown', (e) => {
     if (
+      e.pointerType === 'touch' ||
       !config.enabled() ||
       e.button !== 0 ||
       e.altKey ||

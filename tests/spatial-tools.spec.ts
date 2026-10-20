@@ -261,6 +261,7 @@ test('phone tools remain reachable and the placement instruction stays clear of 
   test.setTimeout(90000);
   await page.setViewportSize({ width: 390, height: 844 });
   await ready(page);
+  await page.getByRole('button', { name: 'Touch edit', exact: true }).click();
   const toolbar = page.getByRole('toolbar', { name: 'Shape selected objects' });
   const b = (await toolbar.boundingBox())!;
   expect(b.x).toBeGreaterThanOrEqual(0);

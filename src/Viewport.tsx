@@ -44,6 +44,7 @@ export type Tool = 'select' | 'translate' | 'rotate' | 'reshape' | DrawingTool;
 type Props = {
   project: Project;
   tool: Tool;
+  touchNavigation: 'orbit' | 'pan' | 'edit' | null;
   onDraw: (operation: Operation) => Promise<void>;
   onTool: (tool: Tool) => void;
   presenting: boolean;
@@ -714,13 +715,26 @@ export default function Viewport(props: Props) {
     const raycaster = new THREE.Raycaster();
     let pointerStart = { x: 0, y: 0 };
     let usedHandle = false;
+    const fingers = new Set<number>();
+    let multiTouch = false;
+    const touchStart = (event: PointerEvent) => {
+      if (event.pointerType !== 'touch') return;
+      if (!fingers.size) multiTouch = false;
+      fingers.add(event.pointerId);
+      if (fingers.size > 1) multiTouch = true;
+    };
+    const touchEnd = (event: PointerEvent) => fingers.delete(event.pointerId);
+    renderer.domElement.addEventListener('pointerdown', touchStart, true);
+    renderer.domElement.addEventListener('pointerup', touchEnd, true);
+    renderer.domElement.addEventListener('pointercancel', touchEnd, true);
     const down = (event: PointerEvent) => {
       finishConstruction();
       pointerStart = { x: event.clientX, y: event.clientY };
-      usedHandle = Boolean(transform.axis);
+      usedHandle = transform.enabled && Boolean(transform.axis);
     };
     const up = (event: PointerEvent) => {
       if (
+        (event.pointerType === 'touch' && multiTouch) ||
         latest.current.tool.startsWith('draw_') ||
         latest.current.placingCamera ||
         event.button !== 0 ||
@@ -729,7 +743,7 @@ export default function Viewport(props: Props) {
         Math.hypot(
           event.clientX - pointerStart.x,
           event.clientY - pointerStart.y,
-        ) > 4
+        ) > (event.pointerType === 'touch' ? 10 : 4)
       )
         return;
       const rect = renderer.domElement.getBoundingClientRect();
@@ -845,7 +859,8 @@ export default function Viewport(props: Props) {
         !latest.current.alignMap &&
         !latest.current.sectionEditing &&
         !latest.current.tool.startsWith('draw_'),
-      selectMode: () => latest.current.tool === 'select',
+      selectMode: () =>
+        latest.current.tool === 'select' && !latest.current.touchNavigation,
       onSelect: (ids, additive) => latest.current.onSelectMany(ids, additive),
     });
     let transition: {
@@ -1170,6 +1185,14 @@ export default function Viewport(props: Props) {
       container.dataset.cameraDistance = String(
         camera.position.distanceTo(orbit.target),
       );
+      container.dataset.cameraPosition = camera.position
+        .toArray()
+        .map((n) => n.toFixed(3))
+        .join(',');
+      container.dataset.cameraTarget = orbit.target
+        .toArray()
+        .map((n) => n.toFixed(3))
+        .join(',');
       ground.position.x = camera.position.x;
       ground.position.z = camera.position.z;
       sectionPlane.update();
@@ -1322,6 +1345,9 @@ export default function Viewport(props: Props) {
         trackPointer,
         true,
       );
+      renderer.domElement.removeEventListener('pointerdown', touchStart, true);
+      renderer.domElement.removeEventListener('pointerup', touchEnd, true);
+      renderer.domElement.removeEventListener('pointercancel', touchEnd, true);
       renderer.domElement.removeEventListener('pointerdown', down);
       renderer.domElement.removeEventListener('pointerup', up);
       renderer.domElement.removeEventListener('webglcontextlost', lost);
@@ -1349,6 +1375,13 @@ export default function Viewport(props: Props) {
     )
       r.finishConstruction();
     r.setTheme(props.appearance.theme === 'day');
+    r.orbit.touches.ONE =
+      props.touchNavigation === 'pan' ? THREE.TOUCH.PAN : THREE.TOUCH.ROTATE;
+    r.orbit.touches.TWO = THREE.TOUCH.DOLLY_PAN;
+    r.orbit.panSpeed = props.touchNavigation ? 1.1 : 1;
+    r.transform.enabled =
+      !props.touchNavigation || props.touchNavigation === 'edit';
+    host.current!.dataset.touchNavigation = props.touchNavigation ?? 'mouse';
     let cancelled = false;
     const built = new Map<string, THREE.Group>();
     async function rebuild() {
@@ -1612,6 +1645,7 @@ export default function Viewport(props: Props) {
           selected &&
           selectedVolume &&
           !isLocked(selectedVolume, props.project) &&
+          (!props.touchNavigation || props.touchNavigation === 'edit') &&
           (props.tool === 'translate' || props.tool === 'rotate') &&
           !props.sectionEditing &&
           !props.cameraSettings.walk &&
@@ -1690,6 +1724,7 @@ export default function Viewport(props: Props) {
   }, [
     props.project,
     props.tool,
+    props.touchNavigation,
     props.snap,
     props.angleSnap,
     props.renderMode,
@@ -2025,6 +2060,7 @@ export default function Viewport(props: Props) {
         </div>
       )}
       {props.project.selectedId &&
+        (!props.touchNavigation || props.touchNavigation === 'edit') &&
         (props.tool === 'translate' || props.tool === 'rotate') &&
         !props.sectionEditing &&
         (() => {

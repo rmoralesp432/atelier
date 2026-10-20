@@ -1,9 +1,11 @@
+import type { Panoramas } from '../panorama/data';
 import type { Moodboard } from '../moodboard/data';
 import type { Message } from '../intelligence/client';
 export type WorkspaceSnapshot = {
   session: string;
   messages: Message[];
   moodboard?: Moodboard;
+  panoramas?: Panoramas;
 };
 export type SavedProject = WorkspaceSnapshot & {
   id: string;
@@ -66,16 +68,27 @@ export async function activeProject(): Promise<SavedProject | null> {
 export async function saveProject(project: SavedProject, activate = false) {
   const d = await db();
   return new Promise<void>((resolve, reject) => {
-    const t = d.transaction(['projects', 'meta'], 'readwrite');
-    t.objectStore('projects').put(project);
-    if (activate) t.objectStore('meta').put(project.id, 'active');
-    t.oncomplete = () => resolve();
-    t.onerror = t.onabort = () =>
+    const fail = () =>
       reject(
         new Error(
           'Could not save this project. Storage may be full. Export a backup; your current workspace has not been switched.',
         ),
       );
+    let transaction: IDBTransaction | undefined;
+    try {
+      transaction = d.transaction(['projects', 'meta'], 'readwrite');
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = transaction.onabort = fail;
+      transaction.objectStore('projects').put(project);
+      if (activate) transaction.objectStore('meta').put(project.id, 'active');
+    } catch {
+      try {
+        transaction?.abort();
+      } catch {
+        /* Already aborted. */
+      }
+      fail();
+    }
   });
 }
 
