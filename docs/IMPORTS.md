@@ -40,6 +40,31 @@ Import preparation runs in a dedicated worker on your device. The dialog opens b
 - Reduced-detail processing accepts up to 20 million source triangles, provided the resulting copy is within the 5-million-triangle output limit. Parsing such a dense file may still exceed a phone's memory. Use a desktop browser for large Revit exports, then try a Phone copy for viewing.
 - Reduced copies skip closed-solid checking by default. Enable the check explicitly if you need Boolean modeling. A reduction is a display/modeling copy, not a precision substitute for the original architectural source.
 
+## Navigating large models
+
+Studio → Appearance → **Viewing quality** defaults to **Automatic**. At
+100,000 visible imported triangles, it uses Smooth navigation: a one-pixel
+display ratio, simpler diffuse lighting, a selection frame instead of the multi-pass glow, cached
+shadows, and no solid-view edge overlay or depth-of-field pass. Idle views
+stop submitting GPU frames; orbit, edits, animations and newly loaded map
+tiles wake them. Wireframe and hidden-line views still generate their actual
+edges and can take longer on very dense files.
+
+Large imports appear as completed objects, skipping the expensive transparent
+formation fade. Smaller volume-creation animations remain enabled.
+
+Dense parts retain shared vertices and use crisp face shading instead of
+duplicating their vertices for smoothed creases. A render-only spatial index
+accelerates exact surface picking. **No triangles are removed, and saved
+geometry, dimensions, history and exports are unchanged.** These changes also
+apply to projects imported before this update; reimporting is unnecessary.
+
+Choose **Smooth navigation** explicitly on a slower device, or **Full visual
+effects** to restore the higher-resolution glow/effects pipeline. This viewing
+preference is separate from importing a **Phone copy**, which deliberately
+reduces geometry. The source-size limits below are capacity limits, not a
+promise of interactive frame rates on every phone.
+
 ## Current limits
 
 - One file per import, **up to 512 MB and 5,000,000 triangles** (previously 200 MB / 1,000,000 triangles). Each assembly dimension must fit within 500 m, with at least 1 mm overall extent.

@@ -1,10 +1,10 @@
-import { validateMesh, type MeshRecipe } from '../imports/mesh';
+import { validateMesh } from '../imports/mesh';
 
 // Large mesh arrays are shared across geometry history instead of serialized
 // fifty times. Version 2 remains readable; small sessions keep its plain format.
 export const MAX_IMPORT_SESSION_CHARS = 256_000_000;
 export function encodeSession(session: object): string {
-  const meshes: MeshRecipe[] = [];
+  const meshes: string[] = [];
   const identities = new WeakMap<object, number>();
   const contents = new Map<string, number>();
   let weight = 0;
@@ -17,7 +17,9 @@ export function encodeSession(session: object): string {
       id = contents.get(key);
       if (id === undefined) {
         id = meshes.length;
-        meshes.push(value);
+        // Reuse the encoding already needed for deduplication. Serializing
+        // these large coordinate arrays a second time stalls selection/saves.
+        meshes.push(key);
         contents.set(key, id);
       }
       identities.set(value, id);
@@ -25,7 +27,7 @@ export function encodeSession(session: object): string {
     return { $mesh: id };
   });
   if (weight < 150_000) return JSON.stringify({ version: 2, ...session });
-  return `{"version":3,"meshes":${JSON.stringify(meshes)},${body.slice(1)}`;
+  return `{"version":3,"meshes":[${meshes.join(',')}],${body.slice(1)}`;
 }
 
 export function decodeSession(raw: any): any {

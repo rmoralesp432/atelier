@@ -34,6 +34,14 @@ import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { curvedWireframe } from './geometry/curvedWireframe';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import { toCreasedNormals } from 'three/addons/utils/BufferGeometryUtils.js';
+import {
+  acceleratePicking,
+  DENSE_SCENE_TRIANGLES,
+  importedTriangles,
+  INDEXED_PART_TRIANGLES,
+  renderSignature,
+  responsiveView,
+} from './geometry/renderPerformance';
 import type { Project, Volume } from './model';
 import { constructionFrame } from './geometry/construction';
 import { round } from './model';
@@ -96,11 +104,15 @@ type Runtime = {
   ) => void;
   finishConstruction: () => void;
   motionRevision: number;
+  responsive: boolean;
+  invalidate: () => void;
+  setResponsive: (enabled: boolean) => void;
 };
 function disposeObject(root: THREE.Object3D) {
   root.traverse((o) => {
     if (o instanceof THREE.Mesh || o instanceof THREE.Line) {
       o.geometry.dispose();
+      if (o instanceof THREE.Mesh) o.geometry.boundsTree = undefined;
       (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) =>
         m.dispose(),
       );
@@ -151,6 +163,23 @@ export default function Viewport(props: Props) {
     );
     renderer.domElement.setAttribute('tabindex', '0');
     container.appendChild(renderer.domElement);
+    let awakeUntil = performance.now() + 500;
+    const invalidate = () => {
+      awakeUntil = performance.now() + 250;
+    };
+    const interactionEvents = [
+      'pointerdown',
+      'pointermove',
+      'pointerup',
+      'wheel',
+      'keydown',
+      'keyup',
+    ] as const;
+    interactionEvents.forEach((event) =>
+      renderer.domElement.addEventListener(event, invalidate, {
+        passive: true,
+      }),
+    );
     const scene = new THREE.Scene();
     scene.fog = new THREE.Fog('#151719', 250, 1800);
     const pmrem = new THREE.PMREMGenerator(renderer);
@@ -392,6 +421,8 @@ export default function Viewport(props: Props) {
     const finishOne = (id: string) => {
       const c = constructions.get(id);
       if (!c) return;
+      renderer.shadowMap.needsUpdate = true;
+      invalidate();
       c.group.scale.set(1, 1, 1);
       c.group.traverse((o) => {
         if (o instanceof THREE.Mesh) {
@@ -427,6 +458,13 @@ export default function Viewport(props: Props) {
       editing = false,
     ) => {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      // Fading millions of transparent faces can be far slower than displaying
+      // the finished import. The camera still settles onto the new object.
+      if (
+        runtime.current?.responsive &&
+        importedTriangles(v) >= DENSE_SCENE_TRIANGLES
+      )
+        return;
       if (!editing) softenContext();
       const points: THREE.Vector3[] = [];
       const d = v.dimensions;
@@ -466,7 +504,7 @@ export default function Viewport(props: Props) {
             ),
       );
       let guideGeometry = new THREE.BufferGeometry().setFromPoints(traced);
-      if (editing) {
+      if (editing && !runtime.current?.responsive) {
         const edges: number[] = [];
         g.traverse((o) => {
           if (o instanceof THREE.Mesh) {
@@ -482,7 +520,10 @@ export default function Viewport(props: Props) {
           new THREE.Float32BufferAttribute(edges, 3),
         );
       }
-      const Line = editing ? THREE.LineSegments : THREE.Line;
+      const Line =
+        editing && !runtime.current?.responsive
+          ? THREE.LineSegments
+          : THREE.Line;
       const guide = new Line(
         guideGeometry,
         new THREE.LineBasicMaterial({
@@ -656,6 +697,10 @@ export default function Viewport(props: Props) {
       trail.visible = true;
     };
     transform.addEventListener('objectChange', updateMeasurement);
+    transform.addEventListener('change', invalidate);
+    transform.addEventListener('objectChange', () => {
+      renderer.shadowMap.needsUpdate = true;
+    });
     transform.addEventListener('dragging-changed', (event) => {
       dragging = Boolean(event.value);
       setManipulating(dragging);
@@ -874,6 +919,11 @@ export default function Viewport(props: Props) {
       transition = null;
     });
     const fit = (top: boolean, focusIds?: string[], mapSpan?: number) => {
+      const importedFocus = focusIds?.some((id) =>
+        latest.current.project.volumes.some(
+          (v) => v.id === id && importedTriangles(v) > 0,
+        ),
+      );
       const box = new THREE.Box3();
       if (mapSpan)
         box.set(
@@ -912,7 +962,10 @@ export default function Viewport(props: Props) {
           container.clientWidth / Math.max(container.clientHeight, 1),
           1,
         );
-      if (focusIds)
+      // Newly authored volumes keep the close-up formation view. Imports may
+      // be whole buildings: keeping the previous small-scene distance can put
+      // the camera inside them and cover the entire viewport with one face.
+      if (focusIds && !importedFocus)
         distance = Math.min(distance, camera.position.distanceTo(orbit.target));
       container.dataset.cameraFraming = mapSpan
         ? 'map'
@@ -922,20 +975,23 @@ export default function Viewport(props: Props) {
       container.dataset.cameraFocusIds = focusIds?.join(',') ?? '';
       container.dataset.cameraGoalDistance = String(distance);
       if (camera instanceof THREE.OrthographicCamera) {
-        const half = focusIds
-            ? Math.min(
-                (camera.top - camera.bottom) / camera.zoom / 2,
-                distance *
-                  Math.tan(
-                    THREE.MathUtils.degToRad(
-                      latest.current.cameraSettings.fov / 2,
+        const half =
+            focusIds && !importedFocus
+              ? Math.min(
+                  (camera.top - camera.bottom) / camera.zoom / 2,
+                  distance *
+                    Math.tan(
+                      THREE.MathUtils.degToRad(
+                        latest.current.cameraSettings.fov / 2,
+                      ),
                     ),
+                )
+              : distance *
+                Math.tan(
+                  THREE.MathUtils.degToRad(
+                    latest.current.cameraSettings.fov / 2,
                   ),
-              )
-            : distance *
-              Math.tan(
-                THREE.MathUtils.degToRad(latest.current.cameraSettings.fov / 2),
-              ),
+                ),
           aspect = container.clientWidth / Math.max(container.clientHeight, 1);
         camera.left = -half * aspect;
         camera.right = half * aspect;
@@ -972,6 +1028,8 @@ export default function Viewport(props: Props) {
     const sunPath = new THREE.Group();
     scene.add(sunPath);
     const updateShadows = () => {
+      renderer.shadowMap.needsUpdate = true;
+      invalidate();
       const vs = latest.current.project.volumes;
       if (!vs.length) return;
       const bounds = groupBounds(vs);
@@ -1086,6 +1144,21 @@ export default function Viewport(props: Props) {
       container.dataset.shadowCenter = `${center.x},${center.y},${center.z}`;
     };
     runtime.current = {
+      responsive: false,
+      invalidate,
+      setResponsive: (enabled) => {
+        container.dataset.viewQuality = enabled ? 'responsive' : 'detail';
+        if (runtime.current?.responsive === enabled) return;
+        runtime.current!.responsive = enabled;
+        renderer.setPixelRatio(
+          Math.min(window.devicePixelRatio, enabled ? 1 : 2),
+        );
+        composer.setPixelRatio(renderer.getPixelRatio());
+        renderer.shadowMap.autoUpdate = !enabled;
+        renderer.shadowMap.needsUpdate = true;
+        container.dataset.viewQuality = enabled ? 'responsive' : 'detail';
+        invalidate();
+      },
       scene,
       outline,
       setTheme,
@@ -1115,6 +1188,7 @@ export default function Viewport(props: Props) {
       motionRevision: 0,
     };
     const resize = new ResizeObserver(() => {
+      invalidate();
       const { width, height } = container.getBoundingClientRect();
       renderer.setSize(width, height);
       composer.setSize(width, height);
@@ -1157,6 +1231,7 @@ export default function Viewport(props: Props) {
       });
     };
     orbit.addEventListener('change', publishCamera);
+    orbit.addEventListener('change', invalidate);
     let frame = 0,
       lastFrame = performance.now();
     const render = () => {
@@ -1169,7 +1244,9 @@ export default function Viewport(props: Props) {
       }
       // Slow frames and a background tab must not skip the formation the user came to see.
       if (document.visibilityState === 'visible')
-        animationTime += Math.min(delta * 1000, 250);
+        animationTime += runtime.current?.responsive
+          ? delta * 1000
+          : Math.min(delta * 1000, 250);
       if (transition && !latest.current.cameraSettings.walk) {
         const t = Math.min(1, (performance.now() - transition.start) / 500);
         const ease = 1 - Math.pow(1 - t, 3);
@@ -1306,12 +1383,34 @@ export default function Viewport(props: Props) {
       else publishCamera();
       facePull.update();
       container.dataset.projection = camera.type;
+      const responsive = runtime.current?.responsive;
+      // Keep controls/damping alive, but stop submitting a dense scene to the
+      // GPU when nothing is changing. Async maps/caps explicitly wake the view.
+      if (
+        responsive &&
+        performance.now() > awakeUntil &&
+        !transition &&
+        !constructions.size &&
+        !formationContext.size &&
+        !dragging &&
+        !latest.current.turntable &&
+        !latest.current.cameraSettings.walk &&
+        !latest.current.sectionEditing &&
+        latest.current.tool !== 'reshape'
+      ) {
+        frame = requestAnimationFrame(render);
+        return;
+      }
       outline.enabled =
+        !responsive &&
         outline.selectedObjects.length > 0 &&
         !latest.current.section.enabled &&
         !latest.current.presenting;
-      if (outline.enabled || bokeh.enabled) composer.render();
+      if (outline.enabled || (bokeh.enabled && !responsive)) composer.render();
       else renderer.render(scene, camera);
+      container.dataset.renderFrames = String(
+        Number(container.dataset.renderFrames ?? 0) + 1,
+      );
       if (renderer.info.render.triangles > 0)
         container.dataset.rendered = 'true';
       frame = requestAnimationFrame(render);
@@ -1327,12 +1426,14 @@ export default function Viewport(props: Props) {
     return () => {
       window.removeEventListener('keydown', cancelTransform, true);
       cancelAnimationFrame(frame);
+      interactionEvents.forEach((event) =>
+        renderer.domElement.removeEventListener(event, invalidate),
+      );
       sectionPlane.dispose();
       facePull.dispose();
       walk.dispose();
       disposeBoxSelection();
       disposeObject(sunPath);
-      bokeh.dispose();
       finishConstruction();
       resize.disconnect();
       renderer.domElement.removeEventListener(
@@ -1368,6 +1469,14 @@ export default function Viewport(props: Props) {
     const r = runtime.current;
     if (!r) return;
     // Selection/tool updates must not cancel the creation they just triggered.
+    const responsive = responsiveView(
+      props.appearance.quality,
+      props.project.volumes
+        .filter((v) => isVisible(v, props.project))
+        .reduce((sum, v) => sum + importedTriangles(v), 0),
+    );
+    r.setResponsive(responsive);
+    r.invalidate();
     if (
       r.motionRevision !== props.motion.revision ||
       props.cameraSettings.walk ||
@@ -1391,12 +1500,7 @@ export default function Viewport(props: Props) {
           props.project.volumes
             .filter((v) => isVisible(v, props.project))
             .map(async (v) => {
-              const signature = JSON.stringify([
-                v.dimensions,
-                v.geometry,
-                v.display,
-                v.material,
-              ]);
+              const signature = `${renderSignature(v)}:${responsive}:${props.renderMode === 'studio'}`;
               signatures.set(v.id, signature);
               if (r!.signatures.get(v.id) === signature) return;
               const g = new THREE.Group();
@@ -1437,7 +1541,16 @@ export default function Viewport(props: Props) {
                   );
                   geometry.setIndex(new THREE.BufferAttribute(part.indices, 1));
                   // Preserve crisp slab/box corners while smoothing curved sides.
-                  const shaded = toCreasedNormals(geometry, Math.PI / 6);
+                  const dense =
+                    responsive ||
+                    part.indices.length / 3 >= INDEXED_PART_TRIANGLES;
+                  // Preserve shared vertices. Derivative flat shading keeps
+                  // architectural faces crisp without duplicating coordinates.
+                  const shaded = dense
+                    ? geometry
+                    : toCreasedNormals(geometry, Math.PI / 6);
+                  if (dense) shaded.computeVertexNormals();
+                  shaded.userData.dense = dense;
                   if (shaded !== geometry) geometry.dispose();
                   geometries.push({
                     geometry: shaded,
@@ -1466,9 +1579,13 @@ export default function Viewport(props: Props) {
                 const glass = part.material === 'glass',
                   frame = part.material === 'frame',
                   foliage = part.material === 'foliage';
-                const mesh = new THREE.Mesh(
+                const mesh: THREE.Mesh<
+                  THREE.BufferGeometry,
+                  THREE.MeshPhysicalMaterial | THREE.MeshLambertMaterial
+                > = new THREE.Mesh(
                   part.geometry,
                   new THREE.MeshPhysicalMaterial({
+                    flatShading: !!part.geometry.userData.dense,
                     // Orthographic map cameras can be kilometers away while
                     // zoomed into a model. Atmospheric fog must not wash out
                     // architectural materials or their edges.
@@ -1503,10 +1620,26 @@ export default function Viewport(props: Props) {
                   }),
                 );
                 mesh.userData.materialKind = part.material;
+                if (responsive) {
+                  const physical = mesh.material;
+                  mesh.material = new THREE.MeshLambertMaterial({
+                    color: physical.color,
+                    fog: false,
+                    flatShading: physical.flatShading,
+                    transparent: physical.transparent,
+                    opacity: physical.opacity,
+                    depthWrite: physical.depthWrite,
+                    side: physical.side,
+                    clippingPlanes: physical.clippingPlanes,
+                    clipShadows: true,
+                  });
+                  physical.dispose();
+                }
+                acceleratePicking(mesh);
                 mesh.castShadow = !glass;
                 mesh.receiveShadow = true;
                 g.add(mesh);
-                {
+                if (!responsive || props.renderMode !== 'studio') {
                   const edges = new THREE.LineSegments(
                     new THREE.EdgesGeometry(part.geometry, 24),
                     new THREE.LineBasicMaterial({
@@ -1522,6 +1655,13 @@ export default function Viewport(props: Props) {
                   edges.userData.materialKind = part.material;
                   g.add(edges);
                 }
+              }
+              if (responsive) {
+                const box = new THREE.Box3().setFromObject(g);
+                const selection = new THREE.Box3Helper(box, '#a4e4dd');
+                selection.userData.selectionFrame = true;
+                selection.raycast = () => {};
+                g.add(selection);
               }
             }),
         );
@@ -1544,6 +1684,8 @@ export default function Viewport(props: Props) {
         });
         r!.signatures = signatures;
         r!.updateShadows();
+        r!.renderer.shadowMap.needsUpdate = true;
+        r!.invalidate();
         r!.outline.selectedObjects = [];
         for (const v of props.project.volumes.filter((v) =>
           isVisible(v, props.project),
@@ -1609,6 +1751,13 @@ export default function Viewport(props: Props) {
               o.castShadow = mode === 'studio' && kind !== 'glass';
               o.receiveShadow = mode === 'studio';
             } else if (o instanceof THREE.Line) {
+              if (o.userData.selectionFrame) {
+                o.visible =
+                  !!selected &&
+                  !props.placingCamera &&
+                  !props.cameraSettings.walk;
+                return;
+              }
               if (o.userData.symbolicWireframe)
                 o.visible = props.renderMode === 'wireframe';
               const material = o.material as THREE.LineBasicMaterial;
@@ -1669,6 +1818,18 @@ export default function Viewport(props: Props) {
         host.current!.dataset.theme = props.appearance.theme;
         host.current!.dataset.modelObjects = String(r!.objects.size);
         host.current!.dataset.renderMode = props.renderMode;
+        let indexedTriangles = 0,
+          vertices = 0;
+        r!.objects.forEach((g) =>
+          g.traverse((o) => {
+            if (o instanceof THREE.Mesh) {
+              indexedTriangles += (o.geometry.index?.count ?? 0) / 3;
+              vertices += o.geometry.getAttribute('position').count;
+            }
+          }),
+        );
+        host.current!.dataset.indexedTriangles = String(indexedTriangles);
+        host.current!.dataset.renderVertices = String(vertices);
         host.current!.dataset.meshBuilds = String(
           Number(host.current!.dataset.meshBuilds || 0) + built.size,
         );
@@ -1735,6 +1896,10 @@ export default function Viewport(props: Props) {
     props.placingCamera,
     props.sectionEditing,
   ]);
+  // Settings wake an idle view; no model or import data is changed.
+  useEffect(() => {
+    runtime.current?.invalidate();
+  });
   useEffect(() => {
     const r = runtime.current;
     if (!r) return;
@@ -1770,6 +1935,7 @@ export default function Viewport(props: Props) {
     const section = props.section,
       axis = { x: 0, y: 1, z: 2 }[section.axis],
       normal = new THREE.Vector3();
+    r.renderer.shadowMap.needsUpdate = true;
     normal.setComponent(axis, section.flip ? 1 : -1);
     clippingPlane.current.set(
       normal,
@@ -1824,6 +1990,7 @@ export default function Viewport(props: Props) {
               }),
             );
             caps.add(mesh);
+            r.invalidate();
           }
           if (host.current)
             host.current.dataset.sectionCapTriangles = String(
@@ -1879,6 +2046,7 @@ export default function Viewport(props: Props) {
             return;
           }
           loaded++;
+          r.invalidate();
           status();
         },
         undefined,
@@ -1925,6 +2093,7 @@ export default function Viewport(props: Props) {
       disposed = true;
       r.setMapVisible(false);
       r.scene.remove(group);
+      r.invalidate();
       disposeObject(group);
       textures.forEach((t) => t.dispose());
       if (host.current) {

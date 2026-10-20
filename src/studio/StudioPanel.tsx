@@ -153,6 +153,28 @@ export default function StudioPanel({
               </button>
             ))}
           </div>
+          <label className="studio-label" htmlFor="view-quality">
+            Viewing quality
+          </label>
+          <select
+            id="view-quality"
+            value={appearance.quality ?? 'auto'}
+            onChange={(e) =>
+              onAppearance({
+                ...appearance,
+                quality: e.target.value as NonNullable<Appearance['quality']>,
+              })
+            }
+          >
+            <option value="auto">Automatic · adapt to large models</option>
+            <option value="responsive">Smooth navigation</option>
+            <option value="detail">Full visual effects</option>
+          </select>
+          <p className="studio-caption">
+            Smooth navigation uses simpler lighting, lowers display resolution
+            and replaces glow with a selection frame. All model geometry and
+            exports stay intact.
+          </p>
           {appearance.mode !== 'studio' && (
             <label className="color-field">
               Line color

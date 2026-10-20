@@ -1,5 +1,6 @@
 export type RenderMode = 'studio' | 'wireframe' | 'hidden-line';
 export type Appearance = {
+  quality?: import('../geometry/renderPerformance').ViewQuality;
   theme: 'day' | 'night';
   mode: RenderMode;
   lineColor: string;
@@ -30,7 +31,13 @@ export function loadAppearance(): Appearance {
       /^#[0-9a-f]{6}$/i.test(a.lineColor) &&
       /^#[0-9a-f]{6}$/i.test(a.surfaceColor)
     )
-      return { ...a, theme: a.theme === 'day' ? 'day' : 'night' };
+      return {
+        ...a,
+        quality: ['auto', 'detail', 'responsive'].includes(a.quality)
+          ? a.quality
+          : 'auto',
+        theme: a.theme === 'day' ? 'day' : 'night',
+      };
   } catch {
     /* Use the studio default if preferences are unavailable. */
   }

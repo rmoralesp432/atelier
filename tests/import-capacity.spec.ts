@@ -38,6 +38,69 @@ test('full detail imports over a million genuine faces and restores them from sa
     '3',
     { timeout: 120000 },
   );
+  const viewport = page.getByTestId('viewport');
+  await expect(viewport).toHaveAttribute('data-view-quality', 'responsive');
+  expect(
+    Number(await viewport.getAttribute('data-camera-goal-distance')),
+  ).toBeGreaterThan(100);
+  expect(
+    Number(await viewport.getAttribute('data-indexed-triangles')),
+  ).toBeGreaterThanOrEqual(1065800);
+  // Shared vertices instead of the old 3,197,400 duplicated facade vertices.
+  expect(
+    Number(await viewport.getAttribute('data-render-vertices')),
+  ).toBeLessThan(540000);
+  await expect(viewport).toHaveAttribute('data-construction-active', 'false', {
+    timeout: 30000,
+  });
+  // Idle GPU work settles, then a real orbit gesture wakes the renderer.
+  await expect
+    .poll(
+      async () => {
+        const first = await viewport.getAttribute('data-render-frames');
+        await page.waitForTimeout(600);
+        return first === (await viewport.getAttribute('data-render-frames'));
+      },
+      { timeout: 20000 },
+    )
+    .toBe(true);
+  const before = await viewport.getAttribute('data-camera-position');
+  const builds = await viewport.getAttribute('data-mesh-builds');
+  const bounds = (await viewport.boundingBox())!;
+  await page.mouse.move(
+    bounds.x + bounds.width * 0.4,
+    bounds.y + bounds.height * 0.35,
+  );
+  await page.mouse.down();
+  await page.mouse.move(
+    bounds.x + bounds.width * 0.5,
+    bounds.y + bounds.height * 0.4,
+    { steps: 5 },
+  );
+  await page.mouse.up();
+  await expect(viewport).not.toHaveAttribute('data-camera-position', before!);
+  await expect(viewport).toHaveAttribute('data-mesh-builds', builds!);
+  await info.attach('dense-view-metrics', {
+    body: JSON.stringify(
+      {
+        sourceTriangles: 1065800,
+        indexedTriangles: Number(
+          await viewport.getAttribute('data-indexed-triangles'),
+        ),
+        renderedVertices: Number(
+          await viewport.getAttribute('data-render-vertices'),
+        ),
+        previousFacadeVertices: 1065800 * 3,
+        viewQuality: await viewport.getAttribute('data-view-quality'),
+        idleFramesStopped: true,
+        orbitWithoutRemeshing: true,
+      },
+      null,
+      2,
+    ),
+    contentType: 'application/json',
+  });
+  await page.screenshot({ path: 'test-results/dense-responsive-view.png' });
   await page.reload();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-model-objects',

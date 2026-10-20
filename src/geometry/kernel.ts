@@ -455,18 +455,13 @@ export async function renderMeshData(v: Volume): Promise<RenderPart[]> {
   }
 
   if (v.geometry?.kind === 'mesh') {
-    validateVolume(v);
+    const scale = [v.dimensions.width, v.dimensions.height, v.dimensions.depth];
+    const positions = new Float32Array(v.geometry.positions.length);
+    for (let i = 0; i < positions.length; i++)
+      positions[i] = v.geometry.positions[i] * scale[i % 3];
     return [
       {
-        positions: new Float32Array(
-          v.geometry.positions.map(
-            (n, i) =>
-              n *
-              [v.dimensions.width, v.dimensions.height, v.dimensions.depth][
-                i % 3
-              ],
-          ),
-        ),
+        positions,
         indices: new Uint32Array(v.geometry.indices),
         volume: 0,
         material:

@@ -274,6 +274,39 @@ A genuine Manifold wall cut with editable opening dimensions:
 
 Vite builds successfully with its size advisory (approximately 1.16 MB application JavaScript before compression, 320 kB compressed, plus approximately 541 kB WASM). Manifold's conditional Node-only module is externalized in the browser build; the production browser tests exercised the browser path successfully. Large-model performance, Safari/mobile behavior, multi-user hosting and exact analytic CAD/BIM exports are not certified. Terrain/site workflows remain on the roadmap.
 
+### Dense-import navigation — October 20, 2026
+
+The performance follow-up passes **170 unit/integration tests in 45 files** and
+**10 distinct targeted production-browser scenarios** across regression and
+focused reruns. Coverage includes binary Revit FBX editing/undo/reload, a
+million-face full-detail import, optional reduction, 201 MB cancellation,
+studio colors/hidden lines/maps/shadows, and persistent viewing-quality controls.
+The final focused run covers the final import framing and save-encoding changes.
+The static `/atelier/` production smoke also passes, including lazy imports,
+real Revit FBX worker/WASM loading, direct edits and reload persistence.
+
+The genuine **1,065,800-triangle** facade keeps every face after saving and
+reopening. Its responsive display retains about **534,000 vertices**, versus
+3,197,400 vertices for that facade in the previous deindexed rendering path
+(approximately 83% fewer). Browser checks verify that idle GPU submissions stop
+and a real orbit gesture resumes rendering without remeshing. Accelerated
+raycasting tests compare hit positions and face indices with Three's original
+raycaster and verify unchanged indices/positions. Selection, wireframe, section
+caps and quality preferences work in the responsive mode.
+
+Visual inspection of the running model exposed an import-framing issue: the
+old close-up creation limit could put the camera inside a larger import. Imports
+now fit their actual extent while ordinary volume creation retains its close-up
+behavior. Dense imports skip the expensive transparent formation fade; ordinary
+creation animation remains available.
+
+This is a rendering-work reduction, **not a measured FPS guarantee**. Tests use
+software-rendered Chromium, not the user's computer or physical iPhone. The
+user's specific laggy FBX was not supplied. High-capacity import acceptance does
+not guarantee smooth navigation at five million triangles on every device.
+Smooth navigation changes display lighting, resolution and selection effects;
+it does not simplify saved/exported geometry. No paid AI requests were needed.
+
 Local test results alone do not establish a public deployment, GitHub Actions execution, new cloud snapshot or live AI/voice session. The existing Phase 1 `main` branch is preserved while Phase 2 is prepared on its feature branch.
 
 The Render blueprint and [browser-only activation guide](HOSTING.md) are in the repository. During initial setup Render account access and an OpenAI key were absent. Subsequent authorized Render API access confirmed deployment of commit `28f8541` as `live` at https://atelier-emxi.onrender.com. This establishes deployment, not successful AI/audio behavior. The reusable Codex startup instructions were saved as a draft; that save does not publish the application.
