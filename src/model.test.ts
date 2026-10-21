@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   executeCommand,
+  grossFootprint,
   initialProject,
   parseProject,
   serializeProject,
@@ -104,5 +105,43 @@ describe('project persistence and inspector validation', () => {
       updateVolume(p, p.selectedId!, { position: { x: NaN, y: 0, z: 0 } }),
     ).toThrow();
     expect(() => updateVolume(p, p.selectedId!, { name: '' })).toThrow();
+  });
+});
+
+describe('gross footprint', () => {
+  const volume = (
+    x: number,
+    z: number,
+    rotation = 0,
+    width = 10,
+    depth = 10,
+  ) => ({
+    id: crypto.randomUUID(),
+    name: 'Test volume',
+    dimensions: { width, depth, height: 3 },
+    position: { x, y: 0, z },
+    rotation,
+  });
+
+  it('does not double-count overlapping volumes', () => {
+    expect(grossFootprint([volume(0, 0), volume(5, 0)])).toBe(150);
+    expect(grossFootprint([volume(0, 0), volume(0, 0)])).toBe(100);
+  });
+
+  it('adds disjoint footprints and preserves a rotated rectangle area', () => {
+    expect(grossFootprint([volume(0, 0), volume(20, 0)])).toBe(200);
+    expect(grossFootprint([volume(0, 0, 37, 12, 7)])).toBe(84);
+  });
+
+  it('computes the union of coincident squares at a 45 degree angle', () => {
+    const expected = 200 - 200 * (Math.SQRT2 - 1);
+    expect(grossFootprint([volume(0, 0), volume(0, 0, 45)])).toBeCloseTo(
+      expected,
+      3,
+    );
+  });
+
+  it('returns zero for an empty workspace', () => {
+    expect(grossFootprint([])).toBe(0);
   });
 });

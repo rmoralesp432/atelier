@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ArrowDownToLine,
   ArrowUpFromLine,
@@ -27,6 +27,7 @@ import Viewport, { type Tool } from './Viewport';
 import {
   COMMAND_EXAMPLES,
   executeCommand,
+  grossFootprint,
   initialProject,
   parseProject,
   round,
@@ -230,11 +231,9 @@ export default function App() {
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     setNotice({ text: 'Project exported as JSON.', error: false });
   }
-  const area = round(
-    project.volumes.reduce(
-      (sum, v) => sum + v.dimensions.width * v.dimensions.depth,
-      0,
-    ),
+  const area = useMemo(
+    () => grossFootprint(project.volumes),
+    [project.volumes],
   );
   return (
     <div className="app-shell">
