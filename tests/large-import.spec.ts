@@ -148,3 +148,39 @@ test('an aborted import save retains the original workspace and saved project', 
     await page.evaluate(() => localStorage.getItem('atelier.session.v2')),
   ).toBe(before);
 });
+
+
+test('AR preflight keeps a dense OBJ project open instead of exhausting the tab', async ({
+  page,
+}) => {
+  test.setTimeout(120000);
+  const errors: string[] = [];
+  page.on('pageerror', (error) => errors.push(error.message));
+  await page.goto('/');
+  await page.getByLabel('Import project file').setInputFiles({
+    name: 'Dense AR facade.obj',
+    mimeType: 'text/plain',
+    buffer: facade(),
+  });
+  const dialog = page.getByRole('dialog', { name: 'Import 3D element' });
+  await expect(dialog).toContainText('131,072 triangles', { timeout: 60000 });
+  await dialog.getByRole('button', { name: 'Add to workspace' }).click();
+  const viewport = page.getByTestId('viewport');
+  await expect(viewport).toHaveAttribute('data-model-objects', '3', {
+    timeout: 60000,
+  });
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
+  await page
+    .getByRole('button', { name: 'Camera settings', exact: true })
+    .click();
+  await page.getByRole('button', { name: 'View in your space · AR' }).click();
+  await page
+    .getByRole('button', { name: 'Prepare AR model', exact: true })
+    .click();
+  await expect(
+    page.getByRole('region', { name: 'View in your space' }).getByRole('alert'),
+  ).toContainText('Phone-detail copy');
+  await expect(viewport).toHaveAttribute('data-model-objects', '3');
+  await expect(page.getByRole('button', { name: 'Projects' })).toBeVisible();
+  expect(errors).toEqual([]);
+});

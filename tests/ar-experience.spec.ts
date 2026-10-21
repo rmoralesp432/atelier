@@ -129,7 +129,9 @@ test('native AR height exports lower and raise a life-size model without changin
   const selected = before.project.volumes.find(
     (v: { id: string }) => v.id === before.project.selectedId,
   );
-  const expected = -(selected.position.y + selected.dimensions.height);
+  const expected =
+    -(selected.position.y + selected.dimensions.height) *
+    Number(await page.getByLabel('AR viewing scale').inputValue());
   await expect(height).toHaveValue(String(expected));
   await page
     .getByRole('button', { name: 'Prepare tracked AR', exact: true })

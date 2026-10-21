@@ -25,8 +25,11 @@ export async function startCameraOverlay(
   onCamera?: (camera: CameraContext) => void,
   rotation = 0,
   onRotation?: (degrees: number) => void,
+  initialHeight = 0,
 ): Promise<ARSessionControl> {
   if (signal?.aborted) throw new Error('Camera preview was closed.');
+  if (!Number.isFinite(initialHeight) || Math.abs(initialHeight) > 1000)
+    throw new Error('Choose an AR height adjustment between −1000 and 1000 m.');
   if (!navigator.mediaDevices?.getUserMedia)
     throw new Error(
       'Camera preview needs HTTPS and camera access in Safari or Chrome.',
@@ -152,6 +155,8 @@ export async function startCameraOverlay(
     resize();
     addEventListener('resize', resize);
     fit();
+    anchor.position.y += initialHeight;
+    publish();
     const canvas = renderer.domElement;
     transform = new TransformControls(camera, canvas);
     // Route gestures ourselves so a second finger always takes over from a handle.

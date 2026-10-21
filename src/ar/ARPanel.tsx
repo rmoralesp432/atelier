@@ -186,6 +186,7 @@ export default function ARPanel({
               setRotation(degrees);
               setURL('');
             },
+            heightOffset,
           ),
         )
       : module.current!.startAR(
@@ -203,6 +204,7 @@ export default function ARPanel({
           },
           onCamera,
           rotation,
+          heightOffset,
         );
     void running
       .then((control) => {
@@ -435,11 +437,11 @@ export default function ARPanel({
           <fieldset className="ar-height-fields" disabled={busy}>
             <legend>Height in real AR</legend>
             <p className="studio-caption">
-              Lower a raised floor before opening Apple AR. Negative values
-              lower the model; its dimensions stay the same.
+              Raise or lower the viewed model before opening Apple AR. The
+              offset stays visible at every viewing ratio.
             </p>
             <label>
-              Height adjustment · project meters
+              Height adjustment · meters in AR
               <input
                 aria-label="AR height adjustment"
                 type="number"
@@ -475,7 +477,7 @@ export default function ARPanel({
                 className="text-action"
                 onClick={() => {
                   const top = new Box3().setFromObject(selectedPart).max.y;
-                  chooseHeight(String(Number((-top).toFixed(3))));
+                  chooseHeight(String(Number((-top * scale).toFixed(3))));
                 }}
               >
                 Use selected object’s top as ground
@@ -485,14 +487,15 @@ export default function ARPanel({
               <p className="studio-caption" role="status">
                 {heightOffset === 0
                   ? 'Original project height. To align a floor, select it in the workspace and prepare the model.'
-                  : `${heightOffset < 0 ? 'Lower' : 'Raise'} by ${Number(Math.abs(heightOffset * scale).toFixed(3))} m at 1:${Number((1 / scale).toFixed(1))}. ${url && preparedSignature.current === signature ? 'Ready for Apple AR.' : 'Prepare again to apply.'}`}
+                   : `${heightOffset < 0 ? 'Lower' : 'Raise'} by ${Number(Math.abs(heightOffset).toFixed(3))} m in AR at 1:${Number((1 / scale).toFixed(1))}. ${url && preparedSignature.current === signature ? 'Ready for Apple AR.' : 'Prepare again to apply.'}`}
               </p>
             ) : (
               <p role="alert">Enter a height between −1000 and 1000 m.</p>
             )}
             <small>
-              Applied to the exported model. Apple controls ground placement;
-              verify the height on your iPhone. Return here to adjust it again.
+              The camera preview applies this offset visibly. Apple controls
+              native floor placement and may re-ground the USDZ; verify it on
+              your iPhone.
             </small>
           </fieldset>
         )}

@@ -2,6 +2,7 @@ import { cloneARView, setARTransparency, disposeARView } from './appearance';
 import * as THREE from 'three';
 import { isVisible, type Project } from '../model';
 import { isProfile, renderMeshData } from '../geometry/kernel';
+import { importedTriangles } from '../geometry/renderPerformance';
 import { USDZExporter } from 'three/addons/exporters/USDZExporter.js';
 export function disposeARModel(root: THREE.Object3D) {
   root.traverse((o) => {
@@ -13,12 +14,25 @@ export function disposeARModel(root: THREE.Object3D) {
     }
   });
 }
+export const MAX_AR_IMPORT_TRIANGLES = 100_000;
+
+export function arImportedTriangles(project: Project) {
+  return project.volumes
+    .filter((volume) => isVisible(volume, project) && !isProfile(volume))
+    .reduce((total, volume) => total + importedTriangles(volume), 0);
+}
+
 /** A detached, meter-based snapshot. No map imagery or private project upload. */
 export async function createARModel(
   project: Project,
   origin?: { x: number; z: number },
 ): Promise<THREE.Group> {
   const root = new THREE.Group();
+  const imported = arImportedTriangles(project);
+  if (imported > MAX_AR_IMPORT_TRIANGLES)
+    throw new Error(
+      `AR preparation stopped before loading ${imported.toLocaleString()} imported triangles. This project stays open. Reimport a Phone-detail copy (${MAX_AR_IMPORT_TRIANGLES.toLocaleString()} triangles or fewer) for AR.`,
+    );
   try {
     for (const v of project.volumes.filter(
       (v) => isVisible(v, project) && !isProfile(v),
@@ -90,9 +104,9 @@ export async function exportARModel(
   setARTransparency(copy, transparent);
   copy.scale.setScalar(scale);
   copy.rotation.y = (rotation * Math.PI) / 180;
-  // Offset is in project meters, so it follows the viewing ratio. Translate
-  // only this detached export; never move the original project or rescale it.
-  copy.position.y += heightOffset * scale;
+  // Offset is measured in the viewed AR space, independently of model scale.
+  // Translate only this detached export; never move the source project.
+  copy.position.y += heightOffset;
   scene.add(copy);
   scene.updateMatrixWorld(true);
   try {

@@ -1,6 +1,11 @@
 import { it, expect } from 'vitest';
 import { Box3, Vector3 } from 'three';
-import { createARModel, disposeARModel, exportARModel } from './model';
+import {
+  MAX_AR_IMPORT_TRIANGLES,
+  createARModel,
+  disposeARModel,
+  exportARModel,
+} from './model';
 import type { Project } from '../model';
 it('exports a genuine meter-based USDZ snapshot without mutating or including hidden geometry', async () => {
   const p: Project = {
@@ -110,7 +115,7 @@ it.each([
     expect(root).toBeDefined();
     expect(root[5]).toBeCloseTo(scale);
     expect(root[12]).toBe(0);
-    expect(root[13]).toBeCloseTo(offset * scale);
+    expect(root[13]).toBeCloseTo(offset);
     expect(root[14]).toBe(0);
     expect(usdz).toContain('metersPerUnit = 1');
     expect(model.position.y).toBe(0);
@@ -120,6 +125,32 @@ it.each([
     disposeARModel(model);
   },
 );
+it('rejects an oversized imported AR snapshot before allocating render geometry', async () => {
+  const triangles = MAX_AR_IMPORT_TRIANGLES + 1;
+  const project: Project = {
+    selectedId: 'dense',
+    volumes: [
+      {
+        id: 'dense',
+        name: 'Dense OBJ',
+        dimensions: { width: 10, depth: 10, height: 10 },
+        position: { x: 0, y: 0, z: 0 },
+        rotation: 0,
+        geometry: {
+          kind: 'mesh',
+          positions: [0, 0, 0, 1, 0, 0, 0, 1, 0],
+          indices: new Array(triangles * 3).fill(0),
+          solid: false,
+          source: 'dense.obj',
+        },
+      },
+    ],
+  };
+  await expect(createARModel(project)).rejects.toThrow(
+    /project stays open.*Phone-detail copy/i,
+  );
+});
+
 it('keeps the initial project origin during live AR edits so existing objects do not jump', async () => {
   const p: Project = {
     selectedId: null,
