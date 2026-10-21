@@ -125,6 +125,26 @@ test('inspector edits, validation, scene selection, shortcuts and command guide'
     page.getByRole('button', { name: 'Rotate', exact: true }),
   ).toHaveAttribute('aria-pressed', 'true');
 });
+test('ignores modeling shortcuts when browser modifiers are held', async ({
+  page,
+}) => {
+  await ready(page);
+  const move = page.getByRole('button', { name: 'Move', exact: true });
+  await move.click();
+
+  for (const event of [
+    { key: 'r', ctrlKey: true },
+    { key: 'f', metaKey: true },
+    { key: 'v', altKey: true },
+  ]) {
+    await page.evaluate((init) => {
+      window.dispatchEvent(
+        new KeyboardEvent('keydown', { ...init, bubbles: true }),
+      );
+    }, event);
+    await expect(move).toHaveAttribute('aria-pressed', 'true');
+  }
+});
 test('exports and imports a project and rejects invalid files', async ({
   page,
 }) => {

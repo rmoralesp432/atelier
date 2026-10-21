@@ -206,6 +206,8 @@ export default function App() {
       } else if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'd') {
         e.preventDefault();
         run('duplicate selected');
+      } else if (e.ctrlKey || e.metaKey || e.altKey) {
+        return;
       } else if (e.key === 'Delete' || e.key === 'Backspace') {
         e.preventDefault();
         run('delete selected');
