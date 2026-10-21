@@ -52,7 +52,7 @@ duplicate selected
 delete selected
 ```
 
-Compact dimensions are width × depth × height. Commands are case-insensitive. Invalid or unsupported commands leave geometry unchanged. Dimensions must be 0.1–500 m, coordinates must be within ±1,000 m, and base elevation cannot be negative. Up to 200 volumes and 50 undo steps are supported. Overlapping volumes are allowed; gross footprint sums rectangles and does not compute their union. Rotation is yaw only. Handle edits are rounded to millimeters.
+Compact dimensions are width × depth × height. Commands are case-insensitive. Invalid or unsupported commands leave geometry unchanged. Dimensions must be 0.1–500 m, coordinates must be within ±1,000 m, and base elevation cannot be negative. Up to 200 volumes and 50 undo steps are supported. Overlapping volumes are allowed; gross footprint reports the exact union of their rotated plan projections. Rotation is yaw only. Handle edits are rounded to millimeters.
 
 ## Development and verification
 
