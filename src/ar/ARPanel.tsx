@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { X, Smartphone } from 'lucide-react';
 import { Box3, Vector3, type Group } from 'three';
+import type { PreparationWorker } from './PreparationWorker';
 import type { Project } from '../model';
 import type { CameraContext } from '../intelligence/context';
 import type { ARSessionControl } from './webxr';
@@ -16,6 +17,8 @@ export default function ARPanel({
   onNativeOpen,
   onCamera,
   onReload,
+  onFloorPreview,
+  onPreparing,
 }: {
   project: Project;
   onClose: () => void;
@@ -24,6 +27,8 @@ export default function ARPanel({
   onNativeOpen: () => void;
   onCamera: (camera: CameraContext) => void;
   onReload: () => Promise<void>;
+  onFloorPreview: (level: number | null) => void;
+  onPreparing: (busy: boolean) => void;
 }) {
   const floating = useFloatingPanel(),
     [xr, setXR] = useState(false),
@@ -32,6 +37,12 @@ export default function ARPanel({
   const [scale, setScale] = useState(0.01),
     [rotation, setRotation] = useState(0),
     [heightInput, setHeightInput] = useState('0'),
+    [floorEnabled, setFloorEnabled] = useState(false),
+    [floorPreview, setFloorPreview] = useState(true),
+    [inspectFloor, setInspectFloor] = useState(false),
+    [selectedOnly, setSelectedOnly] = useState(false),
+    [preparationStatus, setPreparationStatus] = useState(''),
+    [preparationReport, setPreparationReport] = useState(''),
     [busy, setBusy] = useState(false),
     [url, setURL] = useState(''),
     [error, setError] = useState(''),
@@ -50,12 +61,32 @@ export default function ARPanel({
     [chatOpen, setChatOpen] = useState(false),
     [handoff, setHandoff] = useState<'preview' | 'life-size' | null>(null);
   const modelModule = useRef<typeof import('./model') | null>(null);
+  const heightOffset = Number(heightInput);
+  const heightValid =
+    !floorEnabled ||
+    (heightInput.trim() !== '' &&
+      Number.isFinite(heightOffset) &&
+      Math.abs(heightOffset) <= 2000);
+  const floorLevel = floorEnabled && heightValid ? heightOffset : undefined;
+  const selectionKey = selectedOnly
+    ? (project.selectedIds?.length
+        ? project.selectedIds
+        : [project.selectedId]
+      ).join(',')
+    : '';
   const signature = useMemo(
-    () => JSON.stringify([project.volumes, project.groups]),
-    [project.volumes, project.groups],
+    () => ({
+      volumes: project.volumes,
+      groups: project.groups,
+      floorLevel,
+      selectedOnly,
+      selectionKey,
+    }),
+    [project.volumes, project.groups, floorLevel, selectedOnly, selectionKey],
   );
-  const preparedSignature = useRef('');
+  const preparedSignature = useRef<typeof signature | null>(null);
   const abort = useRef<AbortController | null>(null);
+  const preparationAbort = useRef<AbortController | null>(null);
   const prepared = useRef<Group | null>(null),
     session = useRef<ARSessionControl | null>(null),
     overlay = useRef<HTMLDivElement>(null),
@@ -63,11 +94,25 @@ export default function ARPanel({
     blobURL = useRef('');
   const module = useRef<typeof import('./webxr') | null>(null),
     generation = useRef(0);
-  const heightOffset = Number(heightInput);
-  const heightValid =
-    heightInput.trim() !== '' &&
-    Number.isFinite(heightOffset) &&
-    Math.abs(heightOffset) <= 1000;
+  useEffect(() => {
+    onFloorPreview(
+      floorPreview && floorEnabled && heightValid && !active
+        ? heightOffset
+        : null,
+    );
+    return () => onFloorPreview(null);
+  }, [
+    floorPreview,
+    floorEnabled,
+    heightValid,
+    heightOffset,
+    active,
+    onFloorPreview,
+  ]);
+  useEffect(() => {
+    onPreparing(busy);
+    return () => onPreparing(false);
+  }, [busy, onPreparing]);
   useEffect(() => {
     alive.current = true;
     const link = document.createElement('a');
@@ -85,6 +130,7 @@ export default function ARPanel({
     return () => {
       alive.current = false;
       abort.current?.abort();
+      preparationAbort.current?.abort();
       generation.current++;
       void session.current?.end();
       if (blobURL.current) URL.revokeObjectURL(blobURL.current);
@@ -97,42 +143,71 @@ export default function ARPanel({
   useEffect(() => () => onActive(false), [onActive]);
   const prepare = async (exportScale = scale) => {
     if (!heightValid) {
-      setError('Choose an AR height adjustment between −1000 and 1000 m.');
+      setError('Choose a valid AR floor level.');
       return;
     }
+    preparationAbort.current?.abort();
+    const controller = new AbortController();
+    preparationAbort.current = controller;
     const revision = ++generation.current;
     setBusy(true);
     setError('');
     setLoadFailed(false);
+    setPreparationReport('');
+    setPreparationStatus('Making a lighter AR copy…');
+    setURL('');
+    if (blobURL.current) {
+      URL.revokeObjectURL(blobURL.current);
+      blobURL.current = '';
+    }
+    if (prepared.current) {
+      modelModule.current?.disposeARModel(prepared.current);
+      prepared.current = null;
+    }
+    preparedSignature.current = null;
+    let worker: PreparationWorker | undefined;
+    let model: Group | undefined;
     try {
       const m = await import('./model');
       modelModule.current = m;
-      // Native Quick Look and USDZ downloads do not need the WebXR runtime.
+      controller.signal.throwIfAborted();
+      const { PreparationWorker } = await import('./PreparationWorker');
+      worker = new PreparationWorker(controller.signal);
       module.current = xr && !quickLook ? await import('./webxr') : null;
-      const model = await m.createARModel(project);
-      if (!alive.current || revision !== generation.current) {
-        m.disposeARModel(model);
-        return;
-      }
-      if (prepared.current) m.disposeARModel(prepared.current);
-      prepared.current = model;
-      preparedSignature.current = signature;
-      setWidth(new Box3().setFromObject(model).getSize(new Vector3()).x);
-      const data = await m.exportARModel(
+      model = await m.createARModel(project, undefined, {
+        floorLevel,
+        selectedOnly,
+        signal: controller.signal,
+        processPart: (part) => worker!.part(part),
+        progress: (message) => {
+          if (alive.current) setPreparationStatus(message);
+        },
+      });
+      controller.signal.throwIfAborted();
+      setPreparationStatus('Finishing the AR copy…');
+      const data = await worker.export(
         model,
         exportScale,
         rotation,
         transparent,
-        quickLook ? heightOffset : 0,
+        0,
       );
+      controller.signal.throwIfAborted();
       if (!alive.current || revision !== generation.current) return;
-      if (blobURL.current) URL.revokeObjectURL(blobURL.current);
+      prepared.current = model;
+      preparedSignature.current = signature;
+      setWidth(new Box3().setFromObject(model).getSize(new Vector3()).x);
+      const report = model.userData.arPreparation;
+      setPreparationReport(
+        `${report.outputTriangles.toLocaleString()} triangles in the AR copy${report.outputTriangles < report.sourceTriangles ? ` · reduced from ${report.sourceTriangles.toLocaleString()}` : ''}.${floorLevel === undefined ? '' : ` Starts at project level ${floorLevel} m.${report.lowestPoint > 0.001 ? ' This level is in empty space; Apple may place the lowest remaining surface on the ground.' : ''}`} Original project unchanged.`,
+      );
+      model = undefined; // Ownership passes to the panel only after successful export.
       blobURL.current = URL.createObjectURL(
         new Blob([data as BlobPart], { type: 'model/vnd.usdz+zip' }),
       );
       setURL(blobURL.current);
     } catch (e) {
-      if (alive.current) {
+      if (alive.current && !controller.signal.aborted) {
         const failed = isModuleLoadError(e);
         setLoadFailed(failed);
         setError(
@@ -144,7 +219,12 @@ export default function ARPanel({
         );
       }
     } finally {
-      if (alive.current) setBusy(false);
+      worker?.dispose();
+      if (model) modelModule.current?.disposeARModel(model);
+      if (alive.current && preparationAbort.current === controller) {
+        setBusy(false);
+        setPreparationStatus('');
+      }
     }
   };
   const launch = (manual = false) => {
@@ -269,9 +349,7 @@ export default function ARPanel({
     setError('');
     invalidateExport();
   };
-  const selectedPart = prepared.current?.children.find(
-    (child) => child.userData.id === project.selectedId,
-  );
+  const selectedPart = project.volumes.find((v) => v.id === project.selectedId);
   const scaleOptions = () => (
     <>
       {!AR_SCALES.some((ratio) => scale === 1 / ratio) && (
@@ -343,12 +421,22 @@ export default function ARPanel({
     )
       return;
     let cancelled = false;
+    const controller = new AbortController();
+    let updateWorker: PreparationWorker | undefined;
     setStatus('Updating the model in your space…');
     void import('./model')
       .then(async (m) => {
+        const { PreparationWorker } = await import('./PreparationWorker');
+        updateWorker = new PreparationWorker(controller.signal);
         const model = await m.createARModel(
           project,
           prepared.current?.userData.origin,
+          {
+            floorLevel,
+            selectedOnly,
+            signal: controller.signal,
+            processPart: (part) => updateWorker!.part(part),
+          },
         );
         if (cancelled || !session.current) {
           m.disposeARModel(model);
@@ -369,9 +457,11 @@ export default function ARPanel({
           setStatus(
             `AR keeps the previous model: ${e instanceof Error ? e.message : 'update failed'}`,
           );
-      });
+      })
+      .finally(() => updateWorker?.dispose());
     return () => {
       cancelled = true;
+      controller.abort();
     };
   }, [signature, sessionReady]);
   useEffect(() => {
@@ -409,6 +499,10 @@ export default function ARPanel({
         className="section-panel ar-panel"
         aria-label="View in your space"
         ref={floating.ref}
+        data-ar-triangles={
+          prepared.current?.userData.arPreparation?.outputTriangles
+        }
+        data-floor-preview={inspectFloor}
         style={{ ...floating.style, ...(active ? { display: 'none' } : {}) }}
         onPointerDownCapture={floating.raise}
       >
@@ -426,76 +520,183 @@ export default function ARPanel({
             <X size={17} />
           </button>
         </div>
+        {inspectFloor && (
+          <div className="ar-floor-preview-toolbar">
+            <label>
+              AR starts at {heightValid ? heightOffset.toFixed(2) : '—'} m
+              <input
+                aria-label="Preview AR floor level"
+                type="range"
+                min="0"
+                max={Math.max(
+                  1,
+                  ...project.volumes.map(
+                    (v) => v.position.y + v.dimensions.height,
+                  ),
+                )}
+                step="0.05"
+                value={heightValid ? heightOffset : 0}
+                onChange={(e) => {
+                  setFloorEnabled(true);
+                  chooseHeight(e.target.value);
+                }}
+              />
+            </label>
+            <div className="ar-button-row">
+              <button onClick={() => setFloorPreview(!floorPreview)}>
+                {floorPreview ? 'Show whole model' : 'Show floor cut'}
+              </button>
+              <button onClick={() => setInspectFloor(false)}>
+                Back to AR setup
+              </button>
+            </div>
+          </div>
+        )}
         <p className="studio-caption">
           Real AR anchors the model in your surroundings. Camera preview only
           overlays an image and cannot be placed in the room. Your saved project
           stays unchanged.
         </p>
-        {quickLook && (
-          <fieldset className="ar-height-fields" disabled={busy}>
-            <legend>Height in real AR</legend>
-            <p className="studio-caption">
-              Lower a raised floor before opening Apple AR. Negative values
-              lower the model; its dimensions stay the same.
-            </p>
-            <label>
-              Height adjustment · project meters
-              <input
-                aria-label="AR height adjustment"
-                type="number"
-                min="-1000"
-                max="1000"
-                step="any"
-                value={heightInput}
-                aria-invalid={!heightValid}
-                onChange={(e) => chooseHeight(e.target.value)}
-              />
-            </label>
-            <div className="ar-button-row">
+        <fieldset className="ar-height-fields" disabled={busy}>
+          <legend>Walk on a different floor</legend>
+          <label className="ar-scale-lock">
+            <input
+              type="checkbox"
+              checked={floorEnabled}
+              onChange={(e) => {
+                setFloorEnabled(e.target.checked);
+                invalidateExport();
+              }}
+            />
+            Use a floor cut for AR
+          </label>
+          <p className="studio-caption">
+            Choose the level to stand on. Only the AR copy loses everything
+            below it; your project stays intact.
+          </p>
+          {floorEnabled && (
+            <>
+              <label>
+                Floor level · project meters
+                <input
+                  aria-label="AR floor level"
+                  type="number"
+                  min="-2000"
+                  max="2000"
+                  step="any"
+                  value={heightInput}
+                  aria-invalid={!heightValid}
+                  onChange={(e) => chooseHeight(e.target.value)}
+                />
+              </label>
+              <div className="ar-button-row">
+                <button
+                  disabled={!heightValid || heightOffset < -1999.75}
+                  onClick={() =>
+                    chooseHeight(
+                      String(Number((heightOffset - 0.25).toFixed(3))),
+                    )
+                  }
+                >
+                  Floor down 25 cm
+                </button>
+                <button
+                  disabled={!heightValid || heightOffset > 1999.75}
+                  onClick={() =>
+                    chooseHeight(
+                      String(Number((heightOffset + 0.25).toFixed(3))),
+                    )
+                  }
+                >
+                  Floor up 25 cm
+                </button>
+              </div>
+              {selectedPart && (
+                <button
+                  className="text-action"
+                  onClick={() =>
+                    chooseHeight(
+                      String(
+                        Number(
+                          (
+                            selectedPart.position.y +
+                            selectedPart.dimensions.height
+                          ).toFixed(3),
+                        ),
+                      ),
+                    )
+                  }
+                >
+                  Use selected floor’s top
+                </button>
+              )}
+              <label className="ar-scale-lock">
+                <input
+                  type="checkbox"
+                  checked={floorPreview}
+                  onChange={(e) => setFloorPreview(e.target.checked)}
+                />
+                Preview floor cut in workspace
+              </label>
               <button
-                disabled={!heightValid || heightOffset < -999.75}
-                onClick={() =>
-                  chooseHeight(String(Number((heightOffset - 0.25).toFixed(3))))
-                }
-              >
-                Lower 25 cm
-              </button>
-              <button
-                disabled={!heightValid || heightOffset > 999.75}
-                onClick={() =>
-                  chooseHeight(String(Number((heightOffset + 0.25).toFixed(3))))
-                }
-              >
-                Raise 25 cm
-              </button>
-              <button onClick={() => chooseHeight('0')}>Reset height</button>
-            </div>
-            {selectedPart && preparedSignature.current === signature && (
-              <button
-                className="text-action"
+                disabled={!heightValid}
                 onClick={() => {
-                  const top = new Box3().setFromObject(selectedPart).max.y;
-                  chooseHeight(String(Number((-top).toFixed(3))));
+                  setFloorPreview(true);
+                  setInspectFloor(true);
                 }}
               >
-                Use selected object’s top as ground
+                Inspect floor cut
               </button>
-            )}
-            {heightValid ? (
-              <p className="studio-caption" role="status">
-                {heightOffset === 0
-                  ? 'Original project height. To align a floor, select it in the workspace and prepare the model.'
-                  : `${heightOffset < 0 ? 'Lower' : 'Raise'} by ${Number(Math.abs(heightOffset * scale).toFixed(3))} m at 1:${Number((1 / scale).toFixed(1))}. ${url && preparedSignature.current === signature ? 'Ready for Apple AR.' : 'Prepare again to apply.'}`}
-              </p>
-            ) : (
-              <p role="alert">Enter a height between −1000 and 1000 m.</p>
-            )}
-            <small>
-              Applied to the exported model. Apple controls ground placement;
-              verify the height on your iPhone. Return here to adjust it again.
-            </small>
-          </fieldset>
+              {!heightValid && (
+                <p role="alert">
+                  Enter a floor level between −2000 and 2000 m.
+                </p>
+              )}
+              <small>
+                Preview changes immediately. Opening Apple AR still prepares its
+                viewing copy automatically; no manual file export is needed.
+                Close Apple AR to choose another floor.
+              </small>
+            </>
+          )}
+        </fieldset>
+        <label className="ar-scale-lock">
+          <input
+            type="checkbox"
+            disabled={busy}
+            checked={selectedOnly}
+            onChange={(e) => {
+              setSelectedOnly(e.target.checked);
+              invalidateExport();
+            }}
+          />
+          Only selected objects
+        </label>
+        <p className="studio-caption">
+          Phone AR uses a lighter copy, up to 100,000 triangles. Fine details
+          may be simplified; project dimensions and your full-detail original
+          are kept.
+        </p>
+        {busy && (
+          <div className="ar-preparation-progress" role="status">
+            <p>{preparationStatus}</p>
+            <button
+              onClick={() => {
+                preparationAbort.current?.abort();
+                setPreparationStatus('Cancelling…');
+              }}
+            >
+              Cancel preparation
+            </button>
+          </div>
         )}
+        {preparationReport &&
+          url &&
+          preparedSignature.current === signature && (
+            <p className="studio-caption" role="status">
+              {preparationReport}
+            </p>
+          )}
         {handoff ? (
           <section
             className="ar-tracked-guide"

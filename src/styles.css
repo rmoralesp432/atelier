@@ -5495,6 +5495,37 @@ summary:focus-visible {
 .ar-height-fields small {
   color: var(--muted);
 }
+.immersive .section-panel.ar-panel[data-floor-preview='true'] {
+  top: auto !important;
+  bottom: max(28px, env(safe-area-inset-bottom)) !important;
+  max-height: 240px !important;
+  height: auto;
+  padding: 16px;
+}
+.ar-panel[data-floor-preview='true'] > .studio-panel-heading {
+  min-height: 40px;
+  margin-bottom: 8px;
+  padding-block: 4px;
+}
+.ar-floor-preview-toolbar label {
+  margin: 0;
+}
+.ar-panel[data-floor-preview='true']
+  > :not(.studio-panel-heading):not(.ar-floor-preview-toolbar) {
+  display: none;
+}
+.ar-floor-preview-toolbar {
+  display: grid;
+  gap: 12px;
+}
+.ar-floor-preview-toolbar input {
+  width: 100%;
+}
+.ar-preparation-progress {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
 .ar-scale-fields:disabled :is(input, select) {
   opacity: 0.55;
 }

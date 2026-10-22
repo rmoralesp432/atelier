@@ -30,6 +30,7 @@ import {
   Suspense,
   useCallback,
   useEffect,
+  useMemo,
   useRef,
   useState,
   type ReactNode,
@@ -377,6 +378,21 @@ export default function App({
     setLayersOpen = panels.setters.layers;
   const [toolsOpen, setToolsOpen] = useState(false);
   const [arActive, setARActive] = useState(false);
+  const [arPreparing, setARPreparing] = useState(false);
+  const [arFloorPreview, setARFloorPreview] = useState<number | null>(null);
+  const viewportSection = useMemo(
+    () =>
+      arFloorPreview === null
+        ? section
+        : {
+            enabled: true,
+            planeVisible: true,
+            axis: 'y' as const,
+            position: arFloorPreview,
+            flip: true,
+          },
+    [section, arFloorPreview],
+  );
   const [arConversationHost, setARConversationHost] =
     useState<HTMLDivElement | null>(null);
   const [moodboard, setMoodboard] = useState(() =>
@@ -2108,6 +2124,8 @@ export default function App({
             )}
             {panels.active === 'ar' && (
               <ARPanel
+                onFloorPreview={setARFloorPreview}
+                onPreparing={setARPreparing}
                 onReload={async () => {
                   if (!onSnapshot || !boot.storageSafe)
                     throw new Error(
@@ -2304,7 +2322,10 @@ export default function App({
               touchNavigation={phoneLayout ? touchNavigation : null}
               tool={presentation || alignMap ? 'select' : tool}
               presenting={presentation}
-              suspended={arActive || moodboardOpen || panoramaOpen}
+              suspended={
+                arActive || arPreparing || moodboardOpen || panoramaOpen
+              }
+              releaseGPU={arPreparing}
               cameraSettings={cameraSettings}
               solar={solar}
               onSelectMany={(ids, additive) => {
@@ -2353,7 +2374,8 @@ export default function App({
                 setView((v) => ({ ...v, mode: 'perspective' }));
               }}
               onMapSite={(site) => commit({ ...current.current, site }, false)}
-              section={section}
+              section={viewportSection}
+              sectionPreviewOnly={arFloorPreview !== null}
               sectionEditing={sectionOpen && !!section.planeVisible}
               onSectionChange={setSection}
               view={view}

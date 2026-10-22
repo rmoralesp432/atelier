@@ -59,6 +59,8 @@ type Props = {
   onTool: (tool: Tool) => void;
   presenting: boolean;
   suspended: boolean;
+  releaseGPU?: boolean;
+  sectionPreviewOnly?: boolean;
   cameraSettings: CameraSettings;
   solar: SolarStudy;
   onSelectMany: (ids: string[], additive: boolean) => void;
@@ -128,6 +130,17 @@ export default function Viewport(props: Props) {
   const runtime = useRef<Runtime | null>(null);
   const latest = useRef(props);
   latest.current = props;
+  useEffect(() => {
+    if (!props.releaseGPU || !runtime.current) return;
+    // AR preparation must not compete with the dense scene's duplicate GPU
+    // buffers. Three will upload these unchanged CPU geometries on next render.
+    for (const group of runtime.current.objects.values())
+      group.traverse((o) => {
+        if (o instanceof THREE.Mesh || o instanceof THREE.Line)
+          o.geometry.dispose();
+      });
+    runtime.current.renderer.renderLists.dispose();
+  }, [props.releaseGPU]);
   const geometryKey = props.project.volumes
     .filter((v) => isVisible(v, props.project))
     .map(
@@ -2051,7 +2064,7 @@ export default function Viewport(props: Props) {
     const caps = new THREE.Group();
     r.scene.add(caps);
     const timer = setTimeout(() => {
-      if (!section.enabled) return;
+      if (!section.enabled || props.sectionPreviewOnly) return;
       void Promise.all(
         props.project.volumes
           .filter((v) => isVisible(v, props.project))
@@ -2099,7 +2112,7 @@ export default function Viewport(props: Props) {
       r.scene.remove(caps);
       disposeObject(caps);
     };
-  }, [props.section, geometryKey]);
+  }, [props.section, props.sectionPreviewOnly, geometryKey]);
 
   useEffect(() => {
     const r = runtime.current,

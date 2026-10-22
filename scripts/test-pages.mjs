@@ -200,8 +200,31 @@ try {
   );
   await page.getByRole('button', { name: 'Back to model' }).click();
   assert.deepEqual(errors, []);
+  // AR reduction/export runs in a separate module worker at the same subpath.
+  const camera = page.getByRole('button', {
+    name: 'Camera settings',
+    exact: true,
+  });
+  if (!(await camera.isVisible()))
+    await page
+      .getByRole('button', { name: 'Design tools', exact: true })
+      .click();
+  await camera.click();
+  await page.getByRole('button', { name: 'View in your space · AR' }).click();
+  await page
+    .getByRole('button', { name: 'Prepare AR model', exact: true })
+    .click();
+  const ar = page.getByRole('link', { name: 'Download AR model (.usdz)' });
+  await ar.waitFor({ timeout: 30000 });
+  const magic = await ar.evaluate(async (a) =>
+    Array.from(
+      new Uint8Array(await (await fetch(a.href)).arrayBuffer()).slice(0, 4),
+    ),
+  );
+  assert.deepEqual(magic, [80, 75, 3, 4]);
+  assert.deepEqual(errors, []);
   console.log(
-    'PASS: production app loads at /atelier/ with valid JS/CSS/WASM paths, actual solid rendering, direct editing, reload persistence and lazy 3D moodboard/model assets and real Revit FBX / panorama imports. Static Pages has no AI backend.',
+    'PASS: production app loads at /atelier/ with valid JS/CSS/WASM paths, actual solid rendering, direct editing, reload persistence, lazy 3D moodboard/model assets, real Revit FBX / panorama imports and worker-prepared AR USDZ. Static Pages has no AI backend.',
   );
 } finally {
   await browser?.close();
