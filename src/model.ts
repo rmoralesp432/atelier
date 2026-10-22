@@ -1,19 +1,93 @@
+import { validateSite, type Site } from './studio/site';
+import type { MeshRecipe } from './imports/mesh';
+import { validateRecipe } from './geometry/kernel';
 export type Vec3 = { x: number; y: number; z: number };
 export type Dimensions = { width: number; depth: number; height: number };
+import type { FormRecipe } from './geometry/forms';
+export type GeometryRecipe =
+  | FormRecipe
+  | {
+      kind: 'oriented';
+      source: Volume;
+      degrees: Vec3;
+      origin: Vec3;
+      base: Dimensions;
+    }
+  | { kind: 'hollow'; source: Volume; thickness: number; openTop: boolean }
+  | MeshRecipe
+  | { kind: 'person' | 'tree' }
+  | { kind: 'mirror'; source: Volume; axis: 'x' | 'z' }
+  | { kind: 'box' | 'cylinder' | 'sphere' | 'rectangle' | 'circle' }
+  | { kind: 'extrusion'; profile: 'rectangle' | 'circle' }
+  | { kind: 'polygon'; points: { x: number; z: number }[]; extruded: boolean }
+  | {
+      kind: 'building';
+      source: Volume;
+      base: Dimensions;
+      floors: number;
+      slabThickness: number;
+      facade: boolean;
+      panelWidth: number;
+      fixedWindowWidth?: number;
+      mullionWidth: number;
+    }
+  | {
+      kind: 'boolean';
+      operation: 'union' | 'subtract' | 'intersect';
+      operands: Volume[];
+      origin: Vec3;
+      base: Dimensions;
+      opening?: boolean;
+    };
 export type Volume = {
+  /** Omitted in older projects; objects are visible by default. */
+  visible?: boolean;
+  /** Material of an independently editable architectural component. */
+  material?: 'solid' | 'glass' | 'frame';
+  geometry?: GeometryRecipe;
+  groupId?: string;
+  display?: {
+    mode: 'architecture' | 'volume';
+    floors: boolean;
+    glass: boolean;
+  };
+  color?: string;
   id: string;
   name: string;
   dimensions: Dimensions;
   position: Vec3;
   rotation: number;
 };
-export type Project = { volumes: Volume[]; selectedId: string | null };
+export type ObjectGroup = {
+  id: string;
+  name: string;
+  visible: boolean;
+  locked: boolean;
+};
+export const isVisible = (v: Volume, p: Project) =>
+  v.visible !== false &&
+  p.groups?.find((g) => g.id === v.groupId)?.visible !== false;
+export const isLocked = (v: Volume, p: Project) =>
+  p.groups?.find((g) => g.id === v.groupId)?.locked === true;
+export type Project = {
+  groups?: ObjectGroup[];
+  site?: Site;
+  volumes: Volume[];
+  selectedId: string | null;
+  selectedIds?: string[];
+};
 export const STORAGE_KEY = 'atelier.project.v1';
 export const MAX_VOLUMES = 200;
-export const round = (n: number) => Math.round(n * 1000) / 1000;
-export function validateVolume(v: Volume): void {
+export const round = (n: number) => Math.round(n * 1000) / 1000 + 0;
+export function validateVolume(v: Volume, checkGeometry = true): void {
+  const minimum =
+    v.geometry?.kind === 'mesh' || v.geometry?.kind === 'person' ? 0.001 : 0.1;
+  if (v.visible !== undefined && typeof v.visible !== 'boolean')
+    throw new Error('Object visibility must be true or false.');
   if (
+    typeof v.id !== 'string' ||
     !v.id ||
+    v.id.length > 100 ||
     typeof v.name !== 'string' ||
     !v.name.trim() ||
     v.name.length > 80
@@ -25,11 +99,11 @@ export function validateVolume(v: Volume): void {
     !['width', 'depth', 'height'].every(
       (k) =>
         Number.isFinite(v.dimensions[k as keyof Dimensions]) &&
-        v.dimensions[k as keyof Dimensions] >= 0.1 &&
+        v.dimensions[k as keyof Dimensions] >= minimum &&
         v.dimensions[k as keyof Dimensions] <= 500,
     )
   )
-    throw new Error('Dimensions must be between 0.1 and 500 meters.');
+    throw new Error(`Dimensions must be between ${minimum} and 500 meters.`);
   if (
     !v.position ||
     !['x', 'y', 'z'].every(
@@ -42,6 +116,21 @@ export function validateVolume(v: Volume): void {
     throw new Error(
       'Coordinates must be within ±1,000 m; elevation Y cannot be negative.',
     );
+  if (
+    v.display &&
+    (!['architecture', 'volume'].includes(v.display.mode) ||
+      typeof v.display.floors !== 'boolean' ||
+      typeof v.display.glass !== 'boolean')
+  )
+    throw new Error('Invalid building display settings.');
+  if (
+    v.material !== undefined &&
+    !['solid', 'glass', 'frame'].includes(v.material)
+  )
+    throw new Error('Invalid component material.');
+  if (v.color !== undefined && !/^#[0-9a-f]{6}$/i.test(v.color))
+    throw new Error('Use a six-digit hex object color.');
+  if (checkGeometry) validateRecipe(v.geometry);
   if (!Number.isFinite(v.rotation))
     throw new Error('Rotation must be a finite number.');
 }
@@ -68,6 +157,17 @@ export function initialProject(): Project {
   b.position = { x: 6.5, y: 0, z: 0 };
   return { volumes: [a, b], selectedId: a.id };
 }
+export function buildingSettings(v: Volume) {
+  const g = v.geometry;
+  if (g?.kind !== 'building') return null;
+  return {
+    floors: g.floors,
+    facade: g.facade,
+    slabThickness: (g.slabThickness * v.dimensions.height) / g.base.height,
+    panelWidth: (g.panelWidth * v.dimensions.width) / g.base.width,
+    mullionWidth: (g.mullionWidth * v.dimensions.width) / g.base.width,
+  };
+}
 export function updateVolume(
   project: Project,
   id: string,
@@ -77,34 +177,88 @@ export function updateVolume(
     ...project,
     volumes: project.volumes.map((v) => {
       if (v.id !== id) return v;
+      if (isLocked(v, project))
+        throw new Error(
+          'This group is locked. Unlock it before editing its objects.',
+        );
       const next = { ...v, ...patch };
-      validateVolume(next);
+      if (
+        patch.dimensions &&
+        !patch.geometry &&
+        v.geometry?.kind === 'building'
+      ) {
+        // Resize the envelope without silently scaling stated slab/frame sizes.
+        next.geometry = {
+          ...v.geometry,
+          ...buildingSettings(v),
+          base: { ...next.dimensions },
+          source: { ...v.geometry.source, dimensions: { ...next.dimensions } },
+        };
+      }
+      if (patch.dimensions && !patch.geometry && v.geometry?.kind === 'hollow')
+        next.geometry = {
+          ...v.geometry,
+          source: { ...v.geometry.source, dimensions: { ...next.dimensions } },
+        };
+      // Existing recipes were validated when created/imported. A color, name,
+      // position or dimension edit must not rescan every unchanged mesh index.
+      validateVolume(next, next.geometry !== v.geometry);
       return next;
     }),
   };
 }
 export function parseProject(text: string): Project {
-  const raw = JSON.parse(text);
+  return parseProjectValue(JSON.parse(text));
+}
+/** Validate decoded data without copying shared mesh assets in large histories. */
+export function parseProjectValue(raw: any): Project {
   if (
-    raw.version !== 1 ||
+    ![1, 2].includes(raw.version) ||
     !Array.isArray(raw.volumes) ||
     raw.volumes.length > MAX_VOLUMES
   )
     throw new Error('Unsupported project file.');
+  if (raw.site !== undefined) validateSite(raw.site);
+  if (
+    raw.groups !== undefined &&
+    (!Array.isArray(raw.groups) ||
+      raw.groups.length > 50 ||
+      raw.groups.some(
+        (g: any) =>
+          !g ||
+          typeof g.id !== 'string' ||
+          !g.id ||
+          g.id.length > 100 ||
+          typeof g.name !== 'string' ||
+          !g.name.trim() ||
+          g.name.length > 80 ||
+          typeof g.visible !== 'boolean' ||
+          typeof g.locked !== 'boolean',
+      ) ||
+      new Set(raw.groups.map((g: any) => g.id)).size !== raw.groups.length)
+  )
+    throw new Error('Invalid project groups.');
   const ids = new Set<string>();
   for (const v of raw.volumes) {
     if (!v || typeof v.id !== 'string' || ids.has(v.id))
       throw new Error('Invalid volume identifier.');
     validateVolume(v);
+    if (v.groupId && !raw.groups?.some((g: any) => g.id === v.groupId))
+      throw new Error('Object refers to a missing group.');
     ids.add(v.id);
   }
   return {
+    ...(raw.groups ? { groups: raw.groups } : {}),
+    ...(raw.site ? { site: raw.site } : {}),
     volumes: raw.volumes,
     selectedId: ids.has(raw.selectedId) ? raw.selectedId : null,
+    ...(Array.isArray(raw.selectedIds)
+      ? { selectedIds: raw.selectedIds.filter((id: string) => ids.has(id)) }
+      : {}),
   };
 }
 export function serializeProject(p: Project): string {
-  return JSON.stringify({ version: 1, ...p }, null, 2);
+  return JSON.stringify({ version: 2, ...p }, null, 2);
 }
 
 export const COMMAND_EXAMPLES = [
@@ -140,12 +294,19 @@ export function executeCommand(
       height: +m[3],
     });
     return {
-      project: { volumes: [...project.volumes, v], selectedId: v.id },
+      project: {
+        ...project,
+        volumes: [...project.volumes, v],
+        selectedId: v.id,
+        selectedIds: [v.id],
+      },
       message: `Created ${v.name} · ${m[1]} × ${m[2]} × ${m[3]} m`,
     };
   }
   const selected = project.volumes.find((v) => v.id === project.selectedId);
   const requireSelection = () => {
+    if (selected && isLocked(selected, project))
+      throw new Error('This group is locked. Unlock it before editing.');
     if (!selected) throw new Error('Select a volume first.');
     return selected;
   };
@@ -164,13 +325,30 @@ export function executeCommand(
     requireSelection();
     patch = { rotation: ((+m[1] % 360) + 360) % 360 };
   } else if (text === 'delete selected') {
-    const v = requireSelection();
+    const ids = new Set(
+      project.selectedIds?.length
+        ? project.selectedIds
+        : project.selectedId
+          ? [project.selectedId]
+          : [],
+    );
+    const targets = project.volumes.filter((v) => ids.has(v.id));
+    if (!targets.length) throw new Error('Select a volume first.');
+    if (targets.some((v) => isLocked(v, project)))
+      throw new Error(
+        'The selection includes a locked group. Unlock it before deleting. Nothing was deleted.',
+      );
     return {
       project: {
-        volumes: project.volumes.filter((item) => item.id !== v.id),
+        ...project,
+        volumes: project.volumes.filter((item) => !ids.has(item.id)),
         selectedId: null,
+        selectedIds: [],
       },
-      message: `Deleted ${v.name}`,
+      message:
+        targets.length === 1
+          ? `Deleted ${targets[0].name}`
+          : `Deleted ${targets.length} objects. Undo restores the selection.`,
     };
   } else if (text === 'duplicate selected') {
     const v = requireSelection();
@@ -184,7 +362,12 @@ export function executeCommand(
     };
     validateVolume(copy);
     return {
-      project: { volumes: [...project.volumes, copy], selectedId: copy.id },
+      project: {
+        ...project,
+        volumes: [...project.volumes, copy],
+        selectedId: copy.id,
+        selectedIds: [copy.id],
+      },
       message: `Duplicated ${v.name}`,
     };
   } else
