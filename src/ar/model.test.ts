@@ -1,5 +1,13 @@
 import { it, expect } from 'vitest';
-import { Box3, Vector3 } from 'three';
+import {
+  Box3,
+  Vector3,
+  Group,
+  Mesh,
+  BufferGeometry,
+  BufferAttribute,
+} from 'three';
+import { AR_TRIANGLE_LIMIT } from './preparation';
 import { createARModel, disposeARModel, exportARModel } from './model';
 import type { Project } from '../model';
 it('exports a genuine meter-based USDZ snapshot without mutating or including hidden geometry', async () => {
@@ -110,7 +118,7 @@ it.each([
     expect(root).toBeDefined();
     expect(root[5]).toBeCloseTo(scale);
     expect(root[12]).toBe(0);
-    expect(root[13]).toBeCloseTo(offset * scale);
+    expect(root[13]).toBeCloseTo(offset);
     expect(root[14]).toBe(0);
     expect(usdz).toContain('metersPerUnit = 1');
     expect(model.position.y).toBe(0);
@@ -120,6 +128,22 @@ it.each([
     disposeARModel(model);
   },
 );
+it('rejects oversized AR output before USDZ serialization', async () => {
+  const geometry = new BufferGeometry();
+  geometry.setAttribute(
+    'position',
+    new BufferAttribute(new Float32Array([0, 0, 0, 1, 0, 0, 0, 1, 0]), 3),
+  );
+  geometry.setIndex(
+    new BufferAttribute(new Uint32Array((AR_TRIANGLE_LIMIT + 1) * 3), 1),
+  );
+  const root = new Group();
+  root.add(new Mesh(geometry));
+  await expect(exportARModel(root, 1)).rejects.toThrow('safe export limit');
+  expect(geometry.index!.count).toBe((AR_TRIANGLE_LIMIT + 1) * 3);
+  disposeARModel(root);
+});
+
 it('keeps the initial project origin during live AR edits so existing objects do not jump', async () => {
   const p: Project = {
     selectedId: null,

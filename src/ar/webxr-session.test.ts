@@ -71,6 +71,9 @@ it('places and fits genuine scene geometry using explicit XR tracking fixtures; 
     ended,
     undefined,
     fit,
+    undefined,
+    0,
+    0.25,
   );
   const frameAt = (x: number, y: number, z: number) => {
     const matrix = new THREE.Matrix4().makeTranslation(x, y, z).toArray();
@@ -107,7 +110,7 @@ it('places and fits genuine scene geometry using explicit XR tracking fixtures; 
     (o) => o instanceof THREE.Group,
   )!;
   expect(anchor.visible).toBe(true);
-  expect(anchor.position.toArray()).toEqual([2, 0, 3]);
+  expect(anchor.position.toArray()).toEqual([2, 0.25, 3]);
   expect(anchor.children[0].scale.x).toBe(0.01);
   control.fitWidth(20);
   frameAt(0, 0, 0);
@@ -115,12 +118,12 @@ it('places and fits genuine scene geometry using explicit XR tracking fixtures; 
   frameAt(0, 0, 2);
   xr.dispatchEvent(new Event('select'));
   expect(fit).toHaveBeenCalledWith(0.1, -90);
-  expect(anchor.position.toArray()).toEqual([0, 0, 1]);
+  expect(anchor.position.toArray()).toEqual([0, 0.25, 1]);
   expect(anchor.children[0].rotation.y).toBeCloseTo(-Math.PI / 2);
   const updated = model.clone(true);
   updated.children[0].position.x = 5;
   control.updateModel(updated);
-  expect(anchor.position.toArray()).toEqual([0, 0, 1]);
+  expect(anchor.position.toArray()).toEqual([0, 0.25, 1]);
   expect(anchor.children[0].scale.x).toBe(0.1);
   expect(anchor.children[0].children[0].position.x).toBe(5);
   // Subsequent fit compensates for shifted geometry rather than moving the width off its real span.

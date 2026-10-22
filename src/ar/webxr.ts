@@ -32,8 +32,11 @@ export async function startAR(
   onFit?: (scale: number, rotation: number) => void,
   onCamera?: (camera: CameraContext) => void,
   initialRotation = 0,
+  initialHeight = 0,
 ): Promise<ARSessionControl> {
   if (signal?.aborted) throw new Error('AR was closed.');
+  if (!Number.isFinite(initialHeight) || Math.abs(initialHeight) > 1000)
+    throw new Error('Choose an AR height adjustment between −1000 and 1000 m.');
   if (!navigator.xr) throw new Error('This browser does not support WebXR AR.');
   // Invoke the permission request in the original button gesture.
   const session = await navigator.xr.requestSession('immersive-ar', {
@@ -140,6 +143,7 @@ export async function startAR(
             .multiplyScalar(fit.scale)
             .applyAxisAngle(new THREE.Vector3(0, 1, 0), copy.rotation.y);
           anchor.position.copy(fit.position).sub(center);
+          anchor.position.y += initialHeight;
           onFit?.(fit.scale, fit.rotation);
           fitting = null;
           placed = true;
@@ -163,6 +167,7 @@ export async function startAR(
           .multiplyScalar(copy.scale.x)
           .applyAxisAngle(new THREE.Vector3(0, 1, 0), copy.rotation.y),
       );
+      anchor.position.y += initialHeight;
       anchor.visible = true;
       placed = true;
       reticle.visible = false;

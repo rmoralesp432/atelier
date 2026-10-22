@@ -230,9 +230,9 @@ export async function exportARModel(
   setARTransparency(copy, transparent);
   copy.scale.setScalar(scale);
   copy.rotation.y = (rotation * Math.PI) / 180;
-  // Offset is in project meters, so it follows the viewing ratio. Translate
-  // only this detached export; never move the original project or rescale it.
-  copy.position.y += heightOffset * scale;
+  // Legacy offset is in viewed AR meters, independent of viewing scale.
+  // The floor-cut UI rebases geometry earlier and passes zero here.
+  copy.position.y += heightOffset;
   scene.add(copy);
   scene.updateMatrixWorld(true);
   try {

@@ -135,6 +135,8 @@ The existing [model-viewer Quick Look handoff](https://github.com/google/model-v
 
 ## Try a different ground height in iPhone AR — October 20, 2026
 
+**Superseded by [AR floor cuts and bounded preparation](AR-FLOORS.md).** The user's iPhone test showed that Apple re-grounds the offset-only model. The current interface therefore uses an actual floor cut and rebase, with a live workspace preview; the instructions below document the earlier workaround.
+
 1. Open **Tools → Camera → View in your space · AR** on iPhone.
 2. Under **Height in real AR**, enter an offset such as **−1.5 m** to lower the exported model. **Lower 25 cm**, **Raise 25 cm** and **Reset height** provide small adjustments. These are project meters: at 1:100, a −1.5 m project offset becomes −1.5 cm in the AR export.
 3. Choose **Prepare life-size AR**, then **Open real AR**. This exports at 1:1 and allows Apple's pinch-to-resize gesture. **Keep the chosen scale in iPhone AR** disables native resizing when checked. For a life-size export, 100% in Apple's viewer is the exported 1:1 size.
