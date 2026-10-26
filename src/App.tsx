@@ -59,6 +59,7 @@ function NumericField({
   unit = 'm',
   min,
   max,
+  step = 0.001,
 }: {
   label: string;
   value: number;
@@ -66,6 +67,7 @@ function NumericField({
   unit?: string;
   min?: number;
   max?: number;
+  step?: number;
 }) {
   const [draft, setDraft] = useState(String(value));
   useEffect(() => setDraft(String(value)), [value]);
@@ -81,7 +83,7 @@ function NumericField({
         <input
           aria-label={label}
           type="number"
-          step="0.1"
+          step={step}
           min={min}
           max={max}
           value={draft}
@@ -627,6 +629,7 @@ export default function App() {
                   label="Yaw"
                   value={selected.rotation}
                   unit="°"
+                  step={1}
                   onChange={(n) =>
                     change(selected.id, {
                       rotation: round(((n % 360) + 360) % 360),
