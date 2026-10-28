@@ -1,3 +1,4 @@
+import { designOperations } from '../design/schema';
 import { z } from 'zod';
 
 const ids = z.array(z.string().min(1).max(100)).min(1).max(20);
@@ -80,6 +81,7 @@ const profilePoints = z
   .max(64);
 const formPosition = point;
 export const operationSchema = z.discriminatedUnion('type', [
+  ...designOperations,
   z
     .object({
       type: z.literal('walk_to'),
@@ -540,6 +542,8 @@ export function parsePlan(raw: unknown): Plan {
 export const needsConfirmation = (plan: Plan) =>
   plan.operations.some(
     (op) =>
+      (op.type === 'alternative' && op.action === 'restore') ||
+      op.type === 'furnish' ||
       op.type === 'delete' ||
       op.type === 'boolean' ||
       op.type === 'opening' ||

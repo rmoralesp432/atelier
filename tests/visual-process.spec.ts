@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { test, expect } from '@playwright/test';
 test('processing feedback follows a real pending request, then geometry formation; no pretend progress changes the project', async ({
   page,
@@ -96,7 +97,7 @@ test('edits reveal the actual replacement geometry without changing saved dimens
     'data-rendered',
     'true',
   );
-  await page.getByRole('button', { name: 'Expand inspector' }).click();
+  await openTool(page, 'Expand inspector');
   const width = page.getByRole('spinbutton', { name: 'Width', exact: true });
   await width.fill('22');
   await width.press('Enter');

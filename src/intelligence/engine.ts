@@ -1,3 +1,6 @@
+import { equalData } from '../projects/equalData';
+import { furnishRoom } from '../design/layout';
+import { componentInfo, propagateHosted } from '../design/model';
 import { resolveWalkPlacement } from '../studio/walkPlacement';
 import { encodeSession, decodeSession } from '../projects/sessionCodec';
 import { setObjectVisibility } from '../studio/visibility';
@@ -9,7 +12,7 @@ import {
   parseProjectValue,
   round,
   serializeProject,
-  updateVolume,
+  updateVolume as updateSingleVolume,
   validateVolume,
   type Project,
   type Volume,
@@ -46,6 +49,13 @@ import {
   type Operation,
   type Plan,
 } from './plan';
+// Apply host constraints once per complete operation, so explicit group edits
+// are not applied twice to components.
+const updateVolume = (
+  p: Project,
+  id: string,
+  patch: Partial<Omit<Volume, 'id'>>,
+) => updateSingleVolume(p, id, patch, false);
 export type Session = {
   project: Project;
   past: Project[];
@@ -96,7 +106,7 @@ export function commitProject(s: Session, project: Project): Session {
   if (serializeProject(s.project) === serializeProject(project)) return s;
   return { ...s, project, past: [...s.past.slice(-49), s.project], future: [] };
 }
-function resolveIds(refs: string[], s: Session): string[] {
+export function resolveIds(refs: string[], s: Session): string[] {
   const result = refs.flatMap((ref) =>
     ref === '$selected'
       ? s.project.selectedIds?.length
@@ -178,7 +188,26 @@ export async function applyPlan(
     throw new Error(
       'Review the identified operands before applying this change.',
     );
-  const s = structuredClone(original);
+  const copyProject = (p: Project): Project => ({
+    ...p,
+    volumes: p.volumes.map((v) => ({
+      ...v,
+      position: { ...v.position },
+      dimensions: { ...v.dimensions },
+      component: v.component ? { ...v.component } : undefined,
+    })),
+    groups: p.groups?.map((g) => ({ ...g })),
+    selectedIds: p.selectedIds ? [...p.selectedIds] : undefined,
+    design: p.design
+      ? { views: [...p.design.views], options: [...p.design.options] }
+      : undefined,
+  });
+  const s: Session = {
+    project: copyProject(original.project),
+    past: [...original.past],
+    future: [...original.future],
+    context: structuredClone(original.context),
+  };
   const reports: string[] = [];
   let beforeEdit: Project | null = null;
   for (const op of plan.operations) {
@@ -187,7 +216,9 @@ export async function applyPlan(
     if (
       op.type === 'workspace' ||
       op.type === 'section' ||
-      op.type === 'walk_to'
+      op.type === 'walk_to' ||
+      op.type === 'explore' ||
+      op.type === 'show_view'
     )
       continue;
     if (op.type === 'undo' || op.type === 'redo') {
@@ -201,7 +232,7 @@ export async function applyPlan(
         throw new Error(`There are not ${op.count} changes to ${op.type}.`);
       for (let i = 0; i < op.count; i++) {
         destination.push(s.project);
-        s.project = source.pop()!;
+        s.project = copyProject(source.pop()!);
       }
       s.context.focusIds = (
         s.project.selectedIds?.length
@@ -278,11 +309,154 @@ export async function applyPlan(
       reports.push(`Selected ${s.context.focusIds.length} object(s).`);
       continue;
     }
+    const operationBefore = s.project.volumes;
     const lockedBefore = s.project.volumes
       .filter((v) => isLocked(v, s.project))
-      .map((v) => structuredClone(v));
-    beforeEdit ??= structuredClone(s.project);
-    if (op.type === 'visibility') {
+      .map((v) => ({
+        ...v,
+        position: { ...v.position },
+        dimensions: { ...v.dimensions },
+        component: v.component ? { ...v.component } : undefined,
+      }));
+    beforeEdit ??= copyProject(s.project);
+    if (op.type === 'component') {
+      const ids = resolveIds(op.targets, s);
+      const hostId = op.settings.hostId ? one(op.settings.hostId, s).id : null;
+      if (hostId && ids.includes(hostId))
+        throw new Error('An element cannot host itself.');
+      s.project.volumes = s.project.volumes.map((v) =>
+        ids.includes(v.id)
+          ? { ...v, component: { ...op.settings, hostId } }
+          : v,
+      );
+      for (const v of s.project.volumes) {
+        const visited = new Set<string>();
+        let parent: Volume | undefined = v;
+        while (parent?.component?.hostId) {
+          if (visited.has(parent.id))
+            throw new Error('Component relationships cannot contain cycles.');
+          visited.add(parent.id);
+          parent = s.project.volumes.find(
+            (o) => o.id === parent!.component!.hostId,
+          );
+        }
+      }
+      reports.push(`Identified ${ids.length} ${op.settings.role} element(s).`);
+    } else if (op.type === 'alternative') {
+      const library = s.project.design ?? { views: [], options: [] };
+      const option = library.options.find((o) => o.name === op.name);
+      if (op.action === 'save') {
+        if (!option && library.options.length >= 6)
+          throw new Error(
+            'Keep up to six alternatives. Delete an unused option first.',
+          );
+        s.project.design = {
+          ...library,
+          options: [
+            ...library.options.filter((o) => o.name !== op.name),
+            {
+              name: op.name,
+              volumes: s.project.volumes.map((v) => ({ ...v })),
+              groups: (s.project.groups ?? []).map((g) => ({ ...g })),
+            },
+          ],
+        };
+        reports.push(`Saved editable alternative “${op.name}”.`);
+      } else {
+        if (!option) throw new Error('Which saved alternative should I use?');
+        if (op.action === 'delete')
+          s.project.design = {
+            ...library,
+            options: library.options.filter((o) => o !== option),
+          };
+        else {
+          s.project = {
+            ...s.project,
+            volumes: option.volumes.map((v) => ({ ...v })),
+            groups: option.groups.map((g) => ({ ...g })),
+            selectedId: null,
+            selectedIds: [],
+          };
+          focus(s, []);
+        }
+        reports.push(
+          op.action === 'restore'
+            ? `Applied “${op.name}”. Undo restores your previous composition.`
+            : `Removed alternative “${op.name}”; current geometry is unchanged.`,
+        );
+      }
+    } else if (op.type === 'save_view' || op.type === 'room_views') {
+      const library = s.project.design ?? { views: [], options: [] };
+      const requests =
+        op.type === 'room_views'
+          ? s.project.volumes
+              .filter((v) => v.component?.role === 'room')
+              .map((v) => ({ name: v.name, targets: [v.id], cutaway: true }))
+          : [
+              {
+                name: op.name,
+                targets: op.targets.length ? resolveIds(op.targets, s) : [],
+                cutaway: op.cutaway,
+              },
+            ];
+      if (!requests.length)
+        throw new Error(
+          'Identify the room envelopes first; imported triangles do not describe rooms automatically.',
+        );
+      let views = [...library.views];
+      for (const request of requests) {
+        const vs = request.targets.map((id) =>
+          s.project.volumes.find((v) => v.id === id)!,
+        );
+        const b = vs.length ? groupBounds(vs) : null;
+        if (!vs.length && !camera.pose)
+          throw new Error(
+            'The camera is not ready. Try saving the view again.',
+          );
+        const saved = {
+          name: request.name,
+          pose: vs.length ? null : camera.pose!,
+          targets: request.targets,
+          section:
+            request.cutaway && b
+              ? {
+                  enabled: true,
+                  planeVisible: false,
+                  axis: 'y' as const,
+                  position: b.min.y + (b.max.y - b.min.y) * 0.65,
+                  flip: false,
+                }
+              : null,
+        };
+        views = [...views.filter((v) => v.name !== saved.name), saved];
+      }
+      if (views.length > 30)
+        throw new Error('This project supports thirty saved views.');
+      s.project.design = { ...library, views };
+      reports.push(`Saved ${requests.length} view(s). Geometry is unchanged.`);
+    } else if (op.type === 'furnish') {
+      const room = one(op.room, s),
+        created = furnishRoom(s.project, room, op.layout, op.clearance);
+      if ((s.project.groups?.length ?? 0) >= 50)
+        throw new Error('The workspace already has fifty groups.');
+      s.project.groups = [
+        ...(s.project.groups ?? []),
+        {
+          id: created[0].groupId!,
+          name: `${room.name} · ${op.layout}`,
+          visible: true,
+          locked: false,
+        },
+      ];
+      s.project.volumes.push(...created);
+      focus(
+        s,
+        created.map((v) => v.id),
+      );
+      reports.push(
+        `Placed ${created.length} editable concept furniture parts in ${room.name}, with ${op.clearance} m perimeter clearance. Checked room fit and existing-object envelope collisions; this is not a code or egress assessment.`,
+      );
+    } else if (op.type === 'visibility') {
       const ids = resolveIds(op.targets, s);
       s.project = setObjectVisibility(s.project, ids, op.visible);
       s.context.focusIds = ids;
@@ -958,6 +1132,19 @@ export async function applyPlan(
       if (isLocked(v, s.project))
         throw new Error('Unlock this group before editing its components.');
       const components = await editableBuildingComponents(v);
+      components.forEach((c) => {
+        c.component = {
+          ...componentInfo(c),
+          role:
+            c.material === 'glass'
+              ? 'window'
+              : c.material === 'frame'
+                ? 'column'
+                : 'floor',
+          hostId: null,
+          level: `Elevation ${c.position.y.toFixed(2)} m`,
+        };
+      });
       if (s.project.volumes.length - 1 + components.length > MAX_VOLUMES)
         throw new Error(
           'The components would exceed the 200-object workspace limit. Use fewer floors or wider panels first.',
@@ -1310,27 +1497,72 @@ export async function applyPlan(
       );
     } else if (op.type === 'delete') {
       const ids = resolveIds(op.targets, s);
-      s.project.volumes = s.project.volumes.filter((v) => !ids.includes(v.id));
+      s.project.volumes = s.project.volumes
+        .filter((v) => !ids.includes(v.id))
+        .map((v) =>
+          v.component?.hostId && ids.includes(v.component.hostId)
+            ? { ...v, component: { ...v.component, hostId: null } }
+            : v,
+        );
       focus(s, []);
       reports.push(`Removed ${ids.length} object(s); undo is available.`);
     }
+    if (
+      [
+        'move',
+        'position',
+        'resize',
+        'scale',
+        'rotate',
+        'rotate_group',
+        'stretch',
+      ].includes(op.type)
+    )
+      s.project.volumes = propagateHosted(operationBefore, s.project.volumes);
     if (
       op.type !== 'visibility' &&
       op.type !== 'show_all' &&
       lockedBefore.some(
         (v) =>
-          JSON.stringify(s.project.volumes.find((o) => o.id === v.id)) !==
-          JSON.stringify(v),
+          !equalData(
+            s.project.volumes.find((o) => o.id === v.id),
+            v,
+          ),
       )
     )
       throw new Error('This change affects a locked group. Unlock it first.');
     if (s.project.volumes.length > MAX_VOLUMES)
       throw new Error('This workspace supports up to 200 objects.');
-    s.project.volumes.forEach((v) => validateVolume(v));
+    s.project.volumes.forEach((v) =>
+      validateVolume(
+        v,
+        v.geometry !== operationBefore.find((old) => old.id === v.id)?.geometry,
+      ),
+    );
     s.context.lastOperation = op.type;
   }
-  for (const op of plan.operations)
+  for (const op of plan.operations) {
     if (op.type === 'walk_to') resolveWalkPlacement(s.project, op);
+    if (
+      op.type === 'show_view' &&
+      !s.project.design?.views.some((v) => v.name === op.name)
+    )
+      throw new Error('Which saved view should I show?');
+    if (op.type === 'explore') {
+      const ids = op.targets.length
+        ? resolveIds(op.targets, s)
+        : s.project.volumes.map((v) => v.id);
+      if (
+        op.mode === 'open' &&
+        !s.project.volumes.some(
+          (v) => ids.includes(v.id) && componentInfo(v).motion !== 'none',
+        )
+      )
+        throw new Error(
+          'Set a hinge or slide on the component before opening it.',
+        );
+    }
+  }
   if (beforeEdit) {
     for (const v of s.project.volumes) {
       const previous = beforeEdit.volumes.find((old) => old.id === v.id);
@@ -1338,8 +1570,10 @@ export async function applyPlan(
         !isProfile(v) &&
         !isReference(v) &&
         (!previous ||
-          JSON.stringify([previous.dimensions, previous.geometry]) !==
-            JSON.stringify([v.dimensions, v.geometry]))
+          !equalData(
+            [previous.dimensions, previous.geometry],
+            [v.dimensions, v.geometry],
+          ))
       ) {
         const stats = await solidStats(v);
         if (stats.volume < 0.000001)

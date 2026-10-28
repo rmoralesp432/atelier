@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { test, expect, type Page } from '@playwright/test';
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
@@ -6,7 +7,7 @@ const open = async (page: Page) => {
     await page
       .getByRole('button', { name: 'Design tools', exact: true })
       .click();
-  await page.getByRole('button', { name: 'Pull up moodboard' }).click();
+  await openTool(page, 'Pull up moodboard');
 };
 const persisted = (page: Page) =>
   page.evaluate(async () => {
@@ -104,9 +105,7 @@ test('a real 3D moodboard mixes images, model snapshots and references; arrangin
   await page.getByRole('button', { name: 'Back to model' }).click();
   expect(await saved(page)).toEqual(before);
   const download = page.waitForEvent('download');
-  await page
-    .getByRole('button', { name: 'Export project', exact: true })
-    .click();
+  await openTool(page, 'Export project');
   const file = await download;
   const stream = await file.createReadStream();
   const chunks: Buffer[] = [];
@@ -170,7 +169,7 @@ test('each project owns a separate moodboard and can borrow a saved model withou
   await page.getByRole('button', { name: 'Back to model' }).click();
   expect((await saved(page)).project.volumes).toHaveLength(0);
   await page.getByRole('button', { name: 'Projects', exact: true }).click();
-  await page.getByRole('button', { name: /Courtyard/ }).click();
+  await page.getByRole('button', { name: /^Courtyard / }).click();
   await open(page);
   await expect(
     page.getByRole('button', { name: 'Light and form', exact: true }),
@@ -261,9 +260,7 @@ test('a failed moodboard save is visible and the unsaved references remain expor
   ).toBeVisible();
   await page.getByRole('button', { name: 'Back to model' }).click();
   const pending = page.waitForEvent('download');
-  await page
-    .getByRole('button', { name: 'Export project', exact: true })
-    .click();
+  await openTool(page, 'Export project');
   const stream = await (await pending).createReadStream();
   const chunks: Buffer[] = [];
   for await (const chunk of stream!) chunks.push(chunk);

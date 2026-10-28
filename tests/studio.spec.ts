@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { test, expect, type Page } from '@playwright/test';
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
@@ -192,7 +193,7 @@ test('shadows follow a moved object beyond the original site and studio controls
   expect(
     Number(await page.getByTestId('viewport').getAttribute('data-shadow-span')),
   ).toBeGreaterThanOrEqual(160);
-  await page.getByRole('button', { name: 'Expand inspector' }).click();
+  await openTool(page, 'Expand inspector');
   const x = page.getByRole('spinbutton', { name: 'X', exact: true });
   await x.fill('600');
   await x.press('Enter');
@@ -211,7 +212,7 @@ test('shadows follow a moved object beyond the original site and studio controls
     ),
   ).toBeGreaterThan(290);
   await page.getByRole('button', { name: 'Undo', exact: true }).click();
-  await page.getByRole('button', { name: 'Collapse inspector' }).click();
+  await openTool(page, 'Collapse inspector');
   await page.setViewportSize({ width: 390, height: 844 });
   await openStudio(page);
   await page.getByRole('button', { name: 'Hidden line', exact: true }).click();

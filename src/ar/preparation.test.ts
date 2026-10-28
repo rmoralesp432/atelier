@@ -120,7 +120,7 @@ it('reduces dense AR geometry within budget while retaining the full source, dim
   }
   g.dispose();
 });
-it('rejects irreducible meshes before oversized export rather than dropping objects or faces', async () => {
+it('reduces disconnected import surfaces into an AR copy without changing the full source', async () => {
   // Disconnected open triangles cannot simplify with border protection.
   const count = AR_TRIANGLE_LIMIT + 1;
   const p = new Float32Array(count * 9),
@@ -129,9 +129,9 @@ it('rejects irreducible meshes before oversized export rather than dropping obje
     p.set([i * 2, 0, 0, i * 2 + 1, 0, 0, i * 2, 1, 0], i * 9);
     indices.set([i * 3, i * 3 + 1, i * 3 + 2], i * 3);
   }
-  await expect(
-    prepareARPart({ positions: p, indices, target: 50000 }),
-  ).rejects.toThrow('still too detailed');
+  const reduced = await prepareARPart({ positions: p, indices, target: 50000 });
+  expect(reduced.indices.length).toBeGreaterThan(0);
+  expect(reduced.indices.length / 3).toBeLessThanOrEqual(50000);
   expect(indices.length).toBe(count * 3);
 });
 it('supports selected-only scope and rejects empty/invalid cuts and cancellation without mutation', async () => {

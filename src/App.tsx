@@ -1,3 +1,6 @@
+import ExplorePanel from './design/ExplorePanel';
+import { assembled, type Exploration, type SavedView } from './design/schema';
+import { resolveIds } from './intelligence/engine';
 import { downloadProject, projectFile } from './projects/transfer';
 import { parsePanoramas, type Panoramas } from './panorama/data';
 import { equalData } from './projects/equalData';
@@ -348,11 +351,38 @@ export default function App({
     },
     [],
   );
+  const [exploration, setExploration] = useState<Exploration>(assembled);
+  const [alternativePreview, setAlternativePreview] = useState<string | null>(
+    null,
+  );
+  const [savedViewRequest, setSavedViewRequest] = useState<{
+    view: SavedView;
+    revision: number;
+  } | null>(null);
+  const previewOption = project.design?.options.find(
+    (o) => o.name === alternativePreview,
+  );
+  const viewportProject = useMemo(
+    () =>
+      previewOption
+        ? {
+            ...project,
+            volumes: previewOption.volumes,
+            groups: previewOption.groups,
+            selectedId: null,
+            selectedIds: [],
+          }
+        : project,
+    [project, previewOption],
+  );
   const [appearance, setAppearance] = useState(loadAppearance);
   const renderMode = appearance.mode;
   const panels = useToolPanels(
     preference('atelier.ui.details') ? 'inspector' : null,
   );
+  useEffect(() => {
+    if (panels.active !== 'explore') setAlternativePreview(null);
+  }, [panels.active]);
   const studioOpen = panels.active === 'studio',
     setStudioOpen = panels.setters.studio;
   const [studioTab, setStudioTab] = useState<'appearance' | 'site'>(
@@ -377,6 +407,25 @@ export default function App({
   const layersOpen = panels.active === 'layers',
     setLayersOpen = panels.setters.layers;
   const [toolsOpen, setToolsOpen] = useState(false);
+  useEffect(() => {
+    if (!toolsOpen) return;
+    const close = (e: PointerEvent) => {
+      if (
+        !(e.target as Element).closest('.header-actions,.compact-tools-toggle')
+      )
+        setToolsOpen(false);
+    };
+    const escape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setToolsOpen(false);
+    };
+    window.addEventListener('pointerdown', close);
+    window.addEventListener('keydown', escape);
+    return () => {
+      window.removeEventListener('pointerdown', close);
+      window.removeEventListener('keydown', escape);
+    };
+  }, [toolsOpen]);
+
   const [arActive, setARActive] = useState(false);
   const [arPreparing, setARPreparing] = useState(false);
   const [arFloorPreview, setARFloorPreview] = useState<number | null>(null);
@@ -524,6 +573,7 @@ export default function App({
   });
   const [busy, setBusy] = useState(false);
   const [referenceImages, setReferenceImages] = useState<string[]>([]);
+  const [referenceWidth, setReferenceWidth] = useState('');
   const imageInput = useRef<HTMLInputElement>(null);
   const [imageLoading, setImageLoading] = useState(false);
   const [exportOpen, setExportOpen] = useState(false);
@@ -563,6 +613,43 @@ export default function App({
     const state = { ...workspaceRef.current };
     const reports: string[] = [];
     for (const op of plan.operations) {
+      if (op.type === 'explore') {
+        setAlternativePreview(null);
+        setTool('select');
+        setExploration({
+          mode: op.mode,
+          amount: op.amount,
+          targets: op.targets.length ? resolveIds(op.targets, snapshot()) : [],
+        });
+        panels.setters.explore(true);
+        reports.push('Presentation updated; original geometry is unchanged.');
+        continue;
+      }
+      if (op.type === 'show_view') {
+        const saved = current.current.design?.views.find(
+          (v) => v.name === op.name,
+        );
+        if (saved) {
+          setAlternativePreview(null);
+          setExploration(assembled);
+          setCameraSettings((v) => ({
+            ...v,
+            walk: false,
+            fov: saved.pose?.fov ?? v.fov,
+          }));
+          setView((v) => ({
+            ...v,
+            mode: saved.pose?.projection ?? 'orthographic',
+          }));
+          setSavedViewRequest((r) => ({
+            view: saved,
+            revision: (r?.revision ?? 0) + 1,
+          }));
+          setSection(saved.section ?? { ...defaultSection, enabled: false });
+          reports.push(`Showing ${op.name}.`);
+        }
+        continue;
+      }
       if (op.type === 'walk_to') {
         const placement = resolveWalkPlacement(current.current, op);
         setPlacingCamera(false);
@@ -742,6 +829,7 @@ export default function App({
           reports.push(visible ? 'Map enabled.' : 'Map hidden.');
         }
       } else if (a.startsWith('view_')) {
+        setSavedViewRequest(null);
         state.view =
           a === 'view_top'
             ? 'top'
@@ -777,6 +865,7 @@ export default function App({
               : 'Hidden line view.',
         );
       } else if (a === 'frame_all') {
+        setSavedViewRequest(null);
         setView((v) => ({ ...v, revision: v.revision + 1 }));
         reports.push('Framed the model.');
       } else if (a === 'inspector_open' || a === 'inspector_close') {
@@ -892,6 +981,23 @@ export default function App({
     confirmed = false,
     frame = camera.current,
   ) => {
+    setAlternativePreview(null);
+    setExploration(assembled);
+    if (
+      plan.operations.some(
+        (op) =>
+          ![
+            'show_view',
+            'save_view',
+            'room_views',
+            'explore',
+            'workspace',
+            'section',
+            'measure',
+          ].includes(op.type),
+      )
+    )
+      setSavedViewRequest(null);
     const before = fingerprint();
     const result = await applyPlan(snapshot(), plan, frame, confirmed);
     if (before !== fingerprint())
@@ -932,6 +1038,8 @@ export default function App({
       throw new Error(
         'Selection or geometry changed. Request this operation again.',
       );
+    setAlternativePreview(null);
+    setExploration(assembled);
     install(item.prepared.session);
     const message = [item.prepared.message, applyWorkspace(item.plan)]
       .filter(Boolean)
@@ -1342,6 +1450,27 @@ export default function App({
     inspectorOpen,
   ]);
 
+  const attachReference = async (file: File) => {
+    if (referenceImages.length >= 2) {
+      reportError(
+        new Error(
+          'Attach up to two references per message. Remove one to add another.',
+        ),
+      );
+      return;
+    }
+    setImageLoading(true);
+    setChatExpanded(true);
+    if (panels.active) panels.setters[panels.active](false);
+    try {
+      const image = await referenceImage(file);
+      setReferenceImages((old) => [...old, image].slice(0, 2));
+    } catch (error) {
+      reportError(error);
+    } finally {
+      setImageLoading(false);
+    }
+  };
   const importFile = async (f: File) => {
     try {
       if (f.size > MAX_IMPORT_BYTES)
@@ -1444,10 +1573,13 @@ export default function App({
         e.preventDefault();
         setDraggingFile(false);
         const files = e.dataTransfer.files;
-        if (files.length === 1) void importFile(files[0]);
-        else reportError(new Error('Import one file at a time.'));
+        if (files.length === 1) {
+          if (/^image\/(jpeg|png|webp)$/.test(files[0].type))
+            void attachReference(files[0]);
+          else void importFile(files[0]);
+        } else reportError(new Error('Import one file at a time.'));
       }}
-      className={`app-shell phase-two immersive ${busy || modelingBusy > 0 ? 'is-processing' : ''} ${presentation ? 'presentation-mode' : ''} theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
+      className={`app-shell phase-two immersive ${panels.active ? 'tool-panel-open' : ''} ${busy || modelingBusy > 0 ? 'is-processing' : ''} ${presentation ? 'presentation-mode' : ''} theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
     >
       {panoramaOpen && (
         <Suspense
@@ -1525,26 +1657,54 @@ export default function App({
           <span>Objects</span>
         </button>
         <button
+          className="primary-create"
+          aria-label="Create a 3D shape"
+          onClick={() => {
+            setModelAction('solid');
+            panels.setters.model(true);
+          }}
+        >
+          <Plus size={17} />
+          <span>Create</span>
+        </button>
+        <button
+          className="subtle-button explore-launcher"
+          aria-label="Explore design"
+          onClick={() => panels.setters.explore((v) => !v)}
+        >
+          <Sparkles size={16} />
+          <span>Explore</span>
+        </button>
+        <button
           className="subtle-button compact-tools-toggle"
           aria-label="Design tools"
           aria-expanded={toolsOpen}
           onClick={() => setToolsOpen((v) => !v)}
         >
-          <Layers size={16} />
+          <Settings2 size={16} />
           <span>Tools</span>
         </button>
         <div
+          role="region"
+          aria-label="Design tools menu"
           className={`header-actions ${toolsOpen ? 'phone-tools-open' : ''}`}
           onClick={(e) => {
             const button = (e.target as HTMLElement).closest('button');
             if (
-              innerWidth <= 800 &&
               button &&
               button.getAttribute('aria-label') !== 'More export formats'
             )
               setToolsOpen(false);
           }}
         >
+          <button
+            className="subtle-button"
+            aria-label="Model from a reference"
+            onClick={() => imageInput.current?.click()}
+          >
+            <ImagePlus size={16} />
+            <span>Model from reference</span>
+          </button>
           <button
             className="subtle-button panorama-button"
             aria-label="Open panoramas"
@@ -2042,6 +2202,7 @@ export default function App({
               aria-label="Camera view"
               value={view.mode}
               onChange={(e) => {
+                setSavedViewRequest(null);
                 setCameraSettings((v) => ({ ...v, walk: false }));
                 setView((v) => ({
                   mode: e.target.value as typeof view.mode,
@@ -2121,6 +2282,64 @@ export default function App({
                   void propose(directPlan(op));
                 }}
               />
+            )}
+            {panels.active === 'explore' && (
+              <ExplorePanel
+                project={project}
+                value={exploration}
+                preview={alternativePreview}
+                onExplore={(value) => {
+                  setTool('select');
+                  setExploration(value);
+                }}
+                onOperation={(op) => void propose(directPlan(op))}
+                onClose={() => {
+                  panels.setters.explore(false);
+                  setAlternativePreview(null);
+                }}
+                onView={(name) =>
+                  void propose(directPlan({ type: 'show_view', name }))
+                }
+                onPreview={(name) => {
+                  setAlternativePreview(name);
+                  setExploration(assembled);
+                  setTool('select');
+                }}
+                onKeep={() => {
+                  if (alternativePreview)
+                    void execute(
+                      directPlan({
+                        type: 'alternative',
+                        action: 'restore',
+                        name: alternativePreview,
+                      }),
+                      true,
+                    ).catch(reportError);
+                }}
+              />
+            )}
+            {(exploration.mode !== 'assembled' ||
+              alternativePreview ||
+              savedViewRequest) && (
+              <div className="explore-return">
+                <span>
+                  {alternativePreview
+                    ? `Preview · ${alternativePreview}`
+                    : savedViewRequest
+                      ? `View · ${savedViewRequest.view.name}`
+                      : 'Exploring · model unchanged'}
+                </span>
+                <button
+                  onClick={() => {
+                    setExploration(assembled);
+                    setAlternativePreview(null);
+                    setSavedViewRequest(null);
+                    setSection({ ...defaultSection, enabled: false });
+                  }}
+                >
+                  Return to model
+                </button>
+              </div>
             )}
             {panels.active === 'ar' && (
               <ARPanel
@@ -2303,7 +2522,13 @@ export default function App({
               )}
             </div>
             <Viewport
-              project={project}
+              project={viewportProject}
+              exploration={exploration}
+              savedViewRequest={savedViewRequest}
+              previewing={!!alternativePreview}
+              phonePanel={
+                phoneLayout && !!panels.active && panels.active !== 'ar'
+              }
               onTool={activateTool}
               onDraw={async (op) => {
                 if (busyRef.current)
@@ -2477,19 +2702,42 @@ export default function App({
                   >
                     <Trash2 size={15} /> Delete
                   </button>
-                  {['Scale', 'Stretch', 'Copy', 'Mirror', 'Array'].map(
-                    (label) => (
+                  {selected.component &&
+                    selected.component.motion !== 'none' && (
                       <button
-                        key={label}
                         onClick={() => {
-                          setModelAction(label.toLowerCase());
-                          panels.setters.model(true);
+                          setTool('select');
+                          setExploration({
+                            mode: 'open',
+                            amount:
+                              exploration.mode === 'open' && exploration.amount
+                                ? 0
+                                : 1,
+                            targets: project.selectedIds?.length
+                              ? project.selectedIds
+                              : [selected.id],
+                          });
                         }}
                       >
-                        {label}
+                        {exploration.mode === 'open' && exploration.amount
+                          ? 'Close'
+                          : 'Open'}
                       </button>
-                    ),
-                  )}
+                    )}
+                  <button onClick={() => panels.setters.explore(true)}>
+                    Explore
+                  </button>
+                  {['Scale', 'Stretch'].map((label) => (
+                    <button
+                      key={label}
+                      onClick={() => {
+                        setModelAction(label.toLowerCase());
+                        panels.setters.model(true);
+                      }}
+                    >
+                      {label}
+                    </button>
+                  ))}
                 </div>
               )}
             <div
@@ -2535,7 +2783,7 @@ export default function App({
                     <span className="touch-gesture-hint">
                       {touchNavigation === 'edit'
                         ? 'Drag handles'
-                        : 'Pinch to zoom'}
+                        : '2 fingers: pan · pinch · twist'}
                     </span>
                   </div>
                 )}
@@ -2829,10 +3077,44 @@ export default function App({
                       </button>
                     </div>
                   ))}
-                  <small>
-                    Sent to the AI with your next message. Specify a real
-                    dimension for scale.
-                  </small>
+                  <div className="reference-brief">
+                    <strong>Build from inspiration</strong>
+                    <small>
+                      Editable massing inspired by your image. A photo alone
+                      cannot establish exact dimensions.
+                    </small>
+                    <label>
+                      Known building width · m{' '}
+                      <input
+                        aria-label="Reference building width"
+                        type="number"
+                        min="0.1"
+                        max="500"
+                        step="any"
+                        value={referenceWidth}
+                        placeholder="Optional"
+                        onChange={(e) => setReferenceWidth(e.target.value)}
+                      />
+                    </label>
+                    <button
+                      type="button"
+                      disabled={
+                        busy ||
+                        imageLoading ||
+                        (referenceWidth !== '' &&
+                          (!Number.isFinite(Number(referenceWidth)) ||
+                            Number(referenceWidth) < 0.1 ||
+                            Number(referenceWidth) > 500))
+                      }
+                      onClick={() => {
+                        const text = `Create an editable volumetric architectural study inspired by the attached building reference. ${referenceWidth ? `Use a building width of ${Number(referenceWidth)} meters. Estimate other proportions and explain your assumptions.` : 'Ask me for a real dimension and the main qualities I want to keep before creating the model.'} Use actual supported geometry operations, keep components editable, and explain any important limitation.`;
+                        setReferenceWidth('');
+                        void sendConversation(text);
+                      }}
+                    >
+                      Create similar massing
+                    </button>
+                  </div>
                 </div>
               )}
               <input
@@ -2845,15 +3127,7 @@ export default function App({
                   const file = e.target.files?.[0];
                   e.target.value = '';
                   if (!file) return;
-                  setImageLoading(true);
-                  try {
-                    const image = await referenceImage(file);
-                    setReferenceImages((old) => [...old, image].slice(-2));
-                  } catch (error) {
-                    reportError(error);
-                  } finally {
-                    setImageLoading(false);
-                  }
+                  await attachReference(file);
                 }}
               />
               <form
@@ -2878,6 +3152,7 @@ export default function App({
                   onClick={() => imageInput.current?.click()}
                 >
                   <ImagePlus size={18} />
+                  <span>Reference</span>
                 </button>
                 <textarea
                   ref={input}

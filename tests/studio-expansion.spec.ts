@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { test, expect, type Page } from '@playwright/test';
 import { initialProject } from '../src/model';
 const saved = (p: Page) =>
@@ -30,7 +31,7 @@ test('solar position, eye-level walkthrough and focus controls operate without c
   );
   await ready(page);
   const before = (await saved(page)).project;
-  await page.getByRole('button', { name: 'Solar study', exact: true }).click();
+  await openTool(page, 'Solar study');
   await page.getByLabel('Solar date').fill('2026-03-20');
   await page.getByLabel('Solar UTC offset').fill('0');
   await page.getByLabel('Solar time', { exact: true }).fill('720');
@@ -59,9 +60,7 @@ test('solar position, eye-level walkthrough and focus controls operate without c
     )
     .toBeLessThan(0);
   await page.getByLabel('Solar lighting', { exact: true }).uncheck();
-  await page
-    .getByRole('button', { name: 'Camera settings', exact: true })
-    .click();
+  await openTool(page, 'Camera settings');
   await page.getByRole('button', { name: 'Walk inside', exact: true }).click();
   await page.getByLabel('Eye height', { exact: true }).fill('1.8');
   const canvas = page.locator('canvas');
@@ -85,9 +84,7 @@ test('solar position, eye-level walkthrough and focus controls operate without c
   const to = JSON.parse((await canvas.getAttribute('data-walk-position'))!);
   expect(Math.hypot(to[0] - from[0], to[2] - from[2])).toBeGreaterThan(0.05);
   expect(to[1]).toBe(1.8);
-  await page
-    .getByRole('button', { name: 'Camera settings', exact: true })
-    .click();
+  await openTool(page, 'Camera settings');
   await page.getByRole('button', { name: 'Orbit', exact: true }).click();
   await page.getByLabel('Field of view', { exact: true }).fill('70');
   await page.getByText('Lens focus', { exact: true }).click();
@@ -118,9 +115,7 @@ test('marquee selection, persistent layers, volumetric trees and downloadable OB
   await expect
     .poll(async () => (await saved(page)).project.selectedIds?.length)
     .toBe(2);
-  await page
-    .getByRole('button', { name: 'Layers and groups', exact: true })
-    .click();
+  await openTool(page, 'Layers and groups');
   await page.getByLabel('New group name').fill('Pavilions');
   await page.getByRole('button', { name: 'Group selected objects' }).click();
   await page.getByRole('button', { name: 'Hide group Pavilions' }).click();
@@ -140,7 +135,7 @@ test('marquee selection, persistent layers, volumetric trees and downloadable OB
   );
   await page.getByRole('button', { name: 'Unlock group Pavilions' }).click();
   await page.getByRole('button', { name: 'Close layers' }).click();
-  await page.getByRole('button', { name: 'Expand inspector' }).click();
+  await openTool(page, 'Expand inspector');
   await page
     .getByRole('button', { name: 'Trees around this', exact: true })
     .click();
@@ -152,8 +147,8 @@ test('marquee selection, persistent layers, volumetric trees and downloadable OB
         ).length,
     )
     .toBeGreaterThan(4);
-  await page.getByRole('button', { name: 'Collapse inspector' }).click();
-  await page.getByRole('button', { name: 'More export formats' }).click();
+  await openTool(page, 'Collapse inspector');
+  await openTool(page, 'More export formats');
   const download = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export OBJ', exact: true }).click();
   const file = await download;

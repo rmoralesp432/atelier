@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { test, expect, type Page } from '@playwright/test';
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
@@ -78,9 +79,7 @@ test('a multi-selection moves as one rigid group, rotates, selects by layer, and
     2,
   );
   await page.getByRole('button', { name: 'Undo', exact: true }).click();
-  await page
-    .getByRole('button', { name: 'Layers and groups', exact: true })
-    .click();
+  await openTool(page, 'Layers and groups');
   await page.getByLabel('New group name').fill('Pavilions');
   await page.getByRole('button', { name: 'Group selected objects' }).click();
   await page.getByRole('button', { name: 'Select group Pavilions' }).click();
@@ -92,7 +91,7 @@ test('visible creation tools make a 2D profile, extrude, scale, stretch, and rep
 }) => {
   test.setTimeout(120000);
   await ready(page);
-  await page.getByRole('button', { name: 'Solar study', exact: true }).click();
+  await openTool(page, 'Solar study');
   await expect(
     page.getByRole('region', { name: 'Solar study controls' }),
   ).toBeVisible();
@@ -102,6 +101,10 @@ test('visible creation tools make a 2D profile, extrude, scale, stretch, and rep
   await expect(
     page.getByRole('region', { name: 'Solar study controls' }),
   ).toBeHidden();
+  await page
+    .getByRole('region', { name: 'Create and transform', exact: true })
+    .getByRole('button', { name: 'Draw 2D', exact: true })
+    .click();
   await page.getByLabel('Shape width', { exact: true }).fill('10');
   await page.getByLabel('Shape depth', { exact: true }).fill('6');
   await page
@@ -142,7 +145,7 @@ test('visible creation tools make a 2D profile, extrude, scale, stretch, and rep
     )
     .toBe(17);
   await page.screenshot({ path: 'test-results/refined-modeling.png' });
-  await page.getByRole('button', { name: 'Section view', exact: true }).click();
+  await openTool(page, 'Section view');
   await expect(
     page.getByRole('region', { name: 'Create and transform' }),
   ).toBeHidden();
@@ -170,9 +173,7 @@ test('map alignment drags and nudges imagery while preserving the model and true
   );
   await ready(page);
   const before = (await saved(page)).project.volumes;
-  await page
-    .getByRole('button', { name: 'Change map location', exact: true })
-    .click();
+  await openTool(page, 'Change map location');
   await page.getByLabel('Latitude', { exact: true }).fill('31.742');
   await page.getByLabel('Longitude', { exact: true }).fill('-106.439');
   await page.getByRole('button', { name: 'Show model on map' }).click();
@@ -215,9 +216,7 @@ test('phone layout exposes AR with an honest fallback and generates a real USDZ 
   await page.setViewportSize({ width: 390, height: 844 });
   await ready(page);
   await page.getByRole('button', { name: 'Design tools', exact: true }).click();
-  await page
-    .getByRole('button', { name: 'Camera settings', exact: true })
-    .click();
+  await openTool(page, 'Camera settings');
   await page.getByRole('button', { name: 'View in your space · AR' }).click();
   await expect(
     page.getByRole('region', { name: 'Camera controls' }),
@@ -290,9 +289,7 @@ test('an explicitly mocked WebXR permission failure exits cleanly and preserves 
   );
   await ready(page);
   const before = (await saved(page)).project;
-  await page
-    .getByRole('button', { name: 'Camera settings', exact: true })
-    .click();
+  await openTool(page, 'Camera settings');
   await page.getByRole('button', { name: 'View in your space · AR' }).click();
   await page
     .getByRole('button', { name: 'Prepare AR model', exact: true })

@@ -338,7 +338,11 @@ export async function extractMeshAsset(
       : {}),
   };
 }
-function convertedBounds(asset: MeshAsset, options: ImportOptions) {
+function convertedBounds(
+  asset: MeshAsset,
+  options: ImportOptions,
+  collect = false,
+) {
   const scale =
     options.units === 'source'
       ? (asset.metersPerUnit ?? 1)
@@ -355,7 +359,7 @@ function convertedBounds(asset: MeshAsset, options: ImportOptions) {
       const value = n * scale;
       min[axis] = Math.min(min[axis], value);
       max[axis] = Math.max(max[axis], value);
-      points.push(value);
+      if (collect) points.push(value);
     });
   }
   const size = max.map((n, i) => n - min[i]);
@@ -373,33 +377,42 @@ export async function prepareMesh(
   options: ImportOptions,
   checkSolid = true,
 ): Promise<Volume> {
-  const { min, max, points, size } = convertedBounds(asset, options);
+  const { min, max, size } = convertedBounds(asset, options);
   const d = size.map((n) => Math.max(n, 0.001));
-  const normalized = points.map(
-    (n, i) =>
-      (n - (i % 3 === 1 ? min[1] : (min[i % 3] + max[i % 3]) / 2)) / d[i % 3],
-  );
-  // Weld coincident export seams without filling holes or inventing surfaces.
+  const scale =
+    options.units === 'source'
+      ? (asset.metersPerUnit ?? 1)
+      : { m: 1, cm: 0.01, mm: 0.001, ft: 0.3048 }[options.units];
   const positions: number[] = [],
-    indices: number[] = [],
-    vertices = new Map<string, number>();
-  const remap = new Int32Array(normalized.length / 3).fill(-1);
+    indices: number[] = [];
+  const remap = new Int32Array(asset.positions.length / 3).fill(-1);
+  // Dense imports are already indexed. Avoid a string-key map per vertex; full
+  // topology stays intact. Small solids retain seam welding for CSG checks.
+  const vertices = checkSolid ? new Map<string, number>() : null;
   for (const i of asset.indices) {
-    if (!Number.isInteger(i) || i < 0 || i * 3 + 2 >= normalized.length)
+    if (!Number.isInteger(i) || i < 0 || i * 3 + 2 >= asset.positions.length)
       throw new Error('Invalid mesh triangle index.');
     if (remap[i] >= 0) {
       indices.push(remap[i]);
       continue;
     }
-    const p = normalized
-      .slice(i * 3, i * 3 + 3)
-      .map((n) => Number(n.toFixed(8)));
-    const key = p.map((n) => n.toFixed(8)).join(',');
-    let vertex = vertices.get(key);
+    const x = asset.positions[i * 3],
+      y = asset.positions[i * 3 + 1],
+      z = asset.positions[i * 3 + 2];
+    const p = (options.up === 'Z' ? [x, z, -y] : [x, y, z]).map((n, axis) =>
+      Number(
+        (
+          (n * scale - (axis === 1 ? min[1] : (min[axis] + max[axis]) / 2)) /
+          d[axis]
+        ).toFixed(8),
+      ),
+    );
+    const key = vertices ? p.join(',') : '';
+    let vertex = vertices?.get(key);
     if (vertex === undefined) {
       vertex = positions.length / 3;
       positions.push(...p);
-      vertices.set(key, vertex);
+      vertices?.set(key, vertex);
     }
     remap[i] = vertex;
     indices.push(vertex);

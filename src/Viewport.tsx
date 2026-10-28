@@ -1,3 +1,7 @@
+import { viewScope } from './design/viewScope';
+import { explorationTransform } from './design/model';
+import { assembled, type Exploration, type SavedView } from './design/schema';
+import { installTouchNavigation } from './geometry/TouchNavigation';
 import WalkPlacement from './studio/WalkPlacement';
 import { equalData } from './projects/equalData';
 import { NavigationPreview } from './geometry/NavigationPreview';
@@ -53,6 +57,10 @@ import type { CameraContext } from './intelligence/context';
 export type Tool = 'select' | 'translate' | 'rotate' | 'reshape' | DrawingTool;
 type Props = {
   project: Project;
+  exploration?: Exploration;
+  previewing?: boolean;
+  phonePanel?: boolean;
+  savedViewRequest?: { view: SavedView; revision: number } | null;
   tool: Tool;
   touchNavigation: 'orbit' | 'pan' | 'edit' | null;
   onDraw: (operation: Operation) => Promise<void>;
@@ -99,6 +107,9 @@ type Runtime = {
   signatures: Map<string, string>;
   updateShadows: () => void;
   applyLens: () => void;
+  showSavedView: (v: SavedView) => void;
+  syncView: () => void;
+  exploreTargets: Map<string, { position: THREE.Vector3; rotation: number }>;
   fit: (top: boolean, focusIds?: string[], mapSpan?: number) => void;
   beginConstruction: (
     v: Volume,
@@ -234,7 +245,7 @@ export default function Viewport(props: Props) {
     orbit.rotateSpeed = 0.65;
     orbit.zoomSpeed = 0.8;
     orbit.maxPolarAngle = Math.PI / 2 - 0.015;
-    orbit.minDistance = 2;
+    orbit.minDistance = 0.2;
     orbit.maxDistance = 2500;
     orbit.target.set(0, 2, 0);
     const ambient = new THREE.HemisphereLight('#e7edf3', '#252c34', 0.8);
@@ -287,9 +298,9 @@ export default function Viewport(props: Props) {
     const basePass = new RenderPass(scene, camera);
     composer.addPass(basePass);
     const outline = new OutlinePass(new THREE.Vector2(1, 1), scene, camera);
-    outline.edgeStrength = 4;
-    outline.edgeGlow = 1.2;
-    outline.edgeThickness = 2;
+    outline.edgeStrength = 2.5;
+    outline.edgeGlow = 0.45;
+    outline.edgeThickness = 1.4;
     outline.visibleEdgeColor.set('#d2e8dd');
     outline.hiddenEdgeColor.set('#173a40');
     // Keep transform controls out of the selection mask (their visibility setters
@@ -337,6 +348,11 @@ export default function Viewport(props: Props) {
         camera.fov = settings.fov;
         camera.updateProjectionMatrix();
       }
+      if (latest.current.phonePanel && !latest.current.cameraSettings.walk) {
+        const w = container.clientWidth,
+          h = container.clientHeight;
+        camera.setViewOffset(w, h, 0, h * 0.23, w, h);
+      } else camera.clearViewOffset();
       bokeh.camera = camera;
       const uniforms = bokeh.uniforms as Record<string, { value: number }>;
       uniforms.focus.value = settings.focus;
@@ -796,6 +812,28 @@ export default function Viewport(props: Props) {
     let usedHandle = false;
     const fingers = new Set<number>();
     let multiTouch = false;
+    const touchPosition = (event: Event) => {
+      const p = (event as CustomEvent<{ x: number; y: number }>).detail;
+      pointerStart = { x: p.x, y: p.y };
+      usedHandle = false;
+      multiTouch = false;
+      finishConstruction();
+    };
+    renderer.domElement.addEventListener('atelier-touch-start', touchPosition);
+    const removeTouchNavigation = installTouchNavigation(
+      renderer.domElement,
+      orbit,
+      () => {
+        const p = latest.current;
+        return p.cameraSettings.walk ||
+          p.placingCamera ||
+          p.alignMap ||
+          p.tool.startsWith('draw_') ||
+          p.touchNavigation === 'edit'
+          ? null
+          : p.touchNavigation;
+      },
+    );
     const touchStart = (event: PointerEvent) => {
       if (event.pointerType !== 'touch') return;
       if (!fingers.size) multiTouch = false;
@@ -813,6 +851,7 @@ export default function Viewport(props: Props) {
     };
     const up = (event: PointerEvent) => {
       if (
+        latest.current.previewing ||
         (event.pointerType === 'touch' && multiTouch) ||
         latest.current.tool.startsWith('draw_') ||
         latest.current.placingCamera ||
@@ -833,6 +872,10 @@ export default function Viewport(props: Props) {
         ),
         camera,
       );
+      const scope = viewScope(
+        latest.current.project,
+        latest.current.savedViewRequest?.view,
+      );
       const hit = raycaster
         .intersectObjects(
           [...objects.values()].filter((g) => g.visible),
@@ -841,6 +884,9 @@ export default function Viewport(props: Props) {
         .find(
           (hit) =>
             hit.object instanceof THREE.Mesh &&
+            scope.planes.every(
+              (plane) => plane.distanceToPoint(hit.point) >= 0,
+            ) &&
             (!latest.current.section.enabled ||
               clippingPlane.current.distanceToPoint(hit.point) >= 0),
         );
@@ -1221,6 +1267,84 @@ export default function Viewport(props: Props) {
       signatures: new Map(),
       updateShadows,
       applyLens,
+      exploreTargets: new Map(),
+      syncView: () => {
+        const scope = viewScope(
+          latest.current.project,
+          latest.current.savedViewRequest?.view,
+        );
+        const planes = [
+          ...(latest.current.section.enabled ? [clippingPlane.current] : []),
+          ...scope.planes,
+        ];
+        objects.forEach((g, id) => {
+          g.visible = !scope.ids || scope.ids.has(id);
+          g.traverse((o) => {
+            if (o instanceof THREE.Mesh || o instanceof THREE.Line) {
+              const mats = Array.isArray(o.material)
+                ? o.material
+                : [o.material];
+              for (const m of mats) {
+                m.clippingPlanes = planes;
+                m.needsUpdate = true;
+              }
+            }
+          });
+        });
+        const caps = scene.getObjectByName('section-caps');
+        caps?.traverse((o) => {
+          if (o instanceof THREE.Mesh) {
+            const mats = Array.isArray(o.material) ? o.material : [o.material];
+            mats.forEach((m) => {
+              m.clippingPlanes = scope.planes;
+              m.needsUpdate = true;
+            });
+          }
+        });
+        container.dataset.savedView =
+          latest.current.savedViewRequest?.view.name ?? '';
+        invalidate();
+      },
+      showSavedView: (saved) => {
+        finishConstruction();
+        if (!saved.pose) {
+          setProjection(true);
+          fit(false, saved.targets);
+          return;
+        }
+        const pose = saved.pose;
+        setProjection(pose.projection === 'orthographic');
+        if (camera instanceof THREE.PerspectiveCamera) camera.fov = pose.fov;
+        else if (pose.orthoHeight) {
+          const half = pose.orthoHeight / 2,
+            aspect =
+              container.clientWidth / Math.max(1, container.clientHeight);
+          camera.top = half;
+          camera.bottom = -half;
+          camera.left = -half * aspect;
+          camera.right = half * aspect;
+        }
+        camera.zoom = pose.zoom;
+        camera.updateProjectionMatrix();
+        transition = {
+          start:
+            performance.now() -
+            (matchMedia('(prefers-reduced-motion: reduce)').matches ? 500 : 0),
+          from: camera.position.clone(),
+          to: new THREE.Vector3(
+            pose.position.x,
+            pose.position.y,
+            pose.position.z,
+          ),
+          targetFrom: orbit.target.clone(),
+          targetTo: new THREE.Vector3(
+            pose.target.x,
+            pose.target.y,
+            pose.target.z,
+          ),
+        };
+        invalidate();
+      },
       fit,
       beginConstruction,
       finishConstruction,
@@ -1264,6 +1388,23 @@ export default function Viewport(props: Props) {
           : [];
       });
       latest.current.onCamera?.({
+        pose: {
+          position: {
+            x: camera.position.x,
+            y: camera.position.y,
+            z: camera.position.z,
+          },
+          target: { x: orbit.target.x, y: orbit.target.y, z: orbit.target.z },
+          projection:
+            camera instanceof THREE.PerspectiveCamera
+              ? 'perspective'
+              : 'orthographic',
+          zoom: camera.zoom,
+          fov: camera instanceof THREE.PerspectiveCamera ? camera.fov : 40,
+          ...(camera instanceof THREE.OrthographicCamera
+            ? { orthoHeight: camera.top - camera.bottom }
+            : {}),
+        },
         right: { x: right.x, y: 0, z: right.z },
         forward: { x: forward.x, y: 0, z: forward.z },
         visible,
@@ -1418,6 +1559,41 @@ export default function Viewport(props: Props) {
         container.dataset.constructionPhase = 'complete';
         progress.hidden = true;
       }
+      let exploring = false;
+      if (
+        !dragging &&
+        !constructions.size &&
+        runtime.current?.exploreTargets.size
+      ) {
+        const alpha = matchMedia('(prefers-reduced-motion: reduce)').matches
+          ? 1
+          : 1 - Math.exp(-Math.min(delta, 0.1) * 4);
+        for (const [id, desired] of runtime.current.exploreTargets) {
+          const group = objects.get(id);
+          if (!group) continue;
+          const remaining =
+            group.position.distanceToSquared(desired.position) +
+            Math.abs(group.rotation.y - desired.rotation);
+          if (remaining > 1e-7) {
+            group.position.lerp(desired.position, alpha);
+            group.rotation.y += (desired.rotation - group.rotation.y) * alpha;
+            exploring = true;
+          } else {
+            group.position.copy(desired.position);
+            group.rotation.y = desired.rotation;
+          }
+        }
+        if (exploring) {
+          invalidate();
+          renderer.shadowMap.needsUpdate = true;
+        } else if (
+          (latest.current.exploration?.mode ?? 'assembled') === 'assembled'
+        )
+          runtime.current.exploreTargets.clear();
+      }
+      container.dataset.exploration =
+        latest.current.exploration?.mode ?? 'assembled';
+      container.dataset.explorationAnimating = String(exploring);
       walk.update(delta);
       orbit.autoRotate =
         latest.current.turntable && !latest.current.cameraSettings.walk;
@@ -1523,6 +1699,11 @@ export default function Viewport(props: Props) {
         trackPointer,
         true,
       );
+      removeTouchNavigation();
+      renderer.domElement.removeEventListener(
+        'atelier-touch-start',
+        touchPosition,
+      );
       renderer.domElement.removeEventListener('pointerdown', touchStart, true);
       renderer.domElement.removeEventListener('pointerup', touchEnd, true);
       renderer.domElement.removeEventListener('pointercancel', touchEnd, true);
@@ -1568,7 +1749,9 @@ export default function Viewport(props: Props) {
     r.orbit.touches.TWO = THREE.TOUCH.DOLLY_PAN;
     r.orbit.panSpeed = props.touchNavigation ? 1.1 : 1;
     r.transform.enabled =
-      !props.touchNavigation || props.touchNavigation === 'edit';
+      (!props.touchNavigation || props.touchNavigation === 'edit') &&
+      !props.previewing &&
+      (!props.exploration || props.exploration.mode === 'assembled');
     host.current!.dataset.touchNavigation = props.touchNavigation ?? 'mouse';
     let cancelled = false;
     const built = new Map<string, THREE.Group>();
@@ -1829,6 +2012,7 @@ export default function Viewport(props: Props) {
               material.emissiveIntensity =
                 mode === 'hidden-line' ? 0.35 : selected ? 0.12 : 0;
               const transparent =
+                v.component?.role === 'room' ||
                 mode === 'wireframe' ||
                 kind === 'foliage' ||
                 (mode === 'studio' && kind === 'glass');
@@ -1836,21 +2020,27 @@ export default function Viewport(props: Props) {
                 material.needsUpdate = true;
               material.transparent = transparent;
               material.opacity =
-                mode === 'wireframe'
-                  ? 0
-                  : kind === 'foliage'
-                    ? 0.42
-                    : mode === 'studio' && kind === 'glass'
-                      ? 0.32
-                      : 1;
+                v.component?.role === 'room'
+                  ? 0.08
+                  : mode === 'wireframe'
+                    ? 0
+                    : kind === 'foliage'
+                      ? 0.42
+                      : mode === 'studio' && kind === 'glass'
+                        ? 0.32
+                        : 1;
               material.depthWrite =
+                v.component?.role !== 'room' &&
                 kind !== 'foliage' &&
                 (mode === 'hidden-line' ||
                   (mode === 'studio' && kind !== 'glass'));
               material.polygonOffset = mode === 'hidden-line';
               material.polygonOffsetFactor = 1;
               material.polygonOffsetUnits = 1;
-              o.castShadow = mode === 'studio' && kind !== 'glass';
+              o.castShadow =
+                v.component?.role !== 'room' &&
+                mode === 'studio' &&
+                kind !== 'glass';
               o.receiveShadow = mode === 'studio';
             } else if (o instanceof THREE.Line) {
               if (o.userData.selectionFrame) {
@@ -1970,6 +2160,7 @@ export default function Viewport(props: Props) {
             if (v && g && built.has(id)) r!.beginConstruction(v, g, i, true);
           });
         }
+        r!.syncView();
         setError('');
         r!.orbit.dispatchEvent({ type: 'change' });
       } catch (e) {
@@ -1988,6 +2179,7 @@ export default function Viewport(props: Props) {
     props.project,
     props.tool,
     props.touchNavigation,
+    props.previewing,
     props.snap,
     props.angleSnap,
     props.renderMode,
@@ -1998,6 +2190,51 @@ export default function Viewport(props: Props) {
     props.placingCamera,
     props.sectionEditing,
   ]);
+  useEffect(() => {
+    const r = runtime.current;
+    if (!r) return;
+    const exploring =
+      !!props.exploration && props.exploration.mode !== 'assembled';
+    r.transform.enabled =
+      (!props.touchNavigation || props.touchNavigation === 'edit') &&
+      !props.previewing &&
+      !exploring;
+    r.transform.getHelper().visible = !exploring && !props.previewing;
+    if (exploring || r.exploreTargets.size) {
+      r.finishConstruction();
+      r.exploreTargets = new Map(
+        props.project.volumes.map((v) => {
+          const t = explorationTransform(
+            v,
+            props.project,
+            props.exploration ?? assembled,
+          );
+          return [
+            v.id,
+            {
+              position: new THREE.Vector3(
+                t.position.x,
+                t.position.y,
+                t.position.z,
+              ),
+              rotation: (t.rotation * Math.PI) / 180,
+            },
+          ];
+        }),
+      );
+      r.invalidate();
+    }
+  }, [
+    props.exploration,
+    props.project,
+    props.previewing,
+    props.touchNavigation,
+  ]);
+  useEffect(() => {
+    runtime.current?.syncView();
+    if (props.savedViewRequest)
+      runtime.current?.showSavedView(props.savedViewRequest.view);
+  }, [props.savedViewRequest]);
   // Settings wake an idle view; no model or import data is changed.
   useEffect(() => {
     runtime.current?.invalidate();
@@ -2007,7 +2244,7 @@ export default function Viewport(props: Props) {
     if (!r) return;
     if (props.cameraSettings.walk) r.setProjection(false);
     r.applyLens();
-  }, [props.cameraSettings]);
+  }, [props.cameraSettings, props.phonePanel]);
   useEffect(() => {
     if (props.placingCamera) runtime.current?.finishConstruction();
   }, [props.placingCamera]);
@@ -2015,6 +2252,7 @@ export default function Viewport(props: Props) {
     runtime.current?.updateShadows();
   }, [props.solar, props.project.site]);
   useEffect(() => {
+    if (props.savedViewRequest) return;
     runtime.current?.setProjection(props.view.mode !== 'perspective');
     runtime.current?.fit(props.view.mode === 'top');
   }, [props.view]);
@@ -2061,13 +2299,23 @@ export default function Viewport(props: Props) {
       host.current.dataset.sectionPosition = String(section.position);
     }
     let cancelled = false;
+    r.syncView();
     const caps = new THREE.Group();
+    caps.name = 'section-caps';
     r.scene.add(caps);
     const timer = setTimeout(() => {
       if (!section.enabled || props.sectionPreviewOnly) return;
       void Promise.all(
         props.project.volumes
-          .filter((v) => isVisible(v, props.project))
+          .filter(
+            (v) =>
+              isVisible(v, props.project) &&
+              v.component?.role !== 'room' &&
+              (viewScope(props.project, props.savedViewRequest?.view).ids?.has(
+                v.id,
+              ) ??
+                true),
+          )
           .map((v) => sectionCap(v, section)),
       )
         .then((parts) => {
@@ -2092,6 +2340,7 @@ export default function Viewport(props: Props) {
               }),
             );
             caps.add(mesh);
+            r.syncView();
             r.invalidate();
           }
           if (host.current)
@@ -2112,7 +2361,12 @@ export default function Viewport(props: Props) {
       r.scene.remove(caps);
       disposeObject(caps);
     };
-  }, [props.section, props.sectionPreviewOnly, geometryKey]);
+  }, [
+    props.section,
+    props.sectionPreviewOnly,
+    geometryKey,
+    props.savedViewRequest,
+  ]);
 
   useEffect(() => {
     const r = runtime.current,

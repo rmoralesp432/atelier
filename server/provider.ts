@@ -1,3 +1,4 @@
+import { componentSchema, poseSchema } from '../src/design/schema';
 import OpenAI from 'openai';
 import { z } from 'zod';
 import {
@@ -88,6 +89,26 @@ export const requestSchema = z
       .max(20),
     scene: z
       .object({
+        design: z
+          .object({
+            views: z
+              .array(
+                z.object({ name: z.string().max(80), targets: refs }).strict(),
+              )
+              .max(30),
+            alternatives: z
+              .array(
+                z
+                  .object({
+                    name: z.string().max(80),
+                    objects: z.number().int().min(0).max(200),
+                  })
+                  .strict(),
+              )
+              .max(6),
+          })
+          .strict()
+          .optional(),
         units: z.literal('meters'),
         north: z.literal('-Z'),
         groups: z
@@ -115,6 +136,7 @@ export const requestSchema = z
           .strict(),
         camera: z
           .object({
+            pose: poseSchema.optional(),
             right: vec,
             forward: vec,
             visible: z
@@ -135,6 +157,7 @@ export const requestSchema = z
             z
               .object({
                 id: z.string().max(100),
+                component: componentSchema.optional(),
                 ordinal: z.number().int(),
                 groupId: z.string().nullable().optional(),
                 visible: z.boolean().optional(),

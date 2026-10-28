@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { test, expect, type Page } from '@playwright/test';
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
@@ -28,9 +29,7 @@ test('discoverable location, satellite switch and independent north-preserving m
   await page
     .getByLabel('Camera view', { exact: true })
     .selectOption('orthographic');
-  await page
-    .getByRole('button', { name: 'Change map location', exact: true })
-    .click();
+  await openTool(page, 'Change map location');
   await expect(
     page.getByRole('region', { name: 'Choose a site on the map' }),
   ).toBeVisible();
@@ -54,7 +53,7 @@ test('discoverable location, satellite switch and independent north-preserving m
   await expect(page.getByTitle('True north', { exact: true })).toBeVisible();
   expect(urls.some((u) => u.includes('World_Imagery'))).toBeTruthy();
   await page.getByRole('button', { name: 'Close studio settings' }).click();
-  await page.getByRole('button', { name: 'Toggle site map' }).click();
+  await openTool(page, 'Toggle site map');
   await expect(page.getByTestId('viewport')).not.toHaveAttribute(
     'data-map-status',
   );
@@ -65,7 +64,7 @@ test('section slider makes capped cuts without modifying the model; presentation
   test.setTimeout(90000);
   await ready(page);
   const before = (await saved(page)).project;
-  await page.getByRole('button', { name: 'Section view', exact: true }).click();
+  await openTool(page, 'Section view');
   await expect(
     page.getByRole('region', { name: 'Section controls' }),
   ).toBeVisible();
@@ -95,9 +94,7 @@ test('section slider makes capped cuts without modifying the model; presentation
     'data-section',
     'off',
   );
-  await page
-    .getByRole('button', { name: 'Presentation mode', exact: true })
-    .click();
+  await openTool(page, 'Presentation mode');
   await expect(
     page.getByRole('toolbar', { name: 'Modeling tools' }),
   ).toBeHidden();
@@ -144,14 +141,7 @@ test('manual additions and architecture visibility preserve editable components'
 }) => {
   test.setTimeout(90000);
   await ready(page);
-  if (
-    await page
-      .getByRole('button', { name: 'Expand inspector', exact: true })
-      .isVisible()
-  )
-    await page
-      .getByRole('button', { name: 'Expand inspector', exact: true })
-      .click();
+  await openTool(page, 'Expand inspector');
   await page
     .getByRole('button', { name: 'Add volume to this', exact: true })
     .click();
@@ -285,9 +275,7 @@ test('expressive conversation validates a corrected sweep, renders lofts and pre
     'false',
     { timeout: 15000 },
   );
-  await page
-    .getByRole('button', { name: 'Presentation mode', exact: true })
-    .click();
+  await openTool(page, 'Presentation mode');
   await page.screenshot({ path: 'test-results/atelier-expressive-night.png' });
   await page.getByRole('button', { name: 'Orbit model', exact: true }).click();
   await expect(
@@ -295,16 +283,14 @@ test('expressive conversation validates a corrected sweep, renders lofts and pre
   ).toHaveAttribute('aria-pressed', 'true');
   await page.getByRole('button', { name: 'Pause orbit', exact: true }).click();
   await page
-    .getByRole('button', { name: 'Exit presentation', exact: true })
+    .getByRole('button', { name: 'Back to editing', exact: true })
     .click();
   await page
     .getByRole('button', { name: 'Studio appearance and location' })
     .click();
   await page.getByRole('button', { name: 'Day', exact: true }).click();
   await page.getByRole('button', { name: 'Close studio settings' }).click();
-  await page
-    .getByRole('button', { name: 'Presentation mode', exact: true })
-    .click();
+  await openTool(page, 'Presentation mode');
   await page.screenshot({ path: 'test-results/atelier-expressive-day.png' });
   await page.reload();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
@@ -329,9 +315,7 @@ test('late map-picker loading cannot overwrite coordinates already typed', async
     r.fulfill({ contentType: 'image/png', body: tile }),
   );
   await ready(page);
-  await page
-    .getByRole('button', { name: 'Change map location', exact: true })
-    .click();
+  await openTool(page, 'Change map location');
   await page.getByLabel('Latitude', { exact: true }).fill('31.742388');
   await page.getByLabel('Longitude', { exact: true }).fill('-106.439452');
   release();

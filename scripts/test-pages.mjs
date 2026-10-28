@@ -75,6 +75,7 @@ try {
     `http://127.0.0.1:${server.address().port}/atelier/`,
   );
   assert.equal(response.status(), 200);
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
   await page.getByRole('button', { name: 'Expand inspector' }).click();
   await page.getByRole('button', { name: 'Show objects' }).click();
   await page.getByText('Manual tools', { exact: true }).click();
@@ -122,6 +123,7 @@ try {
       .inputValue(),
     '7',
   );
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
   assert.equal(
     await page
       .getByRole('button', { name: 'Connect AI', exact: true })
@@ -134,6 +136,7 @@ try {
       .isDisabled(),
     true,
   );
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
   // Verify lazy map-picker JS/CSS also resolve under the project subpath.
   await page.route('https://tile.openstreetmap.org/**', (r) =>
     r.fulfill({
@@ -144,6 +147,7 @@ try {
       ),
     }),
   );
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
   await page.getByRole('button', { name: 'Toggle site map' }).click();
   await page
     .getByRole('region', { name: 'Choose a site on the map' })
@@ -152,6 +156,7 @@ try {
     () => document.querySelectorAll('.leaflet-tile-loaded').length > 0,
   );
   // New reference desk and shared model exporter also load lazily at this subpath.
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
   await page.getByRole('button', { name: 'Pull up moodboard' }).click();
   await page.getByRole('button', { name: 'Add model to board' }).click();
   await page.waitForFunction(
@@ -177,6 +182,7 @@ try {
         ?.getAttribute('data-model-objects') === '9',
   );
   // The photo viewer's lazy chunk also works without a server at /atelier/.
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
   await page.getByRole('button', { name: 'Open panoramas' }).click();
   const photo = await page.evaluate(() => {
     const c = document.createElement('canvas');

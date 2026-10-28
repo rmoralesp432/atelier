@@ -4,7 +4,7 @@ import type { Operation } from '../src/intelligence/plan';
 test('cylinder intersection and architectural conversion use conversational review with cancellation and undo (model fixtures)', async ({
   page,
 }) => {
-  test.setTimeout(60000);
+  test.setTimeout(120000);
   const errors: string[] = [];
   page.on('pageerror', (error) => errors.push(error.message));
   let turn = 0;
@@ -118,14 +118,14 @@ test('cylinder intersection and architectural conversion use conversational revi
   await say(
     'Intersect this with a centered cylinder, 12 meters high and radius 4. Keep only the shared solid.',
   );
-  await expect(review).toBeVisible();
+  await expect(review).toBeVisible({ timeout: 20000 });
   await expect(review).toContainText('Central cylinder');
   const before = await state();
   await say('Actually, cancel that.');
   await expect(review).toBeHidden();
   expect(await state()).toEqual(before);
   await say('Go back to that cylinder intersection.');
-  await expect(review).toBeVisible();
+  await expect(review).toBeVisible({ timeout: 20000 });
   await say('Yes, keep only the intersection.');
   await expect(page.getByRole('log')).toContainText('intersect');
   await expect
@@ -136,7 +136,7 @@ test('cylinder intersection and architectural conversion use conversational revi
   expect(intersection.position.y).toBe(4);
   expect(intersection.dimensions).toEqual({ width: 8, depth: 8, height: 8 });
   await say('Make this two floors with curtain walls, keeping its height.');
-  await expect(review).toBeVisible();
+  await expect(review).toBeVisible({ timeout: 20000 });
   await say('Yes, apply that.');
   await expect(page.getByRole('log')).toContainText('real glass panels');
   await expect

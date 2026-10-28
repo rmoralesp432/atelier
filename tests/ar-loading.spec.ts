@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { expect, test, type Page } from '@playwright/test';
 import { readdirSync, readFileSync } from 'node:fs';
 async function nativePhone(page: Page) {
@@ -17,9 +18,7 @@ async function nativePhone(page: Page) {
 }
 async function panel(page: Page) {
   await page.getByRole('button', { name: 'Design tools', exact: true }).click();
-  await page
-    .getByRole('button', { name: 'Camera settings', exact: true })
-    .click();
+  await openTool(page, 'Camera settings');
   await page.getByRole('button', { name: 'View in your space · AR' }).click();
 }
 const saved = (page: Page) =>

@@ -42,7 +42,10 @@ test('draws a snapped rectangle directly, pulls it into 3D, and cancels a new dr
 }) => {
   test.setTimeout(90000);
   await ready(page);
-  await page.getByRole('button', { name: 'Draw 2D', exact: true }).click();
+  await page
+    .getByRole('toolbar', { name: 'Modeling tools', exact: true })
+    .getByRole('button', { name: 'Draw 2D', exact: true })
+    .click();
   const a = await point(page, -110, -110),
     b = await point(page, 100, 60);
   await page.mouse.click(a.x, a.y);
@@ -75,7 +78,10 @@ test('draws a snapped rectangle directly, pulls it into 3D, and cancels a new dr
     .toBe('extrusion');
   const solid = await saved(page);
   expect(solid.project.volumes[0].id).toBe(face.id);
-  await page.getByRole('button', { name: 'Draw 2D', exact: true }).click();
+  await page
+    .getByRole('toolbar', { name: 'Modeling tools', exact: true })
+    .getByRole('button', { name: 'Draw 2D', exact: true })
+    .click();
   const c = await point(page, 180, -50);
   await page.mouse.click(c.x, c.y);
   await page.keyboard.press('Escape');
@@ -171,6 +177,10 @@ test('focuses new geometry without zooming back to distant objects and shows wor
   const before = Number(await view.getAttribute('data-camera-distance'));
   await page
     .getByRole('button', { name: 'Create and transform', exact: true })
+    .click();
+  await page
+    .getByRole('region', { name: 'Create and transform', exact: true })
+    .getByRole('button', { name: 'Draw 2D', exact: true })
     .click();
   await page.getByLabel('Shape width', { exact: true }).fill('4');
   await page.getByLabel('Shape depth', { exact: true }).fill('4');

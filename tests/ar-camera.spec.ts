@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { expect, test, type Page } from '@playwright/test';
 import { existsSync } from 'node:fs';
 
@@ -22,9 +23,7 @@ test.use({
 async function open(page: Page) {
   await page.goto('/');
   await page.getByRole('button', { name: 'Design tools', exact: true }).click();
-  await page
-    .getByRole('button', { name: 'Camera settings', exact: true })
-    .click();
+  await openTool(page, 'Camera settings');
   await page.getByRole('button', { name: 'View in your space · AR' }).click();
   await page
     .getByRole('button', { name: 'Prepare AR model', exact: true })

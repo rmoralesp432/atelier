@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { test, expect } from '@playwright/test';
 test('section cut and visible plane toggle independently; a draggable plane retains position without changing geometry', async ({
   page,
@@ -13,7 +14,7 @@ test('section cut and visible plane toggle independently; a draggable plane reta
       JSON.parse(localStorage.getItem('atelier.session.v2')!),
     );
   const before = (await saved()).project;
-  await page.getByRole('button', { name: 'Section view', exact: true }).click();
+  await openTool(page, 'Section view');
   await expect(page.getByLabel('Section cut', { exact: true })).toBeChecked();
   await expect(
     page.getByLabel('Show section plane', { exact: true }),
@@ -64,7 +65,7 @@ test('section cut and visible plane toggle independently; a draggable plane reta
     'off',
   );
   await page.getByRole('button', { name: 'Close section controls' }).click();
-  await page.getByRole('button', { name: 'Section view', exact: true }).click();
+  await openTool(page, 'Section view');
   await expect(
     page.getByLabel('Section cut', { exact: true }),
   ).not.toBeChecked();

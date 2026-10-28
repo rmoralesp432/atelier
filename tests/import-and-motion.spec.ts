@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { test, expect, type Page } from '@playwright/test';
 import * as THREE from 'three';
 import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
@@ -42,7 +43,7 @@ test('OBJ adds a closed solid beside existing objects; import, scale, save and u
   const next = (await saved(page)).project.volumes;
   expect(next.slice(0, 2)).toEqual(before);
   expect(next[2].position.x - next[2].dimensions.width / 2).toBeGreaterThan(9);
-  await page.getByRole('button', { name: 'Expand inspector' }).click();
+  await openTool(page, 'Expand inspector');
   await expect(page.getByTestId('volume-stat')).toHaveText('24 m³');
   const width = page.getByRole('spinbutton', { name: 'Width', exact: true });
   await width.fill('4');
@@ -119,7 +120,7 @@ test('open meshes are honest reference surfaces, and import is accessible on nar
   expect(bounds.x + bounds.width).toBeLessThanOrEqual(390);
   await dialog.getByRole('button', { name: 'Add to workspace' }).click();
   await page.getByRole('button', { name: 'Design tools', exact: true }).click();
-  await page.getByRole('button', { name: 'Expand inspector' }).click();
+  await openTool(page, 'Expand inspector');
   await expect(page.getByTestId('volume-stat')).toHaveText('Reference');
   const x = page.getByRole('spinbutton', { name: 'X', exact: true });
   await x.fill('15');
@@ -276,6 +277,27 @@ test('reduced motion shows the final geometry immediately and dropping files ope
 test('import preserves a history larger than the former two-million-character budget', async ({
   page,
 }) => {
+  test.setTimeout(90000);
+  // Large sessions intentionally bypass the old synchronous localStorage mirror.
+  const durable = () =>
+    page.evaluate(async () => {
+      const db = await new Promise<IDBDatabase>((resolve, reject) => {
+        const r = indexedDB.open('atelier-projects');
+        r.onsuccess = () => resolve(r.result);
+        r.onerror = () => reject(r.error);
+      });
+      return new Promise<any>((resolve, reject) => {
+        const r = db.transaction('projects').objectStore('projects').getAll();
+        r.onsuccess = () => {
+          resolve(JSON.parse(r.result[0].session));
+          db.close();
+        };
+        r.onerror = () => {
+          reject(r.error);
+          db.close();
+        };
+      });
+    });
   const volume = {
     id: 'kept',
     name: 'Existing pavilion',
@@ -316,7 +338,7 @@ test('import preserves a history larger than the former two-million-character bu
     'data-model-objects',
     '1',
   );
-  const before = await saved(page);
+  const before = await durable();
   const dialog = await upload(
     page,
     'History preserved.obj',
@@ -328,7 +350,10 @@ test('import preserves a history larger than the former two-million-character bu
     'data-model-objects',
     '2',
   );
-  const after = await saved(page);
+  await expect
+    .poll(async () => (await durable()).project.volumes.length)
+    .toBe(2);
+  const after = await durable();
   expect(after.past.slice(0, -1)).toEqual(before.past);
   expect(after.past.at(-1)).toEqual(before.project);
   await page.getByRole('button', { name: 'Undo', exact: true }).click();
@@ -336,5 +361,7 @@ test('import preserves a history larger than the former two-million-character bu
     'data-model-objects',
     '1',
   );
-  expect((await saved(page)).project).toEqual(before.project);
+  await expect
+    .poll(async () => (await durable()).project)
+    .toEqual(before.project);
 });

@@ -1,9 +1,59 @@
 import { BufferAttribute, BufferGeometry } from 'three';
 import { optimizeGeometry } from '../imports/optimize';
+import { MeshoptSimplifier } from 'meshoptimizer/simplifier';
 
 export const AR_TRIANGLE_LIMIT = 100_000;
 export type ARMeshData = { positions: Float32Array; indices: Uint32Array };
 export type ARPartJob = ARMeshData & { target: number; cutY?: number };
+
+/** AR is a disposable viewing copy, not the canonical editing mesh. Relax seam
+ * protection only here: independently exported triangles otherwise cannot be
+ * reduced at all. Spatial clustering retains an actual surface approximation,
+ * never random face sampling. Small details can disappear in this copy. */
+export async function fitARBudget(
+  data: ARMeshData,
+  target: number,
+): Promise<ARMeshData> {
+  if (data.indices.length / 3 <= target) return data;
+  await MeshoptSimplifier.ready;
+  let indices = data.indices;
+  const locks = new Uint8Array(data.positions.length / 3);
+  for (let axis = 0; axis < 3; axis++) {
+    let min = 0,
+      max = 0;
+    for (let i = 1; i < locks.length; i++) {
+      if (data.positions[i * 3 + axis] < data.positions[min * 3 + axis])
+        min = i;
+      if (data.positions[i * 3 + axis] > data.positions[max * 3 + axis])
+        max = i;
+    }
+    locks[min] = locks[max] = 1;
+  }
+
+  for (const error of [0.005, 0.02, 0.1, 1]) {
+    const result = MeshoptSimplifier.simplifySloppy(
+      data.indices,
+      data.positions,
+      3,
+      locks,
+      Math.max(3, Math.floor(target) * 3),
+      error,
+    );
+    if (result[0].length && result[0].length < indices.length)
+      indices = result[0];
+    if (indices.length / 3 <= target) break;
+  }
+  if (indices.length / 3 > target)
+    throw new Error(
+      'This surface could not be reduced safely for AR. Your full import remains available; try an AR floor cut or selected objects.',
+    );
+  const [remap, count] = MeshoptSimplifier.compactMesh(indices);
+  const positions = new Float32Array(count * 3);
+  for (let i = 0; i < remap.length; i++)
+    if (remap[i] !== 0xffffffff)
+      positions.set(data.positions.subarray(i * 3, i * 3 + 3), remap[i] * 3);
+  return { positions, indices };
+}
 
 /** Cut actual triangles, not a material clipping effect. Only an AR copy is changed.
  * The input has already been bounded by the simplifier, keeping allocations small.
@@ -69,10 +119,6 @@ export async function prepareARPart(job: ARPartJob): Promise<ARMeshData> {
       source.dispose();
       source = reduced.geometry;
     }
-    if (source.index!.count / 3 > AR_TRIANGLE_LIMIT)
-      throw new Error(
-        'This part is still too detailed for safe phone AR after simplification. Choose selected objects only, hide smaller details, or make a lighter import copy. The original project is unchanged.',
-      );
     let data: ARMeshData = {
       positions: source.getAttribute('position').array as Float32Array,
       indices: source.index!.array as Uint32Array,
@@ -96,7 +142,7 @@ export async function prepareARPart(job: ARPartJob): Promise<ARMeshData> {
         }
       }
     }
-    return data;
+    return await fitARBudget(data, job.target);
   } finally {
     source.dispose();
   }

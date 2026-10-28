@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { test, expect } from '@playwright/test';
 import type { Operation } from '../src/intelligence/plan';
 
@@ -51,7 +52,7 @@ test('opens a full-size scene, adds shapes without AI, and reuses meshes on sele
   await expect(
     page.getByRole('spinbutton', { name: 'Height', exact: true }),
   ).toHaveValue('8');
-  await page.getByRole('button', { name: 'Collapse inspector' }).click();
+  await openTool(page, 'Collapse inspector');
   await page.waitForTimeout(700);
   await page.screenshot({ path: 'test-results/atelier-immersive.png' });
   await page.setViewportSize({ width: 390, height: 844 });
@@ -59,7 +60,7 @@ test('opens a full-size scene, adds shapes without AI, and reuses meshes on sele
   await expect(page.locator('.objects-panel')).toBeVisible();
   await page.getByRole('button', { name: 'Hide objects' }).click();
   await page.getByRole('button', { name: 'Design tools', exact: true }).click();
-  await page.getByRole('button', { name: 'Expand inspector' }).click();
+  await openTool(page, 'Expand inspector');
   await expect(page.locator('.inspector-panel')).toBeVisible();
   await page
     .getByRole('button', { name: 'Close inspector', exact: true })
@@ -187,7 +188,7 @@ test('architectural workflow renders real floors/glass, preserves elevation and 
   await page.waitForTimeout(1000);
   await page.screenshot({ path: 'test-results/atelier-curtain-wall.png' });
   await page.reload();
-  await page.getByRole('button', { name: 'Expand inspector' }).click();
+  await openTool(page, 'Expand inspector');
   await expect(
     page.getByRole('spinbutton', { name: 'Floors', exact: true }),
   ).toHaveValue('2');

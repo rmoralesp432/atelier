@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { expect, test } from '@playwright/test';
 
 test('day and night satellite views retain model colors at distant orthographic camera positions', async ({
@@ -52,9 +53,7 @@ test('day and night satellite views retain model colors at distant orthographic 
   await page
     .getByLabel('Camera view', { exact: true })
     .selectOption('orthographic');
-  await page
-    .getByRole('button', { name: 'Change map location', exact: true })
-    .click();
+  await openTool(page, 'Change map location');
   await page.getByLabel('Latitude', { exact: true }).fill('31.74');
   await page.getByLabel('Longitude', { exact: true }).fill('-106.43');
   await page.getByRole('button', { name: 'Satellite', exact: true }).click();
@@ -122,8 +121,8 @@ test('day and night satellite views retain model colors at distant orthographic 
   actual = await colors();
   expect(actual.red).toBeGreaterThan(300);
   expect(actual.blue).toBeGreaterThan(300);
-  await page.getByRole('button', { name: 'Toggle site map' }).click();
-  await page.getByRole('button', { name: 'Toggle site map' }).click();
+  await openTool(page, 'Toggle site map');
+  await openTool(page, 'Toggle site map');
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-map-status',
     'ready',

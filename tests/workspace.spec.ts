@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { expect, test, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import type { Plan, Operation } from '../src/intelligence/plan';
@@ -104,11 +105,11 @@ test('actual WebGL rendering, orbit, view changes and collapsible inspector', as
   await page.getByRole('button', { name: 'Frame all', exact: true }).click();
   await page.getByLabel('Camera view').selectOption('top');
   await expect(page.getByLabel('Camera view')).toHaveValue('top');
-  await page.getByRole('button', { name: 'Collapse inspector' }).click();
+  await openTool(page, 'Collapse inspector');
   await expect(
     page.getByRole('spinbutton', { name: 'Width', exact: true }),
   ).toBeHidden();
-  await page.getByRole('button', { name: 'Expand inspector' }).click();
+  await openTool(page, 'Expand inspector');
   await expect(
     page.getByRole('spinbutton', { name: 'Width', exact: true }),
   ).toHaveValue('14');
@@ -334,9 +335,7 @@ test('JSON project plus history export/import and invalid file protection', asyn
     .getByRole('button', { name: 'Create volume', exact: true })
     .click();
   const downloadPromise = page.waitForEvent('download');
-  await page
-    .getByRole('button', { name: 'Export project', exact: true })
-    .click();
+  await openTool(page, 'Export project');
   const download = await downloadPromise;
   expect(download.suggestedFilename()).toMatch(/\.atelier\.json$/);
   await page
@@ -409,7 +408,7 @@ test('missing AI credentials show an honest error and voice is not simulated', a
   await say(page, 'Design a small courtyard house.');
   await expect(page.getByRole('log')).toContainText('AI is not configured');
   await expect(page.locator('.object-row')).toHaveCount(2);
-  await page.getByRole('button', { name: 'Connect AI', exact: true }).click();
+  await openTool(page, 'Connect AI');
   await expect(page.getByRole('dialog')).toContainText(
     'Never add a provider key',
   );

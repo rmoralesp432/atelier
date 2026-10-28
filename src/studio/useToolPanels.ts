@@ -1,5 +1,6 @@
 import { useMemo, useState, type SetStateAction } from 'react';
 const names = [
+  'explore',
   'studio',
   'inspector',
   'section',

@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { expect, test } from '@playwright/test';
 
 // A genuine 131,072-triangle surface: unique vertices, no repeated filler faces.
@@ -177,9 +178,7 @@ test('AR preparation reduces a dense OBJ copy while keeping the original project
     await page
       .getByRole('button', { name: 'Design tools', exact: true })
       .click();
-  await page
-    .getByRole('button', { name: 'Camera settings', exact: true })
-    .click();
+  await openTool(page, 'Camera settings');
   await page.getByRole('button', { name: 'View in your space · AR' }).click();
   await page
     .getByRole('button', { name: 'Prepare AR model', exact: true })

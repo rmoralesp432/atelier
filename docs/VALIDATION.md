@@ -2,6 +2,20 @@
 
 Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 154 and software WebGL. This file distinguishes geometric execution, UI/provider contracts and live AI/audio behavior.
 
+## Clean studio, design exploration and reference images — October 28, 2026
+
+The current workflow is documented in [Create, explore and model from references](EXPLORE-DESIGN.md). The source import cap is still 512 MB / 5 million output triangles; no smaller import restriction was introduced.
+
+**200 unit/integration tests in 53 files pass**, including component relationships and selection-order-independent group movement, preserved window dimensions, hinge and hosted-handle geometry, alternatives/undo/session roundtrips, room layout collision rollback, cutaway planes, streamed OBJ parsing and adaptive AR copies. The TypeScript/Vite production build and the static `/atelier/` Pages smoke pass. The static smoke uses actual FBX, panorama/moodboard assets and a real worker-generated USDZ.
+
+**107 distinct production-browser scenarios pass across sequential batches and focused reruns**, rather than a single uninterrupted suite. Browser checks cover direct Box/Cylinder/Sphere creation; desktop and phone day/night panels; reversible door/exploded presentation; alternative preview/apply/reload; saved camera and actual room cutaways; photo attachment, scale input and retained follow-up context; ordinary 2D drawing/extrusion; selection and group transforms; map alignment; camera placement; and existing floor-cut/native-handoff/camera-overlay paths. Test selectors were migrated from the former exposed toolbar to the shared Tools menu. Phone panel/footer overlaps, conversation coverage of Undo, the selection label colliding with camera controls, and group/host transformation ordering bugs found during review were fixed.
+
+A **synthetic 300 MB OBJ** contains **1,065,800 genuine triangles plus comment padding**. Full import and actual AR preparation pass without a page reload; the generated AR copy stays at or below 100,000 triangles and all original faces remain saved. This independently exercises file size and substantial geometry; it is not the user's own asset or 300 MB of pure geometry. Full OBJ reading avoids a complete text string and expanded normal/UV arrays. Long exporter comment lines are discarded incrementally; a regression found and fixed a premature rejection of a 10 MB metadata comment. Adaptive simplification can remove fine/disconnected features only from the disposable AR copy. Device memory remains a practical limit.
+
+Chromium touch events test simultaneous two-finger pan/pinch/twist, transitions to one finger and cancellation without accidental selection or project edits. These are browser simulation tests, not physical iPhone Safari or native Quick Look benchmarks. The phone/day/night screenshots were visually inspected.
+
+Image and conversational browser tests use **explicit provider fixtures**, exercising the actual application request, validation, geometry and persistence paths. No paid AI requests were made. Live image interpretation quality, continuous microphone conversation and real-world native AR tracking/placement remain unverified. Image-based massing is a measured concept when the user supplies a scale, not photogrammetry or BIM reconstruction. Existing hosting credentials and app functionality are preserved.
+
 ## Bounded AR preparation and real floor cuts
 
 The user's recording was inspected as a frame sequence: it shows “Preparing your model…” followed by the workspace boot screen before native AR opens. This is consistent with memory pressure, not proof of an iOS memory termination reason. The offset-only approach was also reported ineffective because Quick Look re-grounds the complete model. It is superseded by [AR floor cuts](AR-FLOORS.md).

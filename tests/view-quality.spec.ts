@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { test, expect } from '@playwright/test';
 
 test('smooth viewing keeps selection, wireframe, and persistent quality controls', async ({
@@ -21,7 +22,7 @@ test('smooth viewing keeps selection, wireframe, and persistent quality controls
   await page.getByRole('button', { name: 'Show objects', exact: true }).click();
   await page.locator('.object-row').first().click();
   await expect(viewport).toHaveAttribute('data-transform-tool', 'translate');
-  await page.getByRole('button', { name: 'Section view', exact: true }).click();
+  await openTool(page, 'Section view');
   await page.getByLabel('Show section plane', { exact: true }).uncheck();
   await expect
     .poll(async () =>

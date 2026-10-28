@@ -4,6 +4,7 @@ import {
   type MeshAsset,
   type PreparedImport,
 } from './mesh';
+import { readOBJFile } from './objStream';
 import { setKernelWasmUrl } from '../geometry/kernel';
 import wasmUrl from 'manifold-3d/manifold.wasm?url';
 import type { ImportRequest, ImportReply } from './protocol';
@@ -28,12 +29,17 @@ onmessage = (event: MessageEvent<ImportRequest>) => {
     try {
       if (request.type === 'load') {
         send({ type: 'progress', text: 'Reading the file on this device…' });
-        asset = await parseMeshAsset(
-          request.file.name,
-          await request.file.arrayBuffer(),
-          request.detail,
-          (text) => send({ type: 'progress', text }),
-        );
+        asset =
+          request.detail === 'full' && /\.obj$/i.test(request.file.name)
+            ? await readOBJFile(request.file, (text) =>
+                send({ type: 'progress', text }),
+              )
+            : await parseMeshAsset(
+                request.file.name,
+                await request.file.arrayBuffer(),
+                request.detail,
+                (text) => send({ type: 'progress', text }),
+              );
         send({
           type: 'loaded',
           info: {

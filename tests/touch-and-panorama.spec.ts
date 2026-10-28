@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { expect, test, type Page, type CDPSession } from '@playwright/test';
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
@@ -28,7 +29,7 @@ async function ready(page: Page) {
 }
 async function openPanoramas(page: Page) {
   await page.getByRole('button', { name: 'Design tools', exact: true }).click();
-  await page.getByRole('button', { name: 'Open panoramas' }).click();
+  await openTool(page, 'Open panoramas');
   await expect(
     page.getByRole('dialog', { name: 'Panorama viewer' }),
   ).toBeVisible();
@@ -302,4 +303,48 @@ test('explicit motion permission fixtures exercise denial, sensor-driven view ch
   await expect(
     page.getByRole('dialog', { name: 'Panorama viewer' }),
   ).toHaveCount(0);
+});
+
+test('two fingers twist and pan together, transition to one finger, and never select after a drag', async ({
+  page,
+}) => {
+  test.setTimeout(60000);
+  await ready(page);
+  const cdp = await page.context().newCDPSession(page);
+  await cdp.send('Emulation.setTouchEmulationEnabled', {
+    enabled: true,
+    maxTouchPoints: 5,
+  });
+  const view = page.getByTestId('viewport');
+  await page.waitForTimeout(500);
+  const before = await saved(page);
+  const pos = await view.getAttribute('data-camera-position');
+  const target = await view.getAttribute('data-camera-target');
+  await touch(cdp, 'touchStart', [
+    { x: 130, y: 380, id: 1 },
+    { x: 240, y: 380, id: 2 },
+  ]);
+  for (let i = 1; i <= 6; i++)
+    await touch(cdp, 'touchMove', [
+      { x: 130 + i * 5, y: 380 - i * 5, id: 1 },
+      { x: 240 + i * 3, y: 380 + i * 5, id: 2 },
+    ]);
+  await touch(cdp, 'touchEnd', [{ x: 160, y: 350, id: 1 }]);
+  await touch(cdp, 'touchMove', [{ x: 185, y: 365, id: 1 }]);
+  await touch(cdp, 'touchEnd', []);
+  await expect(view).not.toHaveAttribute('data-camera-position', pos!);
+  await expect(view).not.toHaveAttribute('data-camera-target', target!);
+  expect(await saved(page)).toEqual(before);
+  const after = await view.getAttribute('data-camera-position');
+  await touch(cdp, 'touchStart', [{ x: 180, y: 380, id: 3 }]);
+  await touch(cdp, 'touchMove', [{ x: 220, y: 400, id: 3 }]);
+  await cdp.send('Input.dispatchTouchEvent', {
+    type: 'touchCancel',
+    touchPoints: [],
+  });
+  await touch(cdp, 'touchStart', [{ x: 160, y: 380, id: 4 }]);
+  await touch(cdp, 'touchMove', [{ x: 190, y: 410, id: 4 }]);
+  await touch(cdp, 'touchEnd', []);
+  await expect(view).not.toHaveAttribute('data-camera-position', after!);
+  expect(await saved(page)).toEqual(before);
 });

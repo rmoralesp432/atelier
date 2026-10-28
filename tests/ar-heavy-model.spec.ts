@@ -1,5 +1,6 @@
+import { openTool } from './tools';
 import { expect, test, type Page } from '@playwright/test';
-import { writeFile } from 'node:fs/promises';
+import { writeFile, open, stat } from 'node:fs/promises';
 
 async function phone(page: Page) {
   await page.setViewportSize({ width: 390, height: 844 });
@@ -21,9 +22,7 @@ async function phone(page: Page) {
 }
 async function openPanel(page: Page) {
   await page.getByRole('button', { name: 'Design tools', exact: true }).click();
-  await page
-    .getByRole('button', { name: 'Camera settings', exact: true })
-    .click();
+  await openTool(page, 'Camera settings');
   await page.getByRole('button', { name: 'View in your space · AR' }).click();
 }
 function denseFacade(n = 730) {
@@ -39,12 +38,22 @@ function denseFacade(n = 730) {
     }
   return rows.join('\n');
 }
-test('million-face OBJ prepares a bounded real USDZ in a worker without reload or changing saved detail', async ({
+test('300 MB OBJ with a million faces prepares bounded real USDZ without reload or reducing saved detail', async ({
   page,
 }, info) => {
   test.setTimeout(240000);
   const path = info.outputPath('dense-ar-facade.obj');
   await writeFile(path, denseFacade());
+  // Large source text plus genuinely dense geometry exercises both byte and
+  // triangle paths. Comments model source metadata; they do not add geometry.
+  const padding = '\n# ' + 'source metadata '.repeat(4096) + '\n';
+  const file = await open(path, 'a');
+  let size = (await stat(path)).size;
+  while (size < 300_000_000) {
+    await file.write(padding);
+    size += Buffer.byteLength(padding);
+  }
+  await file.close();
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await phone(page);

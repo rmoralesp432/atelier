@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { test, expect, type Page } from '@playwright/test';
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
@@ -22,9 +23,7 @@ test('map coverage expands to 5 km, persists, undoes and never scales buildings'
   );
   await ready(page);
   const before = (await saved(page)).project.volumes;
-  await page
-    .getByRole('button', { name: 'Change map location', exact: true })
-    .click();
+  await openTool(page, 'Change map location');
   await page.getByLabel('Latitude', { exact: true }).fill('31.74');
   await page.getByLabel('Longitude', { exact: true }).fill('-106.43');
   await page.getByLabel('Map area', { exact: true }).selectOption('1000');
@@ -71,9 +70,7 @@ test('map coverage expands to 5 km, persists, undoes and never scales buildings'
   await expect
     .poll(async () => (await saved(page)).project.site.coverage)
     .toBe(5000);
-  await page
-    .getByRole('button', { name: 'Change map location', exact: true })
-    .click();
+  await openTool(page, 'Change map location');
   await expect(page.getByLabel('Map area', { exact: true })).toHaveValue(
     '5000',
   );
@@ -109,7 +106,9 @@ test('selection shortcuts reveal scale, stretch, copy and array; pull labels tra
   await expect(
     page.getByLabel('Scale factor', { exact: true }),
   ).toBeInViewport();
-  await toolbar.getByRole('button', { name: 'Copy', exact: true }).click();
+  await page
+    .getByRole('button', { name: 'Copy Set precisely', exact: true })
+    .click();
   await page
     .getByRole('button', { name: 'Copy selection', exact: true })
     .click();
@@ -117,7 +116,9 @@ test('selection shortcuts reveal scale, stretch, copy and array; pull labels tra
     .poll(async () => (await saved(page)).project.volumes.length)
     .toBe(3);
   await page.getByRole('button', { name: 'Undo', exact: true }).click();
-  await toolbar.getByRole('button', { name: 'Array', exact: true }).click();
+  await page
+    .getByRole('button', { name: 'Array Set precisely', exact: true })
+    .click();
   await page.getByLabel('Columns', { exact: true }).fill('2');
   await page.getByRole('button', { name: 'Create array', exact: true }).click();
   await expect
@@ -160,9 +161,7 @@ test('click-to-place previews floor and heading, enters at eye level and cancels
   page.on('pageerror', (e) => errors.push(e.message));
   await ready(page);
   const before = await saved(page);
-  await page
-    .getByRole('button', { name: 'Camera settings', exact: true })
-    .click();
+  await openTool(page, 'Camera settings');
   await page
     .getByRole('button', { name: 'Place me in the model', exact: true })
     .click();
@@ -195,9 +194,7 @@ test('click-to-place previews floor and heading, enters at eye level and cancels
       [point[0], point[1] + 1.65, point[2]].map((n) => Math.round(n * 100)),
     );
   expect(await saved(page)).toEqual(before);
-  await page
-    .getByRole('button', { name: 'Camera settings', exact: true })
-    .click();
+  await openTool(page, 'Camera settings');
   await page
     .getByRole('button', { name: 'Place me in the model', exact: true })
     .click();
@@ -297,9 +294,7 @@ test('phone tools remain reachable and the placement instruction stays clear of 
     .getByRole('button', { name: 'Close modeling tools', exact: true })
     .click();
   await page.getByRole('button', { name: 'Design tools', exact: true }).click();
-  await page
-    .getByRole('button', { name: 'Camera settings', exact: true })
-    .click();
+  await openTool(page, 'Camera settings');
   await page
     .getByRole('button', { name: 'Place me in the model', exact: true })
     .click();

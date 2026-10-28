@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { test, expect, type Page } from '@playwright/test';
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
@@ -115,7 +116,7 @@ test('panels close without losing selection, drag with pointer or keyboard, and 
 }) => {
   test.setTimeout(120000);
   await setup(page);
-  await page.getByRole('button', { name: 'Expand inspector' }).click();
+  await openTool(page, 'Expand inspector');
   const inspector = page.getByRole('complementary', {
     name: 'Object inspector',
   });
@@ -144,7 +145,7 @@ test('panels close without losing selection, drag with pointer or keyboard, and 
   expect((await studioPanel.boundingBox())!.x).toBeLessThan(s.x);
   await page.getByRole('button', { name: 'Close studio settings' }).click();
   expect((await saved(page)).project.selectedId).toBe('red');
-  await page.getByRole('button', { name: 'Expand inspector' }).click();
+  await openTool(page, 'Expand inspector');
   await page
     .getByRole('button', { name: 'Clear selection', exact: true })
     .click();
@@ -157,7 +158,7 @@ test('panels close without losing selection, drag with pointer or keyboard, and 
     '0',
   );
   await page.reload();
-  await page.getByRole('button', { name: 'Expand inspector' }).click();
+  await openTool(page, 'Expand inspector');
   await page.getByRole('button', { name: 'Show objects', exact: true }).click();
   await page
     .locator('.object-row')
@@ -277,7 +278,7 @@ test('map replaces the ground surface and restores it on hide', async ({
   );
   await setup(page);
   const before = (await saved(page)).project.volumes;
-  await page.getByRole('button', { name: 'Toggle site map' }).click();
+  await openTool(page, 'Toggle site map');
   await page.getByLabel('Latitude', { exact: true }).fill('31.742388');
   await page.getByLabel('Longitude', { exact: true }).fill('-106.439452');
   await page.getByRole('button', { name: 'Show model on map' }).click();
@@ -331,21 +332,21 @@ test('map replaces the ground surface and restores it on hide', async ({
   );
   expect(changed).toBeLessThan(0.01);
   expect((await saved(page)).project.volumes).toEqual(before);
-  await page.getByRole('button', { name: 'Toggle site map' }).click();
+  await openTool(page, 'Toggle site map');
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-base-ground-visible',
     'true',
   );
   await expect(
-    page.getByRole('button', { name: 'Toggle site map' }),
+    page.getByRole('button', { name: 'Toggle site map', includeHidden: true }),
   ).toHaveAttribute('aria-pressed', 'false');
-  await page.getByRole('button', { name: 'Toggle site map' }).click();
+  await openTool(page, 'Toggle site map');
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-map-status',
     'ready',
   );
   await expect(
-    page.getByRole('button', { name: 'Toggle site map' }),
+    page.getByRole('button', { name: 'Toggle site map', includeHidden: true }),
   ).toHaveAttribute('aria-pressed', 'true');
   expect((await saved(page)).project.site.latitude).toBe(31.742388);
 });
@@ -368,7 +369,7 @@ test('interactive map picker supports pan, zoom, coordinates and device location
   );
   await setup(page);
   const original = (await saved(page)).project;
-  await page.getByRole('button', { name: 'Toggle site map' }).click();
+  await openTool(page, 'Toggle site map');
   await page
     .getByRole('button', { name: 'Use my location', exact: true })
     .click();

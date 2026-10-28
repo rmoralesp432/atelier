@@ -2,6 +2,9 @@ import type { DrawingMode } from '../drawing/profile';
 import { useEffect, useState } from 'react';
 import {
   X,
+  Box,
+  Cylinder,
+  Orbit,
   Square,
   Circle,
   Hexagon,
@@ -35,7 +38,7 @@ export default function ModelPanel({
   onClose: () => void;
 }) {
   const floating = useFloatingPanel();
-  const [activeAction, setActiveAction] = useState(initialAction ?? 'draw');
+  const [activeAction, setActiveAction] = useState(initialAction ?? 'solid');
   const reveal = (action: string) => {
     setActiveAction(action);
     floating.ref.current?.scrollTo({ top: 0, behavior: 'instant' });
@@ -43,6 +46,9 @@ export default function ModelPanel({
   useEffect(() => {
     if (initialAction) reveal(initialAction);
   }, [initialAction]);
+  const [solidShape, setSolidShape] = useState<'box' | 'cylinder' | 'sphere'>(
+    'box',
+  );
   const [copyDistance, setCopyDistance] = useState(10);
   const [mirrorAxis, setMirrorAxis] = useState<'x' | 'z'>('x');
   const [mirrorCoordinate, setMirrorCoordinate] = useState(0);
@@ -89,7 +95,118 @@ export default function ModelPanel({
           <X size={17} />
         </button>
       </div>
-      {ids.length > 0 && (
+      <div className="segmented-control" aria-label="Creation mode">
+        <button
+          aria-pressed={activeAction === 'solid'}
+          onClick={() => reveal('solid')}
+        >
+          3D shapes
+        </button>
+        <button
+          aria-pressed={activeAction === 'draw'}
+          onClick={() => reveal('draw')}
+        >
+          Draw 2D
+        </button>
+        {ids.length > 0 && (
+          <button
+            aria-pressed={!['solid', 'draw'].includes(activeAction)}
+            onClick={() => reveal('scale')}
+          >
+            Edit selection
+          </button>
+        )}
+      </div>
+      {activeAction === 'solid' && (
+        <form
+          className="solid-creation"
+          onSubmit={(e) => {
+            e.preventDefault();
+            onOperation({
+              type: 'create',
+              shape: solidShape,
+              width,
+              depth: solidShape === 'box' ? depth : width,
+              height: solidShape === 'sphere' ? width : height,
+              count: 1,
+            });
+          }}
+        >
+          <h3>Create in three dimensions</h3>
+          <div className="solid-shapes">
+            {(
+              [
+                { id: 'box', name: 'Box', Icon: Box },
+                { id: 'cylinder', name: 'Cylinder', Icon: Cylinder },
+                { id: 'sphere', name: 'Sphere', Icon: Orbit },
+              ] as const
+            ).map(({ id, name, Icon }) => (
+              <button
+                type="button"
+                key={id}
+                aria-pressed={solidShape === id}
+                onClick={() => setSolidShape(id)}
+              >
+                <Icon size={30} strokeWidth={1.2} />
+                <span>{name}</span>
+              </button>
+            ))}
+          </div>
+          <div className="solid-dimensions">
+            <label>
+              {solidShape === 'box' ? 'Width' : 'Diameter'} · m
+              <input
+                aria-label="Solid width"
+                type="number"
+                min="0.1"
+                max="500"
+                step="any"
+                required
+                value={width}
+                onChange={(e) => setWidth(Number(e.target.value))}
+              />
+            </label>
+            {solidShape === 'box' && (
+              <label>
+                Depth · m
+                <input
+                  aria-label="Solid depth"
+                  type="number"
+                  min="0.1"
+                  max="500"
+                  step="any"
+                  required
+                  value={depth}
+                  onChange={(e) => setDepth(Number(e.target.value))}
+                />
+              </label>
+            )}
+            {solidShape !== 'sphere' && (
+              <label>
+                Height · m
+                <input
+                  aria-label="Solid height"
+                  type="number"
+                  min="0.1"
+                  max="500"
+                  step="any"
+                  required
+                  value={height}
+                  onChange={(e) => setHeight(Number(e.target.value))}
+                />
+              </label>
+            )}
+          </div>
+          <button className="primary-studio-action" type="submit">
+            Create 3D shape
+          </button>
+          <p className="studio-caption">
+            Start with a solid. Adjust it by dragging, using dimensions, or
+            talking to Atelier.
+          </p>
+        </form>
+      )}
+      {ids.length > 0 && !['solid', 'draw'].includes(activeAction) && (
         <div className="model-action-grid" aria-label="Quick modeling actions">
           <button onClick={() => onTool('reshape')}>
             <Maximize size={19} />
@@ -127,10 +244,7 @@ export default function ModelPanel({
           ))}
         </div>
       )}
-      <button className="text-action" onClick={() => reveal('draw')}>
-        Draw a new face
-      </button>
-      <div hidden={activeAction !== 'draw' && ids.length > 0}>
+      <div hidden={activeAction !== 'draw'}>
         <h3>Draw a face, then pull it into space</h3>
         <div className="theme-options">
           <button onClick={() => onDraw('rectangle')}>Draw rectangle</button>
@@ -241,13 +355,13 @@ export default function ModelPanel({
           describe a custom outline to Atelier.
         </p>
       </div>
-      <div className="studio-divider" />
-      <h3>
+      <div className="studio-divider" hidden={activeAction === 'solid'} />
+      <h3 hidden={activeAction === 'solid'}>
         {ids.length
           ? `${ids.length} selected`
           : 'Select an object to transform'}
       </h3>
-      {ids.length > 0 && (
+      {ids.length > 0 && activeAction !== 'solid' && (
         <>
           {selected && ids.includes(selected.id) && isProfile(selected) && (
             <form

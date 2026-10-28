@@ -60,6 +60,35 @@ export function sampleHouse(): SavedProject {
       geometry:
         Math.min(w, d, h) >= 0.1 ? { kind: 'box' } : structuredClone(boxMesh),
     };
+    const role = /door(?! handle)/i.test(name)
+      ? 'door'
+      : /roof/i.test(name)
+        ? 'roof'
+        : /floor|slab|terrace/i.test(name)
+          ? 'floor'
+          : /column/i.test(name)
+            ? 'column'
+            : /window/i.test(name)
+              ? 'window'
+              : group === 4
+                ? 'furniture'
+                : 'element';
+    v.component = {
+      role,
+      hostId: null,
+      level: y >= 1.5 ? 'Pavilion' : 'Ground',
+      motion: 'none',
+      travel: 1,
+    };
+    // Most west entry leaves run along Z: put their width along local X so
+    // the hinge remains on the actual jamb rather than the thin glass edge.
+    if (role === 'door') {
+      if (d > w) {
+        v.dimensions = { width: d, depth: w, height: h };
+        v.rotation = 90;
+      }
+      v.component.motion = 'hinge-left';
+    }
     validateVolume(v);
     volumes.push(v);
     return v;
@@ -384,6 +413,9 @@ export function sampleHouse(): SavedProject {
     const tree = add(`Tree silhouette ${i}`, w, w, h, x, 0, z, 5, '#718270');
     tree.geometry = { kind: 'tree' };
   }
+  const entry = volumes.find((v) => /entry door/i.test(v.name));
+  const handle = volumes.find((v) => /door handle/i.test(v.name));
+  if (entry && handle?.component) handle.component.hostId = entry.id;
   const project: Project = {
     volumes,
     groups,

@@ -1,3 +1,9 @@
+import { componentSchema, type ComponentInfo } from './design/schema';
+import {
+  validateDesign,
+  propagateHosted,
+  type DesignLibrary,
+} from './design/model';
 import { validateSite, type Site } from './studio/site';
 import type { MeshRecipe } from './imports/mesh';
 import { validateRecipe } from './geometry/kernel';
@@ -40,6 +46,7 @@ export type GeometryRecipe =
       opening?: boolean;
     };
 export type Volume = {
+  component?: ComponentInfo;
   /** Omitted in older projects; objects are visible by default. */
   visible?: boolean;
   /** Material of an independently editable architectural component. */
@@ -70,6 +77,7 @@ export const isVisible = (v: Volume, p: Project) =>
 export const isLocked = (v: Volume, p: Project) =>
   p.groups?.find((g) => g.id === v.groupId)?.locked === true;
 export type Project = {
+  design?: DesignLibrary;
   groups?: ObjectGroup[];
   site?: Site;
   volumes: Volume[];
@@ -80,6 +88,7 @@ export const STORAGE_KEY = 'atelier.project.v1';
 export const MAX_VOLUMES = 200;
 export const round = (n: number) => Math.round(n * 1000) / 1000 + 0;
 export function validateVolume(v: Volume, checkGeometry = true): void {
+  if (v.component) componentSchema.parse(v.component);
   const minimum =
     v.geometry?.kind === 'mesh' || v.geometry?.kind === 'person' ? 0.001 : 0.1;
   if (v.visible !== undefined && typeof v.visible !== 'boolean')
@@ -172,8 +181,9 @@ export function updateVolume(
   project: Project,
   id: string,
   patch: Partial<Omit<Volume, 'id'>>,
+  followHosts = true,
 ): Project {
-  return {
+  const result = {
     ...project,
     volumes: project.volumes.map((v) => {
       if (v.id !== id) return v;
@@ -206,6 +216,23 @@ export function updateVolume(
       return next;
     }),
   };
+  if (
+    followHosts &&
+    (patch.position || patch.dimensions || patch.rotation !== undefined)
+  ) {
+    result.volumes = propagateHosted(project.volumes, result.volumes);
+    for (const v of result.volumes) {
+      const old = project.volumes.find((o) => o.id === v.id);
+      if (old !== v) {
+        if (isLocked(v, project))
+          throw new Error(
+            'This change would move a locked component. Unlock it first.',
+          );
+        validateVolume(v, false);
+      }
+    }
+  }
+  return result;
 }
 export function parseProject(text: string): Project {
   return parseProjectValue(JSON.parse(text));
@@ -248,6 +275,9 @@ export function parseProjectValue(raw: any): Project {
     ids.add(v.id);
   }
   return {
+    ...(raw.design
+      ? { design: validateDesign(raw.design, validateVolume) }
+      : {}),
     ...(raw.groups ? { groups: raw.groups } : {}),
     ...(raw.site ? { site: raw.site } : {}),
     volumes: raw.volumes,

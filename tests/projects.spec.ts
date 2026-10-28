@@ -1,3 +1,4 @@
+import { openTool } from './tools';
 import { test, expect, type Page } from '@playwright/test';
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
@@ -45,7 +46,7 @@ test('projects isolate geometry, conversation, site and history, restore on relo
   await page
     .getByRole('button', { name: 'Close projects', exact: true })
     .click();
-  await page.getByRole('button', { name: 'Toggle site map' }).click();
+  await openTool(page, 'Toggle site map');
   await page.getByLabel('Latitude', { exact: true }).fill('31.742388');
   await page.getByLabel('Longitude', { exact: true }).fill('-106.439452');
   await page.getByRole('button', { name: 'Show model on map' }).click();
@@ -60,9 +61,12 @@ test('projects isolate geometry, conversation, site and history, restore on relo
     localStorage.getItem('atelier.conversation.v2'),
   );
   await menu(page);
-  await page
-    .getByRole('button', { name: 'Close projects', exact: true })
-    .focus();
+  const closeProjects = page.getByRole('button', {
+    name: 'Close projects',
+    exact: true,
+  });
+  await expect(closeProjects).toBeEnabled();
+  await closeProjects.focus();
   await page.keyboard.press('Control+z');
   expect(await saved(page)).toEqual(first);
   await page.keyboard.press('Escape');

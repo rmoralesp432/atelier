@@ -6346,3 +6346,756 @@ summary:focus-visible {
 .ar-tracked-guide button {
   min-height: 44px;
 }
+
+/* Quiet, spatial exploration: one panel, meaningful transitions, large touch targets. */
+.explore-panel {
+  width: 330px;
+  max-height: min(76dvh, 720px);
+  overflow: auto;
+}
+.explore-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  padding: 5px;
+  border-radius: 14px;
+  background: var(--surface-soft, #ffffff08);
+  margin-bottom: 18px;
+}
+.explore-tabs button {
+  font-size: 11px;
+  min-height: 38px;
+  padding: 5px;
+  border-radius: 10px;
+}
+.explore-tabs button[aria-pressed='true'] {
+  background: var(--accent, #b8d6cf);
+  color: #182524;
+}
+.explore-modes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 14px 0 20px;
+}
+.explore-modes button {
+  min-height: 88px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 16px;
+  background: #8caaa512;
+  font-size: 11px;
+  transition:
+    background 0.25s,
+    transform 0.25s;
+}
+.explore-modes button[aria-pressed='true'] {
+  background: #8caaa544;
+  transform: translateY(-2px);
+}
+.explore-panel label {
+  display: block;
+  margin: 14px 0;
+  font-size: 12px;
+}
+.explore-panel label input:not([type='range']),
+.explore-panel select {
+  display: block;
+  width: 100%;
+  min-height: 42px;
+  margin-top: 7px;
+  border-radius: 10px;
+  padding: 8px;
+}
+.explore-panel output {
+  float: right;
+}
+.explore-panel input[type='range'] {
+  width: 100%;
+  min-height: 36px;
+}
+.explore-panel > button {
+  min-height: 42px;
+  width: 100%;
+  margin: 4px 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.explore-cards {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0;
+}
+.explore-cards > div {
+  display: flex;
+  gap: 4px;
+}
+.explore-cards button {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  padding: 12px;
+  min-height: 46px;
+  background: #8caaa514;
+  text-align: left;
+}
+.explore-cards button[aria-pressed='true'] {
+  outline: 1px solid #8caaa5;
+}
+.explore-cards small {
+  margin-left: auto;
+  font-size: 10px;
+  opacity: 0.7;
+}
+.explore-cards button[aria-label^='Delete'] {
+  flex: 0;
+}
+.explore-choice {
+  padding: 14px;
+  border: 1px solid #8caaa544;
+  border-radius: 14px;
+  display: grid;
+  gap: 10px;
+}
+.explore-return {
+  position: absolute;
+  left: 50%;
+  top: 72px;
+  transform: translateX(-50%);
+  z-index: 12;
+  padding: 8px 12px;
+  background: var(--panel, #202829);
+  border: 1px solid #8caaa533;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  box-shadow: 0 8px 30px #0002;
+}
+.explore-return button {
+  padding: 6px 10px;
+  background: #8caaa522;
+  border-radius: 12px;
+}
+@media (max-width: 800px) {
+  .explore-panel {
+    width: min(340px, calc(100vw - 24px));
+    max-height: 58dvh;
+    top: 80px;
+    right: 12px;
+  }
+  .explore-return {
+    top: 10px;
+    max-width: calc(100% - 24px);
+    white-space: nowrap;
+  }
+  .touch-gesture-hint {
+    max-width: 110px;
+    line-height: 1.4;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .explore-modes button {
+    transition: none;
+  }
+}
+
+/* ATELIER interface system: native typography, restrained depth and grouped tools. */
+.immersive {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  --panel: #252527;
+  --panel-elevated: #303033;
+  --field: #1c1c1e;
+  --muted: #a1a1a9;
+  --line: #ffffff13;
+  --accent: #86b9ff;
+  --ui-text: #f5f5f7;
+  --ui-shadow: 0 12px 40px #00000025, 0 1px 3px #00000018;
+  color: var(--ui-text);
+  letter-spacing: -0.012em;
+}
+.immersive.theme-day {
+  --panel: #ffffff;
+  --panel-elevated: #f5f5f7;
+  --field: #f2f2f7;
+  --muted: #686870;
+  --line: #00000012;
+  --accent: #007aff;
+  --ui-text: #1d1d1f;
+  --ui-shadow: 0 12px 40px #1d27330d, 0 1px 3px #1d27330a;
+  color: var(--ui-text);
+}
+.immersive button {
+  font: inherit;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+}
+.immersive button:not(:disabled):hover {
+  filter: none;
+  background-color: color-mix(in srgb, var(--ui-text) 7%, transparent);
+}
+.immersive button:focus-visible,
+.immersive input:focus-visible,
+.immersive select:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  outline-offset: 3px;
+}
+.immersive .app-header {
+  height: 64px;
+  min-height: 64px;
+  padding: 0 24px;
+  gap: 12px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+  box-shadow: none;
+  overflow: visible;
+  z-index: 50;
+}
+.immersive .logo {
+  color: var(--ui-text);
+}
+.immersive .project-switcher {
+  margin-right: auto;
+  max-width: 260px;
+}
+.immersive .app-header > button {
+  min-height: 38px;
+  padding: 9px 13px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--ui-text);
+  border: 0;
+  background: transparent;
+  font-size: 13px;
+}
+.immersive .app-header > .primary-create {
+  background: var(--ui-text);
+  color: var(--panel);
+}
+.immersive .app-header > .compact-tools-toggle {
+  display: inline-flex;
+}
+.immersive .header-actions {
+  display: none;
+}
+.immersive .header-actions.phone-tools-open {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: absolute;
+  top: 58px;
+  right: 20px;
+  left: auto;
+  width: 350px;
+  max-height: calc(100dvh - 90px);
+  overflow: auto;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: var(--panel);
+  box-shadow: var(--ui-shadow);
+  z-index: 100;
+}
+.immersive .header-actions.phone-tools-open .studio-tool-group {
+  display: contents;
+}
+.immersive .header-actions.phone-tools-open button {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px !important;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--ui-text);
+  gap: 10px;
+  font-size: 12px !important;
+  text-align: left;
+  white-space: normal;
+}
+.immersive .header-actions.phone-tools-open button span {
+  display: inline !important;
+}
+.immersive .header-actions.phone-tools-open > .icon-button::after,
+.immersive .header-actions.phone-tools-open .export-options > button::after {
+  content: attr(aria-label);
+}
+.immersive .header-actions.phone-tools-open .save-state {
+  display: none;
+}
+.immersive .header-actions.phone-tools-open .export-options,
+.immersive .header-actions.phone-tools-open .export-menu {
+  position: static;
+  width: auto;
+}
+.immersive
+  :is(
+    .section-panel,
+    .studio-panel,
+    .inspector,
+    .objects-panel,
+    .conversation-area,
+    .tool-palette,
+    .selection-chip,
+    .selection-tools,
+    .drawing-tools,
+    .modeling-hint
+  ) {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: var(--ui-shadow);
+  color: var(--ui-text);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+.immersive :is(.section-panel, .studio-panel) {
+  border-radius: 22px;
+  padding: 20px;
+  width: 330px;
+}
+.immersive .studio-panel-heading {
+  margin-bottom: 18px;
+  font-size: 15px;
+  letter-spacing: -0.025em;
+}
+.immersive .studio-panel-heading button {
+  width: 30px;
+  height: 30px;
+  padding: 6px;
+  border-radius: 50%;
+  background: var(--field);
+  color: var(--muted);
+}
+.immersive :is(.section-panel, .studio-panel, .inspector) h3 {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.immersive
+  :is(.section-panel, .studio-panel, .inspector)
+  input:not([type='checkbox']):not([type='range']):not([type='color']),
+.immersive :is(.section-panel, .studio-panel, .inspector) select {
+  background: var(--field);
+  color: var(--ui-text);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  min-height: 38px;
+  font-size: 13px;
+  padding: 8px 10px;
+}
+.immersive input[type='range'] {
+  accent-color: var(--accent);
+}
+.immersive .studio-caption {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.65;
+}
+.immersive .primary-studio-action {
+  background: var(--ui-text);
+  color: var(--panel);
+  border: 0;
+  min-height: 42px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+.immersive .primary-studio-action:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--ui-text) 90%, var(--panel));
+}
+.immersive .segmented-control {
+  display: flex;
+  gap: 3px;
+  padding: 4px;
+  background: var(--field);
+  border-radius: 12px;
+  margin: 0 0 20px;
+}
+.immersive .segmented-control button {
+  flex: 1;
+  min-height: 34px;
+  border-radius: 9px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.immersive .segmented-control button[aria-pressed='true'] {
+  background: var(--panel-elevated);
+  color: var(--ui-text);
+  box-shadow: 0 1px 4px #0002;
+}
+.immersive .solid-shapes {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 18px 0;
+}
+.immersive .solid-shapes button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 100px;
+  border-radius: 16px;
+  background: var(--field);
+  color: var(--muted);
+  border: 1px solid transparent;
+}
+.immersive .solid-shapes button[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--panel));
+  color: var(--accent);
+}
+.immersive .solid-dimensions {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin-bottom: 16px;
+}
+.immersive .solid-dimensions label {
+  font-size: 11px;
+  color: var(--muted);
+}
+.immersive .solid-dimensions input {
+  width: 100%;
+  margin-top: 7px;
+}
+.immersive .solid-creation > button {
+  width: 100%;
+}
+.immersive .model-action-grid button {
+  background: var(--field);
+  border-radius: 12px;
+  border: 0;
+}
+.immersive .model-action-grid kbd {
+  display: none;
+}
+.immersive .tool-palette {
+  border-radius: 18px;
+  padding: 6px;
+  gap: 4px;
+  left: 16px;
+  top: 22px;
+}
+.immersive .tool-palette > button {
+  width: 40px;
+  min-height: 40px;
+  border-radius: 12px;
+  color: var(--muted);
+}
+.immersive .tool-palette button.active {
+  background: var(--field);
+  color: var(--accent);
+}
+.immersive .selection-chip {
+  left: 80px;
+  top: 22px;
+  border-radius: 14px;
+}
+.immersive .selection-tools {
+  max-width: 410px;
+  border-radius: 14px;
+  padding: 6px;
+}
+.immersive .selection-tools button {
+  min-height: 34px;
+  border-radius: 9px;
+}
+.immersive .conversation-area {
+  width: min(520px, calc(100% - 48px));
+  padding: 12px;
+  border-radius: 22px;
+  bottom: 24px;
+}
+.immersive .conversation-heading {
+  padding: 2px 8px 10px;
+  color: var(--muted);
+}
+.immersive .conversation-area form {
+  background: var(--field);
+  border: 1px solid transparent;
+  border-radius: 16px;
+  box-shadow: none;
+  padding: 8px;
+}
+.immersive .conversation-area form:focus-within {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.immersive .conversation-area textarea {
+  color: var(--ui-text);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.immersive .conversation-area textarea::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+.immersive .conversation-area form button[type='submit'] {
+  background: var(--ui-text);
+  color: var(--panel);
+  border-radius: 50%;
+}
+.immersive .explore-tabs {
+  background: var(--field);
+}
+.immersive .explore-tabs button[aria-pressed='true'] {
+  background: var(--panel-elevated);
+  color: var(--ui-text);
+  box-shadow: 0 1px 3px #0002;
+}
+.immersive .explore-return {
+  background: var(--panel);
+  border-color: var(--line);
+  color: var(--ui-text);
+}
+@media (max-width: 800px) {
+  .immersive .app-header {
+    padding: 0 12px;
+    gap: 4px;
+    height: 58px;
+    min-height: 58px;
+  }
+  .immersive .project-switcher {
+    max-width: 115px;
+  }
+  .immersive .app-header > button {
+    min-width: 38px;
+    min-height: 44px;
+    padding: 9px;
+    border-radius: 12px;
+  }
+  .immersive
+    .app-header
+    > :is(.scene-toggle, .explore-launcher, .compact-tools-toggle)
+    span {
+    display: none;
+  }
+  .immersive .app-header > .primary-create span {
+    display: none;
+  }
+  .immersive .header-actions.phone-tools-open {
+    top: 62px;
+    left: 12px;
+    right: 12px;
+    width: auto;
+    padding: 10px;
+    border-radius: 22px;
+  }
+  .immersive :is(.section-panel, .studio-panel):not(.ar-panel) {
+    width: calc(100% - 24px);
+    max-width: 420px;
+    max-height: 52dvh;
+    top: auto;
+    right: 12px;
+    bottom: calc(86px + env(safe-area-inset-bottom, 0px));
+    padding: 18px;
+    border-radius: 24px;
+  }
+  .immersive
+    :is(.section-panel, .studio-panel, .inspector)
+    input:not([type='range']):not([type='checkbox']):not([type='color']),
+  .immersive :is(.section-panel, .studio-panel, .inspector) select {
+    font-size: 16px;
+    min-height: 44px;
+  }
+  .immersive .solid-shapes button {
+    min-height: 90px;
+  }
+  .immersive .tool-palette {
+    left: 10px;
+    top: 12px;
+    padding: 4px;
+    border-radius: 16px;
+  }
+  .immersive .conversation-area {
+    width: calc(100% - 24px);
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    padding: 10px;
+    border-radius: 22px;
+  }
+  .immersive .conversation-area textarea {
+    font-size: 16px;
+  }
+  .immersive
+    .modeling-area:has(.section-panel, .studio-panel)
+    > .conversation-area
+    .conversation-log,
+  .immersive
+    .modeling-area:has(.section-panel, .studio-panel)
+    > .conversation-area
+    .conversation-welcome {
+    display: none;
+  }
+  .immersive
+    .modeling-area:has(.section-panel, .studio-panel)
+    > .conversation-area {
+    padding: 8px;
+  }
+  .immersive
+    .modeling-area:has(.section-panel, .studio-panel)
+    > .conversation-area
+    .conversation-heading {
+    display: none;
+  }
+  .immersive .selection-chip {
+    left: 62px;
+    top: 12px;
+    max-width: 165px;
+  }
+}
+.immersive .app-header > .compact-tools-toggle span {
+  display: inline;
+}
+.immersive.theme-day .app-header > .primary-create {
+  background: #1d1d1f;
+  color: #fff;
+}
+.immersive .model-panel .solid-creation {
+  gap: 8px;
+}
+.immersive .model-panel .solid-creation h3 {
+  margin: 6px 0 0;
+}
+.immersive .solid-creation .studio-caption {
+  margin: 8px 0 0;
+}
+@media (max-width: 800px) {
+  .immersive .app-header > .compact-tools-toggle span {
+    display: none;
+  }
+  .immersive :is(.section-panel, .studio-panel):not(.ar-panel) {
+    max-height: 52dvh !important;
+    bottom: 10px !important;
+    padding: 16px;
+  }
+  .immersive .solid-shapes {
+    margin: 10px 0;
+  }
+  .immersive .solid-shapes button {
+    min-height: 76px;
+    gap: 8px;
+  }
+  .immersive .solid-dimensions {
+    margin-bottom: 4px;
+  }
+  .immersive .model-panel .studio-panel-heading {
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+  }
+  .immersive .model-panel .segmented-control {
+    margin-bottom: 14px;
+  }
+  .immersive .modeling-area:has(.section-panel, .studio-panel) .selection-chip {
+    display: none;
+  }
+}
+.immersive .conversation-area form .attach-reference {
+  width: auto;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  font-size: 11px;
+  color: var(--muted);
+  padding: 6px;
+}
+.immersive .pending-references {
+  padding: 10px;
+  background: var(--field);
+  border-radius: 16px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.immersive .pending-references .reference-brief {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+}
+.immersive .reference-brief strong {
+  font-size: 13px;
+}
+.immersive .reference-brief small {
+  line-height: 1.5;
+  color: var(--muted);
+}
+.immersive .reference-brief label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12px;
+}
+.immersive .reference-brief input {
+  width: 95px;
+  min-height: 36px;
+  border: 0;
+  padding: 8px;
+  border-radius: 9px;
+  background: var(--panel);
+  color: var(--ui-text);
+}
+.immersive .reference-brief > button {
+  padding: 10px;
+  min-height: 40px;
+  border-radius: 12px;
+  background: var(--ui-text);
+  color: var(--panel);
+}
+@media (max-width: 800px) {
+  .immersive .reference-brief input {
+    font-size: 16px;
+  }
+  .immersive .conversation-area:has(.pending-references) {
+    max-height: 60dvh;
+    overflow: auto;
+  }
+}
+
+@media (max-width: 800px) {
+  .immersive.tool-panel-open .status-bar {
+    display: none;
+  }
+}
+
+@media (max-width: 800px) {
+  .immersive .modeling-area > .conversation-area {
+    bottom: calc(54px + env(safe-area-inset-bottom, 0px));
+  }
+  .immersive .selection-chip {
+    top: 68px;
+    max-width: calc(100% - 78px);
+  }
+  .immersive .status-bar {
+    bottom: calc(8px + env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (max-width: 800px) {
+  .immersive .status-bar {
+    height: 44px;
+    bottom: calc(6px + env(safe-area-inset-bottom, 0px));
+  }
+  .immersive .history-actions button {
+    width: 44px;
+    height: 44px;
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--field);
+    color: var(--ui-text);
+  }
+}
