@@ -8,6 +8,9 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   timeout: 30_000,
+  // Publish actionable failures in the Checks API as well as downloadable logs.
+  // Cloud environments can allow api.github.com without allowing log storage.
+  reporter: process.env.CI ? [['list'], ['github']] : 'list',
   use: {
     baseURL: 'http://127.0.0.1:4173',
     viewport: { width: 1440, height: 1000 },
@@ -24,9 +27,15 @@ export default defineConfig({
   },
   webServer: {
     command: process.env.ATELIER_TEST_PRODUCTION
-      ? 'npm run preview -- --port 4173 --strictPort'
+      ? 'npm start -- --port 4173'
       : 'npm run dev -- --port 4173 --strictPort',
     url: 'http://127.0.0.1:4173',
     reuseExistingServer: !process.env.CI,
+    env: {
+      ATELIER_OPENAI_API_KEY: '',
+      ATELIER_APP_PASSWORD: '',
+      ATELIER_ORIGIN: '',
+      RENDER_EXTERNAL_URL: '',
+    },
   },
 });

@@ -1,0 +1,1032 @@
+/* Workspace chrome. Geometry and saved render colors remain independent. */
+.immersive {
+  --panel: #242426;
+  --panel-elevated: #303033;
+  --field: #303033;
+  --ui-text: #f5f5f7;
+  --muted: #aaaab1;
+  --line: #ffffff14;
+  --ui-shadow: 0 8px 28px #0000001c, 0 1px 4px #00000014;
+  --chrome: #1b1b1d;
+  --control-hover: #ffffff0d;
+  --control-selected: #ffffff13;
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', sans-serif;
+  letter-spacing: -0.015em;
+}
+.immersive.theme-day {
+  --panel: #fff;
+  --panel-elevated: #f8f8fa;
+  --field: #f2f2f4;
+  --ui-text: #252528;
+  --muted: #737379;
+  --line: #00000010;
+  --ui-shadow: 0 8px 28px #28283808, 0 1px 4px #28283808;
+  --chrome: #f5f6f8;
+  --control-hover: #00000005;
+  --control-selected: #00000009;
+}
+.immersive button {
+  -webkit-tap-highlight-color: transparent;
+}
+.immersive button:not(:disabled) {
+  transition:
+    background-color 140ms,
+    color 140ms,
+    box-shadow 140ms;
+}
+.immersive button:not(:disabled):hover {
+  background-color: var(--control-hover);
+}
+.immersive .app-header {
+  height: 72px;
+  min-height: 72px;
+  padding: 0 28px;
+  gap: 8px;
+  background: var(--chrome);
+  border: 0;
+}
+.immersive .brand {
+  color: var(--ui-text);
+  gap: 9px;
+  letter-spacing: -0.6px;
+  font-size: 19px;
+  font-weight: 600;
+}
+.immersive .brand-mark {
+  font-size: 28px;
+  font-weight: 400;
+}
+.immersive .project-switcher {
+  padding: 10px 12px;
+  border: 0;
+  border-left: 1px solid var(--line);
+  border-radius: 0 10px 10px 0;
+  margin-left: 14px;
+  color: var(--muted);
+  font-size: 13px;
+  max-width: 280px;
+  background: transparent;
+}
+.immersive .app-header > button {
+  border-radius: 24px;
+  min-height: 40px;
+  padding: 10px 16px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.immersive .app-header > button[aria-pressed='true'],
+.immersive .app-header > button[aria-expanded='true'] {
+  color: var(--ui-text);
+  background: var(--control-selected);
+}
+.immersive .app-header > .primary-create,
+.immersive.theme-day .app-header > .primary-create {
+  color: var(--ui-text);
+  background: var(--panel);
+  box-shadow: 0 1px 3px #0000000a;
+  border: 1px solid var(--line);
+}
+.immersive .header-actions.phone-tools-open {
+  top: 64px;
+  width: 368px;
+  padding: 12px;
+  gap: 2px 6px;
+  right: 24px;
+  border-radius: 24px;
+  max-height: calc(100dvh - 88px);
+  overscroll-behavior: contain;
+  animation: interface-reveal 180ms ease-out;
+}
+.immersive .tools-menu-heading {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 8px 12px;
+  gap: 8px;
+}
+.immersive .tools-menu-heading strong {
+  font-size: 15px;
+  font-weight: 600;
+}
+.immersive .tools-menu-heading > div {
+  display: flex;
+  gap: 4px;
+}
+.immersive .header-actions .tools-menu-heading button {
+  width: 36px;
+  min-height: 36px;
+  padding: 8px !important;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--field);
+}
+.immersive .tools-section-label {
+  grid-column: 1 / -1;
+  padding: 14px 12px 6px;
+  margin-top: 6px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+.immersive .tools-menu-heading + .tools-section-label {
+  border: 0;
+  margin: 0;
+  padding-top: 0;
+}
+.immersive .header-actions.phone-tools-open button {
+  font-size: 13px !important;
+  gap: 10px;
+  border-radius: 12px;
+  min-height: 44px;
+}
+.immersive .header-actions.phone-tools-open button svg {
+  color: var(--muted);
+  flex-shrink: 0;
+}
+.immersive .header-actions.phone-tools-open .export-options {
+  grid-column: 1 / -1;
+}
+.immersive .header-actions.phone-tools-open .export-menu {
+  background: var(--field);
+  border: 0;
+  padding: 6px;
+  border-radius: 12px;
+  box-shadow: none;
+}
+.immersive .header-actions.phone-tools-open .export-menu small {
+  color: var(--muted);
+  padding: 0 12px;
+}
+.immersive
+  :is(.section-panel, .studio-panel, .objects-panel, .inspector-panel) {
+  border-radius: 24px;
+  background: var(--panel);
+  border-color: var(--line);
+  box-shadow: var(--ui-shadow);
+  color: var(--ui-text);
+}
+.immersive :is(.section-panel, .studio-panel) {
+  padding: 22px;
+  animation: interface-reveal 180ms ease-out;
+}
+.immersive .studio-panel-heading {
+  font-size: 16px;
+  padding-bottom: 16px;
+}
+.immersive :is(.studio-caption, .studio-panel > p, .section-panel > p) {
+  line-height: 1.6;
+  color: var(--muted);
+}
+.immersive .studio-panel label {
+  color: var(--muted);
+}
+.immersive :is(.segmented-control, .explore-tabs) {
+  padding: 4px;
+  border-radius: 12px;
+  background: var(--field);
+  gap: 2px;
+}
+.immersive :is(.segmented-control, .explore-tabs) button {
+  border-radius: 9px;
+  min-height: 34px;
+  font-size: 12px;
+}
+.immersive :is(.segmented-control, .explore-tabs) button[aria-pressed='true'] {
+  background: var(--panel);
+  color: var(--ui-text);
+  box-shadow: 0 1px 4px #00000010;
+}
+.immersive .solid-shapes {
+  gap: 8px;
+}
+.immersive .solid-shapes button {
+  background: var(--panel-elevated);
+  border-color: transparent;
+  border-radius: 16px;
+}
+.immersive .solid-shapes button[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--accent) 7%, var(--panel));
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+.immersive .tool-palette {
+  padding: 5px;
+  border-radius: 22px;
+  left: 20px;
+  top: 18px;
+}
+.immersive .tool-palette > button {
+  width: 40px;
+  height: 40px;
+  color: var(--muted);
+  border-radius: 14px;
+}
+.immersive .tool-palette button.active {
+  color: var(--ui-text);
+  background: var(--control-selected);
+}
+.immersive .tool-divider {
+  background: var(--line);
+  margin: 5px 8px;
+}
+.immersive .viewport-bar {
+  top: 18px;
+  right: 24px;
+  gap: 8px;
+}
+.immersive .viewport-bar :is(button, select) {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--ui-text);
+  border-radius: 22px;
+  min-height: 38px;
+  box-shadow: 0 1px 3px #00000005;
+  font-size: 12px;
+}
+.immersive .selection-chip {
+  border-radius: 18px;
+  color: var(--ui-text);
+  box-shadow: 0 1px 4px #00000008;
+}
+.immersive .selection-tools {
+  border-radius: 18px;
+}
+/* One input surface: full-width writing, attachments and voice underneath. */
+.immersive .conversation-area {
+  width: min(620px, calc(100% - 180px));
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  bottom: 26px;
+}
+.immersive .conversation-heading {
+  padding: 0 10px;
+  margin: 0 0 8px;
+  min-height: 28px;
+}
+.immersive .conversation-heading button {
+  gap: 7px;
+  padding: 6px 9px;
+  border-radius: 18px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.immersive .conversation-heading button > span {
+  color: inherit;
+  font-size: inherit;
+  margin: 0;
+}
+.immersive .conversation-chevron {
+  transition: transform 180ms;
+}
+.immersive .conversation-chevron.expanded {
+  transform: rotate(180deg);
+}
+.immersive .voice-status {
+  color: var(--muted);
+  font-size: 11px;
+}
+.immersive .conversation-welcome {
+  text-align: center;
+  margin: 0 0 20px;
+}
+.immersive .conversation-welcome strong {
+  font-size: 23px;
+  line-height: 1.3;
+  letter-spacing: -0.65px;
+  font-weight: 500;
+  color: var(--ui-text);
+}
+.immersive .conversation-welcome p {
+  font-size: 13px;
+  color: var(--muted);
+  margin: 7px 0 0;
+}
+.immersive .conversation-welcome .sample-start {
+  color: var(--muted);
+  border: 0;
+  background: transparent;
+  padding: 8px 12px;
+  font-size: 12px;
+  margin: 6px auto 0;
+}
+.immersive .conversation-area form.conversation-composer {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  padding: 14px 14px 10px;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background: var(--panel);
+  box-shadow: var(--ui-shadow);
+}
+.immersive .conversation-area form.conversation-composer:focus-within {
+  border-color: color-mix(in srgb, var(--ui-text) 22%, transparent);
+  box-shadow: var(--ui-shadow);
+}
+.immersive .conversation-area .conversation-composer textarea {
+  display: block;
+  width: 100%;
+  flex: none;
+  min-height: 48px;
+  max-height: 120px;
+  margin: 0;
+  padding: 3px 5px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  box-shadow: none;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ui-text);
+  resize: none;
+}
+.immersive .composer-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.immersive .composer-context {
+  margin-left: auto;
+  color: var(--muted);
+  font-size: 11px;
+  padding-right: 4px;
+}
+.immersive .conversation-area .composer-actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  border-radius: 50%;
+  padding: 7px;
+  flex: 0 0 auto;
+  color: var(--ui-text);
+}
+.immersive .conversation-area .composer-actions .attach-reference {
+  width: auto;
+  gap: 6px;
+  border-radius: 20px;
+  padding: 7px 10px 7px 6px;
+}
+.immersive .attach-reference span {
+  font-size: 12px;
+  color: var(--muted);
+}
+.immersive .conversation-area .composer-actions button[type='submit'] {
+  background: var(--ui-text);
+  color: var(--panel);
+}
+.immersive .conversation-area .composer-actions button[type='submit']:disabled {
+  opacity: 0.3;
+}
+.immersive .conversation-area .composer-actions .mic-active {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, var(--panel));
+}
+.immersive :is(.conversation-log, .conversation-latest) {
+  padding: 12px 16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: var(--ui-shadow);
+  border-radius: 22px;
+  margin: 0 0 10px;
+}
+.immersive .conversation-log {
+  max-height: min(210px, 24dvh);
+  gap: 14px;
+  overscroll-behavior: contain;
+}
+.immersive .chat-message {
+  padding: 0;
+}
+.immersive .chat-message.user {
+  align-self: flex-end;
+  max-width: 92%;
+  padding: 10px 14px;
+  background: var(--field);
+  border-radius: 18px 18px 5px 18px;
+}
+.immersive .chat-message > span {
+  display: none;
+}
+.immersive .chat-message p,
+.immersive .conversation-latest p {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--ui-text);
+  margin: 0;
+}
+.immersive .conversation-measurements {
+  color: var(--muted);
+}
+.immersive .conversation-latest {
+  max-height: 90px;
+  overflow: auto;
+}
+.immersive .conversation-working {
+  background: var(--panel);
+  border-radius: 20px;
+  margin-bottom: 10px;
+  padding: 14px 16px;
+  color: var(--ui-text);
+}
+.immersive .operation-review {
+  background: var(--panel);
+  border-radius: 20px;
+  border-color: var(--line);
+  padding: 16px;
+}
+.immersive .pending-references {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: var(--ui-shadow);
+  padding: 14px;
+  border-radius: 22px;
+}
+.immersive .command-feedback.error {
+  background: var(--panel);
+  border-radius: 14px;
+  padding: 10px 14px;
+  margin-top: 8px;
+  font-size: 12px;
+}
+@keyframes interface-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (max-width: 800px) {
+  .immersive .app-header {
+    height: 60px;
+    min-height: 60px;
+    padding: 0 12px;
+    gap: 2px;
+  }
+  .immersive .brand-name {
+    display: none;
+  }
+  .immersive .brand {
+    width: 25px;
+    flex: 0 0 25px;
+  }
+  .immersive .brand-mark {
+    font-size: 26px;
+  }
+  .immersive .project-switcher {
+    margin-left: 2px;
+    padding: 8px 6px;
+    border: 0;
+    max-width: 126px;
+    min-width: 0;
+    font-size: 12px;
+  }
+  .immersive .project-switcher svg {
+    display: none;
+  }
+  .immersive .app-header > button {
+    min-width: 42px;
+    width: 42px;
+    min-height: 44px;
+    padding: 11px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .immersive .app-header > .primary-create {
+    box-shadow: none;
+    border: 0;
+    background: var(--control-selected);
+  }
+  .immersive .header-actions.phone-tools-open {
+    top: 64px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+    max-height: calc(100dvh - 84px);
+    border-radius: 24px;
+    padding: 12px;
+  }
+  .immersive .tool-palette {
+    left: 10px;
+    top: 12px;
+    padding: 4px;
+    border-radius: 20px;
+  }
+  .immersive .tool-palette > button {
+    width: 38px;
+    height: 40px;
+  }
+  .immersive .viewport-bar {
+    top: 12px;
+    right: 12px;
+  }
+  .immersive .viewport-bar :is(button, select) {
+    min-height: 40px;
+    font-size: 12px;
+  }
+  .immersive :is(.section-panel, .studio-panel):not(.ar-panel) {
+    padding: 20px;
+    border-radius: 26px;
+  }
+  .immersive .conversation-area,
+  .immersive .modeling-area > .conversation-area {
+    width: calc(100% - 24px);
+    padding: 0;
+    bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+  }
+  .immersive .conversation-heading {
+    padding: 0 4px;
+    margin-bottom: 4px;
+  }
+  .immersive .conversation-heading button {
+    min-height: 36px;
+  }
+  .immersive .conversation-welcome {
+    margin-bottom: 14px;
+  }
+  .immersive .conversation-welcome strong {
+    font-size: 20px;
+  }
+  .immersive .conversation-welcome p {
+    display: none;
+  }
+  .immersive .conversation-welcome .sample-start {
+    font-size: 11px;
+  }
+  .immersive .conversation-area form.conversation-composer {
+    padding: 12px 10px 8px;
+    border-radius: 24px;
+  }
+  .immersive .conversation-area .conversation-composer textarea {
+    font-size: 16px;
+    min-height: 46px;
+    max-height: 90px;
+  }
+  .immersive .conversation-area .composer-actions button {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+  }
+  .immersive .conversation-area .composer-actions .attach-reference {
+    width: 44px;
+    padding: 10px;
+  }
+  .immersive .attach-reference span {
+    display: none;
+  }
+  .immersive .composer-context {
+    font-size: 10px;
+    padding: 0;
+  }
+  .immersive .conversation-log {
+    max-height: min(155px, 20dvh);
+    padding: 12px;
+  }
+  .immersive .conversation-latest {
+    max-height: 78px;
+  }
+  .immersive .history-actions button {
+    background: var(--panel);
+    border-radius: 50%;
+    box-shadow: 0 1px 4px #00000005;
+  }
+  .immersive .selection-chip {
+    top: 66px;
+  }
+}
+@media (max-height: 560px) {
+  .immersive .conversation-welcome {
+    display: none;
+  }
+  .immersive .conversation-log {
+    max-height: 90px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .immersive button,
+  .immersive .conversation-chevron {
+    transition: none;
+  }
+  .immersive
+    :is(.header-actions.phone-tools-open, .section-panel, .studio-panel) {
+    animation: none;
+  }
+}
+
+/* Persistent exits: conversation can reduce to one button; appearance is one tap. */
+.immersive .quick-theme {
+  position: absolute;
+  top: 18px;
+  right: 282px;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  z-index: 5;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ui-text);
+}
+.immersive .studio-launcher {
+  top: 18px;
+  right: 166px;
+  height: 40px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  color: var(--ui-text);
+}
+.immersive .conversation-area.is-docked {
+  display: none !important;
+}
+.immersive .conversation-heading .minimize-conversation {
+  margin-left: auto;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  padding: 6px;
+}
+.immersive .conversation-heading .voice-status:empty {
+  display: none;
+}
+.immersive .conversation-launcher {
+  position: absolute;
+  z-index: 15;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  min-height: 48px;
+  padding: 12px 18px;
+  border-radius: 28px;
+  background: var(--panel);
+  color: var(--ui-text);
+  border: 1px solid var(--line);
+  box-shadow: var(--ui-shadow);
+  font-size: 13px;
+}
+.immersive .conversation-activity {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.immersive .selection-more {
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--ui-text);
+}
+.immersive .phone-object-actions {
+  position: absolute;
+  z-index: 25;
+  bottom: calc(58px + env(safe-area-inset-bottom, 0px));
+  left: 12px;
+  right: 12px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background: var(--panel);
+  color: var(--ui-text);
+  box-shadow: var(--ui-shadow);
+  animation: interface-reveal 180ms ease-out;
+}
+.immersive .phone-object-actions header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+.immersive .phone-object-actions header > div {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+.immersive .phone-object-actions strong {
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.immersive .phone-object-actions header span {
+  font-size: 11px;
+  color: var(--muted);
+}
+.immersive .phone-object-actions header button {
+  min-width: 44px;
+  min-height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--field);
+}
+.immersive .phone-action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.immersive .phone-action-grid button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 76px;
+  border-radius: 16px;
+  background: var(--field);
+  color: var(--ui-text);
+  font-size: 12px;
+}
+.immersive .phone-action-grid .destructive-action {
+  color: #d53939;
+  background: #d539390a;
+}
+.immersive .phone-object-actions > p {
+  font-size: 10px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.5;
+  margin: 14px 0 0;
+}
+.immersive.phone-actions-open
+  .modeling-area
+  > :is(.conversation-area, .conversation-launcher) {
+  display: none;
+}
+@media (max-width: 800px) {
+  .immersive .quick-theme {
+    top: 12px;
+    right: 190px;
+    width: 40px;
+    height: 40px;
+  }
+  .immersive .studio-launcher {
+    top: 12px;
+    right: 142px;
+    width: 40px;
+    padding: 10px;
+  }
+  .immersive .studio-launcher span {
+    display: none;
+  }
+  .immersive .viewport-bar .view-button {
+    width: 122px;
+    padding: 8px 12px;
+  }
+  .immersive .conversation-launcher {
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px));
+    width: 52px;
+    height: 52px;
+    padding: 14px;
+    justify-content: center;
+  }
+  .immersive .conversation-launcher span {
+    display: none;
+  }
+  .immersive .conversation-launcher .conversation-activity {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+  }
+  .immersive .conversation-heading .minimize-conversation {
+    width: 44px;
+    height: 44px;
+    background: var(--panel);
+  }
+  .immersive .touch-navigation button {
+    width: 40px;
+    min-height: 44px;
+    padding: 10px;
+    border-radius: 14px;
+    color: var(--muted);
+  }
+  .immersive .touch-navigation button[aria-pressed='true'] {
+    color: var(--ui-text);
+    background: var(--control-selected);
+  }
+  .immersive .touch-navigation button span,
+  .immersive .touch-gesture-hint {
+    display: none;
+  }
+  .immersive .tool-palette .create-tools-button {
+    display: none;
+  }
+  .immersive .spatial-actions {
+    display: none;
+  }
+  .immersive .selection-chip {
+    max-width: calc(100% - 82px);
+  }
+  .immersive .selection-summary {
+    min-width: 0;
+  }
+  .immersive .selection-summary > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .immersive .explore-return {
+    top: 122px;
+    left: auto;
+    right: 12px;
+    transform: none;
+    max-width: calc(100% - 82px);
+    padding: 6px;
+    font-size: 11px;
+  }
+  .immersive .explore-return > span {
+    display: none;
+  }
+  .immersive .explore-return button {
+    min-height: 36px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .immersive .phone-object-actions {
+    animation: none;
+  }
+}
+
+.immersive .explore-intro {
+  margin: 18px 0;
+}
+.immersive .explore-intro strong {
+  font-size: 17px;
+  font-weight: 500;
+  letter-spacing: -0.4px;
+}
+.immersive .explore-intro p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+  margin-top: 6px;
+}
+.immersive .explore-modes {
+  gap: 8px;
+}
+.immersive .explore-modes button {
+  border-radius: 16px;
+  background: var(--field);
+  border: 1px solid transparent;
+  min-height: 95px;
+  padding: 16px 8px;
+  gap: 12px;
+  color: var(--ui-text);
+}
+.immersive .explore-modes button[aria-pressed='true'] {
+  background: var(--panel-elevated);
+  border-color: var(--ui-text);
+  color: var(--ui-text);
+}
+.immersive .explore-modes button:disabled {
+  opacity: 0.35;
+}
+.immersive .explore-view-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 16px 0;
+}
+.immersive .explore-view-actions > * {
+  min-width: 0;
+  flex: 1;
+}
+.immersive .explore-view-actions button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 10px 0;
+  color: var(--ui-text);
+}
+.immersive .explore-panel .explore-guides {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+.immersive .explore-guides input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--ui-text);
+}
+.immersive .interactive-components {
+  margin-top: 12px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.immersive .interactive-components summary {
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--ui-text);
+  padding: 6px 0;
+}
+.immersive .interactive-components summary span {
+  color: var(--muted);
+  margin-left: 8px;
+}
+.immersive .interactive-components > div {
+  display: grid;
+  gap: 4px;
+  max-height: 190px;
+  overflow: auto;
+  margin-top: 10px;
+}
+.immersive .interactive-components button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px;
+  border-radius: 12px;
+  color: var(--ui-text);
+}
+.immersive .interactive-components button span {
+  flex: 1;
+  text-align: left;
+  font-size: 12px;
+}
+.immersive .interactive-components button small {
+  color: var(--muted);
+}
+.immersive .interactive-components button[aria-pressed='true'] {
+  background: var(--field);
+}
+/* Override older theme-specific panel rules so the input remains one surface. */
+.immersive.theme-day .conversation-area {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.immersive.theme-day .conversation-area form.conversation-composer {
+  background: var(--panel);
+}
+.immersive.theme-day .conversation-area .conversation-composer textarea {
+  background: transparent;
+  color: var(--ui-text);
+}
+.immersive.theme-day .conversation-heading button,
+.immersive.theme-day .conversation-heading button > span {
+  color: var(--muted);
+}
+.immersive.theme-day .chat-message p,
+.immersive.theme-day .conversation-latest p {
+  color: var(--ui-text);
+}
+.immersive .selection-chip {
+  width: max-content;
+}
+@media (max-width: 800px) {
+  .immersive .app-header > .project-switcher {
+    flex: 1 1 auto;
+    width: auto;
+    max-width: none;
+    padding: 8px 6px;
+    border-radius: 10px;
+    margin-right: 6px;
+  }
+  .immersive .selection-chip {
+    left: 66px;
+    right: auto !important;
+  }
+  .immersive .modeling-hint {
+    display: none;
+  }
+}
+.immersive .explore-panel .explore-guides input[type='checkbox'] {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  min-height: 20px;
+  margin: 0;
+  padding: 0;
+  flex: 0 0 20px;
+}
+.immersive.exploration-mode :is(.spatial-actions, .modeling-hint) {
+  display: none;
+}
+/* Keep both modern and prefixed WebKit compositors clear above the live canvas. */
+.immersive .conversation-area {
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none !important;
+}

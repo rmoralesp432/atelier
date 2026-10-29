@@ -15,6 +15,7 @@ const types = {
   '.css': 'text/css',
   '.svg': 'image/svg+xml',
   '.png': 'image/png',
+  '.wasm': 'application/wasm',
 };
 const server = createServer(async (req, res) => {
   try {
@@ -61,14 +62,23 @@ try {
   });
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
-  page.on('requestfailed', (r) => errors.push(`Failed request: ${r.url()}`));
+  // A static Pages site has no API; only that expected unavailable endpoint is excluded.
+  page.on('requestfailed', (r) => {
+    if (!r.url().endsWith('/api/config'))
+      errors.push(`Failed request: ${r.url()}`);
+  });
   page.on('response', (r) => {
-    if (r.status() >= 400) errors.push(`HTTP ${r.status()}: ${r.url()}`);
+    if (r.status() >= 400 && !r.url().endsWith('/api/config'))
+      errors.push(`HTTP ${r.status()}: ${r.url()}`);
   });
   const response = await page.goto(
     `http://127.0.0.1:${server.address().port}/atelier/`,
   );
   assert.equal(response.status(), 200);
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
+  await page.getByRole('button', { name: 'Expand inspector' }).click();
+  await page.getByRole('button', { name: 'Show objects' }).click();
+  await page.getByText('Manual tools', { exact: true }).click();
   await page.getByTestId('viewport').locator('canvas').waitFor();
   await page.waitForFunction(
     () =>
@@ -83,9 +93,17 @@ try {
     '14',
   );
   await page
-    .getByRole('textbox', { name: 'Geometry command' })
-    .fill('create box 7 x 5 x 3');
-  await page.getByRole('button', { name: 'Run command', exact: true }).click();
+    .getByRole('button', { name: 'Create volume', exact: true })
+    .click();
+  for (const [label, value] of [
+    ['Width', '7'],
+    ['Depth', '5'],
+    ['Height', '3'],
+  ]) {
+    const field = page.getByRole('spinbutton', { name: label, exact: true });
+    await field.fill(value);
+    await field.press('Enter');
+  }
   await page.waitForFunction(
     () =>
       document.querySelector('[data-testid="volume-stat"]')?.textContent ===
@@ -105,9 +123,114 @@ try {
       .inputValue(),
     '7',
   );
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
+  assert.equal(
+    await page
+      .getByRole('button', { name: 'Connect AI', exact: true })
+      .isVisible(),
+    true,
+  );
+  assert.equal(
+    await page
+      .getByRole('button', { name: 'Start voice conversation' })
+      .isDisabled(),
+    true,
+  );
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
+  // Verify lazy map-picker JS/CSS also resolve under the project subpath.
+  await page.route('https://tile.openstreetmap.org/**', (r) =>
+    r.fulfill({
+      contentType: 'image/png',
+      body: Buffer.from(
+        'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aX1cAAAAASUVORK5CYII=',
+        'base64',
+      ),
+    }),
+  );
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
+  await page.getByRole('button', { name: 'Toggle site map' }).click();
+  await page
+    .getByRole('region', { name: 'Choose a site on the map' })
+    .waitFor();
+  await page.waitForFunction(
+    () => document.querySelectorAll('.leaflet-tile-loaded').length > 0,
+  );
+  // New reference desk and shared model exporter also load lazily at this subpath.
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
+  await page.getByRole('button', { name: 'Pull up moodboard' }).click();
+  await page.getByRole('button', { name: 'Add model to board' }).click();
+  await page.waitForFunction(
+    () =>
+      document
+        .querySelector('[data-testid="moodboard-viewport"]')
+        ?.getAttribute('data-items') === '1',
+  );
+  await page.getByRole('button', { name: 'Back to model' }).click();
+  // FBXLoader is a lazy chunk too: verify a real Revit export at /atelier/.
+  await page
+    .getByLabel('Import project file')
+    .setInputFiles('tests/fixtures/fbx/revit-wall.fbx');
+  const importDialog = page.getByRole('dialog', { name: 'Import 3D element' });
+  await importDialog
+    .getByText('6 editable elements · 4 closed solids')
+    .waitFor();
+  await importDialog.getByRole('button', { name: 'Add to workspace' }).click();
+  await page.waitForFunction(
+    () =>
+      document
+        .querySelector('[data-testid="viewport"]')
+        ?.getAttribute('data-model-objects') === '9',
+  );
+  // The photo viewer's lazy chunk also works without a server at /atelier/.
+  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
+  await page.getByRole('button', { name: 'Open panoramas' }).click();
+  const photo = await page.evaluate(() => {
+    const c = document.createElement('canvas');
+    c.width = 512;
+    c.height = 256;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#567890';
+    ctx.fillRect(0, 0, 512, 256);
+    return c.toDataURL('image/png').split(',')[1];
+  });
+  await page.getByLabel('Panorama image file').setInputFiles({
+    name: 'Site.png',
+    mimeType: 'image/png',
+    buffer: Buffer.from(photo, 'base64'),
+  });
+  await page.waitForFunction(
+    () =>
+      document
+        .querySelector('[data-testid="panorama-viewport"]')
+        ?.getAttribute('data-ready') === 'true',
+  );
+  await page.getByRole('button', { name: 'Back to model' }).click();
+  assert.deepEqual(errors, []);
+  // AR reduction/export runs in a separate module worker at the same subpath.
+  const camera = page.getByRole('button', {
+    name: 'Camera settings',
+    exact: true,
+  });
+  if (!(await camera.isVisible()))
+    await page
+      .getByRole('button', { name: 'Design tools', exact: true })
+      .click();
+  await camera.click();
+  await page.getByRole('button', { name: 'View in your space · AR' }).click();
+  await page
+    .getByRole('button', { name: 'Prepare AR model', exact: true })
+    .click();
+  const ar = page.getByRole('link', { name: 'Download AR model (.usdz)' });
+  await ar.waitFor({ timeout: 30000 });
+  const magic = await ar.evaluate(async (a) =>
+    Array.from(
+      new Uint8Array(await (await fetch(a.href)).arrayBuffer()).slice(0, 4),
+    ),
+  );
+  assert.deepEqual(magic, [80, 75, 3, 4]);
   assert.deepEqual(errors, []);
   console.log(
-    'PASS: production app loads at /atelier/ with valid asset paths, WebGL, geometry commands, and reload persistence.',
+    'PASS: production app loads at /atelier/ with valid JS/CSS/WASM paths, actual solid rendering, direct editing, reload persistence, lazy 3D moodboard/model assets, real Revit FBX / panorama imports and worker-prepared AR USDZ. Static Pages has no AI backend.',
   );
 } finally {
   await browser?.close();
