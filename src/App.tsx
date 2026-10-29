@@ -1,3 +1,5 @@
+import { explosionOffsets } from './design/explosion';
+import { explorationTransform, componentInfo } from './design/model';
 import ExplorePanel from './design/ExplorePanel';
 import { assembled, type Exploration, type SavedView } from './design/schema';
 import { resolveIds } from './intelligence/engine';
@@ -42,6 +44,11 @@ import type { WorkspaceSnapshot } from './projects/library';
 import {
   ArrowDownToLine,
   ArrowUpFromLine,
+  ArrowUp,
+  MessageCircle,
+  MoreHorizontal,
+  Minus,
+  Moon,
   ArrowUpRight,
   Box,
   Check,
@@ -352,6 +359,7 @@ export default function App({
     [],
   );
   const [exploration, setExploration] = useState<Exploration>(assembled);
+  const [explorationGuides, setExplorationGuides] = useState(true);
   const [alternativePreview, setAlternativePreview] = useState<string | null>(
     null,
   );
@@ -546,6 +554,17 @@ export default function App({
   }, [panels.active]);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [chatExpanded, setChatExpanded] = useState(true);
+  const [chatDocked, setChatDocked] = useState(false);
+  const [phoneActions, setPhoneActions] = useState(false);
+  const revealConversation = () => {
+    setChatDocked(false);
+    setPhoneActions(false);
+    if (phoneLayout) {
+      if (panels.active) panels.setters[panels.active](false);
+      setObjectsOpen(false);
+    }
+  };
+
   const [messages, setMessages] = useState<Message[]>(
     () => initialWorkspace?.messages ?? loadMessages(),
   );
@@ -586,6 +605,12 @@ export default function App({
     camera: CameraContext;
     prepared: { session: Session; message: string };
   } | null>(null);
+  useEffect(() => {
+    if (pending) setChatDocked(false);
+  }, [pending]);
+  useEffect(() => {
+    if (panels.active) setPhoneActions(false);
+  }, [panels.active]);
   const pendingRef = useRef(pending);
   pendingRef.current = pending;
   const [voiceStatus, setVoiceStatus] = useState('Off');
@@ -1192,7 +1217,8 @@ export default function App({
     setProject(next);
     setHistoryVersion((v) => v + 1);
   }, []);
-  const reportError = (e: unknown) =>
+  const reportError = (e: unknown) => {
+    setChatDocked(false);
     setNotice({
       text:
         e instanceof Error
@@ -1200,6 +1226,7 @@ export default function App({
           : 'The operation could not be completed.',
       error: true,
     });
+  };
   const change = useCallback(
     (id: string, patch: Partial<Volume>) => {
       const original = current.current;
@@ -1460,6 +1487,7 @@ export default function App({
       return;
     }
     setImageLoading(true);
+    setChatDocked(false);
     setChatExpanded(true);
     if (panels.active) panels.setters[panels.active](false);
     try {
@@ -1579,7 +1607,7 @@ export default function App({
           else void importFile(files[0]);
         } else reportError(new Error('Import one file at a time.'));
       }}
-      className={`app-shell phase-two immersive ${panels.active ? 'tool-panel-open' : ''} ${busy || modelingBusy > 0 ? 'is-processing' : ''} ${presentation ? 'presentation-mode' : ''} theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
+      className={`app-shell phase-two immersive ${panels.active ? 'tool-panel-open' : ''} ${chatDocked ? 'chat-docked' : ''} ${exploration.mode !== 'assembled' ? 'exploration-mode' : ''} ${phoneActions ? 'phone-actions-open' : ''} ${busy || modelingBusy > 0 ? 'is-processing' : ''} ${presentation ? 'presentation-mode' : ''} theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
     >
       {panoramaOpen && (
         <Suspense
@@ -1627,7 +1655,8 @@ export default function App({
       )}
       <header className="app-header">
         <a className="brand" href="./" aria-label="ATELIER home">
-          <span className="brand-mark">A</span> ATELIER
+          <span className="brand-mark">A</span>{' '}
+          <span className="brand-name">Atelier</span>
         </a>
         {projectMenu?.(
           busy ||
@@ -1659,6 +1688,7 @@ export default function App({
         <button
           className="primary-create"
           aria-label="Create a 3D shape"
+          aria-pressed={panels.active === 'model'}
           onClick={() => {
             setModelAction('solid');
             panels.setters.model(true);
@@ -1670,6 +1700,7 @@ export default function App({
         <button
           className="subtle-button explore-launcher"
           aria-label="Explore design"
+          aria-pressed={panels.active === 'explore'}
           onClick={() => panels.setters.explore((v) => !v)}
         >
           <Sparkles size={16} />
@@ -1692,11 +1723,49 @@ export default function App({
             const button = (e.target as HTMLElement).closest('button');
             if (
               button &&
-              button.getAttribute('aria-label') !== 'More export formats'
+              button.getAttribute('aria-label') !== 'More export formats' &&
+              !button.closest('.tools-menu-heading')
             )
               setToolsOpen(false);
           }}
         >
+          <div className="tools-menu-heading">
+            <strong>Your workspace</strong>
+            <div>
+              <button
+                className="theme-switch"
+                aria-label={
+                  appearance.theme === 'day'
+                    ? 'Night appearance'
+                    : 'Day appearance'
+                }
+                title={
+                  appearance.theme === 'day'
+                    ? 'Switch to Night'
+                    : 'Switch to Day'
+                }
+                onClick={() =>
+                  setAppearance((a) => ({
+                    ...a,
+                    theme: a.theme === 'day' ? 'night' : 'day',
+                  }))
+                }
+              >
+                {appearance.theme === 'day' ? (
+                  <Moon size={17} />
+                ) : (
+                  <Sun size={17} />
+                )}
+              </button>
+              <button
+                aria-label="Close tools"
+                onClick={() => setToolsOpen(false)}
+              >
+                <X size={17} />
+              </button>
+            </div>
+          </div>
+          <div className="tools-section-label">Inspiration</div>
           <button
             className="subtle-button"
             aria-label="Model from a reference"
@@ -1717,6 +1786,16 @@ export default function App({
             <ImagePlus size={16} />
             <span>Panoramas</span>
           </button>
+          <button
+            className="subtle-button moodboard-toggle"
+            aria-label="Pull up moodboard"
+            title="Moodboard · images, models and references"
+            onClick={() => setMoodboardOpen(true)}
+          >
+            <ImagePlus size={16} />
+            <span>Moodboard</span>
+          </button>
+          <div className="tools-section-label">View & environment</div>
           <button
             className="subtle-button map-toggle"
             aria-label="Toggle site map"
@@ -1746,15 +1825,6 @@ export default function App({
           >
             <ChevronDown size={14} />
             <span>Location</span>
-          </button>
-          <button
-            className="subtle-button moodboard-toggle"
-            aria-label="Pull up moodboard"
-            title="Moodboard · images, models and references"
-            onClick={() => setMoodboardOpen(true)}
-          >
-            <ImagePlus size={16} />
-            <span>Moodboard</span>
           </button>
           <div
             className={`studio-tool-group ${toolsOpen ? 'tools-open' : ''}`}
@@ -1836,6 +1906,7 @@ export default function App({
               <span>Camera</span>
             </button>
           </div>
+          <div className="tools-section-label">Project & settings</div>
           <button
             className="connection-button"
             onClick={() => setSettingsOpen(true)}
@@ -2217,6 +2288,27 @@ export default function App({
           </div>
           <div className="viewport-stage">
             <button
+              className="quick-theme"
+              aria-label={
+                appearance.theme === 'day' ? 'Switch to Night' : 'Switch to Day'
+              }
+              title={
+                appearance.theme === 'day' ? 'Switch to Night' : 'Switch to Day'
+              }
+              onClick={() =>
+                setAppearance((a) => ({
+                  ...a,
+                  theme: a.theme === 'day' ? 'night' : 'day',
+                }))
+              }
+            >
+              {appearance.theme === 'day' ? (
+                <Moon size={17} />
+              ) : (
+                <Sun size={17} />
+              )}
+            </button>
+            <button
               className="studio-launcher"
               aria-label="Studio appearance and location"
               aria-expanded={studioOpen}
@@ -2287,6 +2379,66 @@ export default function App({
               <ExplorePanel
                 project={project}
                 value={exploration}
+                guides={explorationGuides}
+                onGuides={setExplorationGuides}
+                onAxonometric={() => {
+                  const offsets = explosionOffsets(project, exploration);
+                  const parts = project.volumes
+                    .filter(
+                      (v) =>
+                        isVisible(v, project) &&
+                        !['tree', 'person'].includes(v.geometry?.kind ?? ''),
+                    )
+                    .map((v) => ({
+                      ...v,
+                      ...explorationTransform(
+                        v,
+                        project,
+                        exploration,
+                        new Set(),
+                        offsets,
+                      ),
+                    }));
+                  if (!parts.length) return;
+                  const b = groupBounds(parts),
+                    center = {
+                      x: (b.min.x + b.max.x) / 2,
+                      y: (b.min.y + b.max.y) / 2,
+                      z: (b.min.z + b.max.z) / 2,
+                    };
+                  const size = Math.max(
+                    b.max.x - b.min.x,
+                    b.max.y - b.min.y,
+                    b.max.z - b.min.z,
+                    1,
+                  );
+                  if (!phoneLayout) {
+                    center.x += size * 0.2;
+                    center.z -= size * 0.2;
+                  }
+                  setView((v) => ({ ...v, mode: 'orthographic' }));
+                  setCameraSettings((v) => ({ ...v, walk: false }));
+                  setSavedViewRequest({
+                    view: {
+                      name: 'Axonometric',
+                      targets: [],
+                      section: null,
+                      pose: {
+                        position: {
+                          x: center.x + size,
+                          y: center.y + size,
+                          z: center.z + size,
+                        },
+                        target: center,
+                        projection: 'orthographic',
+                        zoom: 1,
+                        fov: 50,
+                        orthoHeight: size * (phoneLayout ? 2.5 : 1.65),
+                      },
+                    },
+                    revision: Date.now(),
+                  });
+                }}
                 preview={alternativePreview}
                 onExplore={(value) => {
                   setTool('select');
@@ -2524,6 +2676,7 @@ export default function App({
             <Viewport
               project={viewportProject}
               exploration={exploration}
+              explorationGuides={explorationGuides}
               savedViewRequest={savedViewRequest}
               previewing={!!alternativePreview}
               phonePanel={
@@ -2604,7 +2757,85 @@ export default function App({
               sectionEditing={sectionOpen && !!section.planeVisible}
               onSectionChange={setSection}
               view={view}
-              onSelect={(id, additive) => select(id, additive || multiSelect)}
+              onSelect={(id, additive) => {
+                setPhoneActions(false);
+                select(id, additive || multiSelect);
+                if (id && exploration.mode === 'open') {
+                  const v = current.current.volumes.find((v) => v.id === id);
+                  if (v && componentInfo(v).motion !== 'none') {
+                    const movable = current.current.volumes
+                      .filter((v) => componentInfo(v).motion !== 'none')
+                      .map((v) => v.id);
+                    const active = new Set(
+                      exploration.amount
+                        ? exploration.targets.length
+                          ? exploration.targets
+                          : movable
+                        : [],
+                    );
+                    if (active.has(id)) active.delete(id);
+                    else active.add(id);
+                    setExploration(
+                      active.size
+                        ? { ...exploration, amount: 1, targets: [...active] }
+                        : { ...exploration, amount: 0, targets: [] },
+                    );
+                  }
+                }
+              }}
+              onTouchAction={(id, kind) => {
+                if (!id) {
+                  if (kind === 'double') {
+                    setSavedViewRequest(null);
+                    setView((v) => ({ ...v, revision: v.revision + 1 }));
+                  }
+                  return;
+                }
+                const existing = current.current.selectedIds ?? [];
+                if (!existing.includes(id)) select(id, multiSelect);
+                if (kind === 'hold') {
+                  if (panels.active) panels.setters[panels.active](false);
+                  setObjectsOpen(false);
+                  setPhoneActions(true);
+                } else {
+                  setPhoneActions(false);
+                  const target = current.current.volumes.find(
+                    (v) => v.id === id,
+                  )!;
+                  const b = groupBounds([target]);
+                  const center = {
+                    x: (b.min.x + b.max.x) / 2,
+                    y: (b.min.y + b.max.y) / 2,
+                    z: (b.min.z + b.max.z) / 2,
+                  };
+                  const size = Math.max(
+                    b.max.x - b.min.x,
+                    b.max.y - b.min.y,
+                    b.max.z - b.min.z,
+                    1,
+                  );
+                  setView((v) => ({ ...v, mode: 'perspective' }));
+                  setSavedViewRequest({
+                    view: {
+                      name: target.name,
+                      targets: [],
+                      section: null,
+                      pose: {
+                        position: {
+                          x: center.x + size * 1.5,
+                          y: center.y + size,
+                          z: center.z + size * 1.5,
+                        },
+                        target: center,
+                        projection: 'perspective',
+                        zoom: 1,
+                        fov: 50,
+                      },
+                    },
+                    revision: Date.now(),
+                  });
+                }
+              }}
               onChange={change}
               onTransform={(id, patch) => {
                 try {
@@ -2657,6 +2888,20 @@ export default function App({
                     <small>Raised {selected.position.y} m</small>
                   )}
                 </button>
+                {phoneLayout && (
+                  <button
+                    className="selection-more"
+                    aria-label="Selected object actions"
+                    aria-expanded={phoneActions}
+                    onClick={() => {
+                      if (panels.active) panels.setters[panels.active](false);
+                      setObjectsOpen(false);
+                      setPhoneActions((v) => !v);
+                    }}
+                  >
+                    <MoreHorizontal size={20} />
+                  </button>
+                )}
               </div>
             )}
             {selected &&
@@ -2898,22 +3143,154 @@ export default function App({
                     : 'Drag to orbit · Shift-drag to select · Scroll to zoom'}
             </div>
           </div>
+          {phoneLayout && phoneActions && selected && (
+            <section
+              className="phone-object-actions"
+              role="dialog"
+              aria-label="Selected object actions"
+            >
+              <header>
+                <div>
+                  <strong>
+                    {(project.selectedIds?.length ?? 0) > 1
+                      ? `${project.selectedIds!.length} selected`
+                      : selected.name}
+                  </strong>
+                  <span>Changes can be undone</span>
+                </div>
+                <button
+                  aria-label="Close object actions"
+                  onClick={() => setPhoneActions(false)}
+                >
+                  <X size={20} />
+                </button>
+              </header>
+              <div className="phone-action-grid">
+                <button
+                  onClick={() => {
+                    setTouchNavigation('edit');
+                    setTool('translate');
+                    setPhoneActions(false);
+                  }}
+                >
+                  <Move3D size={21} />
+                  Move
+                </button>
+                <button
+                  onClick={() => {
+                    setModelAction('scale');
+                    panels.setters.model(true);
+                    setPhoneActions(false);
+                  }}
+                >
+                  <Maximize size={21} />
+                  Modify
+                </button>
+                <button
+                  onClick={() => {
+                    void propose(
+                      directPlan({
+                        type: 'duplicate',
+                        targets: ['$selected'],
+                        count: 1,
+                        direction: 'east',
+                        distance: 2,
+                      }),
+                    );
+                    setPhoneActions(false);
+                  }}
+                >
+                  <Copy size={21} />
+                  Duplicate
+                </button>
+                <button
+                  onClick={() => {
+                    void propose(
+                      directPlan({
+                        type: 'visibility',
+                        targets: ['$selected'],
+                        visible: false,
+                      }),
+                    );
+                    setPhoneActions(false);
+                  }}
+                >
+                  <EyeOff size={21} />
+                  Hide
+                </button>
+                <button
+                  aria-pressed={multiSelect}
+                  onClick={() => {
+                    setMultiSelect((v) => !v);
+                    setPhoneActions(false);
+                  }}
+                >
+                  <Layers size={21} />
+                  {multiSelect ? 'Finish selecting' : 'Select several'}
+                </button>
+                <button
+                  className="destructive-action"
+                  aria-label="Delete selection"
+                  onClick={() => {
+                    run('delete selected');
+                    setPhoneActions(false);
+                  }}
+                >
+                  <Trash2 size={21} />
+                  Delete
+                </button>
+              </div>
+              <p>Tap to select · Hold for actions · Double-tap to focus</p>
+            </section>
+          )}
           <ConversationSurface target={arActive ? arConversationHost : null}>
-            <div className="conversation-area">
+            {chatDocked && (
+              <button
+                className="conversation-launcher"
+                aria-label="Open conversation"
+                onClick={revealConversation}
+              >
+                <MessageCircle size={22} />
+                <span>
+                  {busy
+                    ? 'Thinking…'
+                    : voiceActive
+                      ? 'Voice is on'
+                      : 'Ask Atelier'}
+                </span>
+                {(busy || voiceActive) && (
+                  <i className="conversation-activity" />
+                )}
+              </button>
+            )}
+
+            <div
+              className={`conversation-area ${chatExpanded ? 'conversation-open' : 'conversation-compact'} ${chatDocked ? 'is-docked' : ''}`}
+            >
               <div className="conversation-heading">
                 <button
                   aria-expanded={chatExpanded}
+                  aria-label={`Atelier ${busy ? 'Thinking…' : chatExpanded ? 'Close conversation' : 'Conversation'}`}
                   onClick={() => setChatExpanded(!chatExpanded)}
                 >
-                  <Sparkles size={14} />
-                  Atelier
-                  <span>
-                    {busy
-                      ? 'Thinking…'
-                      : chatExpanded
-                        ? 'Close conversation'
-                        : 'Conversation'}
-                  </span>
+                  <MessageCircle size={16} />
+                  <span>{busy ? 'Thinking…' : 'Conversation'}</span>
+                  <ChevronDown
+                    size={14}
+                    className={
+                      chatExpanded
+                        ? 'conversation-chevron expanded'
+                        : 'conversation-chevron'
+                    }
+                  />
+                </button>
+                <button
+                  className="minimize-conversation"
+                  aria-label="Minimize conversation"
+                  title="Minimize conversation"
+                  onClick={() => setChatDocked(true)}
+                >
+                  <Minus size={18} />
                 </button>
                 <span className="voice-status">
                   {voiceStatus !== 'Off' ? voiceStatus : ''}
@@ -2928,8 +3305,8 @@ export default function App({
                 )}
               {messages.length === 0 && !tool.startsWith('draw_') && (
                 <div className="conversation-welcome">
-                  <strong>Space for your next idea.</strong>
-                  <p>Imagine it. We’ll shape it together.</p>
+                  <strong>What would you like to create?</strong>
+                  <p>A space, a shape, a new way of seeing it.</p>
                   {onOpenSample && (
                     <button
                       className="sample-start"
@@ -3131,6 +3508,7 @@ export default function App({
                 }}
               />
               <form
+                className="conversation-composer"
                 onSubmit={(e) => {
                   e.preventDefault();
                   const text =
@@ -3144,16 +3522,6 @@ export default function App({
                   }
                 }}
               >
-                <button
-                  type="button"
-                  className="attach-reference"
-                  aria-label="Attach a reference photo"
-                  disabled={imageLoading || referenceImages.length >= 2}
-                  onClick={() => imageInput.current?.click()}
-                >
-                  <ImagePlus size={18} />
-                  <span>Reference</span>
-                </button>
                 <textarea
                   ref={input}
                   rows={2}
@@ -3170,64 +3538,79 @@ export default function App({
                   aria-label="Message Atelier"
                   value={command}
                   onChange={(e) => setCommand(e.target.value)}
-                  placeholder="Describe your idea, or tell me what to change…"
+                  placeholder="Ask Atelier to create or change anything…"
                   autoComplete="off"
                   maxLength={4000}
                 />
-                <button
-                  type="button"
-                  className={voiceActive ? 'mic-active' : ''}
-                  aria-label={
-                    !voiceActive
-                      ? 'Start voice conversation'
-                      : 'Stop voice conversation'
-                  }
-                  disabled={
-                    !connectionState.voiceConfigured ||
-                    !connectionState.authenticated
-                  }
-                  title={
-                    connectionState.voiceConfigured
-                      ? 'Continuous voice conversation'
-                      : 'Configure the AI backend to enable voice'
-                  }
-                  onClick={async () => {
-                    if (voice.current) {
-                      voice.current.stop();
-                      voice.current = null;
-                      return;
+                <div className="composer-actions">
+                  <button
+                    type="button"
+                    className="attach-reference"
+                    aria-label="Attach a reference photo"
+                    disabled={imageLoading || referenceImages.length >= 2}
+                    onClick={() => imageInput.current?.click()}
+                  >
+                    <Plus size={21} />
+                    <span>Add reference</span>
+                  </button>
+                  <span className="composer-context">Design with Atelier</span>
+                  <button
+                    type="button"
+                    className={
+                      voiceActive ? 'voice-button mic-active' : 'voice-button'
                     }
-                    const v = new VoiceConnection(
-                      (text) => sendRef.current(text),
-                      (status) => {
-                        setVoiceStatus(status);
-                        setVoiceActive(v.active);
-                        if (!v.active && voice.current === v)
-                          voice.current = null;
-                      },
-                    );
-                    voice.current = v;
-                    try {
-                      await v.start();
-                    } catch (e) {
-                      voice.current = null;
-                      reportError(e);
+                    aria-label={
+                      !voiceActive
+                        ? 'Start voice conversation'
+                        : 'Stop voice conversation'
                     }
-                  }}
-                >
-                  {!voiceActive ? <Mic size={18} /> : <MicOff size={18} />}
-                </button>
-                <button
-                  type="submit"
-                  aria-label="Send message"
-                  disabled={
-                    (!command.trim() && !referenceImages.length) ||
-                    busy ||
-                    imageLoading
-                  }
-                >
-                  <ArrowUpRight size={19} />
-                </button>
+                    disabled={
+                      !connectionState.voiceConfigured ||
+                      !connectionState.authenticated
+                    }
+                    title={
+                      connectionState.voiceConfigured
+                        ? 'Continuous voice conversation'
+                        : 'Configure the AI backend to enable voice'
+                    }
+                    onClick={async () => {
+                      if (voice.current) {
+                        voice.current.stop();
+                        voice.current = null;
+                        return;
+                      }
+                      const v = new VoiceConnection(
+                        (text) => sendRef.current(text),
+                        (status) => {
+                          setVoiceStatus(status);
+                          setVoiceActive(v.active);
+                          if (!v.active && voice.current === v)
+                            voice.current = null;
+                        },
+                      );
+                      voice.current = v;
+                      try {
+                        await v.start();
+                      } catch (e) {
+                        voice.current = null;
+                        reportError(e);
+                      }
+                    }}
+                  >
+                    {!voiceActive ? <Mic size={18} /> : <MicOff size={18} />}
+                  </button>
+                  <button
+                    type="submit"
+                    aria-label="Send message"
+                    disabled={
+                      (!command.trim() && !referenceImages.length) ||
+                      busy ||
+                      imageLoading
+                    }
+                  >
+                    <ArrowUp size={20} />
+                  </button>
+                </div>
               </form>
               <div
                 className={`command-feedback ${notice.error ? 'error' : ''}`}

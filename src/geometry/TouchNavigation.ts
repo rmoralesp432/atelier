@@ -20,6 +20,17 @@ export function installTouchNavigation(
     multi = false,
     start = new Vector2(),
     previousDamping = true;
+  let holdTimer: ReturnType<typeof setTimeout> | undefined;
+  let held = false;
+  let lastTap = { time: -Infinity, x: 0, y: 0 };
+  const cancelHold = () => {
+    clearTimeout(holdTimer);
+    holdTimer = undefined;
+  };
+  const action = (kind: 'hold' | 'double', x: number, y: number) =>
+    canvas.dispatchEvent(
+      new CustomEvent('atelier-touch-action', { detail: { kind, x, y } }),
+    );
   const metrics = () => {
     const p = [...points.values()];
     return {
@@ -67,6 +78,7 @@ export function installTouchNavigation(
     if (e.pointerType !== 'touch' || !mode()) return;
     if (!points.size) {
       moved = false;
+      held = false;
       multi = false;
       start.set(e.clientX, e.clientY);
       previousDamping = controls.enableDamping;
@@ -74,7 +86,20 @@ export function installTouchNavigation(
       controls.update();
     }
     points.set(e.pointerId, new Vector2(e.clientX, e.clientY));
-    if (points.size > 1) multi = true;
+    if (points.size > 1) {
+      multi = true;
+      cancelHold();
+      lastTap.time = -Infinity;
+    } else {
+      cancelHold();
+      holdTimer = setTimeout(() => {
+        if (!moved && !multi && points.size === 1) {
+          held = true;
+          lastTap.time = -Infinity;
+          action('hold', e.clientX, e.clientY);
+        }
+      }, 550);
+    }
     canvas.setPointerCapture(e.pointerId);
     // Let the viewport record the tap start; block OrbitControls in bubble phase.
     if (points.size === 1)
@@ -88,10 +113,18 @@ export function installTouchNavigation(
   };
   const move = (e: PointerEvent) => {
     if (!points.has(e.pointerId)) return;
+    if (held) {
+      stop(e);
+      return;
+    }
     const before = metrics();
     points.get(e.pointerId)!.set(e.clientX, e.clientY);
     const after = metrics();
     moved ||= multi || start.distanceTo(points.get(e.pointerId)!) > 8;
+    if (moved) {
+      cancelHold();
+      lastTap.time = -Infinity;
+    }
     const delta = after.center.clone().sub(before.center),
       camera = controls.object;
     if (points.size > 1) {
@@ -131,11 +164,24 @@ export function installTouchNavigation(
   };
   const end = (e: PointerEvent) => {
     if (!points.has(e.pointerId)) return;
+    cancelHold();
+    let doubled = false;
+    if (!moved && !multi && !held && e.type === 'pointerup') {
+      const now = e.timeStamp;
+      if (
+        now - lastTap.time < 450 &&
+        Math.hypot(e.clientX - lastTap.x, e.clientY - lastTap.y) < 28
+      ) {
+        doubled = true;
+        lastTap.time = -Infinity;
+        action('double', e.clientX, e.clientY);
+      } else lastTap = { time: now, x: e.clientX, y: e.clientY };
+    } else lastTap.time = -Infinity;
     points.delete(e.pointerId);
     if (canvas.hasPointerCapture(e.pointerId))
       canvas.releasePointerCapture(e.pointerId);
     // A tap still reaches the normal picker, with a fresh matching down position.
-    if (moved || multi || e.type !== 'pointerup') stop(e);
+    if (moved || multi || held || doubled || e.type !== 'pointerup') stop(e);
     if (!points.size) {
       controls.enableDamping = previousDamping;
       controls.dispatchEvent({ type: 'end' });
@@ -150,6 +196,7 @@ export function installTouchNavigation(
     canvas.removeEventListener('pointermove', move, true);
     canvas.removeEventListener('pointerup', end, true);
     canvas.removeEventListener('pointercancel', end, true);
+    cancelHold();
     points.clear();
     controls.enableDamping = previousDamping;
   };

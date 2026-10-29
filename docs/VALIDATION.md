@@ -2,6 +2,16 @@
 
 Validated in the Codex Cloud Linux environment using Node.js 24.19.0, Chromium 154 and software WebGL. This file distinguishes geometric execution, UI/provider contracts and live AI/audio behavior.
 
+## Minimal interface, phone actions and assembly diagrams — October 29, 2026
+
+The [interface guide](INTERFACE.md) covers the revised controls. A single writing surface, grouped Tools menu, quieter header and navigation rail, direct Day/Night switch and collapsible conversation replace the former stacked phone controls. New installations start in Day mode; saved appearance preferences remain intact. Minimizing conversation preserves the draft and shared conversation/voice component. Opening a geometry review or reporting an error reveals it again.
+
+**203 unit/integration cases in 54 files pass across the suite and focused reruns.** New tests cover role-aware exploded assemblies, hosted descendants independent of file order, selected scope, environment preservation, exact reassembly and origin/elevation-independent offsets. A geometric integration test exceeded its five-second timeout while browser WebGL tests were running; its focused rerun passes. The offset test uses numeric tolerance for normal floating-point translation differences.
+
+**22 distinct targeted production-browser scenarios pass across the regression and focused runs.** These cover desktop/phone Day and Night, draft preservation through minimization, menu and panel navigation, actual press-and-hold picking, Delete/Undo, double-tap focus and empty-space reframing, drag suppression, simultaneous pan/pinch/twist and cancellation, actual exploded guides and orthographic framing, door interaction/reassembly, existing components/alternatives/views, image references, project transfer, the sample house, camera overlay and native/XR AR handoffs. Double-tap input timestamps are explicitly spaced in CDP so slow software-WebGL acknowledgements do not turn a double-tap into two separate taps. This does not simulate physical iPhone performance.
+
+The TypeScript/Vite production build, static `/atelier/` Pages smoke, formatting and whitespace checks pass. Screenshots of the phone canvas/composer/actions/menu, both desktop themes and the exploded axonometric were visually inspected. Review corrected an oversized checkbox, project-name truncation, old theme/backdrop overrides, the projection label, and empty-space reframing after a saved focus. No paid AI request, hosting-account change or new credential is required. Physical iPhone Safari and real AR tracking remain unverified; provider/native-transport fixtures are explicit. The full historical browser suite was not rerun for this interface update.
+
 ## Clean studio, design exploration and reference images — October 28, 2026
 
 The current workflow is documented in [Create, explore and model from references](EXPLORE-DESIGN.md). The source import cap is still 512 MB / 5 million output triangles; no smaller import restriction was introduced.

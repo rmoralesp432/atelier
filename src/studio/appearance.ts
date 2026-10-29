@@ -7,7 +7,7 @@ export type Appearance = {
   surfaceColor: string;
 };
 export const defaultAppearance: Appearance = {
-  theme: 'night',
+  theme: 'day',
   mode: 'studio',
   lineColor: '#d9e4e4',
   surfaceColor: '#22282c',

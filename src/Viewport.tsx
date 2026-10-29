@@ -1,3 +1,4 @@
+import { explosionOffsets } from './design/explosion';
 import { viewScope } from './design/viewScope';
 import { explorationTransform } from './design/model';
 import { assembled, type Exploration, type SavedView } from './design/schema';
@@ -58,6 +59,7 @@ export type Tool = 'select' | 'translate' | 'rotate' | 'reshape' | DrawingTool;
 type Props = {
   project: Project;
   exploration?: Exploration;
+  explorationGuides?: boolean;
   previewing?: boolean;
   phonePanel?: boolean;
   savedViewRequest?: { view: SavedView; revision: number } | null;
@@ -89,6 +91,7 @@ type Props = {
   onSectionChange: (section: SectionView) => void;
   view: { mode: 'perspective' | 'orthographic' | 'top'; revision: number };
   onSelect: (id: string | null, additive?: boolean) => void;
+  onTouchAction?: (id: string | null, kind: 'hold' | 'double') => void;
   onCamera?: (camera: CameraContext) => void;
   onTransform: (id: string, patch: Partial<Volume>) => void;
   onChange: (id: string, patch: Partial<Volume>) => void;
@@ -110,6 +113,7 @@ type Runtime = {
   showSavedView: (v: SavedView) => void;
   syncView: () => void;
   exploreTargets: Map<string, { position: THREE.Vector3; rotation: number }>;
+  exploreGuides: THREE.LineSegments;
   fit: (top: boolean, focusIds?: string[], mapSpan?: number) => void;
   beginConstruction: (
     v: Volume,
@@ -226,6 +230,19 @@ export default function Viewport(props: Props) {
       }),
     );
     const scene = new THREE.Scene();
+    const exploreGuides = new THREE.LineSegments(
+      new THREE.BufferGeometry(),
+      new THREE.LineDashedMaterial({
+        color: '#81818a',
+        transparent: true,
+        opacity: 0.35,
+        dashSize: 0.22,
+        gapSize: 0.18,
+        depthWrite: false,
+      }),
+    );
+    exploreGuides.visible = false;
+    scene.add(exploreGuides);
     scene.fog = new THREE.Fog('#151719', 250, 1800);
     const pmrem = new THREE.PMREMGenerator(renderer);
     const room = new RoomEnvironment();
@@ -864,11 +881,17 @@ export default function Viewport(props: Props) {
         ) > (event.pointerType === 'touch' ? 10 : 4)
       )
         return;
+      latest.current.onSelect(
+        pick(event.clientX, event.clientY),
+        event.shiftKey || event.ctrlKey || event.metaKey,
+      );
+    };
+    const pick = (x: number, y: number): string | null => {
       const rect = renderer.domElement.getBoundingClientRect();
       raycaster.setFromCamera(
         new THREE.Vector2(
-          ((event.clientX - rect.left) / rect.width) * 2 - 1,
-          (-(event.clientY - rect.top) / rect.height) * 2 + 1,
+          ((x - rect.left) / rect.width) * 2 - 1,
+          (-(y - rect.top) / rect.height) * 2 + 1,
         ),
         camera,
       );
@@ -890,11 +913,16 @@ export default function Viewport(props: Props) {
             (!latest.current.section.enabled ||
               clippingPlane.current.distanceToPoint(hit.point) >= 0),
         );
-      latest.current.onSelect(
-        hit ? hit.object.parent!.userData.id : null,
-        event.shiftKey || event.ctrlKey || event.metaKey,
-      );
+      return hit ? hit.object.parent!.userData.id : null;
     };
+    const touchAction = (event: Event) => {
+      const { x, y, kind } = (
+        event as CustomEvent<{ x: number; y: number; kind: 'hold' | 'double' }>
+      ).detail;
+      if (!latest.current.previewing)
+        latest.current.onTouchAction?.(pick(x, y), kind);
+    };
+    renderer.domElement.addEventListener('atelier-touch-action', touchAction);
     renderer.domElement.addEventListener('pointerdown', down);
     renderer.domElement.addEventListener('pointerup', up);
     const facePull = new FacePullControls({
@@ -1268,6 +1296,7 @@ export default function Viewport(props: Props) {
       updateShadows,
       applyLens,
       exploreTargets: new Map(),
+      exploreGuides,
       syncView: () => {
         const scope = viewScope(
           latest.current.project,
@@ -1591,6 +1620,38 @@ export default function Viewport(props: Props) {
         )
           runtime.current.exploreTargets.clear();
       }
+      if (exploreGuides.visible) {
+        const positions = exploreGuides.geometry.getAttribute(
+          'position',
+        ) as THREE.BufferAttribute;
+        const ids = exploreGuides.userData.ids as string[];
+        ids.forEach((id, i) => {
+          const g = objects.get(id);
+          if (g)
+            positions.setXYZ(
+              i * 2 + 1,
+              g.position.x,
+              g.position.y,
+              g.position.z,
+            );
+        });
+        positions.needsUpdate = true;
+        const distances = exploreGuides.geometry.getAttribute(
+          'lineDistance',
+        ) as THREE.BufferAttribute;
+        ids.forEach((_, i) =>
+          distances.setX(
+            i * 2 + 1,
+            Math.hypot(
+              positions.getX(i * 2 + 1) - positions.getX(i * 2),
+              positions.getY(i * 2 + 1) - positions.getY(i * 2),
+              positions.getZ(i * 2 + 1) - positions.getZ(i * 2),
+            ),
+          ),
+        );
+        distances.needsUpdate = true;
+      }
+      container.dataset.explorationGuides = String(exploreGuides.visible);
       container.dataset.exploration =
         latest.current.exploration?.mode ?? 'assembled';
       container.dataset.explorationAnimating = String(exploring);
@@ -1707,6 +1768,10 @@ export default function Viewport(props: Props) {
       renderer.domElement.removeEventListener('pointerdown', touchStart, true);
       renderer.domElement.removeEventListener('pointerup', touchEnd, true);
       renderer.domElement.removeEventListener('pointercancel', touchEnd, true);
+      renderer.domElement.removeEventListener(
+        'atelier-touch-action',
+        touchAction,
+      );
       renderer.domElement.removeEventListener('pointerdown', down);
       renderer.domElement.removeEventListener('pointerup', up);
       renderer.domElement.removeEventListener('webglcontextlost', lost);
@@ -2202,12 +2267,42 @@ export default function Viewport(props: Props) {
     r.transform.getHelper().visible = !exploring && !props.previewing;
     if (exploring || r.exploreTargets.size) {
       r.finishConstruction();
+      const offsets = explosionOffsets(
+        props.project,
+        props.exploration ?? assembled,
+      );
+      r.exploreGuides.visible =
+        !!props.explorationGuides &&
+        props.exploration?.mode === 'exploded' &&
+        props.exploration.amount > 0;
+      r.exploreGuides.geometry.dispose();
+      const guideIds = props.project.volumes
+        .filter((v) => offsets.has(v.id) && !v.component?.hostId)
+        .map((v) => v.id);
+      r.exploreGuides.userData.ids = guideIds;
+      const points = new Float32Array(guideIds.length * 6);
+      guideIds.forEach((id, i) => {
+        const p = props.project.volumes.find((v) => v.id === id)!.position;
+        points.set([p.x, p.y, p.z, p.x, p.y, p.z], i * 6);
+      });
+      r.exploreGuides.geometry = new THREE.BufferGeometry();
+      r.exploreGuides.geometry.setAttribute(
+        'position',
+        new THREE.BufferAttribute(points, 3),
+      );
+      r.exploreGuides.geometry.setAttribute(
+        'lineDistance',
+        new THREE.BufferAttribute(new Float32Array(guideIds.length * 2), 1),
+      );
+      r.exploreGuides.frustumCulled = false;
       r.exploreTargets = new Map(
         props.project.volumes.map((v) => {
           const t = explorationTransform(
             v,
             props.project,
             props.exploration ?? assembled,
+            new Set(),
+            offsets,
           );
           return [
             v.id,
@@ -2226,6 +2321,7 @@ export default function Viewport(props: Props) {
     }
   }, [
     props.exploration,
+    props.explorationGuides,
     props.project,
     props.previewing,
     props.touchNavigation,

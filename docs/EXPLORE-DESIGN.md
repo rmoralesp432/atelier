@@ -1,5 +1,7 @@
 # Create, explore and model from references
 
+See [the interface and iPhone gesture guide](INTERFACE.md) for minimizing conversation, quick Day/Night switching, touch actions and assembly exploration.
+
 The main controls are **Objects**, **Create**, **Explore** and **Tools**. Secondary tools live in one menu; opening a panel closes the previous panel. Phone panels leave the upper viewport visible. Day and Night use the same layout and controls.
 
 ## Direct 3D creation
@@ -8,7 +10,7 @@ Choose **Create → 3D shapes**, select Box, Cylinder or Sphere, set dimensions 
 
 ## Reference images
 
-1. Choose **Tools → Model from reference**, or **Reference** beside the conversation input. On desktop, dropping a JPEG, PNG or WebP onto the workspace also attaches it.
+1. Choose **Tools → Model from reference**, or **Add reference (+)** beneath the conversation input. On desktop, dropping a JPEG, PNG or WebP onto the workspace also attaches it.
 2. Optionally enter a known building width in meters.
 3. Choose **Create similar massing**, or write your own instruction about what to keep or change.
 

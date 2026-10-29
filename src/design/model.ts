@@ -1,3 +1,4 @@
+import { explosionOffsets } from './explosion';
 import { z } from 'zod';
 import type { Volume, ObjectGroup, Project } from '../model';
 import {
@@ -89,6 +90,7 @@ export function explorationTransform(
   project: Project,
   state: Exploration,
   ancestors = new Set<string>(),
+  offsets?: Map<string, import('../model').Vec3>,
 ) {
   const position = { ...v.position };
   let rotation = v.rotation;
@@ -101,18 +103,12 @@ export function explorationTransform(
   if (state.mode === 'roof' && info.role === 'roof')
     position.y += amount * Math.max(3, v.dimensions.height * 2);
   if (state.mode === 'exploded') {
-    const vs = project.volumes.filter(
-      (o) => !state.targets.length || state.targets.includes(o.id),
-    );
-    const cx =
-        vs.reduce((s, o) => s + o.position.x, 0) / Math.max(1, vs.length),
-      cz = vs.reduce((s, o) => s + o.position.z, 0) / Math.max(1, vs.length);
-    position.x += (v.position.x - cx) * amount * 0.65;
-    position.z += (v.position.z - cz) * amount * 0.65;
-    position.y +=
-      amount *
-      (v.position.y * 0.5 +
-        (info.role === 'roof' ? 5 : info.role === 'floor' ? 1 : 0));
+    const offset = (offsets ?? explosionOffsets(project, state)).get(v.id);
+    if (offset) {
+      position.x += offset.x;
+      position.y += offset.y;
+      position.z += offset.z;
+    }
   }
   if (state.mode === 'open') {
     const yaw = (v.rotation * Math.PI) / 180;

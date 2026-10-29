@@ -15,6 +15,9 @@ export default function ExplorePanel({
   onPreview,
   preview,
   onKeep,
+  onAxonometric,
+  guides,
+  onGuides,
 }: {
   project: Project;
   value: Exploration;
@@ -25,12 +28,19 @@ export default function ExplorePanel({
   onPreview: (name: string | null) => void;
   preview: string | null;
   onKeep: () => void;
+  onAxonometric: () => void;
+  guides: boolean;
+  onGuides: (value: boolean) => void;
 }) {
   const floating = useFloatingPanel();
   const [tab, setTab] = useState<
     'explore' | 'components' | 'views' | 'options'
   >('explore');
   const [name, setName] = useState('');
+  const [scope, setScope] = useState<'all' | 'selection'>('all');
+  const movable = project.volumes.filter(
+    (v) => componentInfo(v).motion !== 'none',
+  );
   const selected = project.volumes.find((v) => v.id === project.selectedId),
     info = selected ? componentInfo(selected) : null;
   const targets = project.selectedIds?.length
@@ -72,6 +82,10 @@ export default function ExplorePanel({
       </nav>
       {tab === 'explore' && (
         <>
+          <div className="explore-intro">
+            <strong>See how it comes together.</strong>
+            <p>Separate the assembly, look inside, then put it back.</p>
+          </div>
           <div className="explore-modes">
             {(
               [
@@ -83,13 +97,61 @@ export default function ExplorePanel({
               <button
                 key={mode}
                 aria-pressed={value.mode === mode}
-                onClick={() => onExplore({ mode, amount: 1, targets: [] })}
+                disabled={
+                  mode === 'open'
+                    ? movable.length === 0
+                    : mode === 'roof'
+                      ? !project.volumes.some(
+                          (v) => componentInfo(v).role === 'roof',
+                        )
+                      : false
+                }
+                onClick={() =>
+                  onExplore({
+                    mode,
+                    amount: 1,
+                    targets: scope === 'selection' ? targets : [],
+                  })
+                }
               >
                 <Icon size={22} />
                 <span>{label}</span>
               </button>
             ))}
           </div>
+          <div className="explore-view-actions">
+            <button onClick={onAxonometric}>
+              <Layers3 size={16} />
+              Axonometric view
+            </button>
+            <select
+              aria-label="Explore scope"
+              value={scope}
+              onChange={(e) => {
+                const next = e.target.value as 'all' | 'selection';
+                setScope(next);
+                onExplore({
+                  ...value,
+                  targets: next === 'selection' ? targets : [],
+                });
+              }}
+            >
+              <option value="all">Whole model</option>
+              <option value="selection" disabled={!targets.length}>
+                Selection
+              </option>
+            </select>
+          </div>
+          {value.mode === 'exploded' && (
+            <label className="explore-guides">
+              <input
+                type="checkbox"
+                checked={guides}
+                onChange={(e) => onGuides(e.target.checked)}
+              />
+              Assembly guides
+            </label>
+          )}
           <label>
             Explore amount <output>{Math.round(value.amount * 100)}%</output>
             <input
@@ -111,9 +173,58 @@ export default function ExplorePanel({
             Reassemble
           </button>
           <p className="studio-caption">
-            Presentation only. Modeling positions and dimensions stay unchanged.
-            Open components uses the hinges or slides assigned in Components.
+            {value.mode === 'open'
+              ? 'Tap a movable part in the model to open or close it.'
+              : 'Floors stay aligned, facades separate outward, and attached parts stay together.'}{' '}
+            Your original model stays unchanged.
           </p>
+          {movable.length > 0 && (
+            <details className="interactive-components">
+              <summary>
+                Doors & movable parts <span>{movable.length}</span>
+              </summary>
+              <div>
+                {movable.map((v) => {
+                  const open =
+                    value.mode === 'open' &&
+                    value.amount > 0 &&
+                    (!value.targets.length || value.targets.includes(v.id));
+                  return (
+                    <button
+                      key={v.id}
+                      aria-label={`${open ? 'Close' : 'Open'} ${v.name}`}
+                      aria-pressed={open}
+                      onClick={() => {
+                        const active = new Set(
+                          value.mode === 'open' && value.amount
+                            ? value.targets.length
+                              ? value.targets
+                              : movable.map((v) => v.id)
+                            : [],
+                        );
+                        if (open) active.delete(v.id);
+                        else active.add(v.id);
+                        onExplore(
+                          active.size
+                            ? { mode: 'open', amount: 1, targets: [...active] }
+                            : assembled,
+                        );
+                      }}
+                    >
+                      <DoorOpen size={17} />
+                      <span>{v.name}</span>
+                      <small>{open ? 'Close' : 'Open'}</small>
+                    </button>
+                  );
+                })}
+              </div>
+            </details>
+          )}
+          {!movable.length && (
+            <p className="studio-caption">
+              Assign a hinge or slide in Components to make a part interactive.
+            </p>
+          )}
           {selected && (
             <button
               onClick={() => {

@@ -258,7 +258,7 @@ for (const theme of ['night', 'day'] as const)
       overlay.getByRole('textbox', { name: 'Message Atelier' }),
     ).toHaveCSS(
       'color',
-      theme === 'day' ? 'rgb(39, 52, 46)' : 'rgb(241, 245, 243)',
+      theme === 'day' ? 'rgb(39, 52, 46)' : 'rgb(245, 245, 247)',
     );
     await expect(
       overlay.getByRole('button', { name: 'Start voice conversation' }),
