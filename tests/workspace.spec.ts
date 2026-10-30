@@ -143,6 +143,10 @@ test('migrates legacy projects without overwriting them and preserves precise ed
   await w.fill('8.125');
   await w.press('Enter');
   await expect(w).toHaveValue('8.125');
+  // Escape must discard an inspector draft, including the blur event.
+  await w.fill('10.5');
+  await w.press('Escape');
+  await expect(w).toHaveValue('8.125');
   await page.reload();
   await expect(w).toHaveValue('8.125');
   await page.getByRole('button', { name: 'Undo', exact: true }).click();

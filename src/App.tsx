@@ -245,8 +245,14 @@ function NumericField({
   max?: number;
 }) {
   const [draft, setDraft] = useState(String(value));
+  const cancelled = useRef(false);
   useEffect(() => setDraft(String(value)), [value]);
   function commit() {
+    if (cancelled.current) {
+      cancelled.current = false;
+      setDraft(String(value));
+      return;
+    }
     const n = Number(draft);
     if (draft.trim() && Number.isFinite(n)) onChange(n);
     setDraft(String(value));
@@ -267,6 +273,8 @@ function NumericField({
           onKeyDown={(e) => {
             if (e.key === 'Enter') e.currentTarget.blur();
             if (e.key === 'Escape') {
+              e.preventDefault();
+              cancelled.current = true;
               setDraft(String(value));
               e.currentTarget.blur();
             }
