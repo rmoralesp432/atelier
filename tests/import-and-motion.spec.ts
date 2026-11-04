@@ -138,6 +138,15 @@ test('construction is visual only; footprint rises, settles, and never replays o
 }) => {
   test.setTimeout(60000);
   await page.goto('/');
+  // Pixel contrast below measures pale solids against a dark wireframe ground.
+  // Day is now the default, so select the intended theme explicitly.
+  await page
+    .getByRole('button', { name: 'Switch to Night', exact: true })
+    .click();
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-theme',
+    'night',
+  );
   await page.getByRole('button', { name: 'Show objects' }).click();
   await page.getByText('Manual tools', { exact: true }).click();
   // Observe every animation frame; no arbitrary screenshot timing assertion.

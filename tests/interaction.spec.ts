@@ -76,6 +76,13 @@ test('day/night themes preserve projects, curved wireframes are readable, and se
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await setup(page);
+  await page
+    .getByRole('button', { name: 'Switch to Night', exact: true })
+    .click();
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-theme',
+    'night',
+  );
   const before = await saved(page);
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-selection-glow',

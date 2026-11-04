@@ -243,6 +243,7 @@ test.describe('touch drawing', () => {
     const bounds = (await panel.boundingBox())!;
     expect(bounds.x).toBeGreaterThanOrEqual(0);
     expect(bounds.x + bounds.width).toBeLessThanOrEqual(390);
+    await page.getByRole('button', { name: 'Minimize conversation' }).click();
     // Panel occupies the top; draw below it in the unobstructed workspace.
     const a = await point(page, -70, 80),
       b = await point(page, 75, 165);
