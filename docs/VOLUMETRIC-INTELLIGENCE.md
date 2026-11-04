@@ -2,6 +2,8 @@
 
 This extends the existing real model integration and checked execution engine. It does not add a keyword parser, scripted building responses, or a separate voice modeling path. Text and the Realtime voice design tool use the same schema, contextual scene and transaction checks.
 
+The subsequent [design reasoning pass](DESIGN-REASONING.md) adds a retained design brief, richer factual scene context and independently evaluated completion criteria on top of these tools.
+
 ## New executable capabilities
 
 | Capability                      | Geometry and editing behavior                                                                                                                                                                                                                                                                                         |

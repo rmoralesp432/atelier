@@ -1,6 +1,9 @@
 import { solarSchema } from '../src/studio/solarSchema';
 import { executionSchema } from '../src/intelligence/executionProtocol';
+import { designBriefSchema } from '../src/intelligence/designBriefSchema';
+import { understandingSchema } from '../src/intelligence/sceneUnderstanding';
 import { ARCHITECTURAL_PROMPT } from '../src/intelligence/architecturalPrompt';
+import { REASONING_PROMPT } from '../src/intelligence/reasoningPrompt';
 import { componentSchema, poseSchema } from '../src/design/schema';
 import OpenAI from 'openai';
 import { z } from 'zod';
@@ -39,6 +42,7 @@ export const requestSchema = z
       .object({
         error: z.string().max(2000),
         operations: z.array(operationSchema).max(64),
+        brief: designBriefSchema.optional(),
       })
       .strict()
       .optional(),
@@ -94,6 +98,7 @@ export const requestSchema = z
       .max(20),
     scene: z
       .object({
+        understanding: understandingSchema.optional(),
         site: z
           .object({
             latitude: z.number().min(-90).max(90),
@@ -164,6 +169,7 @@ export const requestSchema = z
             lastCreatedIds: refs,
             lastOperands: refs,
             lastOperation: z.string().max(100).nullable(),
+            lastBrief: designBriefSchema.optional(),
           })
           .strict(),
         camera: z
@@ -307,7 +313,11 @@ export function createProvider(
           store: false,
           max_output_tokens: 16000,
           instructions:
-            SYSTEM_PROMPT + SPATIAL_PROMPT + FORM_PROMPT + ARCHITECTURAL_PROMPT,
+            SYSTEM_PROMPT +
+            SPATIAL_PROMPT +
+            FORM_PROMPT +
+            ARCHITECTURAL_PROMPT +
+            REASONING_PROMPT,
           input: [
             ...input.history.map((m) => ({
               role: m.role,

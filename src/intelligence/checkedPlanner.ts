@@ -2,16 +2,20 @@ import {
   applyPlan,
   freezeWorkspaceOperation,
   validateWorkspaceEffects,
+  resolveIds,
   type Session,
 } from './engine';
 import type { CameraContext } from './context';
 import { parsePlan, needsConfirmation, type Plan } from './plan';
 import type { ExecutionContext } from './executionProtocol';
 import { equalData } from '../projects/equalData';
+import { bindBrief, checkEditScope, assessBrief } from './designBrief';
+import type { DesignBrief, BriefAssessment } from './designBriefSchema';
 
 export type ValidationFeedback = {
   error: string;
   operations: Plan['operations'];
+  brief?: DesignBrief;
 };
 export type PreparedPlan = Awaited<ReturnType<typeof applyPlan>>;
 export type CheckedResult = {
@@ -21,6 +25,93 @@ export type CheckedResult = {
   reviewRequired?: boolean;
   labels?: Record<string, string>;
 };
+const modeledEdits = new Set([
+  'create',
+  'create_at',
+  'assembly',
+  'profile_solid',
+  'revolve',
+  'sweep',
+  'loft',
+  'boolean',
+  'hollow',
+  'opening',
+  'edit_opening',
+  'opening_shape',
+  'glaze_opening',
+  'building',
+  'components',
+  'split_levels',
+  'bridge',
+  'furnish',
+  'attach',
+  'extrude',
+  'footprint',
+  'move',
+  'position',
+  'resize',
+  'scale',
+  'constrained_resize',
+  'stretch',
+  'rotate',
+  'rotate_group',
+  'orient',
+  'mirror',
+  'duplicate',
+  'array_grid',
+  'array_polar',
+  'progressive_array',
+  'delete',
+  'color',
+  'material',
+  'rename',
+  'align',
+  'place',
+  'spread',
+  'offset_base',
+]);
+const constructedSystems = new Set([
+  'assembly',
+  'profile_solid',
+  'revolve',
+  'sweep',
+  'loft',
+  'boolean',
+  'hollow',
+  'opening',
+  'edit_opening',
+  'opening_shape',
+  'glaze_opening',
+  'building',
+  'components',
+  'split_levels',
+  'bridge',
+  'furnish',
+  'array_grid',
+  'array_polar',
+  'progressive_array',
+]);
+function needsBrief(plan: Plan, session: Session) {
+  const edits = plan.operations.filter((op) => modeledEdits.has(op.type));
+  if (
+    (plan.planning?.next && edits.length > 0) ||
+    edits.length > 1 ||
+    edits.some((op) => constructedSystems.has(op.type))
+  )
+    return true;
+  return edits.some((op) => {
+    if ('count' in op && typeof op.count === 'number' && op.count > 1)
+      return true;
+    if ('targets' in op) {
+      try {
+        return resolveIds(op.targets, session).length > 1;
+      } catch {
+        return false;
+      }
+    }
+    return false;
+  });
+}
 
 /** Private transaction: continuations see real identities and engine receipts.
  * Install the final result once; never replay a validated stage with new IDs. */
@@ -47,12 +138,33 @@ export async function stagedPlan(
   let repairs = 0,
     stages = 0,
     finalPlan: Plan | undefined;
+  let brief: DesignBrief | undefined, declaredBrief: DesignBrief | undefined;
+  let assessment: BriefAssessment[] = [],
+    continuationFeedback: ValidationFeedback | undefined;
+  const unmet = () => assessment.filter((r) => !r.met);
+  const requirementError = () =>
+    `Design requirements are not satisfied: ${unmet()
+      .map((r) => `${r.label}: ${r.observed}`)
+      .join(
+        ' ',
+      )} Keep the agreed brief; correct the existing provisional model instead of recreating successful stages.`.slice(
+      0,
+      2000,
+    );
+  const incompleteDesign = () =>
+    new Error(
+      `I couldn't satisfy these design requirements: ${unmet()
+        .slice(0, 5)
+        .map((r) => r.label)
+        .join('; ')}. Your project is unchanged.`,
+    );
   const checkAbort = () => {
     if (signal?.aborted)
       throw new Error('Stopped. No changes were applied to your project.');
   };
   for (let stage = 0; stage < 5; stage++) {
-    let feedback: ValidationFeedback | undefined;
+    let feedback: ValidationFeedback | undefined = continuationFeedback;
+    continuationFeedback = undefined;
     for (;;) {
       checkAbort();
       progress(
@@ -69,6 +181,20 @@ export async function stagedPlan(
         if (!stages || plan.planning?.next)
           throw new Error(
             'The model ended before producing a verifiable result. No changes were applied.',
+          );
+        if (brief && unmet().length) {
+          if (repairs++ >= 2) throw incompleteDesign();
+          feedback = { error: requirementError(), operations: [] };
+          feedback.brief = brief;
+          continue;
+        }
+        if (
+          plan.brief &&
+          !equalData(plan.brief, declaredBrief) &&
+          !equalData(plan.brief, brief)
+        )
+          throw new Error(
+            'The final answer changed the agreed design brief. No changes were applied.',
           );
         finalPlan = plan;
         break;
@@ -99,7 +225,32 @@ export async function stagedPlan(
         );
       progress(`Checking ${plan.planning?.stage ?? 'the geometry'}…`);
       try {
+        if (plan.brief) {
+          if (brief) {
+            if (
+              !equalData(plan.brief, declaredBrief) &&
+              !equalData(plan.brief, brief)
+            )
+              throw new Error(
+                'The agreed design brief cannot be weakened or replaced during a request. Use execution.brief and correct the geometry.',
+              );
+          } else {
+            if (stages)
+              throw new Error(
+                'Declare the design brief before creating geometry, not after seeing the result.',
+              );
+            brief = bindBrief(plan.brief, original);
+            declaredBrief = structuredClone(plan.brief);
+          }
+        } else if (plan.brief === null && !brief && needsBrief(plan, session)) {
+          // Older saved/manual plans may omit this field. The live provider's
+          // strict schema includes it and complex work must declare its goals.
+          throw new Error(
+            'This modeling request needs a brief with edit scope and measurable requirements before construction.',
+          );
+        }
         const result = await applyPlan(session, plan, camera, true);
+        if (brief) checkEditScope(brief, original, result.session);
         checkAbort();
         const stageOperations = plan.operations.map((op) =>
           freezeWorkspaceOperation(op, result.session),
@@ -118,6 +269,7 @@ export async function stagedPlan(
           removed: [...before.keys()].filter((id) => !after.has(id)),
         });
         session = result.session;
+        if (brief) assessment = await assessBrief(brief, session);
         operations.push(...stageOperations);
         session.project.volumes.forEach((v) => {
           labels[v.id] = v.name;
@@ -129,22 +281,25 @@ export async function stagedPlan(
         break;
       } catch (error) {
         checkAbort();
-        if (repairs++ >= 1) throw error;
+        if (repairs++ >= (brief ? 2 : 1)) throw error;
         feedback = {
           error: (error instanceof Error
             ? error.message
             : 'Invalid geometry.'
           ).slice(0, 2000),
           operations: plan.operations,
+          ...(brief ? { brief } : {}),
         };
       }
     }
-    if (
-      !finalPlan ||
-      finalPlan.intent === 'finish' ||
-      !finalPlan.planning?.next
-    )
-      break;
+    if (!finalPlan || finalPlan.intent === 'finish') break;
+    const finishing = !finalPlan.planning?.next;
+    if (finishing && (!brief || !unmet().length)) break;
+    if (finishing) {
+      if (repairs++ >= 2) throw incompleteDesign();
+      continuationFeedback = { error: requirementError(), operations: [] };
+      continuationFeedback.brief = brief;
+    }
     if (stage === 4)
       throw new Error(
         'The design did not finish within five checked stages. Nothing was applied; ask for a smaller scope.',
@@ -152,8 +307,11 @@ export async function stagedPlan(
     execution = {
       stage: stage + 2,
       remaining: 3 - stage,
-      next: finalPlan.planning.next,
+      next:
+        finalPlan.planning?.next ??
+        'Correct unmet design requirements, preserving completed geometry.',
       receipts,
+      ...(brief ? { brief, assessment } : {}),
     };
   }
   if (!finalPlan || !operations.length)
@@ -175,11 +333,21 @@ export async function stagedPlan(
     ...finalPlan,
     intent: 'apply',
     operations,
+    brief: brief ?? finalPlan.brief,
     planning: finalPlan.planning ? { ...finalPlan.planning, next: null } : null,
   });
   validateWorkspaceEffects(session, operations);
   if (assumptions.size)
     reports.push(`Design assumptions:\n${[...assumptions].join('\n')}`);
+  if (brief) {
+    checkEditScope(brief, original, session);
+    if (unmet().length) throw incompleteDesign();
+    reports.push(
+      `Design brief checked: ${brief.objective}`,
+      ...assessment.map((r) => `${r.label}: ${r.observed}`),
+    );
+    session = { ...session, context: { ...session.context, lastBrief: brief } };
+  }
   const after = new Map(session.project.volumes.map((v) => [v.id, v]));
   const reviewRequired =
     needsConfirmation(plan) &&

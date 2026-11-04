@@ -1,6 +1,7 @@
 import { solarOperation } from '../studio/solarSchema';
 import { architecturalOperations } from './architectureSchema';
 import { volumetricOperations } from './volumetricSchema';
+import { designBriefSchema } from './designBriefSchema';
 import { designOperations } from '../design/schema';
 import { z } from 'zod';
 
@@ -520,6 +521,7 @@ export const planSchema = z
     intent: z.enum(['apply', 'clarify', 'confirm', 'cancel', 'finish']),
     message: z.string().min(1).max(2000),
     operations: z.array(operationSchema).max(64),
+    brief: designBriefSchema.nullable().optional(),
     planning: z
       .object({
         stage: z.string().min(1).max(160),
@@ -544,7 +546,8 @@ export const planJsonSchema = z.toJSONSchema(planSchema, {
     }
   },
 });
-// Local/manual callers may omit planning. Strict provider output supplies null.
+// Local/manual callers may omit planning/brief. Strict provider output includes
+// both fields, using null when a staged plan or design brief is not needed.
 planJsonSchema.required = Object.keys(planJsonSchema.properties!);
 export function parsePlan(raw: unknown): Plan {
   const plan = planSchema.parse(raw);
