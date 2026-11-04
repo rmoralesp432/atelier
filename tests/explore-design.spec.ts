@@ -157,7 +157,7 @@ test('phone controls stay within the screen in day and night, and only one tool 
   await page.screenshot({ path: 'test-results/create-phone-day.png' });
 });
 
-test('conversation plan builds a reviewed furniture alternative, previews it and opens its actual room cutaway (provider fixture)', async ({
+test('conversation plan saves a furniture alternative without redundant review, previews it and opens its actual room cutaway (provider fixture)', async ({
   page,
 }) => {
   test.setTimeout(90000);
@@ -217,10 +217,13 @@ test('conversation plan builds a reviewed furniture alternative, previews it and
     .getByRole('textbox', { name: 'Message Atelier' })
     .fill('Suggest a furniture layout and give me a cutaway.');
   await page.getByRole('button', { name: 'Send message', exact: true }).click();
-  await page.getByRole('button', { name: 'Apply change', exact: true }).click();
   await expect
     .poll(async () => (await saved(page)).project.design?.options.length)
     .toBe(2);
+  // The original room is unchanged: saving an alternative needs no destructive-edit review.
+  await expect(
+    page.getByRole('button', { name: 'Apply change', exact: true }),
+  ).toHaveCount(0);
   const panel = await explore(page);
   await panel
     .getByRole('button', { name: 'Alternatives', exact: true })

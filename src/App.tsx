@@ -23,7 +23,7 @@ import CameraPanel from './studio/CameraPanel';
 import { defaultSolar } from './studio/solar';
 import { defaultCameraSettings } from './studio/camera';
 import AddVolumePanel from './studio/AddVolumePanel';
-import { checkedPlan } from './intelligence/checkedPlanner';
+import { stagedPlan, type PreparedPlan } from './intelligence/checkedPlanner';
 import SectionPanel from './studio/SectionPanel';
 import { defaultSection, sectionRange } from './studio/section';
 import { mapSources, trueNorth } from './studio/site';
@@ -207,7 +207,7 @@ function loadMessages(): Message[] {
                         v.length <= 1000000 &&
                         /^data:image\/(jpeg|png|webp);base64,/.test(v),
                     )
-                    .slice(0, 2),
+                    .slice(0, 6),
                 }
               : {}),
           }))
@@ -479,6 +479,7 @@ export default function App({
     setAddingVolume = panels.setters.adding;
   const [presentation, setPresentation] = useState(false);
   const [turntable, setTurntable] = useState(false);
+  const planningAbort = useRef<AbortController | null>(null);
   const [workStage, setWorkStage] = useState('Considering your idea…');
   useEffect(() => {
     try {
@@ -604,6 +605,7 @@ export default function App({
     fingerprint: string;
     camera: CameraContext;
     prepared: { session: Session; message: string };
+    labels?: Record<string, string>;
   } | null>(null);
   useEffect(() => {
     if (pending) setChatDocked(false);
@@ -622,6 +624,7 @@ export default function App({
   const [measuredVolume, setMeasuredVolume] = useState<number | null>(null);
   const workspaceRef = useRef({
     mapVisible,
+    solar,
     view: view.mode,
     theme: appearance.theme,
     renderMode: appearance.mode,
@@ -629,6 +632,7 @@ export default function App({
   });
   workspaceRef.current = {
     mapVisible,
+    solar,
     view: view.mode,
     theme: appearance.theme,
     renderMode: appearance.mode,
@@ -695,6 +699,18 @@ export default function App({
         reports.push(
           `Viewpoint placed at ${placement.position.x.toFixed(2)}, ${placement.position.z.toFixed(2)} m; floor ${placement.position.y.toFixed(2)} m. No geometry moved.`,
         );
+        continue;
+      }
+      if (op.type === 'solar_study') {
+        setSolar({
+          enabled: op.enabled,
+          date: op.date,
+          minutes: op.minutes,
+          utcOffset: op.utcOffset,
+          path: op.path,
+          seasonal: op.seasonal,
+        });
+        setSolarOpen(true);
         continue;
       }
       if (op.type === 'section') {
@@ -942,6 +958,12 @@ export default function App({
   const fingerprint = () => serializeSession(snapshot());
   const reviewName = (ref: string): string => {
     if (ref.startsWith('$name:')) return ref.slice(6);
+    if (ref.startsWith('$group:'))
+      return (
+        current.current.groups?.find(
+          (g) => g.id === ref.slice(7) || g.name === ref.slice(7),
+        )?.name ?? ref.slice(7)
+      );
     const ids =
       ref === '$operands'
         ? conversation.current.lastOperands
@@ -957,6 +979,7 @@ export default function App({
       .map(
         (id) =>
           current.current.volumes.find((v) => v.id === id)?.name ??
+          pending?.labels?.[id] ??
           undo.current.at(-1)?.volumes.find((v) => v.id === id)?.name ??
           'previous object',
       )
@@ -1005,6 +1028,7 @@ export default function App({
     plan: Plan,
     confirmed = false,
     frame = camera.current,
+    prepared?: PreparedPlan,
   ) => {
     setAlternativePreview(null);
     setExploration(assembled);
@@ -1019,12 +1043,15 @@ export default function App({
             'workspace',
             'section',
             'measure',
+            'verify',
+            'solar_study',
           ].includes(op.type),
       )
     )
       setSavedViewRequest(null);
     const before = fingerprint();
-    const result = await applyPlan(snapshot(), plan, frame, confirmed);
+    const result =
+      prepared ?? (await applyPlan(snapshot(), plan, frame, confirmed));
     if (before !== fingerprint())
       throw new Error(
         'The scene changed while this edit was being prepared. Please try again.',
@@ -1034,7 +1061,9 @@ export default function App({
       !plan.operations.some((op) => op.type === 'undo' || op.type === 'redo'),
     );
     if (
-      plan.operations.some((op) => op.type === 'select') &&
+      plan.operations.some(
+        (op) => op.type === 'select' || op.type === 'select_query',
+      ) &&
       result.session.project.selectedId
     )
       setTool('translate');
@@ -1047,14 +1076,17 @@ export default function App({
   const prepareReview = async (
     plan: Plan,
     frame = structuredClone(camera.current),
+    checked?: PreparedPlan,
+    labels?: Record<string, string>,
   ) => {
     const before = fingerprint();
-    const prepared = await applyPlan(snapshot(), plan, frame, true);
+    const prepared =
+      checked ?? (await applyPlan(snapshot(), plan, frame, true));
     if (before !== fingerprint())
       throw new Error(
         'The scene changed while this change was being checked. Please ask again.',
       );
-    const item = { plan, fingerprint: before, camera: frame, prepared };
+    const item = { plan, fingerprint: before, camera: frame, prepared, labels };
     setPending(item);
     return item;
   };
@@ -1073,7 +1105,9 @@ export default function App({
     return message;
   };
   const displaySummary = (plan: Plan) =>
-    plan.operations.some((op) => op.type === 'measure')
+    plan.operations.some(
+      (op) => op.type === 'measure' || op.type === 'solar_study',
+    )
       ? undefined
       : plan.message;
   const propose = async (plan: Plan) => {
@@ -1103,19 +1137,21 @@ export default function App({
     const frame = structuredClone(camera.current);
     const history = [...messagesRef.current];
     const images = [...referenceImages];
+    const abort = new AbortController();
+    planningAbort.current = abort;
     setReferenceImages([]);
     remember('user', text, undefined, images);
     try {
-      const plan = await checkedPlan(
+      const checked = await stagedPlan(
         snapshot(),
         frame,
-        (feedback) =>
+        (working, feedback, execution) =>
           requestPlan(
             text,
-            snapshot(),
+            working,
             frame,
             history,
-            AbortSignal.timeout(60_000),
+            AbortSignal.any([abort.signal, AbortSignal.timeout(150_000)]),
             reviewing
               ? {
                   message: reviewing.plan.message,
@@ -1130,9 +1166,12 @@ export default function App({
             },
             feedback,
             images,
+            execution,
           ),
         setWorkStage,
+        abort.signal,
       );
+      const plan = checked.plan;
       if (before !== fingerprint())
         throw new Error(
           'The scene changed while I was considering this request. Please send it again.',
@@ -1168,22 +1207,27 @@ export default function App({
       }
       if (!plan.operations.every((op) => op.type === 'measure'))
         setPending(null);
-      if (needsConfirmation(plan)) {
-        await prepareReview(plan, frame);
+      if (checked.reviewRequired) {
+        await prepareReview(plan, frame, checked.prepared, checked.labels);
         const message =
           plan.message + ' Shall I go ahead? You can answer here or by voice.';
         remember('assistant', message);
         return message;
       }
-      const result = await execute(plan, false, frame);
+      const result = await execute(plan, false, frame, checked.prepared);
       remember('assistant', result, displaySummary(plan));
       return result;
     } catch (e) {
-      const message = e instanceof Error ? e.message : 'The request failed.';
+      const message = abort.signal.aborted
+        ? 'Stopped. No changes were applied to your project.'
+        : e instanceof Error
+          ? e.message
+          : 'The request failed.';
       remember('assistant', message);
       setNotice({ text: message, error: true });
       return message;
     } finally {
+      planningAbort.current = null;
       busyRef.current = false;
       setBusy(false);
     }
@@ -1478,10 +1522,10 @@ export default function App({
   ]);
 
   const attachReference = async (file: File) => {
-    if (referenceImages.length >= 2) {
+    if (referenceImages.length >= 6) {
       reportError(
         new Error(
-          'Attach up to two references per message. Remove one to add another.',
+          'Attach up to six references per message. Remove one to add another.',
         ),
       );
       return;
@@ -1492,7 +1536,7 @@ export default function App({
     if (panels.active) panels.setters[panels.active](false);
     try {
       const image = await referenceImage(file);
-      setReferenceImages((old) => [...old, image].slice(0, 2));
+      setReferenceImages((old) => [...old, image].slice(0, 6));
     } catch (error) {
       reportError(error);
     } finally {
@@ -2130,8 +2174,9 @@ export default function App({
                     <span>
                       {v.name}
                       <small>
-                        {v.dimensions.width} × {v.dimensions.depth} ×{' '}
-                        {v.dimensions.height} m
+                        {round(v.dimensions.width)} ×{' '}
+                        {round(v.dimensions.depth)} ×{' '}
+                        {round(v.dimensions.height)} m
                         {!isVisible(v, project) && ' · Hidden'}
                       </small>
                     </span>
@@ -2881,11 +2926,12 @@ export default function App({
                       : selected.name}
                   </span>
                   <strong>
-                    {selected.dimensions.width} × {selected.dimensions.depth} ×{' '}
-                    {selected.dimensions.height} <small>m</small>
+                    {round(selected.dimensions.width)} ×{' '}
+                    {round(selected.dimensions.depth)} ×{' '}
+                    {round(selected.dimensions.height)} <small>m</small>
                   </strong>
                   {selected.position.y > 0 && (
-                    <small>Raised {selected.position.y} m</small>
+                    <small>Raised {round(selected.position.y)} m</small>
                   )}
                 </button>
                 {phoneLayout && (
@@ -3363,6 +3409,15 @@ export default function App({
                     className="process-stage"
                   >
                     {busy ? workStage : 'Preparing geometry…'}
+                    {busy && (
+                      <button
+                        type="button"
+                        aria-label="Stop design request"
+                        onClick={() => planningAbort.current?.abort()}
+                      >
+                        Stop
+                      </button>
+                    )}
                     <small>
                       {busy
                         ? 'Working with your current design'
@@ -3499,12 +3554,13 @@ export default function App({
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
                 hidden
+                multiple
                 aria-label="Attach reference image file"
                 onChange={async (e) => {
-                  const file = e.target.files?.[0];
+                  const files = Array.from(e.target.files ?? []);
                   e.target.value = '';
-                  if (!file) return;
-                  await attachReference(file);
+                  for (const file of files.slice(0, 6 - referenceImages.length))
+                    await attachReference(file);
                 }}
               />
               <form
@@ -3547,7 +3603,7 @@ export default function App({
                     type="button"
                     className="attach-reference"
                     aria-label="Attach a reference photo"
-                    disabled={imageLoading || referenceImages.length >= 2}
+                    disabled={imageLoading || referenceImages.length >= 6}
                     onClick={() => imageInput.current?.click()}
                   >
                     <Plus size={21} />

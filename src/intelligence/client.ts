@@ -1,3 +1,4 @@
+import type { ExecutionContext } from './executionProtocol';
 import type { ValidationFeedback } from './checkedPlanner';
 import { parsePlan, type Operation } from './plan';
 import { sceneContext, type CameraContext } from './context';
@@ -34,6 +35,7 @@ export async function requestPlan(
     outcome: string;
   } | null,
   workspace?: {
+    solar?: import('../studio/solar').SolarStudy;
     mapVisible: boolean;
     arActive?: boolean;
     mapConfigured: boolean;
@@ -44,12 +46,14 @@ export async function requestPlan(
   },
   validationFeedback?: ValidationFeedback,
   images?: string[],
+  execution?: ExecutionContext,
 ) {
   const r = await fetch('/api/plan', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       message,
+      execution,
       validationFeedback,
       images,
       pendingReview,

@@ -14,7 +14,8 @@
     "format:check": "prettier --check src server tests scripts docs .github *.json *.ts *.html *.md",
     "test:pages": "node scripts/test-pages.mjs",
     "start": "NODE_ENV=production node --env-file-if-exists=.env --use-env-proxy --import tsx server/index.ts",
-    "test:live-ai": "node --env-file-if-exists=.env --use-env-proxy --import tsx scripts/test-live-ai.ts"
+    "test:live-ai": "node --env-file-if-exists=.env --use-env-proxy --import tsx scripts/test-live-ai.ts",
+    "test:live-architecture": "node --env-file-if-exists=.env --use-env-proxy --import tsx scripts/evaluate-architecture.ts"
   },
   "dependencies": {
     "express": "^5.3.0",

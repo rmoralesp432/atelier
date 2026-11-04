@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { X, Play, Pause } from 'lucide-react';
 import { useFloatingPanel } from './useFloatingPanel';
 import { solarPosition, type SolarStudy } from './solar';
+import { seasonalDates, solarDay, shadowOnLevelGround } from './solarAnalysis';
 import type { Site } from './site';
 export default function SolarPanel({
   site,
@@ -32,6 +33,9 @@ export default function SolarPanel({
     return () => clearTimeout(t);
   }, [playing, value, onChange]);
   const sun = site ? solarPosition(site, value) : null;
+  const day = site ? solarDay(site, value) : null;
+  const dates = seasonalDates(Number(value.date.slice(0, 4)), value.utcOffset);
+  const shadow = site ? shadowOnLevelGround(site, value, 1) : null;
   return (
     <section
       className="section-panel solar-panel"
@@ -86,6 +90,21 @@ export default function SolarPanel({
               }}
             />
           </label>
+          <div className="solar-presets" aria-label="Seasonal dates">
+            {dates.map((event) => (
+              <button
+                key={event.name}
+                title={event.date}
+                aria-pressed={value.date === event.date}
+                onClick={() => {
+                  setPlaying(false);
+                  onChange({ ...value, date: event.date, enabled: true });
+                }}
+              >
+                {event.name}
+              </button>
+            ))}
+          </div>
           <div className="solar-time">
             <strong>
               {`${Math.floor(value.minutes / 60)}`.padStart(2, '0')}:
@@ -145,6 +164,24 @@ export default function SolarPanel({
             />{' '}
             Show sun path
           </label>
+          <label className="solar-enable">
+            <input
+              type="checkbox"
+              checked={value.seasonal ?? false}
+              onChange={(e) =>
+                onChange({ ...value, path: true, seasonal: e.target.checked })
+              }
+            />
+            Compare solstices & equinoxes
+          </label>
+          {value.seasonal && (
+            <p className="solar-path-legend">
+              <span>Gold · selected day</span>
+              <span>Blue · June</span>
+              <span>Rose · December</span>
+              <span>Gray · equinoxes</span>
+            </p>
+          )}
           <div className="solar-readout">
             <span>
               Altitude <b>{sun?.altitude.toFixed(1)}°</b>
@@ -153,11 +190,41 @@ export default function SolarPanel({
               Azimuth <b>{sun?.azimuth.toFixed(1)}°</b>
             </span>
           </div>
+          {day && (
+            <div className="solar-daylight">
+              <span>
+                Sunrise{' '}
+                <b>
+                  {day.sunrise ??
+                    (day.polar === 'day' ? 'Polar day' : 'No sunrise')}
+                </b>
+              </span>
+              <span>
+                Solar noon <b>{day.noon}</b>
+              </span>
+              <span>
+                Sunset{' '}
+                <b>
+                  {day.sunset ??
+                    (day.polar === 'night' ? 'Polar night' : 'No sunset')}
+                </b>
+              </span>
+              <span>
+                Shadow / 1 m height{' '}
+                <b>
+                  {shadow ? `${shadow.length.toFixed(2)} m` : 'No direct sun'}
+                </b>
+              </span>
+            </div>
+          )}
           <p className="studio-caption">
             {sun && sun.altitude < 0
               ? 'Sun below the horizon. '
               : 'True-north solar position. '}
-            Concept shadow study; no terrain, weather or energy analysis.
+            Shadows use the model geometry. The length above assumes level
+            ground. Seasonal presets use the displayed year and UTC offset;
+            check daylight saving time when changing dates. No terrain, weather
+            or energy analysis.
           </p>
         </>
       )}

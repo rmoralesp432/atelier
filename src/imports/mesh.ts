@@ -31,10 +31,30 @@ export type MeshRecipe = {
   indices: number[];
   solid: boolean;
   source: string;
+  /** Parametric opening system metadata, never inferred from imported meshes. */
+  openingSystem?: {
+    cutterId: string;
+    frameWidth: number;
+    frameDepth: number;
+    paneThickness: number;
+    part: 'pane' | 'frame';
+  };
 };
 export const isReference = (v: Volume) =>
   v.geometry?.kind === 'mesh' && !v.geometry.solid;
 export function validateMesh(g: MeshRecipe) {
+  if (
+    g.openingSystem &&
+    (typeof g.openingSystem.cutterId !== 'string' ||
+      g.openingSystem.cutterId.length > 100 ||
+      !['pane', 'frame'].includes(g.openingSystem.part) ||
+      [
+        g.openingSystem.frameWidth,
+        g.openingSystem.frameDepth,
+        g.openingSystem.paneThickness,
+      ].some((n) => !Number.isFinite(n) || n < 0.005 || n > 500))
+  )
+    throw new Error('Invalid opening system parameters.');
   if (
     !Array.isArray(g.positions) ||
     !Array.isArray(g.indices) ||

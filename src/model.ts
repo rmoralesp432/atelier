@@ -90,7 +90,9 @@ export const round = (n: number) => Math.round(n * 1000) / 1000 + 0;
 export function validateVolume(v: Volume, checkGeometry = true): void {
   if (v.component) componentSchema.parse(v.component);
   const minimum =
-    v.geometry?.kind === 'mesh' || v.geometry?.kind === 'person' ? 0.001 : 0.1;
+    v.geometry?.kind === 'mesh' || v.geometry?.kind === 'person' || v.component
+      ? 0.001
+      : 0.1;
   if (v.visible !== undefined && typeof v.visible !== 'boolean')
     throw new Error('Object visibility must be true or false.');
   if (

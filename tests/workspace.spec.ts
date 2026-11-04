@@ -45,7 +45,9 @@ async function ready(page: Page) {
   await page.getByText('Manual tools', { exact: true }).click();
 }
 async function say(page: Page, text: string) {
-  const conversation = page.locator('.conversation-heading button');
+  const conversation = page.locator(
+    '.conversation-heading button[aria-expanded]',
+  );
   if ((await conversation.getAttribute('aria-expanded')) === 'false')
     await conversation.click();
   await page.getByRole('textbox', { name: 'Message Atelier' }).fill(text);
@@ -89,6 +91,7 @@ test('actual WebGL rendering, orbit, view changes and collapsible inspector', as
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await ready(page);
+  await page.getByRole('button', { name: 'Minimize conversation' }).click();
   await page.waitForTimeout(800);
   await page.screenshot({ path: 'test-results/atelier-phase2-desktop.png' });
   const canvas = page.locator('canvas'),

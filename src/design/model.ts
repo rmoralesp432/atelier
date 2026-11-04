@@ -12,7 +12,16 @@ export type DesignOption = {
   volumes: Volume[];
   groups: ObjectGroup[];
 };
-export type DesignLibrary = { views: SavedView[]; options: DesignOption[] };
+export type DesignNote = {
+  topic: string;
+  text: string;
+  source: 'user' | 'drawing' | 'assumption';
+};
+export type DesignLibrary = {
+  views: SavedView[];
+  options: DesignOption[];
+  notes?: DesignNote[];
+};
 export function validateDesign(
   value: unknown,
   validate: (v: Volume) => void,
@@ -20,6 +29,18 @@ export function validateDesign(
   const data = z
     .object({
       views: z.array(savedViewSchema).max(30),
+      notes: z
+        .array(
+          z
+            .object({
+              topic: z.string().min(1).max(80),
+              text: z.string().min(1).max(1500),
+              source: z.enum(['user', 'drawing', 'assumption']),
+            })
+            .strict(),
+        )
+        .max(40)
+        .optional(),
       options: z
         .array(
           z

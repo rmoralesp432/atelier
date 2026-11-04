@@ -1030,3 +1030,45 @@
   -webkit-backdrop-filter: none;
   backdrop-filter: none !important;
 }
+
+/* Solar information stays in one scrollable panel on phones and desktops. */
+.solar-presets {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  margin: 10px 0;
+}
+.solar-presets button {
+  font-size: 11px;
+  padding: 9px 6px;
+  border-radius: 10px;
+}
+.app-shell.immersive .solar-presets button[aria-pressed='true'],
+.app-shell.immersive .solar-presets button[aria-pressed='true']:hover {
+  background: var(--ui-text);
+  color: var(--panel);
+}
+.solar-daylight {
+  display: grid;
+  gap: 8px;
+  margin: 14px 0;
+  font-size: 12px;
+}
+.solar-daylight span {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.solar-path-legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+  font-size: 10px;
+  opacity: 0.75;
+}
+.process-stage > button {
+  margin-left: 12px;
+  padding: 4px 9px;
+  border-radius: 8px;
+  font-size: 11px;
+}

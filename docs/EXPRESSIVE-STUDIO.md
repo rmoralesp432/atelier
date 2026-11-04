@@ -46,7 +46,7 @@ Generated forms preserve their definition and normalized mesh in the project. Ex
 
 ## Reference photos
 
-Use the photo button beside the conversation input. Attach up to two PNG, JPEG or WebP images (10 MB each before processing). The browser downsamples to at most 1280 pixels and a bounded JPEG payload. References are sent to the actual multimodal Responses API with the user's message. The latest attached reference is also available on a follow-up. The assistant is instructed to ask about scale and design intent rather than invent exact dimensions from an image.
+Use the photo button beside the conversation input. Attach up to six PNG, JPEG or WebP images (10 MB each before processing). The browser downsamples to at most 2048 pixels and a bounded JPEG payload. References are sent to the actual multimodal Responses API with the user's message. The latest attached reference is also available on a follow-up. The assistant is instructed to ask about scale and design intent rather than invent exact dimensions from an image.
 
 This is image-guided interpretation, not photogrammetry or guaranteed 3D reconstruction. The automated tests verify image processing, model-request payloads and follow-up persistence with explicit provider fixtures. Live image interpretation awaits funded API testing. PDF reference planes and image-to-world calibration are not implemented. Conversation images use browser project storage; the geometry JSON backup does not include the conversation/image library.
 

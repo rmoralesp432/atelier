@@ -743,9 +743,29 @@ export async function editableBuildingComponents(v: Volume): Promise<Volume[]> {
               ? Math.min(Math.abs(n), Math.abs(n - 1)) < 1e-7
               : Math.abs(Math.abs(n) - 0.5) < 1e-7,
           );
+        const floorHeight = v.dimensions.height / recipe.floors;
+        const roofBase =
+          v.dimensions.height -
+          (recipe.slabThickness * v.dimensions.height) / recipe.base.height;
+        const role =
+          part.material === 'glass'
+            ? 'window'
+            : part.material === 'frame'
+              ? 'frame'
+              : b.min[1] >= roofBase - 1e-5
+                ? 'roof'
+                : 'floor';
+        const level =
+          role === 'roof'
+            ? 'Roof'
+            : height > floorHeight + 0.01
+              ? null
+              : `Level ${Math.min(recipe.floors, Math.floor((b.min[1] + 1e-5) / floorHeight) + 1)}`;
         const label =
           part.material === 'solid'
-            ? 'Slab'
+            ? role === 'roof'
+              ? 'Roof'
+              : 'Slab'
             : part.material === 'glass'
               ? 'Window'
               : 'Frame';
@@ -753,6 +773,13 @@ export async function editableBuildingComponents(v: Volume): Promise<Volume[]> {
           id: index === 0 ? v.id : crypto.randomUUID(),
           name: `${v.name.slice(0, 55)} · ${label} ${++counts[part.material]}`,
           groupId: v.groupId,
+          component: {
+            role,
+            level,
+            hostId: v.component?.hostId ?? null,
+            motion: 'none',
+            travel: 1,
+          },
           material: part.material,
           color: part.material === 'glass' ? '#b8d7d6' : (v.color ?? '#e2e7e6'),
           dimensions: { width, height, depth },

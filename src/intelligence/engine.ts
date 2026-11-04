@@ -1,3 +1,15 @@
+import { solarPosition } from '../studio/solar';
+import { solarDay, shadowOnLevelGround } from '../studio/solarAnalysis';
+import { constructAssembly, remapCopiedHosts } from './assembly';
+import {
+  profileVolume,
+  anchoredDimensions,
+  constrainedResize,
+  splitLevels,
+  bridgeVolume,
+  glazeOpening,
+} from './volumetric';
+import { isVisible } from '../model';
 import { equalData } from '../projects/equalData';
 import { furnishRoom } from '../design/layout';
 import { componentInfo, propagateHosted } from '../design/model';
@@ -120,18 +132,32 @@ export function resolveIds(refs: string[], s: Session): string[] {
           ? s.context.lastCreatedIds
           : ref === '$operands'
             ? s.context.lastOperands
-            : ref.startsWith('$name:')
+            : ref.startsWith('$group:')
               ? (() => {
-                  const matches = s.project.volumes.filter(
-                    (v) => v.name === ref.slice(6),
+                  const name = ref.slice(7);
+                  const groups = (s.project.groups ?? []).filter(
+                    (g) => g.id === name || g.name === name,
                   );
-                  if (matches.length !== 1)
+                  if (groups.length !== 1)
                     throw new Error(
-                      'That name does not identify one volume. Which one do you mean? Describe its position or give its name.',
+                      'That group does not identify one assembly. Use a unique group name or ID.',
                     );
-                  return [matches[0].id];
+                  return s.project.volumes
+                    .filter((v) => v.groupId === groups[0].id)
+                    .map((v) => v.id);
                 })()
-              : [ref],
+              : ref.startsWith('$name:')
+                ? (() => {
+                    const matches = s.project.volumes.filter(
+                      (v) => v.name === ref.slice(6),
+                    );
+                    if (matches.length !== 1)
+                      throw new Error(
+                        'That name does not identify one volume. Which one do you mean? Describe its position or give its name.',
+                      );
+                    return [matches[0].id];
+                  })()
+                : [ref],
   );
   if (!result.length)
     throw new Error(
@@ -181,6 +207,32 @@ export async function applyPlan(
   camera: CameraContext = defaultCamera,
   confirmed = false,
 ): Promise<{ session: Session; message: string }> {
+  let current: { type: string; index: number } | undefined;
+  try {
+    return await applyTransaction(
+      original,
+      raw,
+      camera,
+      confirmed,
+      (op, index) => {
+        current = op ? { type: op.type, index } : undefined;
+      },
+    );
+  } catch (error) {
+    if (!current) throw error;
+    throw new Error(
+      `Step ${current.index + 1} (${current.type}): ${error instanceof Error ? error.message : 'Geometry validation failed.'}`,
+    );
+  }
+}
+
+async function applyTransaction(
+  original: Session,
+  raw: unknown,
+  camera: CameraContext,
+  confirmed: boolean,
+  operationStarted: (op: Operation | null, index: number) => void,
+): Promise<{ session: Session; message: string }> {
   const plan = parsePlan(raw);
   if (plan.intent !== 'apply')
     return { session: original, message: plan.message };
@@ -199,7 +251,12 @@ export async function applyPlan(
     groups: p.groups?.map((g) => ({ ...g })),
     selectedIds: p.selectedIds ? [...p.selectedIds] : undefined,
     design: p.design
-      ? { views: [...p.design.views], options: [...p.design.options] }
+      ? {
+          ...p.design,
+          views: [...p.design.views],
+          options: [...p.design.options],
+          notes: p.design.notes?.map((n) => ({ ...n })),
+        }
       : undefined,
   });
   const s: Session = {
@@ -210,7 +267,8 @@ export async function applyPlan(
   };
   const reports: string[] = [];
   let beforeEdit: Project | null = null;
-  for (const op of plan.operations) {
+  for (const [operationIndex, op] of plan.operations.entries()) {
+    operationStarted(op, operationIndex);
     // Workspace effects run only after the complete geometric transaction validates.
     // They neither edit project data nor replace the last modeling context.
     if (
@@ -243,6 +301,56 @@ export async function applyPlan(
       ).filter((id) => s.project.volumes.some((v) => v.id === id));
       reports.push(
         `${op.type === 'undo' ? 'Undid' : 'Restored'} ${op.count} change(s).`,
+      );
+      continue;
+    }
+    if (op.type === 'solar_study') {
+      const site = s.project.site;
+      if (!site)
+        throw new Error(
+          'Set the project site location before calculating a solar study.',
+        );
+      const sun = solarPosition(site, op),
+        day = solarDay(site, op);
+      reports.push(
+        `Solar study ${op.date}, ${String(Math.floor(op.minutes / 60)).padStart(2, '0')}:${String(op.minutes % 60).padStart(2, '0')} UTC${op.utcOffset >= 0 ? '+' : ''}${op.utcOffset}: altitude ${round(sun.altitude)}°, azimuth ${round(sun.azimuth)}° clockwise from true north. Sunrise ${day.sunrise ?? 'none'}, solar noon ${day.noon}, sunset ${day.sunset ?? 'none'} (site civil time).${day.polar ? ` Polar ${day.polar}.` : ''}`,
+      );
+      if (op.targets.length) {
+        const vs = targets(op.targets, s);
+        for (const v of vs.slice(0, 20)) {
+          const shadow = shadowOnLevelGround(
+            site,
+            op,
+            v.position.y + v.dimensions.height,
+          );
+          const a = (v.rotation * Math.PI) / 180;
+          const fronts = [
+            ['front', Math.sin(a), Math.cos(a)],
+            ['back', -Math.sin(a), -Math.cos(a)],
+            ['right', Math.cos(a), -Math.sin(a)],
+            ['left', -Math.cos(a), Math.sin(a)],
+          ] as const;
+          const facing =
+            sun.altitude > 0
+              ? fronts
+                  .filter(
+                    ([, x, z]) =>
+                      x * sun.direction.x + z * sun.direction.z > 0.01,
+                  )
+                  .map(([side]) => side)
+                  .join(', ')
+              : 'none';
+          reports.push(
+            `${v.name}: potentially sun-facing local sides: ${facing}. ${shadow ? `Top-point shadow on level project ground: ${round(shadow.length)} m horizontally.` : 'Sun below horizon; no direct solar shadow.'}`,
+          );
+        }
+        if (vs.length > 20)
+          reports.push(
+            `Showing the first 20 of ${vs.length} targets; narrow selection for individual analysis.`,
+          );
+      }
+      reports.push(
+        'Directional concept analysis only: neighboring occlusion, terrain, weather and energy performance are not evaluated.',
       );
       continue;
     }
@@ -304,6 +412,86 @@ export async function applyPlan(
         }
       continue;
     }
+    if (op.type === 'verify') {
+      const vs = targets(op.targets, s);
+      const values =
+        op.metric === 'count'
+          ? [vs.length]
+          : await Promise.all(
+              vs.map(async (v) =>
+                op.metric === 'volume'
+                  ? (await solidStats(v)).volume
+                  : op.metric === 'base'
+                    ? v.position.y
+                    : op.metric === 'top'
+                      ? v.position.y + v.dimensions.height
+                      : v.dimensions[op.metric as 'width' | 'height' | 'depth'],
+              ),
+            );
+      const ok = values.every((n) =>
+        op.comparison === 'equal'
+          ? Math.abs(n - op.value) <= op.tolerance + 1e-8
+          : op.comparison === 'at_least'
+            ? n >= op.value - op.tolerance
+            : n <= op.value + op.tolerance,
+      );
+      if (!ok)
+        throw new Error(
+          `Verification failed: ${op.metric} expected ${op.comparison} ${op.value}, measured ${values.map(round).join(', ')}. No changes committed.`,
+        );
+      reports.push(
+        `Verified ${op.metric}: ${values.map(round).join(', ')} (${vs.length} element(s)).`,
+      );
+      continue;
+    }
+    if (op.type === 'verify_relation') {
+      const vs = targets(op.targets, s);
+      if (vs.length !== 2)
+        throw new Error('A relation needs two distinct solids.');
+      const shared = await sharedVolume(vs[0], vs[1]);
+      const ok =
+        op.relation === 'disjoint'
+          ? shared <= op.tolerance
+          : op.relation === 'intersects'
+            ? shared > op.tolerance
+            : Math.abs((await solidStats(vs[0])).volume - shared) <=
+              op.tolerance;
+      if (!ok)
+        throw new Error(
+          `Verification failed: ${op.relation}; shared volume is ${round(shared)} m³. No changes committed.`,
+        );
+      reports.push(
+        `Verified ${op.relation}: shared solid volume ${round(shared)} m³. Boundary contact alone is not a volume intersection.`,
+      );
+      continue;
+    }
+    if (op.type === 'select_query') {
+      const scope = op.scope ? new Set(resolveIds(op.scope, s)) : null;
+      const matches = s.project.volumes.filter(
+        (v) =>
+          (!scope || scope.has(v.id)) &&
+          (op.role === null || componentInfo(v).role === op.role) &&
+          (op.level === null || v.component?.level === op.level) &&
+          (op.material === null || (v.material ?? 'solid') === op.material) &&
+          (op.nameContains === null ||
+            v.name
+              .toLocaleLowerCase()
+              .includes(op.nameContains.toLocaleLowerCase())) &&
+          (op.visible === null || isVisible(v, s.project) === op.visible),
+      );
+      if (!matches.length)
+        throw new Error(
+          'No elements match that component query. Inspect the current scene roles, levels and groups.',
+        );
+      focus(
+        s,
+        matches.map((v) => v.id),
+      );
+      reports.push(
+        `Selected ${matches.length} matching element(s): ${matches.map((v) => v.name).join(', ')}.`,
+      );
+      continue;
+    }
     if (op.type === 'select') {
       focus(s, resolveIds(op.targets, s));
       reports.push(`Selected ${s.context.focusIds.length} object(s).`);
@@ -319,7 +507,210 @@ export async function applyPlan(
         component: v.component ? { ...v.component } : undefined,
       }));
     beforeEdit ??= copyProject(s.project);
-    if (op.type === 'component') {
+    if (op.type === 'profile_solid') {
+      const vs = op.targets.length ? targets(op.targets, s) : [null];
+      const made: Volume[] = [];
+      for (const v of vs) made.push(await profileVolume(v, op));
+      for (const v of made) {
+        const index = s.project.volumes.findIndex((o) => o.id === v.id);
+        if (index >= 0) s.project.volumes[index] = v;
+        else {
+          v.name = uniqueName(v.name, s.project.volumes);
+          s.project.volumes.push(v);
+        }
+      }
+      focus(
+        s,
+        made.map((v) => v.id),
+      );
+      if (!op.targets.length) s.context.lastCreatedIds = made.map((v) => v.id);
+      reports.push(
+        `Created or replaced ${made.length} ${op.shape} section(s), extruded along local ${op.axis.toUpperCase()}. Existing identities and placements retained.`,
+        ...made.map(report),
+      );
+    } else if (op.type === 'glaze_opening') {
+      const wall = one(op.target, s);
+      if (isLocked(wall, s.project))
+        throw new Error('Unlock the wall group before adding glazing.');
+      const parts = await glazeOpening(wall, s.project.volumes, op);
+      const created: string[] = [];
+      for (const part of parts) {
+        const index = s.project.volumes.findIndex((v) => v.id === part.id);
+        if (index >= 0) s.project.volumes[index] = part;
+        else {
+          part.name = uniqueName(part.name, s.project.volumes);
+          s.project.volumes.push(part);
+          created.push(part.id);
+        }
+      }
+      if (created.length) s.context.lastCreatedIds = created;
+      focus(s, [wall.id]);
+      reports.push(
+        `Fitted editable glazing and a solid frame to the latest opening. Frame inset ${op.frameWidth} m, frame depth ${op.frameDepth} m, pane ${op.paneThickness} m.`,
+        ...parts.map(report),
+      );
+    } else if (op.type === 'opening_shape') {
+      const v = one(op.target, s),
+        g = v.geometry;
+      if (g?.kind !== 'boolean' || !g.opening)
+        throw new Error(
+          'Select the wall with the most recent editable opening.',
+        );
+      const [base, cutter] = g.operands;
+      const nextCutter = await profileVolume(cutter, {
+        type: 'profile_solid',
+        targets: [cutter.id],
+        name: cutter.name,
+        position: cutter.position,
+        dimensions: null,
+        axis: 'z',
+        shape: op.shape,
+        web: null,
+        flange: null,
+        points: null,
+      });
+      const result = await booleanVolume(base, nextCutter, 'subtract', true);
+      // Keep the outer transform: edits also work after moving/scaling the wall.
+      s.project = updateVolume(s.project, v.id, { geometry: result.geometry });
+      focus(s, [v.id]);
+      reports.push(
+        `Rebuilt the latest opening as ${op.shape}; earlier cuts and wall identity retained.`,
+      );
+    } else if (op.type === 'constrained_resize') {
+      const vs = targets(op.targets, s);
+      for (const v of vs) {
+        const next = constrainedResize(v, op);
+        if (op.preserveVolume) {
+          const before = (await solidStats(v)).volume,
+            after = (await solidStats(next)).volume;
+          if (Math.abs(before - after) > Math.max(1e-6, before * 1e-6))
+            throw new Error(
+              'The volume constraint could not be satisfied. Original geometry retained.',
+            );
+        }
+        s.project = updateVolume(s.project, v.id, {
+          dimensions: next.dimensions,
+          position: next.position,
+          // Explicit affine resize: do not regenerate shells at fixed thickness.
+          geometry: next.geometry,
+        });
+      }
+      focus(
+        s,
+        vs.map((v) => v.id),
+      );
+      reports.push(
+        `Resized ${vs.length} element(s) about the specified local anchor${op.preserveVolume ? ', preserving evaluated volume by compensating both other axes' : ''}.`,
+      );
+    } else if (op.type === 'split_levels') {
+      const v = one(op.target, s);
+      if (s.project.volumes.some((o) => o.component?.hostId === v.id))
+        throw new Error(
+          'This volume hosts editable components. Split an independent mass or explicitly reorganize its children first.',
+        );
+      if (s.project.volumes.length + op.levels.length - 1 > MAX_VOLUMES)
+        throw new Error('The level schedule exceeds the scene object limit.');
+      const pieces = await splitLevels(v, op);
+      s.project.volumes = s.project.volumes.flatMap((o) =>
+        o.id === v.id ? pieces : [o],
+      );
+      s.context.lastCreatedIds = pieces.map((v) => v.id);
+      focus(s, s.context.lastCreatedIds);
+      reports.push(
+        `Split into ${pieces.length} independently editable levels using real solid intersections. Original source retained in each recipe.`,
+        ...pieces.map(report),
+      );
+    } else if (op.type === 'progressive_array') {
+      const v = one(op.target, s);
+      if (s.project.volumes.some((o) => o.component?.hostId === v.id))
+        throw new Error(
+          'This element hosts components. Use a group array to preserve the assembly, or select an independent solid.',
+        );
+      if (s.project.volumes.length + op.count - 1 > MAX_VOLUMES)
+        throw new Error(
+          'The progressive array exceeds the scene object limit.',
+        );
+      const copies: Volume[] = [];
+      for (let i = 1; i < op.count; i++) {
+        const copy = anchoredDimensions(
+          v,
+          {
+            width: v.dimensions.width * op.scaleStep.x ** i,
+            height: v.dimensions.height * op.scaleStep.y ** i,
+            depth: v.dimensions.depth * op.scaleStep.z ** i,
+          },
+          op.anchor,
+          v.rotation + op.rotationStep * i,
+        );
+        copy.id = crypto.randomUUID();
+        copy.name = uniqueName(`${v.name} ${i + 1}`, [
+          ...s.project.volumes,
+          ...copies,
+        ]);
+        copy.position = {
+          x: copy.position.x + op.step.x * i,
+          y: copy.position.y + op.step.y * i,
+          z: copy.position.z + op.step.z * i,
+        };
+        if (copy.component)
+          copy.component = { ...copy.component, hostId: null };
+        validateVolume(copy);
+        copies.push(copy);
+      }
+      s.project.volumes.push(...copies);
+      s.context.lastCreatedIds = copies.map((v) => v.id);
+      focus(s, [v.id, ...s.context.lastCreatedIds]);
+      reports.push(
+        `${op.count} elements including the original; multiplicative scale increments and world-space spacing.`,
+        ...copies.map(report),
+      );
+    } else if (op.type === 'bridge') {
+      const vs = targets(op.targets, s);
+      if (vs.length !== 2)
+        throw new Error('Choose two different volumes to connect.');
+      const v = await bridgeVolume(vs[0], vs[1], op);
+      v.name = uniqueName(v.name, s.project.volumes);
+      s.project.volumes.push(v);
+      s.context.lastCreatedIds = [v.id];
+      focus(s, [v.id]);
+      reports.push(
+        `${report(v)} Verified a solid connection to both landings; this is geometric, not structural certification.`,
+      );
+    } else if (op.type === 'assembly') {
+      const result = constructAssembly(s.project, op);
+      if (result.newGroup)
+        s.project.groups = [...(s.project.groups ?? []), result.group];
+      s.project.volumes.push(...result.created);
+      s.context.lastCreatedIds = result.created.map((v) => v.id);
+      focus(s, s.context.lastCreatedIds);
+      reports.push(
+        `${op.name}: ${result.created.length} independently editable elements.`,
+        ...result.created.map(report),
+      );
+    } else if (op.type === 'design_note') {
+      const design = s.project.design ?? { views: [], options: [] };
+      const notes = [
+        ...(design.notes ?? []).filter((n) => n.topic !== op.topic),
+        { topic: op.topic, text: op.text, source: op.source },
+      ];
+      if (notes.length > 40)
+        throw new Error(
+          'Design memory has 40 topics. Update an existing topic instead.',
+        );
+      s.project.design = { ...design, notes };
+      reports.push(
+        `Recorded ${op.source} design note: ${op.topic}. ${op.text}`,
+      );
+    } else if (op.type === 'material') {
+      const vs = targets(op.targets, s);
+      for (const v of vs)
+        s.project = updateVolume(s.project, v.id, { material: op.material });
+      focus(
+        s,
+        vs.map((v) => v.id),
+      );
+      reports.push(`Set ${vs.length} element(s) to ${op.material}.`);
+    } else if (op.type === 'component') {
       const ids = resolveIds(op.targets, s);
       const hostId = op.settings.hostId ? one(op.settings.hostId, s).id : null;
       if (hostId && ids.includes(hostId))
@@ -586,7 +977,11 @@ export async function applyPlan(
       reports.push(
         `${report(v)} Added ${op.side} ${ref.name}; both parts remain independently editable. Union can join them when needed.`,
       );
-    } else if (op.type === 'sweep' || op.type === 'loft') {
+    } else if (
+      op.type === 'sweep' ||
+      op.type === 'loft' ||
+      op.type === 'revolve'
+    ) {
       const previous = op.target ? one(op.target, s) : null;
       if (
         s.project.volumes.some(
@@ -602,7 +997,13 @@ export async function applyPlan(
               path: op.path,
               smooth: op.smooth,
             }
-          : { method: 'loft', sections: op.sections };
+          : op.type === 'loft'
+            ? { method: 'loft', sections: op.sections }
+            : {
+                method: 'revolve',
+                degrees: op.degrees,
+                profile: op.profile.map((p) => ({ x: p.radius, z: p.height })),
+              };
       const result = formMesh(await getKernel(), definition);
       const v: Volume = {
         ...(previous ??
@@ -897,6 +1298,7 @@ export async function applyPlan(
         if (op.copy) created.push(next);
         else s.project = updateVolume(s.project, v.id, next);
       }
+      if (op.copy) remapCopiedHosts(vs, created);
       s.project.volumes.push(...created);
       const result = op.copy ? created : vs;
       if (op.copy) s.context.lastCreatedIds = created.map((v) => v.id);
@@ -950,6 +1352,8 @@ export async function applyPlan(
           validateVolume(copy);
           created.push(copy);
         }
+      for (let i = 0; i < created.length; i += vs.length)
+        remapCopiedHosts(vs, created.slice(i, i + vs.length));
       s.project.volumes.push(...created);
       s.context.lastCreatedIds = created.map((v) => v.id);
       focus(
@@ -1132,19 +1536,6 @@ export async function applyPlan(
       if (isLocked(v, s.project))
         throw new Error('Unlock this group before editing its components.');
       const components = await editableBuildingComponents(v);
-      components.forEach((c) => {
-        c.component = {
-          ...componentInfo(c),
-          role:
-            c.material === 'glass'
-              ? 'window'
-              : c.material === 'frame'
-                ? 'column'
-                : 'floor',
-          hostId: null,
-          level: `Elevation ${c.position.y.toFixed(2)} m`,
-        };
-      });
       if (s.project.volumes.length - 1 + components.length > MAX_VOLUMES)
         throw new Error(
           'The components would exceed the 200-object workspace limit. Use fewer floors or wider panels first.',
@@ -1288,8 +1679,9 @@ export async function applyPlan(
           2;
       if (s.project.volumes.length + vs.length * op.count > MAX_VOLUMES)
         throw new Error('This workspace supports up to 200 objects.');
-      for (const v of vs)
-        for (let i = 1; i <= op.count; i++) {
+      for (let i = 1; i <= op.count; i++) {
+        const instance: Volume[] = [];
+        for (const v of vs) {
           const copy = {
             ...structuredClone(v),
             id: crypto.randomUUID(),
@@ -1305,7 +1697,10 @@ export async function applyPlan(
           };
           validateVolume(copy);
           created.push(copy);
+          instance.push(copy);
         }
+        remapCopiedHosts(vs, instance);
+      }
       s.project.volumes.push(...created);
       s.context.lastCreatedIds = created.map((v) => v.id);
       focus(s, [...vs.map((v) => v.id), ...created.map((v) => v.id)]);
@@ -1405,7 +1800,12 @@ export async function applyPlan(
       const result = await booleanVolume(vs[0], vs[1], op.operation);
       s.project.volumes = s.project.volumes
         .filter((v) => v.id !== vs[1].id)
-        .map((v) => (v.id === vs[0].id ? result : v));
+        .map((v) => (v.id === vs[0].id ? result : v))
+        .map((v) =>
+          v.component?.hostId === vs[1].id
+            ? { ...v, component: { ...v.component, hostId: null } }
+            : v,
+        );
       s.context.lastOperands = vs.map((v) => v.id);
       focus(s, [result.id]);
       reports.push(
@@ -1507,6 +1907,34 @@ export async function applyPlan(
       focus(s, []);
       reports.push(`Removed ${ids.length} object(s); undo is available.`);
     }
+    if (op.type === 'opening_shape' || op.type === 'edit_opening') {
+      const wall = one(op.target, s),
+        g = wall.geometry;
+      if (g?.kind === 'boolean' && g.opening) {
+        const previousPart = operationBefore.find(
+          (v) =>
+            v.component?.hostId === wall.id &&
+            v.geometry?.kind === 'mesh' &&
+            v.geometry.openingSystem?.cutterId === g.operands[1].id,
+        );
+        if (
+          previousPart?.geometry?.kind === 'mesh' &&
+          previousPart.geometry.openingSystem
+        ) {
+          const parts = await glazeOpening(
+            wall,
+            s.project.volumes,
+            previousPart.geometry.openingSystem,
+          );
+          s.project.volumes = s.project.volumes.map(
+            (v) => parts.find((p) => p.id === v.id) ?? v,
+          );
+          reports.push(
+            'Updated the linked glazing and frame to match, preserving their identities and stated inset/thickness.',
+          );
+        }
+      }
+    }
     if (
       [
         'move',
@@ -1516,6 +1944,8 @@ export async function applyPlan(
         'rotate',
         'rotate_group',
         'stretch',
+        'constrained_resize',
+        'profile_solid',
       ].includes(op.type)
     )
       s.project.volumes = propagateHosted(operationBefore, s.project.volumes);
@@ -1541,28 +1971,8 @@ export async function applyPlan(
     );
     s.context.lastOperation = op.type;
   }
-  for (const op of plan.operations) {
-    if (op.type === 'walk_to') resolveWalkPlacement(s.project, op);
-    if (
-      op.type === 'show_view' &&
-      !s.project.design?.views.some((v) => v.name === op.name)
-    )
-      throw new Error('Which saved view should I show?');
-    if (op.type === 'explore') {
-      const ids = op.targets.length
-        ? resolveIds(op.targets, s)
-        : s.project.volumes.map((v) => v.id);
-      if (
-        op.mode === 'open' &&
-        !s.project.volumes.some(
-          (v) => ids.includes(v.id) && componentInfo(v).motion !== 'none',
-        )
-      )
-        throw new Error(
-          'Set a hinge or slide on the component before opening it.',
-        );
-    }
-  }
+  operationStarted(null, 0);
+  validateWorkspaceEffects(s, plan.operations);
   if (beforeEdit) {
     for (const v of s.project.volumes) {
       const previous = beforeEdit.volumes.find((old) => old.id === v.id);
@@ -1592,3 +2002,48 @@ export const directPlan = (op: Operation): Plan => ({
   message: 'Geometry edit',
   operations: [op],
 });
+
+/** Resolve transient selection aliases while their stage context still exists. */
+export function freezeWorkspaceOperation(op: Operation, s: Session): Operation {
+  if (op.type === 'walk_to') {
+    const targets = op.targets.flatMap((ref) =>
+      ref.startsWith('$') ? resolveIds([ref], s) : [ref],
+    );
+    const placement = resolveWalkPlacement(s.project, { ...op, targets });
+    return {
+      ...op,
+      placement: 'coordinates',
+      targets: [],
+      position: placement.position,
+      lookAt: placement.lookAt,
+    };
+  }
+  if (op.type === 'explore' && op.targets.length)
+    return { ...op, targets: resolveIds(op.targets, s) };
+  return op;
+}
+export function validateWorkspaceEffects(s: Session, operations: Operation[]) {
+  for (const raw of operations) {
+    const op = freezeWorkspaceOperation(raw, s);
+    if (op.type === 'walk_to') resolveWalkPlacement(s.project, op);
+    if (
+      op.type === 'show_view' &&
+      !s.project.design?.views.some((v) => v.name === op.name)
+    )
+      throw new Error('Which saved view should I show?');
+    if (op.type === 'explore') {
+      const ids = op.targets.length
+        ? resolveIds(op.targets, s)
+        : s.project.volumes.map((v) => v.id);
+      if (
+        op.mode === 'open' &&
+        !s.project.volumes.some(
+          (v) => ids.includes(v.id) && componentInfo(v).motion !== 'none',
+        )
+      )
+        throw new Error(
+          'Set a hinge or slide on the component before opening it.',
+        );
+    }
+  }
+}

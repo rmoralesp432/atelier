@@ -136,8 +136,17 @@ test('open meshes are honest reference surfaces, and import is accessible on nar
 test('construction is visual only; footprint rises, settles, and never replays on undo or reload', async ({
   page,
 }) => {
-  test.setTimeout(60000);
+  test.setTimeout(90000); // Multiple rendered styles, animation, undo and reload on software WebGL.
   await page.goto('/');
+  // Pixel contrast below measures pale solids against a dark wireframe ground.
+  // Day is now the default, so select the intended theme explicitly.
+  await page
+    .getByRole('button', { name: 'Switch to Night', exact: true })
+    .click();
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-theme',
+    'night',
+  );
   await page.getByRole('button', { name: 'Show objects' }).click();
   await page.getByText('Manual tools', { exact: true }).click();
   // Observe every animation frame; no arbitrary screenshot timing assertion.

@@ -27,7 +27,7 @@ export function createApi(
     res.setHeader('Cache-Control', 'no-store');
     res.json({ status: 'ok' });
   });
-  app.use(express.json({ limit: '4mb' }));
+  app.use(express.json({ limit: '8mb' }));
   const sessions = new Map<string, number>();
   const rate = new Map<string, { time: number; count: number }>();
   app.use('/api', (req, res, next) => {
@@ -111,15 +111,24 @@ export function createApi(
       res.status(400).json({ error: 'Invalid or oversized modeling context.' });
       return;
     }
+    const abort = new AbortController();
+    const disconnected = () => {
+      if (!res.writableEnded) abort.abort();
+    };
+    res.on('close', disconnected);
     try {
-      res.json(parsePlan(await provider!.plan(parsed.data)));
+      const plan = parsePlan(await provider!.plan(parsed.data, abort.signal));
+      if (!abort.signal.aborted) res.json(plan);
     } catch (error) {
+      if (abort.signal.aborted) return;
       res.status(502).json({
         error: providerErrorMessage(
           error,
           'The model service could not produce a valid plan. No geometry was changed. Check provider access and try again.',
         ),
       });
+    } finally {
+      res.off('close', disconnected);
     }
   });
   app.post('/api/voice', async (req, res) => {

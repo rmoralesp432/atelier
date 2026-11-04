@@ -46,6 +46,10 @@ test('object color, solid scale person, persistent display settings and real hid
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto('/');
+  // Test occlusion with white edges on a dark ground, independently of defaults.
+  await page
+    .getByRole('button', { name: 'Switch to Night', exact: true })
+    .click();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-rendered',
     'true',

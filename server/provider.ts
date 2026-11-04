@@ -1,3 +1,6 @@
+import { solarSchema } from '../src/studio/solarSchema';
+import { executionSchema } from '../src/intelligence/executionProtocol';
+import { ARCHITECTURAL_PROMPT } from '../src/intelligence/architecturalPrompt';
 import { componentSchema, poseSchema } from '../src/design/schema';
 import OpenAI from 'openai';
 import { z } from 'zod';
@@ -27,19 +30,21 @@ const imageList = z
       .max(1_000_000)
       .regex(/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/),
   )
-  .max(2);
+  .max(6);
 export const requestSchema = z
   .object({
+    execution: executionSchema.optional(),
     images: imageList.optional(),
     validationFeedback: z
       .object({
         error: z.string().max(2000),
-        operations: z.array(operationSchema).max(12),
+        operations: z.array(operationSchema).max(64),
       })
       .strict()
       .optional(),
     workspace: z
       .object({
+        solar: solarSchema.optional(),
         mapVisible: z.boolean(),
         arActive: z.boolean().optional(),
         mapConfigured: z.boolean(),
@@ -62,7 +67,7 @@ export const requestSchema = z
     pendingReview: z
       .object({
         message: z.string().max(4000),
-        operations: z.array(operationSchema).max(12).optional(),
+        operations: z.array(operationSchema).max(64).optional(),
         outcome: z.string().max(16000).optional(),
       })
       .strict()
@@ -89,8 +94,29 @@ export const requestSchema = z
       .max(20),
     scene: z
       .object({
+        site: z
+          .object({
+            latitude: z.number().min(-90).max(90),
+            longitude: z.number().min(-180).max(180),
+            bearing: z.number().finite(),
+          })
+          .strict()
+          .nullable()
+          .optional(),
         design: z
           .object({
+            notes: z
+              .array(
+                z
+                  .object({
+                    topic: z.string().max(80),
+                    text: z.string().max(1500),
+                    source: z.enum(['user', 'drawing', 'assumption']),
+                  })
+                  .strict(),
+              )
+              .max(40)
+              .optional(),
             views: z
               .array(
                 z.object({ name: z.string().max(80), targets: refs }).strict(),
@@ -119,6 +145,12 @@ export const requestSchema = z
                 name: z.string().max(80),
                 visible: z.boolean(),
                 locked: z.boolean(),
+                members: refs.optional(),
+                bounds: z
+                  .object({ min: vec, max: vec })
+                  .strict()
+                  .nullable()
+                  .optional(),
               })
               .strict(),
           )
@@ -158,6 +190,7 @@ export const requestSchema = z
               .object({
                 id: z.string().max(100),
                 component: componentSchema.optional(),
+                componentSource: z.enum(['explicit', 'inferred']).optional(),
                 ordinal: z.number().int(),
                 groupId: z.string().nullable().optional(),
                 visible: z.boolean().optional(),
@@ -228,6 +261,7 @@ export const requestSchema = z
                   .nullable()
                   .optional(),
                 formDefinition: z.string().max(24000).nullable().optional(),
+                construction: z.string().max(24000).nullable().optional(),
                 architecture: z
                   .object({
                     floors: z.number(),
@@ -248,7 +282,7 @@ export const requestSchema = z
   .strict();
 export type ModelRequest = z.infer<typeof requestSchema>;
 export interface Provider {
-  plan: (input: ModelRequest) => Promise<Plan>;
+  plan: (input: ModelRequest, signal?: AbortSignal) => Promise<Plan>;
   voice: (sdp: string) => Promise<string>;
 }
 export function createProvider(
@@ -257,63 +291,72 @@ export function createProvider(
 ): Provider {
   const client = new OpenAI({
     apiKey: key,
-    timeout: 45_000,
+    timeout: 120_000,
     maxRetries: 0,
     ...(fetchOverride ? { fetch: fetchOverride } : {}),
   });
   return {
-    async plan(input) {
-      const response = await client.responses.create({
-        model: process.env.ATELIER_TEXT_MODEL || 'gpt-4.1',
-        store: false,
-        max_output_tokens: 6000,
-        instructions: SYSTEM_PROMPT + SPATIAL_PROMPT + FORM_PROMPT,
-        input: [
-          ...input.history.map((m) => ({
-            role: m.role,
-            content:
-              m.images?.length && m.role === 'user'
-                ? [
-                    { type: 'input_text' as const, text: m.content },
-                    ...m.images.map((image_url) => ({
-                      type: 'input_image' as const,
-                      image_url,
-                      detail: 'auto' as const,
-                    })),
-                  ]
-                : m.content,
-          })),
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'input_text' as const,
-                text: JSON.stringify({
-                  instruction: input.message,
-                  validationFeedback: input.validationFeedback ?? null,
-                  workspace: input.workspace ?? null,
-                  scene: input.scene,
-                  pendingReview: input.pendingReview ?? null,
-                  historyAvailability: input.historyAvailability ?? null,
-                }),
-              },
-              ...(input.images ?? []).map((image_url) => ({
-                type: 'input_image' as const,
-                image_url,
-                detail: 'auto' as const,
-              })),
-            ],
-          },
-        ],
-        text: {
-          format: {
-            type: 'json_schema',
-            name: 'atelier_plan',
-            strict: true,
-            schema: planJsonSchema,
+    async plan(input, signal) {
+      const model = process.env.ATELIER_TEXT_MODEL || 'gpt-4.1';
+      const response = await client.responses.create(
+        {
+          model,
+          ...(model.startsWith('gpt-5')
+            ? { reasoning: { effort: 'medium' as const } }
+            : {}),
+          store: false,
+          max_output_tokens: 16000,
+          instructions:
+            SYSTEM_PROMPT + SPATIAL_PROMPT + FORM_PROMPT + ARCHITECTURAL_PROMPT,
+          input: [
+            ...input.history.map((m) => ({
+              role: m.role,
+              content:
+                m.images?.length && m.role === 'user'
+                  ? [
+                      { type: 'input_text' as const, text: m.content },
+                      ...m.images.map((image_url) => ({
+                        type: 'input_image' as const,
+                        image_url,
+                        detail: 'high' as const,
+                      })),
+                    ]
+                  : m.content,
+            })),
+            {
+              role: 'user',
+              content: [
+                {
+                  type: 'input_text' as const,
+                  text: JSON.stringify({
+                    instruction: input.message,
+                    execution: input.execution ?? null,
+                    validationFeedback: input.validationFeedback ?? null,
+                    workspace: input.workspace ?? null,
+                    scene: input.scene,
+                    pendingReview: input.pendingReview ?? null,
+                    historyAvailability: input.historyAvailability ?? null,
+                  }),
+                },
+                ...(input.images ?? []).map((image_url) => ({
+                  type: 'input_image' as const,
+                  image_url,
+                  detail: 'high' as const,
+                })),
+              ],
+            },
+          ],
+          text: {
+            format: {
+              type: 'json_schema',
+              name: 'atelier_plan',
+              strict: true,
+              schema: planJsonSchema,
+            },
           },
         },
-      });
+        { signal },
+      );
       if (response.status !== 'completed' || !response.output_text)
         throw new Error(
           'The model did not return a complete plan. No geometry was changed.',

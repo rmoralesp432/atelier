@@ -259,24 +259,43 @@ test('phone tools remain reachable and the placement instruction stays clear of 
   await page.setViewportSize({ width: 390, height: 844 });
   await ready(page);
   await page.getByRole('button', { name: 'Touch edit', exact: true }).click();
-  const toolbar = page.getByRole('toolbar', { name: 'Shape selected objects' });
+  // The compact phone interface uses the left tool rail and object-actions
+  // sheet; the horizontal desktop selection toolbar is deliberately hidden.
+  const toolbar = page.getByRole('toolbar', {
+    name: 'Modeling tools',
+    exact: true,
+  });
   const b = (await toolbar.boundingBox())!;
   expect(b.x).toBeGreaterThanOrEqual(0);
   expect(b.x + b.width).toBeLessThanOrEqual(390);
-  await toolbar.getByRole('button', { name: 'Pull selected face' }).click();
+  await toolbar
+    .getByRole('button', { name: 'Push / pull', exact: true })
+    .click();
   const feedback = page.locator('.pull-feedback');
   await expect(feedback).toBeVisible();
-  expect((await feedback.boundingBox())!.y).toBeGreaterThan(b.y + b.height);
+  expect((await feedback.boundingBox())!.x).toBeGreaterThan(b.x + b.width);
   for (const width of [320, 430, 390]) {
     await page.setViewportSize({ width, height: 844 });
     await expect
       .poll(async () => {
         const tools = (await toolbar.boundingBox())!;
-        return (await feedback.boundingBox())!.y - tools.y - tools.height;
+        const hint = (await feedback.boundingBox())!;
+        expect(hint.x + hint.width).toBeLessThanOrEqual(width);
+        return hint.x - tools.x - tools.width;
       })
       .toBeGreaterThan(0);
   }
-  await toolbar.getByRole('button', { name: 'Stretch', exact: true }).click();
+  await page
+    .getByRole('button', { name: 'Selected object actions', exact: true })
+    .click();
+  await page
+    .getByRole('dialog', { name: 'Selected object actions' })
+    .getByRole('button', { name: 'Modify', exact: true })
+    .click();
+  await page
+    .getByRole('region', { name: 'Create and transform', exact: true })
+    .getByRole('button', { name: 'Stretch Keep one side fixed', exact: true })
+    .click();
   await expect(
     page.getByLabel('Stretch distance · m', { exact: true }),
   ).toBeVisible();

@@ -6,7 +6,7 @@ export async function referenceImage(file: File): Promise<string> {
     throw new Error('Choose a PNG, JPEG or WebP image smaller than 10 MB.');
   const bitmap = await createImageBitmap(file);
   try {
-    const scale = Math.min(1, 1280 / Math.max(bitmap.width, bitmap.height)),
+    const scale = Math.min(1, 2048 / Math.max(bitmap.width, bitmap.height)),
       canvas = document.createElement('canvas');
     canvas.width = Math.max(1, Math.round(bitmap.width * scale));
     canvas.height = Math.max(1, Math.round(bitmap.height * scale));
