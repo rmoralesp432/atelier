@@ -2174,8 +2174,9 @@ export default function App({
                     <span>
                       {v.name}
                       <small>
-                        {v.dimensions.width} × {v.dimensions.depth} ×{' '}
-                        {v.dimensions.height} m
+                        {round(v.dimensions.width)} ×{' '}
+                        {round(v.dimensions.depth)} ×{' '}
+                        {round(v.dimensions.height)} m
                         {!isVisible(v, project) && ' · Hidden'}
                       </small>
                     </span>
@@ -2925,11 +2926,12 @@ export default function App({
                       : selected.name}
                   </span>
                   <strong>
-                    {selected.dimensions.width} × {selected.dimensions.depth} ×{' '}
-                    {selected.dimensions.height} <small>m</small>
+                    {round(selected.dimensions.width)} ×{' '}
+                    {round(selected.dimensions.depth)} ×{' '}
+                    {round(selected.dimensions.height)} <small>m</small>
                   </strong>
                   {selected.position.y > 0 && (
-                    <small>Raised {selected.position.y} m</small>
+                    <small>Raised {round(selected.position.y)} m</small>
                   )}
                 </button>
                 {phoneLayout && (

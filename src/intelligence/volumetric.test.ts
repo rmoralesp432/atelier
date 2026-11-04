@@ -150,6 +150,62 @@ describe('general profile solids', () => {
 });
 
 describe('revolved shells and editable opening shapes', () => {
+  it('edits only the latest opening system and preserves an earlier window in the same wall', async () => {
+    const wall = {
+      ...makeVolume(),
+      dimensions: { width: 12, depth: 0.3, height: 5 },
+    };
+    let s = await change(wall, {
+      type: 'opening',
+      target: wall.id,
+      width: 2,
+      height: 2,
+      sill: 1,
+      offset: -3,
+    });
+    const glaze = {
+      type: 'glaze_opening' as const,
+      target: wall.id,
+      frameWidth: 0.1,
+      frameDepth: 0.1,
+      paneThickness: 0.01,
+    };
+    s = (await applyPlan(s, directPlan(glaze))).session;
+    const first = s.project.volumes.slice(1);
+    s = (
+      await applyPlan(
+        s,
+        directPlan({
+          type: 'opening',
+          target: wall.id,
+          width: 2,
+          height: 2,
+          sill: 1,
+          offset: 3,
+        }),
+        defaultCamera,
+        true,
+      )
+    ).session;
+    s = (await applyPlan(s, directPlan(glaze))).session;
+    expect(s.project.volumes).toHaveLength(5);
+    s = (
+      await applyPlan(
+        s,
+        directPlan({
+          type: 'opening_shape',
+          target: wall.id,
+          shape: 'ellipse',
+        }),
+        defaultCamera,
+        true,
+      )
+    ).session;
+    for (const v of first)
+      expect(s.project.volumes.find((o) => o.id === v.id)).toEqual(v);
+    for (const v of s.project.volumes.slice(1))
+      expect(await sharedVolume(v, s.project.volumes[0])).toBeLessThan(1e-5);
+  });
   it('fits thin glazing and annular frames, then updates both to a circular opening without losing IDs', async () => {
     const wall = {
       ...makeVolume(),

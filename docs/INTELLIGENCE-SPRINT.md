@@ -1,6 +1,6 @@
 # Architectural intelligence sprint
 
-Development branch: `feat/architectural-intelligence-sprint`. This work is for review; it does not change the running Render service.
+Development branch: `feat/architectural-intelligence-sprint`. The user subsequently authorized merging and publishing this sprint together with the [volumetric intelligence update](VOLUMETRIC-INTELLIGENCE.md) on 2026-11-04. The existing Render service deploys `feat/phase2-conversational-modeling`; retain that service and origin.
 
 ## Audit and decisions
 

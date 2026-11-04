@@ -232,15 +232,13 @@ test('six image references reach every construction stage and remain available o
     }),
     'base64',
   );
-  await page
-    .getByLabel('Attach reference image file')
-    .setInputFiles(
-      Array.from({ length: 6 }, (_, i) => ({
-        name: `drawing-${i + 1}.png`,
-        mimeType: 'image/png',
-        buffer: png,
-      })),
-    );
+  await page.getByLabel('Attach reference image file').setInputFiles(
+    Array.from({ length: 6 }, (_, i) => ({
+      name: `drawing-${i + 1}.png`,
+      mimeType: 'image/png',
+      buffer: png,
+    })),
+  );
   await expect(page.locator('.pending-references img')).toHaveCount(6);
   await say(
     page,

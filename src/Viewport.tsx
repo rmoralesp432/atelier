@@ -1567,7 +1567,7 @@ export default function Viewport(props: Props) {
           spatialLabel.style.left = `${((pos.x + 1) * container.clientWidth) / 2}px`;
           spatialLabel.style.top = `${((-pos.y + 1) * container.clientHeight) / 2}px`;
           spatialName.textContent = volume.name;
-          spatialMeasure.textContent = `${volume.dimensions.width} × ${volume.dimensions.depth}${isProfile(volume) ? '' : ` × ${volume.dimensions.height}`} m`;
+          spatialMeasure.textContent = `${round(volume.dimensions.width)} × ${round(volume.dimensions.depth)}${isProfile(volume) ? '' : ` × ${round(volume.dimensions.height)}`} m`;
         }
         const phaseLabel = c.editing
           ? 'Revealing the updated geometry'
