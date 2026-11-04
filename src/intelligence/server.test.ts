@@ -154,3 +154,45 @@ it('protects the paid API with an HttpOnly login and rejects foreign origins', a
     },
     { password: 'test-password' },
   ));
+
+it('cancels the upstream planner when the browser stops a request', async () => {
+  let entered!: () => void, cancelled!: () => void;
+  const started = new Promise<void>((resolve) => {
+    entered = resolve;
+  });
+  const stopped = new Promise<void>((resolve) => {
+    cancelled = resolve;
+  });
+  await serve(
+    {
+      plan: async (_input, signal) => {
+        entered();
+        await new Promise<void>((_resolve, reject) =>
+          signal!.addEventListener(
+            'abort',
+            () => {
+              cancelled();
+              reject(new Error('Cancelled'));
+            },
+            { once: true },
+          ),
+        );
+        throw new Error('Should never finish');
+      },
+      voice: async () => '',
+    },
+    async (url) => {
+      const abort = new AbortController();
+      const response = fetch(url + '/api/plan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(request),
+        signal: abort.signal,
+      }).catch(() => null);
+      await started;
+      abort.abort();
+      await stopped;
+      expect(await response).toBeNull();
+    },
+  );
+});

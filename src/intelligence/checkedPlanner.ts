@@ -1,4 +1,9 @@
-import { applyPlan, type Session } from './engine';
+import {
+  applyPlan,
+  freezeWorkspaceOperation,
+  validateWorkspaceEffects,
+  type Session,
+} from './engine';
 import type { CameraContext } from './context';
 import { parsePlan, needsConfirmation, type Plan } from './plan';
 import type { ExecutionContext } from './executionProtocol';
@@ -14,6 +19,7 @@ export type CheckedResult = {
   prepared?: PreparedPlan;
   stages: number;
   reviewRequired?: boolean;
+  labels?: Record<string, string>;
 };
 
 /** Private transaction: continuations see real identities and engine receipts.
@@ -34,6 +40,10 @@ export async function stagedPlan(
   const operations: Plan['operations'] = [],
     receipts: ExecutionContext['receipts'] = [],
     reports: string[] = [];
+  const assumptions = new Set<string>();
+  const labels: Record<string, string> = Object.fromEntries(
+    original.project.volumes.map((v) => [v.id, v.name]),
+  );
   let repairs = 0,
     stages = 0,
     finalPlan: Plan | undefined;
@@ -69,7 +79,12 @@ export async function stagedPlan(
             'A staged design cannot approve a different pending change. No changes were applied.',
           );
         // Clarification aborts earlier proposals, leaving no half-built design.
-        return { plan, stages: 0 };
+        return {
+          plan: stages
+            ? { ...plan, message: `No changes applied yet. ${plan.message}` }
+            : plan,
+          stages: 0,
+        };
       }
       if (operations.length + plan.operations.length > 64)
         throw new Error(
@@ -86,6 +101,9 @@ export async function stagedPlan(
       try {
         const result = await applyPlan(session, plan, camera, true);
         checkAbort();
+        const stageOperations = plan.operations.map((op) =>
+          freezeWorkspaceOperation(op, result.session),
+        );
         const before = new Map(session.project.volumes.map((v) => [v.id, v]));
         const after = new Map(
           result.session.project.volumes.map((v) => [v.id, v]),
@@ -100,7 +118,11 @@ export async function stagedPlan(
           removed: [...before.keys()].filter((id) => !after.has(id)),
         });
         session = result.session;
-        operations.push(...plan.operations);
+        operations.push(...stageOperations);
+        session.project.volumes.forEach((v) => {
+          labels[v.id] = v.name;
+        });
+        plan.planning?.assumptions.forEach((note) => assumptions.add(note));
         reports.push(result.message);
         stages++;
         finalPlan = plan;
@@ -155,6 +177,9 @@ export async function stagedPlan(
     operations,
     planning: finalPlan.planning ? { ...finalPlan.planning, next: null } : null,
   });
+  validateWorkspaceEffects(session, operations);
+  if (assumptions.size)
+    reports.push(`Design assumptions:\n${[...assumptions].join('\n')}`);
   const after = new Map(session.project.volumes.map((v) => [v.id, v]));
   const reviewRequired =
     needsConfirmation(plan) &&
@@ -173,6 +198,7 @@ export async function stagedPlan(
     prepared: { session, message: reports.filter(Boolean).join('\n') },
     stages,
     reviewRequired,
+    labels,
   };
 }
 

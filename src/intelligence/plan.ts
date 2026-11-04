@@ -1,3 +1,4 @@
+import { solarOperation } from '../studio/solarSchema';
 import { architecturalOperations } from './architectureSchema';
 import { designOperations } from '../design/schema';
 import { z } from 'zod';
@@ -84,6 +85,7 @@ const formPosition = point;
 export const operationSchema = z.discriminatedUnion('type', [
   ...designOperations,
   ...architecturalOperations,
+  solarOperation,
   z
     .object({
       type: z.literal('walk_to'),

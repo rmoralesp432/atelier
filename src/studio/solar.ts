@@ -6,6 +6,7 @@ export type SolarStudy = {
   minutes: number;
   utcOffset: number;
   path: boolean;
+  seasonal?: boolean;
 };
 export const defaultSolar: SolarStudy = {
   enabled: false,

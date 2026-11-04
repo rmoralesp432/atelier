@@ -1,3 +1,5 @@
+import { solarPosition } from '../studio/solar';
+import { solarDay, shadowOnLevelGround } from '../studio/solarAnalysis';
 import { constructAssembly, remapCopiedHosts } from './assembly';
 import { isVisible } from '../model';
 import { equalData } from '../projects/equalData';
@@ -197,6 +199,32 @@ export async function applyPlan(
   camera: CameraContext = defaultCamera,
   confirmed = false,
 ): Promise<{ session: Session; message: string }> {
+  let current: { type: string; index: number } | undefined;
+  try {
+    return await applyTransaction(
+      original,
+      raw,
+      camera,
+      confirmed,
+      (op, index) => {
+        current = op ? { type: op.type, index } : undefined;
+      },
+    );
+  } catch (error) {
+    if (!current) throw error;
+    throw new Error(
+      `Step ${current.index + 1} (${current.type}): ${error instanceof Error ? error.message : 'Geometry validation failed.'}`,
+    );
+  }
+}
+
+async function applyTransaction(
+  original: Session,
+  raw: unknown,
+  camera: CameraContext,
+  confirmed: boolean,
+  operationStarted: (op: Operation | null, index: number) => void,
+): Promise<{ session: Session; message: string }> {
   const plan = parsePlan(raw);
   if (plan.intent !== 'apply')
     return { session: original, message: plan.message };
@@ -231,7 +259,8 @@ export async function applyPlan(
   };
   const reports: string[] = [];
   let beforeEdit: Project | null = null;
-  for (const op of plan.operations) {
+  for (const [operationIndex, op] of plan.operations.entries()) {
+    operationStarted(op, operationIndex);
     // Workspace effects run only after the complete geometric transaction validates.
     // They neither edit project data nor replace the last modeling context.
     if (
@@ -264,6 +293,56 @@ export async function applyPlan(
       ).filter((id) => s.project.volumes.some((v) => v.id === id));
       reports.push(
         `${op.type === 'undo' ? 'Undid' : 'Restored'} ${op.count} change(s).`,
+      );
+      continue;
+    }
+    if (op.type === 'solar_study') {
+      const site = s.project.site;
+      if (!site)
+        throw new Error(
+          'Set the project site location before calculating a solar study.',
+        );
+      const sun = solarPosition(site, op),
+        day = solarDay(site, op);
+      reports.push(
+        `Solar study ${op.date}, ${String(Math.floor(op.minutes / 60)).padStart(2, '0')}:${String(op.minutes % 60).padStart(2, '0')} UTC${op.utcOffset >= 0 ? '+' : ''}${op.utcOffset}: altitude ${round(sun.altitude)}°, azimuth ${round(sun.azimuth)}° clockwise from true north. Sunrise ${day.sunrise ?? 'none'}, solar noon ${day.noon}, sunset ${day.sunset ?? 'none'} (site civil time).${day.polar ? ` Polar ${day.polar}.` : ''}`,
+      );
+      if (op.targets.length) {
+        const vs = targets(op.targets, s);
+        for (const v of vs.slice(0, 20)) {
+          const shadow = shadowOnLevelGround(
+            site,
+            op,
+            v.position.y + v.dimensions.height,
+          );
+          const a = (v.rotation * Math.PI) / 180;
+          const fronts = [
+            ['front', Math.sin(a), Math.cos(a)],
+            ['back', -Math.sin(a), -Math.cos(a)],
+            ['right', Math.cos(a), -Math.sin(a)],
+            ['left', -Math.cos(a), Math.sin(a)],
+          ] as const;
+          const facing =
+            sun.altitude > 0
+              ? fronts
+                  .filter(
+                    ([, x, z]) =>
+                      x * sun.direction.x + z * sun.direction.z > 0.01,
+                  )
+                  .map(([side]) => side)
+                  .join(', ')
+              : 'none';
+          reports.push(
+            `${v.name}: potentially sun-facing local sides: ${facing}. ${shadow ? `Top-point shadow on level project ground: ${round(shadow.length)} m horizontally.` : 'Sun below horizon; no direct solar shadow.'}`,
+          );
+        }
+        if (vs.length > 20)
+          reports.push(
+            `Showing the first 20 of ${vs.length} targets; narrow selection for individual analysis.`,
+          );
+      }
+      reports.push(
+        'Directional concept analysis only: neighboring occlusion, terrain, weather and energy performance are not evaluated.',
       );
       continue;
     }
@@ -421,7 +500,9 @@ export async function applyPlan(
           'Design memory has 40 topics. Update an existing topic instead.',
         );
       s.project.design = { ...design, notes };
-      reports.push(`Recorded ${op.source} design note: ${op.topic}.`);
+      reports.push(
+        `Recorded ${op.source} design note: ${op.topic}. ${op.text}`,
+      );
     } else if (op.type === 'material') {
       const vs = targets(op.targets, s);
       for (const v of vs)
@@ -1247,19 +1328,6 @@ export async function applyPlan(
       if (isLocked(v, s.project))
         throw new Error('Unlock this group before editing its components.');
       const components = await editableBuildingComponents(v);
-      components.forEach((c) => {
-        c.component = {
-          ...componentInfo(c),
-          role:
-            c.material === 'glass'
-              ? 'window'
-              : c.material === 'frame'
-                ? 'column'
-                : 'floor',
-          hostId: null,
-          level: `Elevation ${c.position.y.toFixed(2)} m`,
-        };
-      });
       if (s.project.volumes.length - 1 + components.length > MAX_VOLUMES)
         throw new Error(
           'The components would exceed the 200-object workspace limit. Use fewer floors or wider panels first.',
@@ -1665,28 +1733,8 @@ export async function applyPlan(
     );
     s.context.lastOperation = op.type;
   }
-  for (const op of plan.operations) {
-    if (op.type === 'walk_to') resolveWalkPlacement(s.project, op);
-    if (
-      op.type === 'show_view' &&
-      !s.project.design?.views.some((v) => v.name === op.name)
-    )
-      throw new Error('Which saved view should I show?');
-    if (op.type === 'explore') {
-      const ids = op.targets.length
-        ? resolveIds(op.targets, s)
-        : s.project.volumes.map((v) => v.id);
-      if (
-        op.mode === 'open' &&
-        !s.project.volumes.some(
-          (v) => ids.includes(v.id) && componentInfo(v).motion !== 'none',
-        )
-      )
-        throw new Error(
-          'Set a hinge or slide on the component before opening it.',
-        );
-    }
-  }
+  operationStarted(null, 0);
+  validateWorkspaceEffects(s, plan.operations);
   if (beforeEdit) {
     for (const v of s.project.volumes) {
       const previous = beforeEdit.volumes.find((old) => old.id === v.id);
@@ -1716,3 +1764,48 @@ export const directPlan = (op: Operation): Plan => ({
   message: 'Geometry edit',
   operations: [op],
 });
+
+/** Resolve transient selection aliases while their stage context still exists. */
+export function freezeWorkspaceOperation(op: Operation, s: Session): Operation {
+  if (op.type === 'walk_to') {
+    const targets = op.targets.flatMap((ref) =>
+      ref.startsWith('$') ? resolveIds([ref], s) : [ref],
+    );
+    const placement = resolveWalkPlacement(s.project, { ...op, targets });
+    return {
+      ...op,
+      placement: 'coordinates',
+      targets: [],
+      position: placement.position,
+      lookAt: placement.lookAt,
+    };
+  }
+  if (op.type === 'explore' && op.targets.length)
+    return { ...op, targets: resolveIds(op.targets, s) };
+  return op;
+}
+export function validateWorkspaceEffects(s: Session, operations: Operation[]) {
+  for (const raw of operations) {
+    const op = freezeWorkspaceOperation(raw, s);
+    if (op.type === 'walk_to') resolveWalkPlacement(s.project, op);
+    if (
+      op.type === 'show_view' &&
+      !s.project.design?.views.some((v) => v.name === op.name)
+    )
+      throw new Error('Which saved view should I show?');
+    if (op.type === 'explore') {
+      const ids = op.targets.length
+        ? resolveIds(op.targets, s)
+        : s.project.volumes.map((v) => v.id);
+      if (
+        op.mode === 'open' &&
+        !s.project.volumes.some(
+          (v) => ids.includes(v.id) && componentInfo(v).motion !== 'none',
+        )
+      )
+        throw new Error(
+          'Set a hinge or slide on the component before opening it.',
+        );
+    }
+  }
+}

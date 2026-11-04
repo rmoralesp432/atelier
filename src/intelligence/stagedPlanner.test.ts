@@ -193,3 +193,80 @@ it('does not create undo entries for staged read-only inspection or permit prema
     stagedPlan(empty(), defaultCamera, async () => finish()),
   ).rejects.toThrow('before producing');
 });
+
+it('freezes stage-relative presentation and walk targets before later selection changes', async () => {
+  const source = empty();
+  const result = await stagedPlan(
+    source,
+    defaultCamera,
+    async (s, _f, execution) => {
+      if (!execution)
+        return {
+          ...creation(),
+          operations: [
+            ...creation().operations,
+            {
+              type: 'explore',
+              mode: 'exploded',
+              amount: 0.5,
+              targets: ['$selected'],
+            },
+            {
+              type: 'walk_to',
+              placement: 'in_front',
+              targets: ['$selected'],
+              position: null,
+              lookAt: null,
+              eyeHeight: 1.7,
+            },
+          ],
+        };
+      return directPlan({
+        type: 'create_at',
+        name: 'Other volume',
+        shape: 'box',
+        width: 3,
+        depth: 3,
+        height: 3,
+        x: 50,
+        y: 0,
+        z: 0,
+        rotation: 0,
+      });
+    },
+  );
+  const first = result.prepared!.session.project.volumes[0];
+  expect(
+    result.plan.operations.find((op) => op.type === 'explore'),
+  ).toMatchObject({ targets: [first.id] });
+  expect(
+    result.plan.operations.find((op) => op.type === 'walk_to'),
+  ).toMatchObject({
+    placement: 'coordinates',
+    position: { x: 0, y: 0, z: 3.15 },
+    targets: [],
+  });
+});
+
+it('rejects a staged presentation target removed later instead of committing before a UI failure', async () => {
+  const source = empty();
+  await expect(
+    stagedPlan(source, defaultCamera, async (_s, _f, execution) =>
+      execution
+        ? directPlan({ type: 'delete', targets: ['$selected'] })
+        : {
+            ...creation(),
+            operations: [
+              ...creation().operations,
+              {
+                type: 'explore',
+                mode: 'exploded',
+                amount: 0.5,
+                targets: ['$selected'],
+              },
+            ],
+          },
+    ),
+  ).rejects.toThrow('no longer');
+  expect(source.project.volumes).toHaveLength(0);
+});

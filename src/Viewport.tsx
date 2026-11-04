@@ -19,6 +19,7 @@ import { boxSelection } from './geometry/BoxSelection';
 import { WalkControls } from './geometry/WalkControls';
 import type { CameraSettings } from './studio/camera';
 import type { SolarStudy } from './studio/solar';
+import { dailySunPaths, seasonalDates } from './studio/solarAnalysis';
 import { solarPosition } from './studio/solar';
 import { BokehPass } from 'three/addons/postprocessing/BokehPass.js';
 import {
@@ -1177,6 +1178,7 @@ export default function Viewport(props: Props) {
       });
       const site = latest.current.project.site,
         study = latest.current.solar;
+      container.dataset.sunPaths = '0';
       if (site && study.enabled) {
         const sun = solarPosition(site, study),
           dir = new THREE.Vector3(
@@ -1192,36 +1194,57 @@ export default function Viewport(props: Props) {
         container.dataset.sunAltitude = String(sun.altitude);
         container.dataset.sunAzimuth = String(sun.azimuth);
         if (study.path) {
-          const points: THREE.Vector3[] = [];
-          for (let minutes = 0; minutes < 1440; minutes += 10) {
-            const p = solarPosition(site, { ...study, minutes });
-            if (p.altitude > 0)
-              points.push(
-                new THREE.Vector3(p.direction.x, p.direction.y, p.direction.z)
-                  .multiplyScalar(
-                    Math.max(
-                      12,
-                      Math.hypot(
-                        bounds.max.x - bounds.min.x,
-                        bounds.max.y - bounds.min.y,
-                        bounds.max.z - bounds.min.z,
-                      ) * 0.7,
+          const pathRadius = Math.max(
+            12,
+            Math.hypot(
+              bounds.max.x - bounds.min.x,
+              bounds.max.y - bounds.min.y,
+              bounds.max.z - bounds.min.z,
+            ) * 0.7,
+          );
+          const dayTheme = latest.current.appearance.theme === 'day';
+          const paths = [
+            {
+              date: study.date,
+              color: dayTheme ? '#94651f' : '#e6be7a',
+              opacity: 0.9,
+            },
+            ...(study.seasonal
+              ? seasonalDates(
+                  Number(study.date.slice(0, 4)),
+                  study.utcOffset,
+                ).map((event, i) => ({
+                  date: event.date,
+                  color: (dayTheme
+                    ? ['#687380', '#32799e', '#687380', '#9b5167']
+                    : ['#b1b9c0', '#8ab7d2', '#b1b9c0', '#c797a8'])[i],
+                  opacity: dayTheme ? 0.7 : 0.48,
+                }))
+              : []),
+          ];
+          for (const path of paths)
+            for (const points of dailySunPaths(site, {
+              ...study,
+              date: path.date,
+            })) {
+              sunPath.add(
+                new THREE.Line(
+                  new THREE.BufferGeometry().setFromPoints(
+                    points.map((p) =>
+                      new THREE.Vector3(p.x, p.y, p.z)
+                        .multiplyScalar(pathRadius)
+                        .add(center),
                     ),
-                  )
-                  .add(center),
+                  ),
+                  new THREE.LineBasicMaterial({
+                    color: path.color,
+                    transparent: true,
+                    opacity: path.opacity,
+                  }),
+                ),
               );
-          }
-          if (points.length > 1)
-            sunPath.add(
-              new THREE.Line(
-                new THREE.BufferGeometry().setFromPoints(points),
-                new THREE.LineBasicMaterial({
-                  color: '#e6be7a',
-                  transparent: true,
-                  opacity: 0.5,
-                }),
-              ),
-            );
+            }
+          container.dataset.sunPaths = String(sunPath.children.length);
           if (sun.altitude > 0) {
             const sphere = new THREE.Mesh(
               new THREE.SphereGeometry(Math.max(0.3, radius * 0.008), 16, 12),

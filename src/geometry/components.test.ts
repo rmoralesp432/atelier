@@ -46,6 +46,16 @@ it('separates a rotated raised building into true editable components without ge
   );
   const parts = result.session.project.volumes;
   expect(parts.filter((p) => p.material === 'solid')).toHaveLength(3);
+  expect(parts.filter((p) => p.component?.role === 'floor')).toHaveLength(2);
+  expect(parts.filter((p) => p.component?.role === 'roof')).toHaveLength(1);
+  expect(parts.filter((p) => p.component?.role === 'column')).toHaveLength(0);
+  expect(
+    new Set(
+      parts
+        .filter((p) => p.component?.role === 'window')
+        .map((p) => p.component?.level),
+    ),
+  ).toEqual(new Set(['Level 1', 'Level 2']));
   expect(parts.filter((p) => p.material === 'glass').length).toBeGreaterThan(4);
   expect(parts.filter((p) => p.material === 'frame').length).toBeGreaterThan(4);
   expect(parts[0].id).toBe(box.id);

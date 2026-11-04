@@ -605,6 +605,7 @@ export default function App({
     fingerprint: string;
     camera: CameraContext;
     prepared: { session: Session; message: string };
+    labels?: Record<string, string>;
   } | null>(null);
   useEffect(() => {
     if (pending) setChatDocked(false);
@@ -623,6 +624,7 @@ export default function App({
   const [measuredVolume, setMeasuredVolume] = useState<number | null>(null);
   const workspaceRef = useRef({
     mapVisible,
+    solar,
     view: view.mode,
     theme: appearance.theme,
     renderMode: appearance.mode,
@@ -630,6 +632,7 @@ export default function App({
   });
   workspaceRef.current = {
     mapVisible,
+    solar,
     view: view.mode,
     theme: appearance.theme,
     renderMode: appearance.mode,
@@ -696,6 +699,18 @@ export default function App({
         reports.push(
           `Viewpoint placed at ${placement.position.x.toFixed(2)}, ${placement.position.z.toFixed(2)} m; floor ${placement.position.y.toFixed(2)} m. No geometry moved.`,
         );
+        continue;
+      }
+      if (op.type === 'solar_study') {
+        setSolar({
+          enabled: op.enabled,
+          date: op.date,
+          minutes: op.minutes,
+          utcOffset: op.utcOffset,
+          path: op.path,
+          seasonal: op.seasonal,
+        });
+        setSolarOpen(true);
         continue;
       }
       if (op.type === 'section') {
@@ -943,6 +958,12 @@ export default function App({
   const fingerprint = () => serializeSession(snapshot());
   const reviewName = (ref: string): string => {
     if (ref.startsWith('$name:')) return ref.slice(6);
+    if (ref.startsWith('$group:'))
+      return (
+        current.current.groups?.find(
+          (g) => g.id === ref.slice(7) || g.name === ref.slice(7),
+        )?.name ?? ref.slice(7)
+      );
     const ids =
       ref === '$operands'
         ? conversation.current.lastOperands
@@ -958,6 +979,7 @@ export default function App({
       .map(
         (id) =>
           current.current.volumes.find((v) => v.id === id)?.name ??
+          pending?.labels?.[id] ??
           undo.current.at(-1)?.volumes.find((v) => v.id === id)?.name ??
           'previous object',
       )
@@ -1021,6 +1043,8 @@ export default function App({
             'workspace',
             'section',
             'measure',
+            'verify',
+            'solar_study',
           ].includes(op.type),
       )
     )
@@ -1037,7 +1061,9 @@ export default function App({
       !plan.operations.some((op) => op.type === 'undo' || op.type === 'redo'),
     );
     if (
-      plan.operations.some((op) => op.type === 'select') &&
+      plan.operations.some(
+        (op) => op.type === 'select' || op.type === 'select_query',
+      ) &&
       result.session.project.selectedId
     )
       setTool('translate');
@@ -1051,6 +1077,7 @@ export default function App({
     plan: Plan,
     frame = structuredClone(camera.current),
     checked?: PreparedPlan,
+    labels?: Record<string, string>,
   ) => {
     const before = fingerprint();
     const prepared =
@@ -1059,7 +1086,7 @@ export default function App({
       throw new Error(
         'The scene changed while this change was being checked. Please ask again.',
       );
-    const item = { plan, fingerprint: before, camera: frame, prepared };
+    const item = { plan, fingerprint: before, camera: frame, prepared, labels };
     setPending(item);
     return item;
   };
@@ -1078,7 +1105,9 @@ export default function App({
     return message;
   };
   const displaySummary = (plan: Plan) =>
-    plan.operations.some((op) => op.type === 'measure')
+    plan.operations.some(
+      (op) => op.type === 'measure' || op.type === 'solar_study',
+    )
       ? undefined
       : plan.message;
   const propose = async (plan: Plan) => {
@@ -1179,7 +1208,7 @@ export default function App({
       if (!plan.operations.every((op) => op.type === 'measure'))
         setPending(null);
       if (checked.reviewRequired) {
-        await prepareReview(plan, frame, checked.prepared);
+        await prepareReview(plan, frame, checked.prepared, checked.labels);
         const message =
           plan.message + ' Shall I go ahead? You can answer here or by voice.';
         remember('assistant', message);

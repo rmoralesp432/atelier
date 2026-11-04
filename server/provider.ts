@@ -1,3 +1,4 @@
+import { solarSchema } from '../src/studio/solarSchema';
 import { executionSchema } from '../src/intelligence/executionProtocol';
 import { ARCHITECTURAL_PROMPT } from '../src/intelligence/architecturalPrompt';
 import { componentSchema, poseSchema } from '../src/design/schema';
@@ -43,6 +44,7 @@ export const requestSchema = z
       .optional(),
     workspace: z
       .object({
+        solar: solarSchema.optional(),
         mapVisible: z.boolean(),
         arActive: z.boolean().optional(),
         mapConfigured: z.boolean(),
@@ -279,7 +281,7 @@ export const requestSchema = z
   .strict();
 export type ModelRequest = z.infer<typeof requestSchema>;
 export interface Provider {
-  plan: (input: ModelRequest) => Promise<Plan>;
+  plan: (input: ModelRequest, signal?: AbortSignal) => Promise<Plan>;
   voice: (sdp: string) => Promise<string>;
 }
 export function createProvider(
@@ -293,64 +295,67 @@ export function createProvider(
     ...(fetchOverride ? { fetch: fetchOverride } : {}),
   });
   return {
-    async plan(input) {
+    async plan(input, signal) {
       const model = process.env.ATELIER_TEXT_MODEL || 'gpt-4.1';
-      const response = await client.responses.create({
-        model,
-        ...(model.startsWith('gpt-5')
-          ? { reasoning: { effort: 'medium' as const } }
-          : {}),
-        store: false,
-        max_output_tokens: 16000,
-        instructions:
-          SYSTEM_PROMPT + SPATIAL_PROMPT + FORM_PROMPT + ARCHITECTURAL_PROMPT,
-        input: [
-          ...input.history.map((m) => ({
-            role: m.role,
-            content:
-              m.images?.length && m.role === 'user'
-                ? [
-                    { type: 'input_text' as const, text: m.content },
-                    ...m.images.map((image_url) => ({
-                      type: 'input_image' as const,
-                      image_url,
-                      detail: 'high' as const,
-                    })),
-                  ]
-                : m.content,
-          })),
-          {
-            role: 'user',
-            content: [
-              {
-                type: 'input_text' as const,
-                text: JSON.stringify({
-                  instruction: input.message,
-                  execution: input.execution ?? null,
-                  validationFeedback: input.validationFeedback ?? null,
-                  workspace: input.workspace ?? null,
-                  scene: input.scene,
-                  pendingReview: input.pendingReview ?? null,
-                  historyAvailability: input.historyAvailability ?? null,
-                }),
-              },
-              ...(input.images ?? []).map((image_url) => ({
-                type: 'input_image' as const,
-                image_url,
-                detail: 'high' as const,
-              })),
-            ],
-          },
-        ],
-        text: {
-          format: {
-            type: 'json_schema',
-            name: 'atelier_plan',
-            strict: true,
-            schema: planJsonSchema,
+      const response = await client.responses.create(
+        {
+          model,
+          ...(model.startsWith('gpt-5')
+            ? { reasoning: { effort: 'medium' as const } }
+            : {}),
+          store: false,
+          max_output_tokens: 16000,
+          instructions:
+            SYSTEM_PROMPT + SPATIAL_PROMPT + FORM_PROMPT + ARCHITECTURAL_PROMPT,
+          input: [
+            ...input.history.map((m) => ({
+              role: m.role,
+              content:
+                m.images?.length && m.role === 'user'
+                  ? [
+                      { type: 'input_text' as const, text: m.content },
+                      ...m.images.map((image_url) => ({
+                        type: 'input_image' as const,
+                        image_url,
+                        detail: 'high' as const,
+                      })),
+                    ]
+                  : m.content,
+            })),
+            {
+              role: 'user',
+              content: [
+                {
+                  type: 'input_text' as const,
+                  text: JSON.stringify({
+                    instruction: input.message,
+                    execution: input.execution ?? null,
+                    validationFeedback: input.validationFeedback ?? null,
+                    workspace: input.workspace ?? null,
+                    scene: input.scene,
+                    pendingReview: input.pendingReview ?? null,
+                    historyAvailability: input.historyAvailability ?? null,
+                  }),
+                },
+                ...(input.images ?? []).map((image_url) => ({
+                  type: 'input_image' as const,
+                  image_url,
+                  detail: 'high' as const,
+                })),
+              ],
+            },
+          ],
+          text: {
+            format: {
+              type: 'json_schema',
+              name: 'atelier_plan',
+              strict: true,
+              schema: planJsonSchema,
+            },
           },
         },
-      });
+        { signal },
+      );
       if (response.status !== 'completed' || !response.output_text)
         throw new Error(
           'The model did not return a complete plan. No geometry was changed.',

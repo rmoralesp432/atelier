@@ -35,6 +35,7 @@ export async function requestPlan(
     outcome: string;
   } | null,
   workspace?: {
+    solar?: import('../studio/solar').SolarStudy;
     mapVisible: boolean;
     arActive?: boolean;
     mapConfigured: boolean;

@@ -142,3 +142,37 @@ it('does not automatically repeat a provider billing rejection', async () => {
   ).rejects.toThrow();
   expect(requests).toBe(1);
 });
+
+it('keeps every nested provider object strict and exposes the staged/architectural tools', async () => {
+  const { planJsonSchema } = await import('./plan');
+  const walk = (schema: any) => {
+    if (!schema || typeof schema !== 'object') return;
+    if (schema.type === 'object') {
+      expect(schema.additionalProperties).toBe(false);
+      expect([...(schema.required ?? [])].sort()).toEqual(
+        Object.keys(schema.properties ?? {}).sort(),
+      );
+    }
+    Object.values(schema).forEach((v) =>
+      Array.isArray(v) ? v.forEach(walk) : walk(v),
+    );
+  };
+  walk(planJsonSchema);
+  const properties = planJsonSchema.properties as any;
+  expect(planJsonSchema.required).toContain('planning');
+  expect(properties.intent.enum).toContain('finish');
+  expect(
+    properties.operations.items.anyOf.map(
+      (op: any) => op.properties.type.const,
+    ),
+  ).toEqual(
+    expect.arrayContaining([
+      'assembly',
+      'select_query',
+      'verify',
+      'material',
+      'design_note',
+      'solar_study',
+    ]),
+  );
+});
