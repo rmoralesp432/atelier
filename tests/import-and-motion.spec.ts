@@ -136,7 +136,7 @@ test('open meshes are honest reference surfaces, and import is accessible on nar
 test('construction is visual only; footprint rises, settles, and never replays on undo or reload', async ({
   page,
 }) => {
-  test.setTimeout(60000);
+  test.setTimeout(90000); // Multiple rendered styles, animation, undo and reload on software WebGL.
   await page.goto('/');
   // Pixel contrast below measures pale solids against a dark wireframe ground.
   // Day is now the default, so select the intended theme explicitly.

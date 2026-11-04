@@ -1043,9 +1043,10 @@
   padding: 9px 6px;
   border-radius: 10px;
 }
-.solar-presets button[aria-pressed='true'] {
-  background: var(--accent);
-  color: #fff;
+.app-shell.immersive .solar-presets button[aria-pressed='true'],
+.app-shell.immersive .solar-presets button[aria-pressed='true']:hover {
+  background: var(--ui-text);
+  color: var(--panel);
 }
 .solar-daylight {
   display: grid;

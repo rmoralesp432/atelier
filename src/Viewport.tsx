@@ -2369,7 +2369,7 @@ export default function Viewport(props: Props) {
   }, [props.placingCamera]);
   useEffect(() => {
     runtime.current?.updateShadows();
-  }, [props.solar, props.project.site]);
+  }, [props.solar, props.project.site, props.appearance.theme]);
   useEffect(() => {
     if (props.savedViewRequest) return;
     runtime.current?.setProjection(props.view.mode !== 'perspective');

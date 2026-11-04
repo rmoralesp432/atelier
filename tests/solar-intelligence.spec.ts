@@ -69,10 +69,53 @@ test('seasonal sun studies update actual paths, civil times and shadows, with te
     .getByRole('button', { name: 'June solstice', exact: true })
     .click();
   await expect(page.getByLabel('Solar date')).toHaveValue('2026-06-21');
+  await expect(
+    page.getByRole('button', { name: 'June solstice', exact: true }),
+  ).toHaveAttribute('aria-pressed', 'true');
+  // The selected preset must remain readable under the pointer. Generic panel
+  // hover styles previously made its label white on an almost-white surface.
+  await expect
+    .poll(async () =>
+      page
+        .getByRole('button', { name: 'June solstice', exact: true })
+        .evaluate((el) => {
+          const style = getComputedStyle(el);
+          const luminance = (color: string) => {
+            const rgb = color
+              .match(/[\d.]+/g)!
+              .slice(0, 3)
+              .map(Number)
+              .map((c) => {
+                const n = c / 255;
+                return n <= 0.04045 ? n / 12.92 : ((n + 0.055) / 1.055) ** 2.4;
+              });
+            return rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722;
+          };
+          const a = luminance(style.color),
+            b = luminance(style.backgroundColor);
+          return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+        }),
+    )
+    .toBeGreaterThanOrEqual(4.5);
   await expect
     .poll(async () => Number(await viewport.getAttribute('data-sun-altitude')))
     .toBeGreaterThan(60);
-  await page.screenshot({ path: 'test-results/seasonal-solar-study.png' });
+  await page.screenshot({
+    path: 'test-results/seasonal-solar-study.png',
+    animations: 'disabled',
+  });
+  await page
+    .getByRole('button', { name: 'Switch to Night', exact: true })
+    .click();
+  await expect(viewport).toHaveAttribute('data-theme', 'night');
+  await expect(viewport).toHaveAttribute('data-sun-paths', '5');
+  await page.screenshot({
+    path: 'test-results/seasonal-solar-night.png',
+    animations: 'disabled',
+  });
+  await page
+    .getByRole('button', { name: 'Switch to Day', exact: true })
+    .click();
   await page
     .getByRole('textbox', { name: 'Message Atelier' })
     .fill(

@@ -38,8 +38,9 @@ Stopping a request now cancels the upstream provider request as well as discardi
 ## Validation
 
 - 222 unit/integration tests passed after the intelligence, solar and reliability changes.
-- Five production-browser cases passed: staged construction and one-step undo, stopping a staged request, six-image transmission across stages/follow-up, natural conversation and correction, and existing destructive-edit review/undo.
+- 115 distinct production-browser scenarios passed across a broad regression run and corrected reruns. The final-build rerun passed all 15 cases: all nine previously failing UI expectations, the new editable-assembly/scoped-column-edit test, staged construction/undo, cancellation, six-reference transmission, solar controls, and hidden-line rendering. Earlier tests were updated for the Day default, compact phone menus, conversation minimization and non-destructive alternatives.
 - Production TypeScript/Vite build passed.
+- Static-hosting smoke test passed at `/atelier/`: real rendering, editing/reload, lazy assets, FBX/panorama imports and worker-prepared USDZ. Static GitHub Pages still has no AI backend; conversational features need the application server.
 - Browser language outputs are explicit provider fixtures; the actual geometry engine runs. These tests do not establish live language or image understanding.
 - A live model-access check returned `401 invalid_api_key`; the user subsequently requested completion without live API testing. No successful live language, vision or voice evaluation is claimed. No billing or production settings were changed.
 
@@ -53,7 +54,7 @@ Use Node 24+, `npm ci`, `npm run dev`, then the URL printed by the server. For t
 
 Rehearse these on the review build before presenting. They are general evaluation scenarios, not certified live-language results or scripted building templates. Choose dimensions, levels and forms yourself; inspect the actual elements rather than accepting the conversation's wording as evidence.
 
-1. **Editable architecture (3 minutes).** Describe a small unfamiliar gallery or pavilion with two occupied levels, a separate roof, circular columns and glazed sides. Supply overall dimensions and level elevations. Ask for separate editable members and verification of the floor count and column diameter. Inspect names, roles, dimensions and glass rendering.
+1. **Editable architecture (3 minutes).** Describe a small unfamiliar gallery or pavilion with two occupied levels, a separate roof, circular columns and glazed sides. Supply overall dimensions and level elevations. Ask for separate editable members and verification of the floor count and column diameter. Minimize the conversation to inspect the model; check names, roles, dimensions and glass rendering.
 2. **Scoped editing (2 minutes).** Ask to widen only the columns in that named group while leaving the glazing and a neighboring object untouched. Inspect the changes, then Undo and Redo. Ask for a central opening and review its operands before accepting it.
 3. **References (3 minutes).** Attach a readable plan and section together, with a shared scale. Ask for an editable interpretation and a list of documented versus assumed dimensions. Inspect floor elevations, wall thickness and roof height. If a dimension is unclear, the assistant should ask rather than claim precision.
 4. **Sun and navigation (2 minutes).** Set the site's location and correct UTC offset. Compare June and December paths, move the time slider, inspect the actual shadow, and ask for a top view or a walk position. Explain that the numerical report is directional analysis, not a building-performance certification.
