@@ -2,6 +2,8 @@ import type { ViewPose } from '../design/schema';
 import { componentInfo } from '../design/model';
 import { buildingSettings, isVisible } from '../model';
 import type { Project, Vec3, Volume } from '../model';
+import type { DesignBrief } from './designBriefSchema';
+import { sceneUnderstanding } from './sceneUnderstanding';
 import { envelopeBounds, groupBounds, isFlat } from '../geometry/spatial';
 import { isReference } from '../imports/mesh';
 import { openingScale } from '../geometry/kernel';
@@ -16,6 +18,7 @@ export type ConversationContext = {
   lastCreatedIds: string[];
   lastOperands: string[];
   lastOperation: string | null;
+  lastBrief?: DesignBrief;
 };
 export const emptyContext = (): ConversationContext => ({
   focusIds: [],
@@ -129,6 +132,14 @@ export function sceneContext(
     }
   }
   return {
+    understanding: sceneUnderstanding(
+      project,
+      project.selectedIds?.length
+        ? project.selectedIds
+        : project.selectedId
+          ? [project.selectedId]
+          : conversation.focusIds,
+    ),
     design: {
       notes: project.design?.notes ?? [],
       views:

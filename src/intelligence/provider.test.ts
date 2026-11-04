@@ -80,6 +80,11 @@ it('uses the actual Responses SDK contract with strict schema, scene context and
   });
   expect(body.text.format.strict).toBe(true);
   expect(body.text.format.type).toBe('json_schema');
+  expect(body.text.format.schema.required).toContain('brief');
+  expect(body.instructions).toContain('INTENT → DESIGN BRIEF');
+  expect(
+    JSON.parse(body.input[0].content[0].text).scene.understanding,
+  ).toMatchObject({ inventory: expect.any(Array), focus: expect.any(Object) });
   // A live Responses request rejected `oneOf` at operations.items. Inspect
   // the actual serialized SDK request so the transport double cannot hide it.
   const items = body.text.format.schema.properties.operations.items;
@@ -160,6 +165,7 @@ it('keeps every nested provider object strict and exposes the staged/architectur
   walk(planJsonSchema);
   const properties = planJsonSchema.properties as any;
   expect(planJsonSchema.required).toContain('planning');
+  expect(planJsonSchema.required).toContain('brief');
   expect(properties.intent.enum).toContain('finish');
   expect(
     properties.operations.items.anyOf.map(

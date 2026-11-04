@@ -11,6 +11,7 @@ import {
 } from './volumetric';
 import { isVisible } from '../model';
 import { equalData } from '../projects/equalData';
+import { designBriefSchema } from './designBriefSchema';
 import { furnishRoom } from '../design/layout';
 import { componentInfo, propagateHosted } from '../design/model';
 import { resolveWalkPlacement } from '../studio/walkPlacement';
@@ -109,8 +110,16 @@ export function parseSession(text: string): Session {
         raw.context[k].length <= 200 &&
         raw.context[k].every((id: unknown) => typeof id === 'string'),
     )
-  )
-    session.context = raw.context;
+  ) {
+    // A stale or malformed optional reasoning record must never prevent the
+    // user's otherwise valid project and history from loading.
+    const { lastBrief, ...context } = raw.context;
+    const parsedBrief = designBriefSchema.safeParse(lastBrief);
+    session.context = {
+      ...context,
+      ...(parsedBrief.success ? { lastBrief: parsedBrief.data } : {}),
+    };
+  }
   return session;
 }
 export const serializeSession = (s: Session) => encodeSession(s);

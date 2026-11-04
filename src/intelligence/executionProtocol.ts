@@ -1,6 +1,9 @@
 import { z } from 'zod';
+import { designBriefSchema, briefAssessmentSchema } from './designBriefSchema';
 export const executionSchema = z
   .object({
+    brief: designBriefSchema.optional(),
+    assessment: z.array(briefAssessmentSchema).max(24).optional(),
     stage: z.number().int().min(1).max(5),
     remaining: z.number().int().min(0).max(4),
     next: z.string().max(400),
