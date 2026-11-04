@@ -1,3 +1,4 @@
+import { architecturalOperations } from './architectureSchema';
 import { designOperations } from '../design/schema';
 import { z } from 'zod';
 
@@ -82,6 +83,7 @@ const profilePoints = z
 const formPosition = point;
 export const operationSchema = z.discriminatedUnion('type', [
   ...designOperations,
+  ...architecturalOperations,
   z
     .object({
       type: z.literal('walk_to'),
@@ -511,9 +513,18 @@ export const operationSchema = z.discriminatedUnion('type', [
 ]);
 export const planSchema = z
   .object({
-    intent: z.enum(['apply', 'clarify', 'confirm', 'cancel']),
+    intent: z.enum(['apply', 'clarify', 'confirm', 'cancel', 'finish']),
     message: z.string().min(1).max(2000),
-    operations: z.array(operationSchema).max(12),
+    operations: z.array(operationSchema).max(64),
+    planning: z
+      .object({
+        stage: z.string().min(1).max(160),
+        next: z.string().min(1).max(400).nullable(),
+        assumptions: z.array(z.string().min(1).max(400)).max(8),
+      })
+      .strict()
+      .nullable()
+      .optional(),
   })
   .strict();
 export type Plan = z.infer<typeof planSchema>;
@@ -529,6 +540,8 @@ export const planJsonSchema = z.toJSONSchema(planSchema, {
     }
   },
 });
+// Local/manual callers may omit planning. Strict provider output supplies null.
+planJsonSchema.required = Object.keys(planJsonSchema.properties!);
 export function parsePlan(raw: unknown): Plan {
   const plan = planSchema.parse(raw);
   if (plan.intent !== 'apply' && plan.operations.length)

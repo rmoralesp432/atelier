@@ -2,7 +2,7 @@ import type { ViewPose } from '../design/schema';
 import { componentInfo } from '../design/model';
 import { buildingSettings, isVisible } from '../model';
 import type { Project, Vec3 } from '../model';
-import { envelopeBounds, isFlat } from '../geometry/spatial';
+import { envelopeBounds, groupBounds, isFlat } from '../geometry/spatial';
 import { isReference } from '../imports/mesh';
 import { openingScale } from '../geometry/kernel';
 export type CameraContext = {
@@ -65,8 +65,24 @@ export function sceneContext(
   conversation: ConversationContext,
   camera: CameraContext,
 ) {
+  // Keep full editable form recipes available beyond the current selection,
+  // with a total payload budget (never send imported triangle buffers).
+  let definitionBudget = 240000;
+  const definitions = new Map<string, string>();
+  for (const v of [...project.volumes].sort(
+    (a, b) =>
+      Number(b.id === project.selectedId) - Number(a.id === project.selectedId),
+  )) {
+    if (v.geometry?.kind !== 'form') continue;
+    const text = boundedDefinition(v.geometry.definition);
+    if (text && text.length <= definitionBudget) {
+      definitions.set(v.id, text);
+      definitionBudget -= text.length;
+    }
+  }
   return {
     design: {
+      notes: project.design?.notes ?? [],
       views:
         project.design?.views.map((v) => ({
           name: v.name,
@@ -80,7 +96,21 @@ export function sceneContext(
     },
     units: 'meters' as const,
     north: '-Z' as const,
-    groups: project.groups ?? [],
+    groups: (project.groups ?? []).map((g) => {
+      const members = project.volumes.filter((v) => v.groupId === g.id);
+      return {
+        ...g,
+        members: members.map((v) => v.id),
+        bounds: members.length ? groupBounds(members) : null,
+      };
+    }),
+    site: project.site
+      ? {
+          latitude: project.site.latitude,
+          longitude: project.site.longitude,
+          bearing: project.site.bearing,
+        }
+      : null,
     mapBearing: project.site?.bearing ?? null,
     selectedIds:
       project.selectedIds ?? (project.selectedId ? [project.selectedId] : []),
@@ -93,6 +123,9 @@ export function sceneContext(
     camera,
     objects: project.volumes.map((v, index) => ({
       component: componentInfo(v),
+      componentSource: v.component
+        ? ('explicit' as const)
+        : ('inferred' as const),
       id: v.id,
       ordinal: index + 1,
       groupId: v.groupId ?? null,
@@ -109,10 +142,7 @@ export function sceneContext(
           ? (v.geometry.fixedWindowWidth ?? null)
           : null,
       display: v.display ?? null,
-      formDefinition:
-        v.geometry?.kind === 'form' && v.id === project.selectedId
-          ? boundedDefinition(v.geometry.definition)
-          : null,
+      formDefinition: definitions.get(v.id) ?? null,
       opening: v.geometry?.kind === 'boolean' && v.geometry.opening === true,
       spatial: {
         envelopeBounds: envelopeBounds(v),

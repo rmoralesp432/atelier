@@ -23,7 +23,7 @@ import CameraPanel from './studio/CameraPanel';
 import { defaultSolar } from './studio/solar';
 import { defaultCameraSettings } from './studio/camera';
 import AddVolumePanel from './studio/AddVolumePanel';
-import { checkedPlan } from './intelligence/checkedPlanner';
+import { stagedPlan, type PreparedPlan } from './intelligence/checkedPlanner';
 import SectionPanel from './studio/SectionPanel';
 import { defaultSection, sectionRange } from './studio/section';
 import { mapSources, trueNorth } from './studio/site';
@@ -207,7 +207,7 @@ function loadMessages(): Message[] {
                         v.length <= 1000000 &&
                         /^data:image\/(jpeg|png|webp);base64,/.test(v),
                     )
-                    .slice(0, 2),
+                    .slice(0, 6),
                 }
               : {}),
           }))
@@ -479,6 +479,7 @@ export default function App({
     setAddingVolume = panels.setters.adding;
   const [presentation, setPresentation] = useState(false);
   const [turntable, setTurntable] = useState(false);
+  const planningAbort = useRef<AbortController | null>(null);
   const [workStage, setWorkStage] = useState('Considering your idea…');
   useEffect(() => {
     try {
@@ -1005,6 +1006,7 @@ export default function App({
     plan: Plan,
     confirmed = false,
     frame = camera.current,
+    prepared?: PreparedPlan,
   ) => {
     setAlternativePreview(null);
     setExploration(assembled);
@@ -1024,7 +1026,8 @@ export default function App({
     )
       setSavedViewRequest(null);
     const before = fingerprint();
-    const result = await applyPlan(snapshot(), plan, frame, confirmed);
+    const result =
+      prepared ?? (await applyPlan(snapshot(), plan, frame, confirmed));
     if (before !== fingerprint())
       throw new Error(
         'The scene changed while this edit was being prepared. Please try again.',
@@ -1047,9 +1050,11 @@ export default function App({
   const prepareReview = async (
     plan: Plan,
     frame = structuredClone(camera.current),
+    checked?: PreparedPlan,
   ) => {
     const before = fingerprint();
-    const prepared = await applyPlan(snapshot(), plan, frame, true);
+    const prepared =
+      checked ?? (await applyPlan(snapshot(), plan, frame, true));
     if (before !== fingerprint())
       throw new Error(
         'The scene changed while this change was being checked. Please ask again.',
@@ -1103,19 +1108,21 @@ export default function App({
     const frame = structuredClone(camera.current);
     const history = [...messagesRef.current];
     const images = [...referenceImages];
+    const abort = new AbortController();
+    planningAbort.current = abort;
     setReferenceImages([]);
     remember('user', text, undefined, images);
     try {
-      const plan = await checkedPlan(
+      const checked = await stagedPlan(
         snapshot(),
         frame,
-        (feedback) =>
+        (working, feedback, execution) =>
           requestPlan(
             text,
-            snapshot(),
+            working,
             frame,
             history,
-            AbortSignal.timeout(60_000),
+            AbortSignal.any([abort.signal, AbortSignal.timeout(150_000)]),
             reviewing
               ? {
                   message: reviewing.plan.message,
@@ -1130,9 +1137,12 @@ export default function App({
             },
             feedback,
             images,
+            execution,
           ),
         setWorkStage,
+        abort.signal,
       );
+      const plan = checked.plan;
       if (before !== fingerprint())
         throw new Error(
           'The scene changed while I was considering this request. Please send it again.',
@@ -1168,22 +1178,27 @@ export default function App({
       }
       if (!plan.operations.every((op) => op.type === 'measure'))
         setPending(null);
-      if (needsConfirmation(plan)) {
-        await prepareReview(plan, frame);
+      if (checked.reviewRequired) {
+        await prepareReview(plan, frame, checked.prepared);
         const message =
           plan.message + ' Shall I go ahead? You can answer here or by voice.';
         remember('assistant', message);
         return message;
       }
-      const result = await execute(plan, false, frame);
+      const result = await execute(plan, false, frame, checked.prepared);
       remember('assistant', result, displaySummary(plan));
       return result;
     } catch (e) {
-      const message = e instanceof Error ? e.message : 'The request failed.';
+      const message = abort.signal.aborted
+        ? 'Stopped. No changes were applied to your project.'
+        : e instanceof Error
+          ? e.message
+          : 'The request failed.';
       remember('assistant', message);
       setNotice({ text: message, error: true });
       return message;
     } finally {
+      planningAbort.current = null;
       busyRef.current = false;
       setBusy(false);
     }
@@ -1478,10 +1493,10 @@ export default function App({
   ]);
 
   const attachReference = async (file: File) => {
-    if (referenceImages.length >= 2) {
+    if (referenceImages.length >= 6) {
       reportError(
         new Error(
-          'Attach up to two references per message. Remove one to add another.',
+          'Attach up to six references per message. Remove one to add another.',
         ),
       );
       return;
@@ -1492,7 +1507,7 @@ export default function App({
     if (panels.active) panels.setters[panels.active](false);
     try {
       const image = await referenceImage(file);
-      setReferenceImages((old) => [...old, image].slice(0, 2));
+      setReferenceImages((old) => [...old, image].slice(0, 6));
     } catch (error) {
       reportError(error);
     } finally {
@@ -3363,6 +3378,15 @@ export default function App({
                     className="process-stage"
                   >
                     {busy ? workStage : 'Preparing geometry…'}
+                    {busy && (
+                      <button
+                        type="button"
+                        aria-label="Stop design request"
+                        onClick={() => planningAbort.current?.abort()}
+                      >
+                        Stop
+                      </button>
+                    )}
                     <small>
                       {busy
                         ? 'Working with your current design'
@@ -3499,12 +3523,13 @@ export default function App({
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
                 hidden
+                multiple
                 aria-label="Attach reference image file"
                 onChange={async (e) => {
-                  const file = e.target.files?.[0];
+                  const files = Array.from(e.target.files ?? []);
                   e.target.value = '';
-                  if (!file) return;
-                  await attachReference(file);
+                  for (const file of files.slice(0, 6 - referenceImages.length))
+                    await attachReference(file);
                 }}
               />
               <form
@@ -3547,7 +3572,7 @@ export default function App({
                     type="button"
                     className="attach-reference"
                     aria-label="Attach a reference photo"
-                    disabled={imageLoading || referenceImages.length >= 2}
+                    disabled={imageLoading || referenceImages.length >= 6}
                     onClick={() => imageInput.current?.click()}
                   >
                     <Plus size={21} />

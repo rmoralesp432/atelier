@@ -76,7 +76,7 @@ it('uses the actual Responses SDK contract with strict schema, scene context and
   expect(body.input[0].content[1]).toEqual({
     type: 'input_image',
     image_url: 'data:image/png;base64,aGVsbG8=',
-    detail: 'auto',
+    detail: 'high',
   });
   expect(body.text.format.strict).toBe(true);
   expect(body.text.format.type).toBe('json_schema');

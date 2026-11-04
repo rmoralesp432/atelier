@@ -40,7 +40,7 @@ Polygon recipes store a simple ordered boundary normalized to a centered unit en
 
 Boxes have exact rectangular dimensions. Curved primitives are tessellated (64 segments for circles/cylinders, 48 for sphere construction). Real union/subtraction/intersection meshes replace the operands in the active scene. The first operand ID survives; both original operands are stored recursively. Empty intersections and non-intersecting cuts are rejected without removing the originals. Boolean results can be transformed or resized; doing so scales the evaluated result relative to its original bounds.
 
-Current safeguards: at most 64 corners per simple footprint, 200 active objects, 20 copies per operation, 12 operations per AI plan, 10 nested recipe levels and 100 nodes per recipe. Modeling remains on the browser thread; large studies require future worker/caching work and performance profiling.
+Current safeguards: at most 64 corners per simple footprint, 200 active objects, 20 copies per operation, 64 operations per checked AI transaction (up to five stages and one repair), 10 nested recipe levels and 100 nodes per recipe. Modeling remains on the browser thread; large studies require future worker/caching work and performance profiling.
 
 ## Architectural envelopes and display
 

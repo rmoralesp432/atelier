@@ -1,3 +1,5 @@
+import { constructAssembly, remapCopiedHosts } from './assembly';
+import { isVisible } from '../model';
 import { equalData } from '../projects/equalData';
 import { furnishRoom } from '../design/layout';
 import { componentInfo, propagateHosted } from '../design/model';
@@ -120,18 +122,32 @@ export function resolveIds(refs: string[], s: Session): string[] {
           ? s.context.lastCreatedIds
           : ref === '$operands'
             ? s.context.lastOperands
-            : ref.startsWith('$name:')
+            : ref.startsWith('$group:')
               ? (() => {
-                  const matches = s.project.volumes.filter(
-                    (v) => v.name === ref.slice(6),
+                  const name = ref.slice(7);
+                  const groups = (s.project.groups ?? []).filter(
+                    (g) => g.id === name || g.name === name,
                   );
-                  if (matches.length !== 1)
+                  if (groups.length !== 1)
                     throw new Error(
-                      'That name does not identify one volume. Which one do you mean? Describe its position or give its name.',
+                      'That group does not identify one assembly. Use a unique group name or ID.',
                     );
-                  return [matches[0].id];
+                  return s.project.volumes
+                    .filter((v) => v.groupId === groups[0].id)
+                    .map((v) => v.id);
                 })()
-              : [ref],
+              : ref.startsWith('$name:')
+                ? (() => {
+                    const matches = s.project.volumes.filter(
+                      (v) => v.name === ref.slice(6),
+                    );
+                    if (matches.length !== 1)
+                      throw new Error(
+                        'That name does not identify one volume. Which one do you mean? Describe its position or give its name.',
+                      );
+                    return [matches[0].id];
+                  })()
+                : [ref],
   );
   if (!result.length)
     throw new Error(
@@ -199,7 +215,12 @@ export async function applyPlan(
     groups: p.groups?.map((g) => ({ ...g })),
     selectedIds: p.selectedIds ? [...p.selectedIds] : undefined,
     design: p.design
-      ? { views: [...p.design.views], options: [...p.design.options] }
+      ? {
+          ...p.design,
+          views: [...p.design.views],
+          options: [...p.design.options],
+          notes: p.design.notes?.map((n) => ({ ...n })),
+        }
       : undefined,
   });
   const s: Session = {
@@ -304,6 +325,65 @@ export async function applyPlan(
         }
       continue;
     }
+    if (op.type === 'verify') {
+      const vs = targets(op.targets, s);
+      const values =
+        op.metric === 'count'
+          ? [vs.length]
+          : await Promise.all(
+              vs.map(async (v) =>
+                op.metric === 'volume'
+                  ? (await solidStats(v)).volume
+                  : op.metric === 'base'
+                    ? v.position.y
+                    : op.metric === 'top'
+                      ? v.position.y + v.dimensions.height
+                      : v.dimensions[op.metric as 'width' | 'height' | 'depth'],
+              ),
+            );
+      const ok = values.every((n) =>
+        op.comparison === 'equal'
+          ? Math.abs(n - op.value) <= op.tolerance + 1e-8
+          : op.comparison === 'at_least'
+            ? n >= op.value - op.tolerance
+            : n <= op.value + op.tolerance,
+      );
+      if (!ok)
+        throw new Error(
+          `Verification failed: ${op.metric} expected ${op.comparison} ${op.value}, measured ${values.map(round).join(', ')}. No changes committed.`,
+        );
+      reports.push(
+        `Verified ${op.metric}: ${values.map(round).join(', ')} (${vs.length} element(s)).`,
+      );
+      continue;
+    }
+    if (op.type === 'select_query') {
+      const scope = op.scope ? new Set(resolveIds(op.scope, s)) : null;
+      const matches = s.project.volumes.filter(
+        (v) =>
+          (!scope || scope.has(v.id)) &&
+          (op.role === null || componentInfo(v).role === op.role) &&
+          (op.level === null || v.component?.level === op.level) &&
+          (op.material === null || (v.material ?? 'solid') === op.material) &&
+          (op.nameContains === null ||
+            v.name
+              .toLocaleLowerCase()
+              .includes(op.nameContains.toLocaleLowerCase())) &&
+          (op.visible === null || isVisible(v, s.project) === op.visible),
+      );
+      if (!matches.length)
+        throw new Error(
+          'No elements match that component query. Inspect the current scene roles, levels and groups.',
+        );
+      focus(
+        s,
+        matches.map((v) => v.id),
+      );
+      reports.push(
+        `Selected ${matches.length} matching element(s): ${matches.map((v) => v.name).join(', ')}.`,
+      );
+      continue;
+    }
     if (op.type === 'select') {
       focus(s, resolveIds(op.targets, s));
       reports.push(`Selected ${s.context.focusIds.length} object(s).`);
@@ -319,7 +399,39 @@ export async function applyPlan(
         component: v.component ? { ...v.component } : undefined,
       }));
     beforeEdit ??= copyProject(s.project);
-    if (op.type === 'component') {
+    if (op.type === 'assembly') {
+      const result = constructAssembly(s.project, op);
+      if (result.newGroup)
+        s.project.groups = [...(s.project.groups ?? []), result.group];
+      s.project.volumes.push(...result.created);
+      s.context.lastCreatedIds = result.created.map((v) => v.id);
+      focus(s, s.context.lastCreatedIds);
+      reports.push(
+        `${op.name}: ${result.created.length} independently editable elements.`,
+        ...result.created.map(report),
+      );
+    } else if (op.type === 'design_note') {
+      const design = s.project.design ?? { views: [], options: [] };
+      const notes = [
+        ...(design.notes ?? []).filter((n) => n.topic !== op.topic),
+        { topic: op.topic, text: op.text, source: op.source },
+      ];
+      if (notes.length > 40)
+        throw new Error(
+          'Design memory has 40 topics. Update an existing topic instead.',
+        );
+      s.project.design = { ...design, notes };
+      reports.push(`Recorded ${op.source} design note: ${op.topic}.`);
+    } else if (op.type === 'material') {
+      const vs = targets(op.targets, s);
+      for (const v of vs)
+        s.project = updateVolume(s.project, v.id, { material: op.material });
+      focus(
+        s,
+        vs.map((v) => v.id),
+      );
+      reports.push(`Set ${vs.length} element(s) to ${op.material}.`);
+    } else if (op.type === 'component') {
       const ids = resolveIds(op.targets, s);
       const hostId = op.settings.hostId ? one(op.settings.hostId, s).id : null;
       if (hostId && ids.includes(hostId))
@@ -897,6 +1009,7 @@ export async function applyPlan(
         if (op.copy) created.push(next);
         else s.project = updateVolume(s.project, v.id, next);
       }
+      if (op.copy) remapCopiedHosts(vs, created);
       s.project.volumes.push(...created);
       const result = op.copy ? created : vs;
       if (op.copy) s.context.lastCreatedIds = created.map((v) => v.id);
@@ -950,6 +1063,8 @@ export async function applyPlan(
           validateVolume(copy);
           created.push(copy);
         }
+      for (let i = 0; i < created.length; i += vs.length)
+        remapCopiedHosts(vs, created.slice(i, i + vs.length));
       s.project.volumes.push(...created);
       s.context.lastCreatedIds = created.map((v) => v.id);
       focus(
@@ -1288,8 +1403,9 @@ export async function applyPlan(
           2;
       if (s.project.volumes.length + vs.length * op.count > MAX_VOLUMES)
         throw new Error('This workspace supports up to 200 objects.');
-      for (const v of vs)
-        for (let i = 1; i <= op.count; i++) {
+      for (let i = 1; i <= op.count; i++) {
+        const instance: Volume[] = [];
+        for (const v of vs) {
           const copy = {
             ...structuredClone(v),
             id: crypto.randomUUID(),
@@ -1305,7 +1421,10 @@ export async function applyPlan(
           };
           validateVolume(copy);
           created.push(copy);
+          instance.push(copy);
         }
+        remapCopiedHosts(vs, instance);
+      }
       s.project.volumes.push(...created);
       s.context.lastCreatedIds = created.map((v) => v.id);
       focus(s, [...vs.map((v) => v.id), ...created.map((v) => v.id)]);
@@ -1405,7 +1524,12 @@ export async function applyPlan(
       const result = await booleanVolume(vs[0], vs[1], op.operation);
       s.project.volumes = s.project.volumes
         .filter((v) => v.id !== vs[1].id)
-        .map((v) => (v.id === vs[0].id ? result : v));
+        .map((v) => (v.id === vs[0].id ? result : v))
+        .map((v) =>
+          v.component?.hostId === vs[1].id
+            ? { ...v, component: { ...v.component, hostId: null } }
+            : v,
+        );
       s.context.lastOperands = vs.map((v) => v.id);
       focus(s, [result.id]);
       reports.push(
