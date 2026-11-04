@@ -11,8 +11,14 @@ import type { ManifoldToplevel } from 'manifold-3d';
 import type { Dimensions, Vec3 } from '../model';
 import type { MeshRecipe } from '../imports/mesh';
 import { validatePolygon, type FootprintPoint } from './polygon';
+import {
+  parametricMesh,
+  validateParametric,
+  type ParametricDefinition,
+} from './parametric';
 
 export type FormDefinition =
+  | ParametricDefinition
   | {
       method: 'sweep';
       profile: FootprintPoint[];
@@ -31,8 +37,10 @@ const signedArea = (p: FootprintPoint[]) =>
     return s + a.x * b.z - b.x * a.z;
   }, 0);
 export function validateForm(d: FormDefinition) {
-  if (!d || !['sweep', 'loft'].includes(d.method))
+  if (!d || !['sweep', 'loft', 'revolve', 'profile'].includes(d.method))
     throw new Error('Unsupported form definition.');
+  if (d.method === 'revolve' || d.method === 'profile')
+    return validateParametric(d);
   if (d.method === 'sweep') {
     validatePolygon(d.profile);
     if (
@@ -100,6 +108,8 @@ export function formMesh(
   definition: FormDefinition,
 ): { mesh: MeshRecipe; dimensions: Dimensions } {
   validateForm(definition);
+  if (definition.method === 'revolve' || definition.method === 'profile')
+    return parametricMesh(m, definition);
   let rings: Vector3[][], profile: FootprintPoint[];
   if (definition.method === 'loft') {
     profile = definition.sections[0].points;

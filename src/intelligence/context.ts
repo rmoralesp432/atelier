@@ -1,7 +1,7 @@
 import type { ViewPose } from '../design/schema';
 import { componentInfo } from '../design/model';
 import { buildingSettings, isVisible } from '../model';
-import type { Project, Vec3 } from '../model';
+import type { Project, Vec3, Volume } from '../model';
 import { envelopeBounds, groupBounds, isFlat } from '../geometry/spatial';
 import { isReference } from '../imports/mesh';
 import { openingScale } from '../geometry/kernel';
@@ -60,6 +60,47 @@ function boundedDefinition(definition: unknown) {
   );
   return text.length <= 24000 ? text : null;
 }
+// Construction facts make retained cutters usable for follow-up edits. Never
+// include imported buffers, even when buried inside Boolean source operands.
+function constructionFacts(v: Volume) {
+  const g = v.geometry;
+  if (g?.kind === 'mesh' && g.openingSystem)
+    return { kind: 'opening-system', ...g.openingSystem };
+  const member = (o: Volume) => ({
+    id: o.id,
+    name: o.name,
+    shape: o.geometry?.kind ?? 'box',
+    dimensions: o.dimensions,
+    position: o.position,
+    rotation: o.rotation,
+    profile: o.geometry?.kind === 'form' ? o.geometry.definition : null,
+  });
+  if (g?.kind === 'boolean')
+    return {
+      kind: g.kind,
+      operation: g.operation,
+      origin: g.origin,
+      base: g.base,
+      opening: g.opening ?? false,
+      operands: g.operands.map(member),
+    };
+  if (g?.kind === 'hollow')
+    return {
+      kind: g.kind,
+      thickness: g.thickness,
+      openTop: g.openTop,
+      source: member(g.source),
+    };
+  if (g?.kind === 'oriented')
+    return {
+      kind: g.kind,
+      degrees: g.degrees,
+      origin: g.origin,
+      base: g.base,
+      source: member(g.source),
+    };
+  return null;
+}
 export function sceneContext(
   project: Project,
   conversation: ConversationContext,
@@ -69,10 +110,17 @@ export function sceneContext(
   // with a total payload budget (never send imported triangle buffers).
   let definitionBudget = 240000;
   const definitions = new Map<string, string>();
+  const constructions = new Map<string, string>();
   for (const v of [...project.volumes].sort(
     (a, b) =>
       Number(b.id === project.selectedId) - Number(a.id === project.selectedId),
   )) {
+    const facts = constructionFacts(v);
+    const construction = facts ? boundedDefinition(facts) : null;
+    if (construction && construction.length <= definitionBudget) {
+      constructions.set(v.id, construction);
+      definitionBudget -= construction.length;
+    }
     if (v.geometry?.kind !== 'form') continue;
     const text = boundedDefinition(v.geometry.definition);
     if (text && text.length <= definitionBudget) {
@@ -143,6 +191,7 @@ export function sceneContext(
           : null,
       display: v.display ?? null,
       formDefinition: definitions.get(v.id) ?? null,
+      construction: constructions.get(v.id) ?? null,
       opening: v.geometry?.kind === 'boolean' && v.geometry.opening === true,
       spatial: {
         envelopeBounds: envelopeBounds(v),

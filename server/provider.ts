@@ -261,6 +261,7 @@ export const requestSchema = z
                   .nullable()
                   .optional(),
                 formDefinition: z.string().max(24000).nullable().optional(),
+                construction: z.string().max(24000).nullable().optional(),
                 architecture: z
                   .object({
                     floors: z.number(),

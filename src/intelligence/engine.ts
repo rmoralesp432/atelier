@@ -1,6 +1,14 @@
 import { solarPosition } from '../studio/solar';
 import { solarDay, shadowOnLevelGround } from '../studio/solarAnalysis';
 import { constructAssembly, remapCopiedHosts } from './assembly';
+import {
+  profileVolume,
+  anchoredDimensions,
+  constrainedResize,
+  splitLevels,
+  bridgeVolume,
+  glazeOpening,
+} from './volumetric';
 import { isVisible } from '../model';
 import { equalData } from '../projects/equalData';
 import { furnishRoom } from '../design/layout';
@@ -436,6 +444,27 @@ async function applyTransaction(
       );
       continue;
     }
+    if (op.type === 'verify_relation') {
+      const vs = targets(op.targets, s);
+      if (vs.length !== 2)
+        throw new Error('A relation needs two distinct solids.');
+      const shared = await sharedVolume(vs[0], vs[1]);
+      const ok =
+        op.relation === 'disjoint'
+          ? shared <= op.tolerance
+          : op.relation === 'intersects'
+            ? shared > op.tolerance
+            : Math.abs((await solidStats(vs[0])).volume - shared) <=
+              op.tolerance;
+      if (!ok)
+        throw new Error(
+          `Verification failed: ${op.relation}; shared volume is ${round(shared)} m³. No changes committed.`,
+        );
+      reports.push(
+        `Verified ${op.relation}: shared solid volume ${round(shared)} m³. Boundary contact alone is not a volume intersection.`,
+      );
+      continue;
+    }
     if (op.type === 'select_query') {
       const scope = op.scope ? new Set(resolveIds(op.scope, s)) : null;
       const matches = s.project.volumes.filter(
@@ -478,7 +507,176 @@ async function applyTransaction(
         component: v.component ? { ...v.component } : undefined,
       }));
     beforeEdit ??= copyProject(s.project);
-    if (op.type === 'assembly') {
+    if (op.type === 'profile_solid') {
+      const vs = op.targets.length ? targets(op.targets, s) : [null];
+      const made: Volume[] = [];
+      for (const v of vs) made.push(await profileVolume(v, op));
+      for (const v of made) {
+        const index = s.project.volumes.findIndex((o) => o.id === v.id);
+        if (index >= 0) s.project.volumes[index] = v;
+        else {
+          v.name = uniqueName(v.name, s.project.volumes);
+          s.project.volumes.push(v);
+        }
+      }
+      focus(
+        s,
+        made.map((v) => v.id),
+      );
+      if (!op.targets.length) s.context.lastCreatedIds = made.map((v) => v.id);
+      reports.push(
+        `Created or replaced ${made.length} ${op.shape} section(s), extruded along local ${op.axis.toUpperCase()}. Existing identities and placements retained.`,
+        ...made.map(report),
+      );
+    } else if (op.type === 'glaze_opening') {
+      const wall = one(op.target, s);
+      if (isLocked(wall, s.project))
+        throw new Error('Unlock the wall group before adding glazing.');
+      const parts = await glazeOpening(wall, s.project.volumes, op);
+      const created: string[] = [];
+      for (const part of parts) {
+        const index = s.project.volumes.findIndex((v) => v.id === part.id);
+        if (index >= 0) s.project.volumes[index] = part;
+        else {
+          part.name = uniqueName(part.name, s.project.volumes);
+          s.project.volumes.push(part);
+          created.push(part.id);
+        }
+      }
+      if (created.length) s.context.lastCreatedIds = created;
+      focus(s, [wall.id]);
+      reports.push(
+        `Fitted editable glazing and a solid frame to the latest opening. Frame inset ${op.frameWidth} m, frame depth ${op.frameDepth} m, pane ${op.paneThickness} m.`,
+        ...parts.map(report),
+      );
+    } else if (op.type === 'opening_shape') {
+      const v = one(op.target, s),
+        g = v.geometry;
+      if (g?.kind !== 'boolean' || !g.opening)
+        throw new Error(
+          'Select the wall with the most recent editable opening.',
+        );
+      const [base, cutter] = g.operands;
+      const nextCutter = await profileVolume(cutter, {
+        type: 'profile_solid',
+        targets: [cutter.id],
+        name: cutter.name,
+        position: cutter.position,
+        dimensions: null,
+        axis: 'z',
+        shape: op.shape,
+        web: null,
+        flange: null,
+        points: null,
+      });
+      const result = await booleanVolume(base, nextCutter, 'subtract', true);
+      // Keep the outer transform: edits also work after moving/scaling the wall.
+      s.project = updateVolume(s.project, v.id, { geometry: result.geometry });
+      focus(s, [v.id]);
+      reports.push(
+        `Rebuilt the latest opening as ${op.shape}; earlier cuts and wall identity retained.`,
+      );
+    } else if (op.type === 'constrained_resize') {
+      const vs = targets(op.targets, s);
+      for (const v of vs) {
+        const next = constrainedResize(v, op);
+        if (op.preserveVolume) {
+          const before = (await solidStats(v)).volume,
+            after = (await solidStats(next)).volume;
+          if (Math.abs(before - after) > Math.max(1e-6, before * 1e-6))
+            throw new Error(
+              'The volume constraint could not be satisfied. Original geometry retained.',
+            );
+        }
+        s.project = updateVolume(s.project, v.id, {
+          dimensions: next.dimensions,
+          position: next.position,
+          // Explicit affine resize: do not regenerate shells at fixed thickness.
+          geometry: next.geometry,
+        });
+      }
+      focus(
+        s,
+        vs.map((v) => v.id),
+      );
+      reports.push(
+        `Resized ${vs.length} element(s) about the specified local anchor${op.preserveVolume ? ', preserving evaluated volume by compensating both other axes' : ''}.`,
+      );
+    } else if (op.type === 'split_levels') {
+      const v = one(op.target, s);
+      if (s.project.volumes.some((o) => o.component?.hostId === v.id))
+        throw new Error(
+          'This volume hosts editable components. Split an independent mass or explicitly reorganize its children first.',
+        );
+      if (s.project.volumes.length + op.levels.length - 1 > MAX_VOLUMES)
+        throw new Error('The level schedule exceeds the scene object limit.');
+      const pieces = await splitLevels(v, op);
+      s.project.volumes = s.project.volumes.flatMap((o) =>
+        o.id === v.id ? pieces : [o],
+      );
+      s.context.lastCreatedIds = pieces.map((v) => v.id);
+      focus(s, s.context.lastCreatedIds);
+      reports.push(
+        `Split into ${pieces.length} independently editable levels using real solid intersections. Original source retained in each recipe.`,
+        ...pieces.map(report),
+      );
+    } else if (op.type === 'progressive_array') {
+      const v = one(op.target, s);
+      if (s.project.volumes.some((o) => o.component?.hostId === v.id))
+        throw new Error(
+          'This element hosts components. Use a group array to preserve the assembly, or select an independent solid.',
+        );
+      if (s.project.volumes.length + op.count - 1 > MAX_VOLUMES)
+        throw new Error(
+          'The progressive array exceeds the scene object limit.',
+        );
+      const copies: Volume[] = [];
+      for (let i = 1; i < op.count; i++) {
+        const copy = anchoredDimensions(
+          v,
+          {
+            width: v.dimensions.width * op.scaleStep.x ** i,
+            height: v.dimensions.height * op.scaleStep.y ** i,
+            depth: v.dimensions.depth * op.scaleStep.z ** i,
+          },
+          op.anchor,
+          v.rotation + op.rotationStep * i,
+        );
+        copy.id = crypto.randomUUID();
+        copy.name = uniqueName(`${v.name} ${i + 1}`, [
+          ...s.project.volumes,
+          ...copies,
+        ]);
+        copy.position = {
+          x: copy.position.x + op.step.x * i,
+          y: copy.position.y + op.step.y * i,
+          z: copy.position.z + op.step.z * i,
+        };
+        if (copy.component)
+          copy.component = { ...copy.component, hostId: null };
+        validateVolume(copy);
+        copies.push(copy);
+      }
+      s.project.volumes.push(...copies);
+      s.context.lastCreatedIds = copies.map((v) => v.id);
+      focus(s, [v.id, ...s.context.lastCreatedIds]);
+      reports.push(
+        `${op.count} elements including the original; multiplicative scale increments and world-space spacing.`,
+        ...copies.map(report),
+      );
+    } else if (op.type === 'bridge') {
+      const vs = targets(op.targets, s);
+      if (vs.length !== 2)
+        throw new Error('Choose two different volumes to connect.');
+      const v = await bridgeVolume(vs[0], vs[1], op);
+      v.name = uniqueName(v.name, s.project.volumes);
+      s.project.volumes.push(v);
+      s.context.lastCreatedIds = [v.id];
+      focus(s, [v.id]);
+      reports.push(
+        `${report(v)} Verified a solid connection to both landings; this is geometric, not structural certification.`,
+      );
+    } else if (op.type === 'assembly') {
       const result = constructAssembly(s.project, op);
       if (result.newGroup)
         s.project.groups = [...(s.project.groups ?? []), result.group];
@@ -779,7 +977,11 @@ async function applyTransaction(
       reports.push(
         `${report(v)} Added ${op.side} ${ref.name}; both parts remain independently editable. Union can join them when needed.`,
       );
-    } else if (op.type === 'sweep' || op.type === 'loft') {
+    } else if (
+      op.type === 'sweep' ||
+      op.type === 'loft' ||
+      op.type === 'revolve'
+    ) {
       const previous = op.target ? one(op.target, s) : null;
       if (
         s.project.volumes.some(
@@ -795,7 +997,13 @@ async function applyTransaction(
               path: op.path,
               smooth: op.smooth,
             }
-          : { method: 'loft', sections: op.sections };
+          : op.type === 'loft'
+            ? { method: 'loft', sections: op.sections }
+            : {
+                method: 'revolve',
+                degrees: op.degrees,
+                profile: op.profile.map((p) => ({ x: p.radius, z: p.height })),
+              };
       const result = formMesh(await getKernel(), definition);
       const v: Volume = {
         ...(previous ??
@@ -1699,6 +1907,34 @@ async function applyTransaction(
       focus(s, []);
       reports.push(`Removed ${ids.length} object(s); undo is available.`);
     }
+    if (op.type === 'opening_shape' || op.type === 'edit_opening') {
+      const wall = one(op.target, s),
+        g = wall.geometry;
+      if (g?.kind === 'boolean' && g.opening) {
+        const previousPart = operationBefore.find(
+          (v) =>
+            v.component?.hostId === wall.id &&
+            v.geometry?.kind === 'mesh' &&
+            v.geometry.openingSystem?.cutterId === g.operands[1].id,
+        );
+        if (
+          previousPart?.geometry?.kind === 'mesh' &&
+          previousPart.geometry.openingSystem
+        ) {
+          const parts = await glazeOpening(
+            wall,
+            s.project.volumes,
+            previousPart.geometry.openingSystem,
+          );
+          s.project.volumes = s.project.volumes.map(
+            (v) => parts.find((p) => p.id === v.id) ?? v,
+          );
+          reports.push(
+            'Updated the linked glazing and frame to match, preserving their identities and stated inset/thickness.',
+          );
+        }
+      }
+    }
     if (
       [
         'move',
@@ -1708,6 +1944,8 @@ async function applyTransaction(
         'rotate',
         'rotate_group',
         'stretch',
+        'constrained_resize',
+        'profile_solid',
       ].includes(op.type)
     )
       s.project.volumes = propagateHosted(operationBefore, s.project.volumes);

@@ -1,5 +1,6 @@
 import { solarOperation } from '../studio/solarSchema';
 import { architecturalOperations } from './architectureSchema';
+import { volumetricOperations } from './volumetricSchema';
 import { designOperations } from '../design/schema';
 import { z } from 'zod';
 
@@ -85,6 +86,7 @@ const formPosition = point;
 export const operationSchema = z.discriminatedUnion('type', [
   ...designOperations,
   ...architecturalOperations,
+  ...volumetricOperations,
   solarOperation,
   z
     .object({
@@ -565,6 +567,10 @@ export const needsConfirmation = (plan: Plan) =>
       op.type === 'building' ||
       op.type === 'components' ||
       op.type === 'hollow' ||
+      op.type === 'opening_shape' ||
+      op.type === 'split_levels' ||
+      (op.type === 'profile_solid' && op.targets.length > 0) ||
+      (op.type === 'revolve' && op.target !== null) ||
       (op.type === 'attach' && op.liftExisting) ||
       ((op.type === 'sweep' || op.type === 'loft') && op.target !== null),
   );
