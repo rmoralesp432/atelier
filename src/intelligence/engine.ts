@@ -170,7 +170,28 @@ export function resolveIds(refs: string[], s: Session): string[] {
                       );
                     return [matches[0].id];
                   })()
-                : [ref],
+                : s.project.volumes.some((v) => v.id === ref)
+                  ? [ref]
+                  : (() => {
+                      // Exact human labels are safe only when unambiguous across
+                      // both namespaces. Never fuzzy-match a stale identifier.
+                      const volumes = s.project.volumes.filter(
+                        (v) => v.name === ref,
+                      );
+                      const groups = (s.project.groups ?? []).filter(
+                        (g) => g.name === ref,
+                      );
+                      if (volumes.length + groups.length === 0) return [ref];
+                      if (volumes.length + groups.length !== 1)
+                        throw new Error(
+                          'That reference is missing or ambiguous. Use an existing object ID, $name:Unique name or $group:Unique group.',
+                        );
+                      return volumes.length
+                        ? [volumes[0].id]
+                        : s.project.volumes
+                            .filter((v) => v.groupId === groups[0].id)
+                            .map((v) => v.id);
+                    })(),
   );
   if (!result.length)
     throw new Error(
@@ -899,18 +920,31 @@ async function applyTransaction(
       s.project = setObjectVisibility(s.project, 'all', true);
       reports.push('All objects and layers are visible.');
     } else if (op.type === 'group_create') {
-      if ((s.project.groups?.length ?? 0) >= 50)
+      const matching = (s.project.groups ?? []).filter(
+        (g) => g.name === op.name,
+      );
+      if (matching.length > 1)
+        throw new Error(
+          'That group name is ambiguous. Rename the duplicate groups before adding members.',
+        );
+      const existing = matching[0];
+      if (existing?.locked)
+        throw new Error('Unlock this group before adding members.');
+      if (!existing && (s.project.groups?.length ?? 0) >= 50)
         throw new Error('This project supports up to 50 groups.');
-      const ids = op.targets.length ? resolveIds(op.targets, s) : [],
-        id = crypto.randomUUID();
-      s.project.groups = [
-        ...(s.project.groups ?? []),
-        { id, name: op.name, visible: true, locked: false },
-      ];
+      const ids = op.targets.length ? resolveIds(op.targets, s) : [];
+      const id = existing?.id ?? crypto.randomUUID();
+      if (!existing)
+        s.project.groups = [
+          ...(s.project.groups ?? []),
+          { id, name: op.name, visible: true, locked: false },
+        ];
       s.project.volumes = s.project.volumes.map((v) =>
         ids.includes(v.id) ? { ...v, groupId: id } : v,
       );
-      reports.push(`Created group ${op.name} with ${ids.length} objects.`);
+      reports.push(
+        `${existing ? 'Added members to' : 'Created'} group ${op.name} with ${ids.length} selected objects.`,
+      );
     } else if (op.type === 'group_edit') {
       if (!s.project.groups?.some((g) => g.id === op.id))
         throw new Error('Which existing group should I change?');

@@ -74,6 +74,7 @@ export const designRequirement = z.union([
         'base',
         'top',
         'volume',
+        'thickness',
       ]),
       aggregation: z.enum(['each', 'sum', 'min', 'max', 'envelope']),
       comparison: z.enum(['equal', 'at_least', 'at_most']),
@@ -136,6 +137,12 @@ export const designBriefSchema = z
             properties: z
               .array(
                 z.enum([
+                  'width',
+                  'depth',
+                  'height',
+                  'x',
+                  'y',
+                  'z',
                   'dimensions',
                   'position',
                   'rotation',
@@ -149,7 +156,10 @@ export const designBriefSchema = z
                 ]),
               )
               .min(1)
-              .max(10),
+              .max(16)
+              .describe(
+                'Freeze complete listed properties. dimensions freezes width/depth/height together; position freezes x/y/z together. To change height but keep footprint, preserve width and depth only. To move horizontally but keep base elevation, preserve y only. Never freeze a property that the requested edit must change.',
+              ),
           })
           .strict(),
       )

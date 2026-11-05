@@ -14,6 +14,20 @@ const transient = new Set(['$selected', '$focus', '$created', '$operands']);
 /** Bind pronouns to the original user context, never a later model selection. */
 export function bindBrief(raw: DesignBrief, original: Session): DesignBrief {
   const brief = structuredClone(raw);
+  const shapes = brief.requirements.filter((r) => r.kind === 'shape');
+  for (let i = 0; i < shapes.length; i++)
+    for (const b of shapes.slice(i + 1)) {
+      const a = shapes[i];
+      const aliases = ['box', 'ellipse', 'i_section', 'polygon'];
+      const compatible =
+        a.shape === b.shape ||
+        (a.shape === 'extrusion' && aliases.includes(b.shape)) ||
+        (b.shape === 'extrusion' && aliases.includes(a.shape));
+      if (!compatible && equalData(a.selector, b.selector))
+        throw new Error(
+          `Contradictory final shape requirements: the same selection cannot be both ${a.shape} and ${b.shape}. A cut wall is a Boolean solid; check its outer dimensions separately, not shape:box. Correct the checklist before building.`,
+        );
+    }
   if (
     new Set(brief.requirements.map((r) => r.id)).size !==
     brief.requirements.length
@@ -93,13 +107,43 @@ export function bindBrief(raw: DesignBrief, original: Session): DesignBrief {
     if (
       r.kind === 'measure' &&
       r.aggregation === 'envelope' &&
-      ['volume', 'count'].includes(r.metric)
+      ['volume', 'count', 'thickness'].includes(r.metric)
     )
       throw new Error(
         'Envelope checks measure bounds, not solid volume or count.',
       );
   });
   return brief;
+}
+
+function preservedValue(
+  v: Volume,
+  property: DesignBrief['preserve'][number]['properties'][number],
+) {
+  switch (property) {
+    case 'width':
+    case 'depth':
+    case 'height':
+      return v.dimensions[property];
+    case 'x':
+    case 'y':
+    case 'z':
+      return v.position[property];
+    default:
+      return v[property];
+  }
+}
+function matchesShape(v: Volume, shape: string) {
+  if (semanticShape(v) === shape) return true;
+  const g = v.geometry;
+  // A polygon footprint extruded into a solid remains stored as polygon;
+  // linear profile solids retain their profile recipe. Both are extrusions.
+  return (
+    shape === 'extrusion' &&
+    !isFlat(v) &&
+    ((g?.kind === 'polygon' && g.extruded) ||
+      (g?.kind === 'form' && g.definition.method === 'profile'))
+  );
 }
 
 export function checkEditScope(
@@ -127,7 +171,7 @@ export function checkEditScope(
         next = after.get(id);
       if (!next) throw new Error(`Preserved element removed: ${before.name}.`);
       const changed = rule.properties.filter(
-        (p) => !equalData(before[p], next[p]),
+        (p) => !equalData(preservedValue(before, p), preservedValue(next, p)),
       );
       if (changed.length)
         throw new Error(
@@ -150,6 +194,27 @@ function select(s: DesignSelector, session: Session): Volume[] {
           .toLocaleLowerCase()
           .includes(s.nameContains.toLocaleLowerCase())),
   );
+}
+
+/** Retained shell thickness is distinct from its curved bounding height.
+ * Nonuniform scaling has orientation-dependent thickness, so it must not be
+ * reported as one constant. This is a nominal recipe check, not a mesh survey. */
+function shellThickness(v: Volume): number {
+  const g = v.geometry;
+  if (g?.kind !== 'form' || g.definition.method !== 'nurbs' || !g.base)
+    throw new Error(
+      'Thickness checks require a retained NURBS shell with known construction dimensions.',
+    );
+  const scales = [
+    v.dimensions.width / g.base.width,
+    v.dimensions.height / g.base.height,
+    v.dimensions.depth / g.base.depth,
+  ];
+  if (Math.max(...scales) - Math.min(...scales) > 1e-6)
+    throw new Error(
+      'Nonuniform scaling changes shell thickness by surface direction; a constant thickness cannot be verified.',
+    );
+  return g.definition.thickness * scales[0];
 }
 
 /** The model declares desired outcomes; only the geometry engine marks them met. */
@@ -259,14 +324,16 @@ export async function assessBrief(
           met = matched === expected && vs.length === expected;
           observed = `${matched}/${expected} required base-center positions occupied; ${vs.length} selected element(s), ${remaining.size} unmatched. Expected spacing (${r.step.x}, ${r.step.y}, ${r.step.z}) m at ${r.rotation}°.`;
         } else if (r.kind === 'shape') {
-          met = vs.length > 0 && vs.every((v) => semanticShape(v) === r.shape);
-          observed = `${vs.length} matching element(s); shapes: ${[...new Set(vs.map(semanticShape))].join(', ') || 'none'}; expected ${r.shape}.`;
+          met = vs.length > 0 && vs.every((v) => matchesShape(v, r.shape));
+          observed = `${vs.length} matching element(s); shapes: ${[...new Set(vs.map(semanticShape))].join(', ') || 'none'}; expected ${r.shape}${r.shape === 'extrusion' ? ' (including solid polygon/profile extrusions)' : ''}.`;
         } else {
           if (!vs.length && r.metric !== 'count')
             throw new Error('No matching elements exist for this requirement.');
           let values: number[];
           if (r.metric === 'count') values = [vs.length];
           else if (r.aggregation === 'envelope') {
+            if (r.metric === 'thickness')
+              throw new Error('Thickness cannot be measured from an envelope.');
             const b = groupBounds(vs);
             values = [
               r.metric === 'base'
@@ -283,15 +350,17 @@ export async function assessBrief(
             const metric = r.metric;
             values = await Promise.all(
               vs.map(async (v) =>
-                metric === 'volume'
-                  ? volume(v)
-                  : metric === 'base'
-                    ? v.position.y
-                    : metric === 'top'
-                      ? v.position.y + (isFlat(v) ? 0 : v.dimensions.height)
-                      : metric === 'height' && isFlat(v)
-                        ? 0
-                        : v.dimensions[metric],
+                metric === 'thickness'
+                  ? shellThickness(v)
+                  : metric === 'volume'
+                    ? volume(v)
+                    : metric === 'base'
+                      ? v.position.y
+                      : metric === 'top'
+                        ? v.position.y + (isFlat(v) ? 0 : v.dimensions.height)
+                        : metric === 'height' && isFlat(v)
+                          ? 0
+                          : v.dimensions[metric],
               ),
             );
             if (r.aggregation === 'sum')

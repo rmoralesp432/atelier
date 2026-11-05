@@ -152,6 +152,31 @@ export async function stagedPlan(
     stages = 0,
     finalPlan: Plan | undefined;
   let brief: DesignBrief | undefined, declaredBrief: DesignBrief | undefined;
+  let scopeOriginal = original;
+  let historyPrefix: Plan['operations'] = [];
+  const leadingHistory = (plan: Plan) => {
+    const prefix: Plan['operations'] = [];
+    for (const op of plan.operations) {
+      if (op.type !== 'undo' && op.type !== 'redo') break;
+      prefix.push(op);
+    }
+    return prefix;
+  };
+  const sameAgreement = (candidate: DesignBrief) => {
+    // New provisional parts were never protected original project objects.
+    // Listing them explicitly does not expand permission over the originals.
+    const originalIds = new Set(scopeOriginal.project.volumes.map((v) => v.id));
+    const provisionalIds = new Set(
+      session.project.volumes
+        .filter((v) => !originalIds.has(v.id))
+        .map((v) => v.id),
+    );
+    const normalized = {
+      ...candidate,
+      editable: candidate.editable.filter((id) => !provisionalIds.has(id)),
+    };
+    return equalData(normalized, declaredBrief) || equalData(normalized, brief);
+  };
   let assessment: BriefAssessment[] = [],
     continuationFeedback: ValidationFeedback | undefined;
   const unmet = () => assessment.filter((r) => !r.met);
@@ -201,11 +226,7 @@ export async function stagedPlan(
           feedback.brief = brief;
           continue;
         }
-        if (
-          plan.brief &&
-          !equalData(plan.brief, declaredBrief) &&
-          !equalData(plan.brief, brief)
-        )
+        if (plan.brief && !sameAgreement(plan.brief))
           throw new Error(
             'The final answer changed the agreed design brief. No changes were applied.',
           );
@@ -240,10 +261,7 @@ export async function stagedPlan(
       try {
         if (plan.brief) {
           if (brief) {
-            if (
-              !equalData(plan.brief, declaredBrief) &&
-              !equalData(plan.brief, brief)
-            )
+            if (!sameAgreement(plan.brief))
               throw new Error(
                 'The agreed design brief cannot be weakened or replaced during a request. Use execution.brief and correct the geometry.',
               );
@@ -252,7 +270,23 @@ export async function stagedPlan(
               throw new Error(
                 'Declare the design brief before creating geometry, not after seeing the result.',
               );
-            brief = bindBrief(plan.brief, original);
+            historyPrefix = leadingHistory(plan);
+            scopeOriginal = historyPrefix.length
+              ? (
+                  await applyPlan(
+                    original,
+                    {
+                      ...plan,
+                      operations: historyPrefix,
+                      brief: null,
+                      planning: null,
+                    },
+                    camera,
+                    true,
+                  )
+                ).session
+              : original;
+            brief = bindBrief(plan.brief, scopeOriginal);
             declaredBrief = structuredClone(plan.brief);
           }
         } else if (plan.brief === null && !brief && needsBrief(plan, session)) {
@@ -262,8 +296,12 @@ export async function stagedPlan(
             'This modeling request needs a brief with edit scope and measurable requirements before construction.',
           );
         }
+        if (brief && !stages && !equalData(leadingHistory(plan), historyPrefix))
+          throw new Error(
+            'Keep the agreed Undo/Redo prefix while correcting this request.',
+          );
         const result = await applyPlan(session, plan, camera, true);
-        if (brief) checkEditScope(brief, original, result.session);
+        if (brief) checkEditScope(brief, scopeOriginal, result.session);
         checkAbort();
         const stageOperations = plan.operations.map((op) =>
           freezeWorkspaceOperation(op, result.session),
@@ -353,7 +391,7 @@ export async function stagedPlan(
   if (assumptions.size)
     reports.push(`Design assumptions:\n${[...assumptions].join('\n')}`);
   if (brief) {
-    checkEditScope(brief, original, session);
+    checkEditScope(brief, scopeOriginal, session);
     if (unmet().length) throw incompleteDesign();
     reports.push(
       `Design brief checked: ${brief.objective}`,

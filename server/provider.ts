@@ -321,6 +321,10 @@ export interface Provider {
 export function createProvider(
   key: string,
   fetchOverride?: typeof fetch,
+  options: {
+    textApi?: 'responses' | 'chat_completions';
+    maxOutputTokens?: number;
+  } = {},
 ): Provider {
   const client = new OpenAI({
     apiKey: key,
@@ -331,69 +335,137 @@ export function createProvider(
   return {
     async plan(input, signal) {
       const model = process.env.ATELIER_TEXT_MODEL || 'gpt-4.1';
-      const response = await client.responses.create(
-        {
-          model,
-          ...(model.startsWith('gpt-5')
-            ? { reasoning: { effort: 'medium' as const } }
-            : {}),
-          store: false,
-          max_output_tokens: 16000,
-          instructions:
-            SYSTEM_PROMPT +
-            SPATIAL_PROMPT +
-            FORM_PROMPT +
-            ARCHITECTURAL_PROMPT +
-            REASONING_PROMPT,
-          input: [
-            ...input.history.map((m) => ({
-              role: m.role,
-              content:
-                m.images?.length && m.role === 'user'
-                  ? [
-                      { type: 'input_text' as const, text: m.content },
-                      ...m.images.map((image_url) => ({
-                        type: 'input_image' as const,
-                        image_url,
-                        detail: 'high' as const,
-                      })),
-                    ]
-                  : m.content,
-            })),
-            {
-              role: 'user',
-              content: [
-                {
-                  type: 'input_text' as const,
-                  text: JSON.stringify({
-                    instruction: input.message,
-                    execution: input.execution ?? null,
-                    validationFeedback: input.validationFeedback ?? null,
-                    workspace: input.workspace ?? null,
-                    scene: input.scene,
-                    pendingReview: input.pendingReview ?? null,
-                    historyAvailability: input.historyAvailability ?? null,
-                  }),
-                },
-                ...(input.images ?? []).map((image_url) => ({
-                  type: 'input_image' as const,
-                  image_url,
-                  detail: 'high' as const,
-                })),
-              ],
-            },
-          ],
-          text: {
-            format: {
-              type: 'json_schema',
-              name: 'atelier_plan',
-              strict: true,
-              schema: planJsonSchema,
-            },
+      const request = {
+        model,
+        ...(model.startsWith('gpt-5')
+          ? { reasoning: { effort: 'medium' as const } }
+          : {}),
+        store: false,
+        max_output_tokens: Math.max(
+          1000,
+          Math.min(16000, options.maxOutputTokens ?? 16000),
+        ),
+        instructions:
+          SYSTEM_PROMPT +
+          SPATIAL_PROMPT +
+          FORM_PROMPT +
+          ARCHITECTURAL_PROMPT +
+          REASONING_PROMPT,
+        input: [
+          ...input.history.map((m) => ({
+            role: m.role,
+            content:
+              m.images?.length && m.role === 'user'
+                ? [
+                    { type: 'input_text' as const, text: m.content },
+                    ...m.images.map((image_url) => ({
+                      type: 'input_image' as const,
+                      image_url,
+                      detail: 'high' as const,
+                    })),
+                  ]
+                : m.content,
+          })),
+          {
+            role: 'user',
+            content: [
+              {
+                type: 'input_text' as const,
+                text: JSON.stringify({
+                  instruction: input.message,
+                  execution: input.execution ?? null,
+                  validationFeedback: input.validationFeedback ?? null,
+                  workspace: input.workspace ?? null,
+                  scene: input.scene,
+                  pendingReview: input.pendingReview ?? null,
+                  historyAvailability: input.historyAvailability ?? null,
+                }),
+              },
+              ...(input.images ?? []).map((image_url) => ({
+                type: 'input_image' as const,
+                image_url,
+                detail: 'high' as const,
+              })),
+            ],
+          },
+        ],
+        text: {
+          format: {
+            type: 'json_schema',
+            name: 'atelier_plan',
+            strict: true,
+            schema: planJsonSchema,
           },
         },
-        { signal },
-      );
+      } satisfies OpenAI.Responses.ResponseCreateParamsNonStreaming;
+      if (options.textApi === 'chat_completions') {
+        const messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[] = [
+          { role: 'system', content: request.instructions },
+          ...request.input.map(
+            (message): OpenAI.Chat.Completions.ChatCompletionMessageParam => {
+              if (message.role === 'assistant')
+                return {
+                  role: 'assistant',
+                  content:
+                    typeof message.content === 'string'
+                      ? message.content
+                      : message.content
+                          .filter((p) => p.type === 'input_text')
+                          .map((p) => p.text)
+                          .join('\n'),
+                };
+              return {
+                role: 'user',
+                content:
+                  typeof message.content === 'string'
+                    ? message.content
+                    : message.content.map((part) =>
+                        part.type === 'input_text'
+                          ? { type: 'text' as const, text: part.text }
+                          : {
+                              type: 'image_url' as const,
+                              image_url: {
+                                url: part.image_url,
+                                detail: part.detail,
+                              },
+                            },
+                      ),
+              };
+            },
+          ),
+        ];
+        const completion = await client.chat.completions.create(
+          {
+            model,
+            store: false,
+            max_completion_tokens: request.max_output_tokens,
+            ...(model.startsWith('gpt-5')
+              ? { reasoning_effort: 'medium' as const }
+              : {}),
+            messages,
+            response_format: {
+              type: 'json_schema',
+              json_schema: {
+                name: 'atelier_plan',
+                strict: true,
+                schema: planJsonSchema,
+              },
+            },
+          },
+          { signal },
+        );
+        const choice = completion.choices[0];
+        if (
+          choice?.finish_reason !== 'stop' ||
+          !choice.message.content ||
+          choice.message.refusal
+        )
+          throw new Error(
+            'The model did not return a complete plan. No geometry was changed.',
+          );
+        return parsePlan(JSON.parse(choice.message.content));
+      }
+      const response = await client.responses.create(request, { signal });
       if (response.status !== 'completed' || !response.output_text)
         throw new Error(
           'The model did not return a complete plan. No geometry was changed.',

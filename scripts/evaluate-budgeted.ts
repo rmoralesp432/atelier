@@ -6,10 +6,12 @@
 import assert from 'node:assert/strict';
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { createProvider } from '../server/provider';
+import { parsePlan } from '../src/intelligence/plan';
 import { stagedPlan } from '../src/intelligence/checkedPlanner';
 import { newSession, type Session } from '../src/intelligence/engine';
 import { defaultCamera, sceneContext } from '../src/intelligence/context';
 import { solidStats, isProfile } from '../src/geometry/kernel';
+import { equalData } from '../src/projects/equalData';
 import { makeVolume, type Volume } from '../src/model';
 
 const folder = '/tmp/atelier-budgeted-evaluation';
@@ -20,27 +22,35 @@ const ledger: { calls: any[]; results: any[] } = existsSync(ledgerPath)
   : { calls: [], results: [] };
 const persist = () =>
   writeFileSync(ledgerPath, JSON.stringify(ledger, null, 2));
-const charged = () => ledger.calls.reduce((s, c) => s + c.reserved, 0);
+const charged = () =>
+  ledger.calls.reduce((s, c) => s + (c.estimated ?? c.reserved), 0);
 const estimated = () =>
   ledger.calls.reduce((s, c) => s + (c.estimated ?? 0), 0);
+const replay = process.argv.includes('--replay');
 let currentCase = '',
   caseCalls = 0;
 const paidFetch: typeof fetch = async (url, init) => {
+  assert(!replay, 'Replay must never spend credits');
   assert(
-    String(url) === 'https://api.openai.com/v1/responses',
+    String(url) === 'https://api.openai.com/v1/chat/completions',
     'Unexpected paid endpoint',
   );
   assert(typeof init?.body === 'string');
   const body = JSON.parse(init.body);
   assert(body.model === 'gpt-4.1');
-  assert(body.max_output_tokens <= 16000);
+  assert(body.max_completion_tokens <= 16000);
   // Body includes system prompt, schema, scene and image bytes. UTF-8 bytes
   // upper-bound text tokens; add 4096 for serialization/tokenizer overhead.
   const reserve =
     1.25 *
     ((Buffer.byteLength(init.body) + 4096) * 0.000002 +
-      body.max_output_tokens * 0.000008);
-  if (charged() + reserve > 2.8 || ledger.calls.length >= 40 || ++caseCalls > 5)
+      body.max_completion_tokens * 0.000008);
+  if (
+    estimated() >= 2.9 ||
+    charged() + reserve > 3.4 ||
+    ledger.calls.length >= 60 ||
+    ++caseCalls > 5
+  )
     throw new Error(
       'Evaluation budget reached before sending another paid request.',
     );
@@ -62,12 +72,13 @@ const paidFetch: typeof fetch = async (url, init) => {
   if (data.usage) {
     item.usage = data.usage;
     item.estimated =
-      data.usage.input_tokens * 0.000002 + data.usage.output_tokens * 0.000008;
+      data.usage.prompt_tokens * 0.000002 +
+      data.usage.completion_tokens * 0.000008;
     item.reserved = item.estimated * 1.25;
   }
   // Never log headers, credentials or authentication error bodies.
   if (response.status === 400) item.schemaError = data.error?.message;
-  item.output = data.output;
+  item.output = data.choices;
   persist();
   return response;
 };
@@ -75,6 +86,7 @@ process.env.ATELIER_TEXT_MODEL = 'gpt-4.1';
 const provider = createProvider(
   process.env.ATELIER_OPENAI_API_KEY ?? '',
   paidFetch,
+  { textApi: 'chat_completions', maxOutputTokens: 6000 },
 );
 const near = (actual: number, expected: number, tolerance = 0.02) =>
   assert(
@@ -110,6 +122,17 @@ async function design(s: Session, message: string) {
     s,
     defaultCamera,
     async (working, validationFeedback, execution) => {
+      if (replay) {
+        if (++caseCalls > 1)
+          throw new Error(
+            'Saved first response needs additional corrections; replay stops without network.',
+          );
+        return parsePlan(
+          JSON.parse(
+            readFileSync(`${folder}/${currentCase}-plan-1.json`, 'utf8'),
+          ),
+        );
+      }
       const plan = await provider.plan({
         message,
         scene: sceneContext(working.project, working.context, defaultCamera),
@@ -147,6 +170,98 @@ async function design(s: Session, message: string) {
   return result;
 }
 const cases: Record<string, () => Promise<void>> = {
+  async grid_ipr() {
+    const r = await design(
+      blank(),
+      'Crea una retícula de 3 líneas por 3 líneas, separadas 12 metros, centrada en el origen. En cada uno de sus 9 cruces coloca una columna IPR de 4 metros de altura, con sección exterior de 30 por 30 cm, alma de 12 mm y patines de 20 mm. Cada columna debe ser una sección I real, no un prisma rectangular. Apóyalas en el suelo y agrúpalas como Estructura.',
+    );
+    const vs = r.prepared!.session.project.volumes;
+    assert.equal(vs.length, 9);
+    const occupied = new Set<string>();
+    for (const v of vs) {
+      near(v.dimensions.width, 0.3);
+      near(v.dimensions.depth, 0.3);
+      near(v.dimensions.height, 4);
+      near(v.position.y, 0);
+      assert(
+        v.geometry?.kind === 'form' &&
+          v.geometry.definition.method === 'profile' &&
+          v.geometry.definition.shape === 'i_section',
+        'Expected retained I-section',
+      );
+      near(
+        (await solidStats(v)).volume,
+        (2 * 0.3 * 0.02 + (0.3 - 2 * 0.02) * 0.012) * 4,
+        0.001,
+      );
+      for (const n of [v.position.x, v.position.z])
+        assert([-12, 0, 12].some((e) => Math.abs(n - e) < 0.01));
+      occupied.add(`${v.position.x},${v.position.z}`);
+    }
+    assert.equal(occupied.size, 9);
+  },
+  async mixed_levels() {
+    const r = await design(
+      blank(),
+      'Crea un edificio volumétrico de 5 plantas ocupadas, de 20 por 12 metros. Las dos primeras plantas tienen cada una una altura entre niveles de 8 metros (doble altura); las tres restantes tienen cada una 4 metros. Las caras superiores de las losas ocupadas deben estar a 0.2, 8.2, 16.2, 20.2 y 24.2 metros. Cubierta con base a 28 metros. Todas las losas de 20 cm. Crea las losas y cubierta como componentes separados y editables. No añadas fachada, columnas ni detalles en esta primera prueba.',
+    );
+    const vs = r.prepared!.session.project.volumes;
+    const slabs = vs
+      .filter((v) => v.component?.role === 'floor')
+      .sort((a, b) => a.position.y - b.position.y);
+    assert.equal(slabs.length, 5);
+    const bases = [0, 8, 16, 20, 24];
+    slabs.forEach((v, i) => {
+      near(v.position.y, bases[i]);
+      near(v.dimensions.height, 0.2);
+      near(v.dimensions.width, 20);
+      near(v.dimensions.depth, 12);
+    });
+    const roofs = vs.filter((v) => v.component?.role === 'roof');
+    assert.equal(roofs.length, 1);
+    near(roofs[0].position.y, 28);
+    assert.equal(vs.length, 6);
+  },
+  async bridge() {
+    const s = seeded(box('East', 8, 8, 6, 10), box('West', 8, 8, 6, -10));
+    const r = await design(
+      s,
+      'Añade una pasarela recta de 3 metros de ancho y 30 cm de espesor que conecte East con West a nivel de cubierta. El tablero debe tener su cara superior a 6 metros. Une sus caras enfrentadas, sin mover ni modificar los dos edificios. No añadas barandales.',
+    );
+    const vs = r.prepared!.session.project.volumes;
+    assert.equal(vs.length, 3);
+    for (const v of s.project.volumes)
+      assert(
+        equalData(
+          v,
+          vs.find((n) => n.id === v.id),
+        ),
+      );
+    const link = vs.find((v) => !s.project.volumes.some((n) => n.id === v.id))!;
+    near(link.position.y + link.dimensions.height, 6);
+    near(link.dimensions.height, 0.3);
+    near(link.position.x, 0);
+    near(link.position.z, 0);
+    near(link.dimensions.width * link.dimensions.depth, 12 * 3);
+  },
+  async window() {
+    const r = await design(
+      blank(),
+      'Crea un muro llamado Muro de 8 metros de ancho, 30 cm de espesor y 4 metros de alto, en el suelo. Abre un hueco circular de 2 metros de diámetro centrado horizontalmente, con el centro a 2 metros de altura. Añade vidrio de 2 cm y marco circular de 8 cm de ancho y 10 cm de profundidad, como componentes independientes vinculados al muro. Confirmo el corte.',
+    );
+    const vs = r.prepared!.session.project.volumes;
+    const wall = vs.find((v) => v.name === 'Muro');
+    assert(wall);
+    near((await solidStats(wall)).volume, 8 * 0.3 * 4 - Math.PI * 0.3, 0.04);
+    assert(
+      vs.some((v) => v.material === 'glass' && v.component?.hostId === wall.id),
+    );
+    assert(
+      vs.some(
+        (v) => v.component?.role === 'frame' && v.component?.hostId === wall.id,
+      ),
+    );
+  },
   async dimensions() {
     const r = await design(
       blank(),
@@ -249,7 +364,7 @@ const cases: Record<string, () => Promise<void>> = {
         near(n.dimensions.depth, 0.4);
         near(n.dimensions.height, v.dimensions.height);
         assert.deepEqual(n.position, v.position);
-      } else assert.deepEqual(n, v);
+      } else assert(equalData(n, v), `Unrelated component changed: ${v.name}`);
     }
   },
   async organic() {
@@ -290,20 +405,21 @@ const cases: Record<string, () => Promise<void>> = {
       'display_hidden_line',
     ])
       assert(actions.includes(action as any), `Missing ${action}`);
-    assert.deepEqual(r.prepared!.session.project.volumes, s.project.volumes);
+    assert(equalData(r.prepared!.session.project.volumes, s.project.volumes));
   },
 };
 const requested = process.argv
   .filter((v) => v.startsWith('--case='))
   .map((v) => v.slice(7));
-if (!process.argv.includes('--live')) {
+if (!process.argv.includes('--live') && !replay) {
   console.log(
     JSON.stringify(
       {
         cases: Object.keys(cases),
         targetUSD: 2,
-        conservativeLedgerLimitUSD: 2.8,
-        maximumAuthorizedUSD: 3,
+        targetStopUSD: 2.9,
+        conservativeLedgerLimitUSD: 3.4,
+        maximumAuthorizedUSD: 4,
         estimatedUSD: estimated(),
       },
       null,
@@ -326,14 +442,22 @@ for (const name of requested) {
     await cases[name]();
     ledger.results.push({
       case: name,
+      mode: replay ? 'offline replay of live response' : 'live',
       status: 'PASS',
       seconds: (Date.now() - start) / 1000,
     });
   } catch (e) {
-    const error = e as any;
+    const wrapped = e as any;
+    const error = wrapped.cause?.message?.includes('Evaluation budget')
+      ? wrapped.cause
+      : wrapped;
     ledger.results.push({
       case: name,
-      status: 'FAIL',
+      mode: replay ? 'offline replay of live response' : 'live',
+      status:
+        error.message?.includes('Evaluation budget') || error.code === 'ENOENT'
+          ? 'BLOCKED'
+          : 'FAIL',
       seconds: (Date.now() - start) / 1000,
       error: error.status
         ? `Provider ${error.status} ${error.code ?? ''}`

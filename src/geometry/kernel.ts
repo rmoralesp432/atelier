@@ -654,9 +654,9 @@ export async function booleanVolume(
     };
     const v: Volume = {
       ...a,
-      name: opening
-        ? `${a.name.slice(0, 60)} · opening`
-        : `${operation} · ${a.name.slice(0, 60)}`,
+      // Keep the user's stable label so later operations in the same turn can
+      // still address this object. The recipe and receipts describe the cut.
+      name: a.name,
       position: origin,
       rotation: 0,
       dimensions: base,
