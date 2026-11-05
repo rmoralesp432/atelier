@@ -25,10 +25,10 @@ test('idle orbs visibly animate without AI or microphone, on the minimal entranc
     page.getByRole('heading', { name: 'Space for your ideas.' }),
   ).toBeVisible();
   await expect(page.locator('.start-wordmark svg')).toBeVisible();
-  const caustic = page.locator('.orb-large .orb-caustic');
-  const first = await caustic.evaluate((e) => getComputedStyle(e).transform);
+  const core = page.locator('.orb-large .orb-core');
+  const first = await core.evaluate((e) => getComputedStyle(e).transform);
   await expect
-    .poll(() => caustic.evaluate((e) => getComputedStyle(e).transform))
+    .poll(() => core.evaluate((e) => getComputedStyle(e).transform))
     .not.toBe(first);
   await page.screenshot({ path: 'test-results/quiet-welcome-desktop.png' });
   await page.setViewportSize({ width: 390, height: 844 });
@@ -47,13 +47,11 @@ test('idle orbs visibly animate without AI or microphone, on the minimal entranc
     'rgba(0, 0, 0, 0)',
   );
   const before = await dock
-    .locator('.orb-caustic')
+    .locator('.orb-core')
     .evaluate((e) => getComputedStyle(e).transform);
   await expect
     .poll(() =>
-      dock
-        .locator('.orb-caustic')
-        .evaluate((e) => getComputedStyle(e).transform),
+      dock.locator('.orb-core').evaluate((e) => getComputedStyle(e).transform),
     )
     .not.toBe(before);
   await expect(dock.locator('.audio-orb')).toHaveAttribute(

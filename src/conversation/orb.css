@@ -4,81 +4,53 @@
   position: relative;
   width: 58px;
   height: 58px;
-  border-radius: 50%;
   isolation: isolate;
-  background:
-    radial-gradient(
-      ellipse at 30% 22%,
-      #ffffffef 0%,
-      #f8fafb55 24%,
-      transparent 43%
-    ),
-    radial-gradient(ellipse at 65% 75%, #abb9c599, #53616e55 40%, #e4e9ed55 70%);
-  box-shadow:
-    inset 1px 1px 3px #fff,
-    inset -2px -3px 6px #35424f66,
-    0 7px 20px #26364924;
-  transform: scale(calc(1 + var(--orb-energy) * 0.12));
+  /* The wrapper is only a hit area: no enclosing sphere, rim or glass shell. */
+  transform: scale(calc(1 + var(--orb-energy) * 0.2));
   transition: transform 80ms linear;
 }
 .orb-large {
   width: 164px;
   height: 164px;
 }
-.audio-orb > span {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-}
 .orb-core {
-  inset: 18%;
-  background: radial-gradient(
-    ellipse at 35% 25%,
-    #dbe8ed,
-    #8ba2ae 35%,
-    #475663 75%
-  );
-  box-shadow: 0 0 14px #e1eff0bb;
-  transform: scale(calc(0.8 + var(--orb-energy) * 0.35));
-  opacity: 0.8;
-  filter: blur(4px);
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  filter: blur(1px);
+  animation: orb-flow 8s ease-in-out infinite;
 }
-.orb-caustic {
-  inset: 8%;
-  border: 2px solid #ffffffb0;
-  border-left-color: transparent;
-  border-top-color: #ffffff22;
-  transform: rotate(-30deg) scaleX(0.8);
-  box-shadow: inset 0 -4px 7px #d5f0edb0;
-}
-.orb-rim {
-  inset: 2%;
-  border: 1px solid #ffffffa0;
-  box-shadow: inset 0 1px 7px #fff9;
-}
-.orb-highlight {
-  left: 20%;
-  top: 10%;
-  width: 38%;
-  height: 17%;
-  background: #ffffffe8;
+.orb-large .orb-core {
   filter: blur(2px);
-  transform: rotate(-30deg);
 }
-.audio-orb[data-state='thinking'] .orb-caustic {
-  animation: orb-consider 3s linear infinite;
+.audio-orb[data-state='thinking'] .orb-core {
+  animation-duration: 4s;
 }
 .audio-orb[data-state='speaking'] .orb-core {
-  background: radial-gradient(
-    ellipse at 35% 25%,
-    #f3eee2,
-    #a5b9bb 40%,
-    #586a79 80%
-  );
+  filter: blur(1px) brightness(1.08);
 }
-@keyframes orb-consider {
-  to {
-    transform: rotate(330deg) scaleX(0.8);
+/* A single continuous silhouette folds and relaxes. Idle motion is unrelated
+   to microphone activity; measured speech adds energy through the wrapper. */
+@keyframes orb-flow {
+  0%,
+  100% {
+    transform: translate(-3%, 2%) rotate(-12deg) scale(1.04, 0.88)
+      skew(-5deg, 3deg);
+  }
+  25% {
+    transform: translate(3%, -4%) rotate(10deg) scale(0.91, 1.08)
+      skew(6deg, -4deg);
+  }
+  50% {
+    transform: translate(-2%, 4%) rotate(22deg) scale(1.1, 0.9)
+      skew(-8deg, 5deg);
+  }
+  75% {
+    transform: translate(4%, -2%) rotate(-5deg) scale(0.94, 1.06)
+      skew(5deg, -6deg);
   }
 }
 .orb-dock {
@@ -185,45 +157,6 @@
   }
 }
 
-/* Ambient motion is separate from measured audio: an idle orb never implies
-   the microphone is on. CSS keeps the resting companion off the JS frame loop. */
-.audio-orb .orb-caustic {
-  animation: orb-drift 11s linear infinite;
-}
-.audio-orb .orb-core {
-  animation: orb-breathe 6s ease-in-out infinite;
-}
-.audio-orb .orb-highlight {
-  animation: orb-light 8s ease-in-out infinite alternate;
-}
-@keyframes orb-drift {
-  0% {
-    transform: rotate(-30deg) scaleX(0.8);
-  }
-  50% {
-    transform: rotate(150deg) scaleX(0.65);
-  }
-  100% {
-    transform: rotate(330deg) scaleX(0.8);
-  }
-}
-@keyframes orb-breathe {
-  0%,
-  100% {
-    transform: translate(-3%, 2%) scale(calc(0.78 + var(--orb-energy) * 0.35));
-    border-radius: 48% 52% 58% 42%;
-  }
-  50% {
-    transform: translate(4%, -4%) scale(calc(0.94 + var(--orb-energy) * 0.35));
-    border-radius: 58% 42% 47% 53%;
-  }
-}
-@keyframes orb-light {
-  to {
-    transform: translate(15%, 22%) rotate(-5deg);
-    opacity: 0.65;
-  }
-}
 .orb-dock,
 .theme-day .orb-dock,
 .theme-night .orb-dock {
