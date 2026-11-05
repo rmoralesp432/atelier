@@ -6,7 +6,7 @@
   height: 58px;
   isolation: isolate;
   /* The wrapper is only a hit area: no enclosing sphere, rim or glass shell. */
-  transform: scale(calc(1 + var(--orb-energy) * 0.2));
+  transform: scale(calc(1 + var(--orb-energy) * 0.12));
   transition: transform 80ms linear;
 }
 .orb-large {
@@ -20,37 +20,27 @@
   height: 100%;
   overflow: visible;
   pointer-events: none;
-  filter: blur(1px);
-  animation: orb-flow 8s ease-in-out infinite;
-}
-.orb-large .orb-core {
-  filter: blur(2px);
+  filter: drop-shadow(0 3px 5px #354d631a);
+  animation: orb-flow 18s ease-in-out infinite;
 }
 .audio-orb[data-state='thinking'] .orb-core {
-  animation-duration: 4s;
+  animation-duration: 12s;
 }
-.audio-orb[data-state='speaking'] .orb-core {
-  filter: blur(1px) brightness(1.08);
-}
-/* A single continuous silhouette folds and relaxes. Idle motion is unrelated
-   to microphone activity; measured speech adds energy through the wrapper. */
+/* A nearly circular surface gently yields without tumbling or broad wobble.
+   Idle motion is separate from the measured audio response. */
 @keyframes orb-flow {
   0%,
   100% {
-    transform: translate(-3%, 2%) rotate(-12deg) scale(1.04, 0.88)
-      skew(-5deg, 3deg);
+    transform: translate(0, 0) rotate(-2deg) scale(1, 0.99);
   }
   25% {
-    transform: translate(3%, -4%) rotate(10deg) scale(0.91, 1.08)
-      skew(6deg, -4deg);
+    transform: translate(0.5%, -0.7%) rotate(1deg) scale(0.99, 1.01);
   }
   50% {
-    transform: translate(-2%, 4%) rotate(22deg) scale(1.1, 0.9)
-      skew(-8deg, 5deg);
+    transform: translate(-0.5%, 0.7%) rotate(2deg) scale(1.01, 0.99);
   }
   75% {
-    transform: translate(4%, -2%) rotate(-5deg) scale(0.94, 1.06)
-      skew(5deg, -6deg);
+    transform: translate(0.5%, 0) rotate(-1deg) scale(0.99, 1);
   }
 }
 .orb-dock {

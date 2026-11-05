@@ -1,12 +1,12 @@
 import { useEffect, useId, useRef, type RefObject } from 'react';
 export type AudioLevels = { input: number; output: number };
-/** A soft, morphing form without an enclosing shell. Measured audio drives energy;
+/** A gently deforming, polished form without an enclosing shell. Measured audio drives energy;
  * the separate thinking motion communicates a request, not invented speech. */
 const contours = [
-  'M50 9 C67 5 72 20 84 27 C98 36 88 49 86 59 C83 77 69 73 59 84 C48 96 38 83 25 80 C9 78 14 63 9 49 C3 33 21 30 28 20 C34 10 40 11 50 9 Z',
-  'M50 13 C66 19 80 8 86 24 C91 37 77 43 84 58 C92 76 73 83 59 79 C44 74 43 93 27 83 C13 75 22 63 13 50 C2 34 14 20 29 24 C40 28 38 8 50 13 Z',
-  'M50 7 C66 4 65 23 81 25 C99 27 86 45 89 58 C92 75 77 72 65 85 C51 99 42 78 27 80 C8 83 17 65 10 51 C2 35 22 34 25 23 C28 8 37 10 50 7 Z',
-  'M50 16 C67 21 77 9 87 25 C97 40 78 45 83 58 C91 78 75 88 62 81 C46 73 40 92 26 79 C11 66 25 61 13 47 C1 33 18 17 30 22 C40 27 38 12 50 16 Z',
+  'M50 10 C73 9 90 27 90 50 C91 73 72 89 50 90 C28 91 10 72 10 50 C9 29 29 11 50 10 Z',
+  'M48 9 C69 8 89 30 91 49 C94 70 71 89 51 91 C29 94 12 70 10 51 C8 30 27 12 48 9 Z',
+  'M52 11 C76 10 88 27 88 48 C89 70 77 91 52 89 C30 87 8 74 10 52 C12 29 29 13 52 11 Z',
+  'M49 10 C71 13 92 28 89 51 C86 73 74 87 49 89 C25 91 11 72 11 49 C11 26 27 7 49 10 Z',
 ];
 export default function AudioOrb({
   levels,
@@ -64,23 +64,38 @@ export default function AudioOrb({
     >
       <svg ref={shape} className="orb-core" viewBox="0 0 100 100">
         <defs>
-          <radialGradient id={gradient} cx="30%" cy="24%" r="80%">
-            <stop offset="0" stopColor="#dce9eb" />
-            <stop offset=".38" stopColor="#91aab5" />
-            <stop offset="1" stopColor="#4d6979" />
+          <radialGradient id={gradient} cx="32%" cy="26%" r="78%">
+            <stop offset="0" stopColor="#f1f7f8" />
+            <stop offset=".3" stopColor="#b9cbd1" />
+            <stop offset=".68" stopColor="#698594" />
+            <stop offset=".86" stopColor="#8da9b4" />
+            <stop offset="1" stopColor="#d6e7e9" />
+          </radialGradient>
+          <radialGradient id={`${gradient}-shine`}>
+            <stop offset="0" stopColor="white" stopOpacity=".9" />
+            <stop offset=".5" stopColor="white" stopOpacity=".5" />
+            <stop offset="1" stopColor="white" stopOpacity="0" />
           </radialGradient>
         </defs>
         <path d={contours[0]} fill={`url(#${gradient})`}>
           <animate
             attributeName="d"
             values={[...contours, contours[0]].join(';')}
-            dur={state === 'thinking' ? '4s' : '8s'}
+            dur={state === 'thinking' ? '12s' : '18s'}
             repeatCount="indefinite"
             calcMode="spline"
             keyTimes="0;.25;.5;.75;1"
             keySplines=".42 0 .58 1;.42 0 .58 1;.42 0 .58 1;.42 0 .58 1"
           />
         </path>
+        <ellipse
+          cx="33"
+          cy="25"
+          rx="15"
+          ry="6"
+          transform="rotate(-32 33 25)"
+          fill={`url(#${gradient}-shine)`}
+        />
       </svg>
     </span>
   );
