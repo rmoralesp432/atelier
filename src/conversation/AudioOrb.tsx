@@ -76,13 +76,13 @@ export default function AudioOrb({
             <stop offset=".5" stopColor="white" stopOpacity=".65" />
             <stop offset="1" stopColor="white" stopOpacity="0" />
           </radialGradient>
-          <linearGradient id={`${gradient}-gloss`}>
+          <radialGradient id={`${gradient}-gloss`} cx="36%" cy="30%" r="70%">
             <stop offset="0" stopColor="white" stopOpacity="0" />
-            <stop offset=".46" stopColor="white" stopOpacity=".05" />
-            <stop offset=".52" stopColor="white" stopOpacity=".85" />
-            <stop offset=".68" stopColor="white" stopOpacity=".12" />
+            <stop offset=".48" stopColor="white" stopOpacity=".02" />
+            <stop offset=".75" stopColor="white" stopOpacity=".3" />
+            <stop offset=".9" stopColor="white" stopOpacity=".12" />
             <stop offset="1" stopColor="white" stopOpacity="0" />
-          </linearGradient>
+          </radialGradient>
         </defs>
         <defs>
           <path id={`${gradient}-surface`} d={contours[0]}>
@@ -96,21 +96,13 @@ export default function AudioOrb({
               keySplines=".42 0 .58 1;.42 0 .58 1;.42 0 .58 1;.42 0 .58 1"
             />
           </path>
-          <clipPath id={`${gradient}-clip`}>
-            <use href={`#${gradient}-surface`} />
-          </clipPath>
         </defs>
         <use href={`#${gradient}-surface`} fill={`url(#${gradient})`} />
-        <g clipPath={`url(#${gradient}-clip)`}>
-          <rect
-            className="orb-gloss"
-            x="-40"
-            y="-20"
-            width="55"
-            height="140"
-            fill={`url(#${gradient}-gloss)`}
-          />
-        </g>
+        <use
+          className="orb-gloss"
+          href={`#${gradient}-surface`}
+          fill={`url(#${gradient}-gloss)`}
+        />
         <use
           href={`#${gradient}-surface`}
           fill="none"
