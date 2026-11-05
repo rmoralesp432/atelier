@@ -25,6 +25,7 @@ test('orb responds to measured Web Audio and keeps a spoken clarification access
     let stream: MediaStream;
     Object.defineProperty(navigator.mediaDevices, 'getUserMedia', {
       value: async () => {
+        (window as any).micStarts = ((window as any).micStarts ?? 0) + 1;
         const ctx = new AudioContext(),
           osc = ctx.createOscillator(),
           gain = ctx.createGain(),
@@ -83,8 +84,11 @@ test('orb responds to measured Web Audio and keeps a spoken clarification access
   await page.getByRole('button', { name: 'Minimize conversation' }).click();
   const dock = page.getByLabel('Atelier voice companion');
   await expect(dock).toBeVisible();
-  await dock.getByRole('button', { name: 'Start voice conversation' }).click();
+  await dock.getByRole('button', { name: 'Voice orb' }).click();
   await expect(dock).toContainText('Speaking');
+  await expect(
+    page.getByRole('textbox', { name: 'Message Atelier' }),
+  ).not.toBeVisible();
   await expect
     .poll(async () =>
       Number(await dock.locator('.audio-orb').getAttribute('data-audio-level')),
@@ -106,14 +110,22 @@ test('orb responds to measured Web Audio and keeps a spoken clarification access
     page.getByRole('dialog', { name: 'Atelier question' }),
   ).toContainText('open to the sky');
   await expect(page.getByLabel('Answer Atelier')).toBeVisible();
+  await expect(dock).toBeVisible();
+  await expect(
+    page.getByRole('textbox', { name: 'Message Atelier' }),
+  ).not.toBeVisible();
   await page.screenshot({
     path: 'test-results/atelier-orb-question-phone.png',
   });
-  await dock.getByRole('button', { name: 'Stop voice conversation' }).click();
-  await expect(
-    dock.getByRole('button', { name: 'Start voice conversation' }),
-  ).toBeVisible();
-  await dock.getByRole('button', { name: 'Open conversation' }).click();
+  await dock.getByRole('button', { name: 'Voice orb' }).click();
+  await expect(dock.getByRole('button', { name: 'Voice orb' })).toHaveAttribute(
+    'aria-pressed',
+    'false',
+  );
+  await dock.getByRole('button', { name: 'Voice orb' }).dblclick();
+  await expect
+    .poll(() => page.evaluate(() => (window as any).micStarts))
+    .toBe(1);
   await expect(
     page.getByRole('textbox', { name: 'Message Atelier' }),
   ).toBeVisible();

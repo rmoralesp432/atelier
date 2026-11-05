@@ -187,3 +187,35 @@
   outline: 2px solid var(--accent, #758a92);
   outline-offset: 6px;
 }
+
+.orb-open {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.orb-gloss {
+  animation: orb-gloss-sweep 11s ease-in-out infinite;
+}
+@keyframes orb-gloss-sweep {
+  0%,
+  65% {
+    transform: translateX(-35px) skewX(-18deg);
+    opacity: 0;
+  }
+  69% {
+    opacity: 0.9;
+  }
+  86% {
+    opacity: 0.9;
+  }
+  94%,
+  100% {
+    transform: translateX(160px) skewX(-18deg);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orb-gloss {
+    animation: none !important;
+    opacity: 0;
+  }
+}
