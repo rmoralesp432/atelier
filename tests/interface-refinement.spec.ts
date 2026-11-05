@@ -248,6 +248,18 @@ test('exploded assembly guides, axonometric camera, component interaction and re
   await page.screenshot({
     path: 'test-results/refined-exploded-axonometric.png',
   });
+  await panel.getByLabel('Diagram arrangement').selectOption('levels');
+  await panel.getByLabel('Assembly separation').fill('6');
+  await expect(panel.getByLabel('Assembly separation')).toHaveValue('6');
+  await panel.getByLabel('Diagram arrangement').selectOption('systems');
+  const scopes = await panel
+    .getByLabel('Explore scope')
+    .locator('option')
+    .evaluateAll((os) => os.map((o) => (o as HTMLOptionElement).value));
+  const groupScope = scopes.find((v) => v.startsWith('group:'));
+  expect(groupScope).toBeTruthy();
+  await panel.getByLabel('Explore scope').selectOption(groupScope!);
+  await panel.getByLabel('Explore scope').selectOption('all');
   await panel.getByLabel('Assembly guides').uncheck();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-exploration-guides',

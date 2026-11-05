@@ -1,3 +1,4 @@
+import { sculptSettingsSchema } from './sculptSchema';
 import Module, { type Manifold, type ManifoldToplevel } from 'manifold-3d';
 import type { Dimensions, GeometryRecipe, Vec3, Volume } from '../model';
 import { validateVolume } from '../model';
@@ -49,6 +50,8 @@ export function validateRecipe(
       'form',
       'oriented',
       'hollow',
+      'sculpt',
+      'blend',
     ].includes(recipe.kind)
   )
     throw new Error('Unsupported geometry type.');
@@ -58,9 +61,74 @@ export function validateRecipe(
   )
     throw new Error('Unsupported extrusion profile.');
   if (recipe.kind === 'mesh') validateMesh(recipe);
+  if (recipe.kind === 'sculpt' || recipe.kind === 'blend') {
+    validateMesh(recipe.mesh);
+    if (!recipe.mesh.solid)
+      throw new Error('A sculpted or blended form must be closed.');
+    if (
+      !recipe.base ||
+      !['width', 'depth', 'height'].every(
+        (k) =>
+          Number.isFinite(recipe.base[k as keyof Dimensions]) &&
+          recipe.base[k as keyof Dimensions] >= 0.001 &&
+          recipe.base[k as keyof Dimensions] <= 500,
+      )
+    )
+      throw new Error('Invalid organic scale frame.');
+    if (
+      !recipe.origin ||
+      !['x', 'y', 'z'].every((k) =>
+        Number.isFinite(recipe.origin[k as keyof Vec3]),
+      )
+    )
+      throw new Error('Invalid organic coordinate origin.');
+    if (recipe.kind === 'sculpt') {
+      sculptSettingsSchema.parse(recipe.settings);
+      validateVolume(recipe.source, false);
+      validateRecipe(recipe.source.geometry, depth + 1, budget);
+    } else {
+      if (
+        !['union', 'subtract', 'intersect'].includes(recipe.operation) ||
+        !Number.isFinite(recipe.radius) ||
+        recipe.radius < 0.05 ||
+        recipe.radius > 20 ||
+        !Number.isFinite(recipe.resolution) ||
+        recipe.resolution < 0.1 ||
+        recipe.resolution > 5 ||
+        !Array.isArray(recipe.operands) ||
+        recipe.operands.length < 2 ||
+        recipe.operands.length > 4
+      )
+        throw new Error('Invalid smooth Boolean recipe.');
+      recipe.operands.forEach((v) => {
+        validateVolume(v, false);
+        validateRecipe(v.geometry, depth + 1, budget);
+      });
+    }
+  }
   if (recipe.kind === 'form') {
     validateMesh(recipe.mesh);
     validateForm(recipe.definition);
+    if (
+      recipe.origin !== undefined &&
+      (!recipe.origin ||
+        !['x', 'y', 'z'].every((k) =>
+          Number.isFinite(recipe.origin![k as keyof Vec3]),
+        ))
+    )
+      throw new Error('Invalid form origin.');
+    if (
+      recipe.base !== undefined &&
+      (!recipe.base ||
+        !['width', 'depth', 'height'].every(
+          (k) =>
+            Number.isFinite(recipe.base![k as keyof Dimensions]) &&
+            recipe.base![k as keyof Dimensions] > 0 &&
+            recipe.base![k as keyof Dimensions] <= 500,
+        ))
+    )
+      throw new Error('Invalid form scale frame.');
+
     if (!recipe.mesh.solid) throw new Error('A generated form must be solid.');
   }
   if (recipe.kind === 'oriented' || recipe.kind === 'hollow') {
@@ -251,7 +319,11 @@ function evaluated(
       section.delete();
       originalCircle?.delete();
     }
-  } else if (g?.kind === 'form') {
+  } else if (
+    g?.kind === 'form' ||
+    g?.kind === 'sculpt' ||
+    g?.kind === 'blend'
+  ) {
     solid = keep(
       new m.Manifold(
         new m.Mesh({

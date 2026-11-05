@@ -131,3 +131,59 @@ it('a distant second building does not reverse the first building facade', () =>
   expect(o.get('door')!.z).toBeGreaterThan(0);
   expect(o.get('door')!.y).toBe(0);
 });
+it('keeps a chosen datum fixed and moves a host assembly on its specified local axis', () => {
+  const p = assembly();
+  const door = p.volumes.find((v) => v.id === 'door')!;
+  door.rotation = 90;
+  const o = explosionOffsets(p, {
+    mode: 'exploded',
+    amount: 0.5,
+    targets: [],
+    fixed: ['roof'],
+    overrides: [{ id: 'door', direction: 'x', distance: 6 }],
+  });
+  expect(o.get('roof')).toEqual({ x: 0, y: 0, z: 0 });
+  expect(o.get('door')!.x).toBeCloseTo(0);
+  expect(o.get('door')!.z).toBeCloseTo(-3);
+  expect(o.get('handle')).toEqual(o.get('door'));
+});
+it('separates complete levels while construction/system views reveal facade layers', () => {
+  const p = assembly();
+  const floor = p.volumes.find((v) => v.id === 'floor')!;
+  p.volumes.push({
+    ...floor,
+    id: 'upper-floor',
+    position: { ...floor.position, y: 7 },
+  });
+  const pane = {
+    ...makeVolume(8, { width: 4, depth: 0.1, height: 2 }),
+    id: 'pane',
+    position: { x: 100, y: 7.3, z: 203 },
+    component: component('window'),
+  };
+  p.volumes.push(pane);
+  const level = explosionOffsets(p, {
+    mode: 'exploded',
+    amount: 1,
+    targets: [],
+    layout: 'levels',
+    gap: 3,
+  });
+  expect(level.get('pane')).toEqual({ x: 0, y: 3, z: 0 });
+  expect(level.get('upper-floor')).toEqual(level.get('pane'));
+  const normal = explosionOffsets(p, {
+    mode: 'exploded',
+    amount: 1,
+    targets: [],
+    gap: 3,
+  });
+  const systems = explosionOffsets(p, {
+    mode: 'exploded',
+    amount: 1,
+    targets: [],
+    gap: 3,
+    layout: 'systems',
+  });
+  expect(systems.get('pane')!.z).toBeGreaterThan(normal.get('pane')!.z);
+  expect(systems.get('pane')!.y).toBe(0);
+});

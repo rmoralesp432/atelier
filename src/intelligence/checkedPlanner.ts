@@ -26,6 +26,12 @@ export type CheckedResult = {
   labels?: Record<string, string>;
 };
 const modeledEdits = new Set([
+  'edit_blend',
+  'sculpt',
+  'smooth_boolean',
+  'organic_form',
+  'edit_control_points',
+  'inset_layout',
   'create',
   'create_at',
   'assembly',
@@ -72,6 +78,11 @@ const modeledEdits = new Set([
   'offset_base',
 ]);
 const constructedSystems = new Set([
+  'edit_blend',
+  'sculpt',
+  'smooth_boolean',
+  'organic_form',
+  'inset_layout',
   'assembly',
   'profile_solid',
   'revolve',

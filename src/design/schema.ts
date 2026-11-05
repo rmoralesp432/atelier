@@ -69,7 +69,16 @@ export const explorationSchema = z
     targets: z.array(z.string().max(100)).max(200),
   })
   .strict();
-export type Exploration = z.infer<typeof explorationSchema>;
+export type Exploration = z.infer<typeof explorationSchema> & {
+  layout?: 'construction' | 'levels' | 'systems';
+  gap?: number;
+  fixed?: string[];
+  overrides?: {
+    id: string;
+    direction: 'x' | '-x' | 'y' | '-y' | 'z' | '-z';
+    distance: number;
+  }[];
+};
 export const assembled: Exploration = {
   mode: 'assembled',
   amount: 0,

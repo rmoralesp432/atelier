@@ -149,39 +149,18 @@ export default function ProjectStart({
         <span className="start-wordmark">
           <i>A</i> Atelier
         </span>
-        <span>A space for your ideas.</span>
-      </header>
-      <section className="start-intro">
-        {ai && (
-          <AudioOrb
-            large
-            levels={levels}
-            state={
-              status === 'Speaking'
-                ? 'speaking'
-                : status === 'Working' || status === 'Connecting'
-                  ? 'thinking'
-                  : status === 'Listening'
-                    ? 'listening'
-                    : 'idle'
-            }
-          />
-        )}
-        <p className="start-eyebrow">
-          {step === 'connect'
-            ? 'Welcome to your studio'
-            : ai
-              ? 'Atelier is here'
-              : 'Your studio'}
-        </p>
-        <h1>
-          {step === 'connect'
-            ? 'Where will your next idea begin?'
-            : 'Which project would you like to open?'}
-        </h1>
-        {step === 'connect' ? (
-          <>
-            <p>Design with Atelier, or explore on your own.</p>
+        <nav className="start-entry-actions">
+          <button
+            type="button"
+            onClick={() => {
+              setAI(false);
+              setStep('projects');
+            }}
+          >
+            Continue without AI
+          </button>
+          <details className="start-connection">
+            <summary>AI settings</summary>{' '}
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -208,19 +187,47 @@ export default function ProjectStart({
                 {connecting ? 'Connecting…' : 'Continue with AI'}
                 <ArrowRight size={18} />
               </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setAI(false);
-                  setStep('projects');
-                }}
-              >
-                Continue without AI
-              </button>
             </form>
             <small>
               Your workspace password unlocks AI. Never enter an API key here.
             </small>
+          </details>
+        </nav>
+      </header>
+      <section className="start-intro">
+        {
+          <AudioOrb
+            large
+            levels={levels}
+            state={
+              status === 'Speaking'
+                ? 'speaking'
+                : status === 'Working' || status === 'Connecting'
+                  ? 'thinking'
+                  : status === 'Listening'
+                    ? 'listening'
+                    : 'idle'
+            }
+          />
+        }
+        <p className="start-eyebrow">
+          {step === 'connect'
+            ? 'Welcome to your studio'
+            : ai
+              ? 'Atelier is here'
+              : 'Your studio'}
+        </p>
+        <h1>
+          {step === 'connect'
+            ? 'Where will your next idea begin?'
+            : 'Which project would you like to open?'}
+        </h1>
+        {step === 'connect' ? (
+          <>
+            <p>Design with Atelier, or explore on your own.</p>
+            <p className="start-hint">
+              Choose AI in the corner, or continue on your own.
+            </p>
           </>
         ) : (
           <>
@@ -242,6 +249,25 @@ export default function ProjectStart({
                 below.
               </small>
             )}
+            <form
+              className="start-new-project"
+              onSubmit={(e) => {
+                e.preventDefault();
+                void open(create(name.trim() || 'Untitled study'));
+              }}
+            >
+              <input
+                aria-label="Name your new project"
+                placeholder="Name a new project…"
+                maxLength={80}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+              />
+              <button disabled={busy} type="submit">
+                <Plus size={18} />
+                New project
+              </button>
+            </form>
             <div className="start-projects">
               <button disabled={busy} onClick={() => void open(null)}>
                 <FolderOpen />
@@ -278,25 +304,7 @@ export default function ProjectStart({
                 <ArrowRight size={18} />
               </button>
             </div>
-            <form
-              className="start-new-project"
-              onSubmit={(e) => {
-                e.preventDefault();
-                void open(create(name.trim() || 'Untitled study'));
-              }}
-            >
-              <input
-                aria-label="Name your new project"
-                placeholder="Name a new project…"
-                maxLength={80}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <button disabled={busy} type="submit">
-                <Plus size={18} />
-                New project
-              </button>
-            </form>
+
             <label className="start-preference">
               <input
                 type="checkbox"

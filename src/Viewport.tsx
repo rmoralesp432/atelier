@@ -2148,7 +2148,7 @@ export default function Viewport(props: Props) {
               const kind = o.userData.materialKind;
               const mode = props.renderMode;
               material.color.set(
-                mode === 'hidden-line'
+                mode === 'hidden-line' && kind !== 'glass'
                   ? props.appearance.surfaceColor
                   : (v.color ??
                       (kind === 'glass'
@@ -2158,7 +2158,7 @@ export default function Viewport(props: Props) {
                           : '#e2e7e6')),
               );
               material.emissive.set(
-                mode === 'hidden-line'
+                mode === 'hidden-line' && kind !== 'glass'
                   ? props.appearance.surfaceColor
                   : selected
                     ? '#183033'
@@ -2170,7 +2170,7 @@ export default function Viewport(props: Props) {
                 v.component?.role === 'room' ||
                 mode === 'wireframe' ||
                 kind === 'foliage' ||
-                (mode === 'studio' && kind === 'glass');
+                kind === 'glass';
               if (material.transparent !== transparent)
                 material.needsUpdate = true;
               material.transparent = transparent;
@@ -2181,12 +2181,13 @@ export default function Viewport(props: Props) {
                     ? 0
                     : kind === 'foliage'
                       ? 0.42
-                      : mode === 'studio' && kind === 'glass'
-                        ? 0.32
+                      : kind === 'glass'
+                        ? 0.26
                         : 1;
               material.depthWrite =
                 v.component?.role !== 'room' &&
                 kind !== 'foliage' &&
+                kind !== 'glass' &&
                 (mode === 'hidden-line' ||
                   (mode === 'studio' && kind !== 'glass'));
               material.polygonOffset = mode === 'hidden-line';
@@ -2265,16 +2266,26 @@ export default function Viewport(props: Props) {
         host.current!.dataset.theme = props.appearance.theme;
         host.current!.dataset.modelObjects = String(r!.objects.size);
         host.current!.dataset.renderMode = props.renderMode;
+        let glassParts = 0,
+          opaqueGlass = 0;
         let indexedTriangles = 0,
           vertices = 0;
         r!.objects.forEach((g) =>
           g.traverse((o) => {
             if (o instanceof THREE.Mesh) {
+              if (o.userData.materialKind === 'glass') {
+                glassParts++;
+                const mat = o.material as THREE.MeshPhysicalMaterial;
+                if (!mat.transparent || mat.opacity >= 1 || mat.depthWrite)
+                  opaqueGlass++;
+              }
               indexedTriangles += (o.geometry.index?.count ?? 0) / 3;
               vertices += o.geometry.getAttribute('position').count;
             }
           }),
         );
+        host.current!.dataset.glassParts = String(glassParts);
+        host.current!.dataset.opaqueGlass = String(opaqueGlass);
         host.current!.dataset.indexedTriangles = String(indexedTriangles);
         host.current!.dataset.renderVertices = String(vertices);
         host.current!.dataset.meshBuilds = String(

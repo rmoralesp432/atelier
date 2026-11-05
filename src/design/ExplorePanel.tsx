@@ -36,8 +36,12 @@ export default function ExplorePanel({
   const [tab, setTab] = useState<
     'explore' | 'components' | 'views' | 'options'
   >('explore');
+  const [exitDirection, setExitDirection] = useState<
+    'x' | '-x' | 'y' | '-y' | 'z' | '-z'
+  >('y');
+  const [exitDistance, setExitDistance] = useState(3);
   const [name, setName] = useState('');
-  const [scope, setScope] = useState<'all' | 'selection'>('all');
+  const [scope, setScope] = useState<string>('all');
   const movable = project.volumes.filter(
     (v) => componentInfo(v).motion !== 'none',
   );
@@ -48,6 +52,14 @@ export default function ExplorePanel({
     : selected
       ? [selected.id]
       : [];
+  const scopeTargets = (scope: string) =>
+    scope === 'selection'
+      ? targets
+      : scope.startsWith('group:')
+        ? project.volumes
+            .filter((v) => v.groupId === scope.slice(6))
+            .map((v) => v.id)
+        : [];
   const update = (patch: Partial<NonNullable<typeof info>>) => {
     if (info)
       onOperation({
@@ -108,9 +120,10 @@ export default function ExplorePanel({
                 }
                 onClick={() =>
                   onExplore({
+                    ...value,
                     mode,
                     amount: 1,
-                    targets: scope === 'selection' ? targets : [],
+                    targets: scopeTargets(scope),
                   })
                 }
               >
@@ -128,11 +141,11 @@ export default function ExplorePanel({
               aria-label="Explore scope"
               value={scope}
               onChange={(e) => {
-                const next = e.target.value as 'all' | 'selection';
+                const next = e.target.value;
                 setScope(next);
                 onExplore({
                   ...value,
-                  targets: next === 'selection' ? targets : [],
+                  targets: scopeTargets(next),
                 });
               }}
             >
@@ -140,6 +153,11 @@ export default function ExplorePanel({
               <option value="selection" disabled={!targets.length}>
                 Selection
               </option>
+              {project.groups?.map((g) => (
+                <option key={g.id} value={'group:' + g.id}>
+                  {g.name}
+                </option>
+              ))}
             </select>
           </div>
           {value.mode === 'exploded' && (
@@ -151,6 +169,141 @@ export default function ExplorePanel({
               />
               Assembly guides
             </label>
+          )}
+          {value.mode === 'exploded' && (
+            <>
+              <label>
+                Diagram arrangement
+                <select
+                  aria-label="Diagram arrangement"
+                  value={value.layout ?? 'construction'}
+                  onChange={(e) =>
+                    onExplore({
+                      ...value,
+                      layout: e.target.value as Exploration['layout'],
+                    })
+                  }
+                >
+                  <option value="construction">
+                    Construction · outward façades
+                  </option>
+                  <option value="levels">Floors · lift complete levels</option>
+                  <option value="systems">
+                    Systems · reveal glass and frames
+                  </option>
+                </select>
+              </label>
+              <label>
+                Separation · m
+                <input
+                  aria-label="Assembly separation"
+                  type="range"
+                  min=".5"
+                  max="20"
+                  step=".5"
+                  value={value.gap ?? 3}
+                  onChange={(e) =>
+                    onExplore({ ...value, gap: Number(e.target.value) })
+                  }
+                />
+                <output>{value.gap ?? 'Auto'}</output>
+              </label>
+              {selected && (
+                <details>
+                  <summary>Arrange selected parts</summary>
+                  <label>
+                    Local direction
+                    <select
+                      aria-label="Part exit direction"
+                      value={exitDirection}
+                      onChange={(e) =>
+                        setExitDirection(e.target.value as typeof exitDirection)
+                      }
+                    >
+                      {(['x', '-x', 'y', '-y', 'z', '-z'] as const).map((a) => (
+                        <option key={a} value={a}>
+                          {a === 'y'
+                            ? 'Up'
+                            : a === '-y'
+                              ? 'Down'
+                              : a.toUpperCase()}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label>
+                    Distance · m
+                    <input
+                      aria-label="Part exit distance"
+                      type="number"
+                      min="0"
+                      max="100"
+                      step=".5"
+                      value={exitDistance}
+                      onChange={(e) => setExitDistance(Number(e.target.value))}
+                    />
+                  </label>
+                  <button
+                    disabled={
+                      !Number.isFinite(exitDistance) ||
+                      exitDistance < 0 ||
+                      exitDistance > 100
+                    }
+                    onClick={() =>
+                      onExplore({
+                        ...value,
+                        fixed: value.fixed?.filter(
+                          (id) => !targets.includes(id),
+                        ),
+                        overrides: [
+                          ...(value.overrides ?? []).filter(
+                            (o) => !targets.includes(o.id),
+                          ),
+                          ...targets.map((id) => ({
+                            id,
+                            direction: exitDirection,
+                            distance: exitDistance,
+                          })),
+                        ],
+                      })
+                    }
+                  >
+                    Apply selected direction
+                  </button>
+                  <button
+                    onClick={() =>
+                      onExplore({
+                        ...value,
+                        fixed: [
+                          ...new Set([...(value.fixed ?? []), ...targets]),
+                        ],
+                      })
+                    }
+                  >
+                    Keep selected fixed
+                  </button>
+                  <button
+                    onClick={() =>
+                      onExplore({
+                        ...value,
+                        fixed: value.fixed?.filter(
+                          (id) => !targets.includes(id),
+                        ),
+                        overrides: value.overrides?.filter(
+                          (o) => !targets.includes(o.id),
+                        ),
+                      })
+                    }
+                  >
+                    Reset selected arrangement
+                  </button>
+                  <p className="studio-caption">
+                    Directions follow each part’s local axes. Attached children
+                    follow their host. Changes affect this diagram only.
+                  </p>
+                </details>
+              )}
+            </>
           )}
           <label>
             Explore amount <output>{Math.round(value.amount * 100)}%</output>

@@ -1,3 +1,5 @@
+import { sculptOperations } from '../geometry/sculptSchema';
+import { organicOperations } from '../geometry/organicSchema';
 import { solarOperation } from '../studio/solarSchema';
 import { architecturalOperations } from './architectureSchema';
 import { volumetricOperations } from './volumetricSchema';
@@ -85,6 +87,8 @@ const profilePoints = z
   .max(64);
 const formPosition = point;
 export const operationSchema = z.discriminatedUnion('type', [
+  ...organicOperations,
+  ...sculptOperations,
   ...designOperations,
   ...architecturalOperations,
   ...volumetricOperations,
@@ -551,7 +555,7 @@ export const planJsonSchema = z.toJSONSchema(planSchema, {
     // Structured Outputs accepts anyOf, but rejects Zod's discriminated-union
     // oneOf. Each operation has a distinct literal `type`, so its branches
     // remain mutually exclusive. Keep the original Zod validator unchanged.
-    if (zodSchema === operationSchema && jsonSchema.oneOf) {
+    if (jsonSchema.oneOf) {
       jsonSchema.anyOf = jsonSchema.oneOf;
       delete jsonSchema.oneOf;
     }
@@ -587,6 +591,8 @@ export const needsConfirmation = (plan: Plan) =>
       op.type === 'building' ||
       op.type === 'building_components' ||
       op.type === 'components' ||
+      op.type === 'smooth_boolean' ||
+      (op.type === 'organic_form' && op.target !== null) ||
       op.type === 'hollow' ||
       op.type === 'opening_shape' ||
       op.type === 'split_levels' ||

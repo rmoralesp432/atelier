@@ -3,7 +3,7 @@ import { test, expect, type Page } from '@playwright/test';
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
 const studio = (page: Page) =>
-  page.getByRole('button', { name: 'Studio appearance and location' }).click();
+  page.getByRole('button', { name: 'Appearance' }).click();
 const fixture = [
   {
     id: 'red',
@@ -144,7 +144,7 @@ test('panels close without losing selection, drag with pointer or keyboard, and 
   expect((await inspector.boundingBox())!.x).toBeLessThan(b.x - 150);
   await studio(page);
   await expect(inspector).toBeHidden();
-  const studioPanel = page.getByRole('region', { name: 'Studio settings' });
+  const studioPanel = page.getByRole('region', { name: 'Appearance settings' });
   const s = (await studioPanel.boundingBox())!;
   const sh = page.getByLabel('Move Studio panel');
   await sh.focus();
