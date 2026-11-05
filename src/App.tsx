@@ -2400,7 +2400,7 @@ export default function App({
             </button>
             <button
               className="studio-launcher"
-              aria-label="Studio appearance and location"
+              aria-label="Appearance"
               aria-expanded={studioOpen}
               onClick={() => {
                 setStudioOpen(!studioOpen);
@@ -2409,7 +2409,7 @@ export default function App({
               }}
             >
               <Settings2 size={17} />
-              <span>Studio</span>
+              <span>Appearance</span>
             </button>
             {studioOpen && (
               <StudioPanel
@@ -3060,6 +3060,16 @@ export default function App({
                           : 'Open'}
                       </button>
                     )}
+                  {!isProfile(selected) && !isReference(selected) && (
+                    <button
+                      onClick={() => {
+                        setModelAction('building');
+                        panels.setters.model(true);
+                      }}
+                    >
+                      Slabs &amp; windows
+                    </button>
+                  )}
                   <button onClick={() => panels.setters.explore(true)}>
                     Explore
                   </button>

@@ -10,9 +10,7 @@ test('smooth viewing keeps selection, wireframe, and persistent quality controls
   await page.goto('/');
   const viewport = page.getByTestId('viewport');
   await expect(viewport).toHaveAttribute('data-rendered', 'true');
-  await page
-    .getByRole('button', { name: 'Studio appearance and location' })
-    .click();
+  await page.getByRole('button', { name: 'Appearance' }).click();
   await page.getByLabel('Viewing quality').selectOption('responsive');
   await expect(viewport).toHaveAttribute('data-view-quality', 'responsive');
   await page.getByRole('button', { name: 'Wireframe', exact: true }).click();
@@ -34,9 +32,7 @@ test('smooth viewing keeps selection, wireframe, and persistent quality controls
   await page.getByRole('button', { name: 'Close section controls' }).click();
   await page.reload();
   await expect(viewport).toHaveAttribute('data-view-quality', 'responsive');
-  await page
-    .getByRole('button', { name: 'Studio appearance and location' })
-    .click();
+  await page.getByRole('button', { name: 'Appearance' }).click();
   await expect(page.getByLabel('Viewing quality')).toHaveValue('responsive');
   await page.getByLabel('Viewing quality').selectOption('detail');
   await expect(viewport).toHaveAttribute('data-view-quality', 'detail');

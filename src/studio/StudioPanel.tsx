@@ -1,14 +1,7 @@
 import { useFloatingPanel } from './useFloatingPanel';
 import { lazy, Suspense, useEffect, useState } from 'react';
 const MapPicker = lazy(() => import('./MapPicker'));
-import {
-  X,
-  UserRound,
-  MapPin,
-  SlidersHorizontal,
-  Sun,
-  Moon,
-} from 'lucide-react';
+import { X, UserRound, Sun, Moon } from 'lucide-react';
 import type { Appearance } from './appearance';
 import type { Site, MapStyle } from './site';
 import { googleMapsUrl, validateSite, shiftMap } from './site';
@@ -40,7 +33,7 @@ export default function StudioPanel({
   onClose: () => void;
 }) {
   const floating = useFloatingPanel();
-  const [tab, setTab] = useState<'appearance' | 'site'>(initialTab);
+  const tab = initialTab;
   const [error, setError] = useState('');
   const [pickOpen, setPickOpen] = useState(initialTab === 'site');
   const [mapStyle, setMapStyle] = useState<MapStyle>(site?.style ?? 'street');
@@ -87,7 +80,9 @@ export default function StudioPanel({
       ref={floating.ref}
       style={floating.style}
       className="studio-panel"
-      aria-label="Studio settings"
+      aria-label={
+        tab === 'appearance' ? 'Appearance settings' : 'Location settings'
+      }
       onPointerDownCapture={floating.raise}
     >
       <div
@@ -97,22 +92,9 @@ export default function StudioPanel({
         role="button"
         tabIndex={0}
       >
-        <strong>Your studio</strong>
+        <strong>{tab === 'appearance' ? 'Appearance' : 'Location'}</strong>
         <button aria-label="Close studio settings" onClick={onClose}>
           <X size={17} />
-        </button>
-      </div>
-      <div className="studio-tabs">
-        <button
-          aria-pressed={tab === 'appearance'}
-          onClick={() => setTab('appearance')}
-        >
-          <SlidersHorizontal size={14} />
-          Appearance
-        </button>
-        <button aria-pressed={tab === 'site'} onClick={() => setTab('site')}>
-          <MapPin size={14} />
-          Location
         </button>
       </div>
       {tab === 'appearance' ? (

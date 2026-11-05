@@ -212,9 +212,7 @@ test('construction is visual only; footprint rises, settles, and never replays o
     );
   const studioBrightness = await brightness();
   expect(studioBrightness).toBeGreaterThan(100);
-  await page
-    .getByRole('button', { name: 'Studio appearance and location' })
-    .click();
+  await page.getByRole('button', { name: 'Appearance' }).click();
   await page.getByRole('button', { name: 'Wireframe', exact: true }).click();
   await expect(
     page.getByRole('button', { name: 'Wireframe', exact: true }),

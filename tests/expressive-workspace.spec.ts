@@ -285,9 +285,7 @@ test('expressive conversation validates a corrected sweep, renders lofts and pre
   await page
     .getByRole('button', { name: 'Back to editing', exact: true })
     .click();
-  await page
-    .getByRole('button', { name: 'Studio appearance and location' })
-    .click();
+  await page.getByRole('button', { name: 'Appearance' }).click();
   await page.getByRole('button', { name: 'Day', exact: true }).click();
   await page.getByRole('button', { name: 'Close studio settings' }).click();
   await openTool(page, 'Presentation mode');

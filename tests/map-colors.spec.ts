@@ -112,9 +112,7 @@ test('day and night satellite views retain model colors at distant orthographic 
   expect(actual.red).toBeGreaterThan(300);
   expect(actual.blue).toBeGreaterThan(300);
   await page.screenshot({ path: 'test-results/atelier-map-colors-day.png' });
-  await page
-    .getByRole('button', { name: 'Studio appearance and location' })
-    .click();
+  await page.getByRole('button', { name: 'Appearance' }).click();
   await page.getByRole('button', { name: 'Night', exact: true }).click();
   await page.getByRole('button', { name: 'Close studio settings' }).click();
   await page.waitForTimeout(500);

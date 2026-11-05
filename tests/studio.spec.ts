@@ -14,7 +14,7 @@ async function color(page: Page, label: string, value: string) {
   }, value);
 }
 const openStudio = (page: Page) =>
-  page.getByRole('button', { name: 'Studio appearance and location' }).click();
+  page.getByRole('button', { name: 'Appearance' }).click();
 async function pixels(page: Page) {
   return page.evaluate(
     () =>
@@ -138,8 +138,10 @@ test('map anchoring uses bounded tiles, keeps geometry and saves the location; t
     '2',
   );
   const before = (await saved(page)).project.volumes;
-  await openStudio(page);
-  await page.getByRole('button', { name: 'Location', exact: true }).click();
+  await openTool(page, 'Change map location');
+  await page
+    .getByRole('button', { name: 'Close map picker', exact: true })
+    .click();
   await page.getByLabel('Latitude', { exact: true }).fill('20.9674');
   await page.getByLabel('Longitude', { exact: true }).fill('-89.5926');
   await page.getByLabel('Map rotation', { exact: true }).fill('45');
@@ -148,8 +150,12 @@ test('map anchoring uses bounded tiles, keeps geometry and saves the location; t
     'data-map-status',
     'ready',
   );
-  expect(urls).toHaveLength(9);
-  expect(new Set(urls).size).toBe(9);
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-map-tiles',
+    '9',
+  );
+  // The separate location picker also requests its own preview tiles.
+  expect(new Set(urls.filter((url) => url.includes('/17/'))).size).toBe(9);
   expect((await saved(page)).project.volumes).toEqual(before);
   expect((await saved(page)).project.site).toEqual({
     latitude: 20.9674,
@@ -170,8 +176,10 @@ test('map anchoring uses bounded tiles, keeps geometry and saves the location; t
   await expect(
     page.getByRole('link', { name: '© OpenStreetMap contributors' }),
   ).toHaveCount(0);
-  await openStudio(page);
-  await page.getByRole('button', { name: 'Location', exact: true }).click();
+  await openTool(page, 'Change map location');
+  await page
+    .getByRole('button', { name: 'Close map picker', exact: true })
+    .click();
   await expect(page.getByLabel('Latitude', { exact: true })).toHaveValue(
     '20.9674',
   );
@@ -222,7 +230,7 @@ test('shadows follow a moved object beyond the original site and studio controls
   await page.getByRole('button', { name: 'Hidden line', exact: true }).click();
   await expect(page.getByLabel('Surface color')).toBeVisible();
   const panel = await page
-    .getByRole('region', { name: 'Studio settings' })
+    .getByRole('region', { name: 'Appearance settings' })
     .boundingBox();
   expect(panel!.x).toBeGreaterThanOrEqual(0);
   expect(panel!.x + panel!.width).toBeLessThanOrEqual(390);

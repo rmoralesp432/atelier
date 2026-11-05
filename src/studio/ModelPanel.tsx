@@ -17,6 +17,7 @@ import {
   Grid2X2,
 } from 'lucide-react';
 import { isLocked, isVisible, type Project } from '../model';
+import { isReference } from '../imports/mesh';
 import { isProfile } from '../geometry/kernel';
 import type { Operation } from '../intelligence/plan';
 import { useFloatingPanel } from './useFloatingPanel';
@@ -49,6 +50,8 @@ export default function ModelPanel({
   const [solidShape, setSolidShape] = useState<'box' | 'cylinder' | 'sphere'>(
     'box',
   );
+  const [floors, setFloors] = useState(2);
+  const [panelWidth, setPanelWidth] = useState(4);
   const [copyDistance, setCopyDistance] = useState(10);
   const [mirrorAxis, setMirrorAxis] = useState<'x' | 'z'>('x');
   const [mirrorCoordinate, setMirrorCoordinate] = useState(0);
@@ -117,6 +120,64 @@ export default function ModelPanel({
           </button>
         )}
       </div>
+      {selected && !isProfile(selected) && !isReference(selected) && (
+        <button
+          className="primary-studio-action"
+          onClick={() => reveal('building')}
+        >
+          Slabs &amp; windows
+        </button>
+      )}
+      {activeAction === 'building' && selected && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onOperation({
+              type: 'building_components',
+              target: selected.id,
+              floors,
+              slabThickness: 0.25,
+              facade: true,
+              panelWidth,
+              mullionWidth: 0.06,
+            });
+          }}
+        >
+          <h3>Turn this volume into architecture</h3>
+          <label>
+            Occupied floors
+            <input
+              aria-label="Occupied floors"
+              type="number"
+              required
+              min="1"
+              max="30"
+              value={floors}
+              onChange={(e) => setFloors(Number(e.target.value))}
+            />
+          </label>
+          <label>
+            Maximum window width · m
+            <input
+              aria-label="Maximum window width"
+              type="number"
+              required
+              min=".5"
+              max="10"
+              step=".5"
+              value={panelWidth}
+              onChange={(e) => setPanelWidth(Number(e.target.value))}
+            />
+          </label>
+          <p className="studio-caption">
+            Keeps the outer size. Creates separate floor slabs, a roof, glass
+            and frames in one group.
+          </p>
+          <button className="primary-studio-action">
+            Create editable slabs &amp; windows
+          </button>
+        </form>
+      )}
       {activeAction === 'solid' && (
         <form
           className="solid-creation"
