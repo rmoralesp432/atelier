@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { X, Play, Pause } from 'lucide-react';
 import { useFloatingPanel } from './useFloatingPanel';
 import { solarPosition, type SolarStudy } from './solar';
@@ -10,28 +9,20 @@ export default function SolarPanel({
   onChange,
   onLocation,
   onClose,
+  playing,
+  setPlaying,
+  onWatch,
 }: {
   site?: Site;
   value: SolarStudy;
   onChange: (v: SolarStudy) => void;
   onLocation: () => void;
   onClose: () => void;
+  playing: boolean;
+  setPlaying: (value: boolean) => void;
+  onWatch: () => void;
 }) {
-  const floating = useFloatingPanel(),
-    [playing, setPlaying] = useState(false);
-  useEffect(() => {
-    if (!playing) return;
-    const t = setTimeout(
-      () =>
-        onChange({
-          ...value,
-          minutes: (value.minutes + 15) % 1440,
-          enabled: true,
-        }),
-      350,
-    );
-    return () => clearTimeout(t);
-  }, [playing, value, onChange]);
+  const floating = useFloatingPanel();
   const sun = site ? solarPosition(site, value) : null;
   const day = site ? solarDay(site, value) : null;
   const dates = seasonalDates(Number(value.date.slice(0, 4)), value.utcOffset);
@@ -67,6 +58,9 @@ export default function SolarPanel({
         </>
       ) : (
         <>
+          <button className="primary-studio-action" onClick={onWatch}>
+            Watch in viewport <Play size={15} />
+          </button>
           <label className="solar-enable">
             <input
               type="checkbox"
@@ -125,7 +119,7 @@ export default function SolarPanel({
               aria-label={
                 playing ? 'Pause solar animation' : 'Play solar animation'
               }
-              onClick={() => setPlaying((v) => !v)}
+              onClick={() => setPlaying(!playing)}
             >
               {playing ? <Pause size={17} /> : <Play size={17} />}
             </button>

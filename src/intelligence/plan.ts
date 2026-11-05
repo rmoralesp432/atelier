@@ -55,8 +55,6 @@ export const workspaceActionSchema = z.enum([
   'section_off',
   'section_plane_on',
   'section_plane_off',
-  'moodboard_open',
-  'moodboard_close',
   'presentation_on',
   'presentation_off',
   'view_perspective',

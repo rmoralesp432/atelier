@@ -1,3 +1,6 @@
+import SolarPlayer from './studio/SolarPlayer';
+import { useSolarPlayback } from './studio/useSolarPlayback';
+import BrandMark from './components/BrandMark';
 import AudioOrb, { type AudioLevels } from './conversation/AudioOrb';
 import { explosionOffsets } from './design/explosion';
 import { explorationTransform, componentInfo } from './design/model';
@@ -116,7 +119,6 @@ import {
   type Connection,
 } from './intelligence/client';
 import { isProfile, openingScale, solidStats } from './geometry/kernel';
-const Moodboard = lazy(() => import('./moodboard/Moodboard'));
 const SESSION_KEY = 'atelier.session.v2';
 const CHAT_KEY = 'atelier.conversation.v2';
 
@@ -412,6 +414,11 @@ export default function App({
   const sectionOpen = panels.active === 'section',
     setSectionOpen = panels.setters.section;
   const [solar, setSolar] = useState(defaultSolar);
+  const [solarPlaying, setSolarPlaying] = useSolarPlayback(
+    solar,
+    setSolar,
+    !!project.site,
+  );
   const solarOpen = panels.active === 'solar',
     setSolarOpen = panels.setters.solar;
   const [cameraSettings, setCameraSettings] = useState(defaultCameraSettings);
@@ -460,7 +467,6 @@ export default function App({
   const [moodboard, setMoodboard] = useState(() =>
     parseBoard(initialWorkspace?.moodboard),
   );
-  const [moodboardOpen, setMoodboardOpen] = useState(false);
   const [panoramas, setPanoramas] = useState(() =>
     parsePanoramas(initialWorkspace?.panoramas),
   );
@@ -478,8 +484,6 @@ export default function App({
     );
     setPanoramas(checked);
   };
-  const [boardSaved, setBoardSaved] = useState(false);
-  const [boardSaveError, setBoardSaveError] = useState(false);
   const addingVolume = panels.active === 'adding',
     setAddingVolume = panels.setters.adding;
   const [presentation, setPresentation] = useState(false);
@@ -713,6 +717,7 @@ export default function App({
         continue;
       }
       if (op.type === 'solar_study') {
+        setSolarPlaying(false);
         setSolar((v) => ({
           ...v,
           enabled: op.enabled,
@@ -768,15 +773,6 @@ export default function App({
           a.startsWith('draw_')
             ? 'Drawing ready. Click in the workspace to place your first point; close the face, then use Push / pull.'
             : 'Modeling tool ready.',
-        );
-        continue;
-      }
-      if (a === 'moodboard_open' || a === 'moodboard_close') {
-        setMoodboardOpen(a === 'moodboard_open');
-        reports.push(
-          a === 'moodboard_open'
-            ? 'Moodboard open. Add images, references and saved model snapshots.'
-            : 'Back to your model.',
         );
         continue;
       }
@@ -1411,8 +1407,6 @@ export default function App({
   const [encodeCheckpoint] = useState(() => createSessionEncoder());
   useEffect(() => {
     let active = true;
-    setBoardSaved(false);
-    setBoardSaveError(false);
     setSaved(false);
     setSaving(true);
     const save = async () => {
@@ -1445,13 +1439,11 @@ export default function App({
       await onSnapshot?.({ session, messages, moodboard, panoramas }, true);
       if (active) {
         setSaved(!!onSnapshot || localSaved);
-        setBoardSaved(!!onSnapshot || localSaved);
       }
     };
     void save()
       .catch(() => {
         if (active) {
-          setBoardSaveError(true);
           setSaved(false);
         }
       })
@@ -1639,7 +1631,7 @@ export default function App({
         setHistoryVersion((v) => v + 1);
       } else commit(parseProject(text), false);
       setNotice({
-        text: 'Project imported. Geometry undo is available; the imported moodboard is saved separately.',
+        text: 'Project imported. Geometry undo is available; saved project attachments are preserved.',
         error: false,
       });
     } catch (err) {
@@ -1709,24 +1701,6 @@ export default function App({
           />
         </Suspense>
       )}
-      {moodboardOpen && (
-        <Suspense
-          fallback={<div className="workspace-loading">Opening moodboard…</div>}
-        >
-          <Moodboard
-            board={moodboard}
-            onChange={(value) => {
-              setBoardSaved(false);
-              setMoodboard(value);
-            }}
-            project={project}
-            onClose={() => setMoodboardOpen(false)}
-            day={appearance.theme === 'day'}
-            saved={boardSaved}
-            saveError={boardSaveError}
-          />
-        </Suspense>
-      )}
       {importAsset && (
         <MeshImportDialog
           file={importAsset}
@@ -1744,8 +1718,7 @@ export default function App({
       )}
       <header className="app-header">
         <a className="brand" href="./" aria-label="ATELIER home">
-          <span className="brand-mark">A</span>{' '}
-          <span className="brand-name">Atelier</span>
+          <BrandMark /> <span className="brand-name">Atelier</span>
         </a>
         {projectMenu?.(
           busy ||
@@ -1874,15 +1847,6 @@ export default function App({
           >
             <ImagePlus size={16} />
             <span>Panoramas</span>
-          </button>
-          <button
-            className="subtle-button moodboard-toggle"
-            aria-label="Pull up moodboard"
-            title="Moodboard · images, models and references"
-            onClick={() => setMoodboardOpen(true)}
-          >
-            <ImagePlus size={16} />
-            <span>Moodboard</span>
           </button>
           <div className="tools-section-label">View & environment</div>
           <button
@@ -2649,11 +2613,34 @@ export default function App({
                 onClose={() => setLayersOpen(false)}
               />
             )}
+            {!solarOpen &&
+              solar.enabled &&
+              project.site &&
+              !arActive &&
+              !panoramaOpen && (
+                <SolarPlayer
+                  value={solar}
+                  playing={solarPlaying}
+                  onPlaying={setSolarPlaying}
+                  onSettings={() => setSolarOpen(true)}
+                  onStop={() => {
+                    setSolarPlaying(false);
+                    setSolar((v) => ({ ...v, enabled: false }));
+                  }}
+                />
+              )}
             {solarOpen && (
               <SolarPanel
                 site={project.site}
                 value={solar}
                 onChange={setSolar}
+                playing={solarPlaying}
+                setPlaying={setSolarPlaying}
+                onWatch={() => {
+                  setSolar((v) => ({ ...v, enabled: true }));
+                  setSolarPlaying(true);
+                  setSolarOpen(false);
+                }}
                 onClose={() => setSolarOpen(false)}
                 onLocation={() => {
                   setSolarOpen(false);
@@ -2790,9 +2777,7 @@ export default function App({
               touchNavigation={phoneLayout ? touchNavigation : null}
               tool={presentation || alignMap ? 'select' : tool}
               presenting={presentation}
-              suspended={
-                arActive || arPreparing || moodboardOpen || panoramaOpen
-              }
+              suspended={arActive || arPreparing || panoramaOpen}
               releaseGPU={arPreparing}
               cameraSettings={cameraSettings}
               solar={solar}
@@ -3345,9 +3330,9 @@ export default function App({
             </section>
           )}
           <ConversationSurface target={arActive ? arConversationHost : null}>
-            {chatDocked && aiEnabled && (
+            {chatDocked && (
               <>
-                {(question || pending) && (
+                {aiEnabled && (question || pending) && (
                   <section
                     className="orb-question"
                     role="dialog"
@@ -3383,7 +3368,11 @@ export default function App({
                     )}
                   </section>
                 )}
-                <div className="orb-dock" aria-label="Atelier voice companion">
+                <div
+                  className="orb-dock"
+                  aria-label="Atelier voice companion"
+                  data-ai-enabled={aiEnabled}
+                >
                   <button
                     className="orb-open"
                     aria-label="Open conversation"
@@ -3411,44 +3400,22 @@ export default function App({
                           ? voiceStatus
                           : 'Atelier'}
                   </span>
-                  <button
-                    aria-label={
-                      voiceActive
-                        ? 'Stop voice conversation'
-                        : 'Start voice conversation'
-                    }
-                    disabled={!connectionState.voiceConfigured}
-                    onClick={() => void toggleVoice()}
-                  >
-                    {voiceActive ? <MicOff size={20} /> : <Mic size={20} />}
-                  </button>
-                  <button
-                    aria-label="Type to Atelier"
-                    onClick={revealConversation}
-                  >
-                    <MessageCircle size={20} />
-                  </button>
+                  {aiEnabled && connectionState.voiceConfigured && (
+                    <button
+                      className="orb-mic"
+                      aria-label={
+                        voiceActive
+                          ? 'Stop voice conversation'
+                          : 'Start voice conversation'
+                      }
+                      disabled={!connectionState.voiceConfigured}
+                      onClick={() => void toggleVoice()}
+                    >
+                      {voiceActive ? <MicOff size={20} /> : <Mic size={20} />}
+                    </button>
+                  )}
                 </div>
               </>
-            )}
-            {chatDocked && !aiEnabled && (
-              <button
-                className="conversation-launcher"
-                aria-label="Open conversation"
-                onClick={revealConversation}
-              >
-                <MessageCircle size={22} />
-                <span>
-                  {busy
-                    ? 'Thinking…'
-                    : voiceActive
-                      ? 'Voice is on'
-                      : 'Ask Atelier'}
-                </span>
-                {(busy || voiceActive) && (
-                  <i className="conversation-activity" />
-                )}
-              </button>
             )}
 
             <div

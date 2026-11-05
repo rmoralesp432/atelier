@@ -82,6 +82,13 @@ it('uses the actual Responses SDK contract with strict schema, scene context and
   expect(body.text.format.type).toBe('json_schema');
   expect(body.text.format.schema.required).toContain('brief');
   expect(body.instructions).toContain('INTENT → DESIGN BRIEF');
+  expect(body.instructions).toContain('MASSING INTERPRETATION');
+  expect(body.instructions).toContain('permission to ABSTRACT');
+  expect(body.instructions).toContain('major wings');
+  expect(JSON.stringify(body.text.format.schema)).not.toContain(
+    'moodboard_open',
+  );
+  expect(body.instructions).not.toContain('workspace moodboard_open');
   expect(
     JSON.parse(body.input[0].content[0].text).scene.understanding,
   ).toMatchObject({ inventory: expect.any(Array), focus: expect.any(Object) });

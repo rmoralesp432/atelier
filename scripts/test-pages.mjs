@@ -160,17 +160,6 @@ try {
   await page.waitForFunction(
     () => document.querySelectorAll('.leaflet-tile-loaded').length > 0,
   );
-  // New reference desk and shared model exporter also load lazily at this subpath.
-  await page.getByRole('button', { name: 'Design tools', exact: true }).click();
-  await page.getByRole('button', { name: 'Pull up moodboard' }).click();
-  await page.getByRole('button', { name: 'Add model to board' }).click();
-  await page.waitForFunction(
-    () =>
-      document
-        .querySelector('[data-testid="moodboard-viewport"]')
-        ?.getAttribute('data-items') === '1',
-  );
-  await page.getByRole('button', { name: 'Back to model' }).click();
   // FBXLoader is a lazy chunk too: verify a real Revit export at /atelier/.
   await page
     .getByLabel('Import project file')
@@ -235,7 +224,7 @@ try {
   assert.deepEqual(magic, [80, 75, 3, 4]);
   assert.deepEqual(errors, []);
   console.log(
-    'PASS: production app loads at /atelier/ with valid JS/CSS/WASM paths, actual solid rendering, direct editing, reload persistence, lazy 3D moodboard/model assets, real Revit FBX / panorama imports and worker-prepared AR USDZ. Static Pages has no AI backend.',
+    'PASS: production app loads at /atelier/ with valid JS/CSS/WASM paths, actual solid rendering, direct editing, reload persistence, real Revit FBX / panorama imports and worker-prepared AR USDZ. Static Pages has no AI backend.',
   );
 } finally {
   await browser?.close();
