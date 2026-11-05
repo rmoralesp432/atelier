@@ -267,6 +267,21 @@ export const requestSchema = z
                   .nullable()
                   .optional(),
                 formDefinition: z.string().max(24000).nullable().optional(),
+                formFrame: z
+                  .object({
+                    origin: vec.nullable(),
+                    base: z
+                      .object({
+                        width: z.number().positive(),
+                        depth: z.number().positive(),
+                        height: z.number().positive(),
+                      })
+                      .strict()
+                      .nullable(),
+                  })
+                  .strict()
+                  .nullable()
+                  .optional(),
                 construction: z.string().max(24000).nullable().optional(),
                 architecture: z
                   .object({

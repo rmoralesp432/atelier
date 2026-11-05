@@ -1,3 +1,6 @@
+import { sculptVolume, smoothBoolean, reviseBlend } from '../geometry/sculpt';
+import { organicMesh } from '../geometry/organic';
+import type { OrganicDefinition } from '../geometry/organicSchema';
 import { solarPosition } from '../studio/solar';
 import { solarDay, shadowOnLevelGround } from '../studio/solarAnalysis';
 import { constructAssembly, remapCopiedHosts } from './assembly';
@@ -29,6 +32,7 @@ import {
   validateVolume,
   type Project,
   type Volume,
+  type Vec3,
 } from '../model';
 import {
   getKernel,
@@ -1013,6 +1017,181 @@ async function applyTransaction(
       focus(s, [v.id]);
       reports.push(
         `${report(v)} Added ${op.side} ${ref.name}; both parts remain independently editable. Union can join them when needed.`,
+      );
+    } else if (op.type === 'edit_blend') {
+      const v = one(op.target, s);
+      const next = await reviseBlend(v, op.radius, op.resolution);
+      s.project = updateVolume(s.project, v.id, next);
+      focus(s, [v.id]);
+      reports.push(`${report(next)} Blend revised from original operands.`);
+    } else if (op.type === 'sculpt') {
+      const v = one(op.target, s);
+      const next = await sculptVolume(v, op.settings, op.replaceLast);
+      s.project = updateVolume(s.project, v.id, next);
+      focus(s, [v.id]);
+      reports.push(`${report(next)} Sculpt controls and source retained.`);
+    } else if (op.type === 'smooth_boolean') {
+      const vs = targets(op.targets, s);
+      if (vs.length < 2 || vs.length > 4)
+        throw new Error('Choose two to four distinct solids.');
+      const next = await smoothBoolean(
+        vs,
+        op.operation,
+        op.radius,
+        op.resolution,
+      );
+      const removed = vs.slice(1).map((v) => v.id);
+      s.project.volumes = s.project.volumes
+        .filter((v) => !removed.includes(v.id))
+        .map((v) =>
+          v.id === next.id
+            ? next
+            : v.component?.hostId && removed.includes(v.component.hostId)
+              ? { ...v, component: { ...v.component, hostId: null } }
+              : v,
+        );
+      s.context.lastOperands = vs.map((v) => v.id);
+      focus(s, [next.id]);
+      reports.push(
+        `${report(next)} Smooth ${op.operation}, ${op.resolution} m field spacing; original operands retained.`,
+      );
+    } else if (
+      op.type === 'organic_form' ||
+      op.type === 'edit_control_points'
+    ) {
+      const previous =
+        op.type === 'edit_control_points'
+          ? one(op.target, s)
+          : op.target
+            ? one(op.target, s)
+            : null;
+      let definition: OrganicDefinition;
+      if (op.type === 'organic_form')
+        definition = structuredClone(op.definition);
+      else {
+        if (
+          previous?.geometry?.kind !== 'form' ||
+          ![
+            'nurbs',
+            'subdivision',
+            'organic_sweep',
+            'smooth_loft',
+            'field',
+          ].includes(previous.geometry.definition.method)
+        )
+          throw new Error(
+            'Choose a retained organic form to edit its controls.',
+          );
+        definition = structuredClone(
+          previous.geometry.definition,
+        ) as OrganicDefinition;
+        const controls: Vec3[] =
+          definition.method === 'nurbs'
+            ? definition.points.flat()
+            : definition.method === 'subdivision'
+              ? definition.vertices
+              : definition.method === 'organic_sweep'
+                ? definition.path
+                : definition.method === 'field'
+                  ? definition.elements.map((e) => e.center)
+                  : [];
+        if (!controls.length)
+          throw new Error(
+            'Use organic_form with the updated loft sections; its existing recipe is in the scene context.',
+          );
+        for (const change of op.changes) {
+          const point = controls[change.index];
+          if (!point) throw new Error('Control index is outside this form.');
+          Object.assign(point, change.point);
+          if ('weight' in point && change.weight !== null)
+            point.weight = change.weight;
+        }
+      }
+      const result = organicMesh(await getKernel(), definition);
+      const position =
+        op.type === 'organic_form' ? op.position : { ...previous!.position };
+      let dimensions = result.dimensions;
+      if (
+        op.type === 'edit_control_points' &&
+        previous?.geometry?.kind === 'form'
+      ) {
+        const old = previous.geometry.origin ?? { x: 0, y: 0, z: 0 },
+          base = previous.geometry.base ?? previous.dimensions;
+        const sx = previous.dimensions.width / base.width,
+          sy = previous.dimensions.height / base.height,
+          sz = previous.dimensions.depth / base.depth;
+        const dx = (result.origin.x - old.x) * sx,
+          dz = (result.origin.z - old.z) * sz,
+          a = (previous.rotation * Math.PI) / 180;
+        position.x += dx * Math.cos(a) + dz * Math.sin(a);
+        position.z += -dx * Math.sin(a) + dz * Math.cos(a);
+        position.y += (result.origin.y - old.y) * sy;
+        dimensions = {
+          width: dimensions.width * sx,
+          height: dimensions.height * sy,
+          depth: dimensions.depth * sz,
+        };
+      }
+      const v: Volume = {
+        ...(previous ?? makeVolume(s.project.volumes.length + 1)),
+        name:
+          op.type === 'organic_form'
+            ? uniqueName(
+                op.name,
+                s.project.volumes.filter((v) => v.id !== previous?.id),
+              )
+            : previous!.name,
+        dimensions,
+        position,
+        geometry: {
+          kind: 'form',
+          mesh: result.mesh,
+          definition,
+          origin: result.origin,
+          base: result.dimensions,
+        },
+      };
+      validateVolume(v);
+      if (previous) s.project = updateVolume(s.project, v.id, v);
+      else s.project.volumes.push(v);
+      s.context.lastCreatedIds = [v.id];
+      focus(s, [v.id]);
+      reports.push(
+        `${report(v)} Editable ${definition.method} solid; control geometry retained.`,
+      );
+    } else if (op.type === 'inset_layout') {
+      const ref = one(op.reference, s),
+        vs = targets(op.targets, s),
+        a = (ref.rotation * Math.PI) / 180;
+      for (const v of vs) {
+        const dx = v.position.x - ref.position.x,
+          dz = v.position.z - ref.position.z;
+        let x = dx * Math.cos(a) - dz * Math.sin(a),
+          z = dx * Math.sin(a) + dz * Math.cos(a);
+        const inset = (n: number) => {
+          if (Math.abs(n) < 1e-7) return 0;
+          if (op.distance > Math.abs(n))
+            throw new Error(
+              'That inset would cross the layout center. Use a smaller inset.',
+            );
+          return n - Math.sign(n) * op.distance;
+        };
+        if (op.axes.includes('x')) x = inset(x);
+        if (op.axes.includes('z')) z = inset(z);
+        s.project = updateVolume(s.project, v.id, {
+          position: {
+            x: ref.position.x + x * Math.cos(a) + z * Math.sin(a),
+            y: v.position.y,
+            z: ref.position.z - x * Math.sin(a) + z * Math.cos(a),
+          },
+        });
+      }
+      focus(
+        s,
+        vs.map((v) => v.id),
+      );
+      reports.push(
+        `Moved ${vs.length} existing components ${op.distance} m inward along ${op.axes.toUpperCase()} in ${ref.name}'s axes; dimensions and identities preserved.`,
       );
     } else if (
       op.type === 'sweep' ||

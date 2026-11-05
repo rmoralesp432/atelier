@@ -1,3 +1,6 @@
+import { organicMesh, validateOrganic } from './organic';
+import type { OrganicDefinition } from './organicSchema';
+import { rejectCrossingSurface } from './surfaceValidation';
 import {
   CatmullRomCurve3,
   CurvePath,
@@ -5,7 +8,6 @@ import {
   ShapeUtils,
   Vector2,
   Vector3,
-  Ray,
 } from 'three';
 import type { ManifoldToplevel } from 'manifold-3d';
 import type { Dimensions, Vec3 } from '../model';
@@ -18,6 +20,7 @@ import {
 } from './parametric';
 
 export type FormDefinition =
+  | OrganicDefinition
   | ParametricDefinition
   | {
       method: 'sweep';
@@ -30,6 +33,8 @@ export type FormRecipe = {
   kind: 'form';
   mesh: MeshRecipe;
   definition: FormDefinition;
+  origin?: Vec3;
+  base?: Dimensions;
 };
 const signedArea = (p: FootprintPoint[]) =>
   p.reduce((s, a, i) => {
@@ -37,10 +42,17 @@ const signedArea = (p: FootprintPoint[]) =>
     return s + a.x * b.z - b.x * a.z;
   }, 0);
 export function validateForm(d: FormDefinition) {
+  if (
+    d &&
+    ['nurbs', 'organic_sweep', 'smooth_loft', 'subdivision', 'field'].includes(
+      d.method,
+    )
+  )
+    return validateOrganic(d as OrganicDefinition);
   if (!d || !['sweep', 'loft', 'revolve', 'profile'].includes(d.method))
     throw new Error('Unsupported form definition.');
-  if (d.method === 'revolve' || d.method === 'profile')
-    return validateParametric(d);
+  if (d.method !== 'sweep' && d.method !== 'loft')
+    return validateParametric(d as ParametricDefinition);
   if (d.method === 'sweep') {
     validatePolygon(d.profile);
     if (
@@ -108,8 +120,14 @@ export function formMesh(
   definition: FormDefinition,
 ): { mesh: MeshRecipe; dimensions: Dimensions } {
   validateForm(definition);
-  if (definition.method === 'revolve' || definition.method === 'profile')
-    return parametricMesh(m, definition);
+  if (
+    ['nurbs', 'organic_sweep', 'smooth_loft', 'subdivision', 'field'].includes(
+      definition.method,
+    )
+  )
+    return organicMesh(m, definition as OrganicDefinition);
+  if (definition.method !== 'sweep' && definition.method !== 'loft')
+    return parametricMesh(m, definition as ParametricDefinition);
   let rings: Vector3[][], profile: FootprintPoint[];
   if (definition.method === 'loft') {
     profile = definition.sections[0].points;
@@ -221,64 +239,4 @@ export function formMesh(
   } finally {
     solid.delete();
   }
-}
-
-// Sweep along the largest bounding axis to avoid testing every triangle pair.
-// Ignore shared-vertex neighbors; reject intersections through other triangles.
-function rejectCrossingSurface(positions: number[], indices: number[]) {
-  const points = Array.from({ length: positions.length / 3 }, (_, i) =>
-    new Vector3().fromArray(positions, i * 3),
-  );
-  const spans = [0, 1, 2].map(
-    (a) =>
-      Math.max(...points.map((p) => p.getComponent(a))) -
-      Math.min(...points.map((p) => p.getComponent(a))),
-  );
-  const axis = spans.indexOf(Math.max(...spans));
-  const faces = Array.from({ length: indices.length / 3 }, (_, i) => {
-    const ids = indices.slice(i * 3, i * 3 + 3),
-      p = ids.map((j) => points[j]);
-    return {
-      ids,
-      p,
-      min: [0, 1, 2].map((a) => Math.min(...p.map((v) => v.getComponent(a)))),
-      max: [0, 1, 2].map((a) => Math.max(...p.map((v) => v.getComponent(a)))),
-    };
-  }).sort((a, b) => a.min[axis] - b.min[axis]);
-  const ray = new Ray(),
-    hit = new Vector3(),
-    direction = new Vector3();
-  const intersects = (a: Vector3[], b: Vector3[]) =>
-    a.some((p, i) => {
-      direction.copy(a[(i + 1) % 3]).sub(p);
-      const length = direction.length();
-      if (length < 1e-8) return false;
-      ray.set(p, direction.multiplyScalar(1 / length));
-      const result = ray.intersectTriangle(b[0], b[1], b[2], false, hit);
-      return (
-        result !== null &&
-        p.distanceTo(hit) > 1e-6 &&
-        p.distanceTo(hit) < length - 1e-6
-      );
-    });
-  for (let i = 0; i < faces.length; i++)
-    for (
-      let j = i + 1;
-      j < faces.length && faces[j].min[axis] <= faces[i].max[axis] + 1e-7;
-      j++
-    ) {
-      const a = faces[i],
-        b = faces[j];
-      if (
-        a.ids.some((id) => b.ids.includes(id)) ||
-        [0, 1, 2].some(
-          (k) => a.min[k] > b.max[k] + 1e-7 || b.min[k] > a.max[k] + 1e-7,
-        )
-      )
-        continue;
-      if (intersects(a.p, b.p) || intersects(b.p, a.p))
-        throw new Error(
-          'The form crosses itself. Use a gentler path, smaller profile, or aligned loft sections.',
-        );
-    }
 }

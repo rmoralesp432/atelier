@@ -1,3 +1,4 @@
+import type { SculptRecipe, BlendRecipe } from './geometry/sculpt';
 import { componentSchema, type ComponentInfo } from './design/schema';
 import {
   validateDesign,
@@ -11,6 +12,8 @@ export type Vec3 = { x: number; y: number; z: number };
 export type Dimensions = { width: number; depth: number; height: number };
 import type { FormRecipe } from './geometry/forms';
 export type GeometryRecipe =
+  | SculptRecipe
+  | BlendRecipe
   | FormRecipe
   | {
       kind: 'oriented';
@@ -90,7 +93,9 @@ export const round = (n: number) => Math.round(n * 1000) / 1000 + 0;
 export function validateVolume(v: Volume, checkGeometry = true): void {
   if (v.component) componentSchema.parse(v.component);
   const minimum =
-    v.geometry?.kind === 'mesh' || v.geometry?.kind === 'person' || v.component
+    ['mesh', 'form', 'sculpt', 'blend', 'person'].includes(
+      v.geometry?.kind ?? '',
+    ) || v.component
       ? 0.001
       : 0.1;
   if (v.visible !== undefined && typeof v.visible !== 'boolean')
