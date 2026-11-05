@@ -24,6 +24,7 @@ test('start screen preserves projects and offers a quiet manual entry on desktop
     page.getByRole('main', { name: 'ATELIER start screen' }),
   ).toBeVisible();
   await expect(page.getByTestId('viewport')).toHaveCount(0);
+  await expect(page.locator('.orb-large')).toBeVisible();
   await page.screenshot({ path: 'test-results/atelier-start-desktop.png' });
   await page.getByRole('button', { name: 'Continue without AI' }).click();
   await page.getByLabel('Name your new project').fill('Garden study');
@@ -84,6 +85,8 @@ test('AI entry uses the existing password endpoint and never starts voice automa
     return r.abort();
   });
   await page.goto('/');
+  await expect(page.locator('.orb-large')).toBeVisible();
+  await page.getByText('AI settings', { exact: true }).click();
   await page.getByLabel('Workspace password').fill('wrong');
   await page.getByRole('button', { name: 'Continue with AI' }).click();
   await expect(page.getByRole('alert')).toContainText('not accepted');
