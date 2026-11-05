@@ -1,3 +1,4 @@
+import { seasonalSunDiagram } from './studio/sunDiagram';
 import { explosionOffsets } from './design/explosion';
 import { viewScope } from './design/viewScope';
 import { explorationTransform } from './design/model';
@@ -1179,6 +1180,8 @@ export default function Viewport(props: Props) {
       const site = latest.current.project.site,
         study = latest.current.solar;
       container.dataset.sunPaths = '0';
+      container.dataset.sunDisk = 'false';
+      container.dataset.sunDiagram = 'false';
       if (site && study.enabled) {
         const sun = solarPosition(site, study),
           dir = new THREE.Vector3(
@@ -1194,6 +1197,7 @@ export default function Viewport(props: Props) {
         container.dataset.sunAltitude = String(sun.altitude);
         container.dataset.sunAzimuth = String(sun.azimuth);
         if (study.path) {
+          const diagramOrigin = new THREE.Vector3(center.x, 0, center.z);
           const pathRadius = Math.max(
             12,
             Math.hypot(
@@ -1233,7 +1237,7 @@ export default function Viewport(props: Props) {
                     points.map((p) =>
                       new THREE.Vector3(p.x, p.y, p.z)
                         .multiplyScalar(pathRadius)
-                        .add(center),
+                        .add(diagramOrigin),
                     ),
                   ),
                   new THREE.LineBasicMaterial({
@@ -1245,13 +1249,74 @@ export default function Viewport(props: Props) {
               );
             }
           container.dataset.sunPaths = String(sunPath.children.length);
+          if (study.seasonal) {
+            const diagram = seasonalSunDiagram(site, study);
+            const diagramGroup = new THREE.Group();
+            diagramGroup.scale.setScalar(pathRadius);
+            diagramGroup.position.copy(diagramOrigin);
+            for (const points of diagram.paths)
+              diagramGroup.add(
+                new THREE.Line(
+                  new THREE.BufferGeometry().setFromPoints(
+                    points.map((p) => new THREE.Vector3(p.x, p.y, p.z)),
+                  ),
+                  new THREE.LineBasicMaterial({
+                    color: dayTheme ? '#87774f' : '#cab68b',
+                    transparent: true,
+                    opacity: dayTheme ? 0.65 : 0.48,
+                  }),
+                ),
+              );
+            const band = new THREE.BufferGeometry();
+            band.setAttribute(
+              'position',
+              new THREE.Float32BufferAttribute(diagram.surface, 3),
+            );
+            diagramGroup.add(
+              new THREE.Mesh(
+                band,
+                new THREE.MeshBasicMaterial({
+                  color: dayTheme ? '#cfb875' : '#dfc88d',
+                  transparent: true,
+                  opacity: dayTheme ? 0.14 : 0.09,
+                  side: THREE.DoubleSide,
+                  depthWrite: false,
+                }),
+              ),
+            );
+            const horizon = Array.from(
+              { length: 129 },
+              (_, i) =>
+                new THREE.Vector3(
+                  Math.sin((i * Math.PI) / 64),
+                  0,
+                  Math.cos((i * Math.PI) / 64),
+                ),
+            );
+            diagramGroup.add(
+              new THREE.Line(
+                new THREE.BufferGeometry().setFromPoints(horizon),
+                new THREE.LineBasicMaterial({
+                  color: dayTheme ? '#69717a' : '#aeb8bf',
+                  transparent: true,
+                  opacity: 0.35,
+                }),
+              ),
+            );
+            sunPath.add(diagramGroup);
+            container.dataset.sunDiagram = 'true';
+          }
           if (sun.altitude > 0) {
             const sphere = new THREE.Mesh(
-              new THREE.SphereGeometry(Math.max(0.3, radius * 0.008), 16, 12),
+              new THREE.SphereGeometry(
+                pathRadius * 0.018 * (study.diskScale ?? 1),
+                24,
+                16,
+              ),
               new THREE.MeshBasicMaterial({ color: '#ffe0a1' }),
             );
             sphere.position
-              .copy(center)
+              .copy(diagramOrigin)
               .addScaledVector(
                 dir,
                 Math.max(
@@ -1264,6 +1329,8 @@ export default function Viewport(props: Props) {
                 ),
               );
             sunPath.add(sphere);
+            container.dataset.sunDisk = 'true';
+            container.dataset.sunDiskScale = String(study.diskScale ?? 1);
           }
         }
       } else {

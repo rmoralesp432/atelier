@@ -92,6 +92,8 @@ it('uses the actual Responses SDK contract with strict schema, scene context and
   expect(items.anyOf.length).toBeGreaterThan(1);
   const types = items.anyOf.map((branch: any) => branch.properties.type.const);
   expect(new Set(types).size).toBe(types.length);
+  expect(types).toContain('building_components');
+  expect(types).not.toContain('building');
   for (const branch of items.anyOf) {
     expect(branch.additionalProperties).toBe(false);
     expect([...branch.required].sort()).toEqual(
@@ -181,4 +183,25 @@ it('keeps every nested provider object strict and exposes the staged/architectur
       'solar_study',
     ]),
   );
+});
+it('project concierge uses a constrained project tool instead of modeling tools (SDK transport double)', async () => {
+  let session: any;
+  const provider = createProvider(
+    'test-only-not-a-credential',
+    async (_url, init) => {
+      session = JSON.parse(
+        await ((init?.body as FormData).get('session') as Blob).text(),
+      );
+      return new Response('v=0\r\ns=lobby\r\n', { status: 201 });
+    },
+  );
+  await provider.voice('v=0\r\ns=offer\r\n', [
+    { id: 'garden', name: 'Garden project' },
+  ]);
+  expect(session.tools[0].name).toBe('open_project');
+  expect(session.tools[0].parameters.properties.projectId.enum).toEqual([
+    'garden',
+  ]);
+  expect(session.instructions).toContain('untrusted labels');
+  expect(session.tools.some((t: any) => t.name === 'design')).toBe(false);
 });

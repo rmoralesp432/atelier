@@ -1,3 +1,4 @@
+import AudioOrb, { type AudioLevels } from './conversation/AudioOrb';
 import { explosionOffsets } from './design/explosion';
 import { explorationTransform, componentInfo } from './design/model';
 import ExplorePanel from './design/ExplorePanel';
@@ -294,6 +295,8 @@ export default function App({
   projectMenu,
   onOpenSample,
   sampleBusy,
+  initialAIEnabled = true,
+  onAIEnabled,
 }: {
   initialWorkspace?: WorkspaceSnapshot;
   projectName?: string;
@@ -304,6 +307,8 @@ export default function App({
   projectMenu?: (blocked: boolean) => ReactNode;
   onOpenSample?: () => void;
   sampleBusy?: boolean;
+  initialAIEnabled?: boolean;
+  onAIEnabled?: () => void;
 }) {
   const [boot] = useState(() =>
     initialWorkspace
@@ -591,6 +596,12 @@ export default function App({
     authenticated: true,
     voiceConfigured: false,
   });
+  const [aiChoice, setAIChoice] = useState(initialAIEnabled);
+  const [question, setQuestion] = useState<string | null>(null);
+  const [answer, setAnswer] = useState('');
+  const voiceLevels = useRef<AudioLevels>({ input: 0, output: 0 });
+  const aiEnabled =
+    aiChoice && connectionState.configured && connectionState.authenticated;
   const [busy, setBusy] = useState(false);
   const [referenceImages, setReferenceImages] = useState<string[]>([]);
   const [referenceWidth, setReferenceWidth] = useState('');
@@ -608,7 +619,7 @@ export default function App({
     labels?: Record<string, string>;
   } | null>(null);
   useEffect(() => {
-    if (pending) setChatDocked(false);
+    if (pending) setChatExpanded(true);
   }, [pending]);
   useEffect(() => {
     if (panels.active) setPhoneActions(false);
@@ -702,14 +713,15 @@ export default function App({
         continue;
       }
       if (op.type === 'solar_study') {
-        setSolar({
+        setSolar((v) => ({
+          ...v,
           enabled: op.enabled,
           date: op.date,
           minutes: op.minutes,
           utcOffset: op.utcOffset,
           path: op.path,
           seasonal: op.seasonal,
-        });
+        }));
         setSolarOpen(true);
         continue;
       }
@@ -996,7 +1008,7 @@ export default function App({
             : `Join ${names.join(' and ')} into one solid.`,
       ];
     }
-    if (op.type === 'building')
+    if (op.type === 'building' || op.type === 'building_components')
       return [
         `${reviewName(op.target)}: ${op.floors} floor slabs plus a roof, ${op.slabThickness} m thick${op.facade ? `, with glazing and frames spaced at most ${op.panelWidth} m apart` : ''}.`,
       ];
@@ -1126,6 +1138,11 @@ export default function App({
     }
   };
   const sendConversation = async (text: string): Promise<string> => {
+    if (!aiChoice) {
+      setSettingsOpen(true);
+      return 'Enable AI in workspace settings to start a conversation.';
+    }
+    setQuestion(null);
     if (busyRef.current) return 'Please wait for the current edit to finish.';
     busyRef.current = true;
     setBusy(true);
@@ -1177,8 +1194,9 @@ export default function App({
           'The scene changed while I was considering this request. Please send it again.',
         );
       if (plan.intent === 'clarify') {
+        setQuestion(plan.message);
         setChatExpanded(true);
-        input.current?.focus();
+        if (!chatDocked) input.current?.focus();
         remember('assistant', plan.message);
         return plan.message;
       }
@@ -1234,6 +1252,33 @@ export default function App({
   };
   const sendRef = useRef(sendConversation);
   sendRef.current = sendConversation;
+  const toggleVoice = async () => {
+    if (voice.current) {
+      voice.current.stop();
+      voice.current = null;
+      return;
+    }
+    if (!aiEnabled) {
+      setSettingsOpen(true);
+      return;
+    }
+    const v = new VoiceConnection(
+      (text) => sendRef.current(text),
+      (status) => {
+        setVoiceStatus(status);
+        setVoiceActive(v.active);
+        if (!v.active && voice.current === v) voice.current = null;
+      },
+      { levels: voiceLevels.current },
+    );
+    voice.current = v;
+    try {
+      await v.start();
+    } catch (e) {
+      voice.current = null;
+      reportError(e);
+    }
+  };
   useEffect(() => {
     void connection().then(setConnectionState);
     return () => voice.current?.stop();
@@ -3290,7 +3335,93 @@ export default function App({
             </section>
           )}
           <ConversationSurface target={arActive ? arConversationHost : null}>
-            {chatDocked && (
+            {chatDocked && aiEnabled && (
+              <>
+                {(question || pending) && (
+                  <section
+                    className="orb-question"
+                    role="dialog"
+                    aria-label="Atelier question"
+                  >
+                    <p>{question ?? pending?.plan.message}</p>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        if (answer.trim()) {
+                          void sendRef.current(answer.trim());
+                          setAnswer('');
+                        }
+                      }}
+                    >
+                      <input
+                        aria-label="Answer Atelier"
+                        placeholder={
+                          voiceActive
+                            ? 'Speak, or type your answer…'
+                            : 'Your answer…'
+                        }
+                        value={answer}
+                        onChange={(e) => setAnswer(e.target.value)}
+                        maxLength={4000}
+                      />
+                      <button disabled={busy || !answer.trim()}>Reply</button>
+                    </form>
+                    {pending && (
+                      <button onClick={revealConversation}>
+                        Review change
+                      </button>
+                    )}
+                  </section>
+                )}
+                <div className="orb-dock" aria-label="Atelier voice companion">
+                  <button
+                    className="orb-open"
+                    aria-label="Open conversation"
+                    onClick={revealConversation}
+                  >
+                    <AudioOrb
+                      levels={voiceLevels}
+                      state={
+                        busy
+                          ? 'thinking'
+                          : voiceStatus === 'Speaking'
+                            ? 'speaking'
+                            : voiceActive
+                              ? 'listening'
+                              : 'idle'
+                      }
+                    />
+                  </button>
+                  <span className="orb-dock-status" role="status">
+                    {busy
+                      ? 'Thinking…'
+                      : voiceStatus === 'Speaking'
+                        ? 'Speaking'
+                        : voiceActive
+                          ? voiceStatus
+                          : 'Atelier'}
+                  </span>
+                  <button
+                    aria-label={
+                      voiceActive
+                        ? 'Stop voice conversation'
+                        : 'Start voice conversation'
+                    }
+                    disabled={!connectionState.voiceConfigured}
+                    onClick={() => void toggleVoice()}
+                  >
+                    {voiceActive ? <MicOff size={20} /> : <Mic size={20} />}
+                  </button>
+                  <button
+                    aria-label="Type to Atelier"
+                    onClick={revealConversation}
+                  >
+                    <MessageCircle size={20} />
+                  </button>
+                </div>
+              </>
+            )}
+            {chatDocked && !aiEnabled && (
               <button
                 className="conversation-launcher"
                 aria-label="Open conversation"
@@ -3319,7 +3450,20 @@ export default function App({
                   aria-label={`Atelier ${busy ? 'Thinking…' : chatExpanded ? 'Close conversation' : 'Conversation'}`}
                   onClick={() => setChatExpanded(!chatExpanded)}
                 >
-                  <MessageCircle size={16} />
+                  {aiEnabled && (busy || voiceActive) ? (
+                    <AudioOrb
+                      levels={voiceLevels}
+                      state={
+                        busy
+                          ? 'thinking'
+                          : voiceStatus === 'Speaking'
+                            ? 'speaking'
+                            : 'listening'
+                      }
+                    />
+                  ) : (
+                    <MessageCircle size={16} />
+                  )}
                   <span>{busy ? 'Thinking…' : 'Conversation'}</span>
                   <ChevronDown
                     size={14}
@@ -3620,38 +3764,13 @@ export default function App({
                         ? 'Start voice conversation'
                         : 'Stop voice conversation'
                     }
-                    disabled={
-                      !connectionState.voiceConfigured ||
-                      !connectionState.authenticated
-                    }
+                    disabled={!connectionState.voiceConfigured || !aiEnabled}
                     title={
                       connectionState.voiceConfigured
                         ? 'Continuous voice conversation'
                         : 'Configure the AI backend to enable voice'
                     }
-                    onClick={async () => {
-                      if (voice.current) {
-                        voice.current.stop();
-                        voice.current = null;
-                        return;
-                      }
-                      const v = new VoiceConnection(
-                        (text) => sendRef.current(text),
-                        (status) => {
-                          setVoiceStatus(status);
-                          setVoiceActive(v.active);
-                          if (!v.active && voice.current === v)
-                            voice.current = null;
-                        },
-                      );
-                      voice.current = v;
-                      try {
-                        await v.start();
-                      } catch (e) {
-                        voice.current = null;
-                        reportError(e);
-                      }
-                    }}
+                    onClick={() => void toggleVoice()}
                   >
                     {!voiceActive ? <Mic size={18} /> : <MicOff size={18} />}
                   </button>
@@ -4204,7 +4323,16 @@ export default function App({
         <ConnectionDialog
           state={connectionState}
           onClose={() => setSettingsOpen(false)}
-          onRefresh={async () => setConnectionState(await connection())}
+          onRefresh={async () => {
+            setConnectionState(await connection());
+            setAIChoice(true);
+            onAIEnabled?.();
+            try {
+              sessionStorage.setItem('atelier.ai-choice', 'on');
+            } catch {
+              /* The current session still works without browser storage. */
+            }
+          }}
         />
       )}
     </div>
@@ -4274,7 +4402,24 @@ function ConnectionDialog({
         </form>
       )}
       {error && <p role="alert">{error}</p>}
-      <button onClick={() => void onRefresh()}>Check connection</button>
+      <button onClick={() => void onRefresh()}>
+        Enable AI / check connection
+      </button>
+      <label className="field-note">
+        <input
+          type="checkbox"
+          defaultChecked={
+            localStorage.getItem('atelier.start-direct') !== 'true'
+          }
+          onChange={(e) =>
+            localStorage.setItem(
+              'atelier.start-direct',
+              String(!e.target.checked),
+            )
+          }
+        />
+        Show the project start screen when opening Atelier
+      </label>
       <p className="field-note">
         Text requests share your instruction and scene metadata with the
         configured model. Voice also sends microphone audio while enabled. Stop

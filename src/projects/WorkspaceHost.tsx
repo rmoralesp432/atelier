@@ -1,3 +1,4 @@
+import ProjectStart from './ProjectStart';
 import { downloadProject, projectFile, readProjectCopy } from './transfer';
 import { MAX_IMPORT_BYTES } from '../imports/mesh';
 import { parsePanoramas } from '../panorama/data';
@@ -14,16 +15,33 @@ import {
 import {
   activeProject,
   listProjects,
+  listProjectSummaries,
   saveProject,
   renameProject,
   deleteProject,
   type SavedProject,
+  type ProjectSummary,
   type WorkspaceSnapshot,
 } from './library';
 export default function WorkspaceHost() {
+  const [showStart, setShowStart] = useState(() => {
+    try {
+      return localStorage.getItem('atelier.start-direct') !== 'true';
+    } catch {
+      return true;
+    }
+  });
+  const [aiChoice, setAIChoice] = useState(() => {
+    try {
+      return sessionStorage.getItem('atelier.ai-choice') !== 'off';
+    } catch {
+      return true;
+    }
+  });
   const [ready, setReady] = useState(false),
     [initial, setInitial] = useState<SavedProject | null>(null),
     [generation, setGeneration] = useState(0);
+  const [startEntries, setStartEntries] = useState<ProjectSummary[]>([]);
   const [identity, setIdentity] = useState<{ id: string; name: string } | null>(
       null,
     ),
@@ -108,7 +126,13 @@ export default function WorkspaceHost() {
         );
       })
       .finally(() => {
-        if (!cancelled) setReady(true);
+        if (!cancelled) {
+          setReady(true);
+          if (showStart)
+            void listProjectSummaries()
+              .then(setStartEntries)
+              .catch(() => {});
+        }
       });
     return () => {
       cancelled = true;
@@ -210,6 +234,7 @@ export default function WorkspaceHost() {
       setIdentity({ id: record.id, name: record.name });
       setGeneration((n) => n + 1);
       setOpen(false);
+      return true;
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -286,10 +311,34 @@ export default function WorkspaceHost() {
       setWorking(false);
     }
   };
+  if (showStart)
+    return (
+      <ProjectStart
+        projects={startEntries}
+        currentName={identity?.name}
+        currentId={identity?.id}
+        busy={working || !ready}
+        error={error}
+        onOpen={async (record, ai) => {
+          if (working || !ready) return false;
+          if (record && !(await switchTo(record))) return false;
+          setAIChoice(ai);
+          try {
+            sessionStorage.setItem('atelier.ai-choice', ai ? 'on' : 'off');
+          } catch {
+            /* Optional preference. */
+          }
+          setShowStart(false);
+          return true;
+        }}
+      />
+    );
   if (!ready)
     return <div className="workspace-loading">Opening your workspace…</div>;
   return (
     <App
+      initialAIEnabled={aiChoice}
+      onAIEnabled={() => setAIChoice(true)}
       key={generation}
       initialWorkspace={initial ?? undefined}
       projectName={identity?.name}

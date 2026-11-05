@@ -34,9 +34,10 @@ export function explosionOffsets(project: Project, state: Exploration) {
   }
   const scope = eligible.filter((v) => included.has(v.id));
   if (!scope.length) return result;
-  const b = groupBounds(scope),
-    cx = (b.min.x + b.max.x) / 2,
-    cz = (b.min.z + b.max.z) / 2;
+  // Use a nearby floor as the architectural datum, not the scene's centroid:
+  // furniture, terraces and a second building must not reverse a facade's exit.
+  const slabs = eligible.filter((v) => componentInfo(v).role === 'floor');
+  const b = groupBounds(scope);
   const gap = Math.max(1.5, Math.min(12, (b.max.y - b.min.y) * 0.65));
   const floors = [
     ...new Set(
@@ -45,6 +46,34 @@ export function explosionOffsets(project: Project, state: Exploration) {
         .map((v) => Math.round(v.position.y * 10) / 10),
     ),
   ].sort((a, b) => a - b);
+  const anchor = (v: Volume) => {
+    const candidates = slabs.filter((s) => s.groupId === v.groupId);
+    const pool = candidates.length ? candidates : slabs;
+    const ranked = pool
+      .map((s) => {
+        const a = (s.rotation * Math.PI) / 180;
+        const dx = v.position.x - s.position.x,
+          dz = v.position.z - s.position.z;
+        const x = dx * Math.cos(a) - dz * Math.sin(a);
+        const z = dx * Math.sin(a) + dz * Math.cos(a);
+        const outside = Math.hypot(
+          Math.max(0, Math.abs(x) - s.dimensions.width / 2),
+          Math.max(0, Math.abs(z) - s.dimensions.depth / 2),
+        );
+        return {
+          s,
+          score: outside * 100 + Math.abs(v.position.y - s.position.y),
+        };
+      })
+      .sort((a, b) => a.score - b.score);
+    return (
+      ranked[0]?.s.position ?? {
+        x: (b.min.x + b.max.x) / 2,
+        y: b.min.y,
+        z: (b.min.z + b.max.z) / 2,
+      }
+    );
+  };
   const visiting = new Set<string>();
   const offset = (v: Volume): Vec3 => {
     if (result.has(v.id)) return result.get(v.id)!;
@@ -64,31 +93,29 @@ export function explosionOffsets(project: Project, state: Exploration) {
       0,
       floors.filter((y) => y <= v.position.y + 0.15).length - 1,
     );
-    const out = { x: 0, y: level * gap, z: 0 };
+    const out = { x: 0, y: 0, z: 0 };
     if (role === 'roof') out.y = Math.max(1, floors.length) * gap + gap * 0.8;
-    else if (role === 'floor') {
-      /* slabs stay parallel and aligned */
-    } else if (['wall', 'window', 'door', 'panel'].includes(role)) {
-      out.y += gap * 0.35;
-      const dx = v.position.x - cx,
-        dz = v.position.z - cz;
-      if (
-        Math.abs(dx) / Math.max(1, b.max.x - b.min.x) >
-        Math.abs(dz) / Math.max(1, b.max.z - b.min.z)
-      )
-        out.x = (Math.sign(dx) || 1) * gap * 0.7;
-      else out.z = (Math.sign(dz) || 1) * gap * 0.7;
-    } else if (role === 'column') out.y += gap * 0.2;
-    else {
-      out.y += gap * 0.15;
-      const dx = v.position.x - cx,
-        dz = v.position.z - cz,
-        length = Math.hypot(dx, dz);
-      if (length > 0.01) {
-        out.x = (dx / length) * gap * 0.35;
-        out.z = (dz / length) * gap * 0.35;
-      }
-    }
+    else if (role === 'floor') out.y = level * gap;
+    else if (
+      ['wall', 'window', 'door', 'panel', 'frame', 'sunshade'].includes(role)
+    ) {
+      const c = anchor(v),
+        a = (v.rotation * Math.PI) / 180;
+      const dx = v.position.x - c.x,
+        dz = v.position.z - c.z;
+      const lx = dx * Math.cos(a) - dz * Math.sin(a);
+      const lz = dx * Math.sin(a) + dz * Math.cos(a);
+      // A facade exits perpendicular to its thin horizontal dimension. Small
+      // mullions use their location instead. Exactly ONE local axis moves.
+      const thinX = v.dimensions.width < v.dimensions.depth * 0.5;
+      const thinZ = v.dimensions.depth < v.dimensions.width * 0.5;
+      const useX = thinX || (!thinZ && Math.abs(lx) > Math.abs(lz));
+      const distance = gap * (0.7 + level * 0.2);
+      const x = useX ? (Math.sign(lx) || 1) * distance : 0;
+      const z = useX ? 0 : (Math.sign(lz) || 1) * distance;
+      out.x = x * Math.cos(a) + z * Math.sin(a);
+      out.z = -x * Math.sin(a) + z * Math.cos(a);
+    } else out.y = (level + (role === 'column' ? 0.2 : 0.35)) * gap;
     out.x *= state.amount;
     out.y *= state.amount;
     out.z *= state.amount;
