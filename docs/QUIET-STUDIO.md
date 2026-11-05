@@ -2,7 +2,7 @@
 
 ## Six requested changes
 
-1. **Moving orb:** slow caustic rotation, breathing shape and moving reflection run even while idle. Actual microphone/output levels add audio response only during voice use. No microphone or paid request starts automatically. The device's Reduce Motion preference is respected.
+1. **Moving companion:** one soft inner form, with no outer sphere, rim or nested glass shell. Its wavy contour continuously folds and relaxes, using native SVG morphing and gentle CSS motion. Actual microphone/output levels add audio response only during voice use. No microphone or paid request starts automatically. The device's Reduce Motion preference is respected.
 2. **Minimal welcome:** a shared geometric, rune-like A replaces the serif letter in the welcome screen, workspace and favicon. The welcome has one heading, moving orb and Open studio button; AI settings remain in the corner. New project stays above existing projects. The password popup closes when entry succeeds.
 3. **Minimized conversation:** the moving orb replaces the chat bubble in both manual and AI modes. Tap the orb to type. When voice is available a compact microphone control stays beside it; live questions and confirmations retain their existing reply/review flow. The microphone target is 44 pixels.
 4. **Moodboard removed:** no menu, viewport overlay, lazy viewer bundle or AI workspace command is offered. Existing project attachments remain in saved/imported/exported project data; they are not deleted. Conversation reference-image uploads and panorama imports remain available.
@@ -11,7 +11,7 @@
 
 ## Verification and limits
 
-All 292 unit tests and the production build pass. The static-site smoke test also passes at the /atelier/ path, including actual solid rendering, direct edits, reload persistence, FBX/panorama imports and worker-prepared AR export. Browser checks cover desktop/phone welcome, idle CSS motion over time with no paid calls, real Web Audio levels through an offline voice transport, minimized questions/replies, preserved legacy attachments through import/save/reload/export, and actual solar altitude/time progression after closing the settings panel.
+All 292 unit tests and the production build pass. The static-site smoke test also passes at the /atelier/ path, including actual solid rendering, direct edits, reload persistence, FBX/panorama imports and worker-prepared AR export. Browser checks cover desktop/phone welcome, idle motion over time with no paid calls, real Web Audio levels through an offline voice transport, minimized questions/replies, preserved legacy attachments through import/save/reload/export, and actual solar altitude/time progression after closing the settings panel.
 
 Live OpenAI interpretation and physical iPhone microphone/AR behavior were not tested. The massing update changes the actual model's instructions; a fixture is not proof that every reference will be interpreted correctly. No API key, billing or hosting configuration was changed.
 
