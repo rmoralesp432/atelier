@@ -1,0 +1,24 @@
+# Deploy this branch as one HTTPS service: browser app + private AI backend.
+services:
+  - type: web
+    name: atelier
+    runtime: node
+    plan: free
+    branch: feat/phase2-conversational-modeling
+    buildCommand: npm ci --include=dev && npm test && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: false
+    envVars:
+      - key: NODE_VERSION
+        value: 24.19.0
+      - key: NODE_ENV
+        value: production
+      - key: ATELIER_OPENAI_API_KEY
+        sync: false
+      - key: ATELIER_APP_PASSWORD
+        generateValue: true
+      - key: ATELIER_TEXT_MODEL
+        value: gpt-4.1
+      - key: ATELIER_VOICE_MODEL
+        value: gpt-realtime

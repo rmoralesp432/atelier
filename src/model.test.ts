@@ -106,3 +106,22 @@ describe('project persistence and inspector validation', () => {
     expect(() => updateVolume(p, p.selectedId!, { name: '' })).toThrow();
   });
 });
+
+it('deletes the complete selection atomically and preserves unselected objects', () => {
+  const p = initialProject();
+  p.volumes.push({ ...p.volumes[0], id: 'keep', name: 'Keep this' });
+  p.selectedIds = p.volumes.slice(0, 2).map((v) => v.id);
+  const before = structuredClone(p);
+  const result = executeCommand(p, 'delete selected');
+  expect(result.project.volumes.map((v) => v.id)).toEqual(['keep']);
+  expect(result.project.selectedIds).toEqual([]);
+  expect(result.project.selectedId).toBeNull();
+  expect(result.message).toContain('2 objects');
+  expect(p).toEqual(before);
+  p.groups = [{ id: 'locked', name: 'Protected', visible: true, locked: true }];
+  p.volumes[1].groupId = 'locked';
+  expect(() => executeCommand(p, 'delete selected')).toThrow(
+    'Nothing was deleted',
+  );
+  expect(p.volumes).toHaveLength(3);
+});

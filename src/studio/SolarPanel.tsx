@@ -1,0 +1,253 @@
+import { X, Play, Pause } from 'lucide-react';
+import { useFloatingPanel } from './useFloatingPanel';
+import { solarPosition, type SolarStudy } from './solar';
+import { seasonalDates, solarDay, shadowOnLevelGround } from './solarAnalysis';
+import type { Site } from './site';
+export default function SolarPanel({
+  site,
+  value,
+  onChange,
+  onLocation,
+  onClose,
+  playing,
+  setPlaying,
+  onWatch,
+}: {
+  site?: Site;
+  value: SolarStudy;
+  onChange: (v: SolarStudy) => void;
+  onLocation: () => void;
+  onClose: () => void;
+  playing: boolean;
+  setPlaying: (value: boolean) => void;
+  onWatch: () => void;
+}) {
+  const floating = useFloatingPanel();
+  const sun = site ? solarPosition(site, value) : null;
+  const day = site ? solarDay(site, value) : null;
+  const dates = seasonalDates(Number(value.date.slice(0, 4)), value.utcOffset);
+  const shadow = site ? shadowOnLevelGround(site, value, 1) : null;
+  return (
+    <section
+      className="section-panel solar-panel"
+      aria-label="Solar study controls"
+      ref={floating.ref}
+      style={floating.style}
+      onPointerDownCapture={floating.raise}
+    >
+      <div
+        className="studio-panel-heading panel-drag-handle"
+        {...floating.handle}
+        role="button"
+        tabIndex={0}
+        aria-label="Move solar study"
+      >
+        <strong>Follow the sun</strong>
+        <button aria-label="Close solar study" onClick={onClose}>
+          <X size={17} />
+        </button>
+      </div>
+      {!site ? (
+        <>
+          <p className="studio-caption">
+            Choose the site location to calculate the sun accurately.
+          </p>
+          <button className="primary-studio-action" onClick={onLocation}>
+            Set site location
+          </button>
+        </>
+      ) : (
+        <>
+          <button className="primary-studio-action" onClick={onWatch}>
+            Watch in viewport <Play size={15} />
+          </button>
+          <label className="solar-enable">
+            <input
+              type="checkbox"
+              checked={value.enabled}
+              onChange={(e) => {
+                setPlaying(false);
+                onChange({ ...value, enabled: e.target.checked });
+              }}
+            />{' '}
+            Solar lighting
+          </label>
+          <label>
+            Date
+            <input
+              aria-label="Solar date"
+              type="date"
+              value={value.date}
+              onChange={(e) => {
+                if (/^\d{4}-\d{2}-\d{2}$/.test(e.target.value))
+                  onChange({ ...value, date: e.target.value });
+              }}
+            />
+          </label>
+          <div className="solar-presets" aria-label="Seasonal dates">
+            {dates.map((event) => (
+              <button
+                key={event.name}
+                title={event.date}
+                aria-pressed={value.date === event.date}
+                onClick={() => {
+                  setPlaying(false);
+                  const next = {
+                    ...value,
+                    date: event.date,
+                    enabled: true,
+                    path: true,
+                  };
+                  const noon = solarDay(site, next).noon;
+                  if (noon) {
+                    const [h, m] = noon.split(':').map(Number);
+                    next.minutes = h * 60 + m;
+                  }
+                  onChange(next);
+                }}
+              >
+                {event.name}
+              </button>
+            ))}
+          </div>
+          <div className="solar-time">
+            <strong>
+              {`${Math.floor(value.minutes / 60)}`.padStart(2, '0')}:
+              {`${value.minutes % 60}`.padStart(2, '0')}
+            </strong>
+            <button
+              aria-label={
+                playing ? 'Pause solar animation' : 'Play solar animation'
+              }
+              onClick={() => setPlaying(!playing)}
+            >
+              {playing ? <Pause size={17} /> : <Play size={17} />}
+            </button>
+          </div>
+          <input
+            aria-label="Solar time"
+            type="range"
+            min="0"
+            max="1439"
+            step="1"
+            value={value.minutes}
+            onChange={(e) => {
+              setPlaying(false);
+              onChange({
+                ...value,
+                minutes: Number(e.target.value),
+                enabled: true,
+              });
+            }}
+          />
+          <label>
+            UTC offset at the site
+            <input
+              aria-label="Solar UTC offset"
+              type="number"
+              min="-12"
+              max="14"
+              step=".25"
+              value={value.utcOffset}
+              onChange={(e) => {
+                const n = Number(e.target.value);
+                if (Number.isFinite(n) && n >= -12 && n <= 14)
+                  onChange({ ...value, utcOffset: n });
+              }}
+            />
+          </label>
+          <p className="studio-caption">
+            UTC{value.utcOffset >= 0 ? '+' : ''}
+            {value.utcOffset} · initially your browser’s timezone. Set the
+            site’s offset, including daylight saving time.
+          </p>
+          <label className="solar-enable">
+            <input
+              type="checkbox"
+              checked={value.path}
+              onChange={(e) => onChange({ ...value, path: e.target.checked })}
+            />{' '}
+            Show sun path
+          </label>
+          <label className="solar-enable">
+            <input
+              type="checkbox"
+              checked={value.seasonal ?? false}
+              onChange={(e) =>
+                onChange({ ...value, path: true, seasonal: e.target.checked })
+              }
+            />
+            Compare solstices & equinoxes
+          </label>
+          <label>
+            Sun disk size
+            <input
+              aria-label="Sun disk size"
+              type="range"
+              min="0.5"
+              max="4"
+              step="0.1"
+              value={value.diskScale ?? 1}
+              onChange={(e) =>
+                onChange({ ...value, diskScale: Number(e.target.value) })
+              }
+            />
+            <output>{(value.diskScale ?? 1).toFixed(1)}×</output>
+          </label>
+          {value.seasonal && (
+            <p className="solar-path-legend">
+              <span>Gold · selected day</span>
+              <span>Blue · June</span>
+              <span>Rose · December</span>
+              <span>Gray · equinoxes</span>
+            </p>
+          )}
+          <div className="solar-readout">
+            <span>
+              Altitude <b>{sun?.altitude.toFixed(1)}°</b>
+            </span>
+            <span>
+              Azimuth <b>{sun?.azimuth.toFixed(1)}°</b>
+            </span>
+          </div>
+          {day && (
+            <div className="solar-daylight">
+              <span>
+                Sunrise{' '}
+                <b>
+                  {day.sunrise ??
+                    (day.polar === 'day' ? 'Polar day' : 'No sunrise')}
+                </b>
+              </span>
+              <span>
+                Solar noon <b>{day.noon}</b>
+              </span>
+              <span>
+                Sunset{' '}
+                <b>
+                  {day.sunset ??
+                    (day.polar === 'night' ? 'Polar night' : 'No sunset')}
+                </b>
+              </span>
+              <span>
+                Shadow / 1 m height{' '}
+                <b>
+                  {shadow ? `${shadow.length.toFixed(2)} m` : 'No direct sun'}
+                </b>
+              </span>
+            </div>
+          )}
+          <p className="studio-caption">
+            {sun && sun.altitude < 0
+              ? 'Sun below the horizon. '
+              : 'True-north solar position. '}
+            Shadows use the model geometry. The length above assumes level
+            ground. Seasonal presets use the displayed year and UTC offset;
+            check daylight saving time when changing dates. No terrain, weather
+            or energy analysis.
+          </p>
+        </>
+      )}
+    </section>
+  );
+}

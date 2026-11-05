@@ -1,7 +1,7 @@
 name: Check ATELIER
 on:
   push:
-    branches: [main]
+    branches: [main, feat/phase2-conversational-modeling]
   pull_request:
 permissions:
   contents: read
@@ -17,6 +17,8 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium
       - run: npm run check
+        env:
+          ATELIER_TEST_PRODUCTION: '1'
       - uses: actions/upload-artifact@v4
         if: always()
         with:

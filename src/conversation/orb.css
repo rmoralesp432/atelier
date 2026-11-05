@@ -1,0 +1,227 @@
+.audio-orb {
+  --orb-energy: 0;
+  display: inline-block;
+  position: relative;
+  width: 58px;
+  height: 58px;
+  isolation: isolate;
+  /* The wrapper is only a hit area: no enclosing sphere, rim or glass shell. */
+  transform: scale(calc(1 + var(--orb-energy) * 0.12));
+  transition: transform 80ms linear;
+}
+.orb-large {
+  width: 164px;
+  height: 164px;
+}
+.orb-core {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+  filter: drop-shadow(0 3px 5px #0000001a);
+  animation: orb-flow 14s ease-in-out infinite;
+}
+.audio-orb[data-state='thinking'] .orb-core {
+  animation-duration: 10s;
+}
+/* A nearly circular surface gently yields without tumbling or broad wobble.
+   Idle motion is separate from the measured audio response. */
+@keyframes orb-flow {
+  0%,
+  100% {
+    transform: translate(0, 0) rotate(-3deg) scale(1, 0.985);
+  }
+  25% {
+    transform: translate(0.8%, -1%) rotate(1.5deg) scale(0.985, 1.015);
+  }
+  50% {
+    transform: translate(-0.8%, 1%) rotate(3deg) scale(1.015, 0.985);
+  }
+  75% {
+    transform: translate(0.8%, 0) rotate(-1.5deg) scale(0.985, 1);
+  }
+}
+.orb-dock {
+  position: absolute;
+  z-index: 12;
+  bottom: max(56px, env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px 8px 8px;
+  border-radius: 50px;
+  background: var(--panel, #ffffffed);
+  box-shadow: 0 8px 40px #0002;
+  border: 1px solid #8882;
+}
+.orb-dock button {
+  border: 0;
+  background: transparent;
+  display: grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 50%;
+  color: inherit;
+  padding: 0;
+}
+.orb-dock .orb-open {
+  min-width: 58px;
+}
+.orb-dock-status {
+  font-size: 11px;
+  color: var(--muted, #66717b);
+  max-width: 80px;
+}
+.orb-question {
+  position: absolute;
+  z-index: 13;
+  bottom: 150px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(400px, calc(100% - 32px));
+  background: var(--panel, #fff);
+  color: inherit;
+  border: 1px solid #8883;
+  padding: 20px;
+  border-radius: 24px;
+  box-shadow: 0 12px 40px #0002;
+}
+.orb-question p {
+  margin: 0 0 14px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.orb-question button {
+  padding: 10px 16px;
+  border-radius: 24px;
+  border: 1px solid #8884;
+  background: transparent;
+  color: inherit;
+}
+@media (prefers-reduced-motion: reduce) {
+  .audio-orb,
+  .audio-orb * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.conversation-heading .audio-orb {
+  width: 26px;
+  height: 26px;
+}
+.orb-question form {
+  display: flex;
+  gap: 8px;
+  margin: 8px 0;
+}
+.orb-question input {
+  min-width: 0;
+  flex: 1;
+  border: 1px solid #8884;
+  border-radius: 12px;
+  padding: 12px;
+  background: transparent;
+  color: inherit;
+}
+.theme-night .orb-dock,
+.theme-night .orb-question {
+  background: #252a2ded;
+  color: #e5e9eb;
+}
+.theme-day .orb-dock,
+.theme-day .orb-question {
+  background: #fffffff2;
+  color: #252a2d;
+}
+@media (max-width: 600px) {
+  .orb-dock {
+    bottom: max(46px, env(safe-area-inset-bottom));
+  }
+  .orb-question {
+    bottom: 136px;
+  }
+}
+
+.orb-dock,
+.theme-day .orb-dock,
+.theme-night .orb-dock {
+  width: 76px;
+  height: 76px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.orb-dock .orb-open {
+  width: 76px;
+  height: 76px;
+}
+.orb-dock .audio-orb {
+  width: 68px;
+  height: 68px;
+}
+.orb-dock-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.orb-dock .orb-mic {
+  position: absolute;
+  right: -12px;
+  bottom: -4px;
+  min-width: 44px;
+  min-height: 44px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: 0 2px 8px #0001;
+}
+.orb-open:focus-visible {
+  outline: 2px solid var(--accent, #758a92);
+  outline-offset: 6px;
+}
+
+.orb-open {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+.orb-gloss {
+  transform-origin: 50px 50px;
+  animation: orb-gloss-pulse 14s ease-in-out infinite;
+}
+.audio-orb[data-state='thinking'] .orb-gloss {
+  animation-duration: 10s;
+}
+@keyframes orb-gloss-pulse {
+  0%,
+  42%,
+  100% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  58% {
+    opacity: 0.8;
+    transform: scale(0.97);
+  }
+  72% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  86% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .orb-gloss {
+    animation: none !important;
+    opacity: 0;
+  }
+}
