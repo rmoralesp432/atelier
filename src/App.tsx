@@ -1,6 +1,7 @@
 import SolarPlayer from './studio/SolarPlayer';
 import { useSolarPlayback } from './studio/useSolarPlayback';
 import BrandMark from './components/BrandMark';
+import OrbControl from './conversation/OrbControl';
 import AudioOrb, { type AudioLevels } from './conversation/AudioOrb';
 import { explosionOffsets } from './design/explosion';
 import { explorationTransform, componentInfo } from './design/model';
@@ -1303,7 +1304,6 @@ export default function App({
     setHistoryVersion((v) => v + 1);
   }, []);
   const reportError = (e: unknown) => {
-    setChatDocked(false);
     setNotice({
       text:
         e instanceof Error
@@ -3332,35 +3332,47 @@ export default function App({
           <ConversationSurface target={arActive ? arConversationHost : null}>
             {chatDocked && (
               <>
-                {aiEnabled && (question || pending) && (
+                {(notice.error || (aiEnabled && (question || pending))) && (
                   <section
                     className="orb-question"
                     role="dialog"
                     aria-label="Atelier question"
                   >
-                    <p>{question ?? pending?.plan.message}</p>
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault();
-                        if (answer.trim()) {
-                          void sendRef.current(answer.trim());
-                          setAnswer('');
-                        }
-                      }}
-                    >
-                      <input
-                        aria-label="Answer Atelier"
-                        placeholder={
-                          voiceActive
-                            ? 'Speak, or type your answer…'
-                            : 'Your answer…'
-                        }
-                        value={answer}
-                        onChange={(e) => setAnswer(e.target.value)}
-                        maxLength={4000}
-                      />
-                      <button disabled={busy || !answer.trim()}>Reply</button>
-                    </form>
+                    <p role={notice.error ? 'alert' : undefined}>
+                      {notice.error
+                        ? notice.text
+                        : (question ?? pending?.plan.message)}
+                    </p>
+                    {notice.error ? (
+                      <button
+                        onClick={() => setNotice({ text: '', error: false })}
+                      >
+                        Dismiss
+                      </button>
+                    ) : (
+                      <form
+                        onSubmit={(e) => {
+                          e.preventDefault();
+                          if (answer.trim()) {
+                            void sendRef.current(answer.trim());
+                            setAnswer('');
+                          }
+                        }}
+                      >
+                        <input
+                          aria-label="Answer Atelier"
+                          placeholder={
+                            voiceActive
+                              ? 'Speak, or type your answer…'
+                              : 'Your answer…'
+                          }
+                          value={answer}
+                          onChange={(e) => setAnswer(e.target.value)}
+                          maxLength={4000}
+                        />
+                        <button disabled={busy || !answer.trim()}>Reply</button>
+                      </form>
+                    )}
                     {pending && (
                       <button onClick={revealConversation}>
                         Review change
@@ -3373,10 +3385,14 @@ export default function App({
                   aria-label="Atelier voice companion"
                   data-ai-enabled={aiEnabled}
                 >
-                  <button
-                    className="orb-open"
-                    aria-label="Open conversation"
-                    onClick={revealConversation}
+                  <OrbControl
+                    onVoice={() =>
+                      connectionState.voiceConfigured
+                        ? void toggleVoice()
+                        : setSettingsOpen(true)
+                    }
+                    onOpen={revealConversation}
+                    active={voiceActive}
                   >
                     <AudioOrb
                       levels={voiceLevels}
@@ -3390,7 +3406,7 @@ export default function App({
                               : 'idle'
                       }
                     />
-                  </button>
+                  </OrbControl>
                   <span className="orb-dock-status" role="status">
                     {busy
                       ? 'Thinking…'
@@ -3400,20 +3416,6 @@ export default function App({
                           ? voiceStatus
                           : 'Atelier'}
                   </span>
-                  {aiEnabled && connectionState.voiceConfigured && (
-                    <button
-                      className="orb-mic"
-                      aria-label={
-                        voiceActive
-                          ? 'Stop voice conversation'
-                          : 'Start voice conversation'
-                      }
-                      disabled={!connectionState.voiceConfigured}
-                      onClick={() => void toggleVoice()}
-                    >
-                      {voiceActive ? <MicOff size={20} /> : <Mic size={20} />}
-                    </button>
-                  )}
                 </div>
               </>
             )}

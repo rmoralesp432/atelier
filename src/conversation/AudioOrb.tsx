@@ -66,9 +66,9 @@ export default function AudioOrb({
         <defs>
           <radialGradient id={gradient} cx="32%" cy="26%" r="78%">
             <stop offset="0" stopColor="#fafafa" />
-            <stop offset=".3" stopColor="#c8c8c8" />
-            <stop offset=".68" stopColor="#454545" />
-            <stop offset=".86" stopColor="#999999" />
+            <stop offset=".3" stopColor="#c8c8c8" stopOpacity=".76" />
+            <stop offset=".68" stopColor="#454545" stopOpacity=".68" />
+            <stop offset=".86" stopColor="#999999" stopOpacity=".82" />
             <stop offset="1" stopColor="#eeeeee" />
           </radialGradient>
           <radialGradient id={`${gradient}-shine`}>
@@ -76,18 +76,48 @@ export default function AudioOrb({
             <stop offset=".5" stopColor="white" stopOpacity=".65" />
             <stop offset="1" stopColor="white" stopOpacity="0" />
           </radialGradient>
+          <linearGradient id={`${gradient}-gloss`}>
+            <stop offset="0" stopColor="white" stopOpacity="0" />
+            <stop offset=".46" stopColor="white" stopOpacity=".05" />
+            <stop offset=".52" stopColor="white" stopOpacity=".85" />
+            <stop offset=".68" stopColor="white" stopOpacity=".12" />
+            <stop offset="1" stopColor="white" stopOpacity="0" />
+          </linearGradient>
         </defs>
-        <path d={contours[0]} fill={`url(#${gradient})`}>
-          <animate
-            attributeName="d"
-            values={[...contours, contours[0]].join(';')}
-            dur={state === 'thinking' ? '10s' : '14s'}
-            repeatCount="indefinite"
-            calcMode="spline"
-            keyTimes="0;.25;.5;.75;1"
-            keySplines=".42 0 .58 1;.42 0 .58 1;.42 0 .58 1;.42 0 .58 1"
+        <defs>
+          <path id={`${gradient}-surface`} d={contours[0]}>
+            <animate
+              attributeName="d"
+              values={[...contours, contours[0]].join(';')}
+              dur={state === 'thinking' ? '10s' : '14s'}
+              repeatCount="indefinite"
+              calcMode="spline"
+              keyTimes="0;.25;.5;.75;1"
+              keySplines=".42 0 .58 1;.42 0 .58 1;.42 0 .58 1;.42 0 .58 1"
+            />
+          </path>
+          <clipPath id={`${gradient}-clip`}>
+            <use href={`#${gradient}-surface`} />
+          </clipPath>
+        </defs>
+        <use href={`#${gradient}-surface`} fill={`url(#${gradient})`} />
+        <g clipPath={`url(#${gradient}-clip)`}>
+          <rect
+            className="orb-gloss"
+            x="-40"
+            y="-20"
+            width="55"
+            height="140"
+            fill={`url(#${gradient}-gloss)`}
           />
-        </path>
+        </g>
+        <use
+          href={`#${gradient}-surface`}
+          fill="none"
+          stroke="white"
+          strokeOpacity=".35"
+          strokeWidth=".45"
+        />
         <ellipse
           cx="33"
           cy="25"

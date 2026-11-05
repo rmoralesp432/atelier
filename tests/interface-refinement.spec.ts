@@ -25,9 +25,7 @@ test('calm desktop and phone surfaces retain draft, theme, geometry and reachabl
   await input.fill('A courtyard with a floating roof');
   await page.getByRole('button', { name: 'Minimize conversation' }).click();
   await expect(input).toBeHidden();
-  await page
-    .getByRole('button', { name: 'Open conversation', exact: true })
-    .click();
+  await page.getByRole('button', { name: 'Voice orb', exact: true }).dblclick();
   await expect(input).toHaveValue('A courtyard with a floating roof');
   await page
     .getByRole('button', { name: 'Switch to Night', exact: true })
@@ -69,9 +67,7 @@ test('calm desktop and phone surfaces retain draft, theme, geometry and reachabl
   await page
     .getByRole('button', { name: 'Close explore', exact: true })
     .click();
-  await page
-    .getByRole('button', { name: 'Open conversation', exact: true })
-    .click();
+  await page.getByRole('button', { name: 'Voice orb', exact: true }).dblclick();
   await expect(input).toBeVisible();
   expect((await saved(page)).project).toEqual(before);
   await page.reload();

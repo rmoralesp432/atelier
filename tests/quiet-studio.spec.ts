@@ -59,7 +59,7 @@ test('idle orbs visibly animate without AI or microphone, on the minimal entranc
     '0.00',
   );
   await page.screenshot({ path: 'test-results/quiet-orb-phone.png' });
-  await dock.getByRole('button', { name: 'Open conversation' }).click();
+  await dock.getByRole('button', { name: 'Voice orb' }).dblclick();
   await expect(
     page.getByRole('textbox', { name: 'Message Atelier' }),
   ).toBeVisible();
