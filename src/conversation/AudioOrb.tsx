@@ -4,9 +4,9 @@ export type AudioLevels = { input: number; output: number };
  * the separate thinking motion communicates a request, not invented speech. */
 const contours = [
   'M50 10 C73 9 90 27 90 50 C91 73 72 89 50 90 C28 91 10 72 10 50 C9 29 29 11 50 10 Z',
-  'M48 9 C69 8 89 30 91 49 C94 70 71 89 51 91 C29 94 12 70 10 51 C8 30 27 12 48 9 Z',
-  'M52 11 C76 10 88 27 88 48 C89 70 77 91 52 89 C30 87 8 74 10 52 C12 29 29 13 52 11 Z',
-  'M49 10 C71 13 92 28 89 51 C86 73 74 87 49 89 C25 91 11 72 11 49 C11 26 27 7 49 10 Z',
+  'M47 9 C68 7 89 31 92 49 C95 69 71 89 51 92 C29 95 13 69 10 51 C7 31 26 13 47 9 Z',
+  'M53 11 C77 10 87 27 87 47 C89 69 78 91 53 89 C31 86 7 75 10 53 C13 29 29 14 53 11 Z',
+  'M49 10 C71 14 93 28 89 51 C85 73 75 86 49 89 C24 91 11 72 11 49 C11 25 27 6 49 10 Z',
 ];
 export default function AudioOrb({
   levels,
@@ -65,15 +65,15 @@ export default function AudioOrb({
       <svg ref={shape} className="orb-core" viewBox="0 0 100 100">
         <defs>
           <radialGradient id={gradient} cx="32%" cy="26%" r="78%">
-            <stop offset="0" stopColor="#f1f7f8" />
-            <stop offset=".3" stopColor="#b9cbd1" />
-            <stop offset=".68" stopColor="#698594" />
-            <stop offset=".86" stopColor="#8da9b4" />
-            <stop offset="1" stopColor="#d6e7e9" />
+            <stop offset="0" stopColor="#fafafa" />
+            <stop offset=".3" stopColor="#c8c8c8" />
+            <stop offset=".68" stopColor="#454545" />
+            <stop offset=".86" stopColor="#999999" />
+            <stop offset="1" stopColor="#eeeeee" />
           </radialGradient>
           <radialGradient id={`${gradient}-shine`}>
-            <stop offset="0" stopColor="white" stopOpacity=".9" />
-            <stop offset=".5" stopColor="white" stopOpacity=".5" />
+            <stop offset="0" stopColor="white" stopOpacity="1" />
+            <stop offset=".5" stopColor="white" stopOpacity=".65" />
             <stop offset="1" stopColor="white" stopOpacity="0" />
           </radialGradient>
         </defs>
@@ -81,7 +81,7 @@ export default function AudioOrb({
           <animate
             attributeName="d"
             values={[...contours, contours[0]].join(';')}
-            dur={state === 'thinking' ? '12s' : '18s'}
+            dur={state === 'thinking' ? '10s' : '14s'}
             repeatCount="indefinite"
             calcMode="spline"
             keyTimes="0;.25;.5;.75;1"
@@ -92,7 +92,7 @@ export default function AudioOrb({
           cx="33"
           cy="25"
           rx="15"
-          ry="6"
+          ry="5"
           transform="rotate(-32 33 25)"
           fill={`url(#${gradient}-shine)`}
         />
