@@ -31,7 +31,10 @@ export default function AudioOrb({
       frame = requestAnimationFrame(tick);
     };
     if (state !== 'idle') tick();
-    else element.current?.style.setProperty('--orb-energy', '0');
+    else if (element.current) {
+      element.current.style.setProperty('--orb-energy', '0');
+      element.current.dataset.audioLevel = '0.00';
+    }
     return () => cancelAnimationFrame(frame);
   }, [levels, state]);
   return (

@@ -1,3 +1,4 @@
+import BrandMark from '../components/BrandMark';
 import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, FolderOpen, Mic, MicOff, Plus } from 'lucide-react';
 import AudioOrb, { type AudioLevels } from '../conversation/AudioOrb';
@@ -144,22 +145,17 @@ export default function ProjectStart({
     }
   };
   return (
-    <main className="project-start" aria-label="ATELIER start screen">
+    <main
+      data-step={step}
+      className="project-start"
+      aria-label="ATELIER start screen"
+    >
       <header>
         <span className="start-wordmark">
-          <i>A</i> Atelier
+          <BrandMark /> <span>Atelier</span>
         </span>
         <nav className="start-entry-actions">
-          <button
-            type="button"
-            onClick={() => {
-              setAI(false);
-              setStep('projects');
-            }}
-          >
-            Continue without AI
-          </button>
-          <details className="start-connection">
+          <details key={step} className="start-connection">
             <summary>AI settings</summary>{' '}
             <form
               onSubmit={(e) => {
@@ -210,25 +206,21 @@ export default function ProjectStart({
             }
           />
         }
-        <p className="start-eyebrow">
-          {step === 'connect'
-            ? 'Welcome to your studio'
-            : ai
-              ? 'Atelier is here'
-              : 'Your studio'}
-        </p>
         <h1>
-          {step === 'connect'
-            ? 'Where will your next idea begin?'
-            : 'Which project would you like to open?'}
+          {step === 'connect' ? 'Space for your ideas.' : 'Your projects.'}
         </h1>
         {step === 'connect' ? (
-          <>
-            <p>Design with Atelier, or explore on your own.</p>
-            <p className="start-hint">
-              Choose AI in the corner, or continue on your own.
-            </p>
-          </>
+          <button
+            className="start-enter"
+            aria-label="Continue without AI"
+            onClick={() => {
+              setAI(false);
+              setNotice('');
+              setStep('projects');
+            }}
+          >
+            Open studio <ArrowRight size={17} />
+          </button>
         ) : (
           <>
             {ai && (

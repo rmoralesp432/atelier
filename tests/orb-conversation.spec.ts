@@ -113,7 +113,7 @@ test('orb responds to measured Web Audio and keeps a spoken clarification access
   await expect(
     dock.getByRole('button', { name: 'Start voice conversation' }),
   ).toBeVisible();
-  await dock.getByRole('button', { name: 'Type to Atelier' }).click();
+  await dock.getByRole('button', { name: 'Open conversation' }).click();
   await expect(
     page.getByRole('textbox', { name: 'Message Atelier' }),
   ).toBeVisible();

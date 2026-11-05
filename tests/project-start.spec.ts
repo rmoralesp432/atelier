@@ -95,7 +95,7 @@ test('AI entry uses the existing password endpoint and never starts voice automa
   await expect(page.locator('.orb-large')).toBeVisible();
   await expect(
     page.getByRole('heading', {
-      name: 'Which project would you like to open?',
+      name: 'Your projects.',
     }),
   ).toBeVisible();
   await expect(
@@ -113,6 +113,8 @@ test('AI entry uses the existing password endpoint and never starts voice automa
 test('AI can be enabled after manual entry and stays enabled when changing projects', async ({
   page,
 }) => {
+  // Two workspace mounts and a durable save on software-rendered CI.
+  test.setTimeout(90000);
   await page.route('**/api/config', (r) =>
     r.fulfill({
       json: {
@@ -126,13 +128,22 @@ test('AI can be enabled after manual entry and stays enabled when changing proje
   await page.getByRole('button', { name: 'Continue without AI' }).click();
   await page.getByRole('button', { name: 'Continue workspace' }).click();
   await page.getByRole('button', { name: 'Minimize conversation' }).click();
-  await expect(page.getByLabel('Atelier voice companion')).toHaveCount(0);
+  await expect(page.getByLabel('Atelier voice companion')).toHaveAttribute(
+    'data-ai-enabled',
+    'false',
+  );
+  await expect(
+    page.getByLabel('Atelier voice companion').locator('.audio-orb'),
+  ).toBeVisible();
   await openTool(page, 'AI settings');
   await page
     .getByRole('button', { name: 'Enable AI / check connection' })
     .click();
   await page.getByRole('button', { name: 'Close connection settings' }).click();
-  await expect(page.getByLabel('Atelier voice companion')).toBeVisible();
+  await expect(page.getByLabel('Atelier voice companion')).toHaveAttribute(
+    'data-ai-enabled',
+    'true',
+  );
   await page.getByRole('button', { name: 'Projects', exact: true }).click();
   await page.getByLabel('New project name').fill('AI garden');
   await page.getByRole('button', { name: 'Create', exact: true }).click();
@@ -142,5 +153,8 @@ test('AI can be enabled after manual entry and stays enabled when changing proje
   );
   const minimize = page.getByRole('button', { name: 'Minimize conversation' });
   if (await minimize.isVisible()) await minimize.click();
-  await expect(page.getByLabel('Atelier voice companion')).toBeVisible();
+  await expect(page.getByLabel('Atelier voice companion')).toHaveAttribute(
+    'data-ai-enabled',
+    'true',
+  );
 });

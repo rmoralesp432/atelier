@@ -7099,3 +7099,54 @@ summary:focus-visible {
     color: var(--ui-text);
   }
 }
+
+.solar-player {
+  position: absolute;
+  top: 86px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--text);
+  border-radius: 32px;
+  box-shadow: 0 5px 22px #0001;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+.solar-player button {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  border: 0;
+  color: inherit;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.solar-player button:hover {
+  background: var(--panel-hover, #8881);
+}
+.solar-player time {
+  min-width: 54px;
+  text-align: center;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+@media (max-width: 800px) {
+  .viewport-stage:has(.selection-chip) .solar-player {
+    top: max(160px, var(--selection-tools-bottom, 160px));
+  }
+  .solar-player {
+    top: 82px;
+  }
+  .solar-player button {
+    width: 44px;
+    height: 44px;
+  }
+}
