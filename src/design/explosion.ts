@@ -38,7 +38,8 @@ export function explosionOffsets(project: Project, state: Exploration) {
   // furniture, terraces and a second building must not reverse a facade's exit.
   const slabs = eligible.filter((v) => componentInfo(v).role === 'floor');
   const b = groupBounds(scope);
-  const gap = Math.max(1.5, Math.min(12, (b.max.y - b.min.y) * 0.65));
+  const defaultGap =
+    state.gap ?? Math.max(1.5, Math.min(12, (b.max.y - b.min.y) * 0.65));
   const floors = [
     ...new Set(
       scope
@@ -67,10 +68,18 @@ export function explosionOffsets(project: Project, state: Exploration) {
       })
       .sort((a, b) => a.score - b.score);
     return (
-      ranked[0]?.s.position ?? {
-        x: (b.min.x + b.max.x) / 2,
-        y: b.min.y,
-        z: (b.min.z + b.max.z) / 2,
+      ranked[0]?.s ?? {
+        position: {
+          x: (b.min.x + b.max.x) / 2,
+          y: b.min.y,
+          z: (b.min.z + b.max.z) / 2,
+        },
+        rotation: 0,
+        dimensions: {
+          width: b.max.x - b.min.x,
+          depth: b.max.z - b.min.z,
+          height: 0.1,
+        },
       }
     );
   };
@@ -79,6 +88,23 @@ export function explosionOffsets(project: Project, state: Exploration) {
     if (result.has(v.id)) return result.get(v.id)!;
     if (visiting.has(v.id)) return { x: 0, y: 0, z: 0 };
     visiting.add(v.id);
+    const custom = state.overrides?.find((o) => o.id === v.id);
+    if (state.fixed?.includes(v.id) || custom) {
+      const out = { x: 0, y: 0, z: 0 };
+      if (custom && !state.fixed?.includes(v.id)) {
+        const sign = custom.direction.startsWith('-') ? -1 : 1;
+        const axis = custom.direction.replace('-', '') as keyof Vec3;
+        out[axis] = sign * custom.distance * state.amount;
+        const a = (v.rotation * Math.PI) / 180,
+          x = out.x,
+          z = out.z;
+        out.x = x * Math.cos(a) + z * Math.sin(a);
+        out.z = -x * Math.sin(a) + z * Math.cos(a);
+      }
+      result.set(v.id, out);
+      visiting.delete(v.id);
+      return out;
+    }
     const parent = v.component?.hostId
       ? byId.get(v.component.hostId)
       : undefined;
@@ -89,17 +115,44 @@ export function explosionOffsets(project: Project, state: Exploration) {
       return value;
     }
     const role = componentInfo(v).role;
+    const datum = anchor(v);
+    const localSlabs = slabs.filter(
+      (s) =>
+        Math.hypot(
+          s.position.x - datum.position.x,
+          s.position.z - datum.position.z,
+        ) < 0.25 && Math.abs(s.rotation - datum.rotation) % 180 < 0.1,
+    );
+    const localFloors = localSlabs.length
+      ? [
+          ...new Set(localSlabs.map((s) => Math.round(s.position.y * 10) / 10)),
+        ].sort((a, b) => a - b)
+      : floors;
+    const gap =
+      state.gap ??
+      (localFloors.length > 1
+        ? Math.max(
+            1.5,
+            Math.min(
+              12,
+              (localFloors.at(-1)! - localFloors[0]) / (localFloors.length - 1),
+            ),
+          )
+        : defaultGap);
     const level = Math.max(
       0,
-      floors.filter((y) => y <= v.position.y + 0.15).length - 1,
+      localFloors.filter((y) => y <= v.position.y + 0.15).length - 1,
     );
     const out = { x: 0, y: 0, z: 0 };
-    if (role === 'roof') out.y = Math.max(1, floors.length) * gap + gap * 0.8;
+    if (state.layout === 'levels')
+      out.y = (role === 'roof' ? localFloors.length : level) * gap;
+    else if (role === 'roof')
+      out.y = Math.max(1, localFloors.length) * gap + gap * 0.8;
     else if (role === 'floor') out.y = level * gap;
     else if (
       ['wall', 'window', 'door', 'panel', 'frame', 'sunshade'].includes(role)
     ) {
-      const c = anchor(v),
+      const c = datum.position,
         a = (v.rotation * Math.PI) / 180;
       const dx = v.position.x - c.x,
         dz = v.position.z - c.z;
@@ -110,7 +163,17 @@ export function explosionOffsets(project: Project, state: Exploration) {
       const thinX = v.dimensions.width < v.dimensions.depth * 0.5;
       const thinZ = v.dimensions.depth < v.dimensions.width * 0.5;
       const useX = thinX || (!thinZ && Math.abs(lx) > Math.abs(lz));
-      const distance = gap * (0.7 + level * 0.2);
+      const distance =
+        gap *
+        (0.7 +
+          level * 0.2 +
+          (state.layout === 'systems'
+            ? role === 'window' || role === 'panel'
+              ? 0.8
+              : role === 'frame'
+                ? 0.4
+                : 0
+            : 0));
       const x = useX ? (Math.sign(lx) || 1) * distance : 0;
       const z = useX ? 0 : (Math.sign(lz) || 1) * distance;
       out.x = x * Math.cos(a) + z * Math.sin(a);
