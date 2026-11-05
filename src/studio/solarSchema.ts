@@ -16,6 +16,7 @@ export const solarSchema = z
     utcOffset: z.number().min(-12).max(14),
     path: z.boolean(),
     seasonal: z.boolean().optional(),
+    diskScale: z.number().min(0.5).max(4).optional(),
   })
   .strict();
 // Provider output has no optional members; existing local solar state remains
@@ -23,7 +24,7 @@ export const solarSchema = z
 export const solarOperation = z
   .object({
     type: z.literal('solar_study'),
-    ...solarSchema.shape,
+    ...solarSchema.omit({ diskScale: true }).shape,
     seasonal: z.boolean(),
     targets: z.array(z.string().min(1).max(100)).max(200),
   })

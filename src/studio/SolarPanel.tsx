@@ -98,7 +98,18 @@ export default function SolarPanel({
                 aria-pressed={value.date === event.date}
                 onClick={() => {
                   setPlaying(false);
-                  onChange({ ...value, date: event.date, enabled: true });
+                  const next = {
+                    ...value,
+                    date: event.date,
+                    enabled: true,
+                    path: true,
+                  };
+                  const noon = solarDay(site, next).noon;
+                  if (noon) {
+                    const [h, m] = noon.split(':').map(Number);
+                    next.minutes = h * 60 + m;
+                  }
+                  onChange(next);
                 }}
               >
                 {event.name}
@@ -173,6 +184,21 @@ export default function SolarPanel({
               }
             />
             Compare solstices & equinoxes
+          </label>
+          <label>
+            Sun disk size
+            <input
+              aria-label="Sun disk size"
+              type="range"
+              min="0.5"
+              max="4"
+              step="0.1"
+              value={value.diskScale ?? 1}
+              onChange={(e) =>
+                onChange({ ...value, diskScale: Number(e.target.value) })
+              }
+            />
+            <output>{(value.diskScale ?? 1).toFixed(1)}×</output>
           </label>
           {value.seasonal && (
             <p className="solar-path-legend">

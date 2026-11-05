@@ -1,3 +1,5 @@
+import { AudioMeter } from '../conversation/audioMeter';
+import type { AudioLevels } from '../conversation/AudioOrb';
 import type { ExecutionContext } from './executionProtocol';
 import type { ValidationFeedback } from './checkedPlanner';
 import { parsePlan, type Operation } from './plan';
@@ -95,6 +97,7 @@ export class VoiceConnection {
   private channel: RTCDataChannel | null = null;
   private audio: HTMLAudioElement | null = null;
   private closed = true;
+  private meter: AudioMeter | null = null;
   get active() {
     return !this.closed;
   }
@@ -112,6 +115,10 @@ export class VoiceConnection {
   constructor(
     private onInstruction: (text: string) => Promise<string>,
     private onStatus: (status: string) => void,
+    private options: {
+      levels?: AudioLevels;
+      lobby?: { id: string; name: string }[];
+    } = {},
   ) {}
   async start() {
     this.closed = false;
@@ -119,6 +126,7 @@ export class VoiceConnection {
       throw new Error('Voice requires HTTPS and microphone access.');
     try {
       this.onStatus('Connecting');
+      if (this.options.levels) this.meter = new AudioMeter(this.options.levels);
       this.stream = await navigator.mediaDevices.getUserMedia({
         audio: { echoCancellation: true, noiseSuppression: true },
       });
@@ -126,12 +134,14 @@ export class VoiceConnection {
         this.stream.getTracks().forEach((t) => t.stop());
         return;
       }
+      this.meter?.attach(this.stream, 'input');
       const peer = (this.peer = new RTCPeerConnection());
       this.audio = new Audio();
       this.audio.autoplay = true;
       peer.ontrack = (e) => {
         if (this.audio) {
           this.audio.srcObject = e.streams[0];
+          this.meter?.attach(e.streams[0], 'output');
           void this.audio
             .play()
             .catch(() =>
@@ -147,6 +157,16 @@ export class VoiceConnection {
         if (this.closed) return;
         this.keepListening();
         this.onStatus('Listening');
+        if (this.options.lobby)
+          channel.send(
+            JSON.stringify({
+              type: 'response.create',
+              response: {
+                instructions:
+                  'Ask which project the user would like to open. Keep the greeting short.',
+              },
+            }),
+          );
       };
       channel.onmessage = (e) => {
         // Keep speech/transport events immediate, but serialize modeling turns
@@ -198,7 +218,10 @@ export class VoiceConnection {
       const response = await fetch('/api/voice', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sdp: peer.localDescription?.sdp }),
+        body: JSON.stringify({
+          sdp: peer.localDescription?.sdp,
+          ...(this.options.lobby ? { lobby: this.options.lobby } : {}),
+        }),
         signal: AbortSignal.any([
           this.request.signal,
           AbortSignal.timeout(45_000),
@@ -228,13 +251,19 @@ export class VoiceConnection {
         this.onStatus('Voice service error. Reconnect to continue.');
         return;
       }
+      if (e.type === 'output_audio_buffer.started') this.onStatus('Speaking');
+      if (
+        e.type === 'output_audio_buffer.stopped' ||
+        e.type === 'output_audio_buffer.cleared'
+      )
+        this.onStatus('Listening');
       if (e.type === 'input_audio_buffer.speech_started') {
         this.keepListening();
         this.onStatus('Listening');
       }
       if (
         e.type !== 'response.function_call_arguments.done' ||
-        e.name !== 'design' ||
+        e.name !== (this.options.lobby ? 'open_project' : 'design') ||
         this.handled.has(e.call_id)
       )
         return;
@@ -244,12 +273,17 @@ export class VoiceConnection {
       let output: string;
       try {
         const args = JSON.parse(e.arguments);
+        const instruction = this.options.lobby
+          ? args.projectId
+          : args.instruction;
         if (
-          typeof args.instruction !== 'string' ||
-          args.instruction.length > 4000
+          typeof instruction !== 'string' ||
+          instruction.length > 4000 ||
+          (this.options.lobby &&
+            !this.options.lobby.some((p) => p.id === instruction))
         )
           throw new Error('Invalid voice instruction.');
-        output = await this.onInstruction(args.instruction);
+        output = await this.onInstruction(instruction);
       } catch (err) {
         output =
           err instanceof Error
@@ -272,6 +306,8 @@ export class VoiceConnection {
   }
   stop() {
     this.closed = true;
+    this.meter?.stop();
+    this.meter = null;
     if (this.idleTimer) clearTimeout(this.idleTimer);
     this.idleTimer = null;
     this.request?.abort();

@@ -210,6 +210,34 @@ const small = (v: Volume) =>
   round(Math.max(0.25, Math.max(...Object.values(v.dimensions)) * 0.1));
 const report = (v: Volume) =>
   `${v.name}: ${round(v.dimensions.width)} × ${round(v.dimensions.depth)} × ${round(v.dimensions.height)} m; base (${round(v.position.x)}, ${round(v.position.y)}, ${round(v.position.z)}) m.`;
+async function separateBuilding(s: Session, v: Volume): Promise<string> {
+  if (isLocked(v, s.project))
+    throw new Error('Unlock this group before editing its components.');
+  const components = await editableBuildingComponents(v);
+  if (s.project.volumes.length - 1 + components.length > MAX_VOLUMES)
+    throw new Error(
+      'The components would exceed the 200-object workspace limit. Use fewer floors or wider panels first.',
+    );
+  if (!v.groupId) {
+    if ((s.project.groups?.length ?? 0) >= 50)
+      throw new Error('The workspace already has 50 groups.');
+    const group = {
+      id: crypto.randomUUID(),
+      name: v.name,
+      visible: true,
+      locked: false,
+    };
+    s.project.groups = [...(s.project.groups ?? []), group];
+    components.forEach((c) => (c.groupId = group.id));
+  }
+  s.project.volumes = s.project.volumes.flatMap((o) =>
+    o.id === v.id ? components : [o],
+  );
+  s.context.lastCreatedIds = components.map((c) => c.id);
+  focus(s, [components[0].id]);
+  return `${v.name}: ${components.length} editable slabs, windows and frame members. Select any part to move, resize or recolor it. Parts stay grouped; Undo restores the preceding model.`;
+}
+
 export async function applyPlan(
   original: Session,
   raw: unknown,
@@ -1542,34 +1570,8 @@ async function applyTransaction(
       );
     } else if (op.type === 'components') {
       const v = one(op.target, s);
-      if (isLocked(v, s.project))
-        throw new Error('Unlock this group before editing its components.');
-      const components = await editableBuildingComponents(v);
-      if (s.project.volumes.length - 1 + components.length > MAX_VOLUMES)
-        throw new Error(
-          'The components would exceed the 200-object workspace limit. Use fewer floors or wider panels first.',
-        );
-      if (!v.groupId) {
-        if ((s.project.groups?.length ?? 0) >= 50)
-          throw new Error('The workspace already has 50 groups.');
-        const group = {
-          id: crypto.randomUUID(),
-          name: v.name,
-          visible: true,
-          locked: false,
-        };
-        s.project.groups = [...(s.project.groups ?? []), group];
-        components.forEach((c) => (c.groupId = group.id));
-      }
-      s.project.volumes = s.project.volumes.flatMap((o) =>
-        o.id === v.id ? components : [o],
-      );
-      s.context.lastCreatedIds = components.map((c) => c.id);
-      focus(s, [components[0].id]);
-      reports.push(
-        `${v.name}: ${components.length} editable slabs, windows and frame members. Select any part to move, resize or recolor it. Parts stay grouped; Undo restores the procedural building and its floor/window controls.`,
-      );
-    } else if (op.type === 'building') {
+      reports.push(await separateBuilding(s, v));
+    } else if (op.type === 'building' || op.type === 'building_components') {
       const v = one(op.target, s);
       if (isProfile(v))
         throw new Error('Extrude this shape before creating floors.');
@@ -1603,6 +1605,8 @@ async function applyTransaction(
       reports.push(
         `${v.name}: ${op.floors} floor slabs plus a roof, ${op.slabThickness} m thick; total height ${v.dimensions.height} m and base elevation ${v.position.y} m preserved.${op.facade ? ` Curtain wall with real glass panels and frames, maximum panel width ${op.panelWidth} m.` : ''} Original envelope preserved for editing and undo.`,
       );
+      if (op.type === 'building_components')
+        reports.push(await separateBuilding(s, next));
     } else if (op.type === 'create') {
       const created: Volume[] = [];
       for (let i = 0; i < op.count; i++) {

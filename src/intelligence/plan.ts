@@ -413,6 +413,17 @@ export const operationSchema = z.discriminatedUnion('type', [
     .strict(),
   z
     .object({
+      type: z.literal('building_components'),
+      target: z.string(),
+      floors: z.number().int().min(1).max(30),
+      slabThickness: z.number().min(0.1).max(1),
+      facade: z.boolean(),
+      panelWidth: z.number().min(0.5).max(10),
+      mullionWidth: z.number().min(0.03).max(0.3),
+    })
+    .strict(),
+  z
+    .object({
       type: z.literal('create'),
       shape: z.enum(['box', 'cylinder', 'sphere', 'rectangle', 'circle']),
       width: dimension,
@@ -544,6 +555,12 @@ export const planJsonSchema = z.toJSONSchema(planSchema, {
       jsonSchema.anyOf = jsonSchema.oneOf;
       delete jsonSchema.oneOf;
     }
+    // Legacy/manual procedural buildings remain loadable and editable locally.
+    // The AI's construction tool creates real independent components by default.
+    if (zodSchema === operationSchema && jsonSchema.anyOf)
+      jsonSchema.anyOf = jsonSchema.anyOf.filter(
+        (branch: any) => branch.properties?.type?.const !== 'building',
+      );
   },
 });
 // Local/manual callers may omit planning/brief. Strict provider output includes
@@ -568,6 +585,7 @@ export const needsConfirmation = (plan: Plan) =>
       op.type === 'boolean' ||
       op.type === 'opening' ||
       op.type === 'building' ||
+      op.type === 'building_components' ||
       op.type === 'components' ||
       op.type === 'hollow' ||
       op.type === 'opening_shape' ||

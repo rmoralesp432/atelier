@@ -69,6 +69,10 @@ test('seasonal sun studies update actual paths, civil times and shadows, with te
     .getByRole('button', { name: 'June solstice', exact: true })
     .click();
   await expect(page.getByLabel('Solar date')).toHaveValue('2026-06-21');
+  await expect(viewport).toHaveAttribute('data-sun-disk', 'true');
+  await expect(viewport).toHaveAttribute('data-sun-diagram', 'true');
+  await page.getByLabel('Sun disk size').fill('2.5');
+  await expect(viewport).toHaveAttribute('data-sun-disk-scale', '2.5');
   await expect(
     page.getByRole('button', { name: 'June solstice', exact: true }),
   ).toHaveAttribute('aria-pressed', 'true');

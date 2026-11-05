@@ -83,3 +83,51 @@ it('explosion distances depend on the assembly, not its elevation or project ori
     for (const axis of ['x', 'y', 'z'] as const)
       expect(half.get(id)![axis]).toBeCloseTo(offset[axis] / 2);
 });
+it('all four facades exit along a single local normal and never move vertically or toward the building', () => {
+  for (const rotation of [0, 45, 90]) {
+    const floor = makeVolume(1, { width: 20, depth: 10, height: 0.3 });
+    floor.component = component('floor');
+    floor.rotation = rotation;
+    const a = (rotation * Math.PI) / 180;
+    const faces = [
+      [-10, 0, 0.1, 10],
+      [10, 0, 0.1, 10],
+      [0, -5, 20, 0.1],
+      [0, 5, 20, 0.1],
+    ].map(([x, z, width, depth], i) => {
+      const v = makeVolume(i + 2, { width, depth, height: 3 });
+      v.rotation = rotation;
+      v.component = component('window');
+      v.position = {
+        x: x * Math.cos(a) + z * Math.sin(a),
+        y: 0.3,
+        z: -x * Math.sin(a) + z * Math.cos(a),
+      };
+      return v;
+    });
+    const offsets = explosionOffsets(
+      { volumes: [floor, ...faces], selectedId: null },
+      { mode: 'exploded', amount: 1, targets: [] },
+    );
+    for (const v of faces) {
+      const o = offsets.get(v.id)!;
+      expect(o.y).toBe(0);
+      expect(o.x * v.position.x + o.z * v.position.z).toBeGreaterThan(0);
+      const x = o.x * Math.cos(a) - o.z * Math.sin(a),
+        z = o.x * Math.sin(a) + o.z * Math.cos(a);
+      expect(Math.min(Math.abs(x), Math.abs(z))).toBeLessThan(1e-8);
+    }
+  }
+});
+it('a distant second building does not reverse the first building facade', () => {
+  const p = assembly(),
+    far = makeVolume(9, { width: 30, depth: 20, height: 0.3 });
+  far.component = component('floor');
+  far.position = { x: 100, y: 4, z: 450 };
+  const o = explosionOffsets(
+    { ...p, volumes: [...p.volumes, far] },
+    { mode: 'exploded', amount: 1, targets: [] },
+  );
+  expect(o.get('door')!.z).toBeGreaterThan(0);
+  expect(o.get('door')!.y).toBe(0);
+});

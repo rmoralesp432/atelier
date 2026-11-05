@@ -12,6 +12,7 @@ export type SavedProject = WorkspaceSnapshot & {
   name: string;
   updatedAt: number;
 };
+export type ProjectSummary = Pick<SavedProject, 'id' | 'name' | 'updatedAt'>;
 let database: Promise<IDBDatabase> | null = null;
 function db() {
   return (database ??= new Promise((resolve, reject) => {
@@ -45,6 +46,40 @@ export async function listProjects(): Promise<SavedProject[]> {
           (a: SavedProject, b: SavedProject) => b.updatedAt - a.updatedAt,
         ),
       );
+    r.onerror = () => reject(r.error);
+  });
+}
+/** The entrance needs names, not every project's mesh/history payload at once. */
+export async function listProjectSummaries(): Promise<ProjectSummary[]> {
+  const d = await db();
+  return new Promise((resolve, reject) => {
+    const summaries: ProjectSummary[] = [];
+    const r = d.transaction('projects').objectStore('projects').openCursor();
+    r.onsuccess = () => {
+      const cursor = r.result;
+      if (!cursor) {
+        resolve(summaries.sort((a, b) => b.updatedAt - a.updatedAt));
+        return;
+      }
+      const { id, name, updatedAt } = cursor.value as SavedProject;
+      summaries.push({ id, name, updatedAt });
+      cursor.continue();
+    };
+    r.onerror = () => reject(r.error);
+  });
+}
+export async function projectById(id: string): Promise<SavedProject> {
+  const d = await db();
+  return new Promise((resolve, reject) => {
+    const r = d.transaction('projects').objectStore('projects').get(id);
+    r.onsuccess = () =>
+      r.result
+        ? resolve(r.result)
+        : reject(
+            new Error(
+              'This project is no longer available. Reopen the project list.',
+            ),
+          );
     r.onerror = () => reject(r.error);
   });
 }

@@ -13,6 +13,17 @@ export default defineConfig({
   reporter: process.env.CI ? [['list'], ['github']] : 'list',
   use: {
     baseURL: 'http://127.0.0.1:4173',
+    // Existing workspace regressions exercise the explicit 'open last project' preference.
+    // Start-screen tests override storageState to test the default entry flow.
+    storageState: {
+      cookies: [],
+      origins: [
+        {
+          origin: 'http://127.0.0.1:4173',
+          localStorage: [{ name: 'atelier.start-direct', value: 'true' }],
+        },
+      ],
+    },
     viewport: { width: 1440, height: 1000 },
     launchOptions: {
       ...(executablePath ? { executablePath } : {}),

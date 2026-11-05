@@ -1,3 +1,4 @@
+import { lobbySchema } from './provider';
 import express from 'express';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
 import { parsePlan } from '../src/intelligence/plan';
@@ -140,8 +141,18 @@ export function createApi(
       res.status(400).json({ error: 'Invalid voice connection offer.' });
       return;
     }
+    const lobby =
+      req.body.lobby === undefined
+        ? undefined
+        : lobbySchema.safeParse(req.body.lobby);
+    if (lobby && !lobby.success) {
+      res.status(400).json({ error: 'Invalid project choices.' });
+      return;
+    }
     try {
-      res.type('application/sdp').send(await provider!.voice(req.body.sdp));
+      res
+        .type('application/sdp')
+        .send(await provider!.voice(req.body.sdp, lobby?.data));
     } catch (error) {
       res.status(502).json({
         error: providerErrorMessage(

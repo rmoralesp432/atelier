@@ -7,6 +7,7 @@ export type SolarStudy = {
   utcOffset: number;
   path: boolean;
   seasonal?: boolean;
+  diskScale?: number;
 };
 export const defaultSolar: SolarStudy = {
   enabled: false,
@@ -14,6 +15,7 @@ export const defaultSolar: SolarStudy = {
   minutes: 12 * 60,
   utcOffset: -new Date().getTimezoneOffset() / 60,
   path: true,
+  seasonal: true,
 };
 export function solarInstant(study: SolarStudy) {
   return new Date(

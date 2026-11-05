@@ -31,7 +31,10 @@ function browser() {
     play: vi.fn(async () => {}),
   };
   const media = vi.fn(async () => stream);
-  const transport = vi.fn(async () => new Response('v=0\r\ns=test-answer\r\n'));
+  const transport = vi.fn(
+    async (_url: unknown, _init?: RequestInit) =>
+      new Response('v=0\r\ns=test-answer\r\n'),
+  );
   vi.stubGlobal('window', { isSecureContext: true });
   vi.stubGlobal('navigator', { mediaDevices: { getUserMedia: media } });
   vi.stubGlobal(
@@ -224,4 +227,40 @@ it('ends idle capture and discards queued edits when stopped', async () => {
     idle.stop();
     vi.useRealTimers();
   }
+});
+it('project voice selection accepts only offered IDs and reports real playback status (transport double)', async () => {
+  const b = browser(),
+    opened = vi.fn(async () => 'Opened'),
+    status = vi.fn();
+  const voice = new VoiceConnection(opened, status, {
+    lobby: [{ id: 'p1', name: 'Garden house' }],
+  });
+  await voice.start();
+  b.channel.onopen();
+  expect(
+    JSON.parse(b.transport.mock.calls[0][1]!.body as string).lobby,
+  ).toEqual([{ id: 'p1', name: 'Garden house' }]);
+  expect(JSON.parse(b.channel.send.mock.calls[0][0]).type).toBe(
+    'response.create',
+  );
+  b.channel.onmessage({
+    data: JSON.stringify({ type: 'output_audio_buffer.started' }),
+  });
+  expect(status).toHaveBeenLastCalledWith('Speaking');
+  const choose = (id: string) =>
+    b.channel.onmessage({
+      data: JSON.stringify({
+        type: 'response.function_call_arguments.done',
+        name: 'open_project',
+        call_id: id,
+        arguments: JSON.stringify({ projectId: id }),
+      }),
+    });
+  choose('unknown');
+  await vi.waitFor(() => expect(b.channel.send).toHaveBeenCalledTimes(3));
+  expect(opened).not.toHaveBeenCalled();
+  choose('p1');
+  await vi.waitFor(() => expect(opened).toHaveBeenCalledWith('p1'));
+  voice.stop();
+  expect(b.track.stop).toHaveBeenCalledOnce();
 });
