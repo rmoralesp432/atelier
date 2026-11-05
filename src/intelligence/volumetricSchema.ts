@@ -142,7 +142,13 @@ export const volumetricOperations = [
       type: z.literal('bridge'),
       targets: z.array(ref).length(2),
       name: z.string().min(1).max(80),
-      elevation: z.number().min(0).max(1000),
+      elevation: z
+        .number()
+        .min(0)
+        .max(1000)
+        .describe(
+          'BASE elevation of the bridge deck, not its walking surface. If the top must meet level L, set elevation=L-thickness.',
+        ),
       width: size,
       thickness: size,
       embed: z.number().min(0.01).max(5),

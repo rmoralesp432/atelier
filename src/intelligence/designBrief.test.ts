@@ -459,3 +459,184 @@ describe('independent geometric acceptance checks', () => {
     expect((await assessBrief(goal, cut)).every((c) => c.met)).toBe(true);
   });
 });
+
+it('preserves footprint axes and elevation while allowing the requested height, translation and rotation', async () => {
+  const v = {
+    ...makeVolume(1, { width: 10, depth: 6, height: 4 }),
+    position: { x: 0, y: 2, z: 0 },
+  };
+  const source = newSession({ volumes: [v], selectedId: v.id });
+  const goal = brief([measure('height', 'height', 6, [v.id])], {
+    editable: [v.id],
+    preserve: [
+      { targets: [v.id], properties: ['width', 'depth', 'y', 'z', 'name'] },
+    ],
+  });
+  const candidate = await applyPlan(
+    source,
+    {
+      ...directPlan({ type: 'select', targets: [v.id] }),
+      operations: [
+        {
+          type: 'resize',
+          targets: [v.id],
+          axis: 'height',
+          mode: 'set',
+          value: 6,
+        },
+        { type: 'move', targets: [v.id], direction: 'right', distance: 2 },
+        { type: 'rotate', targets: [v.id], degrees: 45, relative: false },
+      ],
+    },
+    defaultCamera,
+    true,
+  );
+  expect(candidate.session.project.volumes[0].position.x).toBe(2);
+  expect(candidate.session.project.volumes[0].rotation).toBe(45);
+  expect(() => checkEditScope(goal, source, candidate.session)).not.toThrow();
+  expect((await assessBrief(goal, candidate.session)).every((r) => r.met)).toBe(
+    true,
+  );
+  const invalid = structuredClone(candidate.session);
+  invalid.project.volumes[0].dimensions.width = 11;
+  expect(() => checkEditScope(goal, source, invalid)).toThrow('width');
+  invalid.project.volumes[0].dimensions.width = 10;
+  invalid.project.volumes[0].position.y = 3;
+  expect(() => checkEditScope(goal, source, invalid)).toThrow('y');
+  expect(() =>
+    checkEditScope(
+      { ...goal, preserve: [{ targets: [v.id], properties: ['dimensions'] }] },
+      source,
+      candidate.session,
+    ),
+  ).toThrow('dimensions');
+});
+
+it('accepts a real extruded polygon as an extrusion and rejects its flat profile', async () => {
+  const source = newSession({ volumes: [], selectedId: null });
+  const command = directPlan({
+    type: 'footprint',
+    name: 'Rectangular solid',
+    points: [
+      { x: -3, z: -4 },
+      { x: 3, z: -4 },
+      { x: 3, z: 4 },
+      { x: -3, z: 4 },
+    ],
+    height: 3,
+    extruded: true,
+    x: 0,
+    y: 0,
+    z: 0,
+    rotation: 0,
+  });
+  const goal = brief([
+    {
+      id: 'extruded',
+      label: 'Extruded solid',
+      kind: 'shape',
+      selector: selector(['$name:Rectangular solid']),
+      shape: 'extrusion',
+    },
+    measure('volume', 'volume', 144),
+  ]);
+  const request = vi.fn(async () => ({ ...command, brief: goal }));
+  const result = await stagedPlan(source, defaultCamera, request);
+  expect(request).toHaveBeenCalledTimes(1);
+  expect(result.prepared!.session.project.volumes[0].geometry?.kind).toBe(
+    'polygon',
+  );
+  const flat = structuredClone(result.prepared!.session);
+  const g = flat.project.volumes[0].geometry;
+  if (g?.kind === 'polygon') g.extruded = false;
+  expect((await assessBrief(goal, flat))[0].met).toBe(false);
+});
+
+it('checks curved-shell thickness independently from rise, and refuses a constant after nonuniform scaling', async () => {
+  const source = newSession({ volumes: [], selectedId: null });
+  const made = await applyPlan(
+    source,
+    directPlan({
+      type: 'organic_form',
+      target: null,
+      name: 'Roof',
+      position: { x: 0, y: 3, z: 0 },
+      definition: {
+        method: 'nurbs',
+        degreeU: 1,
+        degreeV: 1,
+        thickness: 0.3,
+        samples: 12,
+        points: [
+          [
+            { x: -3, y: 0, z: -2, weight: 1 },
+            { x: -3, y: 0, z: 2, weight: 1 },
+          ],
+          [
+            { x: 3, y: 2, z: -2, weight: 1 },
+            { x: 3, y: 2, z: 2, weight: 1 },
+          ],
+        ],
+      },
+    }),
+  );
+  const v = made.session.project.volumes[0];
+  const check = brief([measure('shell thickness', 'thickness', 0.3, [v.id])]);
+  expect((await assessBrief(check, made.session))[0].met).toBe(true);
+  expect(
+    (
+      await assessBrief(
+        brief([measure('not the envelope', 'height', 0.3, [v.id])]),
+        made.session,
+      )
+    )[0].met,
+  ).toBe(false);
+  const uniform = structuredClone(made.session);
+  uniform.project.volumes[0].dimensions = {
+    width: v.dimensions.width * 2,
+    depth: v.dimensions.depth * 2,
+    height: v.dimensions.height * 2,
+  };
+  expect(
+    (
+      await assessBrief(
+        brief([measure('scaled thickness', 'thickness', 0.6, [v.id])]),
+        uniform,
+      )
+    )[0].met,
+  ).toBe(true);
+  uniform.project.volumes[0].dimensions.width *= 2;
+  const result = (await assessBrief(check, uniform))[0];
+  expect(result.met).toBe(false);
+  expect(result.observed).toContain('Nonuniform');
+});
+
+it('rejects a contradictory shape checklist before binding, allowing a corrected checklist without relaxing committed requirements', async () => {
+  const source = newSession({ volumes: [], selectedId: null });
+  const sel = selector(['$name:Study']);
+  const a = {
+    kind: 'shape' as const,
+    id: 'box',
+    label: 'Box',
+    selector: sel,
+    shape: 'box' as const,
+  };
+  const b = {
+    kind: 'shape' as const,
+    id: 'cut',
+    label: 'Cut solid',
+    selector: sel,
+    shape: 'boolean' as const,
+  };
+  expect(() => bindBrief(brief([a, b]), source)).toThrow('Contradictory');
+  const request = vi.fn(async (_s, _feedback) =>
+    request.mock.calls.length === 1
+      ? { ...create('Study'), brief: brief([a, b]) }
+      : { ...create('Study'), brief: brief([a]) },
+  );
+  const result = await stagedPlan(source, defaultCamera, request);
+  expect(request).toHaveBeenCalledTimes(2);
+  expect(request.mock.calls[1][1]?.error).toContain('Contradictory');
+  expect(result.prepared!.session.project.volumes).toHaveLength(1);
+  expect(source.project.volumes).toHaveLength(0);
+});

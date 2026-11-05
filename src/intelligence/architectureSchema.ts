@@ -22,7 +22,9 @@ export const assemblySchema = z
             dimensions: z
               .object({ width: size, depth: size, height: size })
               .strict(),
-            position: vector,
+            position: vector.describe(
+              'Local BASE center, not geometric center. For a slab with top elevation T and thickness H, use y=T-H. Do not subtract half the thickness. World base is origin.y + position.y.',
+            ),
             rotation: z.number().min(-360).max(360),
             role: z.enum(componentRoles),
             level: z.string().max(80).nullable(),

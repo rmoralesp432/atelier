@@ -212,3 +212,98 @@ it('project concierge uses a constrained project tool instead of modeling tools 
   expect(session.instructions).toContain('untrusted labels');
   expect(session.tools.some((t: any) => t.name === 'design')).toBe(false);
 });
+
+it('supports an explicit Chat Completions route with the same strict plan, image and context contract', async () => {
+  let body: any,
+    endpoint = '';
+  const provider = createProvider(
+    'test-only-not-a-credential',
+    async (url, init) => {
+      endpoint = String(url);
+      body = JSON.parse(init?.body as string);
+      return new Response(
+        JSON.stringify({
+          id: 'chat-test',
+          object: 'chat.completion',
+          choices: [
+            {
+              index: 0,
+              finish_reason: 'stop',
+              message: {
+                role: 'assistant',
+                content: JSON.stringify({
+                  intent: 'clarify',
+                  message: 'Which volume?',
+                  operations: [],
+                }),
+              },
+            },
+          ],
+        }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } },
+      );
+    },
+    { textApi: 'chat_completions' },
+  );
+  const plan = await provider.plan({
+    message: 'Use this reference.',
+    history: [
+      { role: 'user', content: 'Keep the courtyard.' },
+      { role: 'assistant', content: 'Understood.' },
+    ],
+    images: ['data:image/png;base64,aGVsbG8='],
+    scene: sceneContext(initialProject(), emptyContext(), defaultCamera),
+  });
+  expect(endpoint).toBe('https://api.openai.com/v1/chat/completions');
+  expect(body.store).toBe(false);
+  expect(body.max_completion_tokens).toBe(16000);
+  expect(body.messages[0].content).toContain('MASSING INTERPRETATION');
+  expect(body.messages[1]).toEqual({
+    role: 'user',
+    content: 'Keep the courtyard.',
+  });
+  expect(body.messages[2]).toEqual({
+    role: 'assistant',
+    content: 'Understood.',
+  });
+  expect(body.messages[3].content[1]).toEqual({
+    type: 'image_url',
+    image_url: { url: 'data:image/png;base64,aGVsbG8=', detail: 'high' },
+  });
+  expect(JSON.parse(body.messages[3].content[0].text).scene.units).toBe(
+    'meters',
+  );
+  expect(body.response_format.json_schema.strict).toBe(true);
+  expect(body.response_format.json_schema.schema.required).toContain('brief');
+  expect(plan.intent).toBe('clarify');
+});
+
+it('rejects a truncated Chat Completions plan without a paid retry', async () => {
+  let calls = 0;
+  const provider = createProvider(
+    'test-only-not-a-credential',
+    async () => {
+      calls++;
+      return new Response(
+        JSON.stringify({
+          choices: [
+            {
+              finish_reason: 'length',
+              message: { content: '{"intent":"apply"' },
+            },
+          ],
+        }),
+        { status: 200, headers: { 'Content-Type': 'application/json' } },
+      );
+    },
+    { textApi: 'chat_completions' },
+  );
+  await expect(
+    provider.plan({
+      message: 'Create a building.',
+      history: [],
+      scene: sceneContext(initialProject(), emptyContext(), defaultCamera),
+    }),
+  ).rejects.toThrow('complete plan');
+  expect(calls).toBe(1);
+});
