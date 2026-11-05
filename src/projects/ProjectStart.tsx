@@ -151,8 +151,8 @@ export default function ProjectStart({
       aria-label="ATELIER start screen"
     >
       <header>
-        <span className="start-wordmark">
-          <BrandMark /> <span>Atelier</span>
+        <span className="start-wordmark" role="img" aria-label="Atelier">
+          <BrandMark />
         </span>
         <nav className="start-entry-actions">
           <details key={step} className="start-connection">
