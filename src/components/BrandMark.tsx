@@ -1,4 +1,4 @@
-/** ATELIER's single-stroke architectural monogram, shared by both entrances. */
+/** An angular A with a clear crossbar, shared by the entrance and workspace. */
 export default function BrandMark() {
   return (
     <svg
@@ -10,7 +10,7 @@ export default function BrandMark() {
       aria-hidden="true"
     >
       <path
-        d="M5 31 18 5 31 31M10 23 24 15"
+        d="M6 30 18 6 30 30M10.5 21H25.5"
         stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"

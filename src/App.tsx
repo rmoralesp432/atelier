@@ -1718,7 +1718,7 @@ export default function App({
       )}
       <header className="app-header">
         <a className="brand" href="./" aria-label="ATELIER home">
-          <BrandMark /> <span className="brand-name">Atelier</span>
+          <BrandMark />
         </a>
         {projectMenu?.(
           busy ||
