@@ -60,6 +60,11 @@ try {
   const page = await browser.newPage({
     viewport: { width: 1440, height: 1000 },
   });
+  // Exercise the saved direct-entry preference; dedicated browser tests cover
+  // the default welcome screen and its manual/AI entry choices.
+  await page.addInitScript(() =>
+    localStorage.setItem('atelier.start-direct', 'true'),
+  );
   const errors = [];
   page.on('pageerror', (e) => errors.push(e.message));
   // A static Pages site has no API; only that expected unavailable endpoint is excluded.
