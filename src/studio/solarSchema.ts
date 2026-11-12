@@ -1,3 +1,4 @@
+import { MAX_SCENE_OBJECTS } from '../limits';
 import { z } from 'zod';
 export const solarSchema = z
   .object({
@@ -26,6 +27,6 @@ export const solarOperation = z
     type: z.literal('solar_study'),
     ...solarSchema.omit({ diskScale: true }).shape,
     seasonal: z.boolean(),
-    targets: z.array(z.string().min(1).max(100)).max(200),
+    targets: z.array(z.string().min(1).max(100)).max(MAX_SCENE_OBJECTS),
   })
   .strict();

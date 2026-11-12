@@ -1,3 +1,4 @@
+import { ModelPlanError } from '../src/intelligence/planFailure';
 import { lobbySchema } from './provider';
 import express from 'express';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
@@ -70,6 +71,7 @@ export function createApi(
       configured: Boolean(provider),
       authenticated: authenticated(req.headers.cookie),
       voiceConfigured: Boolean(provider),
+      agentConfigured: Boolean(provider?.agent),
     }),
   );
   app.post('/api/login', (req, res) => {
@@ -122,6 +124,10 @@ export function createApi(
       if (!abort.signal.aborted) res.json(plan);
     } catch (error) {
       if (abort.signal.aborted) return;
+      if (error instanceof ModelPlanError) {
+        res.status(422).json({ code: 'invalid_plan', error: error.message });
+        return;
+      }
       res.status(502).json({
         error: providerErrorMessage(
           error,

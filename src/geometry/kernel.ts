@@ -780,100 +780,117 @@ export async function editableBuildingComponents(v: Volume): Promise<Volume[]> {
     const source = evaluated(m, recipe.source, false, allocated, 1);
     const parts = buildingParts(m, source, recipe, keep, true);
     const counts = { solid: 0, frame: 0, glass: 0 };
-    return parts
-      .filter((p) => !p.solid.isEmpty())
-      .map((part, index) => {
-        const solid = keep(
-          part.solid.scale([
-            v.dimensions.width / recipe.base.width,
-            v.dimensions.height / recipe.base.height,
-            v.dimensions.depth / recipe.base.depth,
-          ]),
-        );
-        if (solid.status() !== 'NoError')
-          throw new Error('Invalid architectural component.');
-        const b = solid.boundingBox(),
-          mesh = solid.getMesh();
-        const width = Math.max(0.001, b.max[0] - b.min[0]),
-          height = Math.max(0.001, b.max[1] - b.min[1]),
-          depth = Math.max(0.001, b.max[2] - b.min[2]);
-        const x = (b.min[0] + b.max[0]) / 2,
-          z = (b.min[2] + b.max[2]) / 2;
-        const a = (v.rotation * Math.PI) / 180;
-        const positions: number[] = [];
-        for (let i = 0; i < mesh.numVert; i++)
-          positions.push(
-            (mesh.vertProperties[i * mesh.numProp] - x) / width,
-            (mesh.vertProperties[i * mesh.numProp + 1] - b.min[1]) / height,
-            (mesh.vertProperties[i * mesh.numProp + 2] - z) / depth,
+    return (
+      parts
+        // Boolean partitioning curved facades can leave numerical slivers below
+        // the engine's minimum solid volume. These are not architectural members.
+        .filter((p) => !p.solid.isEmpty() && p.solid.volume() >= 0.000001)
+        .map((part, index) => {
+          const solid = keep(
+            part.solid.scale([
+              v.dimensions.width / recipe.base.width,
+              v.dimensions.height / recipe.base.height,
+              v.dimensions.depth / recipe.base.depth,
+            ]),
           );
-        const box =
-          Math.min(width, height, depth) >= 0.1 &&
-          mesh.triVerts.length === 36 &&
-          positions.every((n, i) =>
-            i % 3 === 1
-              ? Math.min(Math.abs(n), Math.abs(n - 1)) < 1e-7
-              : Math.abs(Math.abs(n) - 0.5) < 1e-7,
-          );
-        const floorHeight = v.dimensions.height / recipe.floors;
-        const roofBase =
-          v.dimensions.height -
-          (recipe.slabThickness * v.dimensions.height) / recipe.base.height;
-        const role =
-          part.material === 'glass'
-            ? 'window'
-            : part.material === 'frame'
-              ? 'frame'
-              : b.min[1] >= roofBase - 1e-5
-                ? 'roof'
-                : 'floor';
-        const level =
-          role === 'roof'
-            ? 'Roof'
-            : height > floorHeight + 0.01
-              ? null
-              : `Level ${Math.min(recipe.floors, Math.floor((b.min[1] + 1e-5) / floorHeight) + 1)}`;
-        const label =
-          part.material === 'solid'
-            ? role === 'roof'
+          if (solid.status() !== 'NoError')
+            throw new Error('Invalid architectural component.');
+          const mesh = solid.getMesh();
+          // getMesh stores Float32 coordinates. Normalize against those same
+          // coordinates, not the kernel's double-precision bounds: thin members
+          // at high elevations otherwise exceed normalized bounds spuriously.
+          const b = {
+            min: [Infinity, Infinity, Infinity],
+            max: [-Infinity, -Infinity, -Infinity],
+          };
+          for (let i = 0; i < mesh.numVert; i++)
+            for (let axis = 0; axis < 3; axis++) {
+              const value = mesh.vertProperties[i * mesh.numProp + axis];
+              b.min[axis] = Math.min(b.min[axis], value);
+              b.max[axis] = Math.max(b.max[axis], value);
+            }
+          const width = Math.max(0.001, b.max[0] - b.min[0]),
+            height = Math.max(0.001, b.max[1] - b.min[1]),
+            depth = Math.max(0.001, b.max[2] - b.min[2]);
+          const x = (b.min[0] + b.max[0]) / 2,
+            z = (b.min[2] + b.max[2]) / 2;
+          const a = (v.rotation * Math.PI) / 180;
+          const positions: number[] = [];
+          for (let i = 0; i < mesh.numVert; i++)
+            positions.push(
+              (mesh.vertProperties[i * mesh.numProp] - x) / width,
+              (mesh.vertProperties[i * mesh.numProp + 1] - b.min[1]) / height,
+              (mesh.vertProperties[i * mesh.numProp + 2] - z) / depth,
+            );
+          const box =
+            Math.min(width, height, depth) >= 0.1 &&
+            mesh.triVerts.length === 36 &&
+            positions.every((n, i) =>
+              i % 3 === 1
+                ? Math.min(Math.abs(n), Math.abs(n - 1)) < 1e-7
+                : Math.abs(Math.abs(n) - 0.5) < 1e-7,
+            );
+          const floorHeight = v.dimensions.height / recipe.floors;
+          const roofBase =
+            v.dimensions.height -
+            (recipe.slabThickness * v.dimensions.height) / recipe.base.height;
+          const role =
+            part.material === 'glass'
+              ? 'window'
+              : part.material === 'frame'
+                ? 'frame'
+                : b.min[1] >= roofBase - 1e-5
+                  ? 'roof'
+                  : 'floor';
+          const level =
+            role === 'roof'
               ? 'Roof'
-              : 'Slab'
-            : part.material === 'glass'
-              ? 'Window'
-              : 'Frame';
-        const component: Volume = {
-          id: index === 0 ? v.id : crypto.randomUUID(),
-          name: `${v.name.slice(0, 55)} · ${label} ${++counts[part.material]}`,
-          groupId: v.groupId,
-          component: {
-            role,
-            level,
-            hostId: v.component?.hostId ?? null,
-            motion: 'none',
-            travel: 1,
-          },
-          material: part.material,
-          color: part.material === 'glass' ? '#b8d7d6' : (v.color ?? '#e2e7e6'),
-          dimensions: { width, height, depth },
-          position: {
-            x: v.position.x + x * Math.cos(a) + z * Math.sin(a),
-            y: Math.max(0, v.position.y + b.min[1]),
-            z: v.position.z - x * Math.sin(a) + z * Math.cos(a),
-          },
-          rotation: v.rotation,
-          geometry: box
-            ? { kind: 'box' }
-            : {
-                kind: 'mesh',
-                positions,
-                indices: Array.from(mesh.triVerts),
-                solid: true,
-                source: 'Editable architectural component',
-              },
-        };
-        validateVolume(component);
-        return component;
-      });
+              : height > floorHeight + 0.01
+                ? null
+                : `Level ${Math.min(recipe.floors, Math.floor((b.min[1] + 1e-5) / floorHeight) + 1)}`;
+          const label =
+            part.material === 'solid'
+              ? role === 'roof'
+                ? 'Roof'
+                : 'Slab'
+              : part.material === 'glass'
+                ? 'Window'
+                : 'Frame';
+          const component: Volume = {
+            id: index === 0 ? v.id : crypto.randomUUID(),
+            name: `${v.name.slice(0, 55)} · ${label} ${++counts[part.material]}`,
+            groupId: v.groupId,
+            component: {
+              role,
+              level,
+              hostId: v.component?.hostId ?? null,
+              motion: 'none',
+              travel: 1,
+            },
+            material: part.material,
+            color:
+              part.material === 'glass' ? '#b8d7d6' : (v.color ?? '#e2e7e6'),
+            dimensions: { width, height, depth },
+            position: {
+              x: v.position.x + x * Math.cos(a) + z * Math.sin(a),
+              y: Math.max(0, v.position.y + b.min[1]),
+              z: v.position.z - x * Math.sin(a) + z * Math.cos(a),
+            },
+            rotation: v.rotation,
+            geometry: box
+              ? { kind: 'box' }
+              : {
+                  kind: 'mesh',
+                  positions,
+                  indices: Array.from(mesh.triVerts),
+                  solid: true,
+                  source: 'Editable architectural component',
+                },
+          };
+          validateVolume(component);
+          return component;
+        })
+    );
   } finally {
     allocated.reverse().forEach((s) => s.delete());
   }

@@ -1,3 +1,5 @@
+import type { SceneObservation } from './observation';
+import { ModelPlanError } from './planFailure';
 import { AudioMeter } from '../conversation/audioMeter';
 import type { AudioLevels } from '../conversation/AudioOrb';
 import type { ExecutionContext } from './executionProtocol';
@@ -15,6 +17,7 @@ export type Connection = {
   configured: boolean;
   authenticated: boolean;
   voiceConfigured: boolean;
+  agentConfigured?: boolean;
 };
 export async function connection(): Promise<Connection> {
   try {
@@ -38,6 +41,7 @@ export async function requestPlan(
   } | null,
   workspace?: {
     solar?: import('../studio/solar').SolarStudy;
+    solarPlaying?: boolean;
     mapVisible: boolean;
     arActive?: boolean;
     mapConfigured: boolean;
@@ -49,6 +53,7 @@ export async function requestPlan(
   validationFeedback?: ValidationFeedback,
   images?: string[],
   execution?: ExecutionContext,
+  observation?: SceneObservation,
 ) {
   const r = await fetch('/api/plan', {
     method: 'POST',
@@ -56,6 +61,7 @@ export async function requestPlan(
     body: JSON.stringify({
       message,
       execution,
+      observation,
       validationFeedback,
       images,
       pendingReview,
@@ -67,7 +73,10 @@ export async function requestPlan(
       scene: sceneContext(session.project, session.context, camera),
       history: history.slice(-20).map((m) => ({
         role: m.role,
-        content: m.content.slice(0, 4000),
+        content: (m.role === 'assistant' && m.summary
+          ? m.summary
+          : m.content
+        ).slice(0, 4000),
         ...(m.role === 'user' &&
         m === [...history].reverse().find((m) => m.images?.length) &&
         !images?.length
@@ -85,6 +94,8 @@ export async function requestPlan(
       'The AI backend is unavailable. Open ATELIER through its configured application server.',
     );
   }
+  if (!r.ok && data.code === 'invalid_plan')
+    throw new ModelPlanError(data.error);
   if (!r.ok)
     throw new Error(
       data.error || 'The AI request failed. No geometry was changed.',

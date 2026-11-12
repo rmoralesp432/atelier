@@ -7,11 +7,22 @@ import { serverConfig } from './config';
 const { production, key, password, origin } = serverConfig(process.env);
 // Fail startup before reporting health when the browser build is absent.
 if (production) accessSync(resolve('dist/index.html'));
-const app = createApi(key ? createProvider(key) : null, {
-  production,
-  password,
-  origin,
-});
+const app = createApi(
+  key
+    ? createProvider(key, undefined, {
+        agent: process.env.ATELIER_AGENT_MODE === 'true',
+        textApi:
+          process.env.ATELIER_TEXT_API === 'chat_completions'
+            ? 'chat_completions'
+            : 'responses',
+      })
+    : null,
+  {
+    production,
+    password,
+    origin,
+  },
+);
 if (production) {
   app.use(
     express.static(resolve('dist'), {

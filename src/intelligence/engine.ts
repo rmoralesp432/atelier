@@ -1,3 +1,4 @@
+import { resolveCameraView } from '../studio/cameraView';
 import { sculptVolume, smoothBoolean, reviseBlend } from '../geometry/sculpt';
 import { organicMesh } from '../geometry/organic';
 import type { OrganicDefinition } from '../geometry/organicSchema';
@@ -201,7 +202,7 @@ export function resolveIds(refs: string[], s: Session): string[] {
   for (const id of unique)
     if (!s.project.volumes.some((v) => v.id === id))
       throw new Error(
-        'That object is no longer in the scene. Which existing volume do you mean?',
+        `Target ${JSON.stringify(id)} is no longer in the current scene. Use a current object ID, $created for the most recent creation, $name:Exact unique name, or $group:Exact group name. New IDs are allocated by execution; do not invent them.`,
       );
   return unique;
 }
@@ -241,7 +242,7 @@ async function separateBuilding(s: Session, v: Volume): Promise<string> {
   const components = await editableBuildingComponents(v);
   if (s.project.volumes.length - 1 + components.length > MAX_VOLUMES)
     throw new Error(
-      'The components would exceed the 200-object workspace limit. Use fewer floors or wider panels first.',
+      `The components would exceed the ${MAX_VOLUMES}-object workspace limit.`,
     );
   if (!v.groupId) {
     if ((s.project.groups?.length ?? 0) >= 50)
@@ -259,7 +260,11 @@ async function separateBuilding(s: Session, v: Volume): Promise<string> {
     o.id === v.id ? components : [o],
   );
   s.context.lastCreatedIds = components.map((c) => c.id);
-  focus(s, [components[0].id]);
+  // The subject remains the assembled building, not just its first slab.
+  focus(
+    s,
+    components.map((component) => component.id),
+  );
   return `${v.name}: ${components.length} editable slabs, windows and frame members. Select any part to move, resize or recolor it. Parts stay grouped; Undo restores the preceding model.`;
 }
 
@@ -268,7 +273,11 @@ export async function applyPlan(
   raw: unknown,
   camera: CameraContext = defaultCamera,
   confirmed = false,
-): Promise<{ session: Session; message: string }> {
+): Promise<{
+  session: Session;
+  message: string;
+  effectiveOperations?: Operation[];
+}> {
   let current: { type: string; index: number } | undefined;
   try {
     return await applyTransaction(
@@ -294,7 +303,11 @@ async function applyTransaction(
   camera: CameraContext,
   confirmed: boolean,
   operationStarted: (op: Operation | null, index: number) => void,
-): Promise<{ session: Session; message: string }> {
+): Promise<{
+  session: Session;
+  message: string;
+  effectiveOperations?: Operation[];
+}> {
   const plan = parsePlan(raw);
   if (plan.intent !== 'apply')
     return { session: original, message: plan.message };
@@ -328,6 +341,7 @@ async function applyTransaction(
     context: structuredClone(original.context),
   };
   const reports: string[] = [];
+  const effectiveOperations: Operation[] = [];
   let beforeEdit: Project | null = null;
   for (const [operationIndex, op] of plan.operations.entries()) {
     operationStarted(op, operationIndex);
@@ -337,10 +351,14 @@ async function applyTransaction(
       op.type === 'workspace' ||
       op.type === 'section' ||
       op.type === 'walk_to' ||
+      op.type === 'camera_view' ||
       op.type === 'explore' ||
       op.type === 'show_view'
-    )
+    ) {
+      effectiveOperations.push(freezeWorkspaceOperation(op, s));
       continue;
+    }
+    effectiveOperations.push(op);
     if (op.type === 'undo' || op.type === 'redo') {
       if (beforeEdit)
         throw new Error(
@@ -1517,7 +1535,9 @@ async function applyTransaction(
       const vs = targets(op.targets, s),
         created: Volume[] = [];
       if (op.copy && s.project.volumes.length + vs.length > MAX_VOLUMES)
-        throw new Error('This workspace supports up to 200 objects.');
+        throw new Error(
+          `This workspace supports up to ${MAX_VOLUMES} objects.`,
+        );
       for (const v of vs) {
         if (isProfile(v) || isReference(v))
           throw new Error(
@@ -1563,12 +1583,9 @@ async function applyTransaction(
       const vs = targets(op.targets, s),
         created: Volume[] = [];
       const count = op.type === 'array_grid' ? op.rows * op.columns : op.count;
-      if (
-        count > 100 ||
-        s.project.volumes.length + vs.length * (count - 1) > MAX_VOLUMES
-      )
+      if (s.project.volumes.length + vs.length * (count - 1) > MAX_VOLUMES)
         throw new Error(
-          'This array exceeds the 200-object workspace limit or 100-instance array limit.',
+          `This array exceeds the ${MAX_VOLUMES}-object workspace limit.`,
         );
       for (let i = 1; i < count; i++)
         for (const v of vs) {
@@ -1904,7 +1921,9 @@ async function applyTransaction(
           Math.min(...projections.map((p) => p.center - p.half)) +
           2;
       if (s.project.volumes.length + vs.length * op.count > MAX_VOLUMES)
-        throw new Error('This workspace supports up to 200 objects.');
+        throw new Error(
+          `This workspace supports up to ${MAX_VOLUMES} objects.`,
+        );
       for (let i = 1; i <= op.count; i++) {
         const instance: Volume[] = [];
         for (const v of vs) {
@@ -2188,7 +2207,7 @@ async function applyTransaction(
     )
       throw new Error('This change affects a locked group. Unlock it first.');
     if (s.project.volumes.length > MAX_VOLUMES)
-      throw new Error('This workspace supports up to 200 objects.');
+      throw new Error(`This workspace supports up to ${MAX_VOLUMES} objects.`);
     s.project.volumes.forEach((v) =>
       validateVolume(
         v,
@@ -2198,7 +2217,7 @@ async function applyTransaction(
     s.context.lastOperation = op.type;
   }
   operationStarted(null, 0);
-  validateWorkspaceEffects(s, plan.operations);
+  validateWorkspaceEffects(s, effectiveOperations);
   if (beforeEdit) {
     for (const v of s.project.volumes) {
       const previous = beforeEdit.volumes.find((old) => old.id === v.id);
@@ -2221,7 +2240,7 @@ async function applyTransaction(
     s.past = [...s.past.slice(-49), beforeEdit];
     s.future = [];
   }
-  return { session: s, message: reports.join('\n') };
+  return { session: s, message: reports.join('\n'), effectiveOperations };
 }
 export const directPlan = (op: Operation): Plan => ({
   intent: 'apply',
@@ -2244,6 +2263,8 @@ export function freezeWorkspaceOperation(op: Operation, s: Session): Operation {
       lookAt: placement.lookAt,
     };
   }
+  if (op.type === 'camera_view' && op.targets.length)
+    return { ...op, targets: resolveIds(op.targets, s) };
   if (op.type === 'explore' && op.targets.length)
     return { ...op, targets: resolveIds(op.targets, s) };
   return op;
@@ -2252,6 +2273,15 @@ export function validateWorkspaceEffects(s: Session, operations: Operation[]) {
   for (const raw of operations) {
     const op = freezeWorkspaceOperation(raw, s);
     if (op.type === 'walk_to') resolveWalkPlacement(s.project, op);
+    if (op.type === 'camera_view') resolveCameraView(s.project, op);
+    if (
+      op.type === 'workspace' &&
+      op.action === 'solar_play' &&
+      !s.project.site
+    )
+      throw new Error(
+        'Set a project site location before animating the sun study.',
+      );
     if (
       op.type === 'show_view' &&
       !s.project.design?.views.some((v) => v.name === op.name)

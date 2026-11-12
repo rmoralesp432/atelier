@@ -4,7 +4,7 @@ import { asciiAssembly } from '../../tests/fixtures/fbx/assembly';
 import { parseMeshAsset, prepareImport, MAX_IMPORT_TRIANGLES } from './mesh';
 import { importedSession } from './transaction';
 import { solidStats, booleanVolume } from '../geometry/kernel';
-import { initialProject } from '../model';
+import { initialProject, MAX_VOLUMES } from '../model';
 import {
   applyPlan,
   directPlan,
@@ -157,8 +157,11 @@ it('rejects oversized assemblies before changing the project and reports per-fac
   const p = await prepareImport(asset, { units: 'source', up: 'Y' });
   const session = newSession(initialProject());
   expect(() =>
-    importedSession(session, { ...p, volumes: Array(201).fill(p.volumes[0]) }),
-  ).toThrow('200 objects');
+    importedSession(session, {
+      ...p,
+      volumes: Array(MAX_VOLUMES + 1).fill(p.volumes[0]),
+    }),
+  ).toThrow(`${MAX_VOLUMES} objects`);
   expect(session.project.volumes).toHaveLength(2);
   const invalid = await parseMeshAsset(
     'Invalid.fbx',

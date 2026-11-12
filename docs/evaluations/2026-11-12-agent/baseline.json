@@ -1,0 +1,2518 @@
+{
+  "chair": [
+    {
+      "id": "8d4004a3-3e4e-4786-9d16-d3c39f484fdb",
+      "name": "Left curved timber side support",
+      "role": "furniture",
+      "dimensions": {
+        "width": 0.05999999865889549,
+        "height": 0.6123898550868034,
+        "depth": 0.8567512333393097
+      },
+      "position": {
+        "x": -0.345,
+        "y": 0,
+        "z": 0
+      },
+      "hash": "6d061cd4735400ca253bb4c74a638b0cb835d0d955f2841cefe5855445c2988a"
+    },
+    {
+      "id": "c089a16c-f596-4d76-bd3c-eb6214d94f5f",
+      "name": "Right curved timber side support",
+      "role": "furniture",
+      "dimensions": {
+        "width": 0.05999999865889549,
+        "height": 0.6123898550868034,
+        "depth": 0.8567512333393097
+      },
+      "position": {
+        "x": 0.345,
+        "y": 0,
+        "z": 0
+      },
+      "hash": "b04d1fb31cc636560a45f6c989720516ff04cbd449505129b15260f1bccf6729"
+    },
+    {
+      "id": "09508467-958d-4015-ba09-3df98bb481dc",
+      "name": "Suspended curved lounge seat",
+      "role": "furniture",
+      "dimensions": {
+        "width": 0.6499999761581421,
+        "height": 0.0875224769115448,
+        "depth": 0.5144228637218475
+      },
+      "position": {
+        "x": 0,
+        "y": 0.35,
+        "z": 0.035
+      },
+      "hash": "5c01351ff7a65ccf2a11d272a2bc36a694bfb47c266182d646a8b859c65b0ffa"
+    },
+    {
+      "id": "a97518ec-24ff-4392-8a90-0637ca502fd1",
+      "name": "Separate inclined lounge backrest",
+      "role": "furniture",
+      "dimensions": {
+        "width": 0.6299431920051575,
+        "height": 0.48391194036230445,
+        "depth": 0.26200373470783234
+      },
+      "position": {
+        "x": 0,
+        "y": 0.355,
+        "z": -0.325
+      },
+      "hash": "bc76ed40e1616c021d420796014315cf7d3690c3ddd01283acb4d4db75ef8805"
+    }
+  ],
+  "building": [
+    {
+      "id": "dfee7c18-1172-4c57-917e-76be14c4c4e3",
+      "name": "Ground floor slab",
+      "role": "floor",
+      "dimensions": {
+        "width": 18,
+        "depth": 12,
+        "height": 0.25
+      },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "hash": "ee1acb2003730e9424803a701b9e904f612777c2c077c839ba4e0695449c679e"
+    },
+    {
+      "id": "e1f049ea-44ce-4cce-b0b3-ea44d0eaa85a",
+      "name": "First upper floor slab",
+      "role": "floor",
+      "dimensions": {
+        "width": 18,
+        "depth": 12,
+        "height": 0.25
+      },
+      "position": {
+        "x": 0,
+        "y": 6,
+        "z": 0
+      },
+      "hash": "2abe0866ac20dc5024c45975c5b7043c5b86e677e2ccd450bca95d8d34057c65"
+    },
+    {
+      "id": "25ae8fdc-fdaa-4a44-b790-ea54e1c18d65",
+      "name": "Second upper floor slab",
+      "role": "floor",
+      "dimensions": {
+        "width": 18,
+        "depth": 12,
+        "height": 0.25
+      },
+      "position": {
+        "x": 0,
+        "y": 9.5,
+        "z": 0
+      },
+      "hash": "624803d73c123bd509b4cee51806fa798ba1e84609dd1cf6c9f5f43c2028e123"
+    },
+    {
+      "id": "19b4e865-b18e-40b0-bfdb-249333d63248",
+      "name": "Third upper floor slab",
+      "role": "floor",
+      "dimensions": {
+        "width": 18,
+        "depth": 12,
+        "height": 0.25
+      },
+      "position": {
+        "x": 0,
+        "y": 13,
+        "z": 0
+      },
+      "hash": "7f04ed09fedfe9f3ed58c51c978ab94b0da046d4b0e4744bc09959fda9ec826d"
+    },
+    {
+      "id": "17c90e6e-f1c2-48f2-a1bf-927b1c25a436",
+      "name": "Flat roof slab",
+      "role": "roof",
+      "dimensions": {
+        "width": 18,
+        "depth": 12,
+        "height": 0.25
+      },
+      "position": {
+        "x": 0,
+        "y": 16.25,
+        "z": 0
+      },
+      "hash": "2ec15c29e2d452a47a51fd71f3c316aa4fb261aea4df48ac7de26aedff506905"
+    },
+    {
+      "id": "970eb185-e986-42eb-8c4f-9b3601328c34",
+      "name": "Ground storey column 1",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 6
+      },
+      "position": {
+        "x": -8.6,
+        "y": 0,
+        "z": -5.6
+      },
+      "hash": "586fc5b83248928c9bd54349b5f352fd26d00cc43fa96708c6ef821a8f27a4b7"
+    },
+    {
+      "id": "988597c6-788f-4c66-b2b7-8bf52d07ad76",
+      "name": "Ground storey column 2",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 6
+      },
+      "position": {
+        "x": -2.8666666666666663,
+        "y": 0,
+        "z": -5.6
+      },
+      "hash": "8f4204de1f16f1538d9823caf936cd7d90965619b8cf3bc8697ba8051bca21cd"
+    },
+    {
+      "id": "ad0e5502-6c98-45e3-bd58-d8f8024cf651",
+      "name": "Ground storey column 3",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 6
+      },
+      "position": {
+        "x": 2.866666666666667,
+        "y": 0,
+        "z": -5.6
+      },
+      "hash": "9c1549c58ffda4266d89b8762e83666304f94049b15435914f53df4eb78371de"
+    },
+    {
+      "id": "de86a3a4-1705-4c89-b026-e9a4999dd501",
+      "name": "Ground storey column 4",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 6
+      },
+      "position": {
+        "x": 8.6,
+        "y": 0,
+        "z": -5.6
+      },
+      "hash": "3db193bcd599151c19758a834603f6799fda34c11ecaea8ef58881a70004bca6"
+    },
+    {
+      "id": "192b5440-d01b-4f8c-a2e3-a8a81797e045",
+      "name": "Ground storey column 5",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 6
+      },
+      "position": {
+        "x": -8.6,
+        "y": 0,
+        "z": 0
+      },
+      "hash": "b46b2d28c68b9ffb76f6acfd0c8bbb1fa1bcef9d928332d15393b98c073114af"
+    },
+    {
+      "id": "fc208ef9-fb22-4910-956d-6fcf04796d84",
+      "name": "Ground storey column 6",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 6
+      },
+      "position": {
+        "x": -2.8666666666666663,
+        "y": 0,
+        "z": 0
+      },
+      "hash": "b6aed7a8e298d4c7925de14609b43921f55297f7663b77c0c0e0d146713aef71"
+    },
+    {
+      "id": "a72dce3b-d9a0-4766-98ab-2ba84ff7e231",
+      "name": "Ground storey column 7",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 6
+      },
+      "position": {
+        "x": 2.866666666666667,
+        "y": 0,
+        "z": 0
+      },
+      "hash": "83478112fb358f0ed777ae396baea3ae42e9b009f247fb26a04cd5869825324c"
+    },
+    {
+      "id": "bc5ea21c-72ba-47c9-9e81-266dacd46cc0",
+      "name": "Ground storey column 8",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 6
+      },
+      "position": {
+        "x": 8.6,
+        "y": 0,
+        "z": 0
+      },
+      "hash": "f16f0aa1a09b76dfbcfb9a4475f11f10b93a492d3fb03801abc989ef042feb1f"
+    },
+    {
+      "id": "be96ee7d-389f-4e6c-b395-ef2bb2979b72",
+      "name": "Ground storey column 9",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 6
+      },
+      "position": {
+        "x": -8.6,
+        "y": 0,
+        "z": 5.6
+      },
+      "hash": "72b40ce09723f52f63403be1116661c11cc421c4e1956ddfde81fd921d208be2"
+    },
+    {
+      "id": "e499d8eb-f4ef-4942-85fc-4df9b392688f",
+      "name": "Ground storey column 10",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 6
+      },
+      "position": {
+        "x": -2.8666666666666663,
+        "y": 0,
+        "z": 5.6
+      },
+      "hash": "074108be13e26281329081204d2ca221f4d01ba69721dfca9ff8f3728285d4fb"
+    },
+    {
+      "id": "7e51740a-2553-4a7a-a935-c83d25de4150",
+      "name": "Ground storey column 11",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 6
+      },
+      "position": {
+        "x": 2.866666666666667,
+        "y": 0,
+        "z": 5.6
+      },
+      "hash": "c149a2a9d8eda5d33bbf355889df32933b6ae3da3cf42b64fd7da0b5462a90bc"
+    },
+    {
+      "id": "e0d90487-b65a-4b19-b05f-77718fef6187",
+      "name": "Ground storey column 12",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 6
+      },
+      "position": {
+        "x": 8.6,
+        "y": 0,
+        "z": 5.6
+      },
+      "hash": "94a0745264f63b0348d889d991d00ae68abd4f970dcee91fd21924bf7a686f3d"
+    },
+    {
+      "id": "d9d8d8fc-256b-4489-9f93-e0997e5e6de9",
+      "name": "First upper storey column 1",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -8.6,
+        "y": 6,
+        "z": -5.6
+      },
+      "hash": "40fb4a36d3b6bb4e3a75e844813666eb4a6c5f8997860518de0b4d795a8524bf"
+    },
+    {
+      "id": "ed722052-986f-4a7f-a132-dd0d450d0a87",
+      "name": "First upper storey column 2",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -2.8666666666666663,
+        "y": 6,
+        "z": -5.6
+      },
+      "hash": "ce6b2e198d6696e76bfa984ba9586727c2aa2a0768b7bed8ea33438e1f9d1359"
+    },
+    {
+      "id": "ed27f025-4551-4b5f-9d98-a6fed35b60d4",
+      "name": "First upper storey column 3",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 2.866666666666667,
+        "y": 6,
+        "z": -5.6
+      },
+      "hash": "dc41eee78b9840943e3924609821ac1c0dbcce864011dc96786c792d1b7e6078"
+    },
+    {
+      "id": "012f3b03-7de7-4955-8586-d50912eb340e",
+      "name": "First upper storey column 4",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 8.6,
+        "y": 6,
+        "z": -5.6
+      },
+      "hash": "aebf223e714597ff15fd320890c60167a5b6a79a3bff69082508f693d0c715ad"
+    },
+    {
+      "id": "2caff079-c625-4d16-858d-892cb9e7090a",
+      "name": "First upper storey column 5",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -8.6,
+        "y": 6,
+        "z": 0
+      },
+      "hash": "3c219c401011958caa7b7cb0b2c7793d67ac07c92d22f132852e5ab52339c8a7"
+    },
+    {
+      "id": "416c8db3-5f19-4ed2-8c58-b8692a535350",
+      "name": "First upper storey column 6",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -2.8666666666666663,
+        "y": 6,
+        "z": 0
+      },
+      "hash": "d0f0db314ed232952d63aa54d1ca1d19a9d399a5063b0bcc63beabfffc6cd5bc"
+    },
+    {
+      "id": "69616b6a-bc8b-4c1f-ab0b-68c712e64913",
+      "name": "First upper storey column 7",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 2.866666666666667,
+        "y": 6,
+        "z": 0
+      },
+      "hash": "25993207cf2f2a043da6d148083b7ccd0b21e8e6cc79e184ce5e8f89343b4060"
+    },
+    {
+      "id": "17580d01-6247-4b97-9aaa-dcbce46db491",
+      "name": "First upper storey column 8",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 8.6,
+        "y": 6,
+        "z": 0
+      },
+      "hash": "95c5afac99f0fbd21de8dd9173e2af5f82d17916cfbcbe77220efdbf3459395c"
+    },
+    {
+      "id": "372119c8-0cd1-4f28-955e-350022625199",
+      "name": "First upper storey column 9",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -8.6,
+        "y": 6,
+        "z": 5.6
+      },
+      "hash": "be292ee83f8529d951827a5d8e85fd709b1c041ef082e879d8c6ad40ffa8976e"
+    },
+    {
+      "id": "6331777f-2f6d-42ff-a136-38e99088a2de",
+      "name": "First upper storey column 10",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -2.8666666666666663,
+        "y": 6,
+        "z": 5.6
+      },
+      "hash": "5559a8d42fa41d73ff239aa71e8f5fd8f5a67f0e598e95f54ca8e9aeeec2552d"
+    },
+    {
+      "id": "ee37bf0f-4912-4198-9abc-ce7a60b8297d",
+      "name": "First upper storey column 11",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 2.866666666666667,
+        "y": 6,
+        "z": 5.6
+      },
+      "hash": "6c0f0621d37291106bd5e06637e27c130a7cd1e1664ea9ba6a6e9cbf66f8be77"
+    },
+    {
+      "id": "d74fcde4-617b-47c3-8370-486302eea565",
+      "name": "First upper storey column 12",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 8.6,
+        "y": 6,
+        "z": 5.6
+      },
+      "hash": "35e02811dd2457cbb694ca66331dde50be5e2104b75c7bc52a9d1661d9f4d61a"
+    },
+    {
+      "id": "91a26300-fd9e-459f-8333-59a6bcb00321",
+      "name": "Second upper storey column 1",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -8.6,
+        "y": 9.5,
+        "z": -5.6
+      },
+      "hash": "0cbbbb8b4f44cdc0fb629020a23db34c7c0927be7f74709794ee9cedf0db576a"
+    },
+    {
+      "id": "7ed70735-dadc-4553-b1b9-f3ae0021e59d",
+      "name": "Second upper storey column 2",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -2.8666666666666663,
+        "y": 9.5,
+        "z": -5.6
+      },
+      "hash": "c63848386b35fd982de626d871ec03716dfc0f633e430090a999c68d0b783884"
+    },
+    {
+      "id": "990817f9-c912-4408-9f82-1849d8e685bc",
+      "name": "Second upper storey column 3",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 2.866666666666667,
+        "y": 9.5,
+        "z": -5.6
+      },
+      "hash": "ea639033e226de19f9538e3b5ec6e24936ba0535924aef3ea39b17dcea85062a"
+    },
+    {
+      "id": "14c78284-6f73-4a53-93c3-3235f5fe9ad0",
+      "name": "Second upper storey column 4",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 8.6,
+        "y": 9.5,
+        "z": -5.6
+      },
+      "hash": "5fd393c1d214cde0f178d227958c05ddad257736b82852d61d5e130810341c9f"
+    },
+    {
+      "id": "4639dd9a-cfe3-4e5a-b689-718126c306e2",
+      "name": "Second upper storey column 5",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -8.6,
+        "y": 9.5,
+        "z": 0
+      },
+      "hash": "19db73ca64e5232c1bca1d16b34c7a032364b1107d11ffd896c621c626461e7b"
+    },
+    {
+      "id": "a057f6b8-3377-458e-bf8a-50de57d12c93",
+      "name": "Second upper storey column 6",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -2.8666666666666663,
+        "y": 9.5,
+        "z": 0
+      },
+      "hash": "34b925769364b217d87a014edc944945e9257fbe07a6d6158c2ea576cca3df00"
+    },
+    {
+      "id": "61815a80-971d-4d85-a975-c06389b34374",
+      "name": "Second upper storey column 7",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 2.866666666666667,
+        "y": 9.5,
+        "z": 0
+      },
+      "hash": "c7a9d5ac68b926cb5361a1bdfe8c99372b2c8fe4e7944ef5757a6e8b800f4f5f"
+    },
+    {
+      "id": "594a2e90-c9a6-45eb-8fb5-01c91c6dd648",
+      "name": "Second upper storey column 8",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 8.6,
+        "y": 9.5,
+        "z": 0
+      },
+      "hash": "9e92a75b88f0b9d90bcad370dfc39feab1a0399d0922710f0ff6333bcb911258"
+    },
+    {
+      "id": "9f3582b4-5683-4986-93b8-8d113d6e3335",
+      "name": "Second upper storey column 9",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -8.6,
+        "y": 9.5,
+        "z": 5.6
+      },
+      "hash": "b2acac7c3b75676e13024f37e5322216ebb51c64409f12bcff3a00e3f7b4abcf"
+    },
+    {
+      "id": "3a69145f-98fd-48c5-8bbf-200de82226cb",
+      "name": "Second upper storey column 10",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -2.8666666666666663,
+        "y": 9.5,
+        "z": 5.6
+      },
+      "hash": "462349078c202b9ad7f8b00b71b47750aaa55dafd325e99ddbbb35355b8b8d37"
+    },
+    {
+      "id": "5e792484-5e24-49b7-8aac-d7cde2bb67d0",
+      "name": "Second upper storey column 11",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 2.866666666666667,
+        "y": 9.5,
+        "z": 5.6
+      },
+      "hash": "88c528ad0d7a6298d95c4aeb162350962851a5273b478b0e0fc80e0b588f2606"
+    },
+    {
+      "id": "52f0423b-90f8-4974-bc7b-2dc9fce6e0f9",
+      "name": "Second upper storey column 12",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 8.6,
+        "y": 9.5,
+        "z": 5.6
+      },
+      "hash": "b2731597861278090662d07dc7db961b158a09f0e5bfcc16c157f9ca2f3b0948"
+    },
+    {
+      "id": "1fc721dd-1ff3-463e-a6df-eab5233fdaea",
+      "name": "Third upper storey column 1",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -8.6,
+        "y": 13,
+        "z": -5.6
+      },
+      "hash": "48331c7a7278e1adc48993ec5c6a75d2f64da5e1f81b1b44656db42182d13d0b"
+    },
+    {
+      "id": "c8375472-7857-42ea-bffa-54b27719e93f",
+      "name": "Third upper storey column 2",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -2.8666666666666663,
+        "y": 13,
+        "z": -5.6
+      },
+      "hash": "79628fb6986a70f2db72ebae2892aa29fe4eca4595029bc4d83ea1c4420edf0a"
+    },
+    {
+      "id": "39759467-0484-43c8-9321-468719261385",
+      "name": "Third upper storey column 3",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 2.866666666666667,
+        "y": 13,
+        "z": -5.6
+      },
+      "hash": "6ece558e3ab5028773388476b98801084457f41684ae57b22d419ed95fd1ef2e"
+    },
+    {
+      "id": "0f3501b9-a506-4e41-ac68-2f7269169d78",
+      "name": "Third upper storey column 4",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 8.6,
+        "y": 13,
+        "z": -5.6
+      },
+      "hash": "5f868cf18cf0387ded3ac1c322258bae450ca01d555cd6f8bc77fa836b366ad6"
+    },
+    {
+      "id": "8f78ac92-7528-4547-9454-ec8b3bd23942",
+      "name": "Third upper storey column 5",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -8.6,
+        "y": 13,
+        "z": 0
+      },
+      "hash": "cd49c1f5361ee627bf2bc3164006060a7ec27fce24bc9b4433f2ec077a64e3be"
+    },
+    {
+      "id": "cf81f6f0-663c-467d-a246-5a02acf4501e",
+      "name": "Third upper storey column 6",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -2.8666666666666663,
+        "y": 13,
+        "z": 0
+      },
+      "hash": "8612d971e049d745951f47817e20dd3130e0a8a5b81e203c2726907b4fee56e5"
+    },
+    {
+      "id": "e9a54593-80dc-479c-ab2f-d5ba470d7484",
+      "name": "Third upper storey column 7",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 2.866666666666667,
+        "y": 13,
+        "z": 0
+      },
+      "hash": "9bd076b1b46514ffe5bbb48c2804dbbc78317acec9c6cc74f8c491af4b304250"
+    },
+    {
+      "id": "126cd4a6-41cb-4a2a-8811-a61578c0a963",
+      "name": "Third upper storey column 8",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 8.6,
+        "y": 13,
+        "z": 0
+      },
+      "hash": "e6a4aa041972af03d3bedfc8f218996593ffe57e0b6e18496e955a00b4c3f9fe"
+    },
+    {
+      "id": "85aed11f-07e8-4def-8d12-d4559552ff1a",
+      "name": "Third upper storey column 9",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -8.6,
+        "y": 13,
+        "z": 5.6
+      },
+      "hash": "f6d41d3fffeea3f70caa3da245a53c52efd69361c8581ccd654c4d5cced00316"
+    },
+    {
+      "id": "963cfc49-e9ed-41bf-b00c-016e2622a628",
+      "name": "Third upper storey column 10",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": -2.8666666666666663,
+        "y": 13,
+        "z": 5.6
+      },
+      "hash": "ec1fa40890590cfeaf9475c9feb5dc7996a779820a16d8c87c96b8b058ca2456"
+    },
+    {
+      "id": "8b9338ad-bf04-4eeb-89ba-869f1d1a0aa3",
+      "name": "Third upper storey column 11",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 2.866666666666667,
+        "y": 13,
+        "z": 5.6
+      },
+      "hash": "ccbcc228d3fd8e3fd05c9c1c589d19f22dec809ecc1db998f076be72976576ac"
+    },
+    {
+      "id": "9e8c6a94-2c86-45b9-9807-6377078e5bb4",
+      "name": "Third upper storey column 12",
+      "role": "column",
+      "dimensions": {
+        "width": 0.35,
+        "depth": 0.35,
+        "height": 3.5
+      },
+      "position": {
+        "x": 8.6,
+        "y": 13,
+        "z": 5.6
+      },
+      "hash": "25e993d26940a1d3c74533935ce57c533ce539083c4d4ce1602bef14c925c2dd"
+    },
+    {
+      "id": "e2271517-6aba-4ec3-aee5-70e85b43bb9d",
+      "name": "Ground north-south glazing 1",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 5.75
+      },
+      "position": {
+        "x": -7.475,
+        "y": 0.25,
+        "z": -5.96
+      },
+      "hash": "b35e0834f4f522e0ef9f7af96bd84c500d47b8cb30fb68112f8b3892f6b4d3e1"
+    },
+    {
+      "id": "99c48ec0-43e4-472c-b6e9-154b9250f7ef",
+      "name": "Ground north-south glazing 2",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 5.75
+      },
+      "position": {
+        "x": -4.484999999999999,
+        "y": 0.25,
+        "z": -5.96
+      },
+      "hash": "cbde070563ba504daf6ca4b9d801938640f1226535839d05dc19f4453e866f9c"
+    },
+    {
+      "id": "04515d52-f49b-4923-98ba-410884ac908a",
+      "name": "Ground north-south glazing 3",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 5.75
+      },
+      "position": {
+        "x": -1.4949999999999992,
+        "y": 0.25,
+        "z": -5.96
+      },
+      "hash": "2009e47a3e673269d11da8932f1a547e9ef058bb2b71e65616d2d4816991222e"
+    },
+    {
+      "id": "2b7aecae-aecf-48d9-b3ec-8646e70399db",
+      "name": "Ground north-south glazing 4",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 5.75
+      },
+      "position": {
+        "x": 1.495000000000001,
+        "y": 0.25,
+        "z": -5.96
+      },
+      "hash": "3fbae984fef714d60a31149488d28f151cf92e2b304f2894f5c8d96359a65c19"
+    },
+    {
+      "id": "8711bd1b-2d55-4822-990d-ec48374ba33e",
+      "name": "Ground north-south glazing 5",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 5.75
+      },
+      "position": {
+        "x": 4.485000000000001,
+        "y": 0.25,
+        "z": -5.96
+      },
+      "hash": "e15391a9cb9dcca46d26ace72420da88a141d47d21185abf68fee0e38870a44a"
+    },
+    {
+      "id": "ce09532e-395c-4f8d-b47a-1f146d40a0f2",
+      "name": "Ground north-south glazing 6",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 5.75
+      },
+      "position": {
+        "x": 7.475000000000001,
+        "y": 0.25,
+        "z": -5.96
+      },
+      "hash": "9888def2ed8ede65f8342be953655beebc2f57dc63685b7134162d521bed9c7a"
+    },
+    {
+      "id": "4861a336-0051-4523-981f-07ce99746d25",
+      "name": "Ground north-south glazing 7",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 5.75
+      },
+      "position": {
+        "x": -7.475,
+        "y": 0.25,
+        "z": 5.96
+      },
+      "hash": "c0d436687950bf75c4e2c266924b51b8b86f70b0cbaf582f7976d8f2bb72e4a8"
+    },
+    {
+      "id": "63086507-882c-4734-ac03-80f462137aa9",
+      "name": "Ground north-south glazing 8",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 5.75
+      },
+      "position": {
+        "x": -4.484999999999999,
+        "y": 0.25,
+        "z": 5.96
+      },
+      "hash": "17372f53bbb18baf4f34987ee6028f362eac6e2ef524fa3e4f6350a4be112a97"
+    },
+    {
+      "id": "7461f466-3093-48a5-9f61-00d928892981",
+      "name": "Ground north-south glazing 9",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 5.75
+      },
+      "position": {
+        "x": -1.4949999999999992,
+        "y": 0.25,
+        "z": 5.96
+      },
+      "hash": "8ca188816904d4d96efdf378d1aa7672f6bf1a49b2678ddd6f2a70fe42dba7ac"
+    },
+    {
+      "id": "36bb6e13-6815-4e43-b3dc-47da68606081",
+      "name": "Ground north-south glazing 10",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 5.75
+      },
+      "position": {
+        "x": 1.495000000000001,
+        "y": 0.25,
+        "z": 5.96
+      },
+      "hash": "f480e323bdb193eaf652d4eddbd358f1bf8c84a93bdcc2df1e5fe28a41c937a8"
+    },
+    {
+      "id": "7ca3d64b-ea66-49db-9528-851203ec5636",
+      "name": "Ground north-south glazing 11",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 5.75
+      },
+      "position": {
+        "x": 4.485000000000001,
+        "y": 0.25,
+        "z": 5.96
+      },
+      "hash": "3bef215960cf357c82570f06e76d48cbb71a71d4c2de4e8f271d6b4f3691a3eb"
+    },
+    {
+      "id": "73d6de1d-8835-4747-be8b-28df706207be",
+      "name": "Ground north-south glazing 12",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 5.75
+      },
+      "position": {
+        "x": 7.475000000000001,
+        "y": 0.25,
+        "z": 5.96
+      },
+      "hash": "cfb3e9a8aa0f172120221f90625e223e2a6e19107bcb653ce467221b4afcbcc8"
+    },
+    {
+      "id": "c8eb31b6-e909-4aa7-99de-7b60aaf73a77",
+      "name": "Ground east-west glazing 1",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 5.75
+      },
+      "position": {
+        "x": -8.96,
+        "y": 0.25,
+        "z": -4.4775
+      },
+      "hash": "059811eff9fe8fcf1aa7f7d09a9b0cd5f16ef58a90e3deeba3237e7e13ccf444"
+    },
+    {
+      "id": "acd951fe-6840-44c1-ad1f-88eefe1f1361",
+      "name": "Ground east-west glazing 2",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 5.75
+      },
+      "position": {
+        "x": 8.96,
+        "y": 0.25,
+        "z": -4.4775
+      },
+      "hash": "861708c8e424bf103d53a00b109751884c931505721cfb079350d222ca374cd9"
+    },
+    {
+      "id": "0151fe67-794a-44ac-9efa-37d71be0c4b9",
+      "name": "Ground east-west glazing 3",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 5.75
+      },
+      "position": {
+        "x": -8.96,
+        "y": 0.25,
+        "z": -1.4925000000000002
+      },
+      "hash": "b801bca0230e2a9b38999eb900bae020a3c9cd602d896e2521080af6d3c28127"
+    },
+    {
+      "id": "036ec9ef-cd67-4d6a-8319-6b682fa860c6",
+      "name": "Ground east-west glazing 4",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 5.75
+      },
+      "position": {
+        "x": 8.96,
+        "y": 0.25,
+        "z": -1.4925000000000002
+      },
+      "hash": "eb7fe7de86d36e336d3042d6b9cd0d0ed992fc1a3ab0e68998d11829ed2776cb"
+    },
+    {
+      "id": "176c480f-a731-4eec-b25e-e1b2579737ec",
+      "name": "Ground east-west glazing 5",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 5.75
+      },
+      "position": {
+        "x": -8.96,
+        "y": 0.25,
+        "z": 1.4924999999999997
+      },
+      "hash": "d7d7936fd1d6b45cf1fe2125f040074e2a5f870520b3ad60db19eea8a3e92a0c"
+    },
+    {
+      "id": "d1a20d38-1710-4a4a-8822-a1f48d548d53",
+      "name": "Ground east-west glazing 6",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 5.75
+      },
+      "position": {
+        "x": 8.96,
+        "y": 0.25,
+        "z": 1.4924999999999997
+      },
+      "hash": "6d4eea28992e31bcb4d2b79df6ede68b73b82d3c6f233d9c53aafd5c8b6bd912"
+    },
+    {
+      "id": "5e7f33c6-a59d-44c5-9987-64f80b201ea8",
+      "name": "Ground east-west glazing 7",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 5.75
+      },
+      "position": {
+        "x": -8.96,
+        "y": 0.25,
+        "z": 4.4775
+      },
+      "hash": "9725b7580ed09c47c733ba61b8cf4b297a82590c33222cfd54b462ab5e5fdad7"
+    },
+    {
+      "id": "f12ff1af-1e98-4c37-bcd3-42dce4fce9ae",
+      "name": "Ground east-west glazing 8",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 5.75
+      },
+      "position": {
+        "x": 8.96,
+        "y": 0.25,
+        "z": 4.4775
+      },
+      "hash": "b80738c58b5bfef94fe717d8369e5638773b970c8fc975d304845ae6982f2e6a"
+    },
+    {
+      "id": "b082520a-2822-4f06-aa54-a8a7c9e4a745",
+      "name": "First upper north-south glazing 1",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": -7.475,
+        "y": 6.25,
+        "z": -5.96
+      },
+      "hash": "a8f4e52efa72b4a5952a31886128e8c95d4af69d9ee670f410aeabe9bf6e59a1"
+    },
+    {
+      "id": "766330df-88fa-4bee-9369-93e7aa5af463",
+      "name": "First upper north-south glazing 2",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": -4.484999999999999,
+        "y": 6.25,
+        "z": -5.96
+      },
+      "hash": "8831df4e91f83cf07fb5b2ebe64babc8834a7a9997378bce85030fa40f34d1d5"
+    },
+    {
+      "id": "7aba808f-d743-4259-86e9-f8f01e7058f7",
+      "name": "First upper north-south glazing 3",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": -1.4949999999999992,
+        "y": 6.25,
+        "z": -5.96
+      },
+      "hash": "50635b7b13a7f28b98408bab8d09ab64a6562aac600ea59fcbed11d6a17687a0"
+    },
+    {
+      "id": "130af30f-6d5f-4da5-8ea1-bb7de3893891",
+      "name": "First upper north-south glazing 4",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": 1.495000000000001,
+        "y": 6.25,
+        "z": -5.96
+      },
+      "hash": "fa43b2875d9d38bd44dcc5d29ecbdb4e260d8b8a7ce3075f7a38cc903cbe8790"
+    },
+    {
+      "id": "c80e07d8-88d5-41ef-a209-694aa6d854ea",
+      "name": "First upper north-south glazing 5",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": 4.485000000000001,
+        "y": 6.25,
+        "z": -5.96
+      },
+      "hash": "6fa34c183e31aff078537e29a551149d45ba495faa95313e3ebf36006b2eb589"
+    },
+    {
+      "id": "0ccad3c2-5513-4bd6-838e-83db05fcde05",
+      "name": "First upper north-south glazing 6",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": 7.475000000000001,
+        "y": 6.25,
+        "z": -5.96
+      },
+      "hash": "5d078ab9780cddb7923374fca9f36be0d94eb608107c9fed53b06a6800ac060b"
+    },
+    {
+      "id": "256abad1-9b3e-4c87-b9ad-3dabc8b467e4",
+      "name": "First upper north-south glazing 7",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": -7.475,
+        "y": 6.25,
+        "z": 5.96
+      },
+      "hash": "2b2c686c13578ac64f225048360ede9d8c611feffd0bbe5fd2f033d8e7108ddd"
+    },
+    {
+      "id": "4654f2a2-b3ef-4dd8-bc97-91a6c51a8065",
+      "name": "First upper north-south glazing 8",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": -4.484999999999999,
+        "y": 6.25,
+        "z": 5.96
+      },
+      "hash": "44f3de51c4d6b4a59947e1711aeff6c7994b68d9be305296b71920abca771451"
+    },
+    {
+      "id": "802b89a7-8dd1-40e0-90c8-f7da76da6818",
+      "name": "First upper north-south glazing 9",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": -1.4949999999999992,
+        "y": 6.25,
+        "z": 5.96
+      },
+      "hash": "93fee89652f6f849fc185a11cde330381da9c22f60363f71eaa158436c0a15fc"
+    },
+    {
+      "id": "f18d6231-faa8-4d83-acf1-a0823dbbdfc5",
+      "name": "First upper north-south glazing 10",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": 1.495000000000001,
+        "y": 6.25,
+        "z": 5.96
+      },
+      "hash": "bae5e036dbc06004eba1c3ff888153c59ce1fb6486b84c211fb10259b6e48f1a"
+    },
+    {
+      "id": "8e85b896-4837-4fcd-92ae-f965c85dcd7a",
+      "name": "First upper north-south glazing 11",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": 4.485000000000001,
+        "y": 6.25,
+        "z": 5.96
+      },
+      "hash": "1ca8b9045136b2232c6373ecb146c53d10df0108140d30e6f634a98c4dae1f09"
+    },
+    {
+      "id": "47f5c11e-86a4-4eb3-ab00-cdd80cb8e2c3",
+      "name": "First upper north-south glazing 12",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": 7.475000000000001,
+        "y": 6.25,
+        "z": 5.96
+      },
+      "hash": "7c0e6eb584f776124031b3b7ffe19c68f004cccb1d8c62f5cafb8b8c52da7659"
+    },
+    {
+      "id": "5a7af909-7574-445d-acc4-642f083645b0",
+      "name": "First upper east-west glazing 1",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": -8.96,
+        "y": 6.25,
+        "z": -4.4775
+      },
+      "hash": "59f62ab9d589498b75c17b78a901d8a325378e92b2a9ac34b1e7175eb5329ef3"
+    },
+    {
+      "id": "3cd96874-a0f5-4fbc-a2e7-b01b5cba9c62",
+      "name": "First upper east-west glazing 2",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": 8.96,
+        "y": 6.25,
+        "z": -4.4775
+      },
+      "hash": "7364ba3dd02af78bf126c82cf85d2fa7411dd2208112b3b6efe92eaff5c0f9f0"
+    },
+    {
+      "id": "cef756c0-7ca5-44af-9a41-32e7aa62d1e0",
+      "name": "First upper east-west glazing 3",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": -8.96,
+        "y": 6.25,
+        "z": -1.4925000000000002
+      },
+      "hash": "db983f0691f3e7ca8b4111f48bcd4a71d9fedf968ec038813f305b98821b15bc"
+    },
+    {
+      "id": "5aae1f61-4b81-4655-bbbd-c42875f07f52",
+      "name": "First upper east-west glazing 4",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": 8.96,
+        "y": 6.25,
+        "z": -1.4925000000000002
+      },
+      "hash": "cf6afbd26d8ab07668f2e476bcb4aefffb0feaa0cb6c7df40cc6b6ce88ee5881"
+    },
+    {
+      "id": "cd6eed43-4d5b-4fef-86f7-4ca9df532ebc",
+      "name": "First upper east-west glazing 5",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": -8.96,
+        "y": 6.25,
+        "z": 1.4924999999999997
+      },
+      "hash": "9c6962579a368b1d8bfe80f02804d23aee559f5b14c67bbfc622e9f6be417bca"
+    },
+    {
+      "id": "239df22a-3fb6-413d-aeee-3dd0972f0a00",
+      "name": "First upper east-west glazing 6",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": 8.96,
+        "y": 6.25,
+        "z": 1.4924999999999997
+      },
+      "hash": "8e655419222bc9054e4579887aa2ee48e4e04d92a361c29f8f441b328b6cec76"
+    },
+    {
+      "id": "b0144f76-d3de-4a0a-b0c5-e1c259d24803",
+      "name": "First upper east-west glazing 7",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": -8.96,
+        "y": 6.25,
+        "z": 4.4775
+      },
+      "hash": "3416afefc8146c47f4ed1e99996961f38f3aea8472ba88ce2663ba3e1e4478b2"
+    },
+    {
+      "id": "204141bd-2030-4717-983e-82fc08136ca3",
+      "name": "First upper east-west glazing 8",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": 8.96,
+        "y": 6.25,
+        "z": 4.4775
+      },
+      "hash": "8e50ad0c9b816efa4d7378e3d553db3fa9962de86ace2136fd61fdb23111c192"
+    },
+    {
+      "id": "e21e7c5a-3a39-4b7a-8872-de39e8e7c1bd",
+      "name": "Second upper north-south glazing 1",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": -7.475,
+        "y": 9.75,
+        "z": -5.96
+      },
+      "hash": "53b589cd490170e0238a1a27fa12058474dbe0382c377e2a2de631af2e0dc893"
+    },
+    {
+      "id": "8eaba393-e6d1-4137-9f0c-766e9d03b33c",
+      "name": "Second upper north-south glazing 2",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": -4.484999999999999,
+        "y": 9.75,
+        "z": -5.96
+      },
+      "hash": "e78e8be9b3360503dacfa86a865b6c0dc0b51ec056843562072cea79bcc616ec"
+    },
+    {
+      "id": "f0f20183-0df5-4f8b-b1fa-632e9d091f29",
+      "name": "Second upper north-south glazing 3",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": -1.4949999999999992,
+        "y": 9.75,
+        "z": -5.96
+      },
+      "hash": "993922a2643b11b1017f3f5d08ab3be8fb14afedd481808e777ad0db7c4bf69e"
+    },
+    {
+      "id": "0d497204-7398-4014-b910-18a53558eabe",
+      "name": "Second upper north-south glazing 4",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": 1.495000000000001,
+        "y": 9.75,
+        "z": -5.96
+      },
+      "hash": "5ed61fe30507309a121c3259a070a7449382d05c6fb004caabede5a67c7167f4"
+    },
+    {
+      "id": "c1dafcc0-53a8-42ab-bd41-d68a8b769b94",
+      "name": "Second upper north-south glazing 5",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": 4.485000000000001,
+        "y": 9.75,
+        "z": -5.96
+      },
+      "hash": "318fe8a8cc91b39700f2ed3cf8761d5f882e4fb0517977504391aa181a1f7726"
+    },
+    {
+      "id": "dc143eff-6010-4eb0-83f8-359075df1474",
+      "name": "Second upper north-south glazing 6",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": 7.475000000000001,
+        "y": 9.75,
+        "z": -5.96
+      },
+      "hash": "28c7f2da9d1f9f99f29535bb255cd735fba7ce84f415d7b2882c6e6bc2cfc29e"
+    },
+    {
+      "id": "d654caa0-f357-4dae-b046-2d2a9c43a6c9",
+      "name": "Second upper north-south glazing 7",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": -7.475,
+        "y": 9.75,
+        "z": 5.96
+      },
+      "hash": "bafed53876ab86c5c95fd717a4fef2c783250ff898d974b4d11ce2981a164b17"
+    },
+    {
+      "id": "ae199874-3a49-411c-8907-7b56ddfa58bb",
+      "name": "Second upper north-south glazing 8",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": -4.484999999999999,
+        "y": 9.75,
+        "z": 5.96
+      },
+      "hash": "5ce8f0207d1038955a68045abbf49277538388ca589e9f19454ccf3c276ff5f8"
+    },
+    {
+      "id": "19ecd1f9-3775-484b-9ab8-c9af966f26bb",
+      "name": "Second upper north-south glazing 9",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": -1.4949999999999992,
+        "y": 9.75,
+        "z": 5.96
+      },
+      "hash": "fb47788555919a1e5d7450cb391aaa7affc65ea3e2897922c0d9efbf2a148c2c"
+    },
+    {
+      "id": "c88c0951-371e-4465-b2d0-ea553bd11f1e",
+      "name": "Second upper north-south glazing 10",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": 1.495000000000001,
+        "y": 9.75,
+        "z": 5.96
+      },
+      "hash": "eb01ca3d0c991d39f5077b78080d8e861bdfd25f0a4fb4463c820e5aca584cc9"
+    },
+    {
+      "id": "033b5601-af1c-47b6-a131-cb2a1595c75a",
+      "name": "Second upper north-south glazing 11",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": 4.485000000000001,
+        "y": 9.75,
+        "z": 5.96
+      },
+      "hash": "10701ce638b10b16e5f5686acae3aa22cdaef7ed53893ad0f39260f742635206"
+    },
+    {
+      "id": "335b2fcb-78bc-47d0-942b-0072d62e1564",
+      "name": "Second upper north-south glazing 12",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3.25
+      },
+      "position": {
+        "x": 7.475000000000001,
+        "y": 9.75,
+        "z": 5.96
+      },
+      "hash": "12d2756d7369c682f03f49ef230defe93cefe2c99390f364a95b1030415b378a"
+    },
+    {
+      "id": "73fa00b3-3eba-4e68-9ffa-5859fc5501dc",
+      "name": "Second upper east-west glazing 1",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": -8.96,
+        "y": 9.75,
+        "z": -4.4775
+      },
+      "hash": "b90630870b8c1f455d63b3cc4f24300c0637574e95bffa9601a53c16b2ce7ed3"
+    },
+    {
+      "id": "dd3308ce-5992-4f5c-9cf4-93d2abffdf28",
+      "name": "Second upper east-west glazing 2",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": 8.96,
+        "y": 9.75,
+        "z": -4.4775
+      },
+      "hash": "55b2ccf5e0e3fcbb066aca0d8969b1ec51b99d65d6f22fe93d02497d19ccc212"
+    },
+    {
+      "id": "a8827b99-72ad-440c-8952-ca27285a47ec",
+      "name": "Second upper east-west glazing 3",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": -8.96,
+        "y": 9.75,
+        "z": -1.4925000000000002
+      },
+      "hash": "7436a625f45677ff11ee5786a73bd30a9aec280d88b5d76453baad20922a5647"
+    },
+    {
+      "id": "af509b31-2da1-471a-9319-6a58821f04cb",
+      "name": "Second upper east-west glazing 4",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": 8.96,
+        "y": 9.75,
+        "z": -1.4925000000000002
+      },
+      "hash": "e3aed4dafe5f6ac994a601b15c82ae5a96fade19d5baeba2c222c8a1b60fc203"
+    },
+    {
+      "id": "b861bbc9-43b8-4bce-8aef-0e4c8346f7d7",
+      "name": "Second upper east-west glazing 5",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": -8.96,
+        "y": 9.75,
+        "z": 1.4924999999999997
+      },
+      "hash": "ee0f9eb541f2a0c7df49dfecec6e5fa1155aa9c0bf51c5b7a95dedd03f104e16"
+    },
+    {
+      "id": "4e0e1785-a7e1-4f25-b072-98ce414e54ff",
+      "name": "Second upper east-west glazing 6",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": 8.96,
+        "y": 9.75,
+        "z": 1.4924999999999997
+      },
+      "hash": "1d8c051d70479a1a2b958c1f6614a5203bc7512391d8efc0362e1e43a5282951"
+    },
+    {
+      "id": "b5da5f75-8fee-4577-9a6f-25254f6909a9",
+      "name": "Second upper east-west glazing 7",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": -8.96,
+        "y": 9.75,
+        "z": 4.4775
+      },
+      "hash": "422ce0c9a2c8f440facb5d1817fc54254fb19cedff656875657ecfed98978c62"
+    },
+    {
+      "id": "e6dd1290-0b27-4b48-9ab4-0b92df65a160",
+      "name": "Second upper east-west glazing 8",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3.25
+      },
+      "position": {
+        "x": 8.96,
+        "y": 9.75,
+        "z": 4.4775
+      },
+      "hash": "3994351dbc9355de938d975fdf9c8bd15ff16ed7c75e2ea9df9e1be358455ae7"
+    },
+    {
+      "id": "681b9901-32be-47fb-af6f-9dd241dc67dc",
+      "name": "Third upper north-south glazing 1",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3
+      },
+      "position": {
+        "x": -7.475,
+        "y": 13.25,
+        "z": -5.96
+      },
+      "hash": "b6c96fe2656c970be28bb744a4e7fe30779f48cc04add4c9dba082bbc3a4dde0"
+    },
+    {
+      "id": "0c36fb3c-01a7-4514-9f8b-ca0c08d48bc8",
+      "name": "Third upper north-south glazing 2",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3
+      },
+      "position": {
+        "x": -4.484999999999999,
+        "y": 13.25,
+        "z": -5.96
+      },
+      "hash": "4b2c33097490429fab185c45433ccc3627d8b3abb2d188d71a39d6f5e90b6d34"
+    },
+    {
+      "id": "c3532533-be81-4e7c-960a-f49b99fb3922",
+      "name": "Third upper north-south glazing 3",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3
+      },
+      "position": {
+        "x": -1.4949999999999992,
+        "y": 13.25,
+        "z": -5.96
+      },
+      "hash": "d0cc46611363b121740db5357954e2a69ad8777891f76a5310bc78436bb298ce"
+    },
+    {
+      "id": "ba2ad53f-fb72-4442-b2b9-cca5665bf3e1",
+      "name": "Third upper north-south glazing 4",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3
+      },
+      "position": {
+        "x": 1.495000000000001,
+        "y": 13.25,
+        "z": -5.96
+      },
+      "hash": "7ab83133cdf6a61e68c13d550e9a7355d13a94776ac0c8220e3390b67ff46f91"
+    },
+    {
+      "id": "38ab7b2d-dac2-4492-8491-bd8a8c7f8085",
+      "name": "Third upper north-south glazing 5",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3
+      },
+      "position": {
+        "x": 4.485000000000001,
+        "y": 13.25,
+        "z": -5.96
+      },
+      "hash": "3f2e99956b62d761eed480a21be2e730577188fc480e3929c8ac2e4cf0dc8a83"
+    },
+    {
+      "id": "890cf116-e9df-4621-ac5b-fab311156daa",
+      "name": "Third upper north-south glazing 6",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3
+      },
+      "position": {
+        "x": 7.475000000000001,
+        "y": 13.25,
+        "z": -5.96
+      },
+      "hash": "fb468663a52bc33486113153b2066221cbbb92f4462e5912c8f0e1732f1c998f"
+    },
+    {
+      "id": "eb38681c-a96a-4914-bbb0-67debaa5fa95",
+      "name": "Third upper north-south glazing 7",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3
+      },
+      "position": {
+        "x": -7.475,
+        "y": 13.25,
+        "z": 5.96
+      },
+      "hash": "e426ed997c75a729c5d27da5a48daf83d239ba2bcf993215574c9f137cdee6b8"
+    },
+    {
+      "id": "b8e5bedd-583e-49a5-a29d-579e426d96bc",
+      "name": "Third upper north-south glazing 8",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3
+      },
+      "position": {
+        "x": -4.484999999999999,
+        "y": 13.25,
+        "z": 5.96
+      },
+      "hash": "eefa33bef0213ff22a6f2ca96a7e1043805c0fbe3e2d8a632658b5dfd06da682"
+    },
+    {
+      "id": "a84c55d4-c18a-43f1-b1b7-bd5f92411cc7",
+      "name": "Third upper north-south glazing 9",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3
+      },
+      "position": {
+        "x": -1.4949999999999992,
+        "y": 13.25,
+        "z": 5.96
+      },
+      "hash": "fa6e87b62515b58446d7ba806ed98b762d9f1cf9ab252178eb216dc086ca7dfc"
+    },
+    {
+      "id": "cb7c8bd4-6feb-4717-862d-dbcf23b5e690",
+      "name": "Third upper north-south glazing 10",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3
+      },
+      "position": {
+        "x": 1.495000000000001,
+        "y": 13.25,
+        "z": 5.96
+      },
+      "hash": "ebf3102de1661ce22dd68dc10e7d4607c8a7079f332a27f34e1aa691bddbc183"
+    },
+    {
+      "id": "e102f4e5-3a6d-461d-b511-87026b1062ca",
+      "name": "Third upper north-south glazing 11",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3
+      },
+      "position": {
+        "x": 4.485000000000001,
+        "y": 13.25,
+        "z": 5.96
+      },
+      "hash": "2697366fadeb81bb6961fc20e1091a3dd30d92cf32a7c9eb0d39458f8c779578"
+    },
+    {
+      "id": "b3c98f3e-29e1-4941-aa12-eb79baa9cc4e",
+      "name": "Third upper north-south glazing 12",
+      "role": "window",
+      "dimensions": {
+        "width": 2.93,
+        "depth": 0.04,
+        "height": 3
+      },
+      "position": {
+        "x": 7.475000000000001,
+        "y": 13.25,
+        "z": 5.96
+      },
+      "hash": "785274843bd2f3012351b2961138c1ef5e8300672dbb1c83d2d316c283c2b3c0"
+    },
+    {
+      "id": "dd4404dd-a459-4cba-b0b0-d2b122e4249b",
+      "name": "Third upper east-west glazing 1",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3
+      },
+      "position": {
+        "x": -8.96,
+        "y": 13.25,
+        "z": -4.4775
+      },
+      "hash": "cdb580a95830a22c21b2de9cfc9cf6b1a96e8ce5487aaacf6f4c9742efe66d24"
+    },
+    {
+      "id": "5f730b3c-22b3-48d4-a914-78818f702575",
+      "name": "Third upper east-west glazing 2",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3
+      },
+      "position": {
+        "x": 8.96,
+        "y": 13.25,
+        "z": -4.4775
+      },
+      "hash": "92278ddad68e26d1731cbb0d49df0c47896ce9ad8576f8f3b51ab5920f43c122"
+    },
+    {
+      "id": "7a65a804-7763-4adc-8bdf-bf2ce4e7dfd3",
+      "name": "Third upper east-west glazing 3",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3
+      },
+      "position": {
+        "x": -8.96,
+        "y": 13.25,
+        "z": -1.4925000000000002
+      },
+      "hash": "fb34fe9eb0f4caa5f98c280ab970b14fcfe730dc0260b3f89de1eeb0fa684f7a"
+    },
+    {
+      "id": "ad18cd41-21b6-46f1-a25f-b0c6d5dd30be",
+      "name": "Third upper east-west glazing 4",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3
+      },
+      "position": {
+        "x": 8.96,
+        "y": 13.25,
+        "z": -1.4925000000000002
+      },
+      "hash": "0b7120b2945474aad1a1055a3f1f4a34eabbc4c39726ba3f2811b2553896e946"
+    },
+    {
+      "id": "27a967c1-0a30-4897-baab-139acbc92e3a",
+      "name": "Third upper east-west glazing 5",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3
+      },
+      "position": {
+        "x": -8.96,
+        "y": 13.25,
+        "z": 1.4924999999999997
+      },
+      "hash": "04e88f5535a557799f6097c1a005f9ecb6fc2996a0e51731990a62a4099443d0"
+    },
+    {
+      "id": "dc67028e-854e-4f72-9f33-74ca94fdab2c",
+      "name": "Third upper east-west glazing 6",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3
+      },
+      "position": {
+        "x": 8.96,
+        "y": 13.25,
+        "z": 1.4924999999999997
+      },
+      "hash": "8394bd6a4405ca9885911922e4139f6209e5f9ec126d18eb254dc656c95a6065"
+    },
+    {
+      "id": "b55cf013-0491-4535-859c-767f5a6cd243",
+      "name": "Third upper east-west glazing 7",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3
+      },
+      "position": {
+        "x": -8.96,
+        "y": 13.25,
+        "z": 4.4775
+      },
+      "hash": "43504c6e9cec04b40ba34779b40e416d06302be0f6dbd040320945a7b9a2115e"
+    },
+    {
+      "id": "ef375a37-9b0f-4006-9911-5a2c944bb4de",
+      "name": "Third upper east-west glazing 8",
+      "role": "window",
+      "dimensions": {
+        "width": 0.04,
+        "depth": 2.925,
+        "height": 3
+      },
+      "position": {
+        "x": 8.96,
+        "y": 13.25,
+        "z": 4.4775
+      },
+      "hash": "cb88ce755871d865fc3a4b4cac954159186c8fe799429d5a10d21af7d07a1681"
+    },
+    {
+      "id": "5f8fb1e6-34bf-44ae-869e-6e808a6b6dc5",
+      "name": "North-south facade mullion 1",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": -8.97,
+        "y": 0,
+        "z": -5.97
+      },
+      "hash": "5c493d4ea3fd750cc9ea9f1c7d4845bbb821928df9df72e7b3eb88442ae3bfc8"
+    },
+    {
+      "id": "6f722cdd-186a-4506-9c45-7d77a9b615b5",
+      "name": "North-south facade mullion 2",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": -5.98,
+        "y": 0,
+        "z": -5.97
+      },
+      "hash": "53856a2f0449cf03be5bb183abb0f4a37d34025873a2f837c3722cb9166c23de"
+    },
+    {
+      "id": "d3a6156f-a589-4caf-a0ac-e9f12f21dd40",
+      "name": "North-south facade mullion 3",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": -2.99,
+        "y": 0,
+        "z": -5.97
+      },
+      "hash": "3dd7252ab137e626337d79c5164fa832851891c2ad58237c5476f671b5d9a499"
+    },
+    {
+      "id": "0cc3ff56-2b26-460a-8f99-e43489894d7b",
+      "name": "North-south facade mullion 4",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": -5.97
+      },
+      "hash": "8f14a4268b3683323e0491eebc45ddc589c7728f0ff2cf9a65446ecebb078664"
+    },
+    {
+      "id": "8f14827c-01eb-4733-b628-cd3a1315e019",
+      "name": "North-south facade mullion 5",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": 2.99,
+        "y": 0,
+        "z": -5.97
+      },
+      "hash": "edfa5c1a0fa4ce499af9ae85c27f818e1c47976e518a440b92b428819ccc493c"
+    },
+    {
+      "id": "35f09935-93b7-4dfd-9b33-1186451427ee",
+      "name": "North-south facade mullion 6",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": 5.98,
+        "y": 0,
+        "z": -5.97
+      },
+      "hash": "151448c1e0f27ce76335b81b5a3a170653052ac26f618b08c6e9a26983187242"
+    },
+    {
+      "id": "181410d7-d6f7-4b66-ad69-7cbade95c33c",
+      "name": "North-south facade mullion 7",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": 8.97,
+        "y": 0,
+        "z": -5.97
+      },
+      "hash": "c2fb623a34a4913ffef529fd7a2755c3e5c8c60292e56fdb5ef1fcb5a3b1509b"
+    },
+    {
+      "id": "88ae3c7f-65c0-497c-900b-c1da9376c53e",
+      "name": "North-south facade mullion 8",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": -8.97,
+        "y": 0,
+        "z": 5.97
+      },
+      "hash": "3d3fd4eb5aaf5b83b4b6e63108c2b4cdaa26381765a21731923918f40f44c576"
+    },
+    {
+      "id": "1fe704c1-a202-4331-b913-7dd162a045e3",
+      "name": "North-south facade mullion 9",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": -5.98,
+        "y": 0,
+        "z": 5.97
+      },
+      "hash": "ae2e9cc555a28d466ccc251c107edf30d8ced79bda9a6fa9838691d0b565afc0"
+    },
+    {
+      "id": "51507109-d8da-496d-bfe1-6e872db399e8",
+      "name": "North-south facade mullion 10",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": -2.99,
+        "y": 0,
+        "z": 5.97
+      },
+      "hash": "6631ba7e239ed4dd0d3f854de293f5065a282eccf4052407503b0d7837ce5462"
+    },
+    {
+      "id": "df6d4834-8f73-4825-902d-a26acc1969f1",
+      "name": "North-south facade mullion 11",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": 0,
+        "y": 0,
+        "z": 5.97
+      },
+      "hash": "20a553a5ec5954c1c28b6d0b3e5d85380ec31d562c73d5148a0c4d0ec0161a82"
+    },
+    {
+      "id": "70255f6a-af33-4819-bc19-cc6f4794611c",
+      "name": "North-south facade mullion 12",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": 2.99,
+        "y": 0,
+        "z": 5.97
+      },
+      "hash": "a9b54202459c95eb89a77a29e66577d10352cfbc1455c2e57d7cc0e6b83569b9"
+    },
+    {
+      "id": "485fe246-3fdc-4ae6-9654-5b3b274ff899",
+      "name": "North-south facade mullion 13",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": 5.98,
+        "y": 0,
+        "z": 5.97
+      },
+      "hash": "1c420ef89336492f187953d5afa8418800c26f8822cf1a7758f6a82143240b26"
+    },
+    {
+      "id": "8fb357eb-61d7-454a-a9c0-64b8e6b2ea4f",
+      "name": "North-south facade mullion 14",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": 8.97,
+        "y": 0,
+        "z": 5.97
+      },
+      "hash": "8d61a07c4c98bd6d5fa93c77aefebdd48ed079b0a6015e2d25a83eff0c6d1093"
+    },
+    {
+      "id": "2b618ab6-fd91-4273-be86-f3eb3d45ba65",
+      "name": "East-west facade mullion 1",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": -8.97,
+        "y": 0,
+        "z": -2.985
+      },
+      "hash": "66c776081e0299cf253b1eb090231098979fd36688cfc22a483cdb5f2b513d85"
+    },
+    {
+      "id": "a4329b29-e737-43e8-9f08-94e390f168a4",
+      "name": "East-west facade mullion 2",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": 8.97,
+        "y": 0,
+        "z": -2.985
+      },
+      "hash": "eb34ecdd49ece8cddc2083bfcc8e5cec3685bdd145711a11e364ff5ad380c403"
+    },
+    {
+      "id": "dd07fd09-1396-40bc-9612-fefa876ce5a5",
+      "name": "East-west facade mullion 3",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": -8.97,
+        "y": 0,
+        "z": 0
+      },
+      "hash": "fc54b675c6e2807079580b2883786b33d59940042a6f34d58b99034585b5ea3f"
+    },
+    {
+      "id": "d507e5a8-3326-4ac9-b787-e9ca08e2b378",
+      "name": "East-west facade mullion 4",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": 8.97,
+        "y": 0,
+        "z": 0
+      },
+      "hash": "f9069ebdc50a2b2a1ca7a1a4cf639757ee1a8cbe648c0dd350f395ca22156351"
+    },
+    {
+      "id": "fbf11354-6f77-473e-8171-9b5f4d45ee37",
+      "name": "East-west facade mullion 5",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": -8.97,
+        "y": 0,
+        "z": 2.985
+      },
+      "hash": "06788e948b6172b00d133a310afaad941a649661e590d60a998da03da79358ff"
+    },
+    {
+      "id": "dcde63a0-faaa-4ff4-8f66-8efec04e0819",
+      "name": "East-west facade mullion 6",
+      "role": "frame",
+      "dimensions": {
+        "width": 0.06,
+        "depth": 0.06,
+        "height": 16.5
+      },
+      "position": {
+        "x": 8.97,
+        "y": 0,
+        "z": 2.985
+      },
+      "hash": "22231503e24406d318427bbe50ff401e048646b5c6cd2bc92b338333cfb3352e"
+    }
+  ]
+}

@@ -23,6 +23,7 @@ test('serves the real backend with honest unconfigured AI status', async ({
     configured: false,
     authenticated: true,
     voiceConfigured: false,
+    agentConfigured: false,
   });
   const unavailable = await request.post('/api/plan', {
     data: { message: 'Create two boxes.' },
@@ -276,9 +277,20 @@ test('success sequence through UI and genuine CSG using explicit model-response 
   await expect(page.getByTestId('volume-stat')).toHaveText('288 m³');
   await say(page, 'Actually, undo that and intersect them instead.');
   await page.getByRole('button', { name: 'Apply change', exact: true }).click();
+  // Boolean edits deliberately preserve the user's label and first identity.
+  // Check the stored construction recipe instead of expecting a renamed object.
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          JSON.parse(localStorage.getItem('atelier.session.v2')!).project
+            .volumes[0]?.geometry?.operation,
+      ),
+    )
+    .toBe('intersect');
   await expect(
     page.getByRole('textbox', { name: 'Object name', exact: true }),
-  ).toHaveValue(/intersect/);
+  ).toHaveValue('Volume 01');
   await expect(page.getByTestId('volume-stat')).toHaveText('288 m³');
   await say(page, 'Make the result a little wider.');
   await expect(page.getByTestId('volume-stat')).toHaveText('316.8 m³');
