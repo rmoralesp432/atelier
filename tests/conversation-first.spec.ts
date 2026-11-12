@@ -57,7 +57,12 @@ test('design question, free-form answer and correction work without choosing pri
     expect(body.scene.conversation.focusIds).toEqual([
       body.scene.selectedIds[0],
     ]);
-    expect(body.history.at(-1).content).toContain('80 × 15 × 8');
+    expect(body.history.at(-1).content).toContain('80-meter gallery');
+    // Geometry facts come from the live scene, not wording in an older reply.
+    expect(
+      body.scene.objects.find((o: any) => o.id === body.scene.selectedIds[0])
+        .dimensions,
+    ).toEqual({ width: 80, depth: 15, height: 8 });
     expect(
       body.history.every(
         (m: any) => Object.keys(m).sort().join(',') === 'content,role',

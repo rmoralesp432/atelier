@@ -5,9 +5,13 @@ on:
   pull_request:
 permissions:
   contents: read
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  check:
+  validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -15,13 +19,42 @@ jobs:
           node-version-file: .node-version
           cache: npm
       - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: npm run format:check
+  browser:
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - run: npm run build
       - run: npx playwright install --with-deps chromium
-      - run: npm run check
+      - run: npx playwright test --shard=${{ matrix.shard }}/4
         env:
           ATELIER_TEST_PRODUCTION: '1'
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: browser-results
+          name: browser-results-${{ matrix.shard }}
           path: test-results/
           retention-days: 7
+  check:
+    if: always()
+    needs: [validate, browser]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require validation and every browser shard
+        env:
+          VALIDATION_RESULT: ${{ needs.validate.result }}
+          BROWSER_RESULT: ${{ needs.browser.result }}
+        run: test "$VALIDATION_RESULT" = success && test "$BROWSER_RESULT" = success

@@ -30,6 +30,7 @@ import { defaultSolar } from './studio/solar';
 import { defaultCameraSettings } from './studio/camera';
 import AddVolumePanel from './studio/AddVolumePanel';
 import { resolveCameraView } from './studio/cameraView';
+import { displaySummary } from './intelligence/conversationReply';
 import { stagedPlan, type PreparedPlan } from './intelligence/checkedPlanner';
 import SectionPanel from './studio/SectionPanel';
 import { defaultSection, sectionRange } from './studio/section';
@@ -1168,12 +1169,6 @@ export default function App({
     setNotice({ text: message, error: false });
     return message;
   };
-  const displaySummary = (plan: Plan) =>
-    plan.operations.some(
-      (op) => op.type === 'measure' || op.type === 'solar_study',
-    )
-      ? undefined
-      : plan.message;
   const propose = async (plan: Plan) => {
     setModelingBusy((n) => n + 1);
     try {
@@ -1308,10 +1303,9 @@ export default function App({
         return message;
       }
       const result = await execute(plan, false, frame, checked.prepared);
-      const reply = connectionState.agentConfigured
-        ? plan.message
-        : (displaySummary(plan) ?? plan.message);
-      remember('assistant', result, reply);
+      const summary = displaySummary(plan, connectionState.agentConfigured);
+      const reply = summary ?? result;
+      remember('assistant', result, summary);
       if (connectionState.agentConfigured)
         setNotice({ text: reply, error: false });
       return connectionState.agentConfigured ? reply : result;
