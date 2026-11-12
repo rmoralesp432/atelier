@@ -1494,7 +1494,8 @@ export default function Viewport(props: Props) {
         camera.right = halfWidth;
       }
       camera.updateProjectionMatrix();
-      if (objects.size) fit(latest.current.view.mode === 'top');
+      if (objects.size && !latest.current.savedViewRequest)
+        fit(latest.current.view.mode === 'top');
     });
     resize.observe(container);
     const publishCamera = () => {

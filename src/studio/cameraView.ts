@@ -50,6 +50,7 @@ export type CameraViewOperation = z.infer<typeof cameraViewOperation>;
 export function resolveCameraView(
   project: Project,
   op: CameraViewOperation,
+  viewportAspect = 1,
 ): SavedView {
   const volumes = op.targets.length
     ? op.targets.map((id) => {
@@ -80,8 +81,9 @@ export function resolveCameraView(
       )
     : 5;
   const fitted = Math.max(radius, 0.5);
+  const aspect = Math.min(1, Math.max(0.05, viewportAspect));
   const distance =
-    op.distance ?? (fitted / Math.sin((20 * Math.PI) / 180)) * 1.15;
+    op.distance ?? ((fitted / Math.sin((20 * Math.PI) / 180)) * 1.15) / aspect;
   const a = (op.bearing * Math.PI) / 180,
     e = (op.elevation * Math.PI) / 180;
   return {
@@ -92,7 +94,7 @@ export function resolveCameraView(
       projection: op.projection,
       zoom: 1,
       fov: 40,
-      orthoHeight: fitted * 2.3,
+      orthoHeight: (fitted * 2.3) / aspect,
       target,
       position: {
         x: target.x + Math.sin(a) * Math.cos(e) * distance,

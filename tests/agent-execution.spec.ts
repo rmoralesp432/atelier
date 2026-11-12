@@ -400,9 +400,17 @@ test('agent camera and solar actions drive the real workspace and report playbac
     )
     .toBe(true);
   const azimuth = await viewport.getAttribute('data-sun-azimuth');
+  const cameraPosition = await viewport.getAttribute('data-camera-position');
+  const cameraTarget = await viewport.getAttribute('data-camera-target');
+  await page.setViewportSize({ width: 390, height: 844 });
   await expect
     .poll(() => viewport.getAttribute('data-sun-azimuth'))
     .not.toBe(azimuth);
+  await expect(viewport).toHaveAttribute(
+    'data-camera-position',
+    cameraPosition!,
+  );
+  await expect(viewport).toHaveAttribute('data-camera-target', cameraTarget!);
   await input.fill('Pause the sun study.');
   await page.getByRole('button', { name: 'Send message', exact: true }).click();
   await expect.poll(() => calls).toBe(3);

@@ -14,6 +14,7 @@ Changes driven by those trials:
 - Keep natural responses in conversation and spoken replies; retain detailed engine receipts in the expandable change record. Subsequent turns receive the concise reply and real scene rather than repeated execution logs.
 - Freeze transient references such as `$created` when each workspace operation is encountered, before later creations can change their meaning.
 - Expose a general camera operation with bearing, elevation, projection, distance and look-at target. Add sun playback/pause and include actual playback state in subsequent context. This fills missing tool capabilities without recognizing specific phrases or buildings.
+- Fit requested views to portrait screens and preserve the chosen camera direction when the interface resizes. A browser check changes from desktop to phone width while the sun study is running.
 - Reduce duplicated group/role/level ID lists in the model's initial context while preserving every object and exposing full construction through inspection.
 - Support an explicit `ATELIER_AGENT_MODEL`. The agent uses it, then `ATELIER_TEXT_MODEL` if configured, otherwise the successfully tested `gpt-6.1-sol`. Legacy mode retains its existing default. Model switching alone is not credited for all gains; contracts and orchestration changed too.
 

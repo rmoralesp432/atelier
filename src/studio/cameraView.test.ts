@@ -13,6 +13,24 @@ const view = () =>
     distance: null,
     target: null,
   });
+it('fits portrait screens without changing bearing and respects an explicit distance', () => {
+  const project = { volumes: [makeVolume()], selectedId: null };
+  const desktop = resolveCameraView(project, view()).pose!;
+  const phone = resolveCameraView(project, view(), 0.5).pose!;
+  const distance = (p: typeof phone) =>
+    Math.hypot(
+      p.position.x - p.target.x,
+      p.position.y - p.target.y,
+      p.position.z - p.target.z,
+    );
+  expect(distance(phone)).toBeCloseTo(distance(desktop) * 2);
+  expect(phone.orthoHeight).toBeCloseTo(desktop.orthoHeight! * 2);
+  expect(
+    distance(
+      resolveCameraView(project, { ...view(), distance: 12 }, 0.5).pose!,
+    ),
+  ).toBeCloseTo(12);
+});
 it.each([23, 45, 137, 280])(
   'positions the camera at arbitrary bearing %s without moving or isolating geometry',
   (bearing) => {

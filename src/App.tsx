@@ -326,6 +326,7 @@ export default function App({
   );
   const [project, setProject] = useState(boot.session.project);
   const [workingProject, setWorkingProject] = useState<Project | null>(null);
+  const viewportStage = useRef<HTMLDivElement>(null);
   const current = useRef(project);
   current.current = project;
   const undo = useRef<Project[]>(boot.session.past);
@@ -702,7 +703,12 @@ export default function App({
         continue;
       }
       if (op.type === 'camera_view') {
-        const resolved = resolveCameraView(current.current, op);
+        const stage = viewportStage.current;
+        const resolved = resolveCameraView(
+          current.current,
+          op,
+          stage ? stage.clientWidth / Math.max(1, stage.clientHeight) : 1,
+        );
         state.view = op.projection;
         setAlternativePreview(null);
         setCameraSettings((v) => ({
@@ -2418,7 +2424,7 @@ export default function App({
               <option value="top">Top view</option>
             </select>
           </div>
-          <div className="viewport-stage">
+          <div className="viewport-stage" ref={viewportStage}>
             <button
               className="quick-theme"
               aria-label={
