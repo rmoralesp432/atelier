@@ -1,3 +1,4 @@
+import { cameraViewOperation } from '../studio/cameraView';
 import { MAX_SCENE_OBJECTS } from '../limits';
 import { sculptOperations } from '../geometry/sculptSchema';
 import { organicOperations } from '../geometry/organicSchema';
@@ -41,6 +42,8 @@ export const workspaceActionSchema = z.enum([
   'solar_settings',
   'solar_on',
   'solar_off',
+  'solar_play',
+  'solar_pause',
   'camera_settings',
   'walk_on',
   'walk_off',
@@ -92,6 +95,7 @@ export const operationSchema = z.discriminatedUnion('type', [
   ...architecturalOperations,
   ...volumetricOperations,
   solarOperation,
+  cameraViewOperation,
   z
     .object({
       type: z.literal('walk_to'),

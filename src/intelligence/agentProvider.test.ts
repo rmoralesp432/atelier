@@ -1,9 +1,10 @@
-import { it, expect } from 'vitest';
+import { it, expect, vi, afterEach } from 'vitest';
 import { createProvider, type ModelRequest } from '../../server/provider';
 import { sceneContext, defaultCamera } from './context';
 import { newSession, directPlan, applyPlan } from './engine';
 import { stagedPlan } from './checkedPlanner';
 import { ModelPlanError } from './planFailure';
+afterEach(() => vi.unstubAllEnvs());
 
 const empty = () => newSession({ volumes: [], selectedId: null });
 const input = (): ModelRequest => ({
@@ -308,9 +309,81 @@ it('provides a compact complete inventory and full actual construction on inspec
   );
   expect(inventory.objects[0].dimensions).toEqual(scene.objects[0].dimensions);
   expect(inventory.objects[0]).not.toHaveProperty('construction');
+  expect(inventory.understanding.inventory[0].roles).toEqual([
+    { role: 'element', count: 1 },
+  ]);
+  expect(inventory.understanding.inventory[0].roles[0]).not.toHaveProperty(
+    'ids',
+  );
   const inspected = JSON.parse(
     requests[1].input.find((i: any) => i.type === 'function_call_output')
       .output,
   );
   expect(inspected.objects).toEqual(scene.objects);
+});
+
+it('uses the tested reasoning model only on the opt-in agent and respects explicit model overrides', async () => {
+  vi.stubEnv('ATELIER_TEXT_MODEL', '');
+  vi.stubEnv('ATELIER_AGENT_MODEL', '');
+  const requests: any[] = [];
+  const provider = createProvider(
+    'offline-test',
+    async (_url, init) => {
+      requests.push(JSON.parse(init!.body as string));
+      return toolResponse('responses', 'ask_user', {
+        message: 'Which reference should I use?',
+      });
+    },
+    { agent: true },
+  );
+  await provider.plan(input());
+  expect(requests.at(-1)).toMatchObject({
+    model: 'gpt-6.1-sol',
+    reasoning: { effort: 'high' },
+  });
+  vi.stubEnv('ATELIER_TEXT_MODEL', 'gpt-4.1');
+  await provider.plan(input());
+  expect(requests.at(-1).model).toBe('gpt-4.1');
+  expect(requests.at(-1)).not.toHaveProperty('reasoning');
+  vi.stubEnv('ATELIER_AGENT_MODEL', 'gpt-6.1-sol');
+  await provider.plan(input());
+  expect(requests.at(-1).model).toBe('gpt-6.1-sol');
+});
+
+it('executes reversible identity-preserving agent edits without a redundant review, retaining legacy and removal reviews', async () => {
+  const original = (await applyPlan(empty(), box())).session;
+  const id = original.project.volumes[0].id;
+  const hollow = directPlan({
+    type: 'hollow',
+    target: id,
+    thickness: 0.2,
+    openTop: true,
+  });
+  const agent = await stagedPlan(
+    original,
+    defaultCamera,
+    async () => hollow,
+    undefined,
+    undefined,
+    { agent: true },
+  );
+  expect(agent.reviewRequired).toBe(false);
+  expect(agent.prepared!.session.project.volumes[0].id).toBe(id);
+  const restored = await applyPlan(
+    agent.prepared!.session,
+    directPlan({ type: 'undo', count: 1 }),
+  );
+  expect(restored.session.project).toEqual(original.project);
+  const legacy = await stagedPlan(original, defaultCamera, async () => hollow);
+  expect(legacy.reviewRequired).toBe(true);
+  const deletion = await stagedPlan(
+    original,
+    defaultCamera,
+    async () => directPlan({ type: 'delete', targets: [id] }),
+    undefined,
+    undefined,
+    { agent: true },
+  );
+  expect(deletion.reviewRequired).toBe(true);
+  expect(original.project.volumes).toHaveLength(1);
 });

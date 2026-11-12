@@ -37,7 +37,7 @@ const functions = [
   {
     name: 'inspect_scene',
     description:
-      'Read actual scene objects and their dimensions, placement, roles and retained construction. Empty ids reads the scene. Never invent IDs.',
+      'Read full construction details when the supplied inventory is insufficient. The inventory already includes every object, its dimensions, placement and role; inspect only when additional construction details are needed. Empty ids reads the full scene. Never invent IDs.',
     parameters: z.toJSONSchema(inspect),
   },
   {
@@ -102,6 +102,28 @@ Do not produce a mandatory design brief or ask the user to approve routine const
 export function compactScene(scene: ModelRequest['scene']) {
   return {
     ...scene,
+    // Role/level membership is already carried by every object. Keep useful
+    // architectural summaries without sending the same UUIDs several times.
+    understanding: scene.understanding && {
+      ...scene.understanding,
+      inventory: scene.understanding.inventory.map((group) => ({
+        ...group,
+        roles: group.roles.map(({ role, ids }) => ({
+          role,
+          count: ids.length,
+        })),
+        levels: group.levels.map(({ ids, ...level }) => ({
+          ...level,
+          count: ids.length,
+        })),
+      })),
+    },
+    groups: (scene.groups ?? []).map(({ members, ...group }) => ({
+      ...group,
+      memberCount:
+        members?.length ??
+        scene.objects.filter((o) => o.groupId === group.id).length,
+    })),
     objects: scene.objects.map((o) => ({
       id: o.id,
       ordinal: o.ordinal,
@@ -116,13 +138,13 @@ export function compactScene(scene: ModelRequest['scene']) {
       material: o.material,
       component: o.component,
       componentSource: o.componentSource,
-      bounds: o.spatial.envelopeBounds,
-      reference: o.spatial.reference,
+      bounds: o.spatial?.envelopeBounds ?? null,
+      reference: o.spatial?.reference ?? false,
       detailsAvailable: !!(
         o.formDefinition ||
         o.construction ||
         o.architecture ||
-        o.spatial.footprint
+        o.spatial?.footprint
       ),
     })),
     inspection:

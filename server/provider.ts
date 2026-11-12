@@ -54,6 +54,7 @@ export const requestSchema = z
     workspace: z
       .object({
         solar: solarSchema.optional(),
+        solarPlaying: z.boolean().optional(),
         mapVisible: z.boolean(),
         arActive: z.boolean().optional(),
         mapConfigured: z.boolean(),
@@ -342,7 +343,11 @@ export function createProvider(
   return {
     agent: options.agent ?? false,
     async plan(input, signal) {
-      const model = process.env.ATELIER_TEXT_MODEL || 'gpt-4.1';
+      const model = options.agent
+        ? process.env.ATELIER_AGENT_MODEL ||
+          process.env.ATELIER_TEXT_MODEL ||
+          'gpt-6.1-sol'
+        : process.env.ATELIER_TEXT_MODEL || 'gpt-4.1';
       const reasoningModel = /^(gpt-[56](?:[.-]|$)|o[134](?:-|$))/.test(model);
       if (options.agent)
         return agentPlan(

@@ -2,6 +2,29 @@
 
 Status: development branch only. The user authorized limited paid API evaluation on 2026-11-12. Production deployment is still not authorized.
 
+## Current candidate — working model, correction and voice integration
+
+The current candidate completes live conversations that create a curved chair and an independently editable four-storey building, then modify the intended components while preserving the rest. A simple unfamiliar plan/section also produced the correctly dimensioned editable mass. [Downloadable projects, actual render observations, failures, timings, cost and reproducible offline checks](evaluations/2026-11-12-agent/README.md) are retained in the repository. Earlier checkpoint limitations below describe their state at the time, not the final candidate.
+
+Changes driven by those trials:
+
+- Show the provisional model as it develops, with Stop restoring the saved design. Only completed geometry is persisted; the whole request remains one Undo. Selection/transforms are disabled during a working preview, while navigation stays available.
+- Frame small objects at their actual scale instead of keeping a ten-metre minimum scene extent; the retained live-generated chair exposed this presentation problem during normal project import.
+- Allow reversible agent edits that preserve original identities without redundant review. Removing original objects still requires review; legacy review behavior remains unchanged.
+- Keep natural responses in conversation and spoken replies; retain detailed engine receipts in the expandable change record. Subsequent turns receive the concise reply and real scene rather than repeated execution logs.
+- Freeze transient references such as `$created` when each workspace operation is encountered, before later creations can change their meaning.
+- Expose a general camera operation with bearing, elevation, projection, distance and look-at target. Add sun playback/pause and include actual playback state in subsequent context. This fills missing tool capabilities without recognizing specific phrases or buildings.
+- Reduce duplicated group/role/level ID lists in the model's initial context while preserving every object and exposing full construction through inspection.
+- Support an explicit `ATELIER_AGENT_MODEL`. The agent uses it, then `ATELIER_TEXT_MODEL` if configured, otherwise the successfully tested `gpt-6.1-sol`. Legacy mode retains its existing default. Model switching alone is not credited for all gains; contracts and orchestration changed too.
+
+To run this candidate deliberately in a development deployment, set `ATELIER_AGENT_MODE=true`, `ATELIER_AGENT_MODEL=gpt-6.1-sol`, and `ATELIER_TEXT_API=responses`, alongside the existing server-side API secret and workspace authentication. The public config reports `agentConfigured: true`; this is not proof of billing/model availability. The same text and voice routes use the agent. Omit/disable the agent flag to retain legacy mode. No production settings were changed.
+
+Live tests used Responses with high reasoning effort; no Astra generation or controlled A/B trial was performed. Estimated cumulative paid evaluation is $2.80945, including conservative carried-forward spend after the runtime interruption. This is not verified billing. No additional paid calls are needed to inspect the retained studies.
+
+Local browser checks verify real 144-object geometry, malformed-response recovery, working preview/cancellation, follow-up identity, camera bearing/elevation, running/paused sun animation, and phone-layout voice modeling with the chat minimized. Provider and audio transport are scripted in these browser checks; live speech and real iPhone hardware remain unverified. Complex multi-drawing reconstruction, internet reference lookup and heavy imported-mesh performance are not solved by this candidate.
+
+Current local validation: 325 unit/engine/provider tests pass across 70 files. The production build and formatting pass. Six browser integration scenarios passed, followed by a separate real-chair import/framing regression check. All three retained AI projects also passed solid validation and normal project-copy import checks. CI runs the wider existing browser suite on the review branch; its result is tracked on PR #20 rather than inferred from these targeted checks.
+
 ## Checkpoint 1 — executable geometry
 
 - Removed duplicated nested Boolean expressions during frame partitioning; retained equivalent subtraction.

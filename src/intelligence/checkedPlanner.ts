@@ -330,9 +330,9 @@ export async function stagedPlan(
         const result = await applyPlan(session, plan, camera, true);
         if (brief) checkEditScope(brief, scopeOriginal, result.session);
         checkAbort();
-        const stageOperations = plan.operations.map((op) =>
-          freezeWorkspaceOperation(op, result.session),
-        );
+        const stageOperations = (
+          result.effectiveOperations ?? plan.operations
+        ).map((op) => freezeWorkspaceOperation(op, result.session));
         const before = new Map(session.project.volumes.map((v) => [v.id, v]));
         const after = new Map(
           result.session.project.volumes.map((v) => [v.id, v]),
@@ -436,10 +436,11 @@ export async function stagedPlan(
       const next = after.get(v.id);
       return (
         !next ||
-        !equalData(
-          [v.geometry, v.dimensions, v.position, v.rotation],
-          [next.geometry, next.dimensions, next.position, next.rotation],
-        )
+        (!options.agent &&
+          !equalData(
+            [v.geometry, v.dimensions, v.position, v.rotation],
+            [next.geometry, next.dimensions, next.position, next.rotation],
+          ))
       );
     });
   return {

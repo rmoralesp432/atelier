@@ -99,6 +99,7 @@ export async function renderObservation(
         const material = new THREE.MeshStandardMaterial({
           color: v.color ?? '#d7dbdf',
           roughness: 0.8,
+          flatShading: !v.geometry || v.geometry.kind === 'polygon',
           side: THREE.DoubleSide,
           transparent: glass,
           opacity: glass ? 0.35 : 1,

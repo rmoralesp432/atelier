@@ -1062,7 +1062,7 @@ export default function Viewport(props: Props) {
         ? new THREE.Vector3(20, 10, 20)
         : box.getSize(new THREE.Vector3());
       let distance =
-        ((Math.max(size.x, size.y, size.z, focusIds ? 1 : 10) /
+        ((Math.max(size.x, size.y, size.z, focusIds ? 1 : 0.25) /
           (2 *
             Math.tan(
               THREE.MathUtils.degToRad(latest.current.cameraSettings.fov / 2),
@@ -1433,6 +1433,18 @@ export default function Viewport(props: Props) {
         }
         const pose = saved.pose;
         setProjection(pose.projection === 'orthographic');
+        const distance = Math.hypot(
+          pose.position.x - pose.target.x,
+          pose.position.y - pose.target.y,
+          pose.position.z - pose.target.z,
+        );
+        // Respect requested distant views instead of clamping them back to
+        // the ordinary orbit range or clipping the entire model away.
+        orbit.maxDistance = Math.max(orbit.maxDistance, distance * 1.1);
+        camera.far = Math.max(
+          camera.far,
+          distance * 2 + (pose.orthoHeight ?? 0),
+        );
         if (camera instanceof THREE.PerspectiveCamera) camera.fov = pose.fov;
         else if (pose.orthoHeight) {
           const half = pose.orthoHeight / 2,

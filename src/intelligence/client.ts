@@ -41,6 +41,7 @@ export async function requestPlan(
   } | null,
   workspace?: {
     solar?: import('../studio/solar').SolarStudy;
+    solarPlaying?: boolean;
     mapVisible: boolean;
     arActive?: boolean;
     mapConfigured: boolean;
@@ -72,7 +73,10 @@ export async function requestPlan(
       scene: sceneContext(session.project, session.context, camera),
       history: history.slice(-20).map((m) => ({
         role: m.role,
-        content: m.content.slice(0, 4000),
+        content: (m.role === 'assistant' && m.summary
+          ? m.summary
+          : m.content
+        ).slice(0, 4000),
         ...(m.role === 'user' &&
         m === [...history].reverse().find((m) => m.images?.length) &&
         !images?.length

@@ -1,3 +1,4 @@
+import { resolveCameraView } from '../studio/cameraView';
 import { sculptVolume, smoothBoolean, reviseBlend } from '../geometry/sculpt';
 import { organicMesh } from '../geometry/organic';
 import type { OrganicDefinition } from '../geometry/organicSchema';
@@ -272,7 +273,11 @@ export async function applyPlan(
   raw: unknown,
   camera: CameraContext = defaultCamera,
   confirmed = false,
-): Promise<{ session: Session; message: string }> {
+): Promise<{
+  session: Session;
+  message: string;
+  effectiveOperations?: Operation[];
+}> {
   let current: { type: string; index: number } | undefined;
   try {
     return await applyTransaction(
@@ -298,7 +303,11 @@ async function applyTransaction(
   camera: CameraContext,
   confirmed: boolean,
   operationStarted: (op: Operation | null, index: number) => void,
-): Promise<{ session: Session; message: string }> {
+): Promise<{
+  session: Session;
+  message: string;
+  effectiveOperations?: Operation[];
+}> {
   const plan = parsePlan(raw);
   if (plan.intent !== 'apply')
     return { session: original, message: plan.message };
@@ -332,6 +341,7 @@ async function applyTransaction(
     context: structuredClone(original.context),
   };
   const reports: string[] = [];
+  const effectiveOperations: Operation[] = [];
   let beforeEdit: Project | null = null;
   for (const [operationIndex, op] of plan.operations.entries()) {
     operationStarted(op, operationIndex);
@@ -341,10 +351,14 @@ async function applyTransaction(
       op.type === 'workspace' ||
       op.type === 'section' ||
       op.type === 'walk_to' ||
+      op.type === 'camera_view' ||
       op.type === 'explore' ||
       op.type === 'show_view'
-    )
+    ) {
+      effectiveOperations.push(freezeWorkspaceOperation(op, s));
       continue;
+    }
+    effectiveOperations.push(op);
     if (op.type === 'undo' || op.type === 'redo') {
       if (beforeEdit)
         throw new Error(
@@ -2203,7 +2217,7 @@ async function applyTransaction(
     s.context.lastOperation = op.type;
   }
   operationStarted(null, 0);
-  validateWorkspaceEffects(s, plan.operations);
+  validateWorkspaceEffects(s, effectiveOperations);
   if (beforeEdit) {
     for (const v of s.project.volumes) {
       const previous = beforeEdit.volumes.find((old) => old.id === v.id);
@@ -2226,7 +2240,7 @@ async function applyTransaction(
     s.past = [...s.past.slice(-49), beforeEdit];
     s.future = [];
   }
-  return { session: s, message: reports.join('\n') };
+  return { session: s, message: reports.join('\n'), effectiveOperations };
 }
 export const directPlan = (op: Operation): Plan => ({
   intent: 'apply',
@@ -2249,6 +2263,8 @@ export function freezeWorkspaceOperation(op: Operation, s: Session): Operation {
       lookAt: placement.lookAt,
     };
   }
+  if (op.type === 'camera_view' && op.targets.length)
+    return { ...op, targets: resolveIds(op.targets, s) };
   if (op.type === 'explore' && op.targets.length)
     return { ...op, targets: resolveIds(op.targets, s) };
   return op;
@@ -2257,6 +2273,15 @@ export function validateWorkspaceEffects(s: Session, operations: Operation[]) {
   for (const raw of operations) {
     const op = freezeWorkspaceOperation(raw, s);
     if (op.type === 'walk_to') resolveWalkPlacement(s.project, op);
+    if (op.type === 'camera_view') resolveCameraView(s.project, op);
+    if (
+      op.type === 'workspace' &&
+      op.action === 'solar_play' &&
+      !s.project.site
+    )
+      throw new Error(
+        'Set a project site location before animating the sun study.',
+      );
     if (
       op.type === 'show_view' &&
       !s.project.design?.views.some((v) => v.name === op.name)

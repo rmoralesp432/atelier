@@ -1,2 +1,4 @@
 package-lock.json
 scripts/*.sh
+# Generated geometry buffers; preserve compact portable project files.
+docs/evaluations/**/*.atelier.json
