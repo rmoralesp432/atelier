@@ -1,6 +1,6 @@
 # Architectural agent implementation checkpoints
 
-Status: development branch only. The user authorized limited paid API evaluation on 2026-11-12. Production deployment is still not authorized.
+Status: publication authorized by the user on 2026-11-12. Release preparation is in progress; deployment remains gated on validation. Earlier checkpoint statements below describe their authorization state at that time.
 
 ## Current candidate — working model, correction and voice integration
 
@@ -25,7 +25,7 @@ Live tests used Responses with high reasoning effort; no Astra generation or con
 
 Local browser checks verify real 144-object geometry, malformed-response recovery, working preview/cancellation, follow-up identity, camera bearing/elevation, running/paused sun animation, and phone-layout voice modeling with the chat minimized. Provider and audio transport are scripted in these browser checks; live speech and real iPhone hardware remain unverified. Complex multi-drawing reconstruction, internet reference lookup and heavy imported-mesh performance are not solved by this candidate.
 
-Current local validation: 326 unit/engine/provider tests pass across 70 files. The production build and formatting pass. Nine focused browser scenarios pass against the production server/build, including the legacy Boolean-edit sequence and backend configuration contract. All three retained AI projects also passed solid validation and normal project-copy import checks. Older CI failures included outdated Boolean-name/config assertions and cold-render readiness races; these assertions now check the actual recipe and current contract, and allow fifteen seconds for readiness without weakening the expected results. CI runs the wider 129-test browser suite on the review branch; its result is tracked on PR #20 rather than inferred from these targeted checks. Superseded CI runs were cancelled to avoid duplicating that long suite.
+Current local validation: 329 unit/engine/provider tests pass across 71 files. The production build and formatting pass. Nine focused browser scenarios pass against the production server/build, including the legacy Boolean-edit sequence and backend configuration contract. All three retained AI projects also passed solid validation and normal project-copy import checks. Older CI failures included outdated Boolean-name/config assertions and cold-render readiness races; these assertions now check the actual recipe and current contract, and allow fifteen seconds for readiness without weakening the expected results. CI runs the wider 129-test browser suite on the review branch; its result is tracked on PR #20 rather than inferred from these targeted checks. Superseded CI runs were cancelled to avoid duplicating that long suite. The full run then found a real measurement-summary regression and two stale history/error assertions. Measured query replies now use execution receipts; all three failing scenarios pass in a production-build rerun. CI retains every browser test and divides them among four isolated runners with an aggregate gate requiring all four to pass.
 
 ## Checkpoint 1 — executable geometry
 
