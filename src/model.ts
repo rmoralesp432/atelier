@@ -1,3 +1,4 @@
+import { MAX_SCENE_OBJECTS } from './limits';
 import type { SculptRecipe, BlendRecipe } from './geometry/sculpt';
 import { componentSchema, type ComponentInfo } from './design/schema';
 import {
@@ -88,7 +89,7 @@ export type Project = {
   selectedIds?: string[];
 };
 export const STORAGE_KEY = 'atelier.project.v1';
-export const MAX_VOLUMES = 200;
+export const MAX_VOLUMES = MAX_SCENE_OBJECTS;
 export const round = (n: number) => Math.round(n * 1000) / 1000 + 0;
 export function validateVolume(v: Volume, checkGeometry = true): void {
   if (v.component) componentSchema.parse(v.component);
@@ -324,7 +325,7 @@ export function executeCommand(
     ))
   ) {
     if (project.volumes.length >= MAX_VOLUMES)
-      throw new Error('This workspace supports up to 200 volumes.');
+      throw new Error(`This workspace supports up to ${MAX_VOLUMES} volumes.`);
     const v = makeVolume(project.volumes.length + 1, {
       width: +m[1],
       depth: +m[2],
@@ -390,7 +391,7 @@ export function executeCommand(
   } else if (text === 'duplicate selected') {
     const v = requireSelection();
     if (project.volumes.length >= MAX_VOLUMES)
-      throw new Error('This workspace supports up to 200 volumes.');
+      throw new Error(`This workspace supports up to ${MAX_VOLUMES} volumes.`);
     const copy = {
       ...v,
       id: crypto.randomUUID(),

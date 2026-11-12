@@ -241,7 +241,7 @@ async function separateBuilding(s: Session, v: Volume): Promise<string> {
   const components = await editableBuildingComponents(v);
   if (s.project.volumes.length - 1 + components.length > MAX_VOLUMES)
     throw new Error(
-      'The components would exceed the 200-object workspace limit. Use fewer floors or wider panels first.',
+      `The components would exceed the ${MAX_VOLUMES}-object workspace limit.`,
     );
   if (!v.groupId) {
     if ((s.project.groups?.length ?? 0) >= 50)
@@ -1517,7 +1517,9 @@ async function applyTransaction(
       const vs = targets(op.targets, s),
         created: Volume[] = [];
       if (op.copy && s.project.volumes.length + vs.length > MAX_VOLUMES)
-        throw new Error('This workspace supports up to 200 objects.');
+        throw new Error(
+          `This workspace supports up to ${MAX_VOLUMES} objects.`,
+        );
       for (const v of vs) {
         if (isProfile(v) || isReference(v))
           throw new Error(
@@ -1563,12 +1565,9 @@ async function applyTransaction(
       const vs = targets(op.targets, s),
         created: Volume[] = [];
       const count = op.type === 'array_grid' ? op.rows * op.columns : op.count;
-      if (
-        count > 100 ||
-        s.project.volumes.length + vs.length * (count - 1) > MAX_VOLUMES
-      )
+      if (s.project.volumes.length + vs.length * (count - 1) > MAX_VOLUMES)
         throw new Error(
-          'This array exceeds the 200-object workspace limit or 100-instance array limit.',
+          `This array exceeds the ${MAX_VOLUMES}-object workspace limit.`,
         );
       for (let i = 1; i < count; i++)
         for (const v of vs) {
@@ -1904,7 +1903,9 @@ async function applyTransaction(
           Math.min(...projections.map((p) => p.center - p.half)) +
           2;
       if (s.project.volumes.length + vs.length * op.count > MAX_VOLUMES)
-        throw new Error('This workspace supports up to 200 objects.');
+        throw new Error(
+          `This workspace supports up to ${MAX_VOLUMES} objects.`,
+        );
       for (let i = 1; i <= op.count; i++) {
         const instance: Volume[] = [];
         for (const v of vs) {
@@ -2188,7 +2189,7 @@ async function applyTransaction(
     )
       throw new Error('This change affects a locked group. Unlock it first.');
     if (s.project.volumes.length > MAX_VOLUMES)
-      throw new Error('This workspace supports up to 200 objects.');
+      throw new Error(`This workspace supports up to ${MAX_VOLUMES} objects.`);
     s.project.volumes.forEach((v) =>
       validateVolume(
         v,

@@ -1,3 +1,4 @@
+import { MAX_SCENE_OBJECTS } from '../limits';
 import { sculptOperations } from '../geometry/sculptSchema';
 import { organicOperations } from '../geometry/organicSchema';
 import { solarOperation } from '../studio/solarSchema';
@@ -7,7 +8,7 @@ import { designBriefSchema } from './designBriefSchema';
 import { designOperations } from '../design/schema';
 import { z } from 'zod';
 
-const ids = z.array(z.string().min(1).max(100)).min(1).max(20);
+const ids = z.array(z.string().min(1).max(100)).min(1).max(MAX_SCENE_OBJECTS);
 const dimension = z.number().min(0.1).max(500);
 const direction = z.enum([
   'left',
@@ -116,7 +117,7 @@ export const operationSchema = z.discriminatedUnion('type', [
     .object({
       type: z.literal('group_create'),
       name: z.string().min(1).max(80),
-      targets: z.array(z.string().min(1).max(100)).max(200),
+      targets: z.array(z.string().min(1).max(100)).max(MAX_SCENE_OBJECTS),
     })
     .strict(),
   z
@@ -131,7 +132,10 @@ export const operationSchema = z.discriminatedUnion('type', [
   z
     .object({
       type: z.literal('visibility'),
-      targets: z.array(z.string().min(1).max(100)).min(1).max(200),
+      targets: z
+        .array(z.string().min(1).max(100))
+        .min(1)
+        .max(MAX_SCENE_OBJECTS),
       visible: z.boolean(),
     })
     .strict(),

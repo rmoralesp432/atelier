@@ -1,3 +1,4 @@
+import { MAX_SCENE_OBJECTS } from '../limits';
 import { z } from 'zod';
 import type { Project, Volume } from '../model';
 import { isVisible } from '../model';
@@ -32,7 +33,7 @@ export const understandingSchema = z
                 z
                   .object({
                     role: z.enum(componentRoles),
-                    ids: z.array(z.string()).max(200),
+                    ids: z.array(z.string()).max(MAX_SCENE_OBJECTS),
                   })
                   .strict(),
               )
@@ -44,11 +45,11 @@ export const understandingSchema = z
                     name: z.string().max(80),
                     base: z.number(),
                     top: z.number(),
-                    ids: z.array(z.string()).max(200),
+                    ids: z.array(z.string()).max(MAX_SCENE_OBJECTS),
                   })
                   .strict(),
               )
-              .max(200),
+              .max(MAX_SCENE_OBJECTS),
             shapes: z
               .array(
                 z
@@ -65,7 +66,7 @@ export const understandingSchema = z
       .max(51),
     focus: z
       .object({
-        ids: z.array(z.string()).max(200),
+        ids: z.array(z.string()).max(MAX_SCENE_OBJECTS),
         bounds: bounds.nullable(),
         nearby: z
           .array(

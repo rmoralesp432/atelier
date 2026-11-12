@@ -1,3 +1,4 @@
+import { MAX_SCENE_OBJECTS } from '../limits';
 import { z } from 'zod';
 import { componentRoles } from '../design/schema';
 
@@ -53,7 +54,7 @@ export const architecturalOperations = [
   z
     .object({
       type: z.literal('select_query'),
-      scope: z.array(z.string().max(100)).max(200).nullable(),
+      scope: z.array(z.string().max(100)).max(MAX_SCENE_OBJECTS).nullable(),
       role: z.enum(componentRoles).nullable(),
       level: z.string().max(80).nullable(),
       material: z.enum(['solid', 'glass', 'frame']).nullable(),
@@ -64,14 +65,20 @@ export const architecturalOperations = [
   z
     .object({
       type: z.literal('material'),
-      targets: z.array(z.string().min(1).max(100)).min(1).max(200),
+      targets: z
+        .array(z.string().min(1).max(100))
+        .min(1)
+        .max(MAX_SCENE_OBJECTS),
       material: z.enum(['solid', 'glass', 'frame']),
     })
     .strict(),
   z
     .object({
       type: z.literal('verify'),
-      targets: z.array(z.string().min(1).max(100)).min(1).max(200),
+      targets: z
+        .array(z.string().min(1).max(100))
+        .min(1)
+        .max(MAX_SCENE_OBJECTS),
       metric: z.enum([
         'count',
         'width',

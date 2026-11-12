@@ -1,3 +1,4 @@
+import { MAX_SCENE_OBJECTS } from '../src/limits';
 import { solarSchema } from '../src/studio/solarSchema';
 import { executionSchema } from '../src/intelligence/executionProtocol';
 import { designBriefSchema } from '../src/intelligence/designBriefSchema';
@@ -25,7 +26,7 @@ const vec = z
     z: z.number().finite(),
   })
   .strict();
-const refs = z.array(z.string().max(100)).max(200);
+const refs = z.array(z.string().max(100)).max(MAX_SCENE_OBJECTS);
 const imageList = z
   .array(
     z
@@ -132,7 +133,7 @@ export const requestSchema = z
                 z
                   .object({
                     name: z.string().max(80),
-                    objects: z.number().int().min(0).max(200),
+                    objects: z.number().int().min(0).max(MAX_SCENE_OBJECTS),
                   })
                   .strict(),
               )
@@ -187,7 +188,7 @@ export const requestSchema = z
                   })
                   .strict(),
               )
-              .max(200),
+              .max(MAX_SCENE_OBJECTS),
           })
           .strict(),
         objects: z
@@ -296,7 +297,7 @@ export const requestSchema = z
               })
               .strict(),
           )
-          .max(200),
+          .max(MAX_SCENE_OBJECTS),
       })
       .strict(),
   })

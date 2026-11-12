@@ -1,3 +1,4 @@
+import { MAX_SCENE_OBJECTS } from '../limits';
 import { z } from 'zod';
 import { designBriefSchema, briefAssessmentSchema } from './designBriefSchema';
 export const executionSchema = z
@@ -13,9 +14,9 @@ export const executionSchema = z
           .object({
             stage: z.string().max(160),
             result: z.string().max(14000),
-            created: z.array(z.string().max(100)).max(200),
-            changed: z.array(z.string().max(100)).max(200),
-            removed: z.array(z.string().max(100)).max(200),
+            created: z.array(z.string().max(100)).max(MAX_SCENE_OBJECTS),
+            changed: z.array(z.string().max(100)).max(MAX_SCENE_OBJECTS),
+            removed: z.array(z.string().max(100)).max(MAX_SCENE_OBJECTS),
           })
           .strict(),
       )

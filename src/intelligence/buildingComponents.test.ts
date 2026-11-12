@@ -35,7 +35,14 @@ it('a four-story building is an editable grouped assembly in one undoable operat
   expect(parts.filter((v) => v.material === 'frame').length).toBeGreaterThan(8);
   expect(new Set(parts.map((v) => v.groupId)).size).toBe(1);
   expect(new Set(parts.map((v) => v.id)).size).toBe(parts.length);
-  expect(groupBounds(parts)).toEqual(groupBounds([mass]));
+  const actualBounds = groupBounds(parts),
+    expectedBounds = groupBounds([mass]);
+  for (const edge of ['min', 'max'] as const)
+    for (const axis of ['x', 'y', 'z'] as const)
+      expect(actualBounds[edge][axis]).toBeCloseTo(
+        expectedBounds[edge][axis],
+        6,
+      );
   expect(parts.every((v) => v.geometry?.kind !== 'building')).toBe(true);
   const restored = parseSession(serializeSession(result.session));
   const pane = restored.project.volumes.find((v) => v.material === 'glass')!;

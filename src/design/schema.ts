@@ -1,3 +1,4 @@
+import { MAX_SCENE_OBJECTS } from '../limits';
 import { z } from 'zod';
 export const componentRoles = [
   'element',
@@ -57,7 +58,7 @@ export const savedViewSchema = z
   .object({
     name: z.string().min(1).max(80),
     pose: poseSchema.nullable(),
-    targets: z.array(z.string().max(100)).max(200),
+    targets: z.array(z.string().max(100)).max(MAX_SCENE_OBJECTS),
     section: sectionSchema.nullable(),
   })
   .strict();
@@ -66,7 +67,7 @@ export const explorationSchema = z
   .object({
     mode: z.enum(['assembled', 'exploded', 'roof', 'open']),
     amount: z.number().min(0).max(1),
-    targets: z.array(z.string().max(100)).max(200),
+    targets: z.array(z.string().max(100)).max(MAX_SCENE_OBJECTS),
   })
   .strict();
 export type Exploration = z.infer<typeof explorationSchema> & {
@@ -88,7 +89,10 @@ export const designOperations = [
   z
     .object({
       type: z.literal('component'),
-      targets: z.array(z.string().min(1).max(100)).min(1).max(200),
+      targets: z
+        .array(z.string().min(1).max(100))
+        .min(1)
+        .max(MAX_SCENE_OBJECTS),
       settings: componentSchema,
     })
     .strict(),
@@ -104,7 +108,7 @@ export const designOperations = [
     .object({
       type: z.literal('save_view'),
       name: z.string().min(1).max(80),
-      targets: z.array(z.string().max(100)).max(200),
+      targets: z.array(z.string().max(100)).max(MAX_SCENE_OBJECTS),
       cutaway: z.boolean(),
     })
     .strict(),
