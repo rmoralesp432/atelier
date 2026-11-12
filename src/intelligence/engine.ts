@@ -201,7 +201,7 @@ export function resolveIds(refs: string[], s: Session): string[] {
   for (const id of unique)
     if (!s.project.volumes.some((v) => v.id === id))
       throw new Error(
-        'That object is no longer in the scene. Which existing volume do you mean?',
+        `Target ${JSON.stringify(id)} is no longer in the current scene. Use a current object ID, $created for the most recent creation, $name:Exact unique name, or $group:Exact group name. New IDs are allocated by execution; do not invent them.`,
       );
   return unique;
 }

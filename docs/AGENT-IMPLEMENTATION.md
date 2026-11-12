@@ -1,6 +1,6 @@
 # Architectural agent implementation checkpoints
 
-Status: development branch only; no production change or paid API evaluation authorized.
+Status: development branch only. The user authorized limited paid API evaluation on 2026-11-12. Production deployment is still not authorized.
 
 ## Checkpoint 1 — executable geometry
 
@@ -42,3 +42,30 @@ The first implementation is bounded: up to 12 steps, three shared repair attempt
 Next acceptance gate: authorize a capped comparative live trial on unfamiliar one-shot requests and follow-up edits. Compare the same model on legacy and agent paths before attributing gains to a model upgrade. Keep all failed attempts, cost, clarification counts and actual geometric outcomes. Production deployment remains a separate decision.
 
 Final checkpoint validation: production build and formatting pass; all 313 local unit/engine/provider checks pass across 69 files. Three production-browser checks passed (the new agent recovery/follow-up scenario and both existing brief scenarios). These numbers establish implementation regression coverage only; live generalization remains unevaluated.
+
+## Checkpoint 3 — observation and live feedback
+
+- The agent receives two neutral rendered views of the actual provisional geometry (oblique and plan), distinctly labeled from user references. Views refresh after geometry changes and are reused during unchanged retries. Dense geometry or rendering failure produces explicit unavailable feedback. These views do not show the live camera, site, solar lighting or section display.
+- Initial context is a compact inventory retaining every object's identity, placement, dimensions, role and bounds. `inspect_scene` retrieves the full construction data when needed.
+- Added the execution contract for references, sequential operations, base coordinates, placement versus relative movement, array anchors and measurement semantics. These are general tool mechanics, not task recognizers or named-building recipes.
+- Unknown-target errors now explain valid references instead of only asking the user to identify an object.
+- Completion distinguishes `completed` from `blocked`. An explicitly blocked result discards provisional changes rather than committing a known partial result. This does not independently prove that an AI's completion judgment is correct.
+
+### Live evaluation observed before the runtime interruption
+
+The opt-in `scripts/evaluate-agent.ts` uses the actual provider, geometry engine and browser-rendered observations on synthetic projects. No production data was changed.
+
+- GPT-4.1 initially invented IDs and repeated the error. After reference-contract improvements, it created 63 objects but collapsed their positions through absolute placement. It detected the overlap but did not repair it. This was a failure, not a successful model.
+- GPT-6.1-Sol created a centered 7-by-9 grid with 5 m spacing and then doubled only the northernmost row's heights. Acceptance checked all 63 positions, stable IDs, heights and ground bases. It recovered from a per-object versus group measurement error. This establishes API compatibility and one successful conversation, not general model superiority; the tool contract changed between early trials.
+- The mixed-height four-storey study reached separate structure and glazing construction. Negative elevation and aggregate-measurement assumptions required repairs. The evaluation's eight-call per-turn cap stopped the run before final verification; the trial is incomplete and not a pass. No column-correction follow-up was completed.
+- No live chair, unfamiliar drawing reconstruction, voice-audio, camera/solar or Astra generation evaluation was completed in this checkpoint. Broader capability claims remain unverified.
+
+### Recovery record — 2026-11-12
+
+The command transport disconnected and the environment became unavailable. It subsequently returned; repository edits survived, but `/tmp` evaluation logs and image artifacts did not. The underlying infrastructure cause is unknown. The results above are retained from observed tool output in the conversation; raw paid-response artifacts are no longer available for independent replay.
+
+The last observed ledger total was approximately $1.22909 across 24 API calls, using indicative token rates and ignoring cache discounts, not verified account billing. Recovery conservatively carries forward $1.25. Future evaluation artifacts live under ignored `.cloud/agent-evaluation/` in the workspace. The harness refuses paid execution when its ledger is missing; restore prior spend before resuming, never initialize a lost ledger to zero. Local files still require backups. No additional paid calls were made during recovery.
+
+The agent remains opt-in, default model unchanged, and nothing in this checkpoint is deployed. Next: retain fresh artifacts, complete bounded building/follow-up and unfamiliar-shape trials, correct general execution failures, and separately validate camera, references and voice. Do not label execution-only chair or environment trials as full architectural acceptance without inspecting their actual results.
+
+Recovery validation: production build and formatting passed; all 317 unit/engine/provider tests passed across 69 files. Both legacy brief browser checks passed. The agent browser check initially exceeded its five-second follow-up poll while rendering observations; with a 30-second poll it passed (22.8 seconds overall), including image refresh/cache assertions, private provisional geometry, error recovery and follow-up editing. These are offline integration checks, not additional paid AI trials.

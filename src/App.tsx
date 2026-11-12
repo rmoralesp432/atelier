@@ -1,3 +1,4 @@
+import type { SceneObservation } from './intelligence/observation';
 import SolarPlayer from './studio/SolarPlayer';
 import { useSolarPlayback } from './studio/useSolarPlayback';
 import BrandMark from './components/BrandMark';
@@ -1155,12 +1156,29 @@ export default function App({
     planningAbort.current = abort;
     setReferenceImages([]);
     remember('user', text, undefined, images);
+    let observation: SceneObservation | undefined;
+    let observedRevision = -1;
     try {
       const checked = await stagedPlan(
         snapshot(),
         frame,
-        (working, feedback, execution) =>
-          requestPlan(
+        async (working, feedback, execution) => {
+          if (connectionState.agentConfigured) {
+            const revision = (execution?.receipts ?? []).filter(
+              (r) => r.created.length || r.changed.length || r.removed.length,
+            ).length;
+            if (observedRevision !== revision) {
+              setWorkStage('Inspecting the working model…');
+              const { renderObservation } =
+                await import('./intelligence/renderObservation');
+              observation = await renderObservation(
+                working.project,
+                abort.signal,
+              );
+              observedRevision = revision;
+            }
+          }
+          return requestPlan(
             text,
             working,
             frame,
@@ -1181,7 +1199,9 @@ export default function App({
             feedback,
             images,
             execution,
-          ),
+            observation,
+          );
+        },
         setWorkStage,
         abort.signal,
         { agent: connectionState.agentConfigured === true },

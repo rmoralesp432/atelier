@@ -1,3 +1,4 @@
+import { observationSchema } from '../src/intelligence/observation';
 import { agentPlan } from './agent';
 import { invalidModelPlan } from '../src/intelligence/planFailure';
 import { MAX_SCENE_OBJECTS } from '../src/limits';
@@ -40,6 +41,7 @@ const imageList = z
 export const requestSchema = z
   .object({
     execution: executionSchema.optional(),
+    observation: observationSchema.optional(),
     images: imageList.optional(),
     validationFeedback: z
       .object({

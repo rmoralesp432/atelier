@@ -1,3 +1,4 @@
+import type { SceneObservation } from './observation';
 import { ModelPlanError } from './planFailure';
 import { AudioMeter } from '../conversation/audioMeter';
 import type { AudioLevels } from '../conversation/AudioOrb';
@@ -51,6 +52,7 @@ export async function requestPlan(
   validationFeedback?: ValidationFeedback,
   images?: string[],
   execution?: ExecutionContext,
+  observation?: SceneObservation,
 ) {
   const r = await fetch('/api/plan', {
     method: 'POST',
@@ -58,6 +60,7 @@ export async function requestPlan(
     body: JSON.stringify({
       message,
       execution,
+      observation,
       validationFeedback,
       images,
       pendingReview,

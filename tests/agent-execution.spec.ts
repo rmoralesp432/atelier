@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { writeFileSync } from 'node:fs';
 
 test('agent keeps provisional arrays private, recovers invalid arguments, verifies, then supports follow-up edits (offline provider)', async ({
   page,
@@ -17,9 +18,30 @@ test('agent keeps provisional arrays private, recovers invalid arguments, verifi
   );
   let calls = 0;
   const ids: string[] = [];
+  let initialImage = '';
+  let arrayImage = '';
   await page.route('**/api/plan', async (r) => {
     const b = r.request().postDataJSON();
     calls++;
+    expect(b.observation.status).toBe('ready');
+    expect(b.observation.views).toHaveLength(2);
+    expect(b.observation.objectIds.length).toBe(b.scene.objects.length);
+    const image = b.observation.views[0].image;
+    expect(image).toMatch(/^data:image\/jpeg;base64,/);
+    if (calls === 1) initialImage = image;
+    if (calls === 2) {
+      arrayImage = image;
+      expect(image).not.toBe(initialImage);
+      writeFileSync(
+        'test-results/agent-observation.jpg',
+        Buffer.from(image.split(',')[1], 'base64'),
+      );
+      await expect(page.getByTestId('viewport')).toHaveAttribute(
+        'data-model-objects',
+        '2',
+      );
+    }
+    if (calls === 3 || calls === 4) expect(image).toBe(arrayImage);
     if (calls === 1)
       return r.fulfill({
         json: {
@@ -125,7 +147,7 @@ test('agent keeps provisional arrays private, recovers invalid arguments, verifi
   expect(calls).toBe(4);
   await input.fill('Raise that whole arrangement two metres.');
   await page.getByRole('button', { name: 'Send message', exact: true }).click();
-  await expect.poll(() => calls).toBe(6);
+  await expect.poll(() => calls, { timeout: 30000 }).toBe(6);
   await expect
     .poll(async () =>
       page.evaluate(() => {

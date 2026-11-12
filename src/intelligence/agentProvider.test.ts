@@ -164,7 +164,10 @@ it('does not retry transport/auth failures or accept a finish without executed w
   const provider = createProvider(
     'offline-test',
     async () =>
-      toolResponse('responses', 'finish_task', { message: 'Created it.' }),
+      toolResponse('responses', 'finish_task', {
+        message: 'Created it.',
+        outcome: 'completed',
+      }),
     { agent: true },
   );
   await expect(provider.plan(input())).rejects.toThrow(
@@ -189,4 +192,125 @@ it('repairs malformed structured plans without committing them', async () => {
   );
   expect(calls).toBe(2);
   expect(result.prepared!.session.project.volumes).toHaveLength(1);
+});
+
+it.each(['responses', 'chat_completions'] as const)(
+  'keeps actual model observations distinct from reference images on %s',
+  async (api) => {
+    let request: any;
+    const provider = createProvider(
+      'offline-test',
+      async (_url, init) => {
+        request = JSON.parse(init!.body as string);
+        return toolResponse(api, 'execute_step', {
+          message: 'Construct study',
+          assumptions: [],
+          operations: box().operations,
+        });
+      },
+      { agent: true, textApi: api },
+    );
+    await provider.plan({
+      ...input(),
+      images: ['data:image/jpeg;base64,cmVm'],
+      observation: {
+        status: 'ready',
+        note: 'Actual provisional scene',
+        objectIds: [],
+        views: [{ label: 'Oblique', image: 'data:image/jpeg;base64,bW9kZWw=' }],
+      },
+    });
+    const messages = api === 'responses' ? request.input : request.messages;
+    const content = messages.at(-1).content;
+    expect(
+      content.some(
+        (p: any) => p.text === 'MODEL OBSERVATION (not a reference): Oblique',
+      ),
+    ).toBe(true);
+    const urls = content
+      .filter((p: any) => p.type === 'input_image' || p.type === 'image_url')
+      .map((p: any) => p.image_url.url ?? p.image_url);
+    expect(urls).toEqual([
+      'data:image/jpeg;base64,cmVm',
+      'data:image/jpeg;base64,bW9kZWw=',
+    ]);
+    expect(content[0].text).not.toContain('base64');
+  },
+);
+
+it('discards a blocked task instead of committing its successful partial steps or retrying it as invalid JSON', async () => {
+  const original = empty();
+  let calls = 0;
+  const provider = createProvider(
+    'offline-test',
+    async () => {
+      calls++;
+      return calls === 1
+        ? toolResponse('responses', 'execute_step', {
+            message: 'Construct first piece',
+            assumptions: [],
+            operations: box().operations,
+          })
+        : toolResponse('responses', 'finish_task', {
+            outcome: 'blocked',
+            message: 'The remaining requested surface is unsupported.',
+          });
+    },
+    { agent: true },
+  );
+  await expect(
+    stagedPlan(
+      original,
+      defaultCamera,
+      (s, validationFeedback, execution) =>
+        provider.plan({
+          ...input(),
+          scene: sceneContext(s.project, s.context, defaultCamera),
+          validationFeedback,
+          execution,
+        }),
+      undefined,
+      undefined,
+      { agent: true },
+    ),
+  ).rejects.toThrow('No changes were applied');
+  expect(calls).toBe(2);
+  expect(original.project.volumes).toHaveLength(0);
+});
+
+it('provides a compact complete inventory and full actual construction on inspection', async () => {
+  const s = (await applyPlan(empty(), box())).session;
+  const scene = sceneContext(s.project, s.context, defaultCamera);
+  const requests: any[] = [];
+  const provider = createProvider(
+    'offline-test',
+    async (_url, init) => {
+      requests.push(JSON.parse(init!.body as string));
+      return requests.length === 1
+        ? toolResponse('responses', 'inspect_scene', {
+            ids: [s.project.volumes[0].id],
+            role: null,
+          })
+        : toolResponse('responses', 'execute_step', {
+            message: 'Measure actual geometry',
+            assumptions: [],
+            operations: [
+              { type: 'measure', targets: ['$focus'], metric: 'properties' },
+            ],
+          });
+    },
+    { agent: true },
+  );
+  await provider.plan({ ...input(), scene });
+  const inventory = JSON.parse(requests[0].input.at(-1).content[0].text).scene;
+  expect(inventory.objects.map((o: any) => o.id)).toEqual(
+    scene.objects.map((o) => o.id),
+  );
+  expect(inventory.objects[0].dimensions).toEqual(scene.objects[0].dimensions);
+  expect(inventory.objects[0]).not.toHaveProperty('construction');
+  const inspected = JSON.parse(
+    requests[1].input.find((i: any) => i.type === 'function_call_output')
+      .output,
+  );
+  expect(inspected.objects).toEqual(scene.objects);
 });
