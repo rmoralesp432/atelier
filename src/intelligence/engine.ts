@@ -259,7 +259,11 @@ async function separateBuilding(s: Session, v: Volume): Promise<string> {
     o.id === v.id ? components : [o],
   );
   s.context.lastCreatedIds = components.map((c) => c.id);
-  focus(s, [components[0].id]);
+  // The subject remains the assembled building, not just its first slab.
+  focus(
+    s,
+    components.map((component) => component.id),
+  );
   return `${v.name}: ${components.length} editable slabs, windows and frame members. Select any part to move, resize or recolor it. Parts stay grouped; Undo restores the preceding model.`;
 }
 

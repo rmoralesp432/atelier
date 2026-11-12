@@ -5,8 +5,8 @@ export const executionSchema = z
   .object({
     brief: designBriefSchema.optional(),
     assessment: z.array(briefAssessmentSchema).max(24).optional(),
-    stage: z.number().int().min(1).max(5),
-    remaining: z.number().int().min(0).max(4),
+    stage: z.number().int().min(1).max(12),
+    remaining: z.number().int().min(0).max(11),
     next: z.string().max(400),
     receipts: z
       .array(
@@ -20,7 +20,7 @@ export const executionSchema = z
           })
           .strict(),
       )
-      .max(5),
+      .max(12),
   })
   .strict();
 export type ExecutionContext = z.infer<typeof executionSchema>;

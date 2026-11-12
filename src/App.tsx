@@ -1184,6 +1184,7 @@ export default function App({
           ),
         setWorkStage,
         abort.signal,
+        { agent: connectionState.agentConfigured === true },
       );
       const plan = checked.plan;
       if (before !== fingerprint())

@@ -1,3 +1,5 @@
+import { ModelPlanError, invalidModelPlan } from './planFailure';
+import { ZodError } from 'zod';
 import {
   applyPlan,
   freezeWorkspaceOperation,
@@ -138,7 +140,10 @@ export async function stagedPlan(
   ) => Promise<Plan>,
   progress: (stage: string) => void = () => {},
   signal?: AbortSignal,
+  options: { agent?: boolean } = {},
 ): Promise<CheckedResult> {
+  const maxStages = options.agent ? 12 : 5;
+  const maxRepairs = options.agent ? 3 : 2;
   let session = original,
     execution: ExecutionContext | undefined;
   const operations: Plan['operations'] = [],
@@ -200,7 +205,7 @@ export async function stagedPlan(
     if (signal?.aborted)
       throw new Error('Stopped. No changes were applied to your project.');
   };
-  for (let stage = 0; stage < 5; stage++) {
+  for (let stage = 0; stage < maxStages; stage++) {
     let feedback: ValidationFeedback | undefined = continuationFeedback;
     continuationFeedback = undefined;
     for (;;) {
@@ -213,7 +218,24 @@ export async function stagedPlan(
             : 'Considering your idea…',
       );
       // Transport/auth/billing failures are never retried automatically.
-      const plan = parsePlan(await request(session, feedback, execution));
+      let plan: Plan;
+      try {
+        plan = parsePlan(await request(session, feedback, execution));
+      } catch (error) {
+        checkAbort();
+        if (!(error instanceof ModelPlanError || error instanceof ZodError))
+          throw error;
+        if (repairs++ >= maxRepairs) throw error;
+        feedback = {
+          error:
+            error instanceof ModelPlanError
+              ? error.message
+              : invalidModelPlan(error).message,
+          operations: [],
+          ...(brief ? { brief } : {}),
+        };
+        continue;
+      }
       checkAbort();
       if (plan.intent === 'finish') {
         if (!stages || plan.planning?.next)
@@ -289,7 +311,12 @@ export async function stagedPlan(
             brief = bindBrief(plan.brief, scopeOriginal);
             declaredBrief = structuredClone(plan.brief);
           }
-        } else if (plan.brief === null && !brief && needsBrief(plan, session)) {
+        } else if (
+          !options.agent &&
+          plan.brief === null &&
+          !brief &&
+          needsBrief(plan, session)
+        ) {
           // Older saved/manual plans may omit this field. The live provider's
           // strict schema includes it and complex work must declare its goals.
           throw new Error(
@@ -332,7 +359,8 @@ export async function stagedPlan(
         break;
       } catch (error) {
         checkAbort();
-        if (repairs++ >= (brief ? 2 : 1)) throw error;
+        if (repairs++ >= (options.agent ? maxRepairs : brief ? 2 : 1))
+          throw error;
         feedback = {
           error: (error instanceof Error
             ? error.message
@@ -351,13 +379,15 @@ export async function stagedPlan(
       continuationFeedback = { error: requirementError(), operations: [] };
       continuationFeedback.brief = brief;
     }
-    if (stage === 4)
+    if (stage === maxStages - 1)
       throw new Error(
-        'The design did not finish within five checked stages. Nothing was applied; ask for a smaller scope.',
+        options.agent
+          ? `The design did not finish within ${maxStages} checked steps. Nothing was applied.`
+          : 'The design did not finish within five checked stages. Nothing was applied; ask for a smaller scope.',
       );
     execution = {
       stage: stage + 2,
-      remaining: 3 - stage,
+      remaining: maxStages - stage - 2,
       next:
         finalPlan.planning?.next ??
         'Correct unmet design requirements, preserving completed geometry.',

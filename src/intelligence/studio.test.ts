@@ -241,19 +241,18 @@ it('rectangular and polar arrays use total count, distinct identities and exact 
     [0, 10, 270],
   ]);
   expect(new Set(polar.session.project.volumes.map((v) => v.id)).size).toBe(4);
-  await expect(
-    applyPlan(
-      s,
-      directPlan({
-        type: 'array_grid',
-        targets: ['$selected'],
-        rows: 20,
-        columns: 20,
-        spacingX: 10,
-        spacingZ: 10,
-      }),
-    ),
-  ).rejects.toThrow('limit');
+  const larger = await applyPlan(
+    s,
+    directPlan({
+      type: 'array_grid',
+      targets: ['$selected'],
+      rows: 20,
+      columns: 20,
+      spacingX: 10,
+      spacingZ: 10,
+    }),
+  );
+  expect(larger.session.project.volumes).toHaveLength(400);
 });
 it('geographic anchors round trip without moving geometry and tile scale follows latitude', () => {
   const s = seed(),

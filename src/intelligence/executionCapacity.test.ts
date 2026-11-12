@@ -49,6 +49,9 @@ it.each([
     for (const edge of ['min', 'max'] as const)
       for (const axis of ['x', 'y', 'z'] as const)
         expect(bounds[edge][axis]).toBeCloseTo(initial[edge][axis], 4);
+    expect(new Set(result.session.context.focusIds)).toEqual(
+      new Set(parts.map((p) => p.id)),
+    );
     const restored = parseSession(serializeSession(result.session));
     expect(restored.project.volumes).toHaveLength(parts.length);
     const scene = sceneContext(
@@ -95,6 +98,19 @@ it('keeps a 144-object array addressable through follow-up editing and persisten
   );
   const parts = result.session.project.volumes;
   expect(parts).toHaveLength(144);
+  await expect(
+    applyPlan(
+      result.session,
+      directPlan({
+        type: 'array_grid',
+        targets: ['$selected'],
+        rows: 20,
+        columns: 20,
+        spacingX: 6,
+        spacingZ: 7,
+      }),
+    ),
+  ).rejects.toThrow('workspace limit');
   expect(
     new Set(parts.map((p) => `${p.position.x},${p.position.z}`)).size,
   ).toBe(144);

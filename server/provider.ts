@@ -1,3 +1,5 @@
+import { agentPlan } from './agent';
+import { invalidModelPlan } from '../src/intelligence/planFailure';
 import { MAX_SCENE_OBJECTS } from '../src/limits';
 import { solarSchema } from '../src/studio/solarSchema';
 import { executionSchema } from '../src/intelligence/executionProtocol';
@@ -316,6 +318,7 @@ export const lobbySchema = z
   .max(52);
 export type VoiceLobby = z.infer<typeof lobbySchema>;
 export interface Provider {
+  agent?: boolean;
   plan: (input: ModelRequest, signal?: AbortSignal) => Promise<Plan>;
   voice: (sdp: string, lobby?: VoiceLobby) => Promise<string>;
 }
@@ -323,6 +326,7 @@ export function createProvider(
   key: string,
   fetchOverride?: typeof fetch,
   options: {
+    agent?: boolean;
     textApi?: 'responses' | 'chat_completions';
     maxOutputTokens?: number;
   } = {},
@@ -334,13 +338,25 @@ export function createProvider(
     ...(fetchOverride ? { fetch: fetchOverride } : {}),
   });
   return {
+    agent: options.agent ?? false,
     async plan(input, signal) {
       const model = process.env.ATELIER_TEXT_MODEL || 'gpt-4.1';
+      const reasoningModel = /^(gpt-[56](?:[.-]|$)|o[134](?:-|$))/.test(model);
+      if (options.agent)
+        return agentPlan(
+          client,
+          input,
+          {
+            model,
+            textApi: options.textApi ?? 'responses',
+            maxOutputTokens: options.maxOutputTokens ?? 6000,
+            ...(reasoningModel ? { effort: 'high' as const } : {}),
+          },
+          signal,
+        );
       const request = {
         model,
-        ...(model.startsWith('gpt-5')
-          ? { reasoning: { effort: 'medium' as const } }
-          : {}),
+        ...(reasoningModel ? { reasoning: { effort: 'medium' as const } } : {}),
         store: false,
         max_output_tokens: Math.max(
           1000,
@@ -440,9 +456,7 @@ export function createProvider(
             model,
             store: false,
             max_completion_tokens: request.max_output_tokens,
-            ...(model.startsWith('gpt-5')
-              ? { reasoning_effort: 'medium' as const }
-              : {}),
+            ...(reasoningModel ? { reasoning_effort: 'medium' as const } : {}),
             messages,
             response_format: {
               type: 'json_schema',
@@ -464,14 +478,22 @@ export function createProvider(
           throw new Error(
             'The model did not return a complete plan. No geometry was changed.',
           );
-        return parsePlan(JSON.parse(choice.message.content));
+        try {
+          return parsePlan(JSON.parse(choice.message.content));
+        } catch (error) {
+          throw invalidModelPlan(error);
+        }
       }
       const response = await client.responses.create(request, { signal });
       if (response.status !== 'completed' || !response.output_text)
         throw new Error(
           'The model did not return a complete plan. No geometry was changed.',
         );
-      return parsePlan(JSON.parse(response.output_text));
+      try {
+        return parsePlan(JSON.parse(response.output_text));
+      } catch (error) {
+        throw invalidModelPlan(error);
+      }
     },
     async voice(sdp, lobby) {
       const response = await client.realtime.calls.create({

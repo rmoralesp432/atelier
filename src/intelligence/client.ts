@@ -1,3 +1,4 @@
+import { ModelPlanError } from './planFailure';
 import { AudioMeter } from '../conversation/audioMeter';
 import type { AudioLevels } from '../conversation/AudioOrb';
 import type { ExecutionContext } from './executionProtocol';
@@ -15,6 +16,7 @@ export type Connection = {
   configured: boolean;
   authenticated: boolean;
   voiceConfigured: boolean;
+  agentConfigured?: boolean;
 };
 export async function connection(): Promise<Connection> {
   try {
@@ -85,6 +87,8 @@ export async function requestPlan(
       'The AI backend is unavailable. Open ATELIER through its configured application server.',
     );
   }
+  if (!r.ok && data.code === 'invalid_plan')
+    throw new ModelPlanError(data.error);
   if (!r.ok)
     throw new Error(
       data.error || 'The AI request failed. No geometry was changed.',
