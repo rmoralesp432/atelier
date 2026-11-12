@@ -8,6 +8,9 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   timeout: 30_000,
+  // Cold WASM initialization + software WebGL can exceed five seconds on CI.
+  // Keep assertions exact, but wait for actual readiness instead of racing it.
+  expect: { timeout: 15_000 },
   // Publish actionable failures in the Checks API as well as downloadable logs.
   // Cloud environments can allow api.github.com without allowing log storage.
   reporter: process.env.CI ? [['list'], ['github']] : 'list',
