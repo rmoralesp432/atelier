@@ -1,5 +1,10 @@
 import { openTool } from './tools';
 import { test, expect } from '@playwright/test';
+import {
+  pauseAnimation,
+  advanceAnimation,
+  resumeAnimation,
+} from './animation-clock';
 test('processing feedback follows a real pending request, then geometry formation; no pretend progress changes the project', async ({
   page,
 }) => {
@@ -50,11 +55,14 @@ test('processing feedback follows a real pending request, then geometry formatio
     await page.evaluate(() => localStorage.getItem('atelier.session.v2')),
   ).toBe(before);
   await page.screenshot({ path: 'test-results/atelier-processing.png' });
+  // Inspect a known point in the reveal, independent of software-GPU speed.
+  await pauseAnimation(page);
   release();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-active',
     'true',
   );
+  await advanceAnimation(page, 1000);
   await expect(page.getByLabel('Geometry formation')).toBeVisible();
   await expect(page.locator('.spatial-creation-label')).toBeVisible();
   await expect
@@ -68,6 +76,7 @@ test('processing feedback follows a real pending request, then geometry formatio
     .toBeGreaterThan(0);
   await page.screenshot({ path: 'test-results/spatial-volume-formation.png' });
   await expect(page.locator('.conversation-working')).toBeHidden();
+  await advanceAnimation(page, 5000);
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-active',
     'false',
@@ -100,11 +109,13 @@ test('edits reveal the actual replacement geometry without changing saved dimens
   await openTool(page, 'Expand inspector');
   const width = page.getByRole('spinbutton', { name: 'Width', exact: true });
   await width.fill('22');
+  await pauseAnimation(page);
   await width.press('Enter');
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-kind',
     'reshape',
   );
+  await advanceAnimation(page, 500);
   await expect(page.getByLabel('Geometry formation')).toContainText(
     'Revealing',
   );
@@ -112,6 +123,7 @@ test('edits reveal the actual replacement geometry without changing saved dimens
     JSON.parse(localStorage.getItem('atelier.session.v2')!),
   );
   expect(immediate.project.volumes[0].dimensions.width).toBe(22);
+  await advanceAnimation(page, 3000);
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-active',
     'false',
@@ -122,6 +134,7 @@ test('edits reveal the actual replacement geometry without changing saved dimens
       JSON.parse(localStorage.getItem('atelier.session.v2')!),
     ),
   ).toEqual(immediate);
+  await resumeAnimation(page);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await width.fill('24');
   await width.press('Enter');

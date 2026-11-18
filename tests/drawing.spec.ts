@@ -1,4 +1,9 @@
 import { test, expect, type Page } from '@playwright/test';
+import {
+  pauseAnimation,
+  advanceAnimation,
+  resumeAnimation,
+} from './animation-clock';
 const errors = new WeakMap<Page, string[]>();
 test.beforeEach(({ page }) => {
   const list: string[] = [];
@@ -184,10 +189,12 @@ test('focuses new geometry without zooming back to distant objects and shows wor
     .click();
   await page.getByLabel('Shape width', { exact: true }).fill('4');
   await page.getByLabel('Shape depth', { exact: true }).fill('4');
+  await pauseAnimation(page);
   await page
     .getByRole('button', { name: 'Create 2D shape', exact: true })
     .click();
   await expect(view).toHaveAttribute('data-camera-framing', 'creation');
+  await advanceAnimation(page, 1000);
   expect(
     Number(await view.getAttribute('data-camera-goal-distance')),
   ).toBeLessThan(before);
@@ -196,6 +203,7 @@ test('focuses new geometry without zooming back to distant objects and shows wor
   const created = (await saved(page)).project.volumes.at(-1);
   expect(await view.getAttribute('data-camera-focus-ids')).toBe(created.id);
   await page.screenshot({ path: 'test-results/spatial-creation.png' });
+  await resumeAnimation(page);
   // Grid coverage remains at every permitted zoom, including beyond the old 400 m edge.
   await page.getByRole('button', { name: 'Close modeling tools' }).click();
   await page.mouse.move(850, 300);
