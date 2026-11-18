@@ -321,6 +321,26 @@ it('checks editability and exact group membership for different components, incl
     },
   ]);
   expect((await verifyCompletion(c, empty(), session)).status).toBe('verified');
+  const neighbor = { ...piece('neighbor', -8, 0, 0), groupId: 'other' };
+  const otherGroup = {
+    id: 'other',
+    name: 'Mechanism',
+    locked: false,
+    visible: true,
+  };
+  const original = newSession({
+    volumes: [neighbor],
+    groups: [otherGroup],
+    selectedId: null,
+  });
+  const withNeighbor = newSession({
+    ...session.project,
+    volumes: [neighbor, a, b],
+    groups: [otherGroup, ...session.project.groups!],
+  });
+  expect((await verifyCompletion(c, original, withNeighbor)).status).toBe(
+    'verified',
+  );
   session.project.groups![0].locked = true;
   expect(
     (await verifyCompletion(c, empty(), session)).checks.find(

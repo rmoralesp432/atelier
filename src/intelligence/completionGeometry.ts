@@ -190,7 +190,11 @@ export function physicalChecks() {
       }
       const groups =
         session.project.groups?.filter((g) => g.name === r.name) ?? [];
-      const group = groups.length === 1 ? groups[0] : undefined;
+      // A name need not be globally unique. Membership identifies the actual
+      // assembly; an unrelated same-named group cannot invalidate it.
+      const group = groups.find(
+        (g) => vs.length > 0 && vs.every((v) => v.groupId === g.id),
+      );
       const members = group
         ? session.project.volumes.filter((v) => v.groupId === group.id)
         : [];
