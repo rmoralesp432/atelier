@@ -41,6 +41,8 @@ Three paid responses cost an estimated **$0.664036** in total (the prior evaluat
 
 Local validation: all 343 logic tests passed, as did the production build, formatting and browser storey-edit regression. The PR's full required CI gate covers the final source before publication. One existing construction-animation check exposed a timing race on a slow CI renderer; it now samples the same rendered phases with the existing animation-clock helper. Assertions and application animation behavior are unchanged, and the targeted browser check passed.
 
+The existing phone gesture test also controls timers while dispatching synthetic short touches, so delays in the software renderer do not turn taps into long presses. A separate drag test uses fewer intermediate input events with unchanged endpoints and movement, snap, and Undo assertions. These changes affect only the test harness; application gesture behavior is unchanged.
+
 ## Limits
 
 This fixes coordinated edits and recovery, not full BIM constraints. The agent must still identify which members stretch, translate or remain fixed from the actual scene. Arbitrarily remeshing a complex stair, changing an opening system's topology, or rerouting a structural system may need other geometry tools. No reconstruction or replacement of existing parts is used for this regression.

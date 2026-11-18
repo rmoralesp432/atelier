@@ -222,9 +222,11 @@ test('conversation selection activates movement; real drag reports distance and 
   const rect = (await page.locator('canvas').boundingBox())!;
   const cx = rect.x + rect.width / 2,
     cy = rect.y + rect.height / 2;
+  // A few real intermediate moves are sufficient for these endpoint/snap
+  // assertions; dozens of CDP round trips overwhelm slow software renderers.
   await page.mouse.move(cx + 45, cy);
   await page.mouse.down();
-  await page.mouse.move(cx + 125, cy, { steps: 10 });
+  await page.mouse.move(cx + 125, cy, { steps: 4 });
   await expect(page.getByLabel('Transform measurements')).toContainText(
     'm moved',
   );
@@ -242,7 +244,7 @@ test('conversation selection activates movement; real drag reports distance and 
   // The visible Y rotation ring is approximately 93 px from the projected pivot.
   await page.mouse.move(cx + 90, cy);
   await page.mouse.down();
-  await page.mouse.move(cx + 64, cy - 64, { steps: 12 });
+  await page.mouse.move(cx + 64, cy - 64, { steps: 4 });
   await page.mouse.up();
   const rotation = (await saved(page)).project.volumes[0].rotation;
   expect(rotation).not.toBe(0);
@@ -257,7 +259,7 @@ test('conversation selection activates movement; real drag reports distance and 
   await page.getByLabel('Rotation snap angle').selectOption('90');
   await page.mouse.move(cx + 90, cy);
   await page.mouse.down();
-  await page.mouse.move(cx, cy - 90, { steps: 12 });
+  await page.mouse.move(cx, cy - 90, { steps: 4 });
   await page.mouse.up();
   expect(
     Math.min(
