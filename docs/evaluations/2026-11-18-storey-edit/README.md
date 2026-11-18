@@ -33,6 +33,14 @@ Local engine timings (Node 24, this development host, including validation; not 
 | 244 + neighbor | 97.79 ms  | 16.51–31.25 ms  | 1          |
 | 4,096          | 299.47 ms | 93.45–250.04 ms | 1          |
 
+## Live-agent check
+
+A real `gpt-6.1-sol` evaluation passed using the requested natural-language floor-height change, randomized object IDs, the actual browser scene and rendered observations. The AI chose five scoped edit sets inside **one geometry edit**, followed by verification. It used 40 operations overall, below the unchanged 64-operation limit, and completed without asking a question. Independent comparison found **zero geometry/identity mismatches across all 245 components**, with one Undo entry.
+
+Three paid responses cost an estimated **$0.664036** in total (the prior evaluation ledger plus this check is approximately **$3.473486**, below the previously authorized $4 ceiling). A conservative reservation guard initially stopped before the final response. The two already-paid proposals were replayed unchanged and only the completion response was purchased; no model answer was replaced with a handwritten edit. See `live-result.json` for the actual AI-chosen edit and completion. This is one live case, not proof that every architectural modification will work.
+
+Local validation: 341 tests passed before the two additional guard/capacity tests; the final 14-test component-edit suite passed, as did the production build, formatting and browser storey-edit regression. The PR's full required CI gate covers the final source before publication.
+
 ## Limits
 
 This fixes coordinated edits and recovery, not full BIM constraints. The agent must still identify which members stretch, translate or remain fixed from the actual scene. Arbitrarily remeshing a complex stair, changing an opening system's topology, or rerouting a structural system may need other geometry tools. No reconstruction or replacement of existing parts is used for this regression.
