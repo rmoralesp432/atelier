@@ -1546,6 +1546,12 @@ export default function Viewport(props: Props) {
     orbit.addEventListener('change', invalidate);
     let frame = 0,
       lastFrame = performance.now();
+    // Pause choreography in a hidden tab, but let slow visible frames advance
+    // by real elapsed time instead of stretching a 3.6 s reveal into minutes.
+    const resetFrameClock = () => {
+      lastFrame = performance.now();
+    };
+    document.addEventListener('visibilitychange', resetFrameClock);
     let navigationUntil = 0;
     const lastPosition = camera.position.clone(),
       lastRotation = camera.quaternion.clone();
@@ -1558,11 +1564,7 @@ export default function Viewport(props: Props) {
         frame = requestAnimationFrame(render);
         return;
       }
-      // Slow frames and a background tab must not skip the formation the user came to see.
-      if (document.visibilityState === 'visible')
-        animationTime += runtime.current?.responsive
-          ? delta * 1000
-          : Math.min(delta * 1000, 250);
+      if (document.visibilityState === 'visible') animationTime += delta * 1000;
       if (transition && !latest.current.cameraSettings.walk) {
         const t = Math.min(1, (performance.now() - transition.start) / 500);
         const ease = 1 - Math.pow(1 - t, 3);
@@ -1842,6 +1844,7 @@ export default function Viewport(props: Props) {
     renderer.domElement.addEventListener('webglcontextlost', lost);
     return () => {
       window.removeEventListener('keydown', cancelTransform, true);
+      document.removeEventListener('visibilitychange', resetFrameClock);
       cancelAnimationFrame(frame);
       interactionEvents.forEach((event) =>
         renderer.domElement.removeEventListener(event, invalidate),

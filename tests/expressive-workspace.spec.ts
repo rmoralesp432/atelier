@@ -297,6 +297,30 @@ test('expressive conversation validates a corrected sweep, renders lofts and pre
   );
   expect((await saved(page)).project.volumes).toEqual(after);
 });
+test('formation finishes on slow frames without leaving geometry faded', async ({
+  page,
+}) => {
+  test.setTimeout(60000);
+  await page.setViewportSize({ width: 640, height: 480 });
+  await ready(page);
+  await page.getByRole('button', { name: 'Show objects' }).click();
+  // Simulate a one-frame-per-second renderer, without changing the real clock.
+  await page.evaluate(() => {
+    window.requestAnimationFrame = (callback) =>
+      window.setTimeout(() => callback(performance.now()), 1000);
+    window.cancelAnimationFrame = (handle) => window.clearTimeout(handle);
+  });
+  await page.getByRole('button', { name: 'Add volume', exact: true }).click();
+  const viewport = page.getByTestId('viewport');
+  await expect(viewport).toHaveAttribute('data-model-objects', '3');
+  await expect(viewport).toHaveAttribute('data-construction-active', 'true');
+  await expect(viewport).toHaveAttribute('data-construction-active', 'false', {
+    timeout: 8000,
+  });
+  await expect(viewport).toHaveAttribute('data-construction-phase', 'complete');
+  expect((await saved(page)).project.volumes).toHaveLength(3);
+});
+
 test('late map-picker loading cannot overwrite coordinates already typed', async ({
   page,
 }) => {

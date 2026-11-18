@@ -345,6 +345,9 @@ test('clarification and stale destructive reviews preserve existing geometry', a
 test('JSON project plus history export/import and invalid file protection', async ({
   page,
 }) => {
+  // Several rendered edits, a download and two imports on software WebGL.
+  // Keep each assertion's limit; allow time for the complete round trip.
+  test.setTimeout(90000);
   await ready(page);
   await page
     .getByRole('button', { name: 'Create volume', exact: true })
