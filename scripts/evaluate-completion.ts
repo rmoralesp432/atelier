@@ -1,5 +1,5 @@
 /** Opt-in evaluation of PR #22. Default mode is offline preparation.
- * Live execution requires a separately approved $3 budget and explicit flags.
+ * Live execution requires a separately approved $2 budget and explicit flags.
  * No production changes, deployments, scripted AI answers, or runtime templates.
  */
 import assert from 'node:assert/strict';
@@ -84,6 +84,7 @@ const manifest = {
   ceilingUsd,
   maximumCalls: 24,
   perTurnCalls: 8,
+  executionOrder: ['ring', 'stand', 'edit', 'plate'],
   prompts,
   specification,
   pricing,
@@ -93,7 +94,7 @@ assert(
   process.argv
     .slice(2)
     .every((a) =>
-      ['--prepare', '--live', '--approved-budget-usd=3'].includes(a),
+      ['--prepare', '--live', '--approved-budget-usd=2'].includes(a),
     ),
   'Unknown evaluation flag.',
 );
@@ -103,8 +104,8 @@ assert(
 );
 if (live) {
   assert(
-    process.argv.includes('--approved-budget-usd=3'),
-    'User approval of the proposed $3 ceiling is required before paid generation.',
+    process.argv.includes('--approved-budget-usd=2'),
+    'User approval of the $2 ceiling is required before paid generation.',
   );
   assert(
     existsSync(manifestPath) && existsSync(ledgerPath),
@@ -340,7 +341,7 @@ try {
       note: 'Fixtures validate the harness only. Live reasoning, requirement coverage, costs and latency remain untested.',
     });
     console.log(
-      'OFFLINE PREPARATION PASSED. No model generations. Live evaluation still requires approval of the $3 ceiling.',
+      'OFFLINE PREPARATION PASSED. No model generations. Live mode enforces the approved $2 ceiling.',
     );
   } else {
     const ledger: Ledger = JSON.parse(readFileSync(ledgerPath, 'utf8'));
@@ -658,11 +659,18 @@ try {
         console.log(`${id}: ${record.status}`);
       }
     }
+    // Prioritize real independent verification and correction within the reduced budget.
+    const ring = await turn('ring', initialSession(), []);
     const stand = await turn('stand', initialSession(), []);
     if (stand.success) await turn('edit', stand.session, stand.history);
     else results.push({ id: 'edit', status: 'NOT_RUN_CREATION_FAILED' });
-    const ring = await turn('ring', initialSession(), []);
     await turn('plate', ring.session, ring.history);
+    save(`${folder}/results.json`, {
+      manifest,
+      results,
+      ledger: JSON.parse(readFileSync(ledgerPath, 'utf8')),
+      recommendation: 'Human review required; never deploy from this runner.',
+    });
   }
 } finally {
   await browser.close();

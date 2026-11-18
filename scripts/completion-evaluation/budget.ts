@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync, renameSync, writeFileSync } from 'node:fs';
 
-export const ceilingUsd = 3;
+export const ceilingUsd = 2;
 export const model = 'gpt-6.1-sol';
 // Current secondary pricing reference, retrieved 2026-11-18. No cached-input
 // discounts are assumed. Reserve at the higher standard long-context rates.
@@ -97,7 +97,7 @@ export function meteredFetch(
     const ledger: Ledger = JSON.parse(readFileSync(path, 'utf8'));
     assert(
       ledger.authorized && ledger.ceilingUsd === ceilingUsd,
-      'Paid evaluation requires explicit approval of the $3 ceiling.',
+      'Paid evaluation requires explicit approval of the $2 ceiling.',
     );
     assert(
       ledger.calls.every((c) => c.outcome === 'usage-reconciled'),

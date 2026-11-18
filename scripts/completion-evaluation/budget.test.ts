@@ -44,14 +44,16 @@ test('no authorization, insufficient headroom, and pending charges all stop befo
       calls: [
         {
           ...scope(),
-          reservedUsd: 2.99,
-          chargedUsd: 2.99,
+          reservedUsd: ceilingUsd - 0.01,
+          chargedUsd: ceilingUsd - 0.01,
           started: '',
           outcome: 'usage-reconciled',
         },
       ],
     });
     await assert.rejects(run(url, init()), /ceiling/);
+    save(path, { authorized: true, ceilingUsd: 3, calls: [] });
+    await assert.rejects(run(url, init()), /approval/);
     save(path, {
       authorized: true,
       ceilingUsd,

@@ -1,6 +1,6 @@
 # PR #22: proposed live reasoning evaluation
 
-**Status: prepared, not authorized to spend. No paid generations or deployment.**
+**Status: user authorized a strict US$2 evaluation ceiling on 18 November 2026, replacing the proposed US$3. Deployment remains unauthorized.**
 
 The target is PR #22 at `6b480a5002e1f6e332c76d06035a1c51ab67c6ce`. The application, executor prompt, completion-reader prompt, geometry tools and transaction limits remain unchanged. Evaluation code is on a separate branch. Source trees, test prompts, evaluator code and dependency lockfile are fingerprinted before a run, preventing silent changes after seeing model answers.
 
@@ -14,6 +14,8 @@ All scenes are synthetic. Object IDs are randomized; two existing objects are de
 | Modify           | Increase the stand's clear shelf spacing by 36 cm, raising the upper shelf and extending the posts while retaining the lower shelf, diameters, footprint and identities.                                           | Compare every original part; unchanged exceptions, correct translations/extensions, real final solids, one Undo/Redo. If creation failed, this dependent turn is marked unrun rather than secretly substituting a fixture.                                                                              |
 | Recover          | Seven upright pegs equally spaced around an offset circle. After the real AI first produces a geometrically correct result, remove one peg from the private candidate just before independent completion checking. | The real completion reader must still require seven. The host must reject the omission; the real executor must restore the missing part while retaining the six surviving IDs, without asking the user to manage a repair. The deliberate fault is reported separately from naturally occurring errors. |
 | Cut and continue | A solid mounting plate with an off-center rectangular through-slot, leaving no cutter behind. This is a new instruction after the ring request, including its actual success/failure history.                      | Actual remaining solid volume, world bounds and zero material within the specified slot probe. A filled box with the correct envelope fails. Existing pegs/neighbors remain untouched. This also exercises unrelated continuation if the previous task failed safely.                                   |
+
+Execution order under the approved lower budget is **Recover → Create → Modify → Cut and continue**, prioritizing evidence of independent verification and autonomous repair. All four prompts and acceptance checks remain unchanged. Unrun cases are reported explicitly if a spending or correctness safeguard stops the evaluation.
 
 The evaluator uses the existing provider, independent reader, host verifier and staged execution. The executor receives the same kind of browser-rendered geometry observations as the application. Both executor and reader responses are real model outputs during the authorized run; only the deliberate omission is injected.
 
@@ -30,9 +32,9 @@ Every altered scene is also checked by a separate test oracle based on actual so
 
 The external oracle **never supplies a repair plan or extra feedback to the AI**. The executor repairs using only PR #22's production completion feedback. This separates four possible failures: missed/misread requirements, deficient geometry predicates, execution/repair failure, and over-rejection of valid results.
 
-## Budget proposed for approval
+## Approved budget
 
-**US$3 maximum for this new evaluation; aim for roughly US$1–2.** The target range is a planning estimate, not an observed result or a promise that all turns fit. Work stops when the remaining budget cannot cover another conservatively reserved call. Unrun cases remain explicitly unrun.
+**US$2 maximum for this new evaluation.** The original US$1–2 target range was a planning estimate, not an observed result or a promise that all turns fit. Work stops when the remaining budget cannot cover another conservatively reserved call. Unrun cases remain explicitly unrun. No automatic budget extension or additional-credit request is permitted.
 
 - Fixed model: `gpt-6.1-sol`, Responses API, high reasoning effort, existing 6,000-output-token limit, standard service tier. No model switching or paid external tools.
 - At most **24 actual API requests overall and 8 per turn**, counting internal inspection calls, completion-reader calls and repairs. The SDK's existing zero automatic retries remains in effect.
@@ -66,8 +68,8 @@ The [runner](../../scripts/evaluate-completion.ts) defaults to offline preparati
 node --import tsx --test scripts/completion-evaluation/budget.test.ts
 node --use-env-proxy --import tsx scripts/evaluate-completion.ts --prepare
 
-# Only after the user explicitly approves this evaluation's US$3 ceiling.
-node --use-env-proxy --import tsx scripts/evaluate-completion.ts --live --approved-budget-usd=3
+# Authorized by the user on 18 November 2026, strictly capped at US$2.
+node --use-env-proxy --import tsx scripts/evaluate-completion.ts --live --approved-budget-usd=2
 ```
 
 Live artifacts will include prompts, proposed operations, original/provisional/final sessions, actual independently generated criteria, measured failures, rendered observations, repairs, counterfactual results and the durable usage ledger. Credentials and authorization headers are never recorded. No live result or production-readiness claim is made at preparation time.
