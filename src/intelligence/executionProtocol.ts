@@ -7,6 +7,7 @@ export const executionSchema = z
     assessment: z.array(briefAssessmentSchema).max(24).optional(),
     stage: z.number().int().min(1).max(12),
     remaining: z.number().int().min(0).max(11),
+    remainingOperations: z.number().int().min(0).max(64).optional(),
     next: z.string().max(400),
     receipts: z
       .array(

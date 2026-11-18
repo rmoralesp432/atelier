@@ -185,6 +185,29 @@ export function buildingSettings(v: Volume) {
     mullionWidth: (g.mullionWidth * v.dimensions.width) / g.base.width,
   };
 }
+/** Shared patch semantics for individual and coordinated edits. */
+export function patchedVolume(
+  v: Volume,
+  patch: Partial<Omit<Volume, 'id'>>,
+): Volume {
+  const next = { ...v, ...patch };
+  if (patch.dimensions && !patch.geometry && v.geometry?.kind === 'building') {
+    next.geometry = {
+      ...v.geometry,
+      ...buildingSettings(v),
+      base: { ...next.dimensions },
+      source: { ...v.geometry.source, dimensions: { ...next.dimensions } },
+    };
+  }
+  if (patch.dimensions && !patch.geometry && v.geometry?.kind === 'hollow')
+    next.geometry = {
+      ...v.geometry,
+      source: { ...v.geometry.source, dimensions: { ...next.dimensions } },
+    };
+  validateVolume(next, next.geometry !== v.geometry);
+  return next;
+}
+
 export function updateVolume(
   project: Project,
   id: string,
@@ -199,29 +222,7 @@ export function updateVolume(
         throw new Error(
           'This group is locked. Unlock it before editing its objects.',
         );
-      const next = { ...v, ...patch };
-      if (
-        patch.dimensions &&
-        !patch.geometry &&
-        v.geometry?.kind === 'building'
-      ) {
-        // Resize the envelope without silently scaling stated slab/frame sizes.
-        next.geometry = {
-          ...v.geometry,
-          ...buildingSettings(v),
-          base: { ...next.dimensions },
-          source: { ...v.geometry.source, dimensions: { ...next.dimensions } },
-        };
-      }
-      if (patch.dimensions && !patch.geometry && v.geometry?.kind === 'hollow')
-        next.geometry = {
-          ...v.geometry,
-          source: { ...v.geometry.source, dimensions: { ...next.dimensions } },
-        };
-      // Existing recipes were validated when created/imported. A color, name,
-      // position or dimension edit must not rescan every unchanged mesh index.
-      validateVolume(next, next.geometry !== v.geometry);
-      return next;
+      return patchedVolume(v, patch);
     }),
   };
   if (
