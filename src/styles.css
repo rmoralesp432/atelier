@@ -7150,3 +7150,30 @@ summary:focus-visible {
     height: 44px;
   }
 }
+
+.agent-preview-status {
+  position: absolute;
+  z-index: 12;
+  left: 50%;
+  top: 5.5rem;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.5rem 0.6rem 0.5rem 1rem;
+  border: 1px solid var(--border, #d7d7dc);
+  border-radius: 999px;
+  background: var(--panel, #fafafae8);
+  color: var(--text, #252525);
+  box-shadow: 0 3px 18px #0000000a;
+  backdrop-filter: blur(12px);
+  white-space: nowrap;
+  font-size: 0.8rem;
+}
+.agent-preview-status button {
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  border: 0;
+  background: #88888818;
+  color: inherit;
+}

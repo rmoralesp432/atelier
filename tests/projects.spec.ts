@@ -272,6 +272,9 @@ test('rename any project and delete inactive or active projects with cancellatio
 test('a failed deletion transaction preserves both active project and geometry', async ({
   page,
 }) => {
+  // Two complete WebGL loads plus an intentionally aborted storage transaction.
+  // Assertion limits remain unchanged; 30 seconds is too tight on CI renderers.
+  test.setTimeout(90000);
   await page.goto('/');
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-model-objects',

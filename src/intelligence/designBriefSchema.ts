@@ -1,7 +1,8 @@
+import { MAX_SCENE_OBJECTS } from '../limits';
 import { z } from 'zod';
 import { componentRoles } from '../design/schema';
 
-const refs = z.array(z.string().min(1).max(100)).max(200);
+const refs = z.array(z.string().min(1).max(100)).max(MAX_SCENE_OBJECTS);
 export const designSelector = z
   .object({
     refs,

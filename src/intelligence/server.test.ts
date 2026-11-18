@@ -1,3 +1,4 @@
+import { ModelPlanError } from './planFailure';
 import { it, expect } from 'vitest';
 import { createApi } from '../../server/app';
 import type { Provider } from '../../server/provider';
@@ -193,6 +194,29 @@ it('cancels the upstream planner when the browser stops a request', async () => 
       abort.abort();
       await stopped;
       expect(await response).toBeNull();
+    },
+  );
+});
+
+it('returns actionable invalid-plan feedback separately from provider outages', async () => {
+  await serve(
+    {
+      plan: async () => {
+        throw new ModelPlanError('operations.0.targets: expected current IDs');
+      },
+      voice: async () => '',
+    },
+    async (url) => {
+      const r = await fetch(url + '/api/plan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(request),
+      });
+      expect(r.status).toBe(422);
+      expect(await r.json()).toEqual({
+        code: 'invalid_plan',
+        error: 'operations.0.targets: expected current IDs',
+      });
     },
   );
 });

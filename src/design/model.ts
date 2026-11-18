@@ -1,3 +1,4 @@
+import { MAX_SCENE_OBJECTS } from '../limits';
 import { explosionOffsets } from './explosion';
 import { z } from 'zod';
 import type { Volume, ObjectGroup, Project } from '../model';
@@ -46,7 +47,7 @@ export function validateDesign(
           z
             .object({
               name: z.string().min(1).max(80),
-              volumes: z.array(z.any()).max(200),
+              volumes: z.array(z.any()).max(MAX_SCENE_OBJECTS),
               groups: z
                 .array(
                   z

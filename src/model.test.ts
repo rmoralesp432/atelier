@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  MAX_VOLUMES,
   executeCommand,
   initialProject,
   parseProject,
@@ -72,11 +73,13 @@ describe('precise geometry commands', () => {
   });
   it('limits volume count', () => {
     const p = initialProject();
-    p.volumes = Array.from({ length: 200 }, () => ({
+    p.volumes = Array.from({ length: MAX_VOLUMES }, () => ({
       ...p.volumes[0],
       id: crypto.randomUUID(),
     }));
-    expect(() => executeCommand(p, 'create box 1 x 2 x 3')).toThrow('200');
+    expect(() => executeCommand(p, 'create box 1 x 2 x 3')).toThrow(
+      String(MAX_VOLUMES),
+    );
   });
 });
 describe('project persistence and inspector validation', () => {

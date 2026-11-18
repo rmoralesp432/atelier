@@ -1062,7 +1062,7 @@ export default function Viewport(props: Props) {
         ? new THREE.Vector3(20, 10, 20)
         : box.getSize(new THREE.Vector3());
       let distance =
-        ((Math.max(size.x, size.y, size.z, focusIds ? 1 : 10) /
+        ((Math.max(size.x, size.y, size.z, focusIds ? 1 : 0.25) /
           (2 *
             Math.tan(
               THREE.MathUtils.degToRad(latest.current.cameraSettings.fov / 2),
@@ -1433,6 +1433,18 @@ export default function Viewport(props: Props) {
         }
         const pose = saved.pose;
         setProjection(pose.projection === 'orthographic');
+        const distance = Math.hypot(
+          pose.position.x - pose.target.x,
+          pose.position.y - pose.target.y,
+          pose.position.z - pose.target.z,
+        );
+        // Respect requested distant views instead of clamping them back to
+        // the ordinary orbit range or clipping the entire model away.
+        orbit.maxDistance = Math.max(orbit.maxDistance, distance * 1.1);
+        camera.far = Math.max(
+          camera.far,
+          distance * 2 + (pose.orthoHeight ?? 0),
+        );
         if (camera instanceof THREE.PerspectiveCamera) camera.fov = pose.fov;
         else if (pose.orthoHeight) {
           const half = pose.orthoHeight / 2,
@@ -1482,7 +1494,8 @@ export default function Viewport(props: Props) {
         camera.right = halfWidth;
       }
       camera.updateProjectionMatrix();
-      if (objects.size) fit(latest.current.view.mode === 'top');
+      if (objects.size && !latest.current.savedViewRequest)
+        fit(latest.current.view.mode === 'top');
     });
     resize.observe(container);
     const publishCamera = () => {
@@ -1533,6 +1546,12 @@ export default function Viewport(props: Props) {
     orbit.addEventListener('change', invalidate);
     let frame = 0,
       lastFrame = performance.now();
+    // Pause choreography in a hidden tab, but let slow visible frames advance
+    // by real elapsed time instead of stretching a 3.6 s reveal into minutes.
+    const resetFrameClock = () => {
+      lastFrame = performance.now();
+    };
+    document.addEventListener('visibilitychange', resetFrameClock);
     let navigationUntil = 0;
     const lastPosition = camera.position.clone(),
       lastRotation = camera.quaternion.clone();
@@ -1545,11 +1564,7 @@ export default function Viewport(props: Props) {
         frame = requestAnimationFrame(render);
         return;
       }
-      // Slow frames and a background tab must not skip the formation the user came to see.
-      if (document.visibilityState === 'visible')
-        animationTime += runtime.current?.responsive
-          ? delta * 1000
-          : Math.min(delta * 1000, 250);
+      if (document.visibilityState === 'visible') animationTime += delta * 1000;
       if (transition && !latest.current.cameraSettings.walk) {
         const t = Math.min(1, (performance.now() - transition.start) / 500);
         const ease = 1 - Math.pow(1 - t, 3);
@@ -1829,6 +1844,7 @@ export default function Viewport(props: Props) {
     renderer.domElement.addEventListener('webglcontextlost', lost);
     return () => {
       window.removeEventListener('keydown', cancelTransform, true);
+      document.removeEventListener('visibilitychange', resetFrameClock);
       cancelAnimationFrame(frame);
       interactionEvents.forEach((event) =>
         renderer.domElement.removeEventListener(event, invalidate),

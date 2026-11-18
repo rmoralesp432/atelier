@@ -1,3 +1,4 @@
+import { MAX_SCENE_OBJECTS } from '../limits';
 import { z } from 'zod';
 
 const ref = z.string().min(1).max(100);
@@ -23,7 +24,7 @@ export const profileShape = z.enum([
 export const profileSolid = z
   .object({
     type: z.literal('profile_solid'),
-    targets: z.array(ref).max(200),
+    targets: z.array(ref).max(MAX_SCENE_OBJECTS),
     name: z.string().min(1).max(80),
     position: vector,
     dimensions: z
@@ -130,7 +131,7 @@ export const volumetricOperations = [
   z
     .object({
       type: z.literal('constrained_resize'),
-      targets: z.array(ref).min(1).max(200),
+      targets: z.array(ref).min(1).max(MAX_SCENE_OBJECTS),
       axis: z.enum(['width', 'height', 'depth']),
       value: size,
       preserveVolume: z.boolean(),

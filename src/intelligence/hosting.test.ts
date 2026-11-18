@@ -93,6 +93,7 @@ it('serves health without authentication and accepts secure browser login behind
       configured: true,
       authenticated: true,
       voiceConfigured: true,
+      agentConfigured: false,
     });
   } finally {
     await new Promise<void>((resolve) => server.close(() => resolve()));

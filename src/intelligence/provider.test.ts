@@ -128,6 +128,11 @@ it('uses the realtime Calls SDK with SDP and a tool routed into the modeling pla
   expect(await (form?.get('sdp') as Blob).text()).toContain('offer');
   const session = JSON.parse(await (form?.get('session') as Blob).text());
   expect(session.audio.input.turn_detection.type).toBe('semantic_vad');
+  expect(session.audio.input.turn_detection.eagerness).toBe('low');
+  expect(session.instructions).toContain('Preserve all clauses');
+  expect(session.instructions).toContain(
+    'only when the design tool returns one',
+  );
   expect(session.tools[0].name).toBe('design');
   expect(session.instructions).toContain('Never invent geometry changes');
   expect(session.instructions).toContain('spoken answer to design');

@@ -1,3 +1,4 @@
+import { MAX_SCENE_OBJECTS } from '../limits';
 import { z } from 'zod';
 import { componentRoles } from '../design/schema';
 
@@ -23,7 +24,7 @@ export const assemblySchema = z
               .object({ width: size, depth: size, height: size })
               .strict(),
             position: vector.describe(
-              'Local BASE center, not geometric center. For a slab with top elevation T and thickness H, use y=T-H. Do not subtract half the thickness. World base is origin.y + position.y.',
+              'Local BASE center, not geometric center. For a slab with top elevation T and thickness H, use y=T-H. Do not subtract half the thickness. World base is origin.y + position.y and must be >= 0. Raise the assembly origin if a local element base is negative.',
             ),
             rotation: z.number().min(-360).max(360),
             role: z.enum(componentRoles),
@@ -53,7 +54,7 @@ export const architecturalOperations = [
   z
     .object({
       type: z.literal('select_query'),
-      scope: z.array(z.string().max(100)).max(200).nullable(),
+      scope: z.array(z.string().max(100)).max(MAX_SCENE_OBJECTS).nullable(),
       role: z.enum(componentRoles).nullable(),
       level: z.string().max(80).nullable(),
       material: z.enum(['solid', 'glass', 'frame']).nullable(),
@@ -64,23 +65,25 @@ export const architecturalOperations = [
   z
     .object({
       type: z.literal('material'),
-      targets: z.array(z.string().min(1).max(100)).min(1).max(200),
+      targets: z
+        .array(z.string().min(1).max(100))
+        .min(1)
+        .max(MAX_SCENE_OBJECTS),
       material: z.enum(['solid', 'glass', 'frame']),
     })
     .strict(),
   z
     .object({
       type: z.literal('verify'),
-      targets: z.array(z.string().min(1).max(100)).min(1).max(200),
-      metric: z.enum([
-        'count',
-        'width',
-        'depth',
-        'height',
-        'base',
-        'top',
-        'volume',
-      ]),
+      targets: z
+        .array(z.string().min(1).max(100))
+        .min(1)
+        .max(MAX_SCENE_OBJECTS),
+      metric: z
+        .enum(['count', 'width', 'depth', 'height', 'base', 'top', 'volume'])
+        .describe(
+          'count measures the number of resolved objects. Every other metric is checked on EACH object separately, never the combined group bounds. For group extents, read scene.groups bounds or measure properties.',
+        ),
       comparison: z.enum(['equal', 'at_least', 'at_most']),
       value: z.number().finite(),
       tolerance: z.number().min(0).max(0.1),

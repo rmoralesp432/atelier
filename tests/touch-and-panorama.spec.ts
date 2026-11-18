@@ -60,6 +60,7 @@ test('iPhone touch orbit, one-finger pan and two-finger pinch move the real came
   page,
 }) => {
   test.setTimeout(90000);
+  await page.clock.install();
   await ready(page);
   const cdp = await page.context().newCDPSession(page);
   await cdp.send('Emulation.setTouchEmulationEnabled', {
@@ -70,20 +71,28 @@ test('iPhone touch orbit, one-finger pan and two-finger pinch move the real came
   await expect(viewport).toHaveAttribute('data-touch-navigation', 'orbit');
   const before = await saved(page);
   const position = await viewport.getAttribute('data-camera-position');
+  // CDP round trips on software WebGL can exceed the 550 ms hold threshold.
+  // These are short swipes: freeze timers only while dispatching each gesture,
+  // then resume real rendering before checking the actual camera movement.
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 60_000));
   await touch(cdp, 'touchStart', [{ x: 180, y: 430, id: 1 }]);
   for (let i = 1; i <= 6; i++)
     await touch(cdp, 'touchMove', [{ x: 180 + i * 12, y: 430 + i * 3, id: 1 }]);
   await touch(cdp, 'touchEnd', []);
+  await page.clock.resume();
   await expect(viewport).not.toHaveAttribute('data-camera-position', position!);
   expect(await saved(page)).toEqual(before);
   await page.getByRole('button', { name: 'Touch pan', exact: true }).click();
   const target = await viewport.getAttribute('data-camera-target');
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 60_000));
   await touch(cdp, 'touchStart', [{ x: 180, y: 430, id: 1 }]);
   for (let i = 1; i <= 6; i++)
     await touch(cdp, 'touchMove', [{ x: 180 + i * 10, y: 430, id: 1 }]);
   await touch(cdp, 'touchEnd', []);
+  await page.clock.resume();
   await expect(viewport).not.toHaveAttribute('data-camera-target', target!);
   const distance = Number(await viewport.getAttribute('data-camera-distance'));
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 60_000));
   await touch(cdp, 'touchStart', [
     { x: 150, y: 410, id: 1 },
     { x: 250, y: 410, id: 2 },
@@ -94,6 +103,7 @@ test('iPhone touch orbit, one-finger pan and two-finger pinch move the real came
       { x: 250 + i * 8, y: 410, id: 2 },
     ]);
   await touch(cdp, 'touchEnd', []);
+  await page.clock.resume();
   await expect
     .poll(async () =>
       Number(await viewport.getAttribute('data-camera-distance')),

@@ -1,3 +1,4 @@
+import type { SceneObservation } from './intelligence/observation';
 import SolarPlayer from './studio/SolarPlayer';
 import { useSolarPlayback } from './studio/useSolarPlayback';
 import BrandMark from './components/BrandMark';
@@ -28,6 +29,8 @@ import CameraPanel from './studio/CameraPanel';
 import { defaultSolar } from './studio/solar';
 import { defaultCameraSettings } from './studio/camera';
 import AddVolumePanel from './studio/AddVolumePanel';
+import { resolveCameraView } from './studio/cameraView';
+import { displaySummary } from './intelligence/conversationReply';
 import { stagedPlan, type PreparedPlan } from './intelligence/checkedPlanner';
 import SectionPanel from './studio/SectionPanel';
 import { defaultSection, sectionRange } from './studio/section';
@@ -323,6 +326,8 @@ export default function App({
       : load(),
   );
   const [project, setProject] = useState(boot.session.project);
+  const [workingProject, setWorkingProject] = useState<Project | null>(null);
+  const viewportStage = useRef<HTMLDivElement>(null);
   const current = useRef(project);
   current.current = project;
   const undo = useRef<Project[]>(boot.session.past);
@@ -380,7 +385,8 @@ export default function App({
   );
   const viewportProject = useMemo(
     () =>
-      previewOption
+      workingProject ??
+      (previewOption
         ? {
             ...project,
             volumes: previewOption.volumes,
@@ -388,8 +394,8 @@ export default function App({
             selectedId: null,
             selectedIds: [],
           }
-        : project,
-    [project, previewOption],
+        : project),
+    [project, previewOption, workingProject],
   );
   const [appearance, setAppearance] = useState(loadAppearance);
   const renderMode = appearance.mode;
@@ -620,7 +626,7 @@ export default function App({
     plan: Plan;
     fingerprint: string;
     camera: CameraContext;
-    prepared: { session: Session; message: string };
+    prepared: PreparedPlan;
     labels?: Record<string, string>;
   } | null>(null);
   useEffect(() => {
@@ -641,6 +647,7 @@ export default function App({
   const workspaceRef = useRef({
     mapVisible,
     solar,
+    solarPlaying,
     view: view.mode,
     theme: appearance.theme,
     renderMode: appearance.mode,
@@ -649,6 +656,7 @@ export default function App({
   workspaceRef.current = {
     mapVisible,
     solar,
+    solarPlaying,
     view: view.mode,
     theme: appearance.theme,
     renderMode: appearance.mode,
@@ -693,6 +701,30 @@ export default function App({
           setSection(saved.section ?? { ...defaultSection, enabled: false });
           reports.push(`Showing ${op.name}.`);
         }
+        continue;
+      }
+      if (op.type === 'camera_view') {
+        const stage = viewportStage.current;
+        const resolved = resolveCameraView(
+          current.current,
+          op,
+          stage ? stage.clientWidth / Math.max(1, stage.clientHeight) : 1,
+        );
+        state.view = op.projection;
+        setAlternativePreview(null);
+        setCameraSettings((v) => ({
+          ...v,
+          walk: false,
+          fov: resolved.pose!.fov,
+        }));
+        setView((v) => ({ ...v, mode: op.projection }));
+        setSavedViewRequest((r) => ({
+          view: resolved,
+          revision: (r?.revision ?? 0) + 1,
+        }));
+        reports.push(
+          `Camera positioned at bearing ${op.bearing}°, elevation ${op.elevation}° in ${op.projection}.`,
+        );
         continue;
       }
       if (op.type === 'walk_to') {
@@ -774,6 +806,17 @@ export default function App({
           a.startsWith('draw_')
             ? 'Drawing ready. Click in the workspace to place your first point; close the face, then use Push / pull.'
             : 'Modeling tool ready.',
+        );
+        continue;
+      }
+      if (a === 'solar_play' || a === 'solar_pause') {
+        if (a === 'solar_play')
+          setSolar((v) => ({ ...v, enabled: true, path: true }));
+        setSolarPlaying(a === 'solar_play');
+        reports.push(
+          a === 'solar_play'
+            ? 'Sun study animation started.'
+            : 'Sun study animation paused.',
         );
         continue;
       }
@@ -1046,6 +1089,7 @@ export default function App({
         (op) =>
           ![
             'show_view',
+            'camera_view',
             'save_view',
             'room_views',
             'explore',
@@ -1076,7 +1120,13 @@ export default function App({
       result.session.project.selectedId
     )
       setTool('translate');
-    const message = [result.message, applyWorkspace(plan)]
+    const message = [
+      result.message,
+      applyWorkspace({
+        ...plan,
+        operations: result.effectiveOperations ?? plan.operations,
+      }),
+    ]
       .filter(Boolean)
       .join('\n');
     setNotice({ text: message, error: false });
@@ -1107,18 +1157,18 @@ export default function App({
     setAlternativePreview(null);
     setExploration(assembled);
     install(item.prepared.session);
-    const message = [item.prepared.message, applyWorkspace(item.plan)]
+    const message = [
+      item.prepared.message,
+      applyWorkspace({
+        ...item.plan,
+        operations: item.prepared.effectiveOperations ?? item.plan.operations,
+      }),
+    ]
       .filter(Boolean)
       .join('\n');
     setNotice({ text: message, error: false });
     return message;
   };
-  const displaySummary = (plan: Plan) =>
-    plan.operations.some(
-      (op) => op.type === 'measure' || op.type === 'solar_study',
-    )
-      ? undefined
-      : plan.message;
   const propose = async (plan: Plan) => {
     setModelingBusy((n) => n + 1);
     try {
@@ -1155,12 +1205,32 @@ export default function App({
     planningAbort.current = abort;
     setReferenceImages([]);
     remember('user', text, undefined, images);
+    let observation: SceneObservation | undefined;
+    let observedRevision = -1;
     try {
       const checked = await stagedPlan(
         snapshot(),
         frame,
-        (working, feedback, execution) =>
-          requestPlan(
+        async (working, feedback, execution) => {
+          if (connectionState.agentConfigured) {
+            if (execution?.receipts.length) setWorkingProject(working.project);
+            const revision = (execution?.receipts ?? []).filter(
+              (r) => r.created.length || r.changed.length || r.removed.length,
+            ).length;
+            if (observedRevision !== revision) {
+              if (revision > 0 && observedRevision === 0)
+                setView((v) => ({ ...v, revision: v.revision + 1 }));
+              setWorkStage('Inspecting the working model…');
+              const { renderObservation } =
+                await import('./intelligence/renderObservation');
+              observation = await renderObservation(
+                working.project,
+                abort.signal,
+              );
+              observedRevision = revision;
+            }
+          }
+          return requestPlan(
             text,
             working,
             frame,
@@ -1181,9 +1251,12 @@ export default function App({
             feedback,
             images,
             execution,
-          ),
+            observation,
+          );
+        },
         setWorkStage,
         abort.signal,
+        { agent: connectionState.agentConfigured === true },
       );
       const plan = checked.plan;
       if (before !== fingerprint())
@@ -1230,8 +1303,12 @@ export default function App({
         return message;
       }
       const result = await execute(plan, false, frame, checked.prepared);
-      remember('assistant', result, displaySummary(plan));
-      return result;
+      const summary = displaySummary(plan, connectionState.agentConfigured);
+      const reply = summary ?? result;
+      remember('assistant', result, summary);
+      if (connectionState.agentConfigured)
+        setNotice({ text: reply, error: false });
+      return connectionState.agentConfigured ? reply : result;
     } catch (e) {
       const message = abort.signal.aborted
         ? 'Stopped. No changes were applied to your project.'
@@ -1243,6 +1320,7 @@ export default function App({
       return message;
     } finally {
       planningAbort.current = null;
+      setWorkingProject(null);
       busyRef.current = false;
       setBusy(false);
     }
@@ -2340,7 +2418,7 @@ export default function App({
               <option value="top">Top view</option>
             </select>
           </div>
-          <div className="viewport-stage">
+          <div className="viewport-stage" ref={viewportStage}>
             <button
               className="quick-theme"
               aria-label={
@@ -2750,12 +2828,24 @@ export default function App({
                 </i>
               )}
             </div>
+            {workingProject && (
+              <div className="agent-preview-status" role="status">
+                <span>Developing your design</span>
+                <button
+                  type="button"
+                  onClick={() => planningAbort.current?.abort()}
+                  aria-label="Stop and discard working preview"
+                >
+                  Stop
+                </button>
+              </div>
+            )}
             <Viewport
               project={viewportProject}
               exploration={exploration}
               explorationGuides={explorationGuides}
               savedViewRequest={savedViewRequest}
-              previewing={!!alternativePreview}
+              previewing={!!alternativePreview || busy}
               phonePanel={
                 phoneLayout && !!panels.active && panels.active !== 'ar'
               }
@@ -2775,7 +2865,7 @@ export default function App({
                 }
               }}
               touchNavigation={phoneLayout ? touchNavigation : null}
-              tool={presentation || alignMap ? 'select' : tool}
+              tool={busy || presentation || alignMap ? 'select' : tool}
               presenting={presentation}
               suspended={arActive || arPreparing || panoramaOpen}
               releaseGPU={arPreparing}
@@ -2829,7 +2919,7 @@ export default function App({
               onMapSite={(site) => commit({ ...current.current, site }, false)}
               section={viewportSection}
               sectionPreviewOnly={arFloorPreview !== null}
-              sectionEditing={sectionOpen && !!section.planeVisible}
+              sectionEditing={!busy && sectionOpen && !!section.planeVisible}
               onSectionChange={setSection}
               view={view}
               onSelect={(id, additive) => {

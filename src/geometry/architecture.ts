@@ -159,7 +159,10 @@ export function buildingParts(
         if (!member.isEmpty()) {
           for (const solid of member.decompose())
             result.push({ material: 'frame', solid: keep(solid) });
-          remaining = keep(remaining.subtract(member));
+          // member = remaining ∩ column. Subtract the column directly: using
+          // member again nests the complete previous Boolean expression twice
+          // per frame and can exhaust the WASM runtime on larger facades.
+          remaining = keep(remaining.subtract(column));
         }
       }
       if (!remaining.isEmpty())

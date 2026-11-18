@@ -20,5 +20,11 @@ services:
         generateValue: true
       - key: ATELIER_TEXT_MODEL
         value: gpt-4.1
+      - key: ATELIER_AGENT_MODE
+        value: 'true'
+      - key: ATELIER_AGENT_MODEL
+        value: gpt-6.1-sol
+      - key: ATELIER_TEXT_API
+        value: responses
       - key: ATELIER_VOICE_MODEL
         value: gpt-realtime
