@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { criteria, measure, selector } from './fixtures/completion';
 test('orb keeps voice modeling and follow-up edits in the minimized workspace (offline transport)', async ({
   page,
 }) => {
@@ -19,6 +20,26 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
   );
   let calls = 0;
   let createdId = '';
+  await page.route('**/api/completion-criteria', (r) => {
+    const b = r.request().postDataJSON();
+    const existing = b.scene.objects.find(
+      (o: any) => o.name === 'Courtyard study',
+    );
+    const chosen = selector(existing ? [existing.id] : ['$new']);
+    return r.fulfill({
+      json: criteria(
+        [
+          measure('count', 'count', 1, chosen),
+          measure('height', 'height', 3, chosen),
+          measure('width', 'width', 6, chosen),
+          measure('depth', 'depth', 4, chosen),
+          measure('base', 'y', existing ? 2 : 0, chosen),
+        ],
+        existing ? [existing.id] : [],
+        b.message,
+      ),
+    });
+  });
   await page.route('**/api/plan', (r) => {
     const body = r.request().postDataJSON();
     calls++;
@@ -211,7 +232,7 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
         ),
       { timeout: 30000 },
     )
-    .toBe('Your study is ready.');
+    .toContain('Completed; measurable checks passed.');
   await expect(dock).toBeVisible();
   await expect(
     page.getByRole('textbox', { name: 'Message Atelier' }),

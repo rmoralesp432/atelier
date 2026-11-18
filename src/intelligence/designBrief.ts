@@ -3,7 +3,9 @@ import type {
   DesignBrief,
   DesignSelector,
   BriefAssessment,
+  DesignRequirement,
 } from './designBriefSchema';
+import { MAX_SCENE_OBJECTS } from '../limits';
 import { resolveIds, type Session } from './engine';
 import { equalData } from '../projects/equalData';
 import { isFlat, groupBounds } from '../geometry/spatial';
@@ -84,13 +86,13 @@ export function bindBrief(raw: DesignBrief, original: Session): DesignBrief {
       );
     if (
       r.kind === 'layout' &&
-      (r.counts.x * r.counts.y * r.counts.z > 200 ||
+      (r.counts.x * r.counts.y * r.counts.z > MAX_SCENE_OBJECTS ||
         (['x', 'y', 'z'] as const).some(
           (a) => r.counts[a] > 1 && Math.abs(r.step[a]) <= r.tolerance * 2,
         ))
     )
       throw new Error(
-        'Layout checks need at most 200 distinct expected positions, spaced farther apart than twice the tolerance.',
+        `Layout checks need at most ${MAX_SCENE_OBJECTS} distinct expected positions, spaced farther apart than twice the tolerance.`,
       );
     if (
       r.kind === 'measure' &&
@@ -116,7 +118,7 @@ export function bindBrief(raw: DesignBrief, original: Session): DesignBrief {
   return brief;
 }
 
-function preservedValue(
+export function preservedValue(
   v: Volume,
   property: DesignBrief['preserve'][number]['properties'][number],
 ) {
@@ -222,7 +224,20 @@ export async function assessBrief(
   brief: DesignBrief,
   session: Session,
 ): Promise<BriefAssessment[]> {
-  const volumes = new Map<string, Promise<number>>();
+  return assessRequirements(brief.requirements, session);
+}
+
+/** Read-only geometry predicates shared by legacy briefs and the independent
+ * completion reviewer. No edit permissions, planning policy or history here. */
+export async function assessRequirements(
+  requirements: DesignRequirement[],
+  session: Session,
+  selectVolumes: (
+    selector: DesignSelector,
+    session: Session,
+  ) => Volume[] = select,
+  volumes = new Map<string, Promise<number>>(),
+): Promise<BriefAssessment[]> {
   const volume = (v: Volume) => {
     if (isFlat(v)) return Promise.resolve(0);
     if (!volumes.has(v.id))
@@ -233,13 +248,13 @@ export async function assessBrief(
     return volumes.get(v.id)!;
   };
   const result: BriefAssessment[] = [];
-  for (const r of brief.requirements) {
+  for (const r of requirements) {
     let met = false,
       observed = '';
     try {
       if (r.kind === 'relation') {
-        const a = select(r.first, session),
-          b = select(r.second, session);
+        const a = selectVolumes(r.first, session),
+          b = selectVolumes(r.second, session);
         if (a.length !== 1 || b.length !== 1 || a[0].id === b[0].id)
           throw new Error(
             'Relationship requirements must identify two distinct individual solids.',
@@ -253,7 +268,7 @@ export async function assessBrief(
               : Math.abs((await volume(a[0])) - shared) <= r.tolerance;
         observed = `Shared volume ${round(shared)} m³; expected ${r.relation}.`;
       } else {
-        const vs = select(r.selector, session);
+        const vs = selectVolumes(r.selector, session);
         if (r.kind === 'property') {
           let expected = r.value;
           if (
@@ -290,8 +305,19 @@ export async function assessBrief(
         } else if (r.kind === 'layout') {
           const expected = r.counts.x * r.counts.y * r.counts.z,
             remaining = new Set(vs.map((v) => v.id));
-          if (expected > 200)
-            throw new Error('The expected layout exceeds 200 positions.');
+          if (
+            (['x', 'y', 'z'] as const).some(
+              (axis) =>
+                r.counts[axis] > 1 && Math.abs(r.step[axis]) <= r.tolerance * 2,
+            )
+          )
+            throw new Error(
+              'Layout positions must be distinct, farther apart than twice the tolerance.',
+            );
+          if (expected > MAX_SCENE_OBJECTS)
+            throw new Error(
+              `The expected layout exceeds ${MAX_SCENE_OBJECTS} positions.`,
+            );
           let matched = 0;
           const a = (r.rotation * Math.PI) / 180;
           for (let y = 0; y < r.counts.y; y++)
@@ -332,8 +358,10 @@ export async function assessBrief(
           let values: number[];
           if (r.metric === 'count') values = [vs.length];
           else if (r.aggregation === 'envelope') {
-            if (r.metric === 'thickness')
-              throw new Error('Thickness cannot be measured from an envelope.');
+            if (['thickness', 'volume', 'x', 'y', 'z'].includes(r.metric))
+              throw new Error(
+                'This metric cannot be measured from an envelope.',
+              );
             const b = groupBounds(vs);
             values = [
               r.metric === 'base'
@@ -352,21 +380,25 @@ export async function assessBrief(
               vs.map(async (v) =>
                 metric === 'thickness'
                   ? shellThickness(v)
-                  : metric === 'volume'
-                    ? volume(v)
-                    : metric === 'base'
-                      ? v.position.y
-                      : metric === 'top'
-                        ? v.position.y + (isFlat(v) ? 0 : v.dimensions.height)
-                        : metric === 'height' && isFlat(v)
-                          ? 0
-                          : v.dimensions[metric],
+                  : metric === 'x' || metric === 'y' || metric === 'z'
+                    ? v.position[metric]
+                    : metric === 'volume'
+                      ? volume(v)
+                      : metric === 'base'
+                        ? v.position.y
+                        : metric === 'top'
+                          ? v.position.y + (isFlat(v) ? 0 : v.dimensions.height)
+                          : metric === 'height' && isFlat(v)
+                            ? 0
+                            : v.dimensions[metric],
               ),
             );
             if (r.aggregation === 'sum')
               values = [values.reduce((a, b) => a + b, 0)];
             if (r.aggregation === 'min') values = [Math.min(...values)];
             if (r.aggregation === 'max') values = [Math.max(...values)];
+            if (r.aggregation === 'range')
+              values = [Math.max(...values) - Math.min(...values)];
           }
           const tolerance = Math.max(
             r.tolerance,

@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { writeFileSync } from 'node:fs';
+import { criteria, measure, selector } from './fixtures/completion';
 
 test('opens the retained live-generated chair as editable geometry and frames its actual scale', async ({
   page,
@@ -58,6 +59,27 @@ test('agent keeps provisional arrays private, recovers invalid arguments, verifi
   const ids: string[] = [];
   let initialImage = '';
   let arrayImage = '';
+  await page.route('**/api/completion-criteria', (r) => {
+    const b = r.request().postDataJSON();
+    const existing = b.scene.objects.filter((o: any) =>
+      o.name.startsWith('Array study'),
+    );
+    const chosen = selector(
+      existing.length ? existing.map((o: any) => o.id) : ['$new'],
+    );
+    return r.fulfill({
+      json: criteria(
+        [
+          measure('count', 'count', 144, chosen),
+          measure('width', 'width', 3, chosen),
+          measure('height', 'height', 3, chosen),
+          measure('base', 'y', existing.length ? 2 : 0, chosen),
+        ],
+        existing.map((o: any) => o.id),
+        b.message,
+      ),
+    });
+  });
   await page.route('**/api/plan', async (r) => {
     const b = r.request().postDataJSON();
     calls++;
@@ -292,6 +314,16 @@ test('shows provisional geometry while working and restores the saved design on 
 test('agent camera and solar actions drive the real workspace and report playback state on follow-up', async ({
   page,
 }) => {
+  await page.route('**/api/completion-criteria', (r) =>
+    r.fulfill({
+      json: {
+        modeling: false,
+        editable: [],
+        checks: [],
+        qualitativeLimits: [],
+      },
+    }),
+  );
   test.setTimeout(90000);
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.addInitScript(() =>

@@ -40,7 +40,7 @@ export const designRequirement = z.union([
       origin: z
         .object({
           x: z.number().min(-1000).max(1000),
-          y: z.number().min(0).max(1000),
+          y: z.number().min(-1000).max(1000),
           z: z.number().min(-1000).max(1000),
         })
         .strict(),
@@ -76,8 +76,11 @@ export const designRequirement = z.union([
         'top',
         'volume',
         'thickness',
+        'x',
+        'y',
+        'z',
       ]),
-      aggregation: z.enum(['each', 'sum', 'min', 'max', 'envelope']),
+      aggregation: z.enum(['each', 'sum', 'min', 'max', 'range', 'envelope']),
       comparison: z.enum(['equal', 'at_least', 'at_most']),
       value: z.number().finite(),
       tolerance: z.number().min(0).max(0.1),

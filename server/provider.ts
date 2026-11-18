@@ -1,5 +1,11 @@
 import { observationSchema } from '../src/intelligence/observation';
 import { agentPlan } from './agent';
+import { readCompletionCriteria } from './completion';
+import {
+  completionInventorySchema,
+  completionReportSchema,
+  type CompletionCriteria,
+} from '../src/intelligence/completionSchema';
 import { invalidModelPlan } from '../src/intelligence/planFailure';
 import { MAX_SCENE_OBJECTS } from '../src/limits';
 import { solarSchema } from '../src/studio/solarSchema';
@@ -48,6 +54,7 @@ export const requestSchema = z
         error: z.string().max(2000),
         operations: z.array(operationSchema).max(64),
         brief: designBriefSchema.optional(),
+        verification: completionReportSchema.optional(),
       })
       .strict()
       .optional(),
@@ -308,6 +315,11 @@ export const requestSchema = z
   })
   .strict();
 export type ModelRequest = z.infer<typeof requestSchema>;
+export const completionRequestSchema = requestSchema
+  .pick({ message: true, history: true, scene: true, images: true })
+  .extend({ candidate: completionInventorySchema })
+  .strict();
+export type CompletionRequest = z.infer<typeof completionRequestSchema>;
 export const lobbySchema = z
   .array(
     z
@@ -323,6 +335,10 @@ export type VoiceLobby = z.infer<typeof lobbySchema>;
 export interface Provider {
   agent?: boolean;
   plan: (input: ModelRequest, signal?: AbortSignal) => Promise<Plan>;
+  completionCriteria?: (
+    input: CompletionRequest,
+    signal?: AbortSignal,
+  ) => Promise<CompletionCriteria>;
   voice: (sdp: string, lobby?: VoiceLobby) => Promise<string>;
 }
 export function createProvider(
@@ -342,6 +358,32 @@ export function createProvider(
   });
   return {
     agent: options.agent ?? false,
+    ...(options.agent
+      ? {
+          async completionCriteria(
+            input: CompletionRequest,
+            signal?: AbortSignal,
+          ) {
+            const model =
+              process.env.ATELIER_AGENT_MODEL ||
+              process.env.ATELIER_TEXT_MODEL ||
+              'gpt-6.1-sol';
+            return readCompletionCriteria(
+              client,
+              input,
+              {
+                model,
+                textApi: options.textApi ?? 'responses',
+                maxOutputTokens: options.maxOutputTokens ?? 6000,
+                ...(/^(gpt-[56](?:[.-]|$)|o[134](?:-|$))/.test(model)
+                  ? { effort: 'high' as const }
+                  : {}),
+              },
+              signal,
+            );
+          },
+        }
+      : {}),
     async plan(input, signal) {
       const model = options.agent
         ? process.env.ATELIER_AGENT_MODEL ||

@@ -4,6 +4,8 @@ import { sceneContext, defaultCamera } from './context';
 import { newSession, directPlan, applyPlan } from './engine';
 import { stagedPlan } from './checkedPlanner';
 import { ModelPlanError } from './planFailure';
+import { verifyCompletion } from './completion';
+import { criteria, measure, selector } from '../../tests/fixtures/completion';
 afterEach(() => vi.unstubAllEnvs());
 
 const empty = () => newSession({ volumes: [], selectedId: null });
@@ -135,7 +137,18 @@ it('keeps actual provisional geometry through a malformed response and finishes 
     },
     undefined,
     undefined,
-    { agent: true },
+    {
+      agent: true,
+      verifyCompletion: (candidate) =>
+        verifyCompletion(
+          criteria([
+            measure('count', 'count', 1),
+            measure('height', 'height', 3),
+          ]),
+          original,
+          candidate,
+        ),
+    },
   );
   expect(calls).toBe(3);
   expect(result.prepared!.session.project.volumes).toHaveLength(1);
@@ -365,7 +378,27 @@ it('executes reversible identity-preserving agent edits without a redundant revi
     async () => hollow,
     undefined,
     undefined,
-    { agent: true },
+    {
+      agent: true,
+      verifyCompletion: (candidate) =>
+        verifyCompletion(
+          criteria(
+            [
+              measure('count', 'count', 1, selector(['$all'])),
+              {
+                id: 'retain',
+                label: 'Original identity',
+                kind: 'preserve',
+                selector: selector([id]),
+                properties: ['identity', 'dimensions', 'position'],
+              },
+            ],
+            [id],
+          ),
+          original,
+          candidate,
+        ),
+    },
   );
   expect(agent.reviewRequired).toBe(false);
   expect(agent.prepared!.session.project.volumes[0].id).toBe(id);
@@ -382,7 +415,15 @@ it('executes reversible identity-preserving agent edits without a redundant revi
     async () => directPlan({ type: 'delete', targets: [id] }),
     undefined,
     undefined,
-    { agent: true },
+    {
+      agent: true,
+      verifyCompletion: (candidate) =>
+        verifyCompletion(
+          criteria([measure('removed', 'count', 0, selector([id]))], [id]),
+          original,
+          candidate,
+        ),
+    },
   );
   expect(deletion.reviewRequired).toBe(true);
   expect(original.project.volumes).toHaveLength(1);

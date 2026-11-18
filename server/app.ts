@@ -3,7 +3,12 @@ import { lobbySchema } from './provider';
 import express from 'express';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
 import { parsePlan } from '../src/intelligence/plan';
-import { requestSchema, type Provider } from './provider';
+import {
+  requestSchema,
+  completionRequestSchema,
+  type Provider,
+} from './provider';
+import { completionCriteriaSchema } from '../src/intelligence/completionSchema';
 function providerErrorMessage(error: unknown, fallback: string): string {
   // Never return raw provider errors: they can contain credentials or prompts.
   const code =
@@ -134,6 +139,43 @@ export function createApi(
           'The model service could not produce a valid plan. No geometry was changed. Check provider access and try again.',
         ),
       });
+    } finally {
+      res.off('close', disconnected);
+    }
+  });
+  app.post('/api/completion-criteria', async (req, res) => {
+    if (!provider?.agent || !provider.completionCriteria) {
+      res.status(503).json({
+        error:
+          'Independent completion verification is unavailable. Your project is unchanged.',
+      });
+      return;
+    }
+    const input = completionRequestSchema.safeParse(req.body);
+    if (!input.success) {
+      res
+        .status(400)
+        .json({ error: 'Invalid or oversized completion context.' });
+      return;
+    }
+    const abort = new AbortController();
+    const disconnected = () => {
+      if (!res.writableEnded) abort.abort();
+    };
+    res.on('close', disconnected);
+    try {
+      const criteria = completionCriteriaSchema.parse(
+        await provider.completionCriteria(input.data, abort.signal),
+      );
+      if (!abort.signal.aborted) res.json(criteria);
+    } catch (error) {
+      if (!abort.signal.aborted)
+        res.status(502).json({
+          error: providerErrorMessage(
+            error,
+            'Independent completion verification could not be completed. Your project is unchanged.',
+          ),
+        });
     } finally {
       res.off('close', disconnected);
     }

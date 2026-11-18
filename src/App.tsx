@@ -32,6 +32,9 @@ import AddVolumePanel from './studio/AddVolumePanel';
 import { resolveCameraView } from './studio/cameraView';
 import { displaySummary } from './intelligence/conversationReply';
 import { stagedPlan, type PreparedPlan } from './intelligence/checkedPlanner';
+import { requestCompletionCriteria } from './intelligence/client';
+import { verifyCompletion } from './intelligence/completion';
+import type { CompletionCriteria } from './intelligence/completionSchema';
 import SectionPanel from './studio/SectionPanel';
 import { defaultSection, sectionRange } from './studio/section';
 import { mapSources, trueNorth } from './studio/site';
@@ -205,6 +208,7 @@ function loadMessages(): Message[] {
             role: m.role,
             content: m.content,
             ...(typeof m.summary === 'string' ? { summary: m.summary } : {}),
+            ...(m.outcome === 'failed' ? { outcome: 'failed' as const } : {}),
             ...(Array.isArray(m.images)
               ? {
                   images: m.images
@@ -988,6 +992,7 @@ export default function App({
     content: string,
     summary?: string,
     images?: string[],
+    outcome?: 'failed',
   ) =>
     setMessages((m) => [
       ...m.slice(-79),
@@ -996,6 +1001,7 @@ export default function App({
         content,
         ...(summary ? { summary } : {}),
         ...(images?.length ? { images } : {}),
+        ...(outcome ? { outcome } : {}),
       },
     ]);
   const install = (session: Session, animate = true) => {
@@ -1207,9 +1213,11 @@ export default function App({
     remember('user', text, undefined, images);
     let observation: SceneObservation | undefined;
     let observedRevision = -1;
+    const original = snapshot();
+    let completionCriteria: CompletionCriteria | undefined;
     try {
       const checked = await stagedPlan(
-        snapshot(),
+        original,
         frame,
         async (working, feedback, execution) => {
           if (connectionState.agentConfigured) {
@@ -1260,7 +1268,26 @@ export default function App({
         },
         setWorkStage,
         abort.signal,
-        { agent: connectionState.agentConfigured === true },
+        {
+          agent: connectionState.agentConfigured === true,
+          verifyCompletion: async (candidate) => {
+            completionCriteria ??= await requestCompletionCriteria(
+              text,
+              original,
+              candidate,
+              frame,
+              history,
+              images,
+              AbortSignal.any([abort.signal, AbortSignal.timeout(150_000)]),
+            );
+            return verifyCompletion(
+              completionCriteria,
+              original,
+              candidate,
+              abort.signal,
+            );
+          },
+        },
       );
       const plan = checked.plan;
       if (before !== fingerprint())
@@ -1319,7 +1346,7 @@ export default function App({
         : e instanceof Error
           ? e.message
           : 'The request failed.';
-      remember('assistant', message);
+      remember('assistant', message, undefined, undefined, 'failed');
       setNotice({ text: message, error: true });
       return message;
     } finally {

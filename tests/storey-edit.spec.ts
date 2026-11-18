@@ -6,6 +6,7 @@ import {
 } from './fixtures/storey-building';
 import { newSession, serializeSession } from '../src/intelligence/engine';
 import type { Project } from '../src/model';
+import { criteria, measure, selector } from './fixtures/completion';
 
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
@@ -26,6 +27,35 @@ test('244-part storey edit updates connected geometry, persists identities, roll
     }),
   );
   const original = newSession(buildingWithNeighbors());
+  await page.route('**/api/completion-criteria', (r) => {
+    const b = r.request().postDataJSON();
+    const members = b.scene.objects.filter(
+      (o: any) => o.groupId === 'building',
+    );
+    const roof = members.find((o: any) => o.component?.role === 'roof');
+    return r.fulfill({
+      json: criteria(
+        [
+          measure(
+            'parts',
+            'count',
+            244,
+            selector(members.map((o: any) => o.id)),
+          ),
+          measure('roof', 'y', roof.position.y + 1, selector([roof.id])),
+          {
+            kind: 'preserve',
+            id: 'footprint',
+            label: 'Preserve footprints and identities',
+            selector: selector(['$original']),
+            properties: ['identity', 'width', 'depth', 'x', 'z'],
+          },
+        ],
+        members.map((o: any) => o.id),
+        b.message,
+      ),
+    });
+  });
   let calls = 0;
   let failedCalls = 0;
   let fail = false;
@@ -137,6 +167,11 @@ test('244-part storey edit updates connected geometry, persists identities, roll
   });
   await page.goto('/');
   await page.getByRole('button', { name: 'Projects', exact: true }).click();
+  // The library is still loading when the hidden input first mounts. A real
+  // user can choose a file only once this control becomes enabled.
+  await expect(
+    page.getByRole('button', { name: 'Open project copy', exact: true }),
+  ).toBeEnabled();
   await page.getByLabel('Open project copy file').setInputFiles({
     name: 'Storey regression.atelier.json',
     mimeType: 'application/json',

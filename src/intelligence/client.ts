@@ -7,11 +7,13 @@ import type { ValidationFeedback } from './checkedPlanner';
 import { parsePlan, type Operation } from './plan';
 import { sceneContext, type CameraContext } from './context';
 import type { Session } from './engine';
+import { completionCriteriaSchema } from './completionSchema';
 export type Message = {
   role: 'user' | 'assistant';
   content: string;
   summary?: string;
   images?: string[];
+  outcome?: 'failed';
 };
 export type Connection = {
   configured: boolean;
@@ -19,6 +21,59 @@ export type Connection = {
   voiceConfigured: boolean;
   agentConfigured?: boolean;
 };
+export function conversationHistory(history: Message[], images?: string[]) {
+  const lastImage = [...history].reverse().find((m) => m.images?.length);
+  return history.slice(-20).map((m) => ({
+    role: m.role,
+    content:
+      `${m.outcome === 'failed' ? '[Previous request failed; no proposed changes were committed. This is not pending work. Follow the latest instruction and the current scene.]\n' : ''}${m.role === 'assistant' && m.summary ? m.summary : m.content}`.slice(
+        0,
+        4000,
+      ),
+    ...(m.role === 'user' && m === lastImage && !images?.length
+      ? { images: m.images }
+      : {}),
+  }));
+}
+export async function requestCompletionCriteria(
+  message: string,
+  original: Session,
+  candidate: Session,
+  camera: CameraContext,
+  history: Message[],
+  images: string[],
+  signal?: AbortSignal,
+) {
+  const response = await fetch('/api/completion-criteria', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    signal,
+    body: JSON.stringify({
+      message,
+      images,
+      history: conversationHistory(history, images),
+      scene: sceneContext(original.project, original.context, camera),
+      candidate: candidate.project.volumes.map((v) => ({
+        id: v.id,
+        name: v.name,
+        groupId: v.groupId ?? null,
+        role: v.component?.role ?? null,
+        level: v.component?.level ?? null,
+      })),
+    }),
+  });
+  const data = await response.json().catch(() => {
+    throw new Error(
+      'Independent completion verification is unavailable. Your project is unchanged.',
+    );
+  });
+  if (!response.ok)
+    throw new Error(
+      data.error ||
+        'Independent completion verification failed. Your project is unchanged.',
+    );
+  return completionCriteriaSchema.parse(data);
+}
 export async function connection(): Promise<Connection> {
   try {
     const r = await fetch('/api/config');
@@ -71,18 +126,7 @@ export async function requestPlan(
         redo: session.future.length,
       },
       scene: sceneContext(session.project, session.context, camera),
-      history: history.slice(-20).map((m) => ({
-        role: m.role,
-        content: (m.role === 'assistant' && m.summary
-          ? m.summary
-          : m.content
-        ).slice(0, 4000),
-        ...(m.role === 'user' &&
-        m === [...history].reverse().find((m) => m.images?.length) &&
-        !images?.length
-          ? { images: m.images }
-          : {}),
-      })),
+      history: conversationHistory(history, images),
     }),
     signal,
   });
