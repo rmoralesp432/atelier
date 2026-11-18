@@ -4,6 +4,11 @@ import * as THREE from 'three';
 import { OBJExporter } from 'three/addons/exporters/OBJExporter.js';
 import { STLExporter } from 'three/addons/exporters/STLExporter.js';
 import { sampleGlb } from './fixtures/mesh';
+import {
+  pauseAnimation,
+  advanceAnimation,
+  resumeAnimation,
+} from './animation-clock';
 
 const cube = () => new THREE.Mesh(new THREE.BoxGeometry(2, 3, 4));
 const saved = (page: Page) =>
@@ -149,7 +154,9 @@ test('construction is visual only; footprint rises, settles, and never replays o
   );
   await page.getByRole('button', { name: 'Show objects' }).click();
   await page.getByText('Manual tools', { exact: true }).click();
-  // Observe every animation frame; no arbitrary screenshot timing assertion.
+  // Sample real rendered phases at controlled times. Software rendering can
+  // legitimately skip an entire short phase while the wall clock advances.
+  await pauseAnimation(page);
   await page.evaluate(() => {
     const phases: string[] = [];
     (window as any).observedPhases = phases;
@@ -165,16 +172,23 @@ test('construction is visual only; footprint rises, settles, and never replays o
   await page
     .getByRole('button', { name: 'Create volume', exact: true })
     .click();
+  await expect(page.getByTestId('viewport')).toHaveAttribute(
+    'data-construction-phase',
+    'footprint',
+  );
+  await advanceAnimation(page, 1000);
   await expect
     .poll(() => page.evaluate(() => (window as any).observedPhases), {
       timeout: 20000,
     })
     .toContain('extruding');
+  await advanceAnimation(page, 5000);
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-construction-active',
     'false',
     { timeout: 20000 },
   );
+  await resumeAnimation(page);
   const phases = await page.evaluate(() => (window as any).observedPhases);
   expect(phases).toContain('footprint');
   expect(phases).toContain('complete');
