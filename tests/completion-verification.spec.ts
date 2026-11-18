@@ -1,5 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 import { criteria, measure, selector } from './fixtures/completion';
+import { unavailableCompletionCriteria } from '../src/intelligence/completion';
 
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
@@ -251,4 +252,112 @@ test('a failed request followed by reload does not poison an unrelated new model
   await expect
     .poll(async () => (await saved(page)).project)
     .toEqual(before.project);
+});
+
+test('unknown verification permits safe additions with honest messaging, one Undo, and a later independently checked edit', async ({
+  page,
+}) => {
+  test.setTimeout(120000);
+  await ready(page);
+  const before = await saved(page);
+  let changing = false,
+    reviewCalls = 0,
+    planCalls = 0,
+    target = '';
+  await page.route('**/api/completion-criteria', (r) => {
+    reviewCalls++;
+    const b = r.request().postDataJSON();
+    return r.fulfill({
+      json: changing
+        ? criteria(
+            [measure('requested-height', 'height', 1.4, selector([target]))],
+            [target],
+            b.message,
+          )
+        : unavailableCompletionCriteria(
+            'The independent review exhausted its output allowance.',
+            b.message,
+          ),
+    });
+  });
+  await page.route('**/api/plan', (r) => {
+    const b = r.request().postDataJSON();
+    planCalls++;
+    if (b.execution.receipts.length) return r.fulfill({ json: finish });
+    if (changing)
+      return r.fulfill({
+        json: apply([
+          {
+            type: 'resize',
+            targets: [target],
+            axis: 'height',
+            mode: 'set',
+            value: 1.4,
+          },
+        ]),
+      });
+    return r.fulfill({
+      json: apply([
+        {
+          ...box('Unfamiliar study', 14, 0.7),
+          shape: 'sphere',
+          width: 0.7,
+          depth: 0.7,
+        },
+      ]),
+    });
+  });
+  await send(
+    page,
+    'Create one small spherical study at x=14; preserve my existing objects.',
+  );
+  await expect
+    .poll(async () => (await saved(page)).project.volumes.length, {
+      timeout: 60000,
+    })
+    .toBe(3);
+  const first = await saved(page);
+  target = first.project.volumes[2].id;
+  expect(planCalls).toBe(2);
+  expect(reviewCalls).toBe(1);
+  expect(first.project.volumes.slice(0, 2)).toEqual(before.project.volumes);
+  expect(first.past).toHaveLength(before.past.length + 1);
+  const history = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem('atelier.conversation.v2') || '[]'),
+  );
+  expect(history.at(-1).summary).toContain('incomplete verification');
+  await expect(
+    page.getByRole('log', { name: 'Design conversation' }),
+  ).toContainText('Changes applied with incomplete verification');
+  expect(JSON.stringify(history)).not.toContain('999');
+  await page.getByRole('button', { name: 'Undo', exact: true }).click();
+  await expect
+    .poll(async () => (await saved(page)).project)
+    .toEqual(before.project);
+  await page.getByRole('button', { name: 'Redo', exact: true }).click();
+  await expect
+    .poll(async () => (await saved(page)).project)
+    .toEqual(first.project);
+  changing = true;
+  await send(
+    page,
+    'Stretch the spherical study to 1.4 meters high. Keep its identity and the other objects.',
+  );
+  await expect
+    .poll(
+      async () =>
+        (await saved(page)).project.volumes.find((v: any) => v.id === target)
+          ?.dimensions.height,
+      { timeout: 60000 },
+    )
+    .toBe(1.4);
+  const edited = await saved(page);
+  expect(planCalls).toBe(4);
+  expect(reviewCalls).toBe(2);
+  expect(edited.project.volumes.slice(0, 2)).toEqual(before.project.volumes);
+  expect(edited.past).toHaveLength(first.past.length + 1);
+  await page.getByRole('button', { name: 'Undo', exact: true }).click();
+  await expect
+    .poll(async () => (await saved(page)).project)
+    .toEqual(first.project);
 });

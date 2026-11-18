@@ -376,7 +376,13 @@ export function createProvider(
                 textApi: options.textApi ?? 'responses',
                 maxOutputTokens: options.maxOutputTokens ?? 6000,
                 ...(/^(gpt-[56](?:[.-]|$)|o[134](?:-|$))/.test(model)
-                  ? { effort: 'high' as const }
+                  ? {
+                      effort:
+                        input.images?.length ||
+                        input.history.some((m) => m.images?.length)
+                          ? ('high' as const)
+                          : ('low' as const),
+                    }
                   : {}),
               },
               signal,

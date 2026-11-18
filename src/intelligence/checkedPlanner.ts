@@ -175,11 +175,17 @@ export async function stagedPlan(
     progress('Checking the result against your request…');
     verification = await options.verifyCompletion!(session);
     checkAbort();
-    if (verification.passed) return;
+    if (verification.status !== 'incorrect') {
+      if (!verification.canCommit)
+        throw new Error(
+          'Verification is incomplete and could not establish the permitted edit scope. No changes were applied.',
+        );
+      return;
+    }
     if (repairs++ >= maxRepairs)
       throw new Error(
         `The request could not be verified: ${verification.checks
-          .filter((c) => !c.met)
+          .filter((c) => c.outcome === 'incorrect')
           .slice(0, 4)
           .map((c) => `${c.label}: ${c.observed}`)
           .join(' ')} Your project is unchanged.`,
@@ -494,7 +500,8 @@ export async function stagedPlan(
     ...finalPlan,
     intent: 'apply',
     operations,
-    ...(verification?.passed && verification.modeling
+    ...(verification &&
+    (verification.modeling || verification.status !== 'verified')
       ? { message: completionSummary(verification) }
       : {}),
     brief: brief ?? finalPlan.brief,

@@ -1,10 +1,14 @@
-import { expect, it } from 'vitest';
+import { expect, it, vi } from 'vitest';
 import { createProvider, completionRequestSchema } from '../../server/provider';
 import { createApi } from '../../server/app';
 import { sceneContext, defaultCamera, emptyContext } from './context';
 import { newSession } from './engine';
 import { criteria, measure } from '../../tests/fixtures/completion';
 import { conversationHistory } from './client';
+import {
+  compactCompletionCriteria,
+  expandCompletionWire,
+} from '../../server/completionWire';
 
 const message = 'Create three cubes with sides of two meters.';
 const input = () => ({
@@ -19,13 +23,19 @@ const input = () => ({
     { id: 'provisional', name: 'Cube', groupId: null, role: null, level: null },
   ],
 });
-const expected = criteria(
-  [measure('count', 'count', 3), measure('height', 'height', 2)],
-  [],
-  'three cubes',
+const expected = expandCompletionWire(
+  compactCompletionCriteria(
+    criteria(
+      [measure('count', 'count', 3), measure('height', 'height', 2)],
+      [],
+      'three cubes',
+    ),
+  ),
 );
 function response(api: string, value: unknown) {
-  const text = JSON.stringify(value);
+  const text = JSON.stringify(
+    compactCompletionCriteria(value as typeof expected),
+  );
   return new Response(
     JSON.stringify(
       api === 'responses'
@@ -85,6 +95,9 @@ it.each(['responses', 'chat_completions'] as const)(
     expect(data.original.conversation).not.toHaveProperty('lastBrief');
     expect(sent.store).toBe(false);
     expect(
+      api === 'responses' ? sent.reasoning.effort : sent.reasoning_effort,
+    ).toBe('low');
+    expect(
       api === 'responses'
         ? sent.text.format.strict
         : sent.response_format.json_schema.strict,
@@ -130,6 +143,60 @@ it('marks failed conversation turns without discarding context needed for a deli
   expect(history[0].content).toBe('Create a curved study');
   expect(history[1].content).toContain('no proposed changes were committed');
   expect(history[1].content).toContain('not pending work');
+});
+
+it('classifies an incomplete independent response once, preserves its cause, and never starts a modeling repair', async () => {
+  const warning = vi.spyOn(console, 'warn').mockImplementation(() => {});
+  let calls = 0;
+  const provider = createProvider(
+    'offline-only',
+    async () => {
+      calls++;
+      return Response.json({
+        id: 'incomplete',
+        object: 'response',
+        status: 'incomplete',
+        incomplete_details: { reason: 'max_output_tokens' },
+        output: [],
+        usage: { input_tokens: 3200, output_tokens: 6000, total_tokens: 9200 },
+      });
+    },
+    { agent: true, textApi: 'responses' },
+  );
+  try {
+    const result = await provider.completionCriteria!(input());
+    expect(calls).toBe(1);
+    expect(result.scopeKnown).toBe(false);
+    expect(result.checks[0].requirement.kind).toBe('unavailable');
+    expect(JSON.stringify(result)).toContain('max_output_tokens');
+    expect(JSON.stringify(result)).toContain('6000 output tokens');
+    expect(warning).toHaveBeenCalledWith(
+      'Independent review incomplete',
+      expect.objectContaining({
+        status: 'max_output_tokens',
+        outputTokens: 6000,
+      }),
+    );
+  } finally {
+    warning.mockRestore();
+  }
+});
+
+it('keeps deeper independent interpretation for image references while text-only review uses low effort', async () => {
+  let sent: any;
+  const provider = createProvider(
+    'offline-only',
+    async (_url, init) => {
+      sent = JSON.parse(init!.body as string);
+      return response('responses', expected);
+    },
+    { agent: true, textApi: 'responses' },
+  );
+  await provider.completionCriteria!({
+    ...input(),
+    images: ['data:image/png;base64,aGVsbG8='],
+  });
+  expect(sent.reasoning.effort).toBe('high');
 });
 it('uses the protected API boundary for independent checks and fails closed without a verifier', async () => {
   let calls = 0;
@@ -204,7 +271,7 @@ it('uses the protected API boundary for independent checks and fails closed with
       },
     );
     expect(res.status).toBe(503);
-    expect((await res.json()).error).toContain('unchanged');
+    expect((await res.json()).error).toContain('unavailable');
   } finally {
     await new Promise<void>((r) => unavailable.close(() => r()));
   }

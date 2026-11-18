@@ -93,6 +93,8 @@ it('recovers the reproduced 64-operation failure by regrouping the entire 244-co
         return {
           modeling: true,
           passed: true,
+          status: 'verified',
+          canCommit: true,
           checks: [],
           qualitativeLimits: [],
         };

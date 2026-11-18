@@ -237,6 +237,7 @@ export async function assessRequirements(
     session: Session,
   ) => Volume[] = select,
   volumes = new Map<string, Promise<number>>(),
+  onUnavailable?: (reason: string) => void,
 ): Promise<BriefAssessment[]> {
   const volume = (v: Volume) => {
     if (isFlat(v)) return Promise.resolve(0);
@@ -421,6 +422,7 @@ export async function assessRequirements(
         error instanceof Error
           ? error.message
           : 'Could not evaluate requirement.';
+      onUnavailable?.(observed);
     }
     result.push({
       id: r.id,

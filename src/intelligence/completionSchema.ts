@@ -11,9 +11,89 @@ const identity = {
   id: z.string().min(1).max(60),
   label: z.string().min(1).max(200),
 };
+const point = z
+  .object({
+    x: z.number().min(-4000).max(4000),
+    y: z.number().min(-4000).max(4000),
+    z: z.number().min(-4000).max(4000),
+  })
+  .strict();
+const tolerance = z.number().min(0).max(0.1);
+export const spatialRequirements = [
+  z
+    .object({
+      ...identity,
+      kind: z.literal('positions'),
+      selector: designSelector,
+      points: z.array(point).min(1).max(MAX_SCENE_OBJECTS),
+      tolerance,
+    })
+    .strict(),
+  z
+    .object({
+      ...identity,
+      kind: z.literal('radial'),
+      selector: designSelector,
+      center: point,
+      plane: z.enum(['xy', 'xz', 'yz']),
+      radius: z.number().positive().max(2000),
+      count: z.number().int().min(1).max(MAX_SCENE_OBJECTS),
+      start: z.number().finite(),
+      step: z.number().finite(),
+      tolerance,
+    })
+    .strict(),
+  z
+    .object({
+      ...identity,
+      kind: z.literal('group'),
+      selector: designSelector,
+      name: z.string().min(1).max(200),
+      exclusive: z.boolean(),
+    })
+    .strict(),
+  z
+    .object({
+      ...identity,
+      kind: z.literal('editable'),
+      selector: designSelector,
+    })
+    .strict(),
+  z
+    .object({
+      ...identity,
+      kind: z.literal('relationship'),
+      first: designSelector,
+      second: designSelector,
+      relation: z.enum([
+        'touching',
+        'disjoint',
+        'intersects',
+        'contained',
+        'distance',
+      ]),
+      quantifier: z.enum(['each', 'all', 'any']),
+      distance: z.number().min(0).max(2000),
+      tolerance,
+    })
+    .strict(),
+  z
+    .object({
+      ...identity,
+      kind: z.literal('region'),
+      selector: designSelector,
+      center: point,
+      size: point,
+      rotation: z.number().finite(),
+      occupancy: z.enum(['empty', 'filled']),
+      tolerance,
+    })
+    .strict(),
+] as const;
 export const completionCriteriaSchema = z
   .object({
     modeling: z.boolean(),
+    scopeKnown: z.boolean().optional(),
     editable: z.array(z.string().min(1).max(100)).max(MAX_SCENE_OBJECTS),
     checks: z
       .array(
@@ -23,6 +103,7 @@ export const completionCriteriaSchema = z
             evidence: z.string().min(1).max(400),
             requirement: z.union([
               designRequirement,
+              ...spatialRequirements,
               z
                 .object({
                   ...identity,
@@ -74,13 +155,18 @@ export const completionReportSchema = z
   .object({
     modeling: z.boolean(),
     passed: z.boolean(),
+    status: z.enum(['verified', 'incorrect', 'unverified']),
+    canCommit: z.boolean(),
     checks: z
       .array(
         briefAssessmentSchema
-          .extend({ ids: z.array(z.string().max(100)).max(16) })
+          .extend({
+            ids: z.array(z.string().max(100)).max(16),
+            outcome: z.enum(['verified', 'incorrect', 'unverified']),
+          })
           .strict(),
       )
-      .max(34),
+      .max(35),
     qualitativeLimits: z.array(z.string().max(300)).max(8),
   })
   .strict();

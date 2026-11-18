@@ -146,8 +146,7 @@ export function createApi(
   app.post('/api/completion-criteria', async (req, res) => {
     if (!provider?.agent || !provider.completionCriteria) {
       res.status(503).json({
-        error:
-          'Independent completion verification is unavailable. Your project is unchanged.',
+        error: 'Independent completion verification is unavailable.',
       });
       return;
     }
@@ -173,7 +172,7 @@ export function createApi(
         res.status(502).json({
           error: providerErrorMessage(
             error,
-            'Independent completion verification could not be completed. Your project is unchanged.',
+            'Independent completion verification could not be completed.',
           ),
         });
     } finally {

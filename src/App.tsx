@@ -33,7 +33,10 @@ import { resolveCameraView } from './studio/cameraView';
 import { displaySummary } from './intelligence/conversationReply';
 import { stagedPlan, type PreparedPlan } from './intelligence/checkedPlanner';
 import { requestCompletionCriteria } from './intelligence/client';
-import { verifyCompletion } from './intelligence/completion';
+import {
+  verifyCompletion,
+  unavailableCompletionCriteria,
+} from './intelligence/completion';
 import type { CompletionCriteria } from './intelligence/completionSchema';
 import SectionPanel from './studio/SectionPanel';
 import { defaultSection, sectionRange } from './studio/section';
@@ -1271,15 +1274,26 @@ export default function App({
         {
           agent: connectionState.agentConfigured === true,
           verifyCompletion: async (candidate) => {
-            completionCriteria ??= await requestCompletionCriteria(
-              text,
-              original,
-              candidate,
-              frame,
-              history,
-              images,
-              AbortSignal.any([abort.signal, AbortSignal.timeout(150_000)]),
-            );
+            if (!completionCriteria)
+              try {
+                completionCriteria = await requestCompletionCriteria(
+                  text,
+                  original,
+                  candidate,
+                  frame,
+                  history,
+                  images,
+                  AbortSignal.any([abort.signal, AbortSignal.timeout(150_000)]),
+                );
+              } catch (error) {
+                if (abort.signal.aborted) throw error;
+                completionCriteria = unavailableCompletionCriteria(
+                  error instanceof Error
+                    ? error.message
+                    : 'Independent review could not finish.',
+                  text,
+                );
+              }
             return verifyCompletion(
               completionCriteria,
               original,

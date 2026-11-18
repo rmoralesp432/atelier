@@ -63,14 +63,11 @@ export async function requestCompletionCriteria(
     }),
   });
   const data = await response.json().catch(() => {
-    throw new Error(
-      'Independent completion verification is unavailable. Your project is unchanged.',
-    );
+    throw new Error('Independent completion verification is unavailable.');
   });
   if (!response.ok)
     throw new Error(
-      data.error ||
-        'Independent completion verification failed. Your project is unchanged.',
+      data.error || 'Independent completion verification could not finish.',
     );
   return completionCriteriaSchema.parse(data);
 }

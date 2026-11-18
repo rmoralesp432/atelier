@@ -5,6 +5,7 @@ import { isFlat, envelopeBounds } from '../geometry/spatial';
 import { assessRequirements, preservedValue } from './designBrief';
 import type { DesignSelector } from './designBriefSchema';
 import { resolveIds, type Session } from './engine';
+import { physicalChecks } from './completionGeometry';
 import {
   completionCriteriaSchema,
   type CompletionCriteria,
@@ -23,11 +24,14 @@ export async function verifyCompletion(
   // Share expensive solid-volume measurements within this immutable candidate;
   // every repair/completion attempt gets a fresh cache.
   const volumes = new Map<string, Promise<number>>();
+  const physical = physicalChecks();
   const before = new Map(original.project.volumes.map((v) => [v.id, v]));
   const after = new Map(candidate.project.volumes.map((v) => [v.id, v]));
   const report: CompletionReport = {
     modeling: criteria.modeling,
     passed: false,
+    status: 'unverified',
+    canCommit: false,
     checks: [],
     qualitativeLimits: criteria.qualitativeLimits,
   };
@@ -37,11 +41,13 @@ export async function verifyCompletion(
     met: boolean,
     observed: string,
     ids: string[] = [],
+    unavailable = false,
   ) =>
     report.checks.push({
       id,
       label,
       met,
+      outcome: unavailable ? 'unverified' : met ? 'verified' : 'incorrect',
       observed: observed.slice(0, 800),
       ids: ids.slice(0, 16),
     });
@@ -65,6 +71,8 @@ export async function verifyCompletion(
       'Modeling request coverage',
       false,
       'Geometry changed but the independent review supplied no modeling requirements. Completion is unverified.',
+      [],
+      true,
     );
   if (criteria.modeling && !criteria.checks.length)
     add(
@@ -72,6 +80,8 @@ export async function verifyCompletion(
       'Modeling request coverage',
       false,
       'No measurable requirement was supplied. Successful tools alone cannot verify completion.',
+      [],
+      true,
     );
   if (
     new Set(criteria.checks.map((c) => c.requirement.id)).size !==
@@ -122,9 +132,29 @@ export async function verifyCompletion(
     );
   };
   // Scope comes from the user's request, not from whatever the agent touched.
-  const editable = new Set(
-    criteria.editable.length ? resolveIds(criteria.editable, original) : [],
-  );
+  let scopeKnown = criteria.scopeKnown !== false;
+  const editable = new Set<string>();
+  try {
+    if (criteria.editable.length)
+      resolveIds(
+        criteria.editable.map((ref) =>
+          original.project.groups?.some((g) => g.id === ref)
+            ? `$group:${ref}`
+            : ref,
+        ),
+        original,
+      ).forEach((id) => editable.add(id));
+  } catch {
+    scopeKnown = false;
+    add(
+      'edit-scope',
+      'Permitted edit scope',
+      false,
+      'The independent review could not resolve the original objects authorized to change. This is uncertain authorization, not evidence of incorrect geometry.',
+      [],
+      true,
+    );
+  }
   let expanded = true;
   while (expanded) {
     expanded = false;
@@ -139,6 +169,23 @@ export async function verifyCompletion(
       }
   }
   const collateral = changed.filter((v) => !editable.has(v.id));
+  const changedGroups = (original.project.groups ?? []).filter(
+    (g) =>
+      !equalData(
+        g,
+        candidate.project.groups?.find((next) => next.id === g.id),
+      ),
+  );
+  const collateralGroups = changedGroups.filter((g) => {
+    const explicit = criteria.editable.some((ref) =>
+      [g.id, `$group:${g.id}`, `$group:${g.name}`].includes(ref),
+    );
+    const members = original.project.volumes.filter((v) => v.groupId === g.id);
+    return (
+      !explicit &&
+      !(members.length > 0 && members.every((v) => editable.has(v.id)))
+    );
+  });
   const placement = (v: Volume | undefined, scene: Session) =>
     v
       ? `position(${v.position.x},${v.position.y},${v.position.z}), size(${v.dimensions.width},${v.dimensions.depth},${v.dimensions.height}), rotation ${v.rotation}, visible ${isVisible(v, scene.project)}`
@@ -146,17 +193,27 @@ export async function verifyCompletion(
   add(
     'preserved-scope',
     'Unrelated existing geometry',
-    !collateral.length,
-    collateral.length
-      ? `Restore unauthorized edits: ${collateral
-          .slice(0, 4)
-          .map(
-            (v) =>
-              `${v.name} (${v.id}): expected ${placement(v, original)}; observed ${placement(after.get(v.id), candidate)}`,
-          )
-          .join('; ')}. Preserve original identities and geometry.`
-      : `${before.size - editable.size} existing objects outside the requested edit scope are unchanged.`,
+    !collateral.length && !collateralGroups.length,
+    !scopeKnown && (collateral.length || collateralGroups.length)
+      ? 'Existing objects or groups changed, but the independent review could not determine the permitted edit scope. Keep the original project until that scope can be established.'
+      : collateralGroups.length
+        ? `Unrelated groups changed: ${collateralGroups
+            .map((g) => {
+              const next = candidate.project.groups?.find((n) => n.id === g.id);
+              return `${g.name}: expected visible ${g.visible}, locked ${g.locked}; observed ${next ? `visible ${next.visible}, locked ${next.locked}, name ${next.name}` : 'removed'}`;
+            })
+            .join('; ')}. Restore their original properties.`
+        : collateral.length
+          ? `Restore unauthorized edits: ${collateral
+              .slice(0, 4)
+              .map(
+                (v) =>
+                  `${v.name} (${v.id}): expected ${placement(v, original)}; observed ${placement(after.get(v.id), candidate)}`,
+              )
+              .join('; ')}. Preserve original identities and geometry.`
+          : `${before.size - editable.size} existing objects outside the requested edit scope are unchanged.`,
     collateral.map((v) => v.id),
+    !scopeKnown && (collateral.length > 0 || collateralGroups.length > 0),
   );
 
   for (const { requirement: r } of criteria.checks) {
@@ -164,7 +221,7 @@ export async function verifyCompletion(
     let ids: string[] = [];
     try {
       if (r.kind === 'unavailable') {
-        add(r.id, r.label, false, `Unverified: ${r.reason}`);
+        add(r.id, r.label, false, `Unverified: ${r.reason}`, [], true);
         continue;
       }
       if (r.kind === 'preserve') {
@@ -234,7 +291,7 @@ export async function verifyCompletion(
         );
       } else {
         ids = (
-          r.kind === 'relation'
+          r.kind === 'relation' || r.kind === 'relationship'
             ? [...select(r.first), ...select(r.second)]
             : select(r.selector)
         ).map((v) => v.id);
@@ -256,13 +313,38 @@ export async function verifyCompletion(
           throw new Error(
             'Relative tolerance is only meaningful for tessellated solid volume.',
           );
+        const measured = await physical(r, (s) => select(s), candidate);
+        if (measured) {
+          add(
+            r.id,
+            r.label,
+            measured.met,
+            measured.observed,
+            ids,
+            measured.unavailable,
+          );
+          continue;
+        }
+        // The remaining predicates belong to the legacy general measurement
+        // library; errors are unknown evidence, not proof of bad geometry.
+        let unavailable = false;
         const [result] = await assessRequirements(
-          [r],
+          [r as Parameters<typeof assessRequirements>[0][number]],
           candidate,
           (s) => select(s),
           volumes,
+          () => {
+            unavailable = true;
+          },
         );
-        add(result.id, result.label, result.met, result.observed, ids);
+        add(
+          result.id,
+          result.label,
+          result.met,
+          result.observed,
+          ids,
+          unavailable || (r.kind === 'shape' && !result.met),
+        );
       }
     } catch (error) {
       abort();
@@ -274,17 +356,29 @@ export async function verifyCompletion(
           ? error.message
           : 'The geometry check could not be evaluated.',
         ids,
+        true,
       );
     }
   }
   abort();
-  report.passed = report.checks.every((c) => c.met);
+  report.status = report.checks.some((c) => c.outcome === 'incorrect')
+    ? 'incorrect'
+    : report.checks.some((c) => c.outcome === 'unverified') ||
+        criteria.qualitativeLimits.length > 0
+      ? 'unverified'
+      : 'verified';
+  report.passed = report.status === 'verified';
+  // Unknown design qualities do not veto safe, undoable work. An unknown
+  // authorization scope must never permit changes to existing objects.
+  report.canCommit =
+    report.status !== 'incorrect' &&
+    !(!scopeKnown && (changed.length > 0 || changedGroups.length > 0));
   return report;
 }
 
 export function completionFeedback(report: CompletionReport) {
-  return `Independent completion checks failed. Tools ran, but the request is not complete. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. ${report.checks
-    .filter((c) => !c.met)
+  return `Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. ${report.checks
+    .filter((c) => c.outcome === 'incorrect')
     .map(
       (c) => `${c.id} (${c.label}): ${c.observed} Targets: ${c.ids.join(', ')}`,
     )
@@ -297,12 +391,42 @@ export function completionSummary(report: CompletionReport) {
       ]
     : [];
   return [
-    'Completed; measurable checks passed.',
+    report.status === 'verified'
+      ? 'Completed; measurable checks passed.'
+      : 'Changes applied with incomplete verification. I cannot yet confirm every requirement.',
+    ...report.checks
+      .filter((c) => c.outcome === 'unverified')
+      .map((c) => `${c.label}: ${c.observed}`),
     ...limits,
     ...report.checks
+      .filter((c) => c.outcome === 'verified')
       .slice(0, 6)
       .map((c) => `${c.label}: ${c.observed}`.slice(0, 210)),
   ]
     .join('\n')
     .slice(0, 2000);
+}
+
+export function unavailableCompletionCriteria(
+  reason: string,
+  request: string,
+): CompletionCriteria {
+  return {
+    modeling: true,
+    scopeKnown: false,
+    editable: [],
+    qualitativeLimits: [],
+    checks: [
+      {
+        source: 'request',
+        evidence: request.slice(0, 400),
+        requirement: {
+          kind: 'unavailable',
+          id: 'review-unavailable',
+          label: 'Independent review',
+          reason: reason.slice(0, 400),
+        },
+      },
+    ],
+  };
 }
