@@ -171,7 +171,11 @@ export function explorationTransform(
 
 /** Hosted elements keep their own sizes while their anchor locations follow a
  * host's move, yaw and envelope resize. Explicit child edits take precedence. */
-export function propagateHosted(before: Volume[], after: Volume[]): Volume[] {
+export function propagateHosted(
+  before: Volume[],
+  after: Volume[],
+  explicit = new Set<string>(),
+): Volume[] {
   const old = new Map(before.map((v) => [v.id, v]));
   const result = new Map(after.map((v) => [v.id, v]));
   const done = new Set<string>(),
@@ -188,6 +192,7 @@ export function propagateHosted(before: Volume[], after: Volume[]): Volume[] {
       oldHost = hostId ? old.get(hostId) : undefined;
     if (
       previous &&
+      !explicit.has(id) &&
       host &&
       oldHost &&
       v.position.x === previous.position.x &&

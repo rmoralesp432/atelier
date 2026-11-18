@@ -5,6 +5,7 @@ import type { OrganicDefinition } from '../geometry/organicSchema';
 import { solarPosition } from '../studio/solar';
 import { solarDay, shadowOnLevelGround } from '../studio/solarAnalysis';
 import { constructAssembly, remapCopiedHosts } from './assembly';
+import { editComponents } from './componentEdits';
 import {
   profileVolume,
   anchoredDimensions,
@@ -133,6 +134,7 @@ export function commitProject(s: Session, project: Project): Session {
   return { ...s, project, past: [...s.past.slice(-49), s.project], future: [] };
 }
 export function resolveIds(refs: string[], s: Session): string[] {
+  const existingIds = new Set(s.project.volumes.map((v) => v.id));
   const result = refs.flatMap((ref) =>
     ref === '$selected'
       ? s.project.selectedIds?.length
@@ -171,7 +173,7 @@ export function resolveIds(refs: string[], s: Session): string[] {
                       );
                     return [matches[0].id];
                   })()
-                : s.project.volumes.some((v) => v.id === ref)
+                : existingIds.has(ref)
                   ? [ref]
                   : (() => {
                       // Exact human labels are safe only when unambiguous across
@@ -200,7 +202,7 @@ export function resolveIds(refs: string[], s: Session): string[] {
     );
   const unique = [...new Set(result)];
   for (const id of unique)
-    if (!s.project.volumes.some((v) => v.id === id))
+    if (!existingIds.has(id))
       throw new Error(
         `Target ${JSON.stringify(id)} is no longer in the current scene. Use a current object ID, $created for the most recent creation, $name:Exact unique name, or $group:Exact group name. New IDs are allocated by execution; do not invent them.`,
       );
@@ -1853,6 +1855,15 @@ async function applyTransaction(
       s.context.lastCreatedIds = created.map((v) => v.id);
       focus(s, s.context.lastCreatedIds);
       reports.push(...created.map(report));
+    } else if (op.type === 'edit_components') {
+      const result = editComponents(s.project.volumes, op.edits, (refs) =>
+        resolveIds(refs, s),
+      );
+      s.project.volumes = result.volumes;
+      focus(s, result.ids);
+      reports.push(
+        `Coordinated ${result.ids.length} components in ${op.edits.length} shared edit sets; identities and construction recipes retained. Linked components followed their hosts once.`,
+      );
     } else if (op.type === 'move') {
       const d = directionVector(op.direction, camera);
       const vs = targets(op.targets, s);
@@ -2208,19 +2219,18 @@ async function applyTransaction(
       throw new Error('This change affects a locked group. Unlock it first.');
     if (s.project.volumes.length > MAX_VOLUMES)
       throw new Error(`This workspace supports up to ${MAX_VOLUMES} objects.`);
+    const oldById = new Map(operationBefore.map((v) => [v.id, v]));
     s.project.volumes.forEach((v) =>
-      validateVolume(
-        v,
-        v.geometry !== operationBefore.find((old) => old.id === v.id)?.geometry,
-      ),
+      validateVolume(v, v.geometry !== oldById.get(v.id)?.geometry),
     );
     s.context.lastOperation = op.type;
   }
   operationStarted(null, 0);
   validateWorkspaceEffects(s, effectiveOperations);
   if (beforeEdit) {
+    const previousById = new Map(beforeEdit.volumes.map((v) => [v.id, v]));
     for (const v of s.project.volumes) {
-      const previous = beforeEdit.volumes.find((old) => old.id === v.id);
+      const previous = previousById.get(v.id);
       if (
         !isProfile(v) &&
         !isReference(v) &&

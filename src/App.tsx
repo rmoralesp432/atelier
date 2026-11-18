@@ -1213,7 +1213,11 @@ export default function App({
         frame,
         async (working, feedback, execution) => {
           if (connectionState.agentConfigured) {
-            if (execution?.receipts.length) setWorkingProject(working.project);
+            // A budget recovery can restart from the original scene. Clear
+            // the discarded preview as well as the observation in that case.
+            setWorkingProject(
+              execution?.receipts.length ? working.project : null,
+            );
             const revision = (execution?.receipts ?? []).filter(
               (r) => r.created.length || r.changed.length || r.removed.length,
             ).length;

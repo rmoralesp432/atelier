@@ -145,7 +145,10 @@ test('phone hold opens actions, deletion is undoable, double tap focuses, and dr
     '1',
   );
   await page.waitForTimeout(400);
-  // Preserve a real double-tap interval even when software WebGL delays CDP replies.
+  // Keep synthetic short taps short even when software WebGL delays CDP
+  // replies. Resume rendering before checking the real camera result.
+  await page.clock.install();
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 60_000));
   const timestamp = Date.now() / 1000;
   for (let i = 0; i < 2; i++) {
     await cdp.send('Input.dispatchTouchEvent', {
@@ -159,11 +162,13 @@ test('phone hold opens actions, deletion is undoable, double tap focuses, and dr
       touchPoints: [],
     });
   }
+  await page.clock.resume();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-saved-view',
     'Garden pavilion',
   );
   await expect(actions).toBeHidden();
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 60_000));
   const emptyTime = Date.now() / 1000;
   for (let i = 0; i < 2; i++) {
     await cdp.send('Input.dispatchTouchEvent', {
@@ -186,12 +191,15 @@ test('phone hold opens actions, deletion is undoable, double tap focuses, and dr
       touchPoints: [],
     });
   }
+  await page.clock.resume();
   await expect(page.getByTestId('viewport')).toHaveAttribute(
     'data-saved-view',
     '',
   );
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 60_000));
   await touch('touchStart', [{ x, y, id: 3 }]);
   await touch('touchMove', [{ x: x + 50, y: y + 20, id: 3 }]);
+  await page.clock.resume();
   await page.waitForTimeout(650);
   await touch('touchEnd', []);
   await expect(actions).toBeHidden();

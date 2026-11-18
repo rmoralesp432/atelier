@@ -8,6 +8,7 @@ import { volumetricOperations } from './volumetricSchema';
 import { designBriefSchema } from './designBriefSchema';
 import { designOperations } from '../design/schema';
 import { z } from 'zod';
+import { componentEditOperation } from './componentEdits';
 
 const ids = z.array(z.string().min(1).max(100)).min(1).max(MAX_SCENE_OBJECTS);
 const dimension = z.number().min(0.1).max(500);
@@ -89,6 +90,7 @@ const profilePoints = z
   .max(64);
 const formPosition = point;
 export const operationSchema = z.discriminatedUnion('type', [
+  componentEditOperation,
   ...organicOperations,
   ...sculptOperations,
   ...designOperations,

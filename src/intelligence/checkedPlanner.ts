@@ -28,6 +28,7 @@ export type CheckedResult = {
   labels?: Record<string, string>;
 };
 const modeledEdits = new Set([
+  'edit_components',
   'edit_blend',
   'sculpt',
   'smooth_boolean',
@@ -205,6 +206,14 @@ export async function stagedPlan(
     if (signal?.aborted)
       throw new Error('Stopped. No changes were applied to your project.');
   };
+  const initialExecution = (stage = 1): ExecutionContext => ({
+    stage,
+    remaining: maxStages - stage,
+    remainingOperations: 64,
+    next: 'Inspect the scene and execute the requested task using shared edit sets where appropriate.',
+    receipts,
+  });
+  if (options.agent) execution = initialExecution();
   for (let stage = 0; stage < maxStages; stage++) {
     let feedback: ValidationFeedback | undefined = continuationFeedback;
     continuationFeedback = undefined;
@@ -268,12 +277,39 @@ export async function stagedPlan(
           stages: 0,
         };
       }
-      if (operations.length + plan.operations.length > 64)
-        throw new Error(
-          'This design exceeded the 64-operation transaction budget. Nothing was applied; split it into smaller design requests.',
-        );
+      if (operations.length + plan.operations.length > 64) {
+        if (!options.agent || repairs++ >= maxRepairs)
+          throw new Error(
+            'The coordinated edit could not be completed within the transaction budget. Your project is unchanged.',
+          );
+        // Retry the whole PRIVATE proposal from its original scene. Otherwise
+        // a fully consumed budget leaves no room for the agent to regroup it.
+        // Recovery shares the existing bounded repair allowance, never raises
+        // the operation/stage limits, and never installs a partial project.
+        const attempted = operations.length + plan.operations.length;
+        session = original;
+        operations.length = receipts.length = reports.length = 0;
+        assumptions.clear();
+        for (const id of Object.keys(labels)) delete labels[id];
+        original.project.volumes.forEach((v) => {
+          labels[v.id] = v.name;
+        });
+        stages = 0;
+        finalPlan = undefined;
+        brief = declaredBrief = undefined;
+        assessment = [];
+        scopeOriginal = original;
+        historyPrefix = [];
+        // Previously executed steps still consume the request's work budget.
+        execution = initialExecution(stage + 1);
+        feedback = {
+          error: `The proposal needed ${attempted} operations, exceeding the 64-operation transaction budget. ALL provisional steps were discarded; the supplied scene is the unchanged original. Replan the complete request using shared target sets: move/resize for common transforms or edit_components for coordinated resize/translation sets. Do not repeat completed-step assumptions, recreate existing parts, reduce the requested scope, or ask the user to split the request.`,
+          operations: [],
+        };
+        continue;
+      }
       if (
-        stage &&
+        stages &&
         plan.operations.some((op) => op.type === 'undo' || op.type === 'redo')
       )
         throw new Error(
@@ -388,6 +424,7 @@ export async function stagedPlan(
     execution = {
       stage: stage + 2,
       remaining: maxStages - stage - 2,
+      remainingOperations: 64 - operations.length,
       next:
         finalPlan.planning?.next ??
         'Correct unmet design requirements, preserving completed geometry.',
