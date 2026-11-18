@@ -1,0 +1,363 @@
+{
+  "modeling": true,
+  "editable": [],
+  "checks": [
+    {
+      "source": "request",
+      "evidence": "Make the six pieces independently editable",
+      "requirement": {
+        "id": "piece-count",
+        "label": "Exactly six new pieces",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "metric": "count",
+        "aggregation": "sum",
+        "comparison": "equal",
+        "value": 6,
+        "tolerance": 0,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Both horizontal shelves",
+      "requirement": {
+        "id": "shelf-count",
+        "label": "Two shelves",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "shelf"
+        },
+        "metric": "count",
+        "aggregation": "sum",
+        "comparison": "equal",
+        "value": 2,
+        "tolerance": 0,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Both horizontal shelves are 2.6 m wide along X",
+      "requirement": {
+        "id": "shelf-width",
+        "label": "Each shelf is 2.6 m wide",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "shelf"
+        },
+        "metric": "width",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 2.6,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "0.9 m deep along Z",
+      "requirement": {
+        "id": "shelf-depth",
+        "label": "Each shelf is 0.9 m deep",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "shelf"
+        },
+        "metric": "depth",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.9,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "12 cm thick",
+      "requirement": {
+        "id": "shelf-thickness",
+        "label": "Each horizontal shelf is 0.12 m thick",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "shelf"
+        },
+        "metric": "height",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.12,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "centered at x=5 m, z=2 m. Both horizontal shelves are 2.6 m wide along X, 0.9 m deep along Z and 12 cm thick. The lower shelf rests on the ground; the underside of the upper shelf is 1.44 m above ground.",
+      "requirement": {
+        "id": "shelf-layout",
+        "label": "Axis-aligned shelves centered at X=5, Z=2, with bases at Y=0 and Y=1.44",
+        "kind": "layout",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "shelf"
+        },
+        "origin": {
+          "x": 5,
+          "y": 0,
+          "z": 2
+        },
+        "counts": {
+          "x": 1,
+          "y": 2,
+          "z": 1
+        },
+        "step": {
+          "x": 0,
+          "y": 1.44,
+          "z": 0
+        },
+        "rotation": 0,
+        "tolerance": 0.001
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Four round posts",
+      "requirement": {
+        "id": "post-count",
+        "label": "Four separate posts",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "post"
+        },
+        "metric": "count",
+        "aggregation": "sum",
+        "comparison": "equal",
+        "value": 4,
+        "tolerance": 0,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Four round posts, 14 cm in diameter",
+      "requirement": {
+        "id": "post-shape",
+        "label": "Round cylindrical posts",
+        "kind": "shape",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "post"
+        },
+        "shape": "cylinder"
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "14 cm in diameter",
+      "requirement": {
+        "id": "post-width",
+        "label": "Each post has a 0.14 m diameter along X",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "post"
+        },
+        "metric": "width",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.14,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "14 cm in diameter",
+      "requirement": {
+        "id": "post-depth",
+        "label": "Each post has a 0.14 m diameter along Z",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "post"
+        },
+        "metric": "depth",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.14,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Their centers are inset 18 cm from each pair of shelf edges.",
+      "requirement": {
+        "id": "post-layout",
+        "label": "Four corner posts inset 0.18 m, beginning at the lower shelf top",
+        "kind": "layout",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "post"
+        },
+        "origin": {
+          "x": 3.88,
+          "y": 0.12,
+          "z": 1.73
+        },
+        "counts": {
+          "x": 2,
+          "y": 1,
+          "z": 2
+        },
+        "step": {
+          "x": 2.24,
+          "y": 0,
+          "z": 0.54
+        },
+        "rotation": 0,
+        "tolerance": 0.001
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "connect the top of the lower shelf to the underside of the upper one",
+      "requirement": {
+        "id": "post-base",
+        "label": "Every post begins at the lower shelf's top, Y=0.12",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "post"
+        },
+        "metric": "base",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.12,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "the underside of the upper shelf is 1.44 m above ground. Four round posts, 14 cm in diameter, connect the top of the lower shelf to the underside of the upper one.",
+      "requirement": {
+        "id": "post-top",
+        "label": "Every post ends at the upper shelf's underside, Y=1.44",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "post"
+        },
+        "metric": "top",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 1.44,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Make the six pieces independently editable",
+      "requirement": {
+        "id": "independent-editability",
+        "label": "Each of the six pieces is independently editable",
+        "kind": "unavailable",
+        "reason": "The six-object count is measurable, but the available checks cannot inspect independent editing controls or editability."
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "group them as Display stand",
+      "requirement": {
+        "id": "display-stand-group",
+        "label": "All six pieces belong to one group named Display stand",
+        "kind": "unavailable",
+        "reason": "The available checks cannot assert group membership or group name; groupId is not an assertable property."
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Keep everything that was already in the scene unchanged.",
+      "requirement": {
+        "id": "preserve-original-scene",
+        "label": "Preserve both original objects completely",
+        "kind": "preserve",
+        "selector": {
+          "refs": [
+            "$original"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "properties": [
+          "all"
+        ]
+      }
+    }
+  ],
+  "qualitativeLimits": []
+}

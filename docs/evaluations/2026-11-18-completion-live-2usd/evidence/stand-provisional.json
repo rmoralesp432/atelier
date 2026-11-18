@@ -1,0 +1,291 @@
+{
+  "project": {
+    "volumes": [
+      {
+        "id": "764c640d-4a76-443b-89f1-092fe0bfa6d0",
+        "name": "Existing post",
+        "dimensions": {
+          "width": 0.4,
+          "depth": 0.4,
+          "height": 1.5
+        },
+        "position": {
+          "x": -7,
+          "y": 0,
+          "z": 1
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        }
+      },
+      {
+        "id": "2be7312e-c911-4c4c-9172-f2f9d7bf1f1a",
+        "name": "Existing shelf",
+        "dimensions": {
+          "width": 1.8,
+          "depth": 0.9,
+          "height": 0.16
+        },
+        "position": {
+          "x": -8,
+          "y": 0.6,
+          "z": -2
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        }
+      },
+      {
+        "id": "420879fd-6dcb-4571-9a6d-77676c35e84f",
+        "name": "Display stand lower shelf",
+        "dimensions": {
+          "width": 2.6,
+          "depth": 0.9,
+          "height": 0.12
+        },
+        "position": {
+          "x": 5,
+          "y": 0,
+          "z": 2
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "material": "solid",
+        "color": "#e2e7e6",
+        "groupId": "b9fd1cc9-2f99-48ec-9280-1b3174e3dff6",
+        "component": {
+          "role": "panel",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "a73f7eaa-f7a8-4027-8798-fec6acffac4d",
+        "name": "Display stand upper shelf",
+        "dimensions": {
+          "width": 2.6,
+          "depth": 0.9,
+          "height": 0.12
+        },
+        "position": {
+          "x": 5,
+          "y": 1.44,
+          "z": 2
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "material": "solid",
+        "color": "#e2e7e6",
+        "groupId": "b9fd1cc9-2f99-48ec-9280-1b3174e3dff6",
+        "component": {
+          "role": "panel",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "83ec5ddd-a779-4bc9-b2b5-c0703b3fc361",
+        "name": "Display stand post 1",
+        "dimensions": {
+          "width": 0.14,
+          "depth": 0.14,
+          "height": 1.32
+        },
+        "position": {
+          "x": 3.88,
+          "y": 0.12,
+          "z": 1.73
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "material": "solid",
+        "color": "#e2e7e6",
+        "groupId": "b9fd1cc9-2f99-48ec-9280-1b3174e3dff6",
+        "component": {
+          "role": "column",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "50ed4f9c-79dd-4c52-a0fd-9e12ad6e1162",
+        "name": "Display stand post 2",
+        "dimensions": {
+          "width": 0.14,
+          "depth": 0.14,
+          "height": 1.32
+        },
+        "position": {
+          "x": 6.12,
+          "y": 0.12,
+          "z": 1.73
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "material": "solid",
+        "color": "#e2e7e6",
+        "groupId": "b9fd1cc9-2f99-48ec-9280-1b3174e3dff6",
+        "component": {
+          "role": "column",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "d40c85f1-fa84-452b-90c4-2ed47f5c521d",
+        "name": "Display stand post 3",
+        "dimensions": {
+          "width": 0.14,
+          "depth": 0.14,
+          "height": 1.32
+        },
+        "position": {
+          "x": 3.88,
+          "y": 0.12,
+          "z": 2.27
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "material": "solid",
+        "color": "#e2e7e6",
+        "groupId": "b9fd1cc9-2f99-48ec-9280-1b3174e3dff6",
+        "component": {
+          "role": "column",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "5ea9e471-b3de-4646-8152-e3dfc229a6d7",
+        "name": "Display stand post 4",
+        "dimensions": {
+          "width": 0.14,
+          "depth": 0.14,
+          "height": 1.32
+        },
+        "position": {
+          "x": 6.12,
+          "y": 0.12,
+          "z": 2.27
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "material": "solid",
+        "color": "#e2e7e6",
+        "groupId": "b9fd1cc9-2f99-48ec-9280-1b3174e3dff6",
+        "component": {
+          "role": "column",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      }
+    ],
+    "selectedId": "5ea9e471-b3de-4646-8152-e3dfc229a6d7",
+    "groups": [
+      {
+        "id": "b9fd1cc9-2f99-48ec-9280-1b3174e3dff6",
+        "name": "Display stand",
+        "visible": true,
+        "locked": false
+      }
+    ],
+    "selectedIds": [
+      "420879fd-6dcb-4571-9a6d-77676c35e84f",
+      "a73f7eaa-f7a8-4027-8798-fec6acffac4d",
+      "83ec5ddd-a779-4bc9-b2b5-c0703b3fc361",
+      "50ed4f9c-79dd-4c52-a0fd-9e12ad6e1162",
+      "d40c85f1-fa84-452b-90c4-2ed47f5c521d",
+      "5ea9e471-b3de-4646-8152-e3dfc229a6d7"
+    ]
+  },
+  "past": [
+    {
+      "volumes": [
+        {
+          "id": "764c640d-4a76-443b-89f1-092fe0bfa6d0",
+          "name": "Existing post",
+          "dimensions": {
+            "width": 0.4,
+            "depth": 0.4,
+            "height": 1.5
+          },
+          "position": {
+            "x": -7,
+            "y": 0,
+            "z": 1
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "cylinder"
+          }
+        },
+        {
+          "id": "2be7312e-c911-4c4c-9172-f2f9d7bf1f1a",
+          "name": "Existing shelf",
+          "dimensions": {
+            "width": 1.8,
+            "depth": 0.9,
+            "height": 0.16
+          },
+          "position": {
+            "x": -8,
+            "y": 0.6,
+            "z": -2
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          }
+        }
+      ],
+      "selectedId": null
+    }
+  ],
+  "future": [],
+  "context": {
+    "focusIds": [
+      "420879fd-6dcb-4571-9a6d-77676c35e84f",
+      "a73f7eaa-f7a8-4027-8798-fec6acffac4d",
+      "83ec5ddd-a779-4bc9-b2b5-c0703b3fc361",
+      "50ed4f9c-79dd-4c52-a0fd-9e12ad6e1162",
+      "d40c85f1-fa84-452b-90c4-2ed47f5c521d",
+      "5ea9e471-b3de-4646-8152-e3dfc229a6d7"
+    ],
+    "lastCreatedIds": [
+      "420879fd-6dcb-4571-9a6d-77676c35e84f",
+      "a73f7eaa-f7a8-4027-8798-fec6acffac4d",
+      "83ec5ddd-a779-4bc9-b2b5-c0703b3fc361",
+      "50ed4f9c-79dd-4c52-a0fd-9e12ad6e1162",
+      "d40c85f1-fa84-452b-90c4-2ed47f5c521d",
+      "5ea9e471-b3de-4646-8152-e3dfc229a6d7"
+    ],
+    "lastOperands": [],
+    "lastOperation": "assembly"
+  }
+}

@@ -1,0 +1,172 @@
+{
+  "project": {
+    "volumes": [
+      {
+        "id": "4cefeada-61d8-4042-a74c-b30e72b44bf8",
+        "name": "Existing post",
+        "dimensions": {
+          "width": 0.4,
+          "depth": 0.4,
+          "height": 1.5
+        },
+        "position": {
+          "x": -7,
+          "y": 0,
+          "z": 1
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        }
+      },
+      {
+        "id": "8f347ce9-eb15-4167-b744-b9721aa8ac3c",
+        "name": "Existing shelf",
+        "dimensions": {
+          "width": 1.8,
+          "depth": 0.9,
+          "height": 0.16
+        },
+        "position": {
+          "x": -8,
+          "y": 0.6,
+          "z": -2
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        }
+      },
+      {
+        "id": "76438254-ee99-4bce-88cb-4c22aeef5cba",
+        "name": "Slotted mounting plate",
+        "dimensions": {
+          "width": 1.7999999999999998,
+          "height": 0.16,
+          "depth": 1
+        },
+        "position": {
+          "x": 6,
+          "y": 0,
+          "z": -3
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "boolean",
+          "operation": "subtract",
+          "operands": [
+            {
+              "id": "76438254-ee99-4bce-88cb-4c22aeef5cba",
+              "name": "Slotted mounting plate",
+              "dimensions": {
+                "width": 1.8,
+                "depth": 1,
+                "height": 0.16
+              },
+              "position": {
+                "x": 6,
+                "y": 0,
+                "z": -3
+              },
+              "rotation": 0,
+              "geometry": {
+                "kind": "box"
+              }
+            },
+            {
+              "id": "7c07d712-0557-4cff-8659-bfb21ca08bb0",
+              "name": "Mounting plate slot cutter",
+              "dimensions": {
+                "width": 0.46,
+                "depth": 0.28,
+                "height": 0.32
+              },
+              "position": {
+                "x": 6.36,
+                "y": 0,
+                "z": -3.19
+              },
+              "rotation": 0,
+              "geometry": {
+                "kind": "box"
+              }
+            }
+          ],
+          "origin": {
+            "x": 6,
+            "y": 0,
+            "z": -3
+          },
+          "base": {
+            "width": 1.7999999999999998,
+            "height": 0.16,
+            "depth": 1
+          },
+          "opening": false
+        },
+        "material": "solid"
+      }
+    ],
+    "selectedId": "76438254-ee99-4bce-88cb-4c22aeef5cba",
+    "selectedIds": [
+      "76438254-ee99-4bce-88cb-4c22aeef5cba"
+    ]
+  },
+  "past": [
+    {
+      "volumes": [
+        {
+          "id": "4cefeada-61d8-4042-a74c-b30e72b44bf8",
+          "name": "Existing post",
+          "dimensions": {
+            "width": 0.4,
+            "depth": 0.4,
+            "height": 1.5
+          },
+          "position": {
+            "x": -7,
+            "y": 0,
+            "z": 1
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "cylinder"
+          }
+        },
+        {
+          "id": "8f347ce9-eb15-4167-b744-b9721aa8ac3c",
+          "name": "Existing shelf",
+          "dimensions": {
+            "width": 1.8,
+            "depth": 0.9,
+            "height": 0.16
+          },
+          "position": {
+            "x": -8,
+            "y": 0.6,
+            "z": -2
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          }
+        }
+      ],
+      "selectedId": null
+    }
+  ],
+  "future": [],
+  "context": {
+    "focusIds": [
+      "76438254-ee99-4bce-88cb-4c22aeef5cba"
+    ],
+    "lastCreatedIds": [
+      "7c07d712-0557-4cff-8659-bfb21ca08bb0"
+    ],
+    "lastOperands": [
+      "76438254-ee99-4bce-88cb-4c22aeef5cba",
+      "7c07d712-0557-4cff-8659-bfb21ca08bb0"
+    ],
+    "lastOperation": "material"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "project": {
+    "volumes": [
+      {
+        "id": "4cefeada-61d8-4042-a74c-b30e72b44bf8",
+        "name": "Existing post",
+        "dimensions": {
+          "width": 0.4,
+          "depth": 0.4,
+          "height": 1.5
+        },
+        "position": {
+          "x": -7,
+          "y": 0,
+          "z": 1
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        }
+      },
+      {
+        "id": "8f347ce9-eb15-4167-b744-b9721aa8ac3c",
+        "name": "Existing shelf",
+        "dimensions": {
+          "width": 1.8,
+          "depth": 0.9,
+          "height": 0.16
+        },
+        "position": {
+          "x": -8,
+          "y": 0.6,
+          "z": -2
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        }
+      }
+    ],
+    "selectedId": null
+  },
+  "past": [],
+  "future": [],
+  "context": {
+    "focusIds": [],
+    "lastCreatedIds": [],
+    "lastOperands": [],
+    "lastOperation": null
+  }
+}

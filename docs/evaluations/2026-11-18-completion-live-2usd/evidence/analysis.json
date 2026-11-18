@@ -1,0 +1,1177 @@
+{
+  "model": "gpt-6.1-sol",
+  "productionCommit": "6b480a5002e1f6e332c76d06035a1c51ab67c6ce",
+  "ceilingUsd": 2,
+  "calls": 22,
+  "estimatedUsd": 0.88729,
+  "reservedOrChargedWithMarginUsd": 1.1091125,
+  "unresolvedCalls": 0,
+  "results": [
+    {
+      "id": "ring",
+      "status": "FAILED_OR_BLOCKED",
+      "error": "Connection error.",
+      "paidCalls": 8,
+      "cost": {
+        "calls": 8,
+        "estimatedUsd": 0.33172799999999997,
+        "unresolvedReservationsUsd": 0,
+        "reviewerUsd": 0.03555,
+        "addedAfterFirstCompletionAttemptUsd": 0.26423199999999997,
+        "addedRepairCalls": 5,
+        "addedRepairApiMs": 62278
+      },
+      "totalMs": 123389.034616,
+      "firstCompletionAttemptMs": 12699.445124000002,
+      "afterFirstCompletionAttemptMs": 110689.589492,
+      "reviewerMs": 47813,
+      "hostChecksMs": 7.8022820000041975,
+      "observationsMs": 903.1222809999999,
+      "candidateSnapshot": "ring-provisional",
+      "candidateEvidence": [
+        {
+          "id": "unrelated-geometry",
+          "passed": true,
+          "expected": "All originals outside the requested edit are identical",
+          "observed": []
+        },
+        {
+          "id": "count",
+          "passed": true,
+          "expected": 7,
+          "observed": 7
+        },
+        {
+          "id": "solid-0",
+          "passed": true,
+          "expected": {
+            "bounds": {
+              "min": [
+                4.54,
+                0,
+                -2.11
+              ],
+              "max": [
+                4.760000000000001,
+                1.1,
+                -1.89
+              ]
+            },
+            "volume": 0.041747460409166506
+          },
+          "observed": {
+            "id": "56a279ca-bb5e-48e3-bd8a-53167f1c07b6",
+            "bounds": {
+              "min": [
+                4.54,
+                0,
+                -2.11
+              ],
+              "max": [
+                4.760000000000001,
+                1.1,
+                -1.89
+              ]
+            },
+            "volume": 0.041747460409166506
+          }
+        },
+        {
+          "id": "solid-1",
+          "passed": true,
+          "expected": {
+            "bounds": {
+              "min": [
+                3.91875817306691,
+                0,
+                -3.400021946072249
+              ],
+              "max": [
+                4.13875817306691,
+                1.1,
+                -3.1800219460722494
+              ]
+            },
+            "volume": 0.04174746040916647
+          },
+          "observed": {
+            "id": "c1867205-6ff1-42e9-9081-37d125defc6e",
+            "bounds": {
+              "min": [
+                3.91875817306691,
+                0,
+                -3.4000219460722487
+              ],
+              "max": [
+                4.13875817306691,
+                1.1,
+                -3.180021946072249
+              ]
+            },
+            "volume": 0.041747460409166486
+          }
+        },
+        {
+          "id": "solid-2",
+          "passed": true,
+          "expected": {
+            "bounds": {
+              "min": [
+                2.5228404589720816,
+                0,
+                -3.718631055100009
+              ],
+              "max": [
+                2.7428404589720814,
+                1.1,
+                -3.498631055100009
+              ]
+            },
+            "volume": 0.04174746040916646
+          },
+          "observed": {
+            "id": "07868edc-7afd-4c01-9c38-10d9f471268e",
+            "bounds": {
+              "min": [
+                2.5228404589720816,
+                0,
+                -3.718631055100009
+              ],
+              "max": [
+                2.7428404589720814,
+                1.1,
+                -3.498631055100009
+              ]
+            },
+            "volume": 0.04174746040916646
+          }
+        },
+        {
+          "id": "solid-3",
+          "passed": true,
+          "expected": {
+            "bounds": {
+              "min": [
+                1.4034013679610087,
+                0,
+                -2.825908169543971
+              ],
+              "max": [
+                1.6234013679610089,
+                1.1,
+                -2.605908169543971
+              ]
+            },
+            "volume": 0.04174746040916645
+          },
+          "observed": {
+            "id": "0f94c1f7-6830-432b-857d-dd64f3d1fb43",
+            "bounds": {
+              "min": [
+                1.4034013679610087,
+                0,
+                -2.825908169543971
+              ],
+              "max": [
+                1.6234013679610089,
+                1.1,
+                -2.605908169543971
+              ]
+            },
+            "volume": 0.04174746040916645
+          }
+        },
+        {
+          "id": "solid-4",
+          "passed": true,
+          "expected": {
+            "bounds": {
+              "min": [
+                1.4034013679610085,
+                0,
+                -1.3940918304560295
+              ],
+              "max": [
+                1.6234013679610086,
+                1.1,
+                -1.1740918304560293
+              ]
+            },
+            "volume": 0.04174746040916646
+          },
+          "observed": {
+            "id": "27fa7919-a137-4ad1-80ac-f14a696c4a0b",
+            "bounds": {
+              "min": [
+                1.4034013679610087,
+                0,
+                -1.394091830456029
+              ],
+              "max": [
+                1.6234013679610089,
+                1.1,
+                -1.1740918304560288
+              ]
+            },
+            "volume": 0.04174746040916645
+          }
+        },
+        {
+          "id": "solid-5",
+          "passed": true,
+          "expected": {
+            "bounds": {
+              "min": [
+                2.522840458972081,
+                0,
+                -0.5013689448999911
+              ],
+              "max": [
+                2.742840458972081,
+                1.1,
+                -0.2813689448999911
+              ]
+            },
+            "volume": 0.04174746040916646
+          },
+          "observed": {
+            "id": "1f369e8f-4b08-44ff-82d8-c24331ffefcb",
+            "bounds": {
+              "min": [
+                2.5228404589720816,
+                0,
+                -0.5013689448999911
+              ],
+              "max": [
+                2.7428404589720814,
+                1.1,
+                -0.28136894489999104
+              ]
+            },
+            "volume": 0.04174746040916645
+          }
+        },
+        {
+          "id": "solid-6",
+          "passed": true,
+          "expected": {
+            "bounds": {
+              "min": [
+                3.91875817306691,
+                0,
+                -0.8199780539277507
+              ],
+              "max": [
+                4.13875817306691,
+                1.1,
+                -0.5999780539277507
+              ]
+            },
+            "volume": 0.04174746040916647
+          },
+          "observed": {
+            "id": "4c4c52ca-cce5-4f11-a4de-6cdb24d8cc5f",
+            "bounds": {
+              "min": [
+                3.91875817306691,
+                0,
+                -0.819978053927751
+              ],
+              "max": [
+                4.13875817306691,
+                1.1,
+                -0.599978053927751
+              ]
+            },
+            "volume": 0.041747460409166486
+          }
+        }
+      ],
+      "geometryReplay": null,
+      "existingGeometryPreserved": true,
+      "survivingRepairIdsRetained": true,
+      "completionAttempts": [
+        {
+          "atMs": 60538.474903,
+          "passed": false,
+          "geometryCorrect": false,
+          "failedChecks": [
+            {
+              "id": "peg-count",
+              "label": "Exactly seven new pegs",
+              "met": false,
+              "observed": "count (sum): 6; expected equal 7, tolerance 0. 6 element(s).",
+              "ids": [
+                "56a279ca-bb5e-48e3-bd8a-53167f1c07b6",
+                "c1867205-6ff1-42e9-9081-37d125defc6e",
+                "07868edc-7afd-4c01-9c38-10d9f471268e",
+                "0f94c1f7-6830-432b-857d-dd64f3d1fb43",
+                "27fa7919-a137-4ad1-80ac-f14a696c4a0b",
+                "1f369e8f-4b08-44ff-82d8-c24331ffefcb"
+              ]
+            },
+            {
+              "id": "regular-seven-peg-circle",
+              "label": "Seven equally spaced centers on the specified circle",
+              "met": false,
+              "observed": "Unverified: The required unordered set of base-center positions is (3 + 1.65*cos(2*pi*k/7), 0, -2 + 1.65*sin(2*pi*k/7)) for k=0 through 6, including (4.65, 0, -2). The available layout check supports Cartesian grids, not circular or explicit-point-set layouts; measure checks provide no radial or angular metric. These selectors also cannot assign unnamed pegs to expected positions without imposing an arbitrary",
+              "ids": []
+            }
+          ]
+        },
+        {
+          "atMs": 99216.027692,
+          "passed": false,
+          "geometryCorrect": true,
+          "failedChecks": [
+            {
+              "id": "regular-seven-peg-circle",
+              "label": "Seven equally spaced centers on the specified circle",
+              "met": false,
+              "observed": "Unverified: The required unordered set of base-center positions is (3 + 1.65*cos(2*pi*k/7), 0, -2 + 1.65*sin(2*pi*k/7)) for k=0 through 6, including (4.65, 0, -2). The available layout check supports Cartesian grids, not circular or explicit-point-set layouts; measure checks provide no radial or angular metric. These selectors also cannot assign unnamed pegs to expected positions without imposing an arbitrary",
+              "ids": []
+            }
+          ]
+        },
+        {
+          "atMs": 123369.685805,
+          "passed": false,
+          "geometryCorrect": true,
+          "failedChecks": [
+            {
+              "id": "regular-seven-peg-circle",
+              "label": "Seven equally spaced centers on the specified circle",
+              "met": false,
+              "observed": "Unverified: The required unordered set of base-center positions is (3 + 1.65*cos(2*pi*k/7), 0, -2 + 1.65*sin(2*pi*k/7)) for k=0 through 6, including (4.65, 0, -2). The available layout check supports Cartesian grids, not circular or explicit-point-set layouts; measure checks provide no radial or angular metric. These selectors also cannot assign unnamed pegs to expected positions without imposing an arbitrary",
+              "ids": []
+            }
+          ]
+        }
+      ],
+      "localProbes": [
+        {
+          "name": "missing-piece",
+          "expectedPass": false,
+          "passed": false,
+          "failedChecks": [
+            {
+              "id": "peg-count",
+              "label": "Exactly seven new pegs",
+              "met": false,
+              "observed": "count (sum): 6; expected equal 7, tolerance 0. 6 element(s).",
+              "ids": [
+                "c1867205-6ff1-42e9-9081-37d125defc6e",
+                "07868edc-7afd-4c01-9c38-10d9f471268e",
+                "0f94c1f7-6830-432b-857d-dd64f3d1fb43",
+                "27fa7919-a137-4ad1-80ac-f14a696c4a0b",
+                "1f369e8f-4b08-44ff-82d8-c24331ffefcb",
+                "4c4c52ca-cce5-4f11-a4de-6cdb24d8cc5f"
+              ]
+            },
+            {
+              "id": "regular-seven-peg-circle",
+              "label": "Seven equally spaced centers on the specified circle",
+              "met": false,
+              "observed": "Unverified: The required unordered set of base-center positions is (3 + 1.65*cos(2*pi*k/7), 0, -2 + 1.65*sin(2*pi*k/7)) for k=0 through 6, including (4.65, 0, -2). The available layout check supports Cartesian grids, not circular or explicit-point-set layouts; measure checks provide no radial or angular metric. These selectors also cannot assign unnamed pegs to expected positions without imposing an arbitrary",
+              "ids": []
+            }
+          ]
+        },
+        {
+          "name": "wrong-height",
+          "expectedPass": false,
+          "passed": false,
+          "failedChecks": [
+            {
+              "id": "peg-height",
+              "label": "Each peg is 1.1 m tall",
+              "met": false,
+              "observed": "height (each): 1.37, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1; expected equal 1.1, tolerance 0.001. 7 element(s).",
+              "ids": [
+                "56a279ca-bb5e-48e3-bd8a-53167f1c07b6",
+                "c1867205-6ff1-42e9-9081-37d125defc6e",
+                "07868edc-7afd-4c01-9c38-10d9f471268e",
+                "0f94c1f7-6830-432b-857d-dd64f3d1fb43",
+                "27fa7919-a137-4ad1-80ac-f14a696c4a0b",
+                "1f369e8f-4b08-44ff-82d8-c24331ffefcb",
+                "4c4c52ca-cce5-4f11-a4de-6cdb24d8cc5f"
+              ]
+            },
+            {
+              "id": "upright-peg-top",
+              "label": "Every upright peg reaches elevation y=1.1 m",
+              "met": false,
+              "observed": "top (each): 1.37, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1; expected equal 1.1, tolerance 0.001. 7 element(s).",
+              "ids": [
+                "56a279ca-bb5e-48e3-bd8a-53167f1c07b6",
+                "c1867205-6ff1-42e9-9081-37d125defc6e",
+                "07868edc-7afd-4c01-9c38-10d9f471268e",
+                "0f94c1f7-6830-432b-857d-dd64f3d1fb43",
+                "27fa7919-a137-4ad1-80ac-f14a696c4a0b",
+                "1f369e8f-4b08-44ff-82d8-c24331ffefcb",
+                "4c4c52ca-cce5-4f11-a4de-6cdb24d8cc5f"
+              ]
+            },
+            {
+              "id": "regular-seven-peg-circle",
+              "label": "Seven equally spaced centers on the specified circle",
+              "met": false,
+              "observed": "Unverified: The required unordered set of base-center positions is (3 + 1.65*cos(2*pi*k/7), 0, -2 + 1.65*sin(2*pi*k/7)) for k=0 through 6, including (4.65, 0, -2). The available layout check supports Cartesian grids, not circular or explicit-point-set layouts; measure checks provide no radial or angular metric. These selectors also cannot assign unnamed pegs to expected positions without imposing an arbitrary",
+              "ids": []
+            }
+          ]
+        },
+        {
+          "name": "wrong-placement",
+          "expectedPass": false,
+          "passed": false,
+          "failedChecks": [
+            {
+              "id": "regular-seven-peg-circle",
+              "label": "Seven equally spaced centers on the specified circle",
+              "met": false,
+              "observed": "Unverified: The required unordered set of base-center positions is (3 + 1.65*cos(2*pi*k/7), 0, -2 + 1.65*sin(2*pi*k/7)) for k=0 through 6, including (4.65, 0, -2). The available layout check supports Cartesian grids, not circular or explicit-point-set layouts; measure checks provide no radial or angular metric. These selectors also cannot assign unnamed pegs to expected positions without imposing an arbitrary",
+              "ids": []
+            }
+          ]
+        },
+        {
+          "name": "collateral-edit",
+          "expectedPass": false,
+          "passed": false,
+          "failedChecks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": false,
+              "observed": "Restore unauthorized edits: Existing post (4cefeada-61d8-4042-a74c-b30e72b44bf8): expected position(-7,0,1), size(0.4,0.4,1.5), rotation 0, visible true; observed position(-7,0,2), size(0.4,0.4,1.5), rotation 0, visible true. Preserve original identities and geometry.",
+              "ids": [
+                "4cefeada-61d8-4042-a74c-b30e72b44bf8"
+              ]
+            },
+            {
+              "id": "regular-seven-peg-circle",
+              "label": "Seven equally spaced centers on the specified circle",
+              "met": false,
+              "observed": "Unverified: The required unordered set of base-center positions is (3 + 1.65*cos(2*pi*k/7), 0, -2 + 1.65*sin(2*pi*k/7)) for k=0 through 6, including (4.65, 0, -2). The available layout check supports Cartesian grids, not circular or explicit-point-set layouts; measure checks provide no radial or angular metric. These selectors also cannot assign unnamed pegs to expected positions without imposing an arbitrary",
+              "ids": []
+            },
+            {
+              "id": "preserve-original-objects",
+              "label": "Preserve both existing objects completely",
+              "met": false,
+              "observed": "Preserved properties changed: Existing post (4cefeada-61d8-4042-a74c-b30e72b44bf8): all.",
+              "ids": [
+                "4cefeada-61d8-4042-a74c-b30e72b44bf8",
+                "8f347ce9-eb15-4167-b744-b9721aa8ac3c"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "equivalent-baked-solids",
+          "expectedPass": true,
+          "passed": false,
+          "failedChecks": [
+            {
+              "id": "round-peg-shape",
+              "label": "Each peg is cylindrical",
+              "met": false,
+              "observed": "7 matching element(s); shapes: mesh; expected cylinder.",
+              "ids": [
+                "56a279ca-bb5e-48e3-bd8a-53167f1c07b6",
+                "c1867205-6ff1-42e9-9081-37d125defc6e",
+                "07868edc-7afd-4c01-9c38-10d9f471268e",
+                "0f94c1f7-6830-432b-857d-dd64f3d1fb43",
+                "27fa7919-a137-4ad1-80ac-f14a696c4a0b",
+                "1f369e8f-4b08-44ff-82d8-c24331ffefcb",
+                "4c4c52ca-cce5-4f11-a4de-6cdb24d8cc5f"
+              ]
+            },
+            {
+              "id": "regular-seven-peg-circle",
+              "label": "Seven equally spaced centers on the specified circle",
+              "met": false,
+              "observed": "Unverified: The required unordered set of base-center positions is (3 + 1.65*cos(2*pi*k/7), 0, -2 + 1.65*sin(2*pi*k/7)) for k=0 through 6, including (4.65, 0, -2). The available layout check supports Cartesian grids, not circular or explicit-point-set layouts; measure checks provide no radial or angular metric. These selectors also cannot assign unnamed pegs to expected positions without imposing an arbitrary",
+              "ids": []
+            }
+          ]
+        },
+        {
+          "name": "equivalent-local-axes",
+          "expectedPass": true,
+          "passed": false,
+          "failedChecks": [
+            {
+              "id": "round-peg-shape",
+              "label": "Each peg is cylindrical",
+              "met": false,
+              "observed": "7 matching element(s); shapes: mesh; expected cylinder.",
+              "ids": [
+                "56a279ca-bb5e-48e3-bd8a-53167f1c07b6",
+                "c1867205-6ff1-42e9-9081-37d125defc6e",
+                "07868edc-7afd-4c01-9c38-10d9f471268e",
+                "0f94c1f7-6830-432b-857d-dd64f3d1fb43",
+                "27fa7919-a137-4ad1-80ac-f14a696c4a0b",
+                "1f369e8f-4b08-44ff-82d8-c24331ffefcb",
+                "4c4c52ca-cce5-4f11-a4de-6cdb24d8cc5f"
+              ]
+            },
+            {
+              "id": "regular-seven-peg-circle",
+              "label": "Seven equally spaced centers on the specified circle",
+              "met": false,
+              "observed": "Unverified: The required unordered set of base-center positions is (3 + 1.65*cos(2*pi*k/7), 0, -2 + 1.65*sin(2*pi*k/7)) for k=0 through 6, including (4.65, 0, -2). The available layout check supports Cartesian grids, not circular or explicit-point-set layouts; measure checks provide no radial or angular metric. These selectors also cannot assign unnamed pegs to expected positions without imposing an arbitrary",
+              "ids": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "stand",
+      "status": "FAILED_OR_BLOCKED",
+      "error": "Connection error.",
+      "paidCalls": 8,
+      "cost": {
+        "calls": 8,
+        "estimatedUsd": 0.32595799999999997,
+        "unresolvedReservationsUsd": 0,
+        "reviewerUsd": 0.0411,
+        "addedAfterFirstCompletionAttemptUsd": 0.21264,
+        "addedRepairCalls": 4,
+        "addedRepairApiMs": 27605
+      },
+      "totalMs": 94253.09853599999,
+      "firstCompletionAttemptMs": 24301.900035000013,
+      "afterFirstCompletionAttemptMs": 69951.19850099998,
+      "reviewerMs": 42290,
+      "hostChecksMs": 4.7948880000039935,
+      "observationsMs": 305.53526699998474,
+      "candidateSnapshot": "stand-provisional",
+      "candidateEvidence": [
+        {
+          "id": "unrelated-geometry",
+          "passed": true,
+          "expected": "All originals outside the requested edit are identical",
+          "observed": []
+        },
+        {
+          "id": "count",
+          "passed": true,
+          "expected": 6,
+          "observed": 6
+        },
+        {
+          "id": "solid-0",
+          "passed": true,
+          "expected": {
+            "bounds": {
+              "min": [
+                3.7,
+                0,
+                1.55
+              ],
+              "max": [
+                6.300000000000001,
+                0.12,
+                2.45
+              ]
+            },
+            "volume": 0.2808000000000001
+          },
+          "observed": {
+            "id": "420879fd-6dcb-4571-9a6d-77676c35e84f",
+            "bounds": {
+              "min": [
+                3.7,
+                0,
+                1.55
+              ],
+              "max": [
+                6.300000000000001,
+                0.12,
+                2.45
+              ]
+            },
+            "volume": 0.2808000000000001
+          }
+        },
+        {
+          "id": "solid-1",
+          "passed": true,
+          "expected": {
+            "bounds": {
+              "min": [
+                3.7,
+                1.44,
+                1.55
+              ],
+              "max": [
+                6.300000000000001,
+                1.56,
+                2.45
+              ]
+            },
+            "volume": 0.28080000000000016
+          },
+          "observed": {
+            "id": "a73f7eaa-f7a8-4027-8798-fec6acffac4d",
+            "bounds": {
+              "min": [
+                3.7,
+                1.44,
+                1.55
+              ],
+              "max": [
+                6.300000000000001,
+                1.56,
+                2.45
+              ]
+            },
+            "volume": 0.28080000000000016
+          }
+        },
+        {
+          "id": "solid-2",
+          "passed": true,
+          "expected": {
+            "bounds": {
+              "min": [
+                3.81,
+                0.12,
+                1.66
+              ],
+              "max": [
+                3.9499999999999997,
+                1.44,
+                1.8
+              ]
+            },
+            "volume": 0.02028719563685113
+          },
+          "observed": {
+            "id": "83ec5ddd-a779-4bc9-b2b5-c0703b3fc361",
+            "bounds": {
+              "min": [
+                3.81,
+                0.12,
+                1.66
+              ],
+              "max": [
+                3.9499999999999997,
+                1.44,
+                1.8
+              ]
+            },
+            "volume": 0.02028719563685113
+          }
+        },
+        {
+          "id": "solid-3",
+          "passed": true,
+          "expected": {
+            "bounds": {
+              "min": [
+                3.81,
+                0.12,
+                2.2
+              ],
+              "max": [
+                3.9499999999999997,
+                1.44,
+                2.34
+              ]
+            },
+            "volume": 0.02028719563685114
+          },
+          "observed": {
+            "id": "d40c85f1-fa84-452b-90c4-2ed47f5c521d",
+            "bounds": {
+              "min": [
+                3.81,
+                0.12,
+                2.2
+              ],
+              "max": [
+                3.9499999999999997,
+                1.44,
+                2.34
+              ]
+            },
+            "volume": 0.02028719563685114
+          }
+        },
+        {
+          "id": "solid-4",
+          "passed": true,
+          "expected": {
+            "bounds": {
+              "min": [
+                6.05,
+                0.12,
+                1.66
+              ],
+              "max": [
+                6.19,
+                1.44,
+                1.8
+              ]
+            },
+            "volume": 0.020287195636851177
+          },
+          "observed": {
+            "id": "50ed4f9c-79dd-4c52-a0fd-9e12ad6e1162",
+            "bounds": {
+              "min": [
+                6.05,
+                0.12,
+                1.66
+              ],
+              "max": [
+                6.19,
+                1.44,
+                1.8
+              ]
+            },
+            "volume": 0.020287195636851177
+          }
+        },
+        {
+          "id": "solid-5",
+          "passed": true,
+          "expected": {
+            "bounds": {
+              "min": [
+                6.05,
+                0.12,
+                2.2
+              ],
+              "max": [
+                6.19,
+                1.44,
+                2.34
+              ]
+            },
+            "volume": 0.020287195636851166
+          },
+          "observed": {
+            "id": "5ea9e471-b3de-4646-8152-e3dfc229a6d7",
+            "bounds": {
+              "min": [
+                6.05,
+                0.12,
+                2.2
+              ],
+              "max": [
+                6.19,
+                1.44,
+                2.34
+              ]
+            },
+            "volume": 0.020287195636851166
+          }
+        },
+        {
+          "id": "editable-assembly",
+          "passed": true,
+          "expected": "Six separate pieces in one group",
+          "observed": {
+            "groups": [
+              "b9fd1cc9-2f99-48ec-9280-1b3174e3dff6"
+            ],
+            "ids": [
+              "420879fd-6dcb-4571-9a6d-77676c35e84f",
+              "a73f7eaa-f7a8-4027-8798-fec6acffac4d",
+              "83ec5ddd-a779-4bc9-b2b5-c0703b3fc361",
+              "50ed4f9c-79dd-4c52-a0fd-9e12ad6e1162",
+              "d40c85f1-fa84-452b-90c4-2ed47f5c521d",
+              "5ea9e471-b3de-4646-8152-e3dfc229a6d7"
+            ]
+          }
+        }
+      ],
+      "geometryReplay": null,
+      "existingGeometryPreserved": true,
+      "survivingRepairIdsRetained": null,
+      "completionAttempts": [
+        {
+          "atMs": 66607.912031,
+          "passed": false,
+          "geometryCorrect": true,
+          "failedChecks": [
+            {
+              "id": "independent-editability",
+              "label": "Each of the six pieces is independently editable",
+              "met": false,
+              "observed": "Unverified: The six-object count is measurable, but the available checks cannot inspect independent editing controls or editability.",
+              "ids": []
+            },
+            {
+              "id": "display-stand-group",
+              "label": "All six pieces belong to one group named Display stand",
+              "met": false,
+              "observed": "Unverified: The available checks cannot assert group membership or group name; groupId is not an assertable property.",
+              "ids": []
+            }
+          ]
+        },
+        {
+          "atMs": 87514.17846000001,
+          "passed": false,
+          "geometryCorrect": true,
+          "failedChecks": [
+            {
+              "id": "independent-editability",
+              "label": "Each of the six pieces is independently editable",
+              "met": false,
+              "observed": "Unverified: The six-object count is measurable, but the available checks cannot inspect independent editing controls or editability.",
+              "ids": []
+            },
+            {
+              "id": "display-stand-group",
+              "label": "All six pieces belong to one group named Display stand",
+              "met": false,
+              "observed": "Unverified: The available checks cannot assert group membership or group name; groupId is not an assertable property.",
+              "ids": []
+            }
+          ]
+        }
+      ],
+      "localProbes": [
+        {
+          "name": "missing-piece",
+          "expectedPass": false,
+          "passed": false,
+          "failedChecks": [
+            {
+              "id": "piece-count",
+              "label": "Exactly six new pieces",
+              "met": false,
+              "observed": "count (sum): 5; expected equal 6, tolerance 0. 5 element(s).",
+              "ids": [
+                "a73f7eaa-f7a8-4027-8798-fec6acffac4d",
+                "83ec5ddd-a779-4bc9-b2b5-c0703b3fc361",
+                "50ed4f9c-79dd-4c52-a0fd-9e12ad6e1162",
+                "d40c85f1-fa84-452b-90c4-2ed47f5c521d",
+                "5ea9e471-b3de-4646-8152-e3dfc229a6d7"
+              ]
+            },
+            {
+              "id": "shelf-count",
+              "label": "Two shelves",
+              "met": false,
+              "observed": "count (sum): 1; expected equal 2, tolerance 0. 1 element(s).",
+              "ids": [
+                "a73f7eaa-f7a8-4027-8798-fec6acffac4d"
+              ]
+            },
+            {
+              "id": "shelf-layout",
+              "label": "Axis-aligned shelves centered at X=5, Z=2, with bases at Y=0 and Y=1.44",
+              "met": false,
+              "observed": "1/2 required base-center positions occupied; 1 selected element(s), 0 unmatched. Expected spacing (0, 1.44, 0) m at 0°.",
+              "ids": [
+                "a73f7eaa-f7a8-4027-8798-fec6acffac4d"
+              ]
+            },
+            {
+              "id": "independent-editability",
+              "label": "Each of the six pieces is independently editable",
+              "met": false,
+              "observed": "Unverified: The six-object count is measurable, but the available checks cannot inspect independent editing controls or editability.",
+              "ids": []
+            },
+            {
+              "id": "display-stand-group",
+              "label": "All six pieces belong to one group named Display stand",
+              "met": false,
+              "observed": "Unverified: The available checks cannot assert group membership or group name; groupId is not an assertable property.",
+              "ids": []
+            }
+          ]
+        },
+        {
+          "name": "wrong-height",
+          "expectedPass": false,
+          "passed": false,
+          "failedChecks": [
+            {
+              "id": "shelf-thickness",
+              "label": "Each horizontal shelf is 0.12 m thick",
+              "met": false,
+              "observed": "height (each): 0.39, 0.12; expected equal 0.12, tolerance 0.001. 2 element(s).",
+              "ids": [
+                "420879fd-6dcb-4571-9a6d-77676c35e84f",
+                "a73f7eaa-f7a8-4027-8798-fec6acffac4d"
+              ]
+            },
+            {
+              "id": "independent-editability",
+              "label": "Each of the six pieces is independently editable",
+              "met": false,
+              "observed": "Unverified: The six-object count is measurable, but the available checks cannot inspect independent editing controls or editability.",
+              "ids": []
+            },
+            {
+              "id": "display-stand-group",
+              "label": "All six pieces belong to one group named Display stand",
+              "met": false,
+              "observed": "Unverified: The available checks cannot assert group membership or group name; groupId is not an assertable property.",
+              "ids": []
+            }
+          ]
+        },
+        {
+          "name": "wrong-placement",
+          "expectedPass": false,
+          "passed": false,
+          "failedChecks": [
+            {
+              "id": "shelf-layout",
+              "label": "Axis-aligned shelves centered at X=5, Z=2, with bases at Y=0 and Y=1.44",
+              "met": false,
+              "observed": "1/2 required base-center positions occupied; 2 selected element(s), 1 unmatched. Expected spacing (0, 1.44, 0) m at 0°.",
+              "ids": [
+                "420879fd-6dcb-4571-9a6d-77676c35e84f",
+                "a73f7eaa-f7a8-4027-8798-fec6acffac4d"
+              ]
+            },
+            {
+              "id": "independent-editability",
+              "label": "Each of the six pieces is independently editable",
+              "met": false,
+              "observed": "Unverified: The six-object count is measurable, but the available checks cannot inspect independent editing controls or editability.",
+              "ids": []
+            },
+            {
+              "id": "display-stand-group",
+              "label": "All six pieces belong to one group named Display stand",
+              "met": false,
+              "observed": "Unverified: The available checks cannot assert group membership or group name; groupId is not an assertable property.",
+              "ids": []
+            }
+          ]
+        },
+        {
+          "name": "collateral-edit",
+          "expectedPass": false,
+          "passed": false,
+          "failedChecks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": false,
+              "observed": "Restore unauthorized edits: Existing post (764c640d-4a76-443b-89f1-092fe0bfa6d0): expected position(-7,0,1), size(0.4,0.4,1.5), rotation 0, visible true; observed position(-7,0,2), size(0.4,0.4,1.5), rotation 0, visible true. Preserve original identities and geometry.",
+              "ids": [
+                "764c640d-4a76-443b-89f1-092fe0bfa6d0"
+              ]
+            },
+            {
+              "id": "independent-editability",
+              "label": "Each of the six pieces is independently editable",
+              "met": false,
+              "observed": "Unverified: The six-object count is measurable, but the available checks cannot inspect independent editing controls or editability.",
+              "ids": []
+            },
+            {
+              "id": "display-stand-group",
+              "label": "All six pieces belong to one group named Display stand",
+              "met": false,
+              "observed": "Unverified: The available checks cannot assert group membership or group name; groupId is not an assertable property.",
+              "ids": []
+            },
+            {
+              "id": "preserve-original-scene",
+              "label": "Preserve both original objects completely",
+              "met": false,
+              "observed": "Preserved properties changed: Existing post (764c640d-4a76-443b-89f1-092fe0bfa6d0): all.",
+              "ids": [
+                "764c640d-4a76-443b-89f1-092fe0bfa6d0",
+                "2be7312e-c911-4c4c-9172-f2f9d7bf1f1a"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "equivalent-baked-solids",
+          "expectedPass": true,
+          "passed": false,
+          "failedChecks": [
+            {
+              "id": "post-shape",
+              "label": "Round cylindrical posts",
+              "met": false,
+              "observed": "4 matching element(s); shapes: mesh; expected cylinder.",
+              "ids": [
+                "83ec5ddd-a779-4bc9-b2b5-c0703b3fc361",
+                "50ed4f9c-79dd-4c52-a0fd-9e12ad6e1162",
+                "d40c85f1-fa84-452b-90c4-2ed47f5c521d",
+                "5ea9e471-b3de-4646-8152-e3dfc229a6d7"
+              ]
+            },
+            {
+              "id": "independent-editability",
+              "label": "Each of the six pieces is independently editable",
+              "met": false,
+              "observed": "Unverified: The six-object count is measurable, but the available checks cannot inspect independent editing controls or editability.",
+              "ids": []
+            },
+            {
+              "id": "display-stand-group",
+              "label": "All six pieces belong to one group named Display stand",
+              "met": false,
+              "observed": "Unverified: The available checks cannot assert group membership or group name; groupId is not an assertable property.",
+              "ids": []
+            }
+          ]
+        },
+        {
+          "name": "equivalent-local-axes",
+          "expectedPass": true,
+          "passed": false,
+          "failedChecks": [
+            {
+              "id": "shelf-width",
+              "label": "Each shelf is 2.6 m wide",
+              "met": false,
+              "observed": "width (each): 0.9, 0.9; expected equal 2.6, tolerance 0.001. 2 element(s).",
+              "ids": [
+                "420879fd-6dcb-4571-9a6d-77676c35e84f",
+                "a73f7eaa-f7a8-4027-8798-fec6acffac4d"
+              ]
+            },
+            {
+              "id": "shelf-depth",
+              "label": "Each shelf is 0.9 m deep",
+              "met": false,
+              "observed": "depth (each): 2.6, 2.6; expected equal 0.9, tolerance 0.001. 2 element(s).",
+              "ids": [
+                "420879fd-6dcb-4571-9a6d-77676c35e84f",
+                "a73f7eaa-f7a8-4027-8798-fec6acffac4d"
+              ]
+            },
+            {
+              "id": "post-shape",
+              "label": "Round cylindrical posts",
+              "met": false,
+              "observed": "4 matching element(s); shapes: mesh; expected cylinder.",
+              "ids": [
+                "83ec5ddd-a779-4bc9-b2b5-c0703b3fc361",
+                "50ed4f9c-79dd-4c52-a0fd-9e12ad6e1162",
+                "d40c85f1-fa84-452b-90c4-2ed47f5c521d",
+                "5ea9e471-b3de-4646-8152-e3dfc229a6d7"
+              ]
+            },
+            {
+              "id": "independent-editability",
+              "label": "Each of the six pieces is independently editable",
+              "met": false,
+              "observed": "Unverified: The six-object count is measurable, but the available checks cannot inspect independent editing controls or editability.",
+              "ids": []
+            },
+            {
+              "id": "display-stand-group",
+              "label": "All six pieces belong to one group named Display stand",
+              "met": false,
+              "observed": "Unverified: The available checks cannot assert group membership or group name; groupId is not an assertable property.",
+              "ids": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "edit",
+      "status": "NOT_RUN_CREATION_FAILED",
+      "paidCalls": 0
+    },
+    {
+      "id": "plate",
+      "status": "FAILED_OR_BLOCKED",
+      "error": "Independent completion review did not finish.",
+      "paidCalls": 6,
+      "cost": {
+        "calls": 6,
+        "estimatedUsd": 0.229604,
+        "unresolvedReservationsUsd": 0,
+        "reviewerUsd": 0.066916,
+        "addedAfterFirstCompletionAttemptUsd": 0.066916,
+        "addedRepairCalls": 0,
+        "addedRepairApiMs": 0
+      },
+      "totalMs": 89535.314622,
+      "firstCompletionAttemptMs": 33917.329479999986,
+      "afterFirstCompletionAttemptMs": 55617.98514200002,
+      "reviewerMs": 55610,
+      "hostChecksMs": 0,
+      "observationsMs": 439.63237800000934,
+      "candidateSnapshot": null,
+      "candidateEvidence": [],
+      "geometryReplay": {
+        "source": "Free replay of the actual recorded AI geometry plan; not a live completion pass. Later recorded operations only inspected/selected objects.",
+        "evidence": [
+          {
+            "id": "unrelated-geometry",
+            "passed": true,
+            "expected": "All originals outside the requested edit are identical",
+            "observed": []
+          },
+          {
+            "id": "count",
+            "passed": true,
+            "expected": 1,
+            "observed": 1
+          },
+          {
+            "id": "solid-0",
+            "passed": true,
+            "expected": {
+              "bounds": {
+                "min": [
+                  5.1,
+                  0,
+                  -3.5
+                ],
+                "max": [
+                  6.8999999999999995,
+                  0.16,
+                  -2.5
+                ]
+              },
+              "volume": 0.26739199999999996
+            },
+            "observed": {
+              "id": "76438254-ee99-4bce-88cb-4c22aeef5cba",
+              "bounds": {
+                "min": [
+                  5.1,
+                  0,
+                  -3.5
+                ],
+                "max": [
+                  6.8999999999999995,
+                  0.16,
+                  -2.5
+                ]
+              },
+              "volume": 0.26739199999999996
+            }
+          },
+          {
+            "id": "through-slot-position",
+            "passed": true,
+            "expected": "No material anywhere in the specified through-slot",
+            "observed": 0
+          }
+        ],
+        "passed": true
+      },
+      "existingGeometryPreserved": null,
+      "survivingRepairIdsRetained": null,
+      "completionAttempts": [],
+      "localProbes": []
+    }
+  ],
+  "note": "Post-run probes reuse actual AI criteria; no criteria, model geometry, or AI feedback is changed to pass a test. A correct provisional model is not a successful committed request."
+}

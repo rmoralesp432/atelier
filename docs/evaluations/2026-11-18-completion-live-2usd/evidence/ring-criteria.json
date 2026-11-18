@@ -1,0 +1,193 @@
+{
+  "modeling": true,
+  "editable": [],
+  "checks": [
+    {
+      "source": "request",
+      "evidence": "Create seven separate upright round pegs",
+      "requirement": {
+        "id": "peg-count",
+        "label": "Exactly seven new pegs",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "metric": "count",
+        "aggregation": "sum",
+        "comparison": "equal",
+        "value": 7,
+        "tolerance": 0,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "upright round pegs",
+      "requirement": {
+        "id": "round-peg-shape",
+        "label": "Each peg is cylindrical",
+        "kind": "shape",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "shape": "cylinder"
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "22 cm in diameter",
+      "requirement": {
+        "id": "peg-diameter-width",
+        "label": "Each peg is 0.22 m wide",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "metric": "width",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.22,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "22 cm in diameter",
+      "requirement": {
+        "id": "peg-diameter-depth",
+        "label": "Each peg is 0.22 m deep",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "metric": "depth",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.22,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "1.1 m tall",
+      "requirement": {
+        "id": "peg-height",
+        "label": "Each peg is 1.1 m tall",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "metric": "height",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 1.1,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "resting on the ground",
+      "requirement": {
+        "id": "peg-ground-contact",
+        "label": "Every peg rests at ground elevation y=0",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "metric": "base",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "upright round pegs, 22 cm in diameter and 1.1 m tall, resting on the ground",
+      "requirement": {
+        "id": "upright-peg-top",
+        "label": "Every upright peg reaches elevation y=1.1 m",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "metric": "top",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 1.1,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Space their centers equally around a circle of radius 1.65 m centered at x=3 m, z=-2 m, with one peg directly on its positive X side.",
+      "requirement": {
+        "id": "regular-seven-peg-circle",
+        "label": "Seven equally spaced centers on the specified circle",
+        "kind": "unavailable",
+        "reason": "The required unordered set of base-center positions is (3 + 1.65*cos(2*pi*k/7), 0, -2 + 1.65*sin(2*pi*k/7)) for k=0 through 6, including (4.65, 0, -2). The available layout check supports Cartesian grids, not circular or explicit-point-set layouts; measure checks provide no radial or angular metric. These selectors also cannot assign unnamed pegs to expected positions without imposing an arbitrary"
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Keep all existing objects unchanged.",
+      "requirement": {
+        "id": "preserve-original-objects",
+        "label": "Preserve both existing objects completely",
+        "kind": "preserve",
+        "selector": {
+          "refs": [
+            "$original"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "properties": [
+          "all"
+        ]
+      }
+    }
+  ],
+  "qualitativeLimits": []
+}

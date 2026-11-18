@@ -1,6 +1,6 @@
 # PR #22: proposed live reasoning evaluation
 
-**Status: user authorized a strict US$2 evaluation ceiling on 18 November 2026, replacing the proposed US$3. Deployment remains unauthorized.**
+**Status: evaluation completed under the user-authorized strict US$2 ceiling on 18 November 2026, replacing the proposed US$3. Estimated token cost was $0.887290. [Results and recommendation](2026-11-18-completion-live-2usd/README.md): hold merge/deployment. Deployment remains unauthorized.**
 
 The target is PR #22 at `6b480a5002e1f6e332c76d06035a1c51ab67c6ce`. The application, executor prompt, completion-reader prompt, geometry tools and transaction limits remain unchanged. Evaluation code is on a separate branch. Source trees, test prompts, evaluator code and dependency lockfile are fingerprinted before a run, preventing silent changes after seeing model answers.
 
@@ -59,7 +59,7 @@ This small evaluation cannot establish a general success rate. It does not evalu
 
 ## Preparation and authorized execution
 
-Offline preparation passed on 18 November 2026: the real geometry kernel and browser renderer handled all three creation fixtures; the follow-up edit fixture and deliberately wrong/equivalent variants behaved as expected under the external oracle. Four spending-guard tests, standalone TypeScript checking and formatting passed. The captured executor request required a conservative $0.445295 reservation, not an actual charge. The ledger remains unauthorized with zero calls. These results validate the evaluation apparatus, **not live AI performance**.
+Offline preparation passed on 18 November 2026: the real geometry kernel and browser renderer handled all three creation fixtures; the follow-up edit fixture and deliberately wrong/equivalent variants behaved as expected under the external oracle. Four spending-guard tests, standalone TypeScript checking and formatting passed. The captured executor request required a conservative $0.445295 reservation, not an actual charge. At that preparation checkpoint the ledger was unauthorized with zero calls. These preparation results validate the evaluation apparatus, **not live AI performance**; the subsequent live findings are linked above.
 
 The [runner](../../scripts/evaluate-completion.ts) defaults to offline preparation. It checks good and deliberately bad geometric fixtures, renders actual geometry, captures a real SDK request payload without sending it, and writes an unauthorized, empty ledger under `.cloud/completion-live-evaluation/`. The [spending guard tests](../../scripts/completion-evaluation/budget.test.ts) use fake HTTP responses and never generate tokens.
 

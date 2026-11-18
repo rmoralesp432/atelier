@@ -1,0 +1,68 @@
+{
+  "productionCommit": "6b480a5002e1f6e332c76d06035a1c51ab67c6ce",
+  "source": {
+    "src": "7bc819d59e7b534f97b708e156271514e36a9f2b",
+    "server": "ac0e22b09ef95cf5c185f7e1c0368e7d4ee1375f"
+  },
+  "harnessHash": "222c36072797493152b5d293ef61ba74a1cf9df075d0e5043ee407ca30554d91",
+  "model": "gpt-6.1-sol",
+  "transport": "responses",
+  "reasoning": "high",
+  "maxOutputTokens": 6000,
+  "ceilingUsd": 2,
+  "maximumCalls": 24,
+  "perTurnCalls": 8,
+  "executionOrder": [
+    "ring",
+    "stand",
+    "edit",
+    "plate"
+  ],
+  "prompts": {
+    "stand": "Make a freestanding two-shelf display stand centered at x=5 m, z=2 m. Both horizontal shelves are 2.6 m wide along X, 0.9 m deep along Z and 12 cm thick. The lower shelf rests on the ground; the underside of the upper shelf is 1.44 m above ground. Four round posts, 14 cm in diameter, connect the top of the lower shelf to the underside of the upper one. Their centers are inset 18 cm from each pair of shelf edges. Make the six pieces independently editable and group them as Display stand. Keep everything that was already in the scene unchanged.",
+    "edit": "Increase the clear vertical space between the display stand shelves by 36 cm: raise the upper shelf and lengthen its four posts to meet it. Keep the lower shelf, shelf thicknesses, post diameters, horizontal locations and all other objects unchanged. Modify the same six pieces rather than replacing them.",
+    "ring": "Create seven separate upright round pegs, 22 cm in diameter and 1.1 m tall, resting on the ground. Space their centers equally around a circle of radius 1.65 m centered at x=3 m, z=-2 m, with one peg directly on its positive X side. Keep all existing objects unchanged.",
+    "plate": "Create one solid rectangular mounting plate, 1.8 m along X, 1 m along Z and 16 cm thick, resting on the ground and centered at x=6 m, z=-3 m. Cut a rectangular through-slot, 46 cm along X and 28 cm along Z, whose center is offset from the plate center by +36 cm in X and -19 cm in Z. Leave no cutter object behind. Preserve everything already in the scene."
+  },
+  "specification": {
+    "stand": {
+      "x": 5,
+      "z": 2,
+      "width": 2.6,
+      "depth": 0.9,
+      "thickness": 0.12,
+      "upperBase": 1.44,
+      "diameter": 0.14,
+      "inset": 0.18,
+      "raise": 0.36
+    },
+    "ring": {
+      "x": 3,
+      "z": -2,
+      "radius": 1.65,
+      "count": 7,
+      "diameter": 0.22,
+      "height": 1.1
+    },
+    "plate": {
+      "x": 6,
+      "z": -3,
+      "width": 1.8,
+      "depth": 1,
+      "height": 0.16,
+      "slotWidth": 0.46,
+      "slotDepth": 0.28,
+      "slotX": 0.36,
+      "slotZ": -0.19
+    }
+  },
+  "pricing": {
+    "source": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+    "checked": "2026-11-18",
+    "inputPerMillion": 2,
+    "outputPerMillion": 10,
+    "reserveInputPerMillion": 4,
+    "reserveOutputPerMillion": 15,
+    "margin": 1.25
+  }
+}

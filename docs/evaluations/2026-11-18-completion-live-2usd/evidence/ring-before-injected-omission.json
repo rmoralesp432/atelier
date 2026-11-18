@@ -1,0 +1,258 @@
+{
+  "project": {
+    "volumes": [
+      {
+        "id": "4cefeada-61d8-4042-a74c-b30e72b44bf8",
+        "name": "Existing post",
+        "dimensions": {
+          "width": 0.4,
+          "depth": 0.4,
+          "height": 1.5
+        },
+        "position": {
+          "x": -7,
+          "y": 0,
+          "z": 1
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        }
+      },
+      {
+        "id": "8f347ce9-eb15-4167-b744-b9721aa8ac3c",
+        "name": "Existing shelf",
+        "dimensions": {
+          "width": 1.8,
+          "depth": 0.9,
+          "height": 0.16
+        },
+        "position": {
+          "x": -8,
+          "y": 0.6,
+          "z": -2
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        }
+      },
+      {
+        "id": "56a279ca-bb5e-48e3-bd8a-53167f1c07b6",
+        "name": "Peg 1",
+        "dimensions": {
+          "width": 0.22,
+          "depth": 0.22,
+          "height": 1.1
+        },
+        "position": {
+          "x": 4.65,
+          "y": 0,
+          "z": -2
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "groupId": "36ea86e0-9e7e-4348-91e6-666e9ac9428e"
+      },
+      {
+        "id": "c1867205-6ff1-42e9-9081-37d125defc6e",
+        "name": "Peg 1 copy",
+        "dimensions": {
+          "width": 0.22,
+          "depth": 0.22,
+          "height": 1.1
+        },
+        "position": {
+          "x": 4.029,
+          "y": 0,
+          "z": -3.29
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "groupId": "36ea86e0-9e7e-4348-91e6-666e9ac9428e"
+      },
+      {
+        "id": "07868edc-7afd-4c01-9c38-10d9f471268e",
+        "name": "Peg 1 copy (2)",
+        "dimensions": {
+          "width": 0.22,
+          "depth": 0.22,
+          "height": 1.1
+        },
+        "position": {
+          "x": 2.633,
+          "y": 0,
+          "z": -3.609
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "groupId": "36ea86e0-9e7e-4348-91e6-666e9ac9428e"
+      },
+      {
+        "id": "0f94c1f7-6830-432b-857d-dd64f3d1fb43",
+        "name": "Peg 1 copy (3)",
+        "dimensions": {
+          "width": 0.22,
+          "depth": 0.22,
+          "height": 1.1
+        },
+        "position": {
+          "x": 1.513,
+          "y": 0,
+          "z": -2.716
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "groupId": "36ea86e0-9e7e-4348-91e6-666e9ac9428e"
+      },
+      {
+        "id": "27fa7919-a137-4ad1-80ac-f14a696c4a0b",
+        "name": "Peg 1 copy (4)",
+        "dimensions": {
+          "width": 0.22,
+          "depth": 0.22,
+          "height": 1.1
+        },
+        "position": {
+          "x": 1.513,
+          "y": 0,
+          "z": -1.284
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "groupId": "36ea86e0-9e7e-4348-91e6-666e9ac9428e"
+      },
+      {
+        "id": "1f369e8f-4b08-44ff-82d8-c24331ffefcb",
+        "name": "Peg 1 copy (5)",
+        "dimensions": {
+          "width": 0.22,
+          "depth": 0.22,
+          "height": 1.1
+        },
+        "position": {
+          "x": 2.633,
+          "y": 0,
+          "z": -0.391
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "groupId": "36ea86e0-9e7e-4348-91e6-666e9ac9428e"
+      },
+      {
+        "id": "7960c2d4-c3d6-46ad-a3ef-76054838b1bf",
+        "name": "Peg 1 copy (6)",
+        "dimensions": {
+          "width": 0.22,
+          "depth": 0.22,
+          "height": 1.1
+        },
+        "position": {
+          "x": 4.029,
+          "y": 0,
+          "z": -0.71
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "groupId": "36ea86e0-9e7e-4348-91e6-666e9ac9428e"
+      }
+    ],
+    "selectedId": "7960c2d4-c3d6-46ad-a3ef-76054838b1bf",
+    "groups": [
+      {
+        "id": "36ea86e0-9e7e-4348-91e6-666e9ac9428e",
+        "name": "Seven round pegs",
+        "visible": true,
+        "locked": false
+      }
+    ],
+    "selectedIds": [
+      "56a279ca-bb5e-48e3-bd8a-53167f1c07b6",
+      "c1867205-6ff1-42e9-9081-37d125defc6e",
+      "07868edc-7afd-4c01-9c38-10d9f471268e",
+      "0f94c1f7-6830-432b-857d-dd64f3d1fb43",
+      "27fa7919-a137-4ad1-80ac-f14a696c4a0b",
+      "1f369e8f-4b08-44ff-82d8-c24331ffefcb",
+      "7960c2d4-c3d6-46ad-a3ef-76054838b1bf"
+    ]
+  },
+  "past": [
+    {
+      "volumes": [
+        {
+          "id": "4cefeada-61d8-4042-a74c-b30e72b44bf8",
+          "name": "Existing post",
+          "dimensions": {
+            "width": 0.4,
+            "depth": 0.4,
+            "height": 1.5
+          },
+          "position": {
+            "x": -7,
+            "y": 0,
+            "z": 1
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "cylinder"
+          }
+        },
+        {
+          "id": "8f347ce9-eb15-4167-b744-b9721aa8ac3c",
+          "name": "Existing shelf",
+          "dimensions": {
+            "width": 1.8,
+            "depth": 0.9,
+            "height": 0.16
+          },
+          "position": {
+            "x": -8,
+            "y": 0.6,
+            "z": -2
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          }
+        }
+      ],
+      "selectedId": null
+    }
+  ],
+  "future": [],
+  "context": {
+    "focusIds": [
+      "56a279ca-bb5e-48e3-bd8a-53167f1c07b6",
+      "c1867205-6ff1-42e9-9081-37d125defc6e",
+      "07868edc-7afd-4c01-9c38-10d9f471268e",
+      "0f94c1f7-6830-432b-857d-dd64f3d1fb43",
+      "27fa7919-a137-4ad1-80ac-f14a696c4a0b",
+      "1f369e8f-4b08-44ff-82d8-c24331ffefcb",
+      "7960c2d4-c3d6-46ad-a3ef-76054838b1bf"
+    ],
+    "lastCreatedIds": [
+      "c1867205-6ff1-42e9-9081-37d125defc6e",
+      "07868edc-7afd-4c01-9c38-10d9f471268e",
+      "0f94c1f7-6830-432b-857d-dd64f3d1fb43",
+      "27fa7919-a137-4ad1-80ac-f14a696c4a0b",
+      "1f369e8f-4b08-44ff-82d8-c24331ffefcb",
+      "7960c2d4-c3d6-46ad-a3ef-76054838b1bf"
+    ],
+    "lastOperands": [],
+    "lastOperation": "group_create"
+  }
+}
