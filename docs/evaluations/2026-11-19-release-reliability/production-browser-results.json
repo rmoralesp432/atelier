@@ -1,0 +1,259 @@
+{
+  "applicationCommit": "e9e3aae86e559ed9131609e2a2f3eb3e75299fba",
+  "build": "production",
+  "browser": "Chromium / software WebGL",
+  "paidApiSpendingUsd": 0,
+  "provider": "offline fixtures; real geometry and App transaction path",
+  "stats": {
+    "startTime": "2026-11-19T03:25:39.250Z",
+    "duration": 426541.73000000004,
+    "expected": 22,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "tests": [
+    {
+      "file": "agent-execution.spec.ts",
+      "title": "opens the retained live-generated chair as editable geometry and frames its actual scale",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 18813
+        }
+      ]
+    },
+    {
+      "file": "agent-execution.spec.ts",
+      "title": "agent keeps provisional arrays private, recovers invalid arguments, verifies, then supports follow-up edits (offline provider)",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 17907
+        }
+      ]
+    },
+    {
+      "file": "agent-execution.spec.ts",
+      "title": "shows provisional geometry while working and restores the saved design on Stop",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 13158
+        }
+      ]
+    },
+    {
+      "file": "agent-execution.spec.ts",
+      "title": "agent camera and solar actions drive the real workspace and report playback state on follow-up",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 13466
+        }
+      ]
+    },
+    {
+      "file": "completion-verification.spec.ts",
+      "title": "independent completion rejects a valid but incomplete model, repairs the same geometry and commits with one Undo (offline providers)",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 17648
+        }
+      ]
+    },
+    {
+      "file": "completion-verification.spec.ts",
+      "title": "a failed request followed by reload does not poison an unrelated new modeling instruction (offline providers)",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 20113
+        }
+      ]
+    },
+    {
+      "file": "completion-verification.spec.ts",
+      "title": "unknown verification permits safe additions with honest messaging, one Undo, and a later independently checked edit",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 17663
+        }
+      ]
+    },
+    {
+      "file": "modeling-failures.spec.ts",
+      "title": "blocked design, invalid arguments and transport errors preserve the project and do not poison a new modeling turn",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 22181
+        }
+      ]
+    },
+    {
+      "file": "orb-conversation.spec.ts",
+      "title": "orb keeps voice modeling and follow-up edits in the minimized workspace (offline transport)",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 11977
+        }
+      ]
+    },
+    {
+      "file": "storey-edit.spec.ts",
+      "title": "244-part storey edit updates connected geometry, persists identities, rolls back failure and restores the entire building with Undo (offline provider)",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 23641
+        }
+      ]
+    },
+    {
+      "file": "transaction-commit.spec.ts",
+      "title": "multistage 244-component edit with concurrent selection commits atomically",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 24841
+        }
+      ]
+    },
+    {
+      "file": "transaction-commit.spec.ts",
+      "title": "multistage 244-component edit with concurrent model edit retains both results",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 17264
+        }
+      ]
+    },
+    {
+      "file": "transaction-create.spec.ts",
+      "title": "hundreds of newly created components retain preview IDs through finalization, UI activity, persistence and whole-request Undo",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 21961
+        }
+      ]
+    },
+    {
+      "file": "transaction-review.spec.ts",
+      "title": "selection during planning cannot retarget a destructive edit or mislabel its review",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 11875
+        }
+      ]
+    },
+    {
+      "file": "viewport-coverage.spec.ts",
+      "title": "canvas covers the workspace through desktop zoom-equivalent layouts, DPR-only changes, panels and visual-viewport zoom",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 90165
+        }
+      ]
+    },
+    {
+      "file": "viewport-coverage.spec.ts",
+      "title": "phone panel projection remains sized to the canvas across portrait, landscape and keyboard layouts",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 10067
+        }
+      ]
+    },
+    {
+      "file": "voice-permission.spec.ts",
+      "title": "browser microphone denial leaves voice stopped and the mobile workspace usable",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 6406
+        }
+      ]
+    },
+    {
+      "file": "workspace-lifecycle.spec.ts",
+      "title": "desktop graphics recover in place, and zero-size / wide viewport transitions retain complete buffers",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 10712
+        }
+      ]
+    },
+    {
+      "file": "workspace-lifecycle.spec.ts",
+      "title": "conversation language defaults to English and persists only explicit preference changes",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 20077
+        }
+      ]
+    },
+    {
+      "file": "workspace-lifecycle.spec.ts",
+      "title": "a verified modeling reply respects Spanish while keeping the geometric evidence",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 11228
+        }
+      ]
+    },
+    {
+      "file": "workspace-lifecycle.spec.ts",
+      "title": "orientation, keyboard-size changes and conversation controls preserve an executing transaction and camera",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 8988
+        }
+      ]
+    },
+    {
+      "file": "workspace-lifecycle.spec.ts",
+      "title": "an interrupted request reloads into the same workspace, preserves conversation/history and accepts a new request",
+      "status": "expected",
+      "runs": [
+        {
+          "status": "passed",
+          "durationMs": 10548
+        }
+      ]
+    }
+  ]
+}
