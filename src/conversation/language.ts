@@ -61,9 +61,25 @@ export function requestedLanguage(
   // Deliberate preference clauses only. A place/name, borrowed term, translation
   // exercise, or mostly-Spanish recognition result is not a language switch.
   const pattern =
-    /(?:^|[.!?;]\s*|\band\s+)(?:from now on[, ]*|ahora[, ]*)?(?:(?:can|could|would) you\s+)?(?:please\s+|por favor[, ]*)?(?:speak|respond|reply|answer|talk|continue|switch|use|habla|hablar|responde|responder|contesta|continua|cambia)(?:\s+to me)?\s+(?:(?:in|to|en|a|al)\s+)?([a-z]+)\b/g;
-  for (const match of normalized.matchAll(pattern))
-    if (names[match[1]]) current = names[match[1]];
+    /(?:^|[.!?;]\s*|\band\s+)(?:from now on[, ]*|ahora[, ]*)?(?:(?:can|could|would) you\s+)?(?:please\s+|por favor[, ]*)?(speak|respond|reply|answer|talk|continue|switch|use|habla|hablar|responde|responder|contesta|continua|cambia)(?:\s+to me)?\s+(?:(?:in|to|en|a|al)\s+)?([a-z]+)\b/g;
+  for (const match of normalized.matchAll(pattern)) {
+    if (!names[match[2]]) continue;
+    // "Use French doors" and "switch to English oak" concern the design,
+    // not the conversation. Neutral verbs require a complete language clause
+    // or an explicit communication qualifier after the language name.
+    if (
+      ['use', 'switch', 'continue', 'continua', 'cambia'].includes(match[1])
+    ) {
+      const rest = normalized.slice(match.index! + match[0].length).trim();
+      if (
+        !/^(?:$|[.!?,;]|and\b|(?:from now on|now|please|language|for (?:our |the |this )?(?:conversation|replies|responses|answers)|as (?:our |the |my )?(?:default |conversation )?language)\b)/.test(
+          rest,
+        )
+      )
+        continue;
+    }
+    current = names[match[2]];
+  }
   return current;
 }
 export function languagePolicy(language: ConversationLanguage = 'en') {

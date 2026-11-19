@@ -12,6 +12,8 @@ it('retains English across foreign architectural terminology, names, recognition
     'Do not switch to Spanish.',
     'Translate the word ceiling into Spanish.',
     'Model a Spanish courtyard.',
+    'Use French doors on this room.',
+    'Switch to Spanish tiles.',
   ])
     expect(requestedLanguage(text, 'en')).toBe('en');
 });
@@ -24,6 +26,11 @@ it('changes only intentional conversation language and retains it across follow-
   expect(requestedLanguage('Por favor responde en inglés', 'es')).toBe('en');
   expect(requestedLanguage('Please answer in French', 'en')).toBe('fr');
   expect(languagePolicy()).toContain('Default is English');
+  expect(requestedLanguage('Use Spanish from now on.', 'en')).toBe('es');
+  expect(requestedLanguage('Use French for our conversation.', 'en')).toBe(
+    'fr',
+  );
+  expect(requestedLanguage('Switch to English oak.', 'es')).toBe('es');
 });
 
 it('localizes the host completion claim without turning unknown evidence into success', () => {
