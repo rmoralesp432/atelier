@@ -1,0 +1,105 @@
+{
+  "headRefOid": "8929d6c124c4644b0db451165dd6f91bb7142bcc",
+  "statusCheckRollup": [
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-11-19T16:18:13Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/rmoralesp432/atelier/actions/runs/44564370719/job/135713029263",
+      "name": "validate",
+      "startedAt": "2026-11-19T16:17:19Z",
+      "status": "COMPLETED",
+      "workflowName": "Check ATELIER"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-11-19T16:24:43Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/rmoralesp432/atelier/actions/runs/44564370719/job/135713031004",
+      "name": "browser (1)",
+      "startedAt": "2026-11-19T16:18:16Z",
+      "status": "COMPLETED",
+      "workflowName": "Check ATELIER"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-11-19T16:29:17Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/rmoralesp432/atelier/actions/runs/44564370719/job/135713030539",
+      "name": "browser (2)",
+      "startedAt": "2026-11-19T16:18:16Z",
+      "status": "COMPLETED",
+      "workflowName": "Check ATELIER"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-11-19T16:29:02Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/rmoralesp432/atelier/actions/runs/44564370719/job/135713031785",
+      "name": "browser (3)",
+      "startedAt": "2026-11-19T16:18:16Z",
+      "status": "COMPLETED",
+      "workflowName": "Check ATELIER"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-11-19T16:25:36Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/rmoralesp432/atelier/actions/runs/44564370719/job/135713031129",
+      "name": "browser (4)",
+      "startedAt": "2026-11-19T16:18:16Z",
+      "status": "COMPLETED",
+      "workflowName": "Check ATELIER"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-11-19T16:32:55Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/rmoralesp432/atelier/actions/runs/44564370719/job/135713032410",
+      "name": "browser (5)",
+      "startedAt": "2026-11-19T16:18:16Z",
+      "status": "COMPLETED",
+      "workflowName": "Check ATELIER"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-11-19T16:46:12Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/rmoralesp432/atelier/actions/runs/44564370719/job/135713029064",
+      "name": "browser (6)",
+      "startedAt": "2026-11-19T16:33:43Z",
+      "status": "COMPLETED",
+      "workflowName": "Check ATELIER"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-11-19T16:28:56Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/rmoralesp432/atelier/actions/runs/44564370719/job/135713031589",
+      "name": "browser (7)",
+      "startedAt": "2026-11-19T16:18:16Z",
+      "status": "COMPLETED",
+      "workflowName": "Check ATELIER"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-11-19T16:26:48Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/rmoralesp432/atelier/actions/runs/44564370719/job/135713031506",
+      "name": "browser (8)",
+      "startedAt": "2026-11-19T16:18:16Z",
+      "status": "COMPLETED",
+      "workflowName": "Check ATELIER"
+    },
+    {
+      "__typename": "CheckRun",
+      "completedAt": "2026-11-19T16:46:17Z",
+      "conclusion": "SUCCESS",
+      "detailsUrl": "https://github.com/rmoralesp432/atelier/actions/runs/44564370719/job/135721483585",
+      "name": "check",
+      "startedAt": "2026-11-19T16:46:15Z",
+      "status": "COMPLETED",
+      "workflowName": "Check ATELIER"
+    }
+  ]
+}

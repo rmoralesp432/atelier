@@ -1,0 +1,13 @@
+{
+  "id": "dep-dbvig9l9fdbs73bbeo20",
+  "commit": {
+    "id": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+    "message": "Merge PR #24: make the voice orb visibly respond to speech\n\nMake the voice orb visibly respond to speech",
+    "createdAt": "2026-11-19T16:46:58Z"
+  },
+  "status": "build_in_progress",
+  "trigger": "api",
+  "createdAt": "2026-11-19T16:47:34.579969Z",
+  "updatedAt": "2026-11-19T16:47:34.579969Z",
+  "startedAt": "2026-11-19T16:47:34.551722Z"
+}

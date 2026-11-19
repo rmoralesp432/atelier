@@ -1,0 +1,10 @@
+{
+  "checkedAt": "2026-11-19T16:54:37.514Z",
+  "status": "live",
+  "deploymentId": "dep-dbvig9l9fdbs73bbeo20",
+  "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+  "rollbackDeployment": "dep-dbvho3h5efls73drdt90",
+  "rollbackCommit": "aa9dd6126f3372774c1cee03558ef4dcb87afd27",
+  "rollbackTag": "release/pre-pr24-2026-11-19",
+  "additionalOpenAICalls": 0
+}

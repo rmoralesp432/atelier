@@ -1,0 +1,10 @@
+{
+  "exitCode": 1,
+  "statusMarkers": [
+    "Forbidden"
+  ],
+  "redirectHosts": [
+    "productionresultssa6.blob.core.windows.net"
+  ],
+  "retrieved": false
+}
