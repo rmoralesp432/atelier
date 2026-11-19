@@ -27,6 +27,7 @@ import {
   type Session,
 } from '../src/intelligence/engine';
 import { defaultCamera, sceneContext } from '../src/intelligence/context';
+import { equalData } from '../src/projects/equalData';
 import { conversationHistory, type Message } from '../src/intelligence/client';
 import {
   verifyCompletion,
@@ -589,19 +590,24 @@ try {
           'Expected one Undo entry.',
         );
         const restored = parseSession(serializeSession(result));
-        assert.deepEqual(
-          restored.project,
-          result.project,
+        assert(
+          equalData(restored.project, result.project),
           'Persistence changed geometry.',
         );
         const undone = (
           await applyPlan(restored, directPlan({ type: 'undo', count: 1 }))
         ).session;
-        assert.deepEqual(undone.project, original.project);
-        assert.deepEqual(
-          (await applyPlan(undone, directPlan({ type: 'redo', count: 1 })))
-            .session.project,
-          result.project,
+        assert(
+          equalData(undone.project, original.project),
+          'Undo changed the original project.',
+        );
+        assert(
+          equalData(
+            (await applyPlan(undone, directPlan({ type: 'redo', count: 1 })))
+              .session.project,
+            result.project,
+          ),
+          'Redo changed the committed project.',
         );
         if (id === 'zigzag') {
           assert(injected, 'Recovery was not exercised.');
@@ -718,9 +724,8 @@ try {
         });
         save(`${folder}/${id}-history.json`, updatedHistory);
         const persisted = parseSession(serializeSession(original));
-        assert.deepEqual(
-          persisted,
-          original,
+        assert(
+          equalData(persisted, original),
           'Failed-turn persistence changed state.',
         );
         record.failedTransactionPreserved = true;

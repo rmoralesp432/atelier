@@ -1,0 +1,61 @@
+{
+  "project": {
+    "volumes": [
+      {
+        "id": "98c53a6e-f536-49ee-9780-2a322378e861",
+        "name": "Channel wall study",
+        "dimensions": {
+          "width": 0.42,
+          "depth": 0.42,
+          "height": 0.42
+        },
+        "position": {
+          "x": -9,
+          "y": 0,
+          "z": 4
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "sphere"
+        },
+        "groupId": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a"
+      },
+      {
+        "id": "c0f62f3f-7727-41db-9c98-f3dfe961d16f",
+        "name": "Existing prop",
+        "dimensions": {
+          "width": 0.9,
+          "depth": 0.6,
+          "height": 1.1
+        },
+        "position": {
+          "x": -8,
+          "y": 0.2,
+          "z": 3
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "groupId": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a"
+      }
+    ],
+    "selectedId": null,
+    "groups": [
+      {
+        "id": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a",
+        "name": "Existing props",
+        "visible": true,
+        "locked": false
+      }
+    ]
+  },
+  "past": [],
+  "future": [],
+  "context": {
+    "focusIds": [],
+    "lastCreatedIds": [],
+    "lastOperands": [],
+    "lastOperation": null
+  }
+}
