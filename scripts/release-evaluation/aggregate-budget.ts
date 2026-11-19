@@ -16,8 +16,11 @@ export type AggregateAuthorization = {
   unknownAllowanceUsd: 0.62;
   unknownLedger: { path: string; sha256: string };
   settledLedgers: { path: string; sha256: string }[];
+  // Interrupted attempts remain unknown, with their FULL reservation retained.
+  // This is explicit carry-forward accounting, never a zero-cost reconciliation.
+  interruptedLedgers?: { path: string; sha256: string }[];
   maximumCalls: 60;
-  maximumCallsPerTask: 16;
+  maximumCallsPerTask: 16 | 24;
 };
 export function priorAccounting(authorization: AggregateAuthorization) {
   assert(authorization.approved && authorization.ceilingUsd === 20);
@@ -46,12 +49,38 @@ export function priorAccounting(authorization: AggregateAuthorization) {
     ),
     'Unknown new charges stop the evaluation.',
   );
+  const interrupted = (authorization.interruptedLedgers ?? []).flatMap(
+    (p) => read(p).calls,
+  );
+  const paths = [
+    ...authorization.settledLedgers,
+    ...(authorization.interruptedLedgers ?? []),
+    authorization.unknownLedger,
+  ].map((p) => p.path);
+  assert.equal(
+    new Set(paths).size,
+    paths.length,
+    'A ledger cannot be counted twice.',
+  );
+  assert(
+    interrupted.every((c) =>
+      c.outcome === 'usage-reconciled'
+        ? Number.isFinite(c.estimatedUsd) && Number.isFinite(c.chargedUsd)
+        : c.outcome === 'interrupted-reservation-retained' &&
+          c.estimatedUsd === undefined &&
+          c.chargedUsd === undefined &&
+          Number.isFinite(c.reservedUsd) &&
+          c.reservedUsd > 0,
+    ),
+    'Only recorded interruptions with full reservations can carry forward.',
+  );
+  const prior = [...settled, ...interrupted];
   return {
-    calls: [...original.calls, ...settled],
-    estimatedUsd: settled.reduce((n, c) => n + c.estimatedUsd!, 0),
+    calls: [...original.calls, ...prior],
+    estimatedUsd: prior.reduce((n, c) => n + (c.estimatedUsd ?? 0), 0),
     accountedUsd:
       authorization.unknownAllowanceUsd +
-      settled.reduce((n, c) => n + c.chargedUsd!, 0),
+      prior.reduce((n, c) => n + (c.chargedUsd ?? c.reservedUsd), 0),
   };
 }
 export function aggregateFetch(

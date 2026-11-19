@@ -209,6 +209,104 @@ it('a final-batch declaration cannot bypass a missing independent verifier', asy
 });
 
 it.each(['responses', 'chat_completions'] as const)(
+  '%s a truncated call leaves geometry intact and supplies actionable recovery feedback',
+  async (api) => {
+    const original = (await applyPlan(empty(), box())).session;
+    const before = structuredClone(original);
+    let calls = 0;
+    const provider = createProvider(
+      'offline-test',
+      async (_url, init) => {
+        calls++;
+        const sent = JSON.parse(init!.body as string);
+        const content =
+          api === 'responses'
+            ? sent.input.at(-1).content
+            : sent.messages.at(-1).content;
+        const state = JSON.parse(content[0].text);
+        if (calls === 1) {
+          const raw = await toolResponse(api, 'execute_step', {
+            message: 'Incomplete response',
+            assumptions: [],
+            request_completion: true,
+            operations: box().operations,
+          }).json();
+          if (api === 'responses') {
+            raw.status = 'incomplete';
+            raw.incomplete_details = { reason: 'max_output_tokens' };
+          } else raw.choices[0].finish_reason = 'length';
+          return Response.json(raw);
+        }
+        expect(state.scene.objects).toHaveLength(1);
+        expect(JSON.stringify(state.validationFeedback)).toContain(
+          'None of this response',
+        );
+        expect(JSON.stringify(state.validationFeedback)).toContain(
+          'smaller batch',
+        );
+        return toolResponse(api, 'execute_step', {
+          message: 'Create the requested object',
+          assumptions: [],
+          request_completion: true,
+          operations: [
+            {
+              type: 'create_at',
+              name: 'New editable object',
+              shape: 'box',
+              width: 2.4,
+              depth: 1.6,
+              height: 0.7,
+              x: 12,
+              y: 0,
+              z: 0,
+              rotation: 0,
+            },
+          ],
+        });
+      },
+      { agent: true, textApi: api },
+    );
+    const result = await stagedPlan(
+      original,
+      defaultCamera,
+      (s, validationFeedback, execution) =>
+        provider.plan({
+          ...input(),
+          scene: sceneContext(s.project, s.context, defaultCamera),
+          validationFeedback,
+          execution,
+        }),
+      undefined,
+      undefined,
+      {
+        agent: true,
+        verifyCompletion: (s) =>
+          verifyCompletion(
+            criteria([
+              measure('count', 'count', 1),
+              measure('height', 'height', 0.7),
+            ]),
+            original,
+            s,
+          ),
+      },
+    );
+    expect(calls).toBe(2);
+    expect(result.verification?.status).toBe('verified');
+    expect(result.prepared!.session.project.volumes).toHaveLength(2);
+    expect(result.prepared!.session.project.volumes[0]).toEqual(
+      before.project.volumes[0],
+    );
+    expect(original).toEqual(before);
+    const undo = await applyPlan(
+      parseSession(serializeSession(result.prepared!.session)),
+      directPlan({ type: 'undo', count: 1 }),
+    );
+    expect(undo.session.project).toEqual(original.project);
+  },
+);
+
+it.each(['responses', 'chat_completions'] as const)(
   'uses %s function tools and returns real scene inspection to the model',
   async (api) => {
     const requests: any[] = [];

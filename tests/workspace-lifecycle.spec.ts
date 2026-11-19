@@ -270,6 +270,10 @@ test('desktop graphics recover in place, and zero-size / wide viewport transitio
 test('conversation language defaults to English and persists only explicit preference changes', async ({
   page,
 }) => {
+  // Four complete turns plus a cold WebGL startup and reload. Each individual
+  // readiness assertion keeps its normal bound; do not race the whole sequence
+  // against the default single-interaction timeout on software-rendered CI.
+  test.setTimeout(90000);
   await ready(page);
   const seen: string[] = [];
   await page.route('**/api/plan', (r) => {
@@ -288,7 +292,9 @@ test('conversation language defaults to English and persists only explicit prefe
     ['Now discuss the facade.', 'es'],
     ['Please switch to English.', 'en'],
   ]) {
+    const previousTurns = seen.length;
     await send(page, text);
+    await expect.poll(() => seen.length).toBe(previousTurns + 1);
     await expect.poll(() => seen.at(-1)).toBe(language);
     await expect(
       page.getByRole('button', { name: 'Stop design request', exact: true }),

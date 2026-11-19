@@ -103,6 +103,32 @@ test('US$20 is aggregate: prior estimates, unknown allowance, margins and all ca
       /unresolved prior charge/,
     );
     assert.equal(sent, 1);
+    // A terminated historical attempt may be explicitly carried at its full
+    // reservation. Never turn missing usage into an estimated/confirmed charge.
+    const interrupted = join(dir, 'interrupted.json');
+    save(interrupted, {
+      ceilingUsd: 20,
+      authorized: true,
+      calls: [
+        {
+          ...scope,
+          reservedUsd: 0.22113,
+          started: '',
+          outcome: 'interrupted-reservation-retained',
+        },
+      ],
+    });
+    const contents = readFileSync(interrupted, 'utf8');
+    authorization.interruptedLedgers = [
+      { path: interrupted, sha256: digest(interrupted) },
+    ];
+    const totals = priorAccounting(authorization);
+    assert.equal(totals.calls.length, 3);
+    assert.equal(totals.estimatedUsd, 0.8);
+    assert(Math.abs(totals.accountedUsd - 1.84113) < 1e-12);
+    assert.equal(readFileSync(interrupted, 'utf8'), contents);
+    authorization.interruptedLedgers.push(authorization.interruptedLedgers[0]);
+    assert.throws(() => priorAccounting(authorization), /twice/);
   } finally {
     rmSync(dir, { recursive: true });
   }

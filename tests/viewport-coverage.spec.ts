@@ -37,7 +37,12 @@ async function checkCoverage(page: Page, dpr: number) {
       projectionMatches: true,
     });
   // Capture the composited output, not a cleared/preserveDrawingBuffer=false WebGL buffer.
-  const screenshot = await viewport.screenshot();
+  // Geometry/buffer readiness is asserted above. Locator screenshots additionally
+  // wait for animation-frame actionability (unnecessary for a read-only capture),
+  // which can stall under CI's high-DPR software renderer.
+  const clip = await viewport.boundingBox();
+  expect(clip).not.toBeNull();
+  const screenshot = await page.screenshot({ clip: clip! });
   const blackFraction = await page.evaluate(
     async (data) => {
       const image = new Image();

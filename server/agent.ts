@@ -176,6 +176,11 @@ export async function agentPlan(
   },
   signal?: AbortSignal,
 ): Promise<Plan> {
+  const responseBudget = `\nEach response has at most ${settings.maxOutputTokens} output tokens, including reasoning. Choose a concise batch that fits completely; the operation-count limit is a ceiling, not a target. Use compact bulk or repetition tools when appropriate. For larger requests, execute substantive partial batches with request_completion=false, then continue from their successful receipts. Do not attempt to describe the entire construction in one oversized call.\n`;
+  const truncatedResponse = () =>
+    new ModelPlanError(
+      `The response exceeded its ${settings.maxOutputTokens}-token allowance before a complete tool call was received. None of this response's operations were executed. Keep earlier successful provisional work; send a smaller batch using compact bulk/repetition operations where appropriate. Set request_completion=false while requested work remains and continue in subsequent batches. Do not repeat the oversized response.`,
+    );
   const inputMessages: any[] = input.history.map((m) => ({
     role: m.role,
     content:
@@ -233,6 +238,7 @@ export async function agentPlan(
           requestedLanguage(input.message, input.language ?? 'en'),
         ) +
         policy +
+        responseBudget +
         MODELING_TOOL_CONTRACT,
     },
     ...inputMessages.map((m) => ({
@@ -276,6 +282,7 @@ export async function agentPlan(
         { signal },
       );
       const choice = result.choices[0];
+      if (choice?.finish_reason === 'length') throw truncatedResponse();
       call = choice?.message.tool_calls?.[0];
       if (
         choice?.finish_reason !== 'tool_calls' ||
@@ -297,6 +304,7 @@ export async function agentPlan(
               requestedLanguage(input.message, input.language ?? 'en'),
             ) +
             policy +
+            responseBudget +
             MODELING_TOOL_CONTRACT,
           input: inputMessages,
           store: false,
@@ -312,6 +320,11 @@ export async function agentPlan(
         } as any,
         { signal },
       );
+      if (
+        result.status === 'incomplete' &&
+        result.incomplete_details?.reason === 'max_output_tokens'
+      )
+        throw truncatedResponse();
       items = result.output;
       const calls = items.filter((i) => i.type === 'function_call');
       call = calls[0];

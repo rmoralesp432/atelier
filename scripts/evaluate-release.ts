@@ -74,6 +74,14 @@ import {
 import { evaluationOutcome } from './release-evaluation/outcome';
 
 const release20 = process.argv.includes('--release20');
+const focusedBuilding = process.argv.includes('--focused-building');
+assert(
+  !focusedBuilding || release20,
+  'Focused sequence requires aggregate accounting.',
+);
+const evaluationOrder: readonly CaseId[] = focusedBuilding
+  ? ['building', 'height-edit']
+  : order;
 const candidateArg = process.argv.find((a) =>
   /^--candidate=[a-f0-9]{40}$/.test(a),
 );
@@ -144,16 +152,16 @@ const aggregateAuthorization: AggregateAuthorization | undefined = release20
         '.cloud/pr22-release-continuation-438',
         '.cloud/pr22-release-resumed-building',
         '.cloud/pr22-release-resumed-inspection',
-        ...Array.from(
-          { length: releaseAttempt - 1 },
-          (_, i) => `.cloud/pr22-release20-final-${i + 1}`,
-        ),
       ].map((p) => ({
         path: `${p}/ledger.json`,
         sha256: digest(`${p}/ledger.json`),
       })),
+      interruptedLedgers: Array.from({ length: releaseAttempt - 1 }, (_, i) => {
+        const path = `.cloud/pr22-release20-final-${i + 1}/ledger.json`;
+        return { path, sha256: digest(path) };
+      }),
       maximumCalls: 60,
-      maximumCallsPerTask: 16,
+      maximumCallsPerTask: focusedBuilding ? 24 : 16,
     }
   : undefined;
 const interruptedCalls = originalCalls(carryForward);
@@ -162,11 +170,11 @@ const settledPriorCalls = aggregateAuthorization
   : settledCalls(carryForward);
 const priorCalls = [...interruptedCalls, ...settledPriorCalls];
 const priorKnownUsd = settledPriorCalls.reduce(
-  (n, c) => n + c.estimatedUsd!,
+  (n, c) => n + (c.estimatedUsd ?? 0),
   0,
 );
 const priorAccountedUsd = settledPriorCalls.reduce(
-  (n, c) => n + c.chargedUsd!,
+  (n, c) => n + (c.chargedUsd ?? c.reservedUsd),
   0,
 );
 const previousResults = resumingBuilding
@@ -222,7 +230,7 @@ const manifest = {
   reasoning: { executor: 'high', reviewer: 'low' },
   maximumOutputTokens: 6000,
   maximumCalls,
-  maximumCallsPerTask: release20 ? 16 : 8,
+  maximumCallsPerTask: aggregateAuthorization?.maximumCallsPerTask ?? 8,
   ceilingUsd,
   carryForward: aggregateAuthorization ?? carryForward,
   ...(release20
@@ -236,8 +244,9 @@ const manifest = {
             'Incorrect or unsafe scope cannot commit. Verified stays verified. Unsupported properties stay explicitly unverified, never relabeled correct. External geometry evidence and honest unverified reporting are evaluated separately.',
           strictHistoricalOutcomes:
             'Earlier unverified outcomes and failures remain immutable. A new PASS_WITH_DISCLOSED_LIMITS records the passing external evaluation and incomplete built-in coverage separately; it does not certify unknown properties.',
-          correction:
-            'Injected wrong geometry must be detected and repaired by real AI; controls and preservation requirements are unchanged.',
+          correction: focusedBuilding
+            ? 'Prior correction evidence is preserved. This user-authorized sequence only reruns building creation and connected editing.'
+            : 'Injected wrong geometry must be detected and repaired by real AI; controls and preservation requirements are unchanged.',
         },
       }
     : {}),
@@ -257,7 +266,8 @@ const manifest = {
         },
       }
     : {}),
-  order,
+  order: evaluationOrder,
+  focusedBuilding,
   prompts,
   specification,
   pricing,
@@ -279,6 +289,7 @@ assert(
           '--resume-building',
           '--resume-inspection',
           '--release20',
+          '--focused-building',
           '--approved-aggregate-usd=20',
         ].includes(a) ||
         (release20 && (a === candidateArg || a === attemptArg)),
@@ -388,7 +399,7 @@ const metered = aggregateAuthorization
   : continuationFetch(ledgerPath, carryForward, scope);
 const guarded: typeof fetch = async (url, init) => {
   assert(live, 'Offline preparation cannot contact paid endpoints.');
-  assert(order.includes(caseId));
+  assert(evaluationOrder.includes(caseId));
   const ledger: Ledger = JSON.parse(readFileSync(ledgerPath, 'utf8'));
   assert(
     ledger.calls.length + priorCalls.length < maximumCalls,
@@ -1215,6 +1226,24 @@ async function prepareFixtures() {
     passed(await oracle('height-edit', s, edited)),
     'Connected-edit oracle rejects correct geometry.',
   );
+  if (focusedBuilding) {
+    assert.equal((await observe(s, 'preparation-building')).status, 'ready');
+    await page.goto(origin);
+    await ready();
+    assert.equal((await saved()).project.volumes.length, 1);
+    save(`${folder}/preparation.json`, {
+      status: 'OFFLINE_PREPARATION_PASSED',
+      manifestHash: hash(manifest),
+      paidCalls: 0,
+      oracleControls: [
+        'Correct multilevel assembly',
+        'Wrong level',
+        'Correct connected modification',
+      ],
+      productionBrowserLoads: true,
+    });
+    return;
+  }
   const e = structuredClone(original);
   e.project.volumes.push(ellipse());
   assert(passed(await oracle('ellipse-repair', original, e)));
@@ -1369,7 +1398,10 @@ try {
           ? 'Stop rule'
           : 'Creation did not pass; no substitute handmade model',
       });
-    if (resumingBuilding) {
+    if (focusedBuilding) {
+      // The user requested only creation -> connected edit -> reload/Undo/Redo.
+      // Existing repair and recovery evidence remains preserved, not rerun.
+    } else if (resumingBuilding) {
       for (const id of ['ellipse-repair', 'recovery-tray'])
         results.push({
           ...previousResults.find((r: any) => r.id === id),
@@ -1416,7 +1448,10 @@ try {
         priorKnownUsd +
         ledger.calls.reduce((n, c) => n + (c.estimatedUsd ?? 0), 0),
       estimatedUsdScope:
-        'Known new calls only; prior actual usage remains unknown',
+        'All reconciled prior and new usage estimates; interrupted usage remains unknown and reserved separately',
+      priorRetainedReservations: settledPriorCalls.filter(
+        (c) => c.outcome !== 'usage-reconciled',
+      ),
       priorUnknownUsageAllowanceUsd: carryForward.allowanceUsd,
       originalActualUsage: 'unknown',
       newBudgetAccountedUsd: priorAccountedUsd + budgetUsed(ledger),
