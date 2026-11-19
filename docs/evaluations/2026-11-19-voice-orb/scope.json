@@ -1,0 +1,11 @@
+{
+  "request": "Make the orb move very visibly during both user speech and assistant speech, after finishing the verification hotfix release.",
+  "pullRequest": 24,
+  "sourceCommit": "8929d6c124c4644b0db451165dd6f91bb7142bcc",
+  "changedApplicationFiles": [
+    "src/conversation/AudioOrb.tsx",
+    "src/conversation/orb.css"
+  ],
+  "additionalPaidCalls": 0,
+  "validation": "Real Web Audio synthetic input/output, offline WebRTC transport, phone-sized Chromium. Physical microphone and iPhone unverified."
+}

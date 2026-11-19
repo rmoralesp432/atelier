@@ -1,0 +1,16 @@
+
+Running 2 tests using 1 worker
+
+(node:33659) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/orb-conversation.spec.ts:3:1 › orb keeps voice modeling and follow-up edits in the minimized workspace (offline transport) (25.4s)
+(node:33942) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 tests/voice-permission.spec.ts:20:1 › browser microphone denial leaves voice stopped and the mobile workspace usable (7.2s)
+
+  2 passed (34.7s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

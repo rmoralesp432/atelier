@@ -1,0 +1,48 @@
+
+> atelier@0.1.0 build
+> tsc -b && vite build
+
+vite v8.3.4 building client environment for production...
+transforming...
+[plugin rolldown:vite-resolve] Module "node:module" has been externalized for browser compatibility, imported by "/workspace/atelier/node_modules/manifold-3d/manifold.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin rolldown:vite-resolve] Module "node:module" has been externalized for browser compatibility, imported by "/workspace/atelier/node_modules/manifold-3d/manifold.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[plugin rolldown:vite-resolve] Module "node:module" has been externalized for browser compatibility, imported by "/workspace/atelier/node_modules/manifold-3d/manifold.js". See https://vite.dev/guide/troubleshooting.html#module-externalized-for-browser-compatibility for more details.
+[33m[INEFFECTIVE_DYNAMIC_IMPORT] [0msrc/imports/optimize.ts is dynamically imported by src/imports/mesh.ts but also statically imported by src/ar/preparation.ts, dynamic import will not move module into another chunk.
+
+✓ 2235 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/assets/__vite-browser-external-CsphJlH9.js      0.11 kB
+dist/index.html                                      0.73 kB │ gzip:   0.41 kB
+dist/assets/optimize-CI4CGiU5.js                    43.79 kB
+dist/assets/fbx-BGBRxOA4.js                         50.58 kB
+dist/assets/navigation.worker-BM-bGWwR.js          150.62 kB
+dist/assets/preparation.worker-CtuQp_5W.js         315.64 kB
+dist/assets/import.worker-C5CrS28u.js              425.10 kB
+dist/assets/manifold-BE4c7gO-.wasm                 541.47 kB │ gzip: 207.94 kB
+dist/assets/MapPicker-vh-t_kPv.css                  15.09 kB │ gzip:   6.36 kB
+dist/assets/index-Cm09ooMo.css                     137.51 kB │ gzip:  27.06 kB
+dist/assets/__vite-browser-external-CB9T68pL.js      0.10 kB │ gzip:   0.11 kB
+dist/assets/rolldown-runtime-WkwZ5CU-.js             0.59 kB │ gzip:   0.36 kB
+dist/assets/context-BT_d3hzh.js                      0.60 kB │ gzip:   0.40 kB
+dist/assets/appearance-DJZB4-CZ.js                   0.74 kB │ gzip:   0.35 kB
+dist/assets/PreparationWorker-pzE2Mi9i.js            1.83 kB │ gzip:   0.91 kB
+dist/assets/renderObservation-DGyFahF4.js            2.95 kB │ gzip:   1.60 kB
+dist/assets/webxr-BeQKNRpc.js                        5.29 kB │ gzip:   2.50 kB
+dist/assets/cameraOverlay-CRIfU_mX.js                5.40 kB │ gzip:   2.56 kB
+dist/assets/PanoramaViewer-mk3v1z42.js              11.13 kB │ gzip:   4.33 kB
+dist/assets/model-D25UAgFN.js                       76.04 kB │ gzip:  28.19 kB
+dist/assets/MapPicker-DKvjM6jO.js                  150.75 kB │ gzip:  44.29 kB
+dist/assets/index-npJn1dNM.js                    1,616.96 kB │ gzip: 460.65 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.60s
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice
