@@ -36,9 +36,11 @@ export class VoiceConnection {
   private updateCapture() {
     // Echo cancellation permits normal Realtime barge-in. Where the browser
     // cannot provide it, pause capture during playback rather than feed it back.
-    const echo =
-      navigator.mediaDevices?.getSupportedConstraints?.().echoCancellation !==
-      false;
+    // Support alone does not mean the active microphone actually enabled AEC.
+    // Unsupported constraints are normally omitted, not reported as false.
+    const echo = this.stream
+      ?.getTracks()
+      .every((track) => track.getSettings?.().echoCancellation === true);
     const enabled =
       !this.closed && !this.muted && !this.hidden && (echo || !this.speaking);
     this.stream?.getTracks().forEach((t) => {

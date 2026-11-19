@@ -7,7 +7,14 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 function browser() {
-  const track = { stop: vi.fn(), enabled: true, onended: null as any };
+  const track = {
+    stop: vi.fn(),
+    enabled: true,
+    onended: null as any,
+    getSettings: vi.fn<() => MediaTrackSettings>(() => ({
+      echoCancellation: true,
+    })),
+  };
   const document = new EventTarget() as EventTarget & {
     visibilityState: string;
   };
@@ -340,20 +347,33 @@ it('retains a voice session across a temporary network disconnect and stops when
     'Microphone interrupted. Start voice to reconnect.',
   );
 });
-it('pauses capture during playback when echo cancellation is unavailable', async () => {
+it.each([false, undefined])(
+  'pauses capture during playback when active echo cancellation is %s',
+  async (echoCancellation) => {
+    const b = browser(),
+      voice = new VoiceConnection(vi.fn(), vi.fn());
+    b.track.getSettings.mockReturnValue({ echoCancellation });
+    await voice.start();
+    b.channel.onmessage({
+      data: JSON.stringify({ type: 'output_audio_buffer.started' }),
+    });
+    expect(b.track.enabled).toBe(false);
+    b.channel.onmessage({
+      data: JSON.stringify({ type: 'output_audio_buffer.stopped' }),
+    });
+    expect(b.track.enabled).toBe(true);
+    voice.stop();
+  },
+);
+it('permits a spoken interruption when the active track has echo cancellation', async () => {
   const b = browser(),
     voice = new VoiceConnection(vi.fn(), vi.fn());
-  (navigator.mediaDevices as any).getSupportedConstraints = () => ({
-    echoCancellation: false,
-  });
   await voice.start();
   b.channel.onmessage({
     data: JSON.stringify({ type: 'output_audio_buffer.started' }),
   });
-  expect(b.track.enabled).toBe(false);
-  b.channel.onmessage({
-    data: JSON.stringify({ type: 'output_audio_buffer.stopped' }),
-  });
   expect(b.track.enabled).toBe(true);
+  voice.setMuted(true);
+  expect(b.track.enabled).toBe(false);
   voice.stop();
 });
