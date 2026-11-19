@@ -183,3 +183,45 @@ it('distinguishes bounds alignment, true contact, positive overlap, and metric g
     ).status,
   ).toBe('verified');
 });
+it('measures rotated flat profiles rather than their enclosing rectangles', async () => {
+  const original = newSession({ volumes: [], selectedId: null });
+  const circle: Volume = {
+    ...part('box', 2, 0.1, 2),
+    geometry: { kind: 'circle' },
+    rotation: 45,
+  };
+  expect(
+    (
+      await verifyCompletion(
+        criteria([measure('w', 'width', 2)]),
+        original,
+        newSession({ volumes: [circle], selectedId: null }),
+      )
+    ).status,
+  ).toBe('verified');
+  const triangle: Volume = {
+    ...circle,
+    geometry: {
+      kind: 'polygon',
+      extruded: false,
+      points: [
+        { x: -0.5, z: -0.5 },
+        { x: 0.5, z: -0.5 },
+        { x: -0.5, z: 0.5 },
+      ],
+    },
+  };
+  const checks = criteria([
+    measure('w', 'width', Math.SQRT2),
+    measure('x', 'x', triangle.position.x - Math.SQRT1_2),
+  ]);
+  expect(
+    (
+      await verifyCompletion(
+        checks,
+        original,
+        newSession({ volumes: [triangle], selectedId: null }),
+      )
+    ).status,
+  ).toBe('verified');
+});

@@ -334,7 +334,7 @@ export function physicalChecks() {
       return {
         met: matches.every(Boolean),
         unavailable: !matches.includes(false) && matches.includes(undefined),
-        observed: `Evaluated solid shape ${r.shape}: ${matches.filter(Boolean).length}/${vs.length} match occupied geometry, independent of recipe type.${matches.includes(undefined) ? ' A different internal frame or representation prevents classification of the remaining solids; they are unverified.' : ''}`,
+        observed: `Evaluated solid shape ${r.shape}: ${matches.filter(Boolean).length}/${vs.length} match occupied geometry, independent of recipe type.${matches.includes(undefined) ? ' The supported frame search or representation limits prevent classification of the remaining solids; they are unverified.' : ''}`,
       };
     }
     if (r.kind === 'measure' && r.metric === 'thickness')
