@@ -21,3 +21,13 @@ The initial new budget regression assertion used strict binary floating-point eq
 Run the required CI checks to green before the live sequence. Freeze the application commit, harness and production bundle before generation. Real GPT-6.1-sol must create and commit the geometry; a handcrafted model cannot substitute. The same browser project must then accept the connected edit. Preserve raw responses, measurements, screenshots, independent verification status, latency, charges, reload and Undo/Redo evidence. Incorrect geometry cannot pass; genuinely unsupported host checks must remain explicitly unverified, with the external geometric acceptance measured separately.
 
 Only a passing focused sequence and green required CI authorize merge/deployment under the user's latest instructions. Keep production commit `9bb6ad42997979f3b55b8218a1c9dcfd22f61dff` as the rollback reference. Otherwise report the precise remaining blocker, without starting another milestone.
+
+## Validation and production smoke preparation
+
+The focused correction passed 407 unit tests, the production build, formatting, eight spending/outcome harness checks, and both formerly failing browser tests. The language sequence took 24.5 seconds locally, close to its old 30-second ceiling; viewport coverage took 2.1 minutes with concurrent local validation. CI determines final acceptance. Saved CI annotations and local attempt logs retain the original failures.
+
+The interrupted live attempt's full evidence is archived in `attempt-1/raw-evidence.tar.gz` with SHA-256, original ledger and original summary. Its failures were not relabeled. Credential scanning passed before archiving.
+
+This managed workspace cannot connect to the production hostname (normal Node and Chromium requests both failed through the configured network). The standard repository CI runner therefore performs the public production smoke after a deployment-branch push. It waits for the expected built assets, checks liveness and configured agent mode, and creates an editable solid through the real interface in a fresh browser context, then checks reload and Undo/Redo. All non-GET API requests are blocked in that smoke browser; no API credits are spent or existing user projects touched. The same smoke script passed against the local production server. This checks production availability and manual modeling/persistence; live AI reasoning is evaluated separately with the actual engine before release.
+
+A transient execution-tool disconnect while saving this report recovered on retry. No paid request was active or repeated.
