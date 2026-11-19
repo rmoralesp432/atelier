@@ -126,6 +126,7 @@ export function meteredFetch(
   path: string,
   context: () => Pick<Call, 'caseId' | 'role'>,
   send: typeof fetch = fetch,
+  limits = { ceilingUsd, maximumCalls: 48, maximumCallsPerTask: 8 },
 ): typeof fetch {
   return async (url, init) => {
     assert(
@@ -139,8 +140,8 @@ export function meteredFetch(
     const body = JSON.parse(init.body);
     const ledger: Ledger = JSON.parse(readFileSync(path, 'utf8'));
     assert(
-      ledger.authorized && ledger.ceilingUsd === ceilingUsd,
-      'Paid evaluation requires explicit approval of the $5 ceiling.',
+      ledger.authorized && ledger.ceilingUsd === limits.ceilingUsd,
+      `Paid evaluation requires explicit approval of the $${limits.ceilingUsd} ceiling.`,
     );
     assert(
       ledger.calls.every((c) => c.outcome === 'usage-reconciled'),
@@ -149,12 +150,13 @@ export function meteredFetch(
     const scope = context();
     const reservedUsd = reservation(body);
     assert(
-      ledger.calls.length < 48 &&
-        ledger.calls.filter((c) => c.caseId === scope.caseId).length < 8,
+      ledger.calls.length < limits.maximumCalls &&
+        ledger.calls.filter((c) => c.caseId === scope.caseId).length <
+          limits.maximumCallsPerTask,
       'Evaluation call limit reached before sending.',
     );
     assert(
-      budgetUsed(ledger) + reservedUsd <= ceilingUsd,
+      budgetUsed(ledger) + reservedUsd <= limits.ceilingUsd,
       'Evaluation dollar ceiling reached before sending.',
     );
     const call: Call = {
