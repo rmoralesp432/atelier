@@ -1,0 +1,446 @@
+{
+  "provenance": "Minimal causal reconstruction from exact user prompt and screenshot: 12×10 m, 250 mm slabs at 0/3.5/7 m and roof at 10.5 m. Original raw provider criteria were not available.",
+  "fixture": {
+    "original": {
+      "project": {
+        "volumes": [],
+        "selectedId": null
+      },
+      "past": [],
+      "future": [],
+      "context": {
+        "focusIds": [],
+        "lastCreatedIds": [],
+        "lastOperands": [],
+        "lastOperation": null
+      }
+    },
+    "candidate": {
+      "project": {
+        "volumes": [
+          {
+            "id": "ca310c6a-639c-4047-983d-abf10f47f450",
+            "name": "Concrete slab 1",
+            "dimensions": {
+              "width": 12,
+              "depth": 10,
+              "height": 0.25
+            },
+            "position": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": 0,
+            "geometry": {
+              "kind": "box"
+            }
+          },
+          {
+            "id": "338e46e9-fdfd-4290-9103-18d17ea20227",
+            "name": "Concrete slab 2",
+            "dimensions": {
+              "width": 12,
+              "depth": 10,
+              "height": 0.25
+            },
+            "position": {
+              "x": 0,
+              "y": 3.5,
+              "z": 0
+            },
+            "rotation": 0,
+            "geometry": {
+              "kind": "box"
+            }
+          },
+          {
+            "id": "504015ae-e801-411a-8796-077a7ce5db23",
+            "name": "Concrete slab 3",
+            "dimensions": {
+              "width": 12,
+              "depth": 10,
+              "height": 0.25
+            },
+            "position": {
+              "x": 0,
+              "y": 7,
+              "z": 0
+            },
+            "rotation": 0,
+            "geometry": {
+              "kind": "box"
+            }
+          },
+          {
+            "id": "71b18fa8-3ab9-4fcc-8e44-f4ef5edbf28e",
+            "name": "Concrete roof",
+            "dimensions": {
+              "width": 12,
+              "depth": 10,
+              "height": 0.25
+            },
+            "position": {
+              "x": 0,
+              "y": 10.5,
+              "z": 0
+            },
+            "rotation": 0,
+            "geometry": {
+              "kind": "box"
+            }
+          }
+        ],
+        "selectedId": "71b18fa8-3ab9-4fcc-8e44-f4ef5edbf28e",
+        "selectedIds": [
+          "71b18fa8-3ab9-4fcc-8e44-f4ef5edbf28e"
+        ]
+      },
+      "past": [
+        {
+          "volumes": [],
+          "selectedId": null
+        }
+      ],
+      "future": [],
+      "context": {
+        "focusIds": [
+          "71b18fa8-3ab9-4fcc-8e44-f4ef5edbf28e"
+        ],
+        "lastCreatedIds": [
+          "71b18fa8-3ab9-4fcc-8e44-f4ef5edbf28e"
+        ],
+        "lastOperands": [],
+        "lastOperation": "create_at"
+      }
+    },
+    "request": "Create a three-story contemporary office building with a 12 × 10 meter footprint and 3.5 meter floor-to-floor heights.\n\nInclude separate exposed-concrete floor slabs, a flat roof, a regular structural grid of circular concrete columns, and floor-to-ceiling glazing on all four façades.\n\nUse reasonable architectural dimensions, consistent column spacing, and realistic slab thicknesses.\n\nKeep all components independently editable and organized by level and material.\n\nBuild the model directly without asking unnecessary questions. Inspect the resulting geometry and verify the dimensions and alignment.",
+    "criteria": {
+      "modeling": true,
+      "editable": [],
+      "checks": [
+        {
+          "source": "request",
+          "evidence": "3.5 meter floor-to-floor heights",
+          "requirement": {
+            "id": "datum-0",
+            "label": "y requirement",
+            "kind": "measure",
+            "selector": {
+              "refs": [
+                "ca310c6a-639c-4047-983d-abf10f47f450"
+              ],
+              "nameContains": null,
+              "role": null,
+              "level": null
+            },
+            "metric": "y",
+            "aggregation": "each",
+            "comparison": "equal",
+            "value": 0,
+            "tolerance": 0.00001,
+            "relativeTolerance": 0
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "3.5 meter floor-to-floor heights",
+          "requirement": {
+            "id": "datum-1",
+            "label": "y requirement",
+            "kind": "measure",
+            "selector": {
+              "refs": [
+                "338e46e9-fdfd-4290-9103-18d17ea20227"
+              ],
+              "nameContains": null,
+              "role": null,
+              "level": null
+            },
+            "metric": "y",
+            "aggregation": "each",
+            "comparison": "equal",
+            "value": 3.5,
+            "tolerance": 0.00001,
+            "relativeTolerance": 0
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "3.5 meter floor-to-floor heights",
+          "requirement": {
+            "id": "datum-2",
+            "label": "y requirement",
+            "kind": "measure",
+            "selector": {
+              "refs": [
+                "504015ae-e801-411a-8796-077a7ce5db23"
+              ],
+              "nameContains": null,
+              "role": null,
+              "level": null
+            },
+            "metric": "y",
+            "aggregation": "each",
+            "comparison": "equal",
+            "value": 7,
+            "tolerance": 0.00001,
+            "relativeTolerance": 0
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "3.5 meter floor-to-floor heights",
+          "requirement": {
+            "id": "datum-3",
+            "label": "y requirement",
+            "kind": "measure",
+            "selector": {
+              "refs": [
+                "71b18fa8-3ab9-4fcc-8e44-f4ef5edbf28e"
+              ],
+              "nameContains": null,
+              "role": null,
+              "level": null
+            },
+            "metric": "y",
+            "aggregation": "each",
+            "comparison": "equal",
+            "value": 10.5,
+            "tolerance": 0.00001,
+            "relativeTolerance": 0
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "3.5 meter floor-to-floor heights",
+          "requirement": {
+            "kind": "offset",
+            "id": "reversed-offset",
+            "label": "Relative elevation",
+            "first": {
+              "refs": [
+                "338e46e9-fdfd-4290-9103-18d17ea20227"
+              ],
+              "nameContains": null,
+              "role": null,
+              "level": null
+            },
+            "second": {
+              "refs": [
+                "ca310c6a-639c-4047-983d-abf10f47f450"
+              ],
+              "nameContains": null,
+              "role": null,
+              "level": null
+            },
+            "axis": "y",
+            "firstAnchor": "min",
+            "secondAnchor": "min",
+            "value": 3.5,
+            "tolerance": 0.001
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "3.5 meter floor-to-floor heights",
+          "requirement": {
+            "kind": "property",
+            "id": "substance",
+            "label": "Concrete designation",
+            "selector": {
+              "refs": [
+                "$new"
+              ],
+              "nameContains": null,
+              "role": null,
+              "level": null
+            },
+            "property": "material",
+            "value": "concrete"
+          }
+        }
+      ],
+      "qualitativeLimits": []
+    }
+  },
+  "deployedResult": {
+    "modeling": true,
+    "passed": false,
+    "status": "incorrect",
+    "canCommit": false,
+    "checks": [
+      {
+        "id": "preserved-scope",
+        "label": "Unrelated existing geometry",
+        "met": true,
+        "outcome": "verified",
+        "observed": "0 existing objects outside the requested edit scope are unchanged.",
+        "ids": []
+      },
+      {
+        "id": "datum-0",
+        "label": "y requirement",
+        "met": true,
+        "outcome": "verified",
+        "observed": "y (each, world solids): 0; expected equal 0 ± 0.00001 m.",
+        "ids": [
+          "ca310c6a-639c-4047-983d-abf10f47f450"
+        ]
+      },
+      {
+        "id": "datum-1",
+        "label": "y requirement",
+        "met": true,
+        "outcome": "verified",
+        "observed": "y (each, world solids): 3.5; expected equal 3.5 ± 0.00001 m.",
+        "ids": [
+          "338e46e9-fdfd-4290-9103-18d17ea20227"
+        ]
+      },
+      {
+        "id": "datum-2",
+        "label": "y requirement",
+        "met": true,
+        "outcome": "verified",
+        "observed": "y (each, world solids): 7; expected equal 7 ± 0.00001 m.",
+        "ids": [
+          "504015ae-e801-411a-8796-077a7ce5db23"
+        ]
+      },
+      {
+        "id": "datum-3",
+        "label": "y requirement",
+        "met": true,
+        "outcome": "verified",
+        "observed": "y (each, world solids): 10.5; expected equal 10.5 ± 0.00001 m.",
+        "ids": [
+          "71b18fa8-3ab9-4fcc-8e44-f4ef5edbf28e"
+        ]
+      },
+      {
+        "id": "reversed-offset",
+        "label": "Relative elevation",
+        "met": false,
+        "outcome": "incorrect",
+        "observed": "Measured world-bounds y offset (min of ca310c6a-639c-4047-983d-abf10f47f450 minus min of 338e46e9-fdfd-4290-9103-18d17ea20227): -3.5 m; expected 3.5 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+        "ids": [
+          "338e46e9-fdfd-4290-9103-18d17ea20227",
+          "ca310c6a-639c-4047-983d-abf10f47f450"
+        ]
+      },
+      {
+        "id": "substance",
+        "label": "Concrete designation",
+        "met": false,
+        "outcome": "incorrect",
+        "observed": "material: solid; expected concrete. 4 element(s).",
+        "ids": [
+          "ca310c6a-639c-4047-983d-abf10f47f450",
+          "338e46e9-fdfd-4290-9103-18d17ea20227",
+          "504015ae-e801-411a-8796-077a7ce5db23",
+          "71b18fa8-3ab9-4fcc-8e44-f4ef5edbf28e"
+        ]
+      }
+    ],
+    "qualitativeLimits": []
+  },
+  "hotfixResult": {
+    "modeling": true,
+    "passed": false,
+    "status": "unverified",
+    "canCommit": true,
+    "criterionIssues": [
+      {
+        "checkId": "reversed-offset",
+        "code": "contradiction",
+        "detail": "The requested check says second.min minus first.min on world y = 3.5 ± 0.001 m, but independent criteria datum-0, datum-1 imply [-3.50002, -3.49998] m for those same identities and datums. These criteria cannot all hold. Do not move geometry to repair a contradictory check.",
+        "related": [
+          "datum-0",
+          "datum-1"
+        ]
+      },
+      {
+        "checkId": "substance",
+        "code": "unsupported_property",
+        "detail": "material stores only rendering categories (solid, glass, frame), not \"concrete\". A materialSpec designation can be explicitly assigned and checked as metadata; color/name do not certify substance or physical performance.",
+        "related": []
+      }
+    ],
+    "checks": [
+      {
+        "id": "preserved-scope",
+        "label": "Unrelated existing geometry",
+        "met": true,
+        "outcome": "verified",
+        "observed": "0 existing objects outside the requested edit scope are unchanged.",
+        "ids": []
+      },
+      {
+        "id": "datum-0",
+        "label": "y requirement",
+        "met": true,
+        "outcome": "verified",
+        "observed": "y (each, world solids): 0; expected equal 0 ± 0.00001 m.",
+        "ids": [
+          "ca310c6a-639c-4047-983d-abf10f47f450"
+        ]
+      },
+      {
+        "id": "datum-1",
+        "label": "y requirement",
+        "met": true,
+        "outcome": "verified",
+        "observed": "y (each, world solids): 3.5; expected equal 3.5 ± 0.00001 m.",
+        "ids": [
+          "338e46e9-fdfd-4290-9103-18d17ea20227"
+        ]
+      },
+      {
+        "id": "datum-2",
+        "label": "y requirement",
+        "met": true,
+        "outcome": "verified",
+        "observed": "y (each, world solids): 7; expected equal 7 ± 0.00001 m.",
+        "ids": [
+          "504015ae-e801-411a-8796-077a7ce5db23"
+        ]
+      },
+      {
+        "id": "datum-3",
+        "label": "y requirement",
+        "met": true,
+        "outcome": "verified",
+        "observed": "y (each, world solids): 10.5; expected equal 10.5 ± 0.00001 m.",
+        "ids": [
+          "71b18fa8-3ab9-4fcc-8e44-f4ef5edbf28e"
+        ]
+      },
+      {
+        "id": "reversed-offset",
+        "label": "Relative elevation",
+        "met": false,
+        "outcome": "unverified",
+        "observed": "Invalid verification criterion: The requested check says second.min minus first.min on world y = 3.5 ± 0.001 m, but independent criteria datum-0, datum-1 imply [-3.50002, -3.49998] m for those same identities and datums. These criteria cannot all hold. Do not move geometry to repair a contradictory check. Observation (not a verdict): Measured world-bounds y offset (min of ca310c6a-639c-4047-983d-abf10f47f450 minus min of 338e46e9-fdfd-4290-9103-18d17ea20227): -3.5 m; expected 3.5 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+        "ids": [
+          "338e46e9-fdfd-4290-9103-18d17ea20227",
+          "ca310c6a-639c-4047-983d-abf10f47f450"
+        ]
+      },
+      {
+        "id": "substance",
+        "label": "Concrete designation",
+        "met": false,
+        "outcome": "unverified",
+        "observed": "Invalid verification criterion: material stores only rendering categories (solid, glass, frame), not \"concrete\". A materialSpec designation can be explicitly assigned and checked as metadata; color/name do not certify substance or physical performance. Observation (not a verdict): material: solid; expected concrete. 4 element(s).",
+        "ids": [
+          "ca310c6a-639c-4047-983d-abf10f47f450",
+          "338e46e9-fdfd-4290-9103-18d17ea20227",
+          "504015ae-e801-411a-8796-077a7ce5db23",
+          "71b18fa8-3ab9-4fcc-8e44-f4ef5edbf28e"
+        ]
+      }
+    ],
+    "qualitativeLimits": []
+  }
+}

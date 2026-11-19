@@ -1,0 +1,1093 @@
+{
+  "total_count": 10,
+  "jobs": [
+    {
+      "id": 135669360879,
+      "run_id": 44555128482,
+      "workflow_name": "Check ATELIER",
+      "head_branch": "fix/verification-criteria-contracts",
+      "run_url": "https://api.github.com/repos/rmoralesp432/atelier/actions/runs/44555128482",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVKAQM88AAAAfloYo7w",
+      "head_sha": "793e943dd6f754d01fdb0971621367c6de84e508",
+      "url": "https://api.github.com/repos/rmoralesp432/atelier/actions/jobs/135669360879",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44555128482/job/135669360879",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T15:28:43Z",
+      "started_at": "2026-11-19T15:28:44Z",
+      "completed_at": "2026-11-19T15:30:07Z",
+      "name": "validate",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-19T15:28:45Z",
+          "completed_at": "2026-11-19T15:28:46Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-19T15:28:46Z",
+          "completed_at": "2026-11-19T15:28:47Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-19T15:28:47Z",
+          "completed_at": "2026-11-19T15:28:51Z"
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-19T15:28:51Z",
+          "completed_at": "2026-11-19T15:28:57Z"
+        },
+        {
+          "name": "Run npm test",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-19T15:28:57Z",
+          "completed_at": "2026-11-19T15:29:52Z"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-19T15:29:52Z",
+          "completed_at": "2026-11-19T15:29:56Z"
+        },
+        {
+          "name": "Run npm run format:check",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-19T15:29:56Z",
+          "completed_at": "2026-11-19T15:30:05Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13,
+          "started_at": "2026-11-19T15:30:05Z",
+          "completed_at": "2026-11-19T15:30:05Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14,
+          "started_at": "2026-11-19T15:30:05Z",
+          "completed_at": "2026-11-19T15:30:05Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-19T15:30:05Z",
+          "completed_at": "2026-11-19T15:30:05Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/rmoralesp432/atelier/check-runs/135669360879",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000385,
+      "runner_name": "GitHub Actions 1000000385",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 135670279311,
+      "run_id": 44555128482,
+      "workflow_name": "Check ATELIER",
+      "head_branch": "fix/verification-criteria-contracts",
+      "run_url": "https://api.github.com/repos/rmoralesp432/atelier/actions/runs/44555128482",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVKAQM88AAAAflpQsjw",
+      "head_sha": "793e943dd6f754d01fdb0971621367c6de84e508",
+      "url": "https://api.github.com/repos/rmoralesp432/atelier/actions/jobs/135670279311",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44555128482/job/135670279311",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T15:30:07Z",
+      "started_at": "2026-11-19T15:30:10Z",
+      "completed_at": "2026-11-19T15:42:09Z",
+      "name": "browser (6)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-19T15:30:11Z",
+          "completed_at": "2026-11-19T15:30:12Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-19T15:30:12Z",
+          "completed_at": "2026-11-19T15:30:13Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-19T15:30:13Z",
+          "completed_at": "2026-11-19T15:30:17Z"
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-19T15:30:17Z",
+          "completed_at": "2026-11-19T15:30:21Z"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-19T15:30:21Z",
+          "completed_at": "2026-11-19T15:30:25Z"
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-19T15:30:25Z",
+          "completed_at": "2026-11-19T15:30:41Z"
+        },
+        {
+          "name": "Run npx playwright test --shard=6/8",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-19T15:30:41Z",
+          "completed_at": "2026-11-19T15:42:04Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-19T15:42:04Z",
+          "completed_at": "2026-11-19T15:42:06Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-19T15:42:06Z",
+          "completed_at": "2026-11-19T15:42:06Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-11-19T15:42:06Z",
+          "completed_at": "2026-11-19T15:42:06Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-19T15:42:06Z",
+          "completed_at": "2026-11-19T15:42:06Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/rmoralesp432/atelier/check-runs/135670279311",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000386,
+      "runner_name": "GitHub Actions 1000000386",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 135670279565,
+      "run_id": 44555128482,
+      "workflow_name": "Check ATELIER",
+      "head_branch": "fix/verification-criteria-contracts",
+      "run_url": "https://api.github.com/repos/rmoralesp432/atelier/actions/runs/44555128482",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVKAQM88AAAAflpQtjQ",
+      "head_sha": "793e943dd6f754d01fdb0971621367c6de84e508",
+      "url": "https://api.github.com/repos/rmoralesp432/atelier/actions/jobs/135670279565",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44555128482/job/135670279565",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T15:30:07Z",
+      "started_at": "2026-11-19T15:30:09Z",
+      "completed_at": "2026-11-19T15:36:17Z",
+      "name": "browser (3)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-19T15:30:10Z",
+          "completed_at": "2026-11-19T15:30:11Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-19T15:30:11Z",
+          "completed_at": "2026-11-19T15:30:12Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-19T15:30:12Z",
+          "completed_at": "2026-11-19T15:30:14Z"
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-19T15:30:14Z",
+          "completed_at": "2026-11-19T15:30:17Z"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-19T15:30:17Z",
+          "completed_at": "2026-11-19T15:30:20Z"
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-19T15:30:20Z",
+          "completed_at": "2026-11-19T15:30:37Z"
+        },
+        {
+          "name": "Run npx playwright test --shard=3/8",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-19T15:30:37Z",
+          "completed_at": "2026-11-19T15:36:11Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-19T15:36:11Z",
+          "completed_at": "2026-11-19T15:36:14Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-19T15:36:14Z",
+          "completed_at": "2026-11-19T15:36:14Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-11-19T15:36:14Z",
+          "completed_at": "2026-11-19T15:36:15Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-19T15:36:15Z",
+          "completed_at": "2026-11-19T15:36:15Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/rmoralesp432/atelier/check-runs/135670279565",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000388,
+      "runner_name": "GitHub Actions 1000000388",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 135670279651,
+      "run_id": 44555128482,
+      "workflow_name": "Check ATELIER",
+      "head_branch": "fix/verification-criteria-contracts",
+      "run_url": "https://api.github.com/repos/rmoralesp432/atelier/actions/runs/44555128482",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVKAQM88AAAAflpQt4w",
+      "head_sha": "793e943dd6f754d01fdb0971621367c6de84e508",
+      "url": "https://api.github.com/repos/rmoralesp432/atelier/actions/jobs/135670279651",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44555128482/job/135670279651",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T15:30:07Z",
+      "started_at": "2026-11-19T15:30:09Z",
+      "completed_at": "2026-11-19T15:40:29Z",
+      "name": "browser (7)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-19T15:30:10Z",
+          "completed_at": "2026-11-19T15:30:11Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-19T15:30:11Z",
+          "completed_at": "2026-11-19T15:30:12Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-19T15:30:12Z",
+          "completed_at": "2026-11-19T15:30:17Z"
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-19T15:30:17Z",
+          "completed_at": "2026-11-19T15:30:23Z"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-19T15:30:23Z",
+          "completed_at": "2026-11-19T15:30:27Z"
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-19T15:30:27Z",
+          "completed_at": "2026-11-19T15:30:51Z"
+        },
+        {
+          "name": "Run npx playwright test --shard=7/8",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-19T15:30:51Z",
+          "completed_at": "2026-11-19T15:40:26Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-19T15:40:26Z",
+          "completed_at": "2026-11-19T15:40:27Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-19T15:40:27Z",
+          "completed_at": "2026-11-19T15:40:28Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-11-19T15:40:28Z",
+          "completed_at": "2026-11-19T15:40:28Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-19T15:40:28Z",
+          "completed_at": "2026-11-19T15:40:28Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/rmoralesp432/atelier/check-runs/135670279651",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000390,
+      "runner_name": "GitHub Actions 1000000390",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 135670279720,
+      "run_id": 44555128482,
+      "workflow_name": "Check ATELIER",
+      "head_branch": "fix/verification-criteria-contracts",
+      "run_url": "https://api.github.com/repos/rmoralesp432/atelier/actions/runs/44555128482",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVKAQM88AAAAflpQuKA",
+      "head_sha": "793e943dd6f754d01fdb0971621367c6de84e508",
+      "url": "https://api.github.com/repos/rmoralesp432/atelier/actions/jobs/135670279720",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44555128482/job/135670279720",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T15:30:07Z",
+      "started_at": "2026-11-19T15:30:09Z",
+      "completed_at": "2026-11-19T15:36:31Z",
+      "name": "browser (8)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-19T15:30:10Z",
+          "completed_at": "2026-11-19T15:30:10Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-19T15:30:10Z",
+          "completed_at": "2026-11-19T15:30:12Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-19T15:30:12Z",
+          "completed_at": "2026-11-19T15:30:13Z"
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-19T15:30:13Z",
+          "completed_at": "2026-11-19T15:30:17Z"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-19T15:30:17Z",
+          "completed_at": "2026-11-19T15:30:21Z"
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-19T15:30:21Z",
+          "completed_at": "2026-11-19T15:30:37Z"
+        },
+        {
+          "name": "Run npx playwright test --shard=8/8",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-19T15:30:37Z",
+          "completed_at": "2026-11-19T15:36:29Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-19T15:36:29Z",
+          "completed_at": "2026-11-19T15:36:30Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-19T15:36:30Z",
+          "completed_at": "2026-11-19T15:36:30Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-11-19T15:36:30Z",
+          "completed_at": "2026-11-19T15:36:30Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-19T15:36:30Z",
+          "completed_at": "2026-11-19T15:36:30Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/rmoralesp432/atelier/check-runs/135670279720",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000393,
+      "runner_name": "GitHub Actions 1000000393",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 135670279924,
+      "run_id": 44555128482,
+      "workflow_name": "Check ATELIER",
+      "head_branch": "fix/verification-criteria-contracts",
+      "run_url": "https://api.github.com/repos/rmoralesp432/atelier/actions/runs/44555128482",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVKAQM88AAAAflpQu9A",
+      "head_sha": "793e943dd6f754d01fdb0971621367c6de84e508",
+      "url": "https://api.github.com/repos/rmoralesp432/atelier/actions/jobs/135670279924",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44555128482/job/135670279924",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T15:30:07Z",
+      "started_at": "2026-11-19T15:30:09Z",
+      "completed_at": "2026-11-19T15:39:23Z",
+      "name": "browser (5)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-19T15:30:10Z",
+          "completed_at": "2026-11-19T15:30:10Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-19T15:30:10Z",
+          "completed_at": "2026-11-19T15:30:12Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-19T15:30:12Z",
+          "completed_at": "2026-11-19T15:30:14Z"
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-19T15:30:14Z",
+          "completed_at": "2026-11-19T15:30:17Z"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-19T15:30:17Z",
+          "completed_at": "2026-11-19T15:30:20Z"
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-19T15:30:20Z",
+          "completed_at": "2026-11-19T15:30:34Z"
+        },
+        {
+          "name": "Run npx playwright test --shard=5/8",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-19T15:30:34Z",
+          "completed_at": "2026-11-19T15:39:19Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-19T15:39:19Z",
+          "completed_at": "2026-11-19T15:39:20Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-19T15:39:20Z",
+          "completed_at": "2026-11-19T15:39:20Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-11-19T15:39:20Z",
+          "completed_at": "2026-11-19T15:39:20Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-19T15:39:20Z",
+          "completed_at": "2026-11-19T15:39:20Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/rmoralesp432/atelier/check-runs/135670279924",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000391,
+      "runner_name": "GitHub Actions 1000000391",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 135670279950,
+      "run_id": 44555128482,
+      "workflow_name": "Check ATELIER",
+      "head_branch": "fix/verification-criteria-contracts",
+      "run_url": "https://api.github.com/repos/rmoralesp432/atelier/actions/runs/44555128482",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVKAQM88AAAAflpQvDg",
+      "head_sha": "793e943dd6f754d01fdb0971621367c6de84e508",
+      "url": "https://api.github.com/repos/rmoralesp432/atelier/actions/jobs/135670279950",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44555128482/job/135670279950",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T15:30:07Z",
+      "started_at": "2026-11-19T15:30:10Z",
+      "completed_at": "2026-11-19T15:38:53Z",
+      "name": "browser (1)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-19T15:30:11Z",
+          "completed_at": "2026-11-19T15:30:12Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-19T15:30:12Z",
+          "completed_at": "2026-11-19T15:30:13Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-19T15:30:13Z",
+          "completed_at": "2026-11-19T15:30:19Z"
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-19T15:30:19Z",
+          "completed_at": "2026-11-19T15:30:25Z"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-19T15:30:25Z",
+          "completed_at": "2026-11-19T15:30:30Z"
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-19T15:30:30Z",
+          "completed_at": "2026-11-19T15:30:56Z"
+        },
+        {
+          "name": "Run npx playwright test --shard=1/8",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-19T15:30:56Z",
+          "completed_at": "2026-11-19T15:38:45Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-19T15:38:45Z",
+          "completed_at": "2026-11-19T15:38:50Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-19T15:38:50Z",
+          "completed_at": "2026-11-19T15:38:50Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-11-19T15:38:50Z",
+          "completed_at": "2026-11-19T15:38:50Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-19T15:38:50Z",
+          "completed_at": "2026-11-19T15:38:51Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/rmoralesp432/atelier/check-runs/135670279950",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000389,
+      "runner_name": "GitHub Actions 1000000389",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 135670280078,
+      "run_id": 44555128482,
+      "workflow_name": "Check ATELIER",
+      "head_branch": "fix/verification-criteria-contracts",
+      "run_url": "https://api.github.com/repos/rmoralesp432/atelier/actions/runs/44555128482",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVKAQM88AAAAflpQvjg",
+      "head_sha": "793e943dd6f754d01fdb0971621367c6de84e508",
+      "url": "https://api.github.com/repos/rmoralesp432/atelier/actions/jobs/135670280078",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44555128482/job/135670280078",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T15:30:07Z",
+      "started_at": "2026-11-19T15:30:10Z",
+      "completed_at": "2026-11-19T15:45:02Z",
+      "name": "browser (2)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-19T15:30:11Z",
+          "completed_at": "2026-11-19T15:30:12Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-19T15:30:12Z",
+          "completed_at": "2026-11-19T15:30:13Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-19T15:30:13Z",
+          "completed_at": "2026-11-19T15:30:16Z"
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-19T15:30:16Z",
+          "completed_at": "2026-11-19T15:30:23Z"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-19T15:30:23Z",
+          "completed_at": "2026-11-19T15:30:27Z"
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-19T15:30:27Z",
+          "completed_at": "2026-11-19T15:30:55Z"
+        },
+        {
+          "name": "Run npx playwright test --shard=2/8",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-19T15:30:55Z",
+          "completed_at": "2026-11-19T15:44:57Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-19T15:44:57Z",
+          "completed_at": "2026-11-19T15:44:59Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-19T15:44:59Z",
+          "completed_at": "2026-11-19T15:44:59Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-11-19T15:44:59Z",
+          "completed_at": "2026-11-19T15:44:59Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-19T15:44:59Z",
+          "completed_at": "2026-11-19T15:44:59Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/rmoralesp432/atelier/check-runs/135670280078",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000387,
+      "runner_name": "GitHub Actions 1000000387",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 135670280642,
+      "run_id": 44555128482,
+      "workflow_name": "Check ATELIER",
+      "head_branch": "fix/verification-criteria-contracts",
+      "run_url": "https://api.github.com/repos/rmoralesp432/atelier/actions/runs/44555128482",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVKAQM88AAAAflpQxwg",
+      "head_sha": "793e943dd6f754d01fdb0971621367c6de84e508",
+      "url": "https://api.github.com/repos/rmoralesp432/atelier/actions/jobs/135670280642",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44555128482/job/135670280642",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T15:30:07Z",
+      "started_at": "2026-11-19T15:30:09Z",
+      "completed_at": "2026-11-19T15:38:02Z",
+      "name": "browser (4)",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-19T15:30:10Z",
+          "completed_at": "2026-11-19T15:30:11Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-19T15:30:11Z",
+          "completed_at": "2026-11-19T15:30:13Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-19T15:30:13Z",
+          "completed_at": "2026-11-19T15:30:17Z"
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-19T15:30:17Z",
+          "completed_at": "2026-11-19T15:30:20Z"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-19T15:30:20Z",
+          "completed_at": "2026-11-19T15:30:23Z"
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-19T15:30:23Z",
+          "completed_at": "2026-11-19T15:30:38Z"
+        },
+        {
+          "name": "Run npx playwright test --shard=4/8",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-19T15:30:38Z",
+          "completed_at": "2026-11-19T15:37:58Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-19T15:37:58Z",
+          "completed_at": "2026-11-19T15:38:00Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-19T15:38:00Z",
+          "completed_at": "2026-11-19T15:38:00Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-11-19T15:38:00Z",
+          "completed_at": "2026-11-19T15:38:00Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-19T15:38:00Z",
+          "completed_at": "2026-11-19T15:38:00Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/rmoralesp432/atelier/check-runs/135670280642",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000392,
+      "runner_name": "GitHub Actions 1000000392",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    },
+    {
+      "id": 135680318263,
+      "run_id": 44555128482,
+      "workflow_name": "Check ATELIER",
+      "head_branch": "fix/verification-criteria-contracts",
+      "run_url": "https://api.github.com/repos/rmoralesp432/atelier/actions/runs/44555128482",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOVKAQM88AAAAfly1bNw",
+      "head_sha": "793e943dd6f754d01fdb0971621367c6de84e508",
+      "url": "https://api.github.com/repos/rmoralesp432/atelier/actions/jobs/135680318263",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44555128482/job/135680318263",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-19T15:45:02Z",
+      "started_at": "2026-11-19T15:45:04Z",
+      "completed_at": "2026-11-19T15:45:08Z",
+      "name": "check",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-19T15:45:05Z",
+          "completed_at": "2026-11-19T15:45:05Z"
+        },
+        {
+          "name": "Require validation and every browser shard",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-19T15:45:05Z",
+          "completed_at": "2026-11-19T15:45:05Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-19T15:45:05Z",
+          "completed_at": "2026-11-19T15:45:05Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/rmoralesp432/atelier/check-runs/135680318263",
+      "labels": [
+        "ubuntu-latest"
+      ],
+      "runner_id": 1000000394,
+      "runner_name": "GitHub Actions 1000000394",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

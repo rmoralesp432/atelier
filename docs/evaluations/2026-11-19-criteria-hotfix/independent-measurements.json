@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "normalVerificationStatus": "verified",
+  "objects": [
+    {
+      "id": "30e7d5e7-97c6-49ac-a63c-67aebc304f30",
+      "name": "Datum",
+      "bounds": {
+        "min": [
+          17.6,
+          0.8,
+          -6.25
+        ],
+        "max": [
+          18.400000000000002,
+          1.1,
+          -5.75
+        ]
+      },
+      "volume": 0.12000000000000019,
+      "designation": "POM"
+    },
+    {
+      "id": "985bdfde-9c1a-4749-9628-20f6fa88c152",
+      "name": "East",
+      "bounds": {
+        "min": [
+          19.3,
+          1.4,
+          -6.25
+        ],
+        "max": [
+          20.1,
+          1.7,
+          -5.75
+        ]
+      },
+      "volume": 0.12000000000000004,
+      "designation": "POM"
+    },
+    {
+      "id": "c9184218-7d05-408b-9b5e-88757308cda8",
+      "name": "Return",
+      "bounds": {
+        "min": [
+          17,
+          2.1,
+          -6.25
+        ],
+        "max": [
+          17.8,
+          2.4,
+          -5.75
+        ]
+      },
+      "volume": 0.12000000000000005,
+      "designation": "POM"
+    }
+  ],
+  "unrelatedObjectsUnchanged": true,
+  "distinctIds": true,
+  "group": {
+    "id": "54c35f18-b0e6-44b2-9ebf-75742876cac7",
+    "name": "Offset gauge",
+    "visible": true,
+    "locked": false
+  }
+}

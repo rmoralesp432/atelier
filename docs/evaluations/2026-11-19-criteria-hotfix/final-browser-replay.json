@@ -1,0 +1,200 @@
+{
+  "status": "PASS",
+  "provenance": "Exact previously paid real-AI plans and independent criteria, replayed offline on final source after scene-equivalence checks. No new AI reasoning or paid calls.",
+  "modelResponses": 2,
+  "reviewResponses": 1,
+  "commit": true,
+  "persistence": true,
+  "reload": true,
+  "undoRedo": true,
+  "errors": [],
+  "committed": {
+    "project": {
+      "groups": [
+        {
+          "id": "8d04e0aa-dd0a-4d26-a37d-612bd904ca1c",
+          "name": "Offset gauge",
+          "visible": true,
+          "locked": false
+        }
+      ],
+      "volumes": [
+        {
+          "id": "91d82f3f-02c4-4691-a85f-5d3cf4d32dce",
+          "name": "Main pavilion",
+          "dimensions": {
+            "width": 14,
+            "depth": 9,
+            "height": 5
+          },
+          "position": {
+            "x": -3,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": 0
+        },
+        {
+          "id": "69de5b45-6eff-452f-897a-cff6b67a7f21",
+          "name": "Vertical annex",
+          "dimensions": {
+            "width": 5,
+            "depth": 9,
+            "height": 9
+          },
+          "position": {
+            "x": 6.5,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": 0
+        },
+        {
+          "id": "3fd1463b-99cc-4772-94d2-992bd6c73ff4",
+          "name": "Datum",
+          "dimensions": {
+            "width": 0.8,
+            "depth": 0.5,
+            "height": 0.3
+          },
+          "position": {
+            "x": 18,
+            "y": 0.8,
+            "z": -6
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          },
+          "material": "solid",
+          "color": "#e2e7e6",
+          "groupId": "8d04e0aa-dd0a-4d26-a37d-612bd904ca1c",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          },
+          "materialSpec": "POM"
+        },
+        {
+          "id": "725af0c4-3a32-4db0-a79e-ddd0d76490fd",
+          "name": "East",
+          "dimensions": {
+            "width": 0.8,
+            "depth": 0.5,
+            "height": 0.3
+          },
+          "position": {
+            "x": 19.7,
+            "y": 1.4,
+            "z": -6
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          },
+          "material": "solid",
+          "color": "#e2e7e6",
+          "groupId": "8d04e0aa-dd0a-4d26-a37d-612bd904ca1c",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          },
+          "materialSpec": "POM"
+        },
+        {
+          "id": "8e42d39e-9e17-48ef-8212-adeceef9f81a",
+          "name": "Return",
+          "dimensions": {
+            "width": 0.8,
+            "depth": 0.5,
+            "height": 0.3
+          },
+          "position": {
+            "x": 17.4,
+            "y": 2.1,
+            "z": -6
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          },
+          "material": "solid",
+          "color": "#e2e7e6",
+          "groupId": "8d04e0aa-dd0a-4d26-a37d-612bd904ca1c",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          },
+          "materialSpec": "POM"
+        }
+      ],
+      "selectedId": "8e42d39e-9e17-48ef-8212-adeceef9f81a",
+      "selectedIds": [
+        "3fd1463b-99cc-4772-94d2-992bd6c73ff4",
+        "725af0c4-3a32-4db0-a79e-ddd0d76490fd",
+        "8e42d39e-9e17-48ef-8212-adeceef9f81a"
+      ]
+    },
+    "past": [
+      {
+        "volumes": [
+          {
+            "id": "91d82f3f-02c4-4691-a85f-5d3cf4d32dce",
+            "name": "Main pavilion",
+            "dimensions": {
+              "width": 14,
+              "depth": 9,
+              "height": 5
+            },
+            "position": {
+              "x": -3,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": 0
+          },
+          {
+            "id": "69de5b45-6eff-452f-897a-cff6b67a7f21",
+            "name": "Vertical annex",
+            "dimensions": {
+              "width": 5,
+              "depth": 9,
+              "height": 9
+            },
+            "position": {
+              "x": 6.5,
+              "y": 0,
+              "z": 0
+            },
+            "rotation": 0
+          }
+        ],
+        "selectedId": "91d82f3f-02c4-4691-a85f-5d3cf4d32dce"
+      }
+    ],
+    "future": [],
+    "context": {
+      "focusIds": [
+        "3fd1463b-99cc-4772-94d2-992bd6c73ff4",
+        "725af0c4-3a32-4db0-a79e-ddd0d76490fd",
+        "8e42d39e-9e17-48ef-8212-adeceef9f81a"
+      ],
+      "lastCreatedIds": [
+        "3fd1463b-99cc-4772-94d2-992bd6c73ff4",
+        "725af0c4-3a32-4db0-a79e-ddd0d76490fd",
+        "8e42d39e-9e17-48ef-8212-adeceef9f81a"
+      ],
+      "lastOperands": [],
+      "lastOperation": "material"
+    }
+  }
+}

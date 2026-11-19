@@ -1,0 +1,143 @@
+{
+  "modeling": true,
+  "passed": true,
+  "status": "verified",
+  "canCommit": true,
+  "checks": [
+    {
+      "id": "preserved-scope",
+      "label": "Unrelated existing geometry",
+      "met": true,
+      "outcome": "verified",
+      "observed": "2 existing objects outside the requested edit scope are unchanged.",
+      "ids": []
+    },
+    {
+      "id": "check-1",
+      "label": "count",
+      "met": true,
+      "outcome": "verified",
+      "observed": "count (sum): 3; expected equal 3, tolerance 0. 3 element(s).",
+      "ids": [
+        "30e7d5e7-97c6-49ac-a63c-67aebc304f30",
+        "985bdfde-9c1a-4749-9628-20f6fa88c152",
+        "c9184218-7d05-408b-9b5e-88757308cda8"
+      ]
+    },
+    {
+      "id": "check-2",
+      "label": "shape",
+      "met": true,
+      "outcome": "verified",
+      "observed": "Evaluated solid shape box: 3/3 match occupied geometry, independent of recipe type.",
+      "ids": [
+        "30e7d5e7-97c6-49ac-a63c-67aebc304f30",
+        "985bdfde-9c1a-4749-9628-20f6fa88c152",
+        "c9184218-7d05-408b-9b5e-88757308cda8"
+      ]
+    },
+    {
+      "id": "check-3",
+      "label": "width",
+      "met": true,
+      "outcome": "verified",
+      "observed": "width (each, world solids): 0.8000000000000007, 0.8000000000000007, 0.8000000000000007; expected equal 0.8 ± 0.0001 m.",
+      "ids": [
+        "30e7d5e7-97c6-49ac-a63c-67aebc304f30",
+        "985bdfde-9c1a-4749-9628-20f6fa88c152",
+        "c9184218-7d05-408b-9b5e-88757308cda8"
+      ]
+    },
+    {
+      "id": "check-4",
+      "label": "depth",
+      "met": true,
+      "outcome": "verified",
+      "observed": "depth (each, world solids): 0.5, 0.5, 0.5; expected equal 0.5 ± 0.0001 m.",
+      "ids": [
+        "30e7d5e7-97c6-49ac-a63c-67aebc304f30",
+        "985bdfde-9c1a-4749-9628-20f6fa88c152",
+        "c9184218-7d05-408b-9b5e-88757308cda8"
+      ]
+    },
+    {
+      "id": "check-5",
+      "label": "height",
+      "met": true,
+      "outcome": "verified",
+      "observed": "height (each, world solids): 0.30000000000000004, 0.30000000000000004, 0.2999999999999998; expected equal 0.3 ± 0.0001 m.",
+      "ids": [
+        "30e7d5e7-97c6-49ac-a63c-67aebc304f30",
+        "985bdfde-9c1a-4749-9628-20f6fa88c152",
+        "c9184218-7d05-408b-9b5e-88757308cda8"
+      ]
+    },
+    {
+      "id": "check-6",
+      "label": "positions · Datum",
+      "met": true,
+      "outcome": "verified",
+      "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.0001 m.",
+      "ids": [
+        "30e7d5e7-97c6-49ac-a63c-67aebc304f30"
+      ]
+    },
+    {
+      "id": "check-7",
+      "label": "positions · East",
+      "met": true,
+      "outcome": "verified",
+      "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.0001 m.",
+      "ids": [
+        "985bdfde-9c1a-4749-9628-20f6fa88c152"
+      ]
+    },
+    {
+      "id": "check-8",
+      "label": "positions · Return",
+      "met": true,
+      "outcome": "verified",
+      "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.0001 m.",
+      "ids": [
+        "c9184218-7d05-408b-9b5e-88757308cda8"
+      ]
+    },
+    {
+      "id": "check-9",
+      "label": "group",
+      "met": true,
+      "outcome": "verified",
+      "observed": "Group Offset gauge: 3 members; 3/3 requested objects belong to it.",
+      "ids": [
+        "30e7d5e7-97c6-49ac-a63c-67aebc304f30",
+        "985bdfde-9c1a-4749-9628-20f6fa88c152",
+        "c9184218-7d05-408b-9b5e-88757308cda8"
+      ]
+    },
+    {
+      "id": "check-10",
+      "label": "editable",
+      "met": true,
+      "outcome": "verified",
+      "observed": "3 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+      "ids": [
+        "30e7d5e7-97c6-49ac-a63c-67aebc304f30",
+        "985bdfde-9c1a-4749-9628-20f6fa88c152",
+        "c9184218-7d05-408b-9b5e-88757308cda8"
+      ]
+    },
+    {
+      "id": "check-11",
+      "label": "property",
+      "met": true,
+      "outcome": "verified",
+      "observed": "materialSpec: POM; expected POM. 3 element(s). Explicit design designation only; physical composition and performance are not certified.",
+      "ids": [
+        "30e7d5e7-97c6-49ac-a63c-67aebc304f30",
+        "985bdfde-9c1a-4749-9628-20f6fa88c152",
+        "c9184218-7d05-408b-9b5e-88757308cda8"
+      ]
+    }
+  ],
+  "qualitativeLimits": []
+}

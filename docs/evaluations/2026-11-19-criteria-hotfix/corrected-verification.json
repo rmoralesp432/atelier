@@ -1,0 +1,60 @@
+{
+  "modeling": true,
+  "passed": true,
+  "status": "verified",
+  "canCommit": true,
+  "checks": [
+    {
+      "id": "preserved-scope",
+      "label": "Unrelated existing geometry",
+      "met": true,
+      "outcome": "verified",
+      "observed": "2 existing objects outside the requested edit scope are unchanged.",
+      "ids": []
+    },
+    {
+      "id": "datum",
+      "label": "y requirement",
+      "met": true,
+      "outcome": "verified",
+      "observed": "y (each, world solids): 0.8; expected equal 0.8 ± 0.00001 m.",
+      "ids": [
+        "30e7d5e7-97c6-49ac-a63c-67aebc304f30"
+      ]
+    },
+    {
+      "id": "east",
+      "label": "y requirement",
+      "met": true,
+      "outcome": "verified",
+      "observed": "y (each, world solids): 1.4; expected equal 1.4 ± 0.00001 m.",
+      "ids": [
+        "985bdfde-9c1a-4749-9628-20f6fa88c152"
+      ]
+    },
+    {
+      "id": "bad-direction",
+      "label": "East above Datum",
+      "met": true,
+      "outcome": "verified",
+      "observed": "Measured world-bounds y offset (min of 30e7d5e7-97c6-49ac-a63c-67aebc304f30 minus min of 985bdfde-9c1a-4749-9628-20f6fa88c152): -0.5999999999999999 m; expected -0.6 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+      "ids": [
+        "985bdfde-9c1a-4749-9628-20f6fa88c152",
+        "30e7d5e7-97c6-49ac-a63c-67aebc304f30"
+      ]
+    },
+    {
+      "id": "bad-material-field",
+      "label": "POM designation",
+      "met": true,
+      "outcome": "verified",
+      "observed": "materialSpec: POM; expected POM. 3 element(s). Explicit design designation only; physical composition and performance are not certified.",
+      "ids": [
+        "30e7d5e7-97c6-49ac-a63c-67aebc304f30",
+        "985bdfde-9c1a-4749-9628-20f6fa88c152",
+        "c9184218-7d05-408b-9b5e-88757308cda8"
+      ]
+    }
+  ],
+  "qualitativeLimits": []
+}
