@@ -75,6 +75,7 @@ import { evaluationOutcome } from './release-evaluation/outcome';
 
 const release20 = process.argv.includes('--release20');
 const focusedBuilding = process.argv.includes('--focused-building');
+const resumeHeight = process.argv.includes('--resume-height-edit');
 assert(
   !focusedBuilding || release20,
   'Focused sequence requires aggregate accounting.',
@@ -87,6 +88,22 @@ const candidateArg = process.argv.find((a) =>
 );
 const attemptArg = process.argv.find((a) => /^--attempt=[1-9]$/.test(a));
 const releaseAttempt = Number(attemptArg?.split('=')[1] ?? 1);
+assert(!resumeHeight || (focusedBuilding && releaseAttempt > 1));
+const heightSource = `.cloud/pr22-release20-final-${releaseAttempt - 1}`;
+const heightPrior = resumeHeight
+  ? JSON.parse(readFileSync(`${heightSource}/results.json`, 'utf8')).results
+  : [];
+const heightEvents = resumeHeight
+  ? heightPrior
+      .find((r: any) => r.id === 'height-edit')
+      .events.filter((e: any) => e.response)
+  : [];
+let heightReplayIndex = 0;
+const browserSeed: Session = resumeHeight
+  ? JSON.parse(
+      readFileSync(`${heightSource}/height-edit-original.json`, 'utf8'),
+    )
+  : seed();
 if (release20)
   assert(candidateArg, 'Pin the application candidate before evaluation.');
 const applicationCommit = release20
@@ -268,6 +285,18 @@ const manifest = {
     : {}),
   order: evaluationOrder,
   focusedBuilding,
+  ...(resumeHeight
+    ? {
+        heightResumption: {
+          source: heightSource,
+          sourceHash: digest(`${heightSource}/results.json`),
+          originalHash: digest(`${heightSource}/height-edit-original.json`),
+          replayedResponses: heightEvents.length,
+          strategy:
+            'Restore the same saved project and replay already-paid responses only after exact scene comparison; continue live only if correction is needed.',
+        },
+      }
+    : {}),
   prompts,
   specification,
   pricing,
@@ -290,6 +319,7 @@ assert(
           '--resume-inspection',
           '--release20',
           '--focused-building',
+          '--resume-height-edit',
           '--approved-aggregate-usd=20',
         ].includes(a) ||
         (release20 && (a === candidateArg || a === attemptArg)),
@@ -449,6 +479,29 @@ async function recordCall(
     let replay: any;
     let replayed = false;
     if (
+      resumeHeight &&
+      caseId === 'height-edit' &&
+      heightReplayIndex < heightEvents.length
+    ) {
+      const savedEvent = heightEvents[heightReplayIndex];
+      assert.equal(kind, savedEvent.kind);
+      assertReplayScene(savedEvent.input, input);
+      if (kind === 'reviewer')
+        assert.deepEqual(
+          input.candidate,
+          savedEvent.input.candidate,
+          'Reviewer candidate identities changed.',
+        );
+      replay = replayResponse(savedEvent.input, input, savedEvent.response);
+      replayed = true;
+      event.replayedPaidCall = {
+        source: heightSource,
+        index: heightReplayIndex + 1,
+        originalElapsedMs: savedEvent.elapsedMs,
+      };
+      heightReplayIndex++;
+    }
+    if (
       resumingBuilding &&
       caseId === 'building' &&
       kind === 'executor' &&
@@ -565,7 +618,18 @@ const context = await browser.newContext({
         origin,
         localStorage: [
           { name: 'atelier.start-direct', value: 'true' },
-          { name: 'atelier.session.v2', value: serializeSession(seed()) },
+          { name: 'atelier.session.v2', value: serializeSession(browserSeed) },
+          ...(resumeHeight
+            ? [
+                {
+                  name: 'atelier.conversation.v2',
+                  value: readFileSync(
+                    `${heightSource}/building-conversation.json`,
+                    'utf8',
+                  ),
+                },
+              ]
+            : []),
         ],
       },
     ],
@@ -651,9 +715,22 @@ async function harmlessActivity(original: Session) {
     equalData(stateModel(await saved()), stateModel(original)),
     'Provisional work already committed.',
   );
-  await expect(
-    page.getByText('Working preview · not saved yet', { exact: true }),
-  ).toBeVisible();
+  const previewExpected = active.events.some(
+    (e: any) => e.kind === 'executor' && e.input.execution?.receipts.length,
+  );
+  const previewBadge = page.getByText('Working preview · not saved yet', {
+    exact: true,
+  });
+  if (previewExpected) await expect(previewBadge).toBeVisible();
+  else {
+    // A single final batch stays private during verification; only previously
+    // inspected intermediate stages are rendered as a labeled working preview.
+    await expect(previewBadge).not.toBeVisible();
+    await expect(page.getByTestId('viewport')).toHaveAttribute(
+      'data-model-objects',
+      String(original.project.volumes.length),
+    );
+  }
   if (
     !(await page.getByRole('searchbox', { name: 'Find objects' }).isVisible())
   )
@@ -681,6 +758,7 @@ async function harmlessActivity(original: Session) {
     viewport: [1180, 760],
     chatMinimized: true,
     provisionalNotPersisted: true,
+    intermediatePreviewShown: previewExpected,
   };
   await page.screenshot({ path: `${folder}/${caseId}-working-preview.png` });
 }
@@ -1330,7 +1408,27 @@ async function prepareFixtures() {
 }
 try {
   if (!live) {
-    await prepareFixtures();
+    if (resumeHeight) {
+      await page.goto(origin);
+      await ready();
+      assert(
+        await browserTurn('height-edit'),
+        'Saved edit must pass actual browser commit and independent measurements before resuming.',
+      );
+      assert.equal(heightReplayIndex, heightEvents.length);
+      assert.equal(
+        (JSON.parse(readFileSync(ledgerPath, 'utf8')) as Ledger).calls.length,
+        0,
+      );
+      save(`${folder}/preparation.json`, {
+        status: 'OFFLINE_EXACT_PAID_RESPONSE_REPLAY_PASSED',
+        manifestHash: hash(manifest),
+        source: heightSource,
+        replayedResponses: heightReplayIndex,
+        paidCalls: 0,
+        transaction: active.transaction,
+      });
+    } else await prepareFixtures();
     if (resumingBuilding) {
       await browserTurn('building');
       assert.equal(
@@ -1388,16 +1486,26 @@ try {
     save(ledgerPath, l);
     await page.goto(origin);
     await ready();
-    const built = await browserTurn('building');
-    if (!stopped && built) await browserTurn('height-edit');
-    else
+    if (resumeHeight) {
       results.push({
-        id: 'height-edit',
-        status: 'NOT_RUN',
-        reason: stopped
-          ? 'Stop rule'
-          : 'Creation did not pass; no substitute handmade model',
+        ...heightPrior.find((r: any) => r.id === 'building'),
+        evidenceOrigin: heightSource,
+        rerunInThisAttempt: false,
       });
+      await browserTurn('height-edit');
+      assert.equal(heightReplayIndex, heightEvents.length);
+    } else {
+      const built = await browserTurn('building');
+      if (!stopped && built) await browserTurn('height-edit');
+      else
+        results.push({
+          id: 'height-edit',
+          status: 'NOT_RUN',
+          reason: stopped
+            ? 'Stop rule'
+            : 'Creation did not pass; no substitute handmade model',
+        });
+    }
     if (focusedBuilding) {
       // The user requested only creation -> connected edit -> reload/Undo/Redo.
       // Existing repair and recovery evidence remains preserved, not rerun.

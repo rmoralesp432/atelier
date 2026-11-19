@@ -1,0 +1,22 @@
+
+> atelier@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.4 /workspace/atelier
+
+
+ Test Files  71 passed (71)
+      Tests  329 passed (329)
+   Start at  14:38:46
+   Duration  41.48s (tests 66%, import 32%, transform 1%, worker 1%)
+
+     Import  175 modules were evaluated 259 times · 11.05s total, 32% of tracked time
+             ~3.58s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

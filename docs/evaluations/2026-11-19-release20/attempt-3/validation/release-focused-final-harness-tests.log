@@ -1,0 +1,22 @@
+✔ no authorization, insufficient headroom, and pending charges all stop before network (6.94879ms)
+✔ reserves before sending, forces default tier, records actual usage and separate budget margin (30.918892ms)
+✔ unknown provider usage retains the reservation and blocks another request (1.472787ms)
+✔ token, image, endpoint and per-turn limits cannot silently enlarge the budget (1.248635ms)
+✔ large serialized scenes reserve long-context rates without confusing bytes with actual tokens (47.146548ms)
+✔ message transport escaping is decoded, while schema overhead and UTF-8 bytes stay reserved (6.917614ms)
+✔ US$20 is aggregate: prior estimates, unknown allowance, margins and all calls survive (54.938997ms)
+✔ base anchoring requires horizontal proportions, the base datum and actual solid contact (28.152794ms)
+✔ continuation retains unknown original usage and reconciles only new usage (21.851448ms)
+✔ both caps, old request counts and original integrity are enforced before sending (2.102067ms)
+✔ unknown usage on a new call still blocks continuation (1.348403ms)
+✔ a resumed harness includes every settled prior call, dollar and per-task count (1.689418ms)
+✔ honest unknown status cannot replace independent geometric evidence or authorized scope (0.677392ms)
+✔ replay permits regenerated IDs, but never changed geometry or grouping (6.641888ms)
+ℹ tests 14
+ℹ suites 0
+ℹ pass 14
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 777.223267

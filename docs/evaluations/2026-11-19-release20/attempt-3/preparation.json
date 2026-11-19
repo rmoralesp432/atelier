@@ -1,0 +1,18 @@
+{
+  "status": "OFFLINE_EXACT_PAID_RESPONSE_REPLAY_PASSED",
+  "manifestHash": "f62b9ee0000fe6fe4d04b0bbc776a33acf4c6c87f627c7bd16852a0b78657dc2",
+  "source": ".cloud/pr22-release20-final-2",
+  "replayedResponses": 2,
+  "paidCalls": 0,
+  "transaction": {
+    "committed": true,
+    "reloadExact": true,
+    "contextRetained": true,
+    "conversationRetained": true,
+    "singleUndo": true,
+    "redoExact": true,
+    "cameraBeforeReload": {
+      "atelier.workspace-recovery:eb12184e-974c-49c7-9b9f-3dfd093ee9e2:camera": "{\"position\":{\"x\":33.28830082966497,\"y\":37.320250992260235,\"z\":61.9905153046594},\"target\":{\"x\":-9.490629159278237,\"y\":7.374999999999999,\"z\":-6.455772677649735},\"projection\":\"perspective\",\"zoom\":1,\"fov\":40}"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+
+> atelier@0.1.0 start
+> NODE_ENV=production node --env-file-if-exists=.env --use-env-proxy --import tsx server/index.ts --port 4173
+
+.env not found. Continuing without it.
+ATELIER production server listening on port 4173. AI not configured.

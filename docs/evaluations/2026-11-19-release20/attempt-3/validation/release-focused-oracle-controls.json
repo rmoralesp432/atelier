@@ -1,0 +1,139 @@
+{
+  "status": "PASS",
+  "controls": [
+    {
+      "kind": "wrong-translation",
+      "incorrectChecks": [
+        {
+          "name": "Connected geometry c2fd9458-e665-4295-a72f-c598274eb949",
+          "status": "incorrect",
+          "expected": {
+            "minY": 0.25,
+            "maxY": 0.31,
+            "unchangedXZ": true
+          },
+          "actual": {
+            "min": [
+              -9.33,
+              1.35,
+              -6.409999999999999
+            ],
+            "max": [
+              9.33,
+              1.4100000000000001,
+              -6.289999999999999
+            ]
+          }
+        },
+        {
+          "name": "Retained occupied shape c2fd9458-e665-4295-a72f-c598274eb949",
+          "status": "incorrect",
+          "expected": "Original solid with only the intended vertical stretch/translation",
+          "actual": {
+            "expectedVolume": 0.13435199999999983,
+            "actualVolume": 0.1343520000000002,
+            "symmetricDifference": 0.26870400000000005
+          }
+        },
+        {
+          "name": "Connected geometry 41487373-762c-4de5-b3f6-53e427e259ea",
+          "status": "incorrect",
+          "expected": {
+            "minY": 0.25,
+            "maxY": 0.31,
+            "unchangedXZ": true
+          },
+          "actual": {
+            "min": [
+              -9.41,
+              1.35,
+              -6.33
+            ],
+            "max": [
+              -9.290000000000001,
+              1.4100000000000001,
+              6.33
+            ]
+          }
+        },
+        {
+          "name": "Retained occupied shape 41487373-762c-4de5-b3f6-53e427e259ea",
+          "status": "incorrect",
+          "expected": "Original solid with only the intended vertical stretch/translation",
+          "actual": {
+            "expectedVolume": 0.0911519999999999,
+            "actualVolume": 0.09115199999999943,
+            "symmetricDifference": 0.18230399999999933
+          }
+        }
+      ]
+    },
+    {
+      "kind": "wrong-stretch",
+      "incorrectChecks": [
+        {
+          "name": "Connected geometry c2fd9458-e665-4295-a72f-c598274eb949",
+          "status": "incorrect",
+          "expected": {
+            "minY": 0.25,
+            "maxY": 0.31,
+            "unchangedXZ": true
+          },
+          "actual": {
+            "min": [
+              -9.33,
+              0.25,
+              -6.409999999999999
+            ],
+            "max": [
+              9.33,
+              1.4100000000000001,
+              -6.289999999999999
+            ]
+          }
+        },
+        {
+          "name": "Retained occupied shape c2fd9458-e665-4295-a72f-c598274eb949",
+          "status": "incorrect",
+          "expected": "Original solid with only the intended vertical stretch/translation",
+          "actual": {
+            "expectedVolume": 0.13435199999999983,
+            "actualVolume": 2.597471999999991,
+            "symmetricDifference": 2.463119999999991
+          }
+        },
+        {
+          "name": "Connected geometry 41487373-762c-4de5-b3f6-53e427e259ea",
+          "status": "incorrect",
+          "expected": {
+            "minY": 0.25,
+            "maxY": 0.31,
+            "unchangedXZ": true
+          },
+          "actual": {
+            "min": [
+              -9.41,
+              0.25,
+              -6.33
+            ],
+            "max": [
+              -9.290000000000001,
+              1.4100000000000001,
+              6.33
+            ]
+          }
+        },
+        {
+          "name": "Retained occupied shape 41487373-762c-4de5-b3f6-53e427e259ea",
+          "status": "incorrect",
+          "expected": "Original solid with only the intended vertical stretch/translation",
+          "actual": {
+            "expectedVolume": 0.0911519999999999,
+            "actualVolume": 1.7622719999999896,
+            "symmetricDifference": 1.6711199999999897
+          }
+        }
+      ]
+    }
+  ]
+}

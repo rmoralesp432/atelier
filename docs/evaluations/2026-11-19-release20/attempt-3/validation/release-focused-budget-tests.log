@@ -1,0 +1,16 @@
+✔ no authorization, insufficient headroom, and pending charges all stop before network (15.884991ms)
+✔ reserves before sending, forces default tier, records actual usage and separate budget margin (64.181011ms)
+✔ unknown provider usage retains the reservation and blocks another request (16.484834ms)
+✔ token, image, endpoint and per-turn limits cannot silently enlarge the budget (3.699535ms)
+✔ large serialized scenes reserve long-context rates without confusing bytes with actual tokens (64.297671ms)
+✔ message transport escaping is decoded, while schema overhead and UTF-8 bytes stay reserved (12.022152ms)
+✔ US$20 is aggregate: prior estimates, unknown allowance, margins and all calls survive (73.189123ms)
+✔ honest unknown status cannot replace independent geometric evidence or authorized scope (0.979738ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 693.350344

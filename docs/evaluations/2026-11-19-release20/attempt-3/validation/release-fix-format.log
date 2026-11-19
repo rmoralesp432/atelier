@@ -1,0 +1,10 @@
+src/intelligence/conversationReply.ts 116ms
+src/intelligence/conversationReply.test.ts 13ms
+src/App.tsx 383ms (unchanged)
+tests/conversation-first.spec.ts 15ms
+tests/interaction.spec.ts 45ms
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.2
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.2
+npm notice To update run: npm install -g npm@12.2.2
+npm notice

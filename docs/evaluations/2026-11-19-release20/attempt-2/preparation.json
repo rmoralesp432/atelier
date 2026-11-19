@@ -1,0 +1,11 @@
+{
+  "status": "OFFLINE_PREPARATION_PASSED",
+  "manifestHash": "074bf6919e22f893fbefbce2437ca2ac80e1b6ef00c98fd95fb8123beafeabc2",
+  "paidCalls": 0,
+  "oracleControls": [
+    "Correct multilevel assembly",
+    "Wrong level",
+    "Correct connected modification"
+  ],
+  "productionBrowserLoads": true
+}

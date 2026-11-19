@@ -1,0 +1,5 @@
+{
+  "oldLock": ".cloud/pr22-release20-interrupted-20261119.lock",
+  "reason": "Lock left by the 05:38 UTC interrupted attempt. Its summary is stopped, no evaluation process remains, and its full unknown reservation is carried forward. The unused focused attempt has zero calls.",
+  "recoveredAt": "2026-11-19T12:49:43.434Z"
+}

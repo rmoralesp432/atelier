@@ -360,6 +360,7 @@ export async function buildingOracle(
     for (const m of old) {
       const n = map.get(m.id);
       if (!n) continue;
+      const source = original.project.volumes.find((v) => v.id === m.id)!;
       let low = m.bounds.min[1],
         high = m.bounds.max[1];
       if (lowest.has(m.id) || high <= baseTop + 0.04) {
@@ -373,13 +374,29 @@ export async function buildingOracle(
       } else if (m.height > 0.5 && high > baseTop + 0.5) {
         high += 1.1;
       } else {
-        facts.push({
-          name: `Connected element ${m.id}`,
-          status: 'unverified',
-          actual: m,
-          expected: 'No unique anchor classification; inspect independently',
-        });
-        continue;
+        const attached = await baseAnchoredHorizontal(
+          source,
+          m,
+          before.parts.filter((v) => lowest.has(v.id)),
+          baseTop,
+        );
+        if (!attached) {
+          facts.push({
+            name: `Connected element ${m.id}`,
+            status: 'unverified',
+            actual: m,
+            expected: 'No unique anchor classification; inspect independently',
+          });
+          continue;
+        }
+        facts.push(
+          fact(
+            `Measured base attachment ${m.id}`,
+            true,
+            'Horizontal member touching the fixed base slab',
+            attached,
+          ),
+        );
       }
       const horizontal = [0, 2].every(
         (k) =>
@@ -396,7 +413,6 @@ export async function buildingOracle(
           n.bounds,
         ),
       );
-      const source = original.project.volumes.find((v) => v.id === m.id)!;
       const target = candidate.project.volumes.find((v) => v.id === m.id)!;
       const difference = await withSolid(source, async (s) => {
         const moved = s.translate([0, -m.bounds.min[1], 0]);
@@ -436,6 +452,29 @@ export async function buildingOracle(
     }
   }
   return facts;
+}
+/** Resolve a previously ambiguous base attachment from occupied geometry, not
+ * its role/name or an arbitrary maximum rail thickness. Other ambiguous parts
+ * remain unknown. The ordinary bounds AND occupied-shape comparisons still
+ * require this attachment to remain unchanged during a storey-height edit. */
+export async function baseAnchoredHorizontal(
+  source: Volume,
+  measured: Measured,
+  bases: Volume[],
+  baseTop: number,
+) {
+  if (
+    !near(measured.bounds.min[1], baseTop) ||
+    measured.height >= Math.min(measured.width, measured.depth)
+  )
+    return null;
+  for (const base of bases) {
+    const gap = await withSolid(source, (a) =>
+      withSolid(base, (b) => a.minGap(b, 0.03)),
+    );
+    if (gap <= 0.015) return { baseId: base.id, gap, baseTop };
+  }
+  return null;
 }
 export function ellipse() {
   const s = specification.ellipse;

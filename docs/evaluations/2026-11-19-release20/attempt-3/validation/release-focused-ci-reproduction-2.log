@@ -1,0 +1,14 @@
+
+Running 2 tests using 1 worker
+
+(node:1489) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/viewport-coverage.spec.ts:67:1 › canvas covers the workspace through desktop zoom-equivalent layouts, DPR-only changes, panels and visual-viewport zoom (1.8m)
+  ✓  2 tests/workspace-lifecycle.spec.ts:270:1 › conversation language defaults to English and persists only explicit preference changes (27.2s)
+
+  2 passed (2.3m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

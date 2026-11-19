@@ -1,0 +1,25 @@
+✖ base anchoring requires horizontal proportions, the base datum and actual solid contact (2.139788ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 0
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 663.920402
+
+✖ failing tests:
+
+test at scripts/release-evaluation/base-anchor.test.ts:1:289
+✖ base anchoring requires horizontal proportions, the base datum and actual solid contact (2.139788ms)
+  Error: Dimensions must be between 0.1 and 500 meters.
+      at validateVolume (/workspace/atelier/src/model.ts:123:11)
+      at withSolid (/workspace/atelier/src/geometry/kernel.ts:450:3)
+      at solidStats (/workspace/atelier/src/geometry/kernel.ts:602:10)
+      at measurements (/workspace/atelier/scripts/release-evaluation/cases.ts:101:17)
+      at anchor (/workspace/atelier/scripts/release-evaluation/base-anchor.test.ts:12:14)
+      at TestContext.<anonymous> (/workspace/atelier/scripts/release-evaluation/base-anchor.test.ts:17:16)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17)

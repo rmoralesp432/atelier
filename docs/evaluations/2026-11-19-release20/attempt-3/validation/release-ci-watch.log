@@ -1,0 +1,1690 @@
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 5 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 6 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 7 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 8 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 9 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 9 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 10 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 11 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 12 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 13 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 13 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 14 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 15 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 16 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 17 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 17 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (1) (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 18 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+X browser (1) in 16m47s (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  X Run npx playwright test --shard=1/4
+  ✓ Run actions/upload-artifact@v4
+  - Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (1): .github#2
+
+X Process completed with exit code 1.
+browser (1): .github#139
+
+-   1 failed
+    tests/expressive-workspace.spec.ts:176:1 › expressive conversation validates a corrected sweep, renders lofts and preserves original project data 
+  35 passed (16.1m)
+browser (1): .github#136
+
+X   1) tests/expressive-workspace.spec.ts:176:1 › expressive conversation validates a corrected sweep, renders lofts and preserves original project data 
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('viewport')
+    Expected: "false"
+    Received: "true"
+    Timeout:  15000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('viewport') with timeout 15000ms
+      - waiting for getByTestId('viewport')
+        9 × locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-render-frames="9" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" data…>…</div>
+          - unexpected value "true"
+        - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="10" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="13" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="14" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="15" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="16" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="t
+browser (1): tests/expressive-workspace.spec.ts#273
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (1): .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 19 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+X browser (1) in 16m47s (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  X Run npx playwright test --shard=1/4
+  ✓ Run actions/upload-artifact@v4
+  - Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (1): .github#2
+
+X Process completed with exit code 1.
+browser (1): .github#139
+
+-   1 failed
+    tests/expressive-workspace.spec.ts:176:1 › expressive conversation validates a corrected sweep, renders lofts and preserves original project data 
+  35 passed (16.1m)
+browser (1): .github#136
+
+X   1) tests/expressive-workspace.spec.ts:176:1 › expressive conversation validates a corrected sweep, renders lofts and preserves original project data 
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('viewport')
+    Expected: "false"
+    Received: "true"
+    Timeout:  15000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('viewport') with timeout 15000ms
+      - waiting for getByTestId('viewport')
+        9 × locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-render-frames="9" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" data…>…</div>
+          - unexpected value "true"
+        - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="10" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="13" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="14" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="15" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="16" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="t
+browser (1): tests/expressive-workspace.spec.ts#273
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (1): .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 20 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+X browser (1) in 16m47s (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  X Run npx playwright test --shard=1/4
+  ✓ Run actions/upload-artifact@v4
+  - Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (1): .github#2
+
+X Process completed with exit code 1.
+browser (1): .github#139
+
+-   1 failed
+    tests/expressive-workspace.spec.ts:176:1 › expressive conversation validates a corrected sweep, renders lofts and preserves original project data 
+  35 passed (16.1m)
+browser (1): .github#136
+
+X   1) tests/expressive-workspace.spec.ts:176:1 › expressive conversation validates a corrected sweep, renders lofts and preserves original project data 
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('viewport')
+    Expected: "false"
+    Received: "true"
+    Timeout:  15000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('viewport') with timeout 15000ms
+      - waiting for getByTestId('viewport')
+        9 × locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-render-frames="9" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" data…>…</div>
+          - unexpected value "true"
+        - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="10" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="13" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="14" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="15" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="16" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="t
+browser (1): tests/expressive-workspace.spec.ts#273
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (1): .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 21 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+X browser (1) in 16m47s (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  X Run npx playwright test --shard=1/4
+  ✓ Run actions/upload-artifact@v4
+  - Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (4) (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/4
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (2) in 19m18s (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=2/4
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (1): .github#2
+
+X Process completed with exit code 1.
+browser (1): .github#139
+
+-   1 failed
+    tests/expressive-workspace.spec.ts:176:1 › expressive conversation validates a corrected sweep, renders lofts and preserves original project data 
+  35 passed (16.1m)
+browser (1): .github#136
+
+X   1) tests/expressive-workspace.spec.ts:176:1 › expressive conversation validates a corrected sweep, renders lofts and preserves original project data 
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('viewport')
+    Expected: "false"
+    Received: "true"
+    Timeout:  15000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('viewport') with timeout 15000ms
+      - waiting for getByTestId('viewport')
+        9 × locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-render-frames="9" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" data…>…</div>
+          - unexpected value "true"
+        - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="10" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="13" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="14" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="15" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="16" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="t
+browser (1): tests/expressive-workspace.spec.ts#273
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (1): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (2): .github#2
+
+-   29 passed (17.9m)
+browser (2): .github#45
+
+! tests/interaction.spec.ts took 5.8m
+browser (2): tests/interaction.spec.ts#0
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (2): .github#1
+
+X feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 43240261907
+Triggered via pull_request about 21 minutes ago
+
+JOBS
+✓ validate in 1m8s (ID 131258673255)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+X browser (1) in 16m47s (ID 131259390033)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  X Run npx playwright test --shard=1/4
+  ✓ Run actions/upload-artifact@v4
+  - Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+X browser (4) in 19m45s (ID 131259390298)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  X Run npx playwright test --shard=4/4
+  ✓ Run actions/upload-artifact@v4
+  - Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (3) in 19m40s (ID 131259390610)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=3/4
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (2) in 19m18s (ID 131259390667)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=2/4
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+X check in 4s (ID 131271704290)
+  ✓ Set up job
+  X Require validation and every browser shard
+  ✓ Complete job
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (1): .github#2
+
+X Process completed with exit code 1.
+browser (1): .github#139
+
+-   1 failed
+    tests/expressive-workspace.spec.ts:176:1 › expressive conversation validates a corrected sweep, renders lofts and preserves original project data 
+  35 passed (16.1m)
+browser (1): .github#136
+
+X   1) tests/expressive-workspace.spec.ts:176:1 › expressive conversation validates a corrected sweep, renders lofts and preserves original project data 
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByTestId('viewport')
+    Expected: "false"
+    Received: "true"
+    Timeout:  15000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByTestId('viewport') with timeout 15000ms
+      - waiting for getByTestId('viewport')
+        9 × locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-render-frames="9" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" data…>…</div>
+          - unexpected value "true"
+        - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="10" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="13" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="14" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="15" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="true" data-glass-parts="0" data-mesh-builds="4" data-grid-spacing="1" data-sun-disk="false" data-opaque-glass="0" data-testid="viewport" data-align-map="false" data-shadow-span="160" data-model-objects="4" class="viewport-canvas" data-render-frames="16" data-shadow-updates="6" data-selection-glow="1" data-sun-diagram="false" data-section-position="3" data-render-mode="studio" data-view-quality="detail" dat…>…</div>
+        2 × unexpected value "true"
+          - locator resolved to <div data-theme="day" data-saved-view="" data-sun-paths="0" data-section="off" data-rendered="t
+browser (1): tests/expressive-workspace.spec.ts#273
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (1): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (2): .github#2
+
+-   29 passed (17.9m)
+browser (2): .github#45
+
+! tests/interaction.spec.ts took 5.8m
+browser (2): tests/interaction.spec.ts#0
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (2): .github#1
+
+X Process completed with exit code 1.
+check: .github#8
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+check: .github#1
+

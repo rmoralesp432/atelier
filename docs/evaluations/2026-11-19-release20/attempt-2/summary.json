@@ -1,0 +1,78 @@
+{
+  "applicationCommit": "582708bccb3cead96a3337b9be635d408e344e91",
+  "results": [
+    {
+      "id": "building",
+      "status": "PASS_WITH_DISCLOSED_LIMITS",
+      "cost": {
+        "thisAttempt": {
+          "calls": 4,
+          "estimatedUsd": 0.47257599999999994,
+          "reviewerMs": 45782,
+          "executorMs": 116247
+        },
+        "calls": 13,
+        "estimatedUsd": 2.1651219999999998,
+        "reservedOrChargedUsd": 2.7064025000000003,
+        "priorInterruptedCalls": 1,
+        "callsIncludingInterrupted": 14,
+        "reviewerMs": 45782,
+        "executorMs": 555760,
+        "reviewerCalls": 1
+      },
+      "transaction": {
+        "committed": true,
+        "reloadExact": true,
+        "contextRetained": true,
+        "conversationRetained": true,
+        "singleUndo": true,
+        "redoExact": true,
+        "cameraBeforeReload": {
+          "atelier.workspace-recovery:1f9c8209-e507-47e5-ae8f-602e4b8dd621:camera": "{\"position\":{\"x\":1.272737998253799,\"y\":8.26591659877766,\"z\":2.0363807972060783},\"target\":{\"x\":0,\"y\":7.375,\"z\":0},\"projection\":\"perspective\",\"zoom\":1,\"fov\":40}"
+        }
+      }
+    },
+    {
+      "id": "height-edit",
+      "status": "FAILED",
+      "error": "expect(locator).toBeVisible() failed\n\nLocator: getByText('Working preview · not saved yet', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByText('Working preview · not saved yet', { exact: true }) with timeout 5000ms\n  - waiting for getByText('Working preview · not saved yet', { exact: true })\n",
+      "cost": {
+        "thisAttempt": {
+          "calls": 2,
+          "estimatedUsd": 0.36039,
+          "reviewerMs": 26884,
+          "executorMs": 29798
+        },
+        "calls": 2,
+        "estimatedUsd": 0.36039,
+        "reservedOrChargedUsd": 0.4504875,
+        "priorInterruptedCalls": 0,
+        "callsIncludingInterrupted": 2,
+        "reviewerMs": 26884,
+        "executorMs": 29798,
+        "reviewerCalls": 1
+      }
+    }
+  ],
+  "stopped": true,
+  "estimatedUsd": 2.9379179999999994,
+  "estimatedUsdScope": "All reconciled prior and new usage estimates; interrupted usage remains unknown and reserved separately",
+  "priorRetainedReservations": [
+    {
+      "caseId": "ellipse-repair",
+      "role": "reviewer",
+      "reservedUsd": 0.22113,
+      "started": "2026-11-19T05:38:03.101Z",
+      "elapsedMs": 6688,
+      "outcome": "interrupted-reservation-retained"
+    }
+  ],
+  "priorUnknownUsageAllowanceUsd": 0.62,
+  "originalActualUsage": "unknown",
+  "newBudgetAccountedUsd": 3.8935275000000003,
+  "budgetAccountedUsd": 4.5135275,
+  "ceilingUsd": 20,
+  "paidCalls": 30,
+  "callsThisAttempt": 6,
+  "callsIncludingInterrupted": 31
+}

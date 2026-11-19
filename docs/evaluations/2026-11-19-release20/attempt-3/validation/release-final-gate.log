@@ -1,0 +1,2470 @@
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request less than a minute ago
+
+JOBS
+* validate (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  * Run npm ci
+  * Run npm test
+  * Run npm run build
+  * Run npm run format:check
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 1 minute ago
+
+JOBS
+* validate (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 1 minute ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  * Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (1) (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (8) (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=8/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (6) (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=6/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (7) (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=7/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 2 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (1) (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (8) (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=8/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (6) (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=6/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (7) (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=7/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 3 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (1) (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (8) (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=8/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (6) (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=6/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (7) (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=7/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 4 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (1) (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (8) (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=8/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (6) (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=6/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (7) (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=7/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 5 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (1) (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (8) (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=8/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (6) (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=6/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (7) (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=7/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 5 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (1) (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (8) (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=8/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (6) (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=6/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (7) (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=7/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 6 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (1) (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (8) (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=8/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (6) (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=6/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (3) (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (7) (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=7/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 7 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (1) (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=1/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (8) (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=8/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (4) (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=4/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (6) in 5m49s (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=6/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (3) (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (7) (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=7/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (6): .github#2
+
+-   14 passed (5.3m)
+browser (6): .github#27
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (6): .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 8 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (1) in 7m14s (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=1/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (8) (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=8/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (4) in 7m2s (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=4/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (6) in 5m49s (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=6/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (3) (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (7) (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=7/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (6): .github#2
+
+-   14 passed (5.3m)
+browser (6): .github#27
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (6): .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 9 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (1) in 7m14s (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=1/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (8) (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=8/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (4) in 7m2s (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=4/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (6) in 5m49s (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=6/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (3) (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (7) (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=7/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (6): .github#2
+
+-   14 passed (5.3m)
+browser (6): .github#27
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (6): .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 10 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (1) in 7m14s (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=1/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (8) (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=8/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (4) in 7m2s (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=4/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (6) in 5m49s (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=6/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (3) (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (7) (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=7/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (6): .github#2
+
+-   14 passed (5.3m)
+browser (6): .github#27
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (6): .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 10 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (1) in 7m14s (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=1/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (8) in 8m59s (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=8/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (4) in 7m2s (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=4/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (6) in 5m49s (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=6/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (3) (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=3/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (7) (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=7/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (6): .github#2
+
+-   14 passed (5.3m)
+browser (6): .github#27
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (6): .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 11 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (1) in 7m14s (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=1/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (8) in 8m59s (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=8/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (4) in 7m2s (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=4/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (6) in 5m49s (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=6/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (3) in 9m56s (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=3/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (7) (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=7/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (6): .github#2
+
+-   14 passed (5.3m)
+browser (6): .github#27
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (6): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (3): .github#2
+
+-   15 passed (9.3m)
+browser (3): .github#28
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (3): .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 12 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (1) in 7m14s (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=1/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (8) in 8m59s (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=8/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (4) in 7m2s (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=4/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (6) in 5m49s (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=6/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (3) in 9m56s (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=3/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (7) in 10m43s (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=7/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (6): .github#2
+
+-   14 passed (5.3m)
+browser (6): .github#27
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (6): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (3): .github#2
+
+-   15 passed (9.3m)
+browser (3): .github#28
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (3): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (7): .github#2
+
+-   15 passed (10.1m)
+browser (7): .github#28
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (7): .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 13 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+* browser (2) (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=2/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (1) in 7m14s (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=1/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (8) in 8m59s (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=8/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (4) in 7m2s (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=4/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (6) in 5m49s (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=6/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (3) in 9m56s (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=3/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (7) in 10m43s (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=7/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (6): .github#2
+
+-   14 passed (5.3m)
+browser (6): .github#27
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (6): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (3): .github#2
+
+-   15 passed (9.3m)
+browser (3): .github#28
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (3): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (7): .github#2
+
+-   15 passed (10.1m)
+browser (7): .github#28
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (7): .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 13 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (2) in 12m34s (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=2/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (1) in 7m14s (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=1/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (8) in 8m59s (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=8/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (4) in 7m2s (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=4/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (6) in 5m49s (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=6/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (3) in 9m56s (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=3/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (7) in 10m43s (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=7/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (6): .github#2
+
+-   14 passed (5.3m)
+browser (6): .github#27
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (6): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (3): .github#2
+
+-   15 passed (9.3m)
+browser (3): .github#28
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (3): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (7): .github#2
+
+-   15 passed (10.1m)
+browser (7): .github#28
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (7): .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 14 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (2) in 12m34s (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=2/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (1) in 7m14s (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=1/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (8) in 8m59s (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=8/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (4) in 7m2s (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=4/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (6) in 5m49s (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=6/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (3) in 9m56s (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=3/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (7) in 10m43s (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=7/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (6): .github#2
+
+-   14 passed (5.3m)
+browser (6): .github#27
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (6): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (3): .github#2
+
+-   15 passed (9.3m)
+browser (3): .github#28
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (3): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (7): .github#2
+
+-   15 passed (10.1m)
+browser (7): .github#28
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (7): .github#1
+
+Refreshing run status every 45 seconds. Press Ctrl+C to quit.
+
+* feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 15 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+* browser (5) (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  * Run npx playwright test --shard=5/8
+  * Run actions/upload-artifact@v4
+  * Post Run actions/setup-node@v4
+  * Post Run actions/checkout@v4
+✓ browser (2) in 12m34s (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=2/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (1) in 7m14s (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=1/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (8) in 8m59s (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=8/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (4) in 7m2s (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=4/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (6) in 5m49s (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=6/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (3) in 9m56s (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=3/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (7) in 10m43s (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=7/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (6): .github#2
+
+-   14 passed (5.3m)
+browser (6): .github#27
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (6): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (3): .github#2
+
+-   15 passed (9.3m)
+browser (3): .github#28
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (3): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (7): .github#2
+
+-   15 passed (10.1m)
+browser (7): .github#28
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (7): .github#1
+
+✓ feat/agent-execution-foundation Check ATELIER rmoralesp432/atelier#20 · 44370594514
+Triggered via pull_request about 16 minutes ago
+
+JOBS
+✓ validate in 1m0s (ID 135035990260)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm test
+  ✓ Run npm run build
+  ✓ Run npm run format:check
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (5) in 14m43s (ID 135036662221)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=5/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (2) in 12m34s (ID 135036662235)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=2/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (1) in 7m14s (ID 135036662261)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=1/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (8) in 8m59s (ID 135036662290)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=8/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (4) in 7m2s (ID 135036662299)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=4/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (6) in 5m49s (ID 135036662320)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=6/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (3) in 9m56s (ID 135036662362)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=3/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ browser (7) in 10m43s (ID 135036662734)
+  ✓ Set up job
+  ✓ Run actions/checkout@v4
+  ✓ Run actions/setup-node@v4
+  ✓ Run npm ci
+  ✓ Run npm run build
+  ✓ Run npx playwright install --with-deps chromium
+  ✓ Run npx playwright test --shard=7/8
+  ✓ Run actions/upload-artifact@v4
+  ✓ Post Run actions/setup-node@v4
+  ✓ Post Run actions/checkout@v4
+  ✓ Complete job
+✓ check in 3s (ID 135046079983)
+  ✓ Set up job
+  ✓ Require validation and every browser shard
+  ✓ Complete job
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+validate: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+validate: .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (6): .github#2
+
+-   14 passed (5.3m)
+browser (6): .github#27
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (6): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (3): .github#2
+
+-   15 passed (9.3m)
+browser (3): .github#28
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (3): .github#1
+
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+browser (7): .github#2
+
+-   15 passed (10.1m)
+browser (7): .github#28
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+browser (7): .github#1
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+check: .github#1
+

@@ -1,0 +1,13 @@
+✔ continuation retains unknown original usage and reconciles only new usage (36.866872ms)
+✔ both caps, old request counts and original integrity are enforced before sending (2.299021ms)
+✔ unknown usage on a new call still blocks continuation (4.475201ms)
+✔ a resumed harness includes every settled prior call, dollar and per-task count (1.447425ms)
+✔ replay permits regenerated IDs, but never changed geometry or grouping (5.406075ms)
+ℹ tests 5
+ℹ suites 0
+ℹ pass 5
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 336.208976
