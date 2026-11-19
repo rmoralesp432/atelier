@@ -1,7 +1,8 @@
 name: Render production smoke
 on:
   push:
-    branches: [feat/phase2-conversational-modeling]
+    branches:
+      [feat/phase2-conversational-modeling, eval/pr22-final-live-acceptance]
 permissions:
   contents: read
 jobs:

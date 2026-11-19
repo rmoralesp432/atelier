@@ -3,6 +3,20 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { chromium, expect } from '@playwright/test';
 
+process.on('uncaughtException', (error) => {
+  mkdirSync('test-results/render-smoke', { recursive: true });
+  writeFileSync(
+    'test-results/render-smoke/failure.json',
+    JSON.stringify({ error: error.message, stack: error.stack }, null, 2),
+  );
+  const message = error.message
+    .replaceAll('%', '%25')
+    .replaceAll('\r', '%0D')
+    .replaceAll('\n', '%0A');
+  console.error(`::error title=Render smoke failure::${message}`);
+  process.exitCode = 1;
+});
+
 const origin =
   process.env.ATELIER_SMOKE_ORIGIN || 'https://atelier-emxi.onrender.com';
 assert(
@@ -37,8 +51,12 @@ assert(
   'Production did not serve the expected application bundle before the deadline.',
 );
 const health = await fetch(`${origin}/healthz`);
+console.log(`::notice title=Production liveness::HTTP ${health.status}`);
 assert.equal(health.status, 200);
 const config = await (await fetch(`${origin}/api/config`)).json();
+console.log(
+  `::notice title=Production agent configuration::${JSON.stringify({ configured: config.configured, agentConfigured: config.agentConfigured, authenticated: config.authenticated })}`,
+);
 if (!process.env.ATELIER_SMOKE_ORIGIN) {
   assert.equal(config.configured, true);
   assert.equal(config.agentConfigured, true);
@@ -53,8 +71,9 @@ const browser = await chromium.launch({
     '--enable-unsafe-swiftshader',
   ],
 });
+let page;
 try {
-  const page = await browser.newPage({
+  page = await browser.newPage({
     viewport: { width: 1200, height: 800 },
     reducedMotion: 'reduce',
   });
@@ -128,6 +147,24 @@ try {
     console.log(
       '::notice title=Render production smoke::PASS: expected bundle, healthy configured agent, real editable geometry, persistence, reload and Undo/Redo. No paid calls.',
     );
+} catch (error) {
+  if (page) {
+    await page
+      .screenshot({ path: 'test-results/render-smoke/failure.png' })
+      .catch(() => {});
+    const text = await page
+      .locator('body')
+      .innerText()
+      .catch(() => 'Unable to read page');
+    writeFileSync(
+      'test-results/render-smoke/page-failure.json',
+      JSON.stringify({ url: page.url(), text: text.slice(0, 3000) }, null, 2),
+    );
+    console.error(
+      `::notice title=Smoke page state::${text.slice(0, 1800).replaceAll('%', '%25').replaceAll('\r', '%0D').replaceAll('\n', '%0A')}`,
+    );
+  }
+  throw error;
 } finally {
   await browser.close();
 }
