@@ -70,6 +70,16 @@ export const architecturalOperations = [
         .min(1)
         .max(MAX_SCENE_OBJECTS),
       material: z.enum(['solid', 'glass', 'frame']),
+      specification: z
+        .string()
+        .trim()
+        .min(1)
+        .max(100)
+        .nullable()
+        .optional()
+        .describe(
+          'Explicit material designation (not physical certification). Null or omitted preserves it. Names and colors do not assign it.',
+        ),
     })
     .strict(),
   z

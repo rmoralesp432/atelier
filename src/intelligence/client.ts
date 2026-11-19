@@ -6,7 +6,10 @@ import type { ValidationFeedback } from './checkedPlanner';
 import { parsePlan, type Operation } from './plan';
 import { sceneContext, type CameraContext } from './context';
 import type { Session } from './engine';
-import { completionCriteriaSchema } from './completionSchema';
+import {
+  completionCriteriaSchema,
+  type CriteriaRevision,
+} from './completionSchema';
 export type Message = {
   role: 'user' | 'assistant';
   content: string;
@@ -42,6 +45,7 @@ export async function requestCompletionCriteria(
   history: Message[],
   images: string[],
   signal?: AbortSignal,
+  revision?: CriteriaRevision,
 ) {
   const response = await fetch('/api/completion-criteria', {
     method: 'POST',
@@ -59,6 +63,7 @@ export async function requestCompletionCriteria(
         role: v.component?.role ?? null,
         level: v.component?.level ?? null,
       })),
+      ...(revision ? { revision } : {}),
     }),
   });
   const data = await response.json().catch(() => {

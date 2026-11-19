@@ -291,18 +291,24 @@ export async function assessRequirements(
                   ? (v.component?.hostId ?? null)
                   : r.property === 'material'
                     ? (v.material ?? 'solid')
-                    : r.property === 'visible'
-                      ? isVisible(v, session.project)
-                      : (v.color ?? '#e2e7e6'),
+                    : r.property === 'materialSpec'
+                      ? (v.materialSpec ?? null)
+                      : r.property === 'visible'
+                        ? isVisible(v, session.project)
+                        : (v.color ?? '#e2e7e6'),
           );
           const normalized = (v: unknown) =>
-            r.property === 'color' && typeof v === 'string'
-              ? v.toLowerCase()
+            ['color', 'materialSpec'].includes(r.property) &&
+            typeof v === 'string'
+              ? v.trim().toLowerCase()
               : v;
           met =
             vs.length > 0 &&
             values.every((v) => normalized(v) === normalized(expected));
           observed = `${r.property}: ${[...new Set(values)].map((v) => String(v)).join(', ') || 'no matches'}; expected ${String(expected)}. ${vs.length} element(s).`;
+          if (r.property === 'materialSpec')
+            observed +=
+              ' Explicit design designation only; physical composition and performance are not certified.';
         } else if (r.kind === 'layout') {
           const expected = r.counts.x * r.counts.y * r.counts.z,
             remaining = new Set(vs.map((v) => v.id));

@@ -141,7 +141,13 @@ export const completionCriteriaSchema = z
                   axis: z.enum(['x', 'y', 'z']),
                   firstAnchor: z.enum(['min', 'center', 'max']),
                   secondAnchor: z.enum(['min', 'center', 'max']),
-                  value: z.number().min(-2000).max(2000),
+                  value: z
+                    .number()
+                    .min(-2000)
+                    .max(2000)
+                    .describe(
+                      'Signed WORLD-axis displacement: second.secondAnchor minus first.firstAnchor. Reversing first/second reverses the sign. Each selector identifies one object. Anchors are actual world solid bounds, not local coordinates.',
+                    ),
                   tolerance: z.number().min(0).max(0.1),
                 })
                 .strict(),
@@ -161,12 +167,22 @@ export const completionCriteriaSchema = z
   })
   .strict();
 export type CompletionCriteria = z.infer<typeof completionCriteriaSchema>;
+export const criterionIssueSchema = z
+  .object({
+    checkId: z.string().max(60),
+    code: z.enum(['contradiction', 'invalid_contract', 'unsupported_property']),
+    detail: z.string().max(1000),
+    related: z.array(z.string().max(60)).max(32),
+  })
+  .strict();
+export type CriterionIssue = z.infer<typeof criterionIssueSchema>;
 export const completionReportSchema = z
   .object({
     modeling: z.boolean(),
     passed: z.boolean(),
     status: z.enum(['verified', 'incorrect', 'unverified']),
     canCommit: z.boolean(),
+    criterionIssues: z.array(criterionIssueSchema).max(32).optional(),
     checks: z
       .array(
         briefAssessmentSchema
@@ -181,6 +197,24 @@ export const completionReportSchema = z
   })
   .strict();
 export type CompletionReport = z.infer<typeof completionReportSchema>;
+export const criteriaRevisionSchema = z
+  .object({
+    criteria: completionCriteriaSchema,
+    issues: z.array(criterionIssueSchema).min(1).max(32),
+    observations: z
+      .array(
+        z
+          .object({
+            id: z.string().max(60),
+            outcome: z.enum(['verified', 'incorrect', 'unverified']),
+            observed: z.string().max(800),
+          })
+          .strict(),
+      )
+      .max(35),
+  })
+  .strict();
+export type CriteriaRevision = z.infer<typeof criteriaRevisionSchema>;
 
 // Only identities/classification from the candidate are supplied to the
 // independent reader. Desired dimensions cannot be copied from its result.

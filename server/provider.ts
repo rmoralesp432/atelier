@@ -9,6 +9,7 @@ import { readCompletionCriteria } from './completion';
 import {
   completionInventorySchema,
   completionReportSchema,
+  criteriaRevisionSchema,
   type CompletionCriteria,
 } from '../src/intelligence/completionSchema';
 import { invalidModelPlan } from '../src/intelligence/planFailure';
@@ -236,6 +237,7 @@ export const requestSchema = z
                   .enum(['solid', 'glass', 'frame'])
                   .nullable()
                   .optional(),
+                materialSpec: z.string().max(100).nullable().optional(),
                 color: z
                   .string()
                   .regex(/^#[0-9a-fA-F]{6}$/)
@@ -325,7 +327,10 @@ export const requestSchema = z
 export type ModelRequest = z.infer<typeof requestSchema>;
 export const completionRequestSchema = requestSchema
   .pick({ message: true, history: true, scene: true, images: true })
-  .extend({ candidate: completionInventorySchema })
+  .extend({
+    candidate: completionInventorySchema,
+    revision: criteriaRevisionSchema.optional(),
+  })
   .strict();
 export type CompletionRequest = z.infer<typeof completionRequestSchema>;
 export const lobbySchema = z

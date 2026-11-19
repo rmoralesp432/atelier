@@ -214,6 +214,7 @@ export function sceneContext(
       rotation: v.rotation,
       shape: v.geometry?.kind ?? 'box',
       material: v.material ?? null,
+      materialSpec: v.materialSpec ?? null,
       color: v.color ?? '#e2e7e6',
       fixedWindowWidth:
         v.geometry?.kind === 'building'

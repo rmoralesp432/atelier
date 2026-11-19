@@ -4,8 +4,15 @@ import type { CompletionCriteria } from '../src/intelligence/completionSchema';
 import type { CompletionRequest } from './provider';
 import { compactScene } from './agent';
 import { invalidModelPlan } from '../src/intelligence/planFailure';
-import { completionWireSchema, expandCompletionWire } from './completionWire';
+import {
+  completionWireSchema,
+  expandCompletionWire,
+  completionCorrectionWireSchema,
+  expandCompletionCorrections,
+} from './completionWire';
 import { unavailableCompletionCriteria } from '../src/intelligence/completion';
+import { materialContract } from '../src/materials';
+import { compactCompletionCriteria } from './completionWire';
 
 const policy = `You independently read the user's current 3D modeling request to define measurable acceptance checks. You are NOT the agent performing the edits and cannot execute tools or declare the resulting geometry correct.
 Read the latest request, prior conversation only for references, and the ORIGINAL scene. Candidate labels/IDs only help select result objects. Candidate dimensions, receipts, action plans and completion claims are deliberately withheld. Derive expected outcomes from the user's words, supplied references and original geometry, never from what the agent happened to make.
@@ -28,6 +35,7 @@ export async function readCompletionCriteria(
   },
   signal?: AbortSignal,
 ): Promise<CompletionCriteria> {
+  const instructions = `${policy}\n${materialContract}\nOFFSET CONTRACT: offset.value = world(second, secondAnchor) - world(first, firstAnchor), signed. Exchanging endpoints requires negating value. x/z position measures world bounding-center; y/base measure world minimum, top world maximum. Do not confuse local axes with world bounds. Cross-check relative values against requested absolute datums before returning.\n${input.revision ? 'CORRECTION PASS (one attempt): the host detected invalid or contradictory criteria, not permission to alter the requested design. Read the original user request again and the mathematical diagnostics. Return only corrections: an array of {checkId, test} patches to tests identified by issues, using the existing zero-based originalCriteria.selections indices. The host retains all citations, other checks, scope and limitations. An empty corrections array leaves the checks unverified. Never drop a requirement, broaden a selector to unrelated objects, change a valid check, increase tolerance, or use observed geometry as the desired result. Correct an offset sign/endpoint/datum only if the original request and other independent requirements mathematically support it. An invalid physical material comparison may become an explicit materialSpec designation comparison when the user asked for that substance; never treat a label/color as its assignment. If a flagged check cannot be corrected with this evidence, leave it unchanged: the host will disclose it as unverified. Non-flagged measured failures must still be repaired by the modeling agent.' : ''}`;
   const content = [
     {
       type: 'input_text' as const,
@@ -36,6 +44,17 @@ export async function readCompletionCriteria(
         history: input.history.map(({ images: _images, ...m }) => m),
         original: compactScene(input.scene),
         candidateIdentities: input.candidate,
+        ...(input.revision
+          ? {
+              criterionCorrection: {
+                originalCriteria: compactCompletionCriteria(
+                  input.revision.criteria,
+                ),
+                issues: input.revision.issues,
+                observations: input.revision.observations,
+              },
+            }
+          : {}),
       }),
     },
     ...(
@@ -49,7 +68,9 @@ export async function readCompletionCriteria(
       detail: 'high' as const,
     })),
   ];
-  const schema = z.toJSONSchema(completionWireSchema);
+  const schema = z.toJSONSchema(
+    input.revision ? completionCorrectionWireSchema : completionWireSchema,
+  );
   const started = performance.now();
   const incomplete = (
     status: string,
@@ -76,7 +97,7 @@ export async function readCompletionCriteria(
         max_completion_tokens: settings.maxOutputTokens,
         ...(settings.effort ? { reasoning_effort: settings.effort } : {}),
         messages: [
-          { role: 'system', content: policy },
+          { role: 'system', content: instructions },
           {
             role: 'user',
             content: content.map((p) =>
@@ -119,7 +140,7 @@ export async function readCompletionCriteria(
         store: false,
         max_output_tokens: settings.maxOutputTokens,
         ...(settings.effort ? { reasoning: { effort: settings.effort } } : {}),
-        instructions: policy,
+        instructions,
         input: [{ role: 'user', content }],
         text: {
           format: {
@@ -141,7 +162,9 @@ export async function readCompletionCriteria(
     text = result.output_text;
   }
   try {
-    const criteria = expandCompletionWire(JSON.parse(text));
+    const criteria = input.revision
+      ? expandCompletionCorrections(JSON.parse(text), input.revision.criteria)
+      : expandCompletionWire(JSON.parse(text));
     for (const c of criteria.checks) {
       const sources =
         c.source === 'request'

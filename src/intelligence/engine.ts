@@ -789,12 +789,19 @@ async function applyTransaction(
     } else if (op.type === 'material') {
       const vs = targets(op.targets, s);
       for (const v of vs)
-        s.project = updateVolume(s.project, v.id, { material: op.material });
+        s.project = updateVolume(s.project, v.id, {
+          material: op.material,
+          ...(typeof op.specification === 'string'
+            ? { materialSpec: op.specification }
+            : {}),
+        });
       focus(
         s,
         vs.map((v) => v.id),
       );
-      reports.push(`Set ${vs.length} element(s) to ${op.material}.`);
+      reports.push(
+        `Set ${vs.length} element(s) to ${op.material}${op.specification ? `; material designation: ${op.specification} (design metadata, not physical certification)` : ''}.`,
+      );
     } else if (op.type === 'component') {
       const ids = resolveIds(op.targets, s);
       const hostId = op.settings.hostId ? one(op.settings.hostId, s).id : null;

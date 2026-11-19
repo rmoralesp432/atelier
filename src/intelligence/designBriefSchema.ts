@@ -23,6 +23,7 @@ export const designRequirement = z.union([
       selector: designSelector,
       property: z.enum([
         'material',
+        'materialSpec',
         'color',
         'role',
         'level',
@@ -156,6 +157,7 @@ export const designBriefSchema = z
                   'name',
                   'component',
                   'material',
+                  'materialSpec',
                   'color',
                   'groupId',
                   'visible',

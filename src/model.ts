@@ -1,4 +1,5 @@
 import { MAX_SCENE_OBJECTS } from './limits';
+import { renderMaterials } from './materials';
 import type { SculptRecipe, BlendRecipe } from './geometry/sculpt';
 import { componentSchema, type ComponentInfo } from './design/schema';
 import {
@@ -53,8 +54,10 @@ export type Volume = {
   component?: ComponentInfo;
   /** Omitted in older projects; objects are visible by default. */
   visible?: boolean;
-  /** Material of an independently editable architectural component. */
-  material?: 'solid' | 'glass' | 'frame';
+  /** Rendering category; separate from the declared substance. */
+  material?: (typeof renderMaterials)[number];
+  /** Explicit design designation, not physical certification. */
+  materialSpec?: string;
   geometry?: GeometryRecipe;
   groupId?: string;
   display?: {
@@ -140,11 +143,15 @@ export function validateVolume(v: Volume, checkGeometry = true): void {
       typeof v.display.glass !== 'boolean')
   )
     throw new Error('Invalid building display settings.');
-  if (
-    v.material !== undefined &&
-    !['solid', 'glass', 'frame'].includes(v.material)
-  )
+  if (v.material !== undefined && !renderMaterials.includes(v.material))
     throw new Error('Invalid component material.');
+  if (
+    v.materialSpec !== undefined &&
+    (typeof v.materialSpec !== 'string' ||
+      !v.materialSpec.trim() ||
+      v.materialSpec.length > 100)
+  )
+    throw new Error('Material designation must contain 1–100 characters.');
   if (v.color !== undefined && !/^#[0-9a-f]{6}$/i.test(v.color))
     throw new Error('Use a six-digit hex object color.');
   if (checkGeometry) validateRecipe(v.geometry);

@@ -3,7 +3,8 @@ import { equalData } from '../projects/equalData';
 import { solidStats } from '../geometry/kernel';
 import { isFlat } from '../geometry/spatial';
 import { assessRequirements, preservedValue } from './designBrief';
-import type { DesignSelector } from './designBriefSchema';
+import { completionSelection } from './completionSelection';
+import { auditCriteria } from './criteriaAudit';
 import { resolveIds, type Session } from './engine';
 import { physicalChecks, flatPhysicalBounds } from './completionGeometry';
 import {
@@ -25,6 +26,8 @@ export async function verifyCompletion(
   // every repair/completion attempt gets a fresh cache.
   const volumes = new Map<string, Promise<number>>();
   const physical = physicalChecks();
+  const select = completionSelection(original, candidate);
+  const criterionIssues = auditCriteria(criteria, select);
   const before = new Map(original.project.volumes.map((v) => [v.id, v]));
   const after = new Map(candidate.project.volumes.map((v) => [v.id, v]));
   const report: CompletionReport = {
@@ -32,9 +35,11 @@ export async function verifyCompletion(
     passed: false,
     status: 'unverified',
     canCommit: false,
+    ...(criterionIssues.length ? { criterionIssues } : {}),
     checks: [],
     qualitativeLimits: criteria.qualitativeLimits,
   };
+  let currentCriterionId: string | undefined;
   const add = (
     id: string,
     label: string,
@@ -42,15 +47,26 @@ export async function verifyCompletion(
     observed: string,
     ids: string[] = [],
     unavailable = false,
-  ) =>
+  ) => {
+    // Reviewer criteria cannot relabel host-owned authorization/preservation
+    // checks, even if a saved/custom provider reused a reserved check ID.
+    const issue =
+      currentCriterionId === id
+        ? criterionIssues.find((i) => i.checkId === id)
+        : undefined;
     report.checks.push({
       id,
       label,
-      met,
-      outcome: unavailable ? 'unverified' : met ? 'verified' : 'incorrect',
-      observed: observed.slice(0, 800),
+      met: issue ? false : met,
+      outcome:
+        unavailable || issue ? 'unverified' : met ? 'verified' : 'incorrect',
+      observed: (issue
+        ? `Invalid verification criterion: ${issue.detail} Observation (not a verdict): ${observed}`
+        : observed
+      ).slice(0, 800),
       ids: ids.slice(0, 16),
     });
+  };
   const abort = () => {
     if (signal?.aborted)
       throw new Error('Stopped. No changes were applied to your project.');
@@ -91,46 +107,6 @@ export async function verifyCompletion(
       'Independent checks must have distinct IDs. Your project is unchanged.',
     );
 
-  const matches = (v: Volume, s: DesignSelector) =>
-    (s.role === null || v.component?.role === s.role) &&
-    (s.level === null || v.component?.level === s.level) &&
-    (s.nameContains === null ||
-      v.name.toLowerCase().includes(s.nameContains.toLowerCase()));
-  // Original selectors match the original roster: renaming/removing an object
-  // cannot make a preservation rule disappear. $new covers ALL provisional
-  // creations in this turn, not just the most recent execute_step.
-  const select = (s: DesignSelector, initial = false): Volume[] => {
-    const source = initial ? original : candidate;
-    const ids = new Set<string>();
-    const originalMatches = new Set<string>();
-    for (const ref of s.refs.length ? s.refs : ['$all']) {
-      if (ref === '$original')
-        original.project.volumes
-          .filter((v) => matches(v, s))
-          .forEach((v) => {
-            ids.add(v.id);
-            originalMatches.add(v.id);
-          });
-      else if (ref === '$all')
-        source.project.volumes.forEach((v) => ids.add(v.id));
-      else if (ref === '$new')
-        candidate.project.volumes
-          .filter((v) => !before.has(v.id))
-          .forEach((v) => ids.add(v.id));
-      else if (before.has(ref) || after.has(ref)) ids.add(ref);
-      else {
-        const bound = ['$selected', '$focus', '$created', '$operands'].includes(
-          ref,
-        )
-          ? original
-          : source;
-        resolveIds([ref], bound).forEach((id) => ids.add(id));
-      }
-    }
-    return source.project.volumes.filter(
-      (v) => ids.has(v.id) && (originalMatches.has(v.id) || matches(v, s)),
-    );
-  };
   // Scope comes from the user's request, not from whatever the agent touched.
   let scopeKnown = criteria.scopeKnown !== false;
   const editable = new Set<string>();
@@ -217,6 +193,7 @@ export async function verifyCompletion(
   );
 
   for (const { requirement: r } of criteria.checks) {
+    currentCriterionId = r.id;
     abort();
     let ids: string[] = [];
     try {
