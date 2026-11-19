@@ -1,0 +1,18 @@
+{
+  "status": "OFFLINE_PREPARATION_PASSED",
+  "manifestHash": "fb351fa237dcabdd840c3e823ae2a737f6adc15f66622f3a9ed5a3902da897cd",
+  "paidCalls": 0,
+  "oracleControls": [
+    "Correct multilevel assembly",
+    "Wrong level",
+    "Correct connected modification",
+    "Correct rotated ellipse",
+    "Equivalent mesh",
+    "Wrong equal-span solid",
+    "Protected marker movement",
+    "Separate tray components",
+    "Filled tray cavity"
+  ],
+  "productionBrowserLoads": true,
+  "blockedRequestReload": true
+}

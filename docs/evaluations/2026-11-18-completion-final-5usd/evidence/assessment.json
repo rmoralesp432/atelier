@@ -1,0 +1,41 @@
+{
+  "applicationCommit": "a2fd752693c4b98bc322cbeae8f7ec0ebc15c866",
+  "frozenEvaluationCommit": "54bcd04",
+  "recommendation": "HOLD_MERGE_AND_DEPLOYMENT",
+  "stopReason": "Saved live AI criteria incorrectly verify two physically stretched ball variants. No further paid requests after discovery.",
+  "paidRequests": 3,
+  "estimatedUsd": 0.088336,
+  "budgetAccountedUsd": 0.11041999999999999,
+  "budgetCeilingUsd": 5,
+  "liveCreationGeometry": "correct, four independently editable components; original geometry and groups unchanged",
+  "liveHostVerdict": "verified",
+  "readerLatencyMs": 9543.300931000002,
+  "hostMeasurementMs": 27.880424000002677,
+  "totalRunMs": 23938.046906,
+  "standardNegativeControls": {
+    "tested": 4,
+    "correctlyRejected": 4
+  },
+  "equivalentRepresentations": {
+    "tested": 2,
+    "verified": 2
+  },
+  "additionalFreeCoverageProbes": {
+    "tested": 2,
+    "falseAcceptances": 2
+  },
+  "originalHarnessStatus": "FAILED_OR_BLOCKED",
+  "harnessIssue": "Node deepStrictEqual treats missing JSON-optional properties differently from explicit undefined. No geometry, IDs or persisted state were lost.",
+  "persistenceAndUndoEvidence": "Free verification of the exact saved live candidate, retaining all IDs, using parseSession, serializeSession, Undo and Redo; all passed.",
+  "autonomousRepair": "not reached",
+  "unrun": ["widen", "zigzag", "interrupted", "vessel", "uncertain"],
+  "unverifiedGoals": [
+    "live follow-up modification",
+    "autonomous repair",
+    "genuine uncertainty with fresh AI interpretation",
+    "live continuation after a failed request"
+  ],
+  "noApplicationChanges": true,
+  "merged": false,
+  "deployed": false
+}

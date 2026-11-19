@@ -26,7 +26,11 @@ import {
 export default function WorkspaceHost() {
   const [showStart, setShowStart] = useState(() => {
     try {
-      return localStorage.getItem('atelier.start-direct') !== 'true';
+      return (
+        sessionStorage.getItem('atelier.workspace-open') === 'home' ||
+        (sessionStorage.getItem('atelier.workspace-open') !== 'true' &&
+          localStorage.getItem('atelier.start-direct') !== 'true')
+      );
     } catch {
       return true;
     }
@@ -139,6 +143,15 @@ export default function WorkspaceHost() {
       mounted.current = false;
     };
   }, []);
+  useEffect(() => {
+    if (ready && !showStart) {
+      try {
+        sessionStorage.setItem('atelier.workspace-open', 'true');
+      } catch {
+        /* Optional tab recovery. */
+      }
+    }
+  }, [ready, showStart]);
   const enqueue = useCallback((p: SavedProject, activate = false) => {
     const task = queue.current
       .catch(() => {})
@@ -342,6 +355,7 @@ export default function WorkspaceHost() {
       key={generation}
       initialWorkspace={initial ?? undefined}
       projectName={identity?.name}
+      projectId={identity?.id}
       onSnapshot={capture}
       onOpenSample={() => {
         if (!working && available.current && !switching.current)

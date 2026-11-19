@@ -13,11 +13,14 @@ import type { ExecutionContext } from './executionProtocol';
 import { equalData } from '../projects/equalData';
 import { bindBrief, checkEditScope, assessBrief } from './designBrief';
 import type { DesignBrief, BriefAssessment } from './designBriefSchema';
+import { completionFeedback, completionSummary } from './completion';
+import type { CompletionReport } from './completionSchema';
 
 export type ValidationFeedback = {
   error: string;
   operations: Plan['operations'];
   brief?: DesignBrief;
+  verification?: CompletionReport;
 };
 export type PreparedPlan = Awaited<ReturnType<typeof applyPlan>>;
 export type CheckedResult = {
@@ -26,6 +29,7 @@ export type CheckedResult = {
   stages: number;
   reviewRequired?: boolean;
   labels?: Record<string, string>;
+  verification?: CompletionReport;
 };
 const modeledEdits = new Set([
   'edit_components',
@@ -141,7 +145,10 @@ export async function stagedPlan(
   ) => Promise<Plan>,
   progress: (stage: string) => void = () => {},
   signal?: AbortSignal,
-  options: { agent?: boolean } = {},
+  options: {
+    agent?: boolean;
+    verifyCompletion?: (candidate: Session) => Promise<CompletionReport>;
+  } = {},
 ): Promise<CheckedResult> {
   const maxStages = options.agent ? 12 : 5;
   const maxRepairs = options.agent ? 3 : 2;
@@ -157,6 +164,38 @@ export async function stagedPlan(
   let repairs = 0,
     stages = 0,
     finalPlan: Plan | undefined;
+  let verification: CompletionReport | undefined;
+  const verify = async (): Promise<ValidationFeedback | undefined> => {
+    if (!options.agent) return;
+    if (!options.verifyCompletion)
+      throw new Error(
+        'Independent completion verification is unavailable. Your project is unchanged.',
+      );
+    checkAbort();
+    progress('Checking the result against your request…');
+    verification = await options.verifyCompletion!(session);
+    checkAbort();
+    if (verification.status !== 'incorrect') {
+      if (!verification.canCommit)
+        throw new Error(
+          'Verification is incomplete and could not establish the permitted edit scope. No changes were applied.',
+        );
+      return;
+    }
+    if (repairs++ >= maxRepairs)
+      throw new Error(
+        `The request could not be verified: ${verification.checks
+          .filter((c) => c.outcome === 'incorrect')
+          .slice(0, 4)
+          .map((c) => `${c.label}: ${c.observed}`)
+          .join(' ')} Your project is unchanged.`,
+      );
+    return {
+      error: completionFeedback(verification),
+      operations: [],
+      verification,
+    };
+  };
   let brief: DesignBrief | undefined, declaredBrief: DesignBrief | undefined;
   let scopeOriginal = original;
   let historyPrefix: Plan['operations'] = [];
@@ -261,6 +300,11 @@ export async function stagedPlan(
           throw new Error(
             'The final answer changed the agreed design brief. No changes were applied.',
           );
+        const failed = await verify();
+        if (failed) {
+          feedback = failed;
+          continue;
+        }
         finalPlan = plan;
         break;
       }
@@ -295,6 +339,7 @@ export async function stagedPlan(
           labels[v.id] = v.name;
         });
         stages = 0;
+        verification = undefined;
         finalPlan = undefined;
         brief = declaredBrief = undefined;
         assessment = [];
@@ -409,8 +454,12 @@ export async function stagedPlan(
     }
     if (!finalPlan || finalPlan.intent === 'finish') break;
     const finishing = !finalPlan.planning?.next;
-    if (finishing && (!brief || !unmet().length)) break;
-    if (finishing) {
+    if (finishing && (!brief || !unmet().length)) {
+      const failed = await verify();
+      if (!failed) break;
+      continuationFeedback = failed;
+    }
+    if (finishing && brief && unmet().length) {
       if (repairs++ >= 2) throw incompleteDesign();
       continuationFeedback = { error: requirementError(), operations: [] };
       continuationFeedback.brief = brief;
@@ -451,10 +500,21 @@ export async function stagedPlan(
     ...finalPlan,
     intent: 'apply',
     operations,
+    ...(verification &&
+    (verification.modeling || verification.status !== 'verified')
+      ? { message: completionSummary(verification) }
+      : {}),
     brief: brief ?? finalPlan.brief,
     planning: finalPlan.planning ? { ...finalPlan.planning, next: null } : null,
   });
   validateWorkspaceEffects(session, operations);
+  if (verification)
+    reports.push(
+      ...verification.checks.map((c) => `${c.label}: ${c.observed}`),
+      ...verification.qualitativeLimits.map(
+        (note) => `Not independently verified: ${note}`,
+      ),
+    );
   if (assumptions.size)
     reports.push(`Design assumptions:\n${[...assumptions].join('\n')}`);
   if (brief) {
@@ -486,6 +546,7 @@ export async function stagedPlan(
     stages,
     reviewRequired,
     labels,
+    verification,
   };
 }
 

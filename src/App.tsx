@@ -1,3 +1,12 @@
+import { readRecovery, writeRecovery } from './projects/workspaceRecovery';
+import {
+  languages,
+  readLanguage,
+  saveLanguage,
+  requestedLanguage,
+  localizedCompletion,
+  type ConversationLanguage,
+} from './conversation/language';
 import type { SceneObservation } from './intelligence/observation';
 import SolarPlayer from './studio/SolarPlayer';
 import { useSolarPlayback } from './studio/useSolarPlayback';
@@ -32,6 +41,19 @@ import AddVolumePanel from './studio/AddVolumePanel';
 import { resolveCameraView } from './studio/cameraView';
 import { displaySummary } from './intelligence/conversationReply';
 import { stagedPlan, type PreparedPlan } from './intelligence/checkedPlanner';
+import {
+  captureTransaction,
+  assertTransactionCurrent,
+  reconcileTransaction,
+  TransactionConflictError,
+} from './intelligence/transaction';
+import { modelingFailureMessage } from './intelligence/planFailure';
+import { requestCompletionCriteria } from './intelligence/client';
+import {
+  verifyCompletion,
+  unavailableCompletionCriteria,
+} from './intelligence/completion';
+import type { CompletionCriteria } from './intelligence/completionSchema';
 import SectionPanel from './studio/SectionPanel';
 import { defaultSection, sectionRange } from './studio/section';
 import { mapSources, trueNorth } from './studio/site';
@@ -205,6 +227,7 @@ function loadMessages(): Message[] {
             role: m.role,
             content: m.content,
             ...(typeof m.summary === 'string' ? { summary: m.summary } : {}),
+            ...(m.outcome === 'failed' ? { outcome: 'failed' as const } : {}),
             ...(Array.isArray(m.images)
               ? {
                   images: m.images
@@ -297,6 +320,7 @@ const PanoramaViewer = lazy(() => import('./panorama/PanoramaViewer'));
 export default function App({
   initialWorkspace,
   projectName,
+  projectId,
   onSnapshot,
   projectMenu,
   onOpenSample,
@@ -306,6 +330,7 @@ export default function App({
 }: {
   initialWorkspace?: WorkspaceSnapshot;
   projectName?: string;
+  projectId?: string;
   onSnapshot?: (
     snapshot: WorkspaceSnapshot,
     safe: boolean,
@@ -325,6 +350,8 @@ export default function App({
         }
       : load(),
   );
+  const workspaceIdentity = useRef(projectId);
+  workspaceIdentity.current = projectId;
   const [project, setProject] = useState(boot.session.project);
   const [workingProject, setWorkingProject] = useState<Project | null>(null);
   const viewportStage = useRef<HTMLDivElement>(null);
@@ -379,7 +406,15 @@ export default function App({
   const [savedViewRequest, setSavedViewRequest] = useState<{
     view: SavedView;
     revision: number;
-  } | null>(null);
+  } | null>(() => {
+    const pose = readRecovery(projectId).pose;
+    return pose
+      ? {
+          view: { name: 'Resumed view', pose, targets: [], section: null },
+          revision: 0,
+        }
+      : null;
+  });
   const previewOption = project.design?.options.find(
     (o) => o.name === alternativePreview,
   );
@@ -592,7 +627,20 @@ export default function App({
   const messagesRef = useRef(messages);
   messagesRef.current = messages;
   const conversation = useRef(boot.session.context);
-  const camera = useRef<CameraContext>(defaultCamera);
+  const camera = useRef<CameraContext>({
+    ...defaultCamera,
+    pose: readRecovery(projectId).pose,
+  });
+  const cameraSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const leavingPage = useRef(false);
+  const cacheCamera = (c: CameraContext) => {
+    camera.current = c;
+    if (cameraSaveTimer.current) clearTimeout(cameraSaveTimer.current);
+    cameraSaveTimer.current = setTimeout(
+      () => writeRecovery(projectId, { pose: c.pose }),
+      350,
+    );
+  };
   const beforeARCamera = useRef<CameraContext | null>(null);
   const setARSessionActive = useCallback((active: boolean) => {
     if (active) beforeARCamera.current = structuredClone(camera.current);
@@ -622,11 +670,15 @@ export default function App({
   const [exporting, setExporting] = useState(false);
   const [modelingBusy, setModelingBusy] = useState(0);
   const busyRef = useRef(false);
+  const [conflictedResult, setConflictedResult] = useState<Session | null>(
+    null,
+  );
   const [pending, setPending] = useState<{
     plan: Plan;
     fingerprint: string;
     camera: CameraContext;
     prepared: PreparedPlan;
+    source: Session;
     labels?: Record<string, string>;
   } | null>(null);
   useEffect(() => {
@@ -637,6 +689,8 @@ export default function App({
   }, [panels.active]);
   const pendingRef = useRef(pending);
   pendingRef.current = pending;
+  const [language, setLanguage] = useState<ConversationLanguage>(readLanguage);
+  const [voiceMuted, setVoiceMuted] = useState(false);
   const [voiceStatus, setVoiceStatus] = useState('Off');
   const [voiceActive, setVoiceActive] = useState(false);
   const voice = useRef<VoiceConnection | null>(null);
@@ -988,6 +1042,7 @@ export default function App({
     content: string,
     summary?: string,
     images?: string[],
+    outcome?: 'failed',
   ) =>
     setMessages((m) => [
       ...m.slice(-79),
@@ -996,6 +1051,7 @@ export default function App({
         content,
         ...(summary ? { summary } : {}),
         ...(images?.length ? { images } : {}),
+        ...(outcome ? { outcome } : {}),
       },
     ]);
   const install = (session: Session, animate = true) => {
@@ -1009,6 +1065,8 @@ export default function App({
   };
   const fingerprint = () => serializeSession(snapshot());
   const reviewName = (ref: string): string => {
+    // A review describes the request's frozen targets, not a later UI selection.
+    const source = pending?.source ?? snapshot();
     if (ref.startsWith('$name:')) return ref.slice(6);
     if (ref.startsWith('$group:'))
       return (
@@ -1018,14 +1076,14 @@ export default function App({
       );
     const ids =
       ref === '$operands'
-        ? conversation.current.lastOperands
+        ? source.context.lastOperands
         : ref === '$selected'
-          ? (current.current.selectedIds ??
-            (current.current.selectedId ? [current.current.selectedId] : []))
+          ? (source.project.selectedIds ??
+            (source.project.selectedId ? [source.project.selectedId] : []))
           : ref === '$focus'
-            ? conversation.current.focusIds
+            ? source.context.focusIds
             : ref === '$created'
-              ? conversation.current.lastCreatedIds
+              ? source.context.lastCreatedIds
               : [ref];
     return ids
       .map(
@@ -1081,7 +1139,18 @@ export default function App({
     confirmed = false,
     frame = camera.current,
     prepared?: PreparedPlan,
+    original = captureTransaction(snapshot()),
   ) => {
+    const result =
+      prepared ?? (await applyPlan(original, plan, frame, confirmed));
+    let session: Session;
+    try {
+      session = reconcileTransaction(original, result.session, snapshot());
+    } catch (error) {
+      if (error instanceof TransactionConflictError)
+        setConflictedResult(result.session);
+      throw error;
+    }
     setAlternativePreview(null);
     setExploration(assembled);
     if (
@@ -1102,15 +1171,8 @@ export default function App({
       )
     )
       setSavedViewRequest(null);
-    const before = fingerprint();
-    const result =
-      prepared ?? (await applyPlan(snapshot(), plan, frame, confirmed));
-    if (before !== fingerprint())
-      throw new Error(
-        'The scene changed while this edit was being prepared. Please try again.',
-      );
     install(
-      result.session,
+      session,
       !plan.operations.some((op) => op.type === 'undo' || op.type === 'redo'),
     );
     if (
@@ -1137,6 +1199,7 @@ export default function App({
     frame = structuredClone(camera.current),
     checked?: PreparedPlan,
     labels?: Record<string, string>,
+    source = captureTransaction(snapshot()),
   ) => {
     const before = fingerprint();
     const prepared =
@@ -1145,7 +1208,14 @@ export default function App({
       throw new Error(
         'The scene changed while this change was being checked. Please ask again.',
       );
-    const item = { plan, fingerprint: before, camera: frame, prepared, labels };
+    const item = {
+      plan,
+      fingerprint: before,
+      camera: frame,
+      prepared,
+      labels,
+      source,
+    };
     setPending(item);
     return item;
   };
@@ -1189,15 +1259,19 @@ export default function App({
       setSettingsOpen(true);
       return 'Enable AI in workspace settings to start a conversation.';
     }
+    const chosenLanguage = requestedLanguage(text, readLanguage());
+    saveLanguage(chosenLanguage);
+    setLanguage(chosenLanguage);
+    voice.current?.setLanguage(chosenLanguage);
     setQuestion(null);
     if (busyRef.current) return 'Please wait for the current edit to finish.';
     busyRef.current = true;
+    writeRecovery(projectId, { interrupted: true, pose: camera.current.pose });
     setBusy(true);
     setWorkStage('Considering your idea…');
     setChatExpanded(true);
     setNotice({ text: '', error: false });
     const reviewing = pendingRef.current;
-    const before = fingerprint();
     const frame = structuredClone(camera.current);
     const history = [...messagesRef.current];
     const images = [...referenceImages];
@@ -1207,9 +1281,11 @@ export default function App({
     remember('user', text, undefined, images);
     let observation: SceneObservation | undefined;
     let observedRevision = -1;
+    const original = captureTransaction(snapshot());
+    let completionCriteria: CompletionCriteria | undefined;
     try {
       const checked = await stagedPlan(
-        snapshot(),
+        original,
         frame,
         async (working, feedback, execution) => {
           if (connectionState.agentConfigured) {
@@ -1260,13 +1336,57 @@ export default function App({
         },
         setWorkStage,
         abort.signal,
-        { agent: connectionState.agentConfigured === true },
+        {
+          agent: connectionState.agentConfigured === true,
+          verifyCompletion: async (candidate) => {
+            if (!completionCriteria)
+              try {
+                completionCriteria = await requestCompletionCriteria(
+                  text,
+                  original,
+                  candidate,
+                  frame,
+                  history,
+                  images,
+                  AbortSignal.any([abort.signal, AbortSignal.timeout(150_000)]),
+                );
+              } catch (error) {
+                if (abort.signal.aborted) throw error;
+                completionCriteria = unavailableCompletionCriteria(
+                  error instanceof Error
+                    ? error.message
+                    : 'Independent review could not finish.',
+                  text,
+                );
+              }
+            return verifyCompletion(
+              completionCriteria,
+              original,
+              candidate,
+              abort.signal,
+            );
+          },
+        },
       );
-      const plan = checked.plan;
-      if (before !== fingerprint())
-        throw new Error(
-          'The scene changed while I was considering this request. Please send it again.',
-        );
+      const localized =
+        checked.verification &&
+        (checked.verification.modeling ||
+          checked.verification.status !== 'verified')
+          ? localizedCompletion(
+              chosenLanguage,
+              checked.verification.status === 'verified',
+            )
+          : undefined;
+      const plan = localized
+        ? { ...checked.plan, message: localized }
+        : checked.plan;
+      try {
+        assertTransactionCurrent(original, snapshot());
+      } catch (error) {
+        if (error instanceof TransactionConflictError && checked.prepared)
+          setConflictedResult(checked.prepared.session);
+        throw error;
+      }
       if (plan.intent === 'clarify') {
         setQuestion(plan.message);
         setChatExpanded(true);
@@ -1300,13 +1420,34 @@ export default function App({
       if (!plan.operations.every((op) => op.type === 'measure'))
         setPending(null);
       if (checked.reviewRequired) {
-        await prepareReview(plan, frame, checked.prepared, checked.labels);
+        await prepareReview(
+          plan,
+          frame,
+          checked.prepared
+            ? {
+                ...checked.prepared,
+                session: reconcileTransaction(
+                  original,
+                  checked.prepared.session,
+                  snapshot(),
+                ),
+              }
+            : undefined,
+          checked.labels,
+          original,
+        );
         const message =
           plan.message + ' Shall I go ahead? You can answer here or by voice.';
         remember('assistant', message);
         return message;
       }
-      const result = await execute(plan, false, frame, checked.prepared);
+      const result = await execute(
+        plan,
+        false,
+        frame,
+        checked.prepared,
+        original,
+      );
       const summary = displaySummary(plan, connectionState.agentConfigured);
       const reply = summary ?? result;
       remember('assistant', result, summary);
@@ -1316,14 +1457,14 @@ export default function App({
     } catch (e) {
       const message = abort.signal.aborted
         ? 'Stopped. No changes were applied to your project.'
-        : e instanceof Error
-          ? e.message
-          : 'The request failed.';
-      remember('assistant', message);
+        : modelingFailureMessage(e);
+      remember('assistant', message, undefined, undefined, 'failed');
       setNotice({ text: message, error: true });
       return message;
     } finally {
       planningAbort.current = null;
+      if (!leavingPage.current)
+        writeRecovery(projectId, { interrupted: false });
       setWorkingProject(null);
       busyRef.current = false;
       setBusy(false);
@@ -1348,9 +1489,10 @@ export default function App({
         setVoiceActive(v.active);
         if (!v.active && voice.current === v) voice.current = null;
       },
-      { levels: voiceLevels.current },
+      { levels: voiceLevels.current, language: readLanguage() },
     );
     voice.current = v;
+    setVoiceMuted(false);
     try {
       await v.start();
     } catch (e) {
@@ -1369,6 +1511,35 @@ export default function App({
       /* The project save indicator reports storage failure. */
     }
   }, [messages]);
+  useEffect(() => {
+    if (readRecovery(projectId).interrupted) {
+      const message =
+        'The previous request was interrupted. Your last committed model and Undo history were restored; unfinished changes were not applied. You can continue with a new instruction.';
+      remember('assistant', message, undefined, undefined, 'failed');
+      setNotice({ text: message, error: false });
+      writeRecovery(projectId, { interrupted: false });
+    }
+    const hide = () => {
+      leavingPage.current = true;
+      writeRecovery(workspaceIdentity.current, {
+        pose: camera.current.pose,
+        interrupted: busyRef.current,
+      });
+      planningAbort.current?.abort();
+      voice.current?.stop();
+    };
+    const show = () => {
+      leavingPage.current = false;
+    };
+    window.addEventListener('pagehide', hide);
+    window.addEventListener('pageshow', show);
+    return () => {
+      window.removeEventListener('pagehide', hide);
+      window.removeEventListener('pageshow', show);
+      if (cameraSaveTimer.current) clearTimeout(cameraSaveTimer.current);
+      planningAbort.current?.abort();
+    };
+  }, []);
   const [saved, setSaved] = useState(true);
   const [saving, setSaving] = useState(false);
   const input = useRef<HTMLTextAreaElement>(null);
@@ -1799,7 +1970,23 @@ export default function App({
         </div>
       )}
       <header className="app-header">
-        <a className="brand" href="./" aria-label="ATELIER home">
+        <a
+          className="brand"
+          href="./"
+          aria-label="ATELIER home"
+          aria-disabled={busy || modelingBusy > 0}
+          onClick={(e) => {
+            if (busyRef.current || modelingBusy > 0) {
+              e.preventDefault();
+              return;
+            }
+            try {
+              sessionStorage.setItem('atelier.workspace-open', 'home');
+            } catch {
+              /* Optional entry preference. */
+            }
+          }}
+        >
           <BrandMark />
         </a>
         {projectMenu?.(
@@ -2834,13 +3021,43 @@ export default function App({
             </div>
             {workingProject && (
               <div className="agent-preview-status" role="status">
-                <span>Developing your design</span>
+                <span>Working preview · not saved yet</span>
                 <button
                   type="button"
                   onClick={() => planningAbort.current?.abort()}
                   aria-label="Stop and discard working preview"
                 >
                   Stop
+                </button>
+              </div>
+            )}
+            {conflictedResult && !workingProject && (
+              <div
+                className="agent-preview-status agent-conflict-status"
+                role="status"
+              >
+                <span>
+                  Completed result kept separately. Download before leaving this
+                  workspace or another conflict.
+                </span>
+                <button
+                  type="button"
+                  onClick={() =>
+                    downloadProject(
+                      projectFile(
+                        {
+                          session: serializeSession(conflictedResult),
+                          messages: [],
+                        },
+                        'Completed modeling result',
+                      ),
+                    )
+                  }
+                >
+                  Save completed result
+                </button>
+                <button type="button" onClick={() => setConflictedResult(null)}>
+                  Dismiss result
                 </button>
               </div>
             )}
@@ -3017,7 +3234,7 @@ export default function App({
               }}
               onCamera={(c) => {
                 if (arActive) return;
-                camera.current = c;
+                cacheCamera(c);
                 setNorthAngle(
                   (Math.atan2(-c.right.z, c.right.x) * 180) / Math.PI,
                 );
@@ -3479,6 +3696,21 @@ export default function App({
                   aria-label="Atelier voice companion"
                   data-ai-enabled={aiEnabled}
                 >
+                  {voiceActive && (
+                    <button
+                      className="voice-mute"
+                      aria-label={
+                        voiceMuted ? 'Unmute microphone' : 'Mute microphone'
+                      }
+                      onClick={() => {
+                        const muted = !voiceMuted;
+                        setVoiceMuted(muted);
+                        voice.current?.setMuted(muted);
+                      }}
+                    >
+                      {voiceMuted ? <MicOff size={18} /> : <Mic size={18} />}
+                    </button>
+                  )}
                   <OrbControl
                     onVoice={() =>
                       connectionState.voiceConfigured
@@ -3555,6 +3787,24 @@ export default function App({
                 >
                   <Minus size={18} />
                 </button>
+                <label className="conversation-language">
+                  <select
+                    aria-label="Conversation language"
+                    value={language}
+                    onChange={(e) => {
+                      const next = e.target.value as ConversationLanguage;
+                      setLanguage(next);
+                      saveLanguage(next);
+                      voice.current?.setLanguage(next);
+                    }}
+                  >
+                    {Object.entries(languages).map(([code, name]) => (
+                      <option key={code} value={code}>
+                        {name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
                 <span className="voice-status">
                   {voiceStatus !== 'Off' ? voiceStatus : ''}
                 </span>
@@ -3847,6 +4097,21 @@ export default function App({
                   >
                     {!voiceActive ? <Mic size={18} /> : <MicOff size={18} />}
                   </button>
+                  {voiceActive && (
+                    <button
+                      type="button"
+                      aria-label={
+                        voiceMuted ? 'Unmute microphone' : 'Mute microphone'
+                      }
+                      onClick={() => {
+                        const muted = !voiceMuted;
+                        setVoiceMuted(muted);
+                        voice.current?.setMuted(muted);
+                      }}
+                    >
+                      {voiceMuted ? 'Unmute' : 'Mute'}
+                    </button>
+                  )}
                   <button
                     type="submit"
                     aria-label="Send message"

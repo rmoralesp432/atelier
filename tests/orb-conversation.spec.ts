@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { criteria, measure, selector } from './fixtures/completion';
 test('orb keeps voice modeling and follow-up edits in the minimized workspace (offline transport)', async ({
   page,
 }) => {
@@ -19,6 +20,26 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
   );
   let calls = 0;
   let createdId = '';
+  await page.route('**/api/completion-criteria', (r) => {
+    const b = r.request().postDataJSON();
+    const existing = b.scene.objects.find(
+      (o: any) => o.name === 'Courtyard study',
+    );
+    const chosen = selector(existing ? [existing.id] : ['$new']);
+    return r.fulfill({
+      json: criteria(
+        [
+          measure('count', 'count', 1, chosen),
+          measure('height', 'height', 3, chosen),
+          measure('width', 'width', 6, chosen),
+          measure('depth', 'depth', 4, chosen),
+          measure('base', 'y', existing ? 2 : 0, chosen),
+        ],
+        existing ? [existing.id] : [],
+        b.message,
+      ),
+    });
+  });
   await page.route('**/api/plan', (r) => {
     const body = r.request().postDataJSON();
     calls++;
@@ -82,6 +103,7 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
   });
   await page.addInitScript(() => {
     let stream: MediaStream;
+    let playback: MediaStream;
     Object.defineProperty(navigator.mediaDevices, 'getUserMedia', {
       value: async () => {
         (window as any).micStarts = ((window as any).micStarts ?? 0) + 1;
@@ -95,6 +117,10 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
         osc.start();
         await ctx.resume();
         stream = dest.stream;
+        // Real WebRTC playback has independent tracks. Reusing the mic stream
+        // here would incorrectly silence output when half-duplex capture mutes.
+        playback = stream.clone();
+        (window as any).voiceStream = stream;
         (window as any).testAudio = { ctx, osc };
         return stream;
       },
@@ -110,7 +136,18 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
         onopen: null as any,
         onmessage: null as any,
         send(data: string) {
-          ((window as any).sentVoiceEvents ??= []).push(JSON.parse(data));
+          const event = JSON.parse(data);
+          ((window as any).sentVoiceEvents ??= []).push(event);
+          if (event.type === 'response.create')
+            queueMicrotask(() => {
+              for (const type of [
+                'response.created',
+                'output_audio_buffer.started',
+                'response.done',
+                'output_audio_buffer.stopped',
+              ])
+                this.onmessage?.({ data: JSON.stringify({ type }) });
+            });
         },
         close() {},
       };
@@ -124,13 +161,14 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
       }
       async setLocalDescription() {}
       async setRemoteDescription() {
-        this.ontrack?.({ streams: [stream] });
+        this.ontrack?.({ streams: [playback] });
         this.channel.onopen?.();
         this.channel.onmessage?.({
           data: JSON.stringify({ type: 'output_audio_buffer.started' }),
         });
       }
       close() {
+        playback?.getTracks().forEach((track) => track.stop());
         (window as any).testAudio?.osc.stop();
         void (window as any).testAudio?.ctx.close();
       }
@@ -147,6 +185,11 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
   await expect(dock).toBeVisible();
   await dock.getByRole('button', { name: 'Voice orb' }).click();
   await expect(dock).toContainText('Speaking');
+  expect(
+    await page.evaluate(
+      () => (window as any).voiceStream.getTracks()[0].enabled,
+    ),
+  ).toBe(false); // Generated input has no AEC; output must still animate the orb.
   await expect(
     page.getByRole('textbox', { name: 'Message Atelier' }),
   ).not.toBeVisible();
@@ -211,7 +254,7 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
         ),
       { timeout: 30000 },
     )
-    .toBe('Your study is ready.');
+    .toContain('Completed; measurable checks passed.');
   await expect(dock).toBeVisible();
   await expect(
     page.getByRole('textbox', { name: 'Message Atelier' }),
@@ -235,7 +278,43 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
   await expect(
     page.getByRole('textbox', { name: 'Message Atelier' }),
   ).not.toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          ((window as any).sentVoiceEvents ?? []).filter(
+            (e: any) => e.type === 'response.create',
+          ).length,
+      ),
+    )
+    .toBe(3);
+  await expect(dock).toContainText('Listening');
+  await dock.getByRole('button', { name: 'Mute microphone' }).click();
+  expect(
+    await page.evaluate(() =>
+      (window as any).voiceStream
+        .getTracks()
+        .every((t: MediaStreamTrack) => !t.enabled),
+    ),
+  ).toBe(true);
+  await dock.getByRole('button', { name: 'Unmute microphone' }).click();
+  expect(
+    await page.evaluate(() =>
+      (window as any).voiceStream
+        .getTracks()
+        .every((t: MediaStreamTrack) => t.enabled),
+    ),
+  ).toBe(true);
   await dock.getByRole('button', { name: 'Voice orb' }).click();
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        (window as any).voiceStream
+          .getTracks()
+          .every((t: MediaStreamTrack) => t.readyState === 'ended'),
+      ),
+    )
+    .toBe(true);
   await expect(dock.getByRole('button', { name: 'Voice orb' })).toHaveAttribute(
     'aria-pressed',
     'false',

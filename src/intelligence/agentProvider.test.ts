@@ -1,9 +1,17 @@
 import { it, expect, vi, afterEach } from 'vitest';
 import { createProvider, type ModelRequest } from '../../server/provider';
 import { sceneContext, defaultCamera } from './context';
-import { newSession, directPlan, applyPlan } from './engine';
+import {
+  newSession,
+  directPlan,
+  applyPlan,
+  serializeSession,
+  parseSession,
+} from './engine';
 import { stagedPlan } from './checkedPlanner';
 import { ModelPlanError } from './planFailure';
+import { verifyCompletion } from './completion';
+import { criteria, measure, selector } from '../../tests/fixtures/completion';
 afterEach(() => vi.unstubAllEnvs());
 
 const empty = () => newSession({ volumes: [], selectedId: null });
@@ -68,6 +76,235 @@ const toolResponse = (api: string, name: string, args: unknown) =>
     ),
     { status: 200, headers: { 'Content-Type': 'application/json' } },
   );
+
+it.each(['responses', 'chat_completions'] as const)(
+  '%s final batches require independent geometry evidence and repair missing parts before one commit',
+  async (api) => {
+    const original = (await applyPlan(empty(), box())).session;
+    const protectedId = original.project.volumes[0].id;
+    const checks = criteria([
+      measure('parts', 'count', 4),
+      measure('part-height', 'height', 1.4),
+    ]);
+    const protectedBefore = structuredClone(original);
+    let calls = 0;
+    const candidateIds: string[][] = [];
+    const provider = createProvider(
+      'offline-test',
+      async (_url, init) => {
+        const sent = JSON.parse(init!.body as string);
+        const schema = sent.tools.find(
+          (t: any) => (t.name ?? t.function?.name) === 'execute_step',
+        );
+        expect(
+          (schema.parameters ?? schema.function.parameters).required,
+        ).toContain('request_completion');
+        calls++;
+        const contents =
+          api === 'responses'
+            ? sent.input.at(-1).content
+            : sent.messages.at(-1).content;
+        const state = JSON.parse(contents[0].text);
+        if (calls === 2) {
+          expect(state.validationFeedback.verification.status).toBe(
+            'incorrect',
+          );
+          expect(state.scene.objects).toHaveLength(4);
+        }
+        return toolResponse(api, 'execute_step', {
+          message:
+            calls === 1 ? 'Create the requested parts' : 'Add the missing part',
+          assumptions: [],
+          request_completion: true,
+          operations: Array.from({ length: calls === 1 ? 3 : 1 }, (_, i) => ({
+            type: 'create_at',
+            name: `Part ${calls === 1 ? i : 3}`,
+            shape: 'cylinder',
+            width: 0.6,
+            depth: 0.6,
+            height: 1.4,
+            x: 20 + (calls === 1 ? i : 3) * 2,
+            y: 0,
+            z: -8,
+            rotation: 0,
+          })),
+        });
+      },
+      { agent: true, textApi: api },
+    );
+    const result = await stagedPlan(
+      original,
+      defaultCamera,
+      (s, validationFeedback, execution) =>
+        provider.plan({
+          ...input(),
+          scene: sceneContext(s.project, s.context, defaultCamera),
+          validationFeedback,
+          execution,
+        }),
+      undefined,
+      undefined,
+      {
+        agent: true,
+        verifyCompletion: async (s) => {
+          candidateIds.push(s.project.volumes.map((v) => v.id));
+          return verifyCompletion(checks, original, s);
+        },
+      },
+    );
+    expect(calls).toBe(2); // No extra model call to ask permission to finish.
+    expect(result.verification?.status).toBe('verified');
+    expect(result.prepared?.session.project.volumes).toHaveLength(5);
+    expect(candidateIds[1].slice(0, 4)).toEqual(candidateIds[0]);
+    expect(
+      result.prepared!.session.project.volumes.find(
+        (v) => v.id === protectedId,
+      ),
+    ).toEqual(original.project.volumes[0]);
+    expect(original).toEqual(protectedBefore);
+    const committed = result.prepared!.session;
+    const restored = parseSession(serializeSession(committed));
+    expect(restored.project).toEqual(committed.project);
+    const undone = (
+      await applyPlan(restored, directPlan({ type: 'undo', count: 1 }))
+    ).session;
+    expect(undone.project).toEqual(original.project);
+    const redone = (
+      await applyPlan(undone, directPlan({ type: 'redo', count: 1 }))
+    ).session;
+    expect(redone.project).toEqual(committed.project);
+  },
+);
+
+it('a final-batch declaration cannot bypass a missing independent verifier', async () => {
+  const original = empty();
+  const provider = createProvider(
+    'offline-test',
+    async () =>
+      toolResponse('responses', 'execute_step', {
+        message: 'Proposed complete object',
+        assumptions: [],
+        operations: box().operations,
+        request_completion: true,
+      }),
+    { agent: true },
+  );
+  await expect(
+    stagedPlan(
+      original,
+      defaultCamera,
+      (s, validationFeedback, execution) =>
+        provider.plan({
+          ...input(),
+          scene: sceneContext(s.project, s.context, defaultCamera),
+          validationFeedback,
+          execution,
+        }),
+      undefined,
+      undefined,
+      { agent: true },
+    ),
+  ).rejects.toThrow('Independent completion verification is unavailable');
+  expect(original.project.volumes).toHaveLength(0);
+});
+
+it.each(['responses', 'chat_completions'] as const)(
+  '%s a truncated call leaves geometry intact and supplies actionable recovery feedback',
+  async (api) => {
+    const original = (await applyPlan(empty(), box())).session;
+    const before = structuredClone(original);
+    let calls = 0;
+    const provider = createProvider(
+      'offline-test',
+      async (_url, init) => {
+        calls++;
+        const sent = JSON.parse(init!.body as string);
+        const content =
+          api === 'responses'
+            ? sent.input.at(-1).content
+            : sent.messages.at(-1).content;
+        const state = JSON.parse(content[0].text);
+        if (calls === 1) {
+          const raw = await toolResponse(api, 'execute_step', {
+            message: 'Incomplete response',
+            assumptions: [],
+            request_completion: true,
+            operations: box().operations,
+          }).json();
+          if (api === 'responses') {
+            raw.status = 'incomplete';
+            raw.incomplete_details = { reason: 'max_output_tokens' };
+          } else raw.choices[0].finish_reason = 'length';
+          return Response.json(raw);
+        }
+        expect(state.scene.objects).toHaveLength(1);
+        expect(JSON.stringify(state.validationFeedback)).toContain(
+          'None of this response',
+        );
+        expect(JSON.stringify(state.validationFeedback)).toContain(
+          'smaller batch',
+        );
+        return toolResponse(api, 'execute_step', {
+          message: 'Create the requested object',
+          assumptions: [],
+          request_completion: true,
+          operations: [
+            {
+              type: 'create_at',
+              name: 'New editable object',
+              shape: 'box',
+              width: 2.4,
+              depth: 1.6,
+              height: 0.7,
+              x: 12,
+              y: 0,
+              z: 0,
+              rotation: 0,
+            },
+          ],
+        });
+      },
+      { agent: true, textApi: api },
+    );
+    const result = await stagedPlan(
+      original,
+      defaultCamera,
+      (s, validationFeedback, execution) =>
+        provider.plan({
+          ...input(),
+          scene: sceneContext(s.project, s.context, defaultCamera),
+          validationFeedback,
+          execution,
+        }),
+      undefined,
+      undefined,
+      {
+        agent: true,
+        verifyCompletion: (s) =>
+          verifyCompletion(
+            criteria([
+              measure('count', 'count', 1),
+              measure('height', 'height', 0.7),
+            ]),
+            original,
+            s,
+          ),
+      },
+    );
+    expect(calls).toBe(2);
+    expect(result.verification?.status).toBe('verified');
+    expect(result.prepared!.session.project.volumes).toHaveLength(2);
+    expect(result.prepared!.session.project.volumes[0]).toEqual(
+      before.project.volumes[0],
+    );
+    expect(original).toEqual(before);
+    const undo = await applyPlan(
+      parseSession(serializeSession(result.prepared!.session)),
+      directPlan({ type: 'undo', count: 1 }),
+    );
+    expect(undo.session.project).toEqual(original.project);
+  },
+);
 
 it.each(['responses', 'chat_completions'] as const)(
   'uses %s function tools and returns real scene inspection to the model',
@@ -135,7 +372,18 @@ it('keeps actual provisional geometry through a malformed response and finishes 
     },
     undefined,
     undefined,
-    { agent: true },
+    {
+      agent: true,
+      verifyCompletion: (candidate) =>
+        verifyCompletion(
+          criteria([
+            measure('count', 'count', 1),
+            measure('height', 'height', 3),
+          ]),
+          original,
+          candidate,
+        ),
+    },
   );
   expect(calls).toBe(3);
   expect(result.prepared!.session.project.volumes).toHaveLength(1);
@@ -365,7 +613,27 @@ it('executes reversible identity-preserving agent edits without a redundant revi
     async () => hollow,
     undefined,
     undefined,
-    { agent: true },
+    {
+      agent: true,
+      verifyCompletion: (candidate) =>
+        verifyCompletion(
+          criteria(
+            [
+              measure('count', 'count', 1, selector(['$all'])),
+              {
+                id: 'retain',
+                label: 'Original identity',
+                kind: 'preserve',
+                selector: selector([id]),
+                properties: ['identity', 'dimensions', 'position'],
+              },
+            ],
+            [id],
+          ),
+          original,
+          candidate,
+        ),
+    },
   );
   expect(agent.reviewRequired).toBe(false);
   expect(agent.prepared!.session.project.volumes[0].id).toBe(id);
@@ -382,7 +650,15 @@ it('executes reversible identity-preserving agent edits without a redundant revi
     async () => directPlan({ type: 'delete', targets: [id] }),
     undefined,
     undefined,
-    { agent: true },
+    {
+      agent: true,
+      verifyCompletion: (candidate) =>
+        verifyCompletion(
+          criteria([measure('removed', 'count', 0, selector([id]))], [id]),
+          original,
+          candidate,
+        ),
+    },
   );
   expect(deletion.reviewRequired).toBe(true);
   expect(original.project.volumes).toHaveLength(1);

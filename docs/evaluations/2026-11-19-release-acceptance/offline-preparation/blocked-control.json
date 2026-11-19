@@ -1,0 +1,7 @@
+{
+  "status": "EXPECTED_SAFE_FAILURE",
+  "paidCalls": 0,
+  "provisionalStages": 1,
+  "projectContextAndHistoryPreserved": true,
+  "reloadExact": true
+}

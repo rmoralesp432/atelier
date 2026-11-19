@@ -1,0 +1,111 @@
+{
+  "applicationCommit": "e9e3aae86e559ed9131609e2a2f3eb3e75299fba",
+  "source": {
+    "src": "ce71fe506b9ded773583fc1e5e57f42d344f1529",
+    "server": "e68765e5a83dcc1bf8eb1e5f09e48557c9ce676c"
+  },
+  "harnessHash": "0f982b43db150ff0d1e3c0448145ea2dd425905da42e972245465aac03de7f2e",
+  "distHash": "8279f5000a1ddc468144a141d1891ef9b577052f1fc354d8ce711df084a9870f",
+  "model": "gpt-6.1-sol",
+  "transport": "responses",
+  "reasoning": {
+    "executor": "high",
+    "reviewer": "low"
+  },
+  "maximumOutputTokens": 6000,
+  "maximumCalls": 32,
+  "maximumCallsPerTask": 8,
+  "ceilingUsd": 5,
+  "carryForward": {
+    "authorized": true,
+    "actualUsage": "unknown",
+    "allowanceUsd": 0.62,
+    "maximumAdditionalUsd": 4.38,
+    "originalLedgerPath": ".cloud/pr22-release-final-5usd/ledger.json",
+    "originalLedgerSha256": "62fd89571100a86cd3e8dd7e03b407a302d823f54bd9044123d3e88faa0b10e6",
+    "settledLedgers": [
+      {
+        "path": ".cloud/pr22-release-continuation-438/ledger.json",
+        "sha256": "7a0ccbaee457351918c785b781782e37aeae1ac677515a913ec07406bc4a7c72"
+      }
+    ]
+  },
+  "resumption": {
+    "sourceResultsSha256": "541bb2f0161f0c67e477ece7958b3a9f554313a4ad28b75ea8fb75af56e9f490",
+    "priorManifestSha256": "544d9d4ef2d0a502c2c77c57c919db5328dac69ce606094212d8fe101289ea94",
+    "replayPaidResponses": [
+      1,
+      2
+    ],
+    "strategy": "Reexecute the two exact saved real-AI responses in the actual App after checking equivalent scene context; continue with live reasoning at the unsent third request. Preserve all previous costs and outcomes.",
+    "rerunTasks": [
+      "building",
+      "height-edit"
+    ],
+    "retainedTasks": [
+      "ellipse-repair",
+      "recovery-tray"
+    ]
+  },
+  "order": [
+    "building",
+    "height-edit",
+    "ellipse-repair",
+    "recovery-tray"
+  ],
+  "prompts": {
+    "building": "Create a four-level open-frame study with a 19 m by 13 m footprint. Floor-to-floor heights are 4.2, 3.3, 3.7 and 3.3 metres, from lowest to highest. Use separate editable slabs, roof, columns and glazing panels. Make reasonable structural and façade choices. Leave the existing marker unchanged.",
+    "height-edit": "Increase the lowest floor-to-floor height by 1.1 m. Keep the other storey heights, footprint and existing component identities. Adjust all connected elements, keeping the marker unchanged.",
+    "ellipse-repair": "Create one independently editable elliptical column, 0.73 m across its long horizontal axis, 0.37 m across its short horizontal axis, and 0.91 m tall. Rotate its long axis 37 degrees about Y from X. Put its base center at X=-6.2 m, Y=0.3 m, Z=6.7 m. Leave all existing objects unchanged.",
+    "recovery-tray": "Create a freestanding open-top tray, 1.7 m long, 0.95 m wide and 0.24 m high, with 0.04 m wall and base thickness. Keep everything else unchanged."
+  },
+  "specification": {
+    "building": {
+      "footprint": [
+        19,
+        13
+      ],
+      "heights": [
+        4.2,
+        3.3,
+        3.7,
+        3.3
+      ],
+      "increase": 1.1
+    },
+    "ellipse": {
+      "width": 0.73,
+      "depth": 0.37,
+      "height": 0.91,
+      "rotation": 37,
+      "x": -6.2,
+      "y": 0.3,
+      "z": 6.7
+    },
+    "tray": {
+      "width": 1.7,
+      "depth": 0.95,
+      "height": 0.24,
+      "thickness": 0.04
+    },
+    "tolerances": {
+      "linearMeters": 0.015,
+      "smallSolidMeters": 0.005,
+      "solidRelativeDifference": 0.015,
+      "volumeFloor": 0.000001
+    },
+    "interpretation": "Four occupied slab levels plus a roof; any location, horizontal orientation, sensible column spacing and glazing subdivisions. Geometry and contacts substantiate labels. Unknown measurement interpretations are not treated as failed geometry."
+  },
+  "pricing": {
+    "source": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+    "checked": "2026-11-18",
+    "inputPerMillion": 2,
+    "outputPerMillion": 10,
+    "reserveInputPerMillion": 4,
+    "reserveOutputPerMillion": 15,
+    "longContextThreshold": 272000,
+    "maximumInputTokens": 922000,
+    "margin": 1.25
+  },
+  "authorization": "User approved continuing under the original US$5 aggregate including US$0.62 unknown-cost allowance; all calls count toward existing limits. Routine harness fixes and retries authorized. Merge/deploy only after every release condition passes."
+}

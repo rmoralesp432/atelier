@@ -1,0 +1,35 @@
+{
+  "applicationCommit": "e9e3aae86e559ed9131609e2a2f3eb3e75299fba",
+  "results": [
+    {
+      "id": "building",
+      "status": "FAILED",
+      "error": "expect(locator).toBeVisible() failed\n\nLocator: getByRole('button', { name: 'Stop and discard working preview' })\nExpected: visible\nTimeout: 20000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByRole('button', { name: 'Stop and discard working preview' }) with timeout 20000ms\n  - waiting for getByRole('button', { name: 'Stop and discard working preview' })\n",
+      "cost": {
+        "calls": 1,
+        "estimatedUsd": 0,
+        "reservedOrChargedUsd": 0.613085,
+        "reviewerMs": 0,
+        "executorMs": 0,
+        "reviewerCalls": 0
+      }
+    },
+    {
+      "id": "height-edit",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "ellipse-repair",
+      "status": "NOT_RUN_AFTER_STOP"
+    },
+    {
+      "id": "recovery-tray",
+      "status": "NOT_RUN_AFTER_STOP"
+    }
+  ],
+  "stopped": true,
+  "estimatedUsd": 0,
+  "budgetAccountedUsd": 0.613085,
+  "ceilingUsd": 5,
+  "paidCalls": 1
+}

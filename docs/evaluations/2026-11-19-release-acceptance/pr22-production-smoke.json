@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-11-19T05:06:29.744Z",
+  "out": [
+    {
+      "path": "/",
+      "error": "fetch failed"
+    },
+    {
+      "path": "/healthz",
+      "error": "fetch failed"
+    },
+    {
+      "path": "/api/config",
+      "error": "fetch failed"
+    }
+  ]
+}

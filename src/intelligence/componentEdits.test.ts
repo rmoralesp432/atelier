@@ -86,7 +86,20 @@ it('recovers the reproduced 64-operation failure by regrouping the entire 244-co
     },
     undefined,
     undefined,
-    { agent: true },
+    {
+      agent: true,
+      verifyCompletion: async (candidate) => {
+        check(candidate.project, expectedStoreyEdit(before.project));
+        return {
+          modeling: true,
+          passed: true,
+          status: 'verified',
+          canCommit: true,
+          checks: [],
+          qualitativeLimits: [],
+        };
+      },
+    },
   );
   expect(budgets).toEqual([64, 32, 0, 64, 63]);
   expect(result.plan.operations).toHaveLength(1);

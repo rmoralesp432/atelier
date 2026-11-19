@@ -1,0 +1,14 @@
+{
+  "authorized": true,
+  "actualUsage": "unknown",
+  "allowanceUsd": 0.62,
+  "maximumAdditionalUsd": 4.38,
+  "originalLedgerPath": ".cloud/pr22-release-final-5usd/ledger.json",
+  "originalLedgerSha256": "62fd89571100a86cd3e8dd7e03b407a302d823f54bd9044123d3e88faa0b10e6",
+  "settledLedgers": [
+    {
+      "path": ".cloud/pr22-release-continuation-438/ledger.json",
+      "sha256": "7a0ccbaee457351918c785b781782e37aeae1ac677515a913ec07406bc4a7c72"
+    }
+  ]
+}

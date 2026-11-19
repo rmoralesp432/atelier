@@ -10,6 +10,7 @@ const messages = z
       role: z.enum(['user', 'assistant']),
       content: z.string().max(100_000),
       summary: z.string().max(100_000).optional(),
+      outcome: z.literal('failed').optional(),
       images: z
         .array(
           z

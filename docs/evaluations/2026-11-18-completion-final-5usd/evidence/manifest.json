@@ -1,0 +1,85 @@
+{
+  "productionCommit": "a2fd752693c4b98bc322cbeae8f7ec0ebc15c866",
+  "source": {
+    "src": "a1b645b10ea409a1db9280cafaa6df3c2dbf3d30",
+    "server": "d2536ce86915ac33517cbb632d297380dfb49e7e"
+  },
+  "harnessHash": "0ad1fdb6fe235c89e6ad36ce3464015b12ad254229a6d0c0d5197a163839bd5f",
+  "model": "gpt-6.1-sol",
+  "transport": "responses",
+  "reasoning": {
+    "executor": "high",
+    "textReviewer": "low",
+    "imageReviewer": "high"
+  },
+  "maxOutputTokens": 6000,
+  "ceilingUsd": 5,
+  "maximumCalls": 48,
+  "perTurnCalls": 8,
+  "executionOrder": [
+    "channel",
+    "widen",
+    "zigzag",
+    "interrupted",
+    "vessel",
+    "uncertain"
+  ],
+  "prompts": {
+    "channel": "Create a four-part open channel assembly in a new group named Channel: a horizontal rectangular base 3.6 m along X, 1.4 m along Z and 18 cm thick, centered at x=4.4 m, z=1.7 m with its bottom on the ground. Put a rectangular upright wall at each X end. Each wall is 16 cm thick along X, spans the full 1.4 m depth, and rises 95 cm above the top of the base. Their outer faces are flush with the two ends of the base. Add one 38 cm diameter ball resting on the base at its center. Keep all four parts separately editable and leave every existing object and group unchanged.",
+    "widen": "Widen the Channel assembly by 70 cm along X, equally at both ends. Extend its base and move the two end walls outward so their outer faces stay flush. Keep all heights, wall thicknesses and depth unchanged. Keep the ball exactly where it is. Preserve every existing component identity and all unrelated objects.",
+    "zigzag": "Add five separate 42 cm cubes in a rising zigzag. Their base centers, in meters as (X,Y,Z), should be (-3,0,4), (-2.05,0.2,5.15), (-1.10,0.4,4), (-0.15,0.6,5.15), and (0.80,0.8,4). Keep them individually editable, with faces parallel to the world axes. Leave all existing geometry alone.",
+    "interrupted": "Increase the heights of both Channel end walls by 25 cm, keeping their bottoms, thicknesses and positions fixed. Keep the base, ball, identities and everything else unchanged.",
+    "vessel": "New task: create one hollow cylindrical vessel, open at the top, with an outside diameter of 96 cm, overall height 66 cm, 9 cm thick side walls and a 12 cm thick closed bottom. Put its bottom on the ground, centered at x=-5 m, z=-3.4 m. It must be one editable object with an actual empty cavity and no leftover cutter. Preserve everything already in the scene.",
+    "uncertain": "Create a single smooth ellipsoidal token, 84 cm along X, 58 cm along Z and 36 cm high. Center it at x=-3.8 m, z=-4.6 m with its base at y=24 cm. Give it a tranquil, welcoming character. Preserve every existing object."
+  },
+  "specification": {
+    "channel": {
+      "x": 4.4,
+      "z": 1.7,
+      "width": 3.6,
+      "depth": 1.4,
+      "base": 0.18,
+      "wall": 0.16,
+      "wallHeight": 0.95,
+      "ball": 0.38,
+      "widen": 0.7,
+      "raise": 0.25
+    },
+    "zigzag": {
+      "size": 0.42,
+      "points": [
+        [-3, 0, 4],
+        [-2.05, 0.2, 5.15],
+        [-1.1, 0.4, 4],
+        [-0.15, 0.6, 5.15],
+        [0.8, 0.8, 4]
+      ],
+      "faultZ": 0.31
+    },
+    "vessel": {
+      "x": -5,
+      "z": -3.4,
+      "diameter": 0.96,
+      "height": 0.66,
+      "wall": 0.09,
+      "bottom": 0.12
+    },
+    "uncertain": {
+      "x": -3.8,
+      "y": 0.24,
+      "z": -4.6,
+      "width": 0.84,
+      "depth": 0.58,
+      "height": 0.36
+    }
+  },
+  "pricing": {
+    "source": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+    "checked": "2026-11-18",
+    "inputPerMillion": 2,
+    "outputPerMillion": 10,
+    "reserveInputPerMillion": 4,
+    "reserveOutputPerMillion": 15,
+    "margin": 1.25
+  }
+}

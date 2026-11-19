@@ -1,0 +1,60 @@
+{
+  "ceilingUsd": 5,
+  "authorized": true,
+  "calls": [
+    {
+      "role": "executor",
+      "caseId": "channel",
+      "reservedUsd": 0.612405,
+      "started": "2026-11-19T00:40:40.691Z",
+      "status": 200,
+      "elapsedMs": 8802,
+      "modelReturned": "gpt-6.1-sol",
+      "serviceTier": "default",
+      "responseStatus": "completed",
+      "reasoningTokens": 0,
+      "responseBytes": 64703,
+      "inputTokens": 13871,
+      "outputTokens": 891,
+      "estimatedUsd": 0.036652,
+      "chargedUsd": 0.045814999999999995,
+      "outcome": "usage-reconciled"
+    },
+    {
+      "role": "executor",
+      "caseId": "channel",
+      "reservedUsd": 0.643635,
+      "started": "2026-11-19T00:40:49.636Z",
+      "status": 200,
+      "elapsedMs": 4997,
+      "modelReturned": "gpt-6.1-sol",
+      "serviceTier": "default",
+      "responseStatus": "completed",
+      "reasoningTokens": 57,
+      "responseBytes": 65189,
+      "inputTokens": 16413,
+      "outputTokens": 204,
+      "estimatedUsd": 0.034866,
+      "chargedUsd": 0.0435825,
+      "outcome": "usage-reconciled"
+    },
+    {
+      "role": "reviewer",
+      "caseId": "channel",
+      "reservedUsd": 0.22339,
+      "started": "2026-11-19T00:40:54.676Z",
+      "status": 200,
+      "elapsedMs": 9523,
+      "modelReturned": "gpt-6.1-sol",
+      "serviceTier": "default",
+      "responseStatus": "completed",
+      "reasoningTokens": 0,
+      "responseBytes": 19302,
+      "inputTokens": 3519,
+      "outputTokens": 978,
+      "estimatedUsd": 0.016818,
+      "chargedUsd": 0.0210225,
+      "outcome": "usage-reconciled"
+    }
+  ]
+}

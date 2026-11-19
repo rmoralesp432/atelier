@@ -1481,11 +1481,24 @@ export default function Viewport(props: Props) {
       finishConstruction,
       motionRevision: 0,
     };
-    const resize = new ResizeObserver(() => {
+    const resizeViewport = () => {
       invalidate();
       const { width, height } = container.getBoundingClientRect();
+      // Hidden tabs/keyboard transitions can briefly report zero dimensions.
+      // Keep the last valid buffers and pose until the layout is measurable.
+      if (width < 1 || height < 1) return;
+      const ratio = Math.min(
+        window.devicePixelRatio,
+        runtime.current?.responsive ? 1 : 2,
+      );
+      renderer.setPixelRatio(ratio);
+      composer.setPixelRatio(ratio);
       renderer.setSize(width, height);
       composer.setSize(width, height);
+      renderer.setRenderTarget(null);
+      renderer.setViewport(0, 0, width, height);
+      renderer.setScissorTest(false);
+      container.dataset.bufferSize = `${renderer.domElement.width}x${renderer.domElement.height}`;
       if (camera instanceof THREE.PerspectiveCamera)
         camera.aspect = width / Math.max(height, 1);
       else {
@@ -1493,11 +1506,18 @@ export default function Viewport(props: Props) {
         camera.left = -halfWidth;
         camera.right = halfWidth;
       }
+      // The phone panel's view offset uses full viewport dimensions. Reapply
+      // those dimensions as well as aspect; a stale offset overrides aspect.
+      applyLens();
       camera.updateProjectionMatrix();
-      if (objects.size && !latest.current.savedViewRequest)
-        fit(latest.current.view.mode === 'top');
-    });
+      container.dataset.projectionAspect = String(
+        camera.projectionMatrix.elements[5] /
+          camera.projectionMatrix.elements[0],
+      );
+    };
+    const resize = new ResizeObserver(resizeViewport);
     resize.observe(container);
+    window.visualViewport?.addEventListener('resize', resizeViewport);
     const publishCamera = () => {
       camera.updateMatrixWorld();
       const right = new THREE.Vector3().setFromMatrixColumn(
@@ -1560,10 +1580,18 @@ export default function Viewport(props: Props) {
       const now = performance.now(),
         delta = (now - lastFrame) / 1000;
       lastFrame = now;
-      if (latest.current.suspended) {
+      if (latest.current.suspended || renderer.getContext().isContextLost()) {
         frame = requestAnimationFrame(render);
         return;
       }
+      // DPR can change without ResizeObserver, visualViewport or media-query
+      // events (e.g. moving between displays). A scalar comparison in the existing
+      // frame loop avoids stale buffers; resize only when the actual ratio differs.
+      if (
+        renderer.getPixelRatio() !==
+        Math.min(window.devicePixelRatio, runtime.current?.responsive ? 1 : 2)
+      )
+        resizeViewport();
       if (document.visibilityState === 'visible') animationTime += delta * 1000;
       if (transition && !latest.current.cameraSettings.walk) {
         const t = Math.min(1, (performance.now() - transition.start) / 500);
@@ -1837,11 +1865,20 @@ export default function Viewport(props: Props) {
     render();
     const lost = (e: Event) => {
       e.preventDefault();
+      container.dataset.graphicsState = 'lost';
       setError(
-        'The 3D graphics context was lost. Your saved model is preserved; reload to continue.',
+        'The graphics device was interrupted. Your model is preserved; waiting for graphics to recover.',
       );
     };
+    const restored = () => {
+      container.dataset.graphicsState = 'ready';
+      resizeViewport();
+      renderer.shadowMap.needsUpdate = true;
+      setError('');
+      invalidate();
+    };
     renderer.domElement.addEventListener('webglcontextlost', lost);
+    renderer.domElement.addEventListener('webglcontextrestored', restored);
     return () => {
       window.removeEventListener('keydown', cancelTransform, true);
       document.removeEventListener('visibilitychange', resetFrameClock);
@@ -1856,6 +1893,7 @@ export default function Viewport(props: Props) {
       disposeObject(sunPath);
       finishConstruction();
       resize.disconnect();
+      window.visualViewport?.removeEventListener('resize', resizeViewport);
       renderer.domElement.removeEventListener(
         'pointerdown',
         trackPointer,
@@ -1881,6 +1919,7 @@ export default function Viewport(props: Props) {
       renderer.domElement.removeEventListener('pointerdown', down);
       renderer.domElement.removeEventListener('pointerup', up);
       renderer.domElement.removeEventListener('webglcontextlost', lost);
+      renderer.domElement.removeEventListener('webglcontextrestored', restored);
       transform.dispose();
       orbit.dispose();
       previews.dispose();
@@ -1889,6 +1928,7 @@ export default function Viewport(props: Props) {
       composer.passes.forEach((pass) => pass.dispose());
       composer.dispose();
       renderer.dispose();
+      renderer.forceContextLoss();
       renderer.domElement.remove();
       progress.remove();
       spatialLabel.remove();
@@ -2307,7 +2347,12 @@ export default function Viewport(props: Props) {
         host.current!.dataset.meshBuilds = String(
           Number(host.current!.dataset.meshBuilds || 0) + built.size,
         );
-        if (!hadObjects && r!.objects.size && !props.motion.ids.length) {
+        if (
+          !hadObjects &&
+          r!.objects.size &&
+          !props.motion.ids.length &&
+          !props.savedViewRequest
+        ) {
           // Open architectural scenes close to the work; distant entourage
           // remains available through Frame all without shrinking the house.
           const architecture = props.project.volumes.filter(
