@@ -1,0 +1,11 @@
+{
+  "at": "2026-11-19T05:03:13.873Z",
+  "source": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+  "model": "gpt-6.1-sol",
+  "inputPerMillion": 2,
+  "outputPerMillion": 10,
+  "longContextThreshold": 272000,
+  "longInputPerMillion": 4,
+  "longOutputPerMillion": 15,
+  "maximumInputTokens": 922000
+}

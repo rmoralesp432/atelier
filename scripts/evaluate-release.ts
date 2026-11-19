@@ -317,9 +317,25 @@ const guarded: typeof fetch = async (url, init) => {
   const attemptId = `${ledger.calls.length + 1}-${Date.now()}`;
   save(`${folder}/request-${attemptId}.json`, payload);
   console.log(
-    `PAID ${caseId} ${role} call ${ledger.calls.length + 1}; previous estimate $${ledger.calls.reduce((n, c) => n + (c.estimatedUsd ?? 0), 0).toFixed(4)}`,
+    `REQUEST ATTEMPT ${caseId} ${role} call ${ledger.calls.length + priorCalls.length + 1}; known cumulative estimate $${(priorKnownUsd + ledger.calls.reduce((n, c) => n + (c.estimatedUsd ?? 0), 0)).toFixed(4)}; sending only if spending guards pass`,
   );
-  return metered(url, init);
+  try {
+    const response = await metered(url, init);
+    save(`${folder}/request-${attemptId}.status.json`, {
+      outcome: 'sent-and-reconciled',
+    });
+    return response;
+  } catch (error) {
+    const after: Ledger = JSON.parse(readFileSync(ledgerPath, 'utf8'));
+    save(`${folder}/request-${attemptId}.status.json`, {
+      outcome:
+        after.calls.length === ledger.calls.length
+          ? 'blocked-before-network'
+          : 'sent-see-ledger',
+      error: safeError(error),
+    });
+    throw error;
+  }
 };
 process.env.ATELIER_AGENT_MODEL = model;
 const provider = createProvider(

@@ -2,3 +2,6 @@ package-lock.json
 scripts/*.sh
 # Generated geometry buffers; preserve compact portable project files.
 docs/evaluations/**/*.atelier.json
+# Immutable captured evaluation evidence retains the exact original bytes.
+docs/evaluations/**/attempt-*/
+docs/evaluations/**/offline-preparation/
