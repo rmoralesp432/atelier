@@ -360,3 +360,30 @@ it('cannot use criterion repair to remove valid failures, change scope or fit ob
     canCommit: false,
   });
 });
+
+it('invalid reviewer IDs cannot mask host-owned preservation failures', async () => {
+  const original = (await applyPlan(empty(), batch(box('Keep this object', 4))))
+    .session;
+  const candidate = structuredClone(original);
+  candidate.project.volumes[0].position.x += 2;
+  const c = criteria([
+    {
+      kind: 'property',
+      id: 'preserved-scope',
+      label: 'Invalid material check',
+      selector: selector(['$all']),
+      property: 'material',
+      value: 'copper',
+    },
+  ]);
+  const result = await verifyCompletion(c, original, candidate);
+  expect(result.checks[0]).toMatchObject({
+    id: 'preserved-scope',
+    outcome: 'incorrect',
+  });
+  expect(result.checks[1]).toMatchObject({
+    id: 'preserved-scope',
+    outcome: 'unverified',
+  });
+  expect(result).toMatchObject({ status: 'incorrect', canCommit: false });
+});

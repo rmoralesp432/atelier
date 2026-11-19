@@ -39,6 +39,7 @@ export async function verifyCompletion(
     checks: [],
     qualitativeLimits: criteria.qualitativeLimits,
   };
+  let currentCriterionId: string | undefined;
   const add = (
     id: string,
     label: string,
@@ -47,7 +48,12 @@ export async function verifyCompletion(
     ids: string[] = [],
     unavailable = false,
   ) => {
-    const issue = criterionIssues.find((i) => i.checkId === id);
+    // Reviewer criteria cannot relabel host-owned authorization/preservation
+    // checks, even if a saved/custom provider reused a reserved check ID.
+    const issue =
+      currentCriterionId === id
+        ? criterionIssues.find((i) => i.checkId === id)
+        : undefined;
     report.checks.push({
       id,
       label,
@@ -187,6 +193,7 @@ export async function verifyCompletion(
   );
 
   for (const { requirement: r } of criteria.checks) {
+    currentCriterionId = r.id;
     abort();
     let ids: string[] = [];
     try {
