@@ -1,3 +1,12 @@
+import { readRecovery, writeRecovery } from './projects/workspaceRecovery';
+import {
+  languages,
+  readLanguage,
+  saveLanguage,
+  requestedLanguage,
+  localizedCompletion,
+  type ConversationLanguage,
+} from './conversation/language';
 import type { SceneObservation } from './intelligence/observation';
 import SolarPlayer from './studio/SolarPlayer';
 import { useSolarPlayback } from './studio/useSolarPlayback';
@@ -304,6 +313,7 @@ const PanoramaViewer = lazy(() => import('./panorama/PanoramaViewer'));
 export default function App({
   initialWorkspace,
   projectName,
+  projectId,
   onSnapshot,
   projectMenu,
   onOpenSample,
@@ -313,6 +323,7 @@ export default function App({
 }: {
   initialWorkspace?: WorkspaceSnapshot;
   projectName?: string;
+  projectId?: string;
   onSnapshot?: (
     snapshot: WorkspaceSnapshot,
     safe: boolean,
@@ -332,6 +343,8 @@ export default function App({
         }
       : load(),
   );
+  const workspaceIdentity = useRef(projectId);
+  workspaceIdentity.current = projectId;
   const [project, setProject] = useState(boot.session.project);
   const [workingProject, setWorkingProject] = useState<Project | null>(null);
   const viewportStage = useRef<HTMLDivElement>(null);
@@ -386,7 +399,15 @@ export default function App({
   const [savedViewRequest, setSavedViewRequest] = useState<{
     view: SavedView;
     revision: number;
-  } | null>(null);
+  } | null>(() => {
+    const pose = readRecovery(projectId).pose;
+    return pose
+      ? {
+          view: { name: 'Resumed view', pose, targets: [], section: null },
+          revision: 0,
+        }
+      : null;
+  });
   const previewOption = project.design?.options.find(
     (o) => o.name === alternativePreview,
   );
@@ -599,7 +620,20 @@ export default function App({
   const messagesRef = useRef(messages);
   messagesRef.current = messages;
   const conversation = useRef(boot.session.context);
-  const camera = useRef<CameraContext>(defaultCamera);
+  const camera = useRef<CameraContext>({
+    ...defaultCamera,
+    pose: readRecovery(projectId).pose,
+  });
+  const cameraSaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const leavingPage = useRef(false);
+  const cacheCamera = (c: CameraContext) => {
+    camera.current = c;
+    if (cameraSaveTimer.current) clearTimeout(cameraSaveTimer.current);
+    cameraSaveTimer.current = setTimeout(
+      () => writeRecovery(projectId, { pose: c.pose }),
+      350,
+    );
+  };
   const beforeARCamera = useRef<CameraContext | null>(null);
   const setARSessionActive = useCallback((active: boolean) => {
     if (active) beforeARCamera.current = structuredClone(camera.current);
@@ -644,6 +678,8 @@ export default function App({
   }, [panels.active]);
   const pendingRef = useRef(pending);
   pendingRef.current = pending;
+  const [language, setLanguage] = useState<ConversationLanguage>(readLanguage);
+  const [voiceMuted, setVoiceMuted] = useState(false);
   const [voiceStatus, setVoiceStatus] = useState('Off');
   const [voiceActive, setVoiceActive] = useState(false);
   const voice = useRef<VoiceConnection | null>(null);
@@ -1198,9 +1234,14 @@ export default function App({
       setSettingsOpen(true);
       return 'Enable AI in workspace settings to start a conversation.';
     }
+    const chosenLanguage = requestedLanguage(text, readLanguage());
+    saveLanguage(chosenLanguage);
+    setLanguage(chosenLanguage);
+    voice.current?.setLanguage(chosenLanguage);
     setQuestion(null);
     if (busyRef.current) return 'Please wait for the current edit to finish.';
     busyRef.current = true;
+    writeRecovery(projectId, { interrupted: true, pose: camera.current.pose });
     setBusy(true);
     setWorkStage('Considering your idea…');
     setChatExpanded(true);
@@ -1303,7 +1344,18 @@ export default function App({
           },
         },
       );
-      const plan = checked.plan;
+      const localized =
+        checked.verification &&
+        (checked.verification.modeling ||
+          checked.verification.status !== 'verified')
+          ? localizedCompletion(
+              chosenLanguage,
+              checked.verification.status === 'verified',
+            )
+          : undefined;
+      const plan = localized
+        ? { ...checked.plan, message: localized }
+        : checked.plan;
       if (before !== fingerprint())
         throw new Error(
           'The scene changed while I was considering this request. Please send it again.',
@@ -1365,6 +1417,8 @@ export default function App({
       return message;
     } finally {
       planningAbort.current = null;
+      if (!leavingPage.current)
+        writeRecovery(projectId, { interrupted: false });
       setWorkingProject(null);
       busyRef.current = false;
       setBusy(false);
@@ -1389,9 +1443,10 @@ export default function App({
         setVoiceActive(v.active);
         if (!v.active && voice.current === v) voice.current = null;
       },
-      { levels: voiceLevels.current },
+      { levels: voiceLevels.current, language: readLanguage() },
     );
     voice.current = v;
+    setVoiceMuted(false);
     try {
       await v.start();
     } catch (e) {
@@ -1410,6 +1465,35 @@ export default function App({
       /* The project save indicator reports storage failure. */
     }
   }, [messages]);
+  useEffect(() => {
+    if (readRecovery(projectId).interrupted) {
+      const message =
+        'The previous request was interrupted. Your last committed model and Undo history were restored; unfinished changes were not applied. You can continue with a new instruction.';
+      remember('assistant', message, undefined, undefined, 'failed');
+      setNotice({ text: message, error: false });
+      writeRecovery(projectId, { interrupted: false });
+    }
+    const hide = () => {
+      leavingPage.current = true;
+      writeRecovery(workspaceIdentity.current, {
+        pose: camera.current.pose,
+        interrupted: busyRef.current,
+      });
+      planningAbort.current?.abort();
+      voice.current?.stop();
+    };
+    const show = () => {
+      leavingPage.current = false;
+    };
+    window.addEventListener('pagehide', hide);
+    window.addEventListener('pageshow', show);
+    return () => {
+      window.removeEventListener('pagehide', hide);
+      window.removeEventListener('pageshow', show);
+      if (cameraSaveTimer.current) clearTimeout(cameraSaveTimer.current);
+      planningAbort.current?.abort();
+    };
+  }, []);
   const [saved, setSaved] = useState(true);
   const [saving, setSaving] = useState(false);
   const input = useRef<HTMLTextAreaElement>(null);
@@ -1840,7 +1924,23 @@ export default function App({
         </div>
       )}
       <header className="app-header">
-        <a className="brand" href="./" aria-label="ATELIER home">
+        <a
+          className="brand"
+          href="./"
+          aria-label="ATELIER home"
+          aria-disabled={busy || modelingBusy > 0}
+          onClick={(e) => {
+            if (busyRef.current || modelingBusy > 0) {
+              e.preventDefault();
+              return;
+            }
+            try {
+              sessionStorage.setItem('atelier.workspace-open', 'home');
+            } catch {
+              /* Optional entry preference. */
+            }
+          }}
+        >
           <BrandMark />
         </a>
         {projectMenu?.(
@@ -3058,7 +3158,7 @@ export default function App({
               }}
               onCamera={(c) => {
                 if (arActive) return;
-                camera.current = c;
+                cacheCamera(c);
                 setNorthAngle(
                   (Math.atan2(-c.right.z, c.right.x) * 180) / Math.PI,
                 );
@@ -3520,6 +3620,21 @@ export default function App({
                   aria-label="Atelier voice companion"
                   data-ai-enabled={aiEnabled}
                 >
+                  {voiceActive && (
+                    <button
+                      className="voice-mute"
+                      aria-label={
+                        voiceMuted ? 'Unmute microphone' : 'Mute microphone'
+                      }
+                      onClick={() => {
+                        const muted = !voiceMuted;
+                        setVoiceMuted(muted);
+                        voice.current?.setMuted(muted);
+                      }}
+                    >
+                      {voiceMuted ? <MicOff size={18} /> : <Mic size={18} />}
+                    </button>
+                  )}
                   <OrbControl
                     onVoice={() =>
                       connectionState.voiceConfigured
@@ -3596,6 +3711,24 @@ export default function App({
                 >
                   <Minus size={18} />
                 </button>
+                <label className="conversation-language">
+                  <select
+                    aria-label="Conversation language"
+                    value={language}
+                    onChange={(e) => {
+                      const next = e.target.value as ConversationLanguage;
+                      setLanguage(next);
+                      saveLanguage(next);
+                      voice.current?.setLanguage(next);
+                    }}
+                  >
+                    {Object.entries(languages).map(([code, name]) => (
+                      <option key={code} value={code}>
+                        {name}
+                      </option>
+                    ))}
+                  </select>
+                </label>
                 <span className="voice-status">
                   {voiceStatus !== 'Off' ? voiceStatus : ''}
                 </span>
@@ -3888,6 +4021,21 @@ export default function App({
                   >
                     {!voiceActive ? <Mic size={18} /> : <MicOff size={18} />}
                   </button>
+                  {voiceActive && (
+                    <button
+                      type="button"
+                      aria-label={
+                        voiceMuted ? 'Unmute microphone' : 'Mute microphone'
+                      }
+                      onClick={() => {
+                        const muted = !voiceMuted;
+                        setVoiceMuted(muted);
+                        voice.current?.setMuted(muted);
+                      }}
+                    >
+                      {voiceMuted ? 'Unmute' : 'Mute'}
+                    </button>
+                  )}
                   <button
                     type="submit"
                     aria-label="Send message"

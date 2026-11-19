@@ -44,7 +44,7 @@ test('start screen preserves projects and offers a quiet manual entry on desktop
     page.getByRole('button', { name: 'Projects', exact: true }),
   ).toContainText('Other space');
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.reload();
+  await page.getByRole('link', { name: 'ATELIER home' }).click();
   await page.getByRole('button', { name: 'Continue without AI' }).click();
   await expect(
     page.getByRole('button', { name: /Garden study/ }),

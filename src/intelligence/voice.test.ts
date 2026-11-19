@@ -2,9 +2,17 @@ import { afterEach, expect, it, vi } from 'vitest';
 import { VoiceConnection } from './client';
 
 // Media and transport doubles: these verify lifecycle/tool routing, not live audio.
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => {
+  vi.useRealTimers();
+  vi.unstubAllGlobals();
+});
 function browser() {
-  const track = { stop: vi.fn() };
+  const track = { stop: vi.fn(), enabled: true, onended: null as any };
+  const document = new EventTarget() as EventTarget & {
+    visibilityState: string;
+  };
+  document.visibilityState = 'visible';
+  vi.stubGlobal('document', document);
   const stream = { getTracks: () => [track] };
   const channel = {
     readyState: 'open',
@@ -54,7 +62,7 @@ function browser() {
     },
   );
   vi.stubGlobal('fetch', transport);
-  return { track, stream, channel, peer, audio, media, transport };
+  return { track, stream, channel, peer, audio, media, transport, document };
 }
 it('routes continuous voice turns and spoken confirmation through one planner, ignores duplicate calls, and releases capture', async () => {
   const b = browser();
@@ -79,6 +87,7 @@ it('routes continuous voice turns and spoken confirmation through one planner, i
   send('first', 'Turn this into two floors with glass.');
   await vi.waitFor(() => expect(b.channel.send).toHaveBeenCalledTimes(2));
   send('first', 'Duplicate event should not edit.');
+  b.channel.onmessage({ data: JSON.stringify({ type: 'response.done' }) });
   send('second', 'Yes, apply that change.');
   await vi.waitFor(() => expect(b.channel.send).toHaveBeenCalledTimes(4));
   expect(design.mock.calls.map(([text]) => text)).toEqual([
@@ -179,10 +188,11 @@ it('serializes overlapping spoken turns so corrections see the preceding result'
   await vi.waitFor(() => expect(design).toHaveBeenCalledTimes(1));
   finish('Created.');
   await vi.waitFor(() => expect(design).toHaveBeenCalledTimes(2));
+  b.channel.onmessage({ data: JSON.stringify({ type: 'response.done' }) });
   expect(b.channel.send).toHaveBeenCalledTimes(4);
   voice.stop();
 });
-it('ends idle capture and discards queued edits when stopped', async () => {
+it('keeps silence open and discards queued edits when explicitly stopped', async () => {
   const b = browser(),
     status = vi.fn();
   let finish!: (value: string) => void;
@@ -212,17 +222,15 @@ it('ends idle capture and discards queued edits when stopped', async () => {
   await new Promise((resolve) => setTimeout(resolve, 0));
   expect(design).toHaveBeenCalledOnce();
   expect(b.channel.send).not.toHaveBeenCalled();
-  // Separate active connection: five idle minutes release all media resources.
+  // Silence is not a user request to end the voice session.
   const idle = new VoiceConnection(vi.fn(), status);
   vi.useFakeTimers();
   try {
     await idle.start();
     b.channel.onopen();
     await vi.advanceTimersByTimeAsync(5 * 60_000);
-    expect(status).toHaveBeenLastCalledWith(
-      'Voice stopped after five minutes without speech.',
-    );
-    expect(b.track.stop).toHaveBeenCalledTimes(2);
+    expect(idle.active).toBe(true);
+    expect(b.track.stop).toHaveBeenCalledTimes(1);
   } finally {
     idle.stop();
     vi.useRealTimers();
@@ -263,4 +271,89 @@ it('project voice selection accepts only offered IDs and reports real playback s
   await vi.waitFor(() => expect(opened).toHaveBeenCalledWith('p1'));
   voice.stop();
   expect(b.track.stop).toHaveBeenCalledOnce();
+});
+it('waits for response.done before speaking a completed tool result, and survives a long modeling turn', async () => {
+  const b = browser(),
+    status = vi.fn();
+  let finish!: (value: string) => void;
+  const voice = new VoiceConnection(
+    () =>
+      new Promise((r) => {
+        finish = r;
+      }),
+    status,
+  );
+  await voice.start();
+  b.channel.onopen();
+  const event = (value: object) =>
+    b.channel.onmessage({ data: JSON.stringify(value) });
+  event({ type: 'response.created' });
+  event({
+    type: 'response.function_call_arguments.done',
+    name: 'design',
+    call_id: 'slow',
+    arguments: JSON.stringify({ instruction: 'Develop the form' }),
+  });
+  await vi.waitFor(() => expect(status).toHaveBeenLastCalledWith('Working'));
+  vi.useFakeTimers();
+  await vi.advanceTimersByTimeAsync(7 * 60_000);
+  expect(voice.active).toBe(true);
+  finish('Measured result');
+  await vi.advanceTimersByTimeAsync(0);
+  expect(b.channel.send).toHaveBeenCalledTimes(1); // tool output only
+  event({ type: 'response.done' });
+  expect(b.channel.send).toHaveBeenCalledTimes(2);
+  event({ type: 'output_audio_buffer.started' });
+  event({ type: 'output_audio_buffer.stopped' });
+  expect(status).toHaveBeenLastCalledWith('Listening');
+  voice.setMuted(true);
+  expect(b.track.enabled).toBe(false);
+  voice.setMuted(false);
+  expect(b.track.enabled).toBe(true);
+  b.document.visibilityState = 'hidden';
+  b.document.dispatchEvent(new Event('visibilitychange'));
+  expect(b.track.enabled).toBe(false);
+  expect(voice.active).toBe(true);
+  b.document.visibilityState = 'visible';
+  b.document.dispatchEvent(new Event('visibilitychange'));
+  expect(b.track.enabled).toBe(true);
+  voice.stop();
+  expect(b.track.stop).toHaveBeenCalledOnce();
+});
+it('retains a voice session across a temporary network disconnect and stops when the device is lost', async () => {
+  const b = browser(),
+    status = vi.fn(),
+    voice = new VoiceConnection(vi.fn(), status);
+  await voice.start();
+  vi.useFakeTimers();
+  b.peer.connectionState = 'disconnected';
+  (b.peer as any).onconnectionstatechange();
+  await vi.advanceTimersByTimeAsync(2000);
+  expect(voice.active).toBe(true);
+  b.peer.connectionState = 'connected';
+  (b.peer as any).onconnectionstatechange();
+  await vi.advanceTimersByTimeAsync(20_000);
+  expect(voice.active).toBe(true);
+  b.track.onended();
+  expect(voice.active).toBe(false);
+  expect(status).toHaveBeenLastCalledWith(
+    'Microphone interrupted. Start voice to reconnect.',
+  );
+});
+it('pauses capture during playback when echo cancellation is unavailable', async () => {
+  const b = browser(),
+    voice = new VoiceConnection(vi.fn(), vi.fn());
+  (navigator.mediaDevices as any).getSupportedConstraints = () => ({
+    echoCancellation: false,
+  });
+  await voice.start();
+  b.channel.onmessage({
+    data: JSON.stringify({ type: 'output_audio_buffer.started' }),
+  });
+  expect(b.track.enabled).toBe(false);
+  b.channel.onmessage({
+    data: JSON.stringify({ type: 'output_audio_buffer.stopped' }),
+  });
+  expect(b.track.enabled).toBe(true);
+  voice.stop();
 });

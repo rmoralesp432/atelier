@@ -116,6 +116,7 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
         osc.start();
         await ctx.resume();
         stream = dest.stream;
+        (window as any).voiceStream = stream;
         (window as any).testAudio = { ctx, osc };
         return stream;
       },
@@ -131,7 +132,18 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
         onopen: null as any,
         onmessage: null as any,
         send(data: string) {
-          ((window as any).sentVoiceEvents ??= []).push(JSON.parse(data));
+          const event = JSON.parse(data);
+          ((window as any).sentVoiceEvents ??= []).push(event);
+          if (event.type === 'response.create')
+            queueMicrotask(() => {
+              for (const type of [
+                'response.created',
+                'output_audio_buffer.started',
+                'response.done',
+                'output_audio_buffer.stopped',
+              ])
+                this.onmessage?.({ data: JSON.stringify({ type }) });
+            });
         },
         close() {},
       };
@@ -256,7 +268,43 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
   await expect(
     page.getByRole('textbox', { name: 'Message Atelier' }),
   ).not.toBeVisible();
+  await expect
+    .poll(() =>
+      page.evaluate(
+        () =>
+          ((window as any).sentVoiceEvents ?? []).filter(
+            (e: any) => e.type === 'response.create',
+          ).length,
+      ),
+    )
+    .toBe(3);
+  await expect(dock).toContainText('Listening');
+  await dock.getByRole('button', { name: 'Mute microphone' }).click();
+  expect(
+    await page.evaluate(() =>
+      (window as any).voiceStream
+        .getTracks()
+        .every((t: MediaStreamTrack) => !t.enabled),
+    ),
+  ).toBe(true);
+  await dock.getByRole('button', { name: 'Unmute microphone' }).click();
+  expect(
+    await page.evaluate(() =>
+      (window as any).voiceStream
+        .getTracks()
+        .every((t: MediaStreamTrack) => t.enabled),
+    ),
+  ).toBe(true);
   await dock.getByRole('button', { name: 'Voice orb' }).click();
+  await expect
+    .poll(() =>
+      page.evaluate(() =>
+        (window as any).voiceStream
+          .getTracks()
+          .every((t: MediaStreamTrack) => t.readyState === 'ended'),
+      ),
+    )
+    .toBe(true);
   await expect(dock.getByRole('button', { name: 'Voice orb' })).toHaveAttribute(
     'aria-pressed',
     'false',

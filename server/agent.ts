@@ -1,3 +1,7 @@
+import {
+  languagePolicy,
+  requestedLanguage,
+} from '../src/conversation/language';
 import type OpenAI from 'openai';
 import { MODELING_TOOL_CONTRACT } from '../src/intelligence/toolContract';
 import { z } from 'zod';
@@ -218,7 +222,15 @@ export async function agentPlan(
     ],
   });
   const chat: any[] = [
-    { role: 'system', content: policy + MODELING_TOOL_CONTRACT },
+    {
+      role: 'system',
+      content:
+        languagePolicy(
+          requestedLanguage(input.message, input.language ?? 'en'),
+        ) +
+        policy +
+        MODELING_TOOL_CONTRACT,
+    },
     ...inputMessages.map((m) => ({
       role: m.role,
       content:
@@ -276,7 +288,12 @@ export async function agentPlan(
       const result = await client.responses.create(
         {
           model: settings.model,
-          instructions: policy + MODELING_TOOL_CONTRACT,
+          instructions:
+            languagePolicy(
+              requestedLanguage(input.message, input.language ?? 'en'),
+            ) +
+            policy +
+            MODELING_TOOL_CONTRACT,
           input: inputMessages,
           store: false,
           max_output_tokens: settings.maxOutputTokens,

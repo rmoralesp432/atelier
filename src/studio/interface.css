@@ -1072,3 +1072,20 @@
   border-radius: 8px;
   font-size: 11px;
 }
+
+.conversation-language select {
+  max-width: 100px;
+  min-height: 32px;
+  padding: 3px 8px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+}
+.voice-mute {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+}

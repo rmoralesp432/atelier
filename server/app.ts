@@ -1,3 +1,4 @@
+import { isLanguage } from '../src/conversation/language';
 import { ModelPlanError } from '../src/intelligence/planFailure';
 import { lobbySchema } from './provider';
 import express from 'express';
@@ -199,7 +200,13 @@ export function createApi(
     try {
       res
         .type('application/sdp')
-        .send(await provider!.voice(req.body.sdp, lobby?.data));
+        .send(
+          await provider!.voice(
+            req.body.sdp,
+            lobby?.data,
+            isLanguage(req.body.language) ? req.body.language : 'en',
+          ),
+        );
     } catch (error) {
       res.status(502).json({
         error: providerErrorMessage(
