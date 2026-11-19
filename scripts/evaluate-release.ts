@@ -1109,6 +1109,8 @@ try {
       ceilingUsd,
       paidCalls: ledger.calls.length,
     });
+    if (!process.exitCode && results.some((r) => r.status !== 'PASS'))
+      process.exitCode = 2;
   }
   await context.close();
   await browser.close();
