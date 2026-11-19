@@ -5,6 +5,7 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
 }) => {
   test.setTimeout(120000);
   await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
   await page.route('**/api/config', (r) =>
     r.fulfill({
       json: {
@@ -107,21 +108,26 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
     Object.defineProperty(navigator.mediaDevices, 'getUserMedia', {
       value: async () => {
         (window as any).micStarts = ((window as any).micStarts ?? 0) + 1;
-        const ctx = new AudioContext(),
-          osc = ctx.createOscillator(),
-          gain = ctx.createGain(),
-          dest = ctx.createMediaStreamDestination();
-        gain.gain.value = 0.1;
-        osc.connect(gain);
-        gain.connect(dest);
-        osc.start();
+        const ctx = new AudioContext();
+        const signal = (amplitude: number) => {
+          const osc = ctx.createOscillator(),
+            gain = ctx.createGain(),
+            dest = ctx.createMediaStreamDestination();
+          gain.gain.value = amplitude;
+          osc.connect(gain);
+          gain.connect(dest);
+          osc.start();
+          return { osc, gain, stream: dest.stream };
+        };
+        const input = signal(0),
+          output = signal(0.1);
         await ctx.resume();
-        stream = dest.stream;
-        // Real WebRTC playback has independent tracks. Reusing the mic stream
-        // here would incorrectly silence output when half-duplex capture mutes.
-        playback = stream.clone();
+        stream = input.stream;
+        // Independent audio lets us prove each side drives the visible orb,
+        // including playback while half-duplex capture disables the mic.
+        playback = output.stream;
         (window as any).voiceStream = stream;
-        (window as any).testAudio = { ctx, osc };
+        (window as any).testAudio = { ctx, input, output };
         return stream;
       },
     });
@@ -169,7 +175,8 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
       }
       close() {
         playback?.getTracks().forEach((track) => track.stop());
-        (window as any).testAudio?.osc.stop();
+        (window as any).testAudio?.input.osc.stop();
+        (window as any).testAudio?.output.osc.stop();
         void (window as any).testAudio?.ctx.close();
       }
     }
@@ -198,6 +205,55 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
       Number(await dock.locator('.audio-orb').getAttribute('data-audio-level')),
     )
     .toBeGreaterThan(0.1);
+  const orb = dock.locator('.audio-orb');
+  const visibleScale = () =>
+    orb.evaluate(
+      (el) =>
+        el.getBoundingClientRect().width / (el as HTMLElement).offsetWidth,
+    );
+  const setLevel = (channel: 'input' | 'output', amplitude: number) =>
+    page.evaluate(
+      ({ channel, amplitude }) => {
+        (window as any).testAudio[channel].gain.gain.value = amplitude;
+      },
+      { channel, amplitude },
+    );
+  // Visible output motion, not merely a changing diagnostic level.
+  await expect.poll(visibleScale).toBeGreaterThan(1.15);
+  await expect
+    .poll(() =>
+      orb.locator('.orb-response').evaluate((el) => {
+        const m = (el as SVGGElement).transform.baseVal.consolidate()!.matrix;
+        return Math.abs(Math.hypot(m.a, m.b) - Math.hypot(m.c, m.d));
+      }),
+    )
+    .toBeGreaterThan(0.03);
+  await page.screenshot({
+    path: 'test-results/atelier-orb-speaking-phone.png',
+  });
+  await setLevel('output', 0);
+  await expect.poll(visibleScale).toBeLessThan(1.02);
+  await page.evaluate(() =>
+    (window as any).voiceEvents.onmessage({
+      data: JSON.stringify({ type: 'output_audio_buffer.stopped' }),
+    }),
+  );
+  await expect(dock).toContainText('Listening');
+  await setLevel('input', 0.1);
+  await expect.poll(visibleScale).toBeGreaterThan(1.15);
+  await dock.getByRole('button', { name: 'Mute microphone' }).click();
+  await expect.poll(visibleScale).toBeLessThan(1.02);
+  await dock.getByRole('button', { name: 'Unmute microphone' }).click();
+  await expect.poll(visibleScale).toBeGreaterThan(1.15);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect.poll(visibleScale).toBeCloseTo(1, 2);
+  await expect
+    .poll(async () => Number(await orb.getAttribute('data-audio-level')))
+    .toBeGreaterThan(0.1); // Measurement continues without forced movement.
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await expect.poll(visibleScale).toBeGreaterThan(1.15);
+  await setLevel('input', 0);
+  await expect.poll(visibleScale).toBeLessThan(1.02);
   await page.evaluate(() =>
     (window as any).voiceEvents.onmessage({
       data: JSON.stringify({

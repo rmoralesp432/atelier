@@ -6,8 +6,7 @@
   height: 58px;
   isolation: isolate;
   /* The wrapper is only a hit area: no enclosing sphere, rim or glass shell. */
-  transform: scale(calc(1 + var(--orb-energy) * 0.12));
-  transition: transform 80ms linear;
+  transform: scale(calc(1 + var(--orb-energy) * 0.3));
 }
 .orb-large {
   width: 164px;

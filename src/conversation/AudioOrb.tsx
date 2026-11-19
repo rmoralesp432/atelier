@@ -19,6 +19,7 @@ export default function AudioOrb({
 }) {
   const element = useRef<HTMLSpanElement>(null);
   const shape = useRef<SVGSVGElement>(null);
+  const response = useRef<SVGGElement>(null);
   const gradient = `orb-${useId().replace(/:/g, '')}`;
   useEffect(() => {
     const preference = matchMedia('(prefers-reduced-motion: reduce)');
@@ -32,25 +33,44 @@ export default function AudioOrb({
   }, []);
   useEffect(() => {
     let frame = 0,
-      smooth = 0;
+      smooth = 0,
+      phase = 0,
+      previous = 0;
     const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-    const tick = () => {
-      const target = Math.max(
+    const draw = (energy: number) => {
+      element.current?.style.setProperty('--orb-energy', String(energy));
+      // Deform the entire glass surface and its highlights together. Silence
+      // has no speech motion; the slower idle contour remains independent.
+      const flex = Math.sin(phase) * energy * 0.13;
+      const tilt = Math.sin(phase * 0.63) * energy * 10;
+      response.current?.setAttribute(
+        'transform',
+        `translate(50 50) rotate(${tilt}) scale(${1 + flex} ${1 - flex * 0.72}) translate(-50 -50)`,
+      );
+    };
+    const tick = (now: number) => {
+      const elapsed = previous
+        ? Math.min((now - previous) / 1000, 0.05)
+        : 1 / 60;
+      previous = now;
+      const measured = Math.max(
         levels?.current.input ?? 0,
         levels?.current.output ?? 0,
       );
-      smooth += (target - smooth) * 0.25;
-      element.current?.style.setProperty(
-        '--orb-energy',
-        String(reduce.matches ? 0 : smooth),
-      );
+      // Compress the visual range so ordinary, quieter speech is visible too.
+      // The meter's noise floor stays intact; this does not amplify audio.
+      const target = Math.min(1, Math.sqrt(Math.max(0, measured)) * 1.35);
+      const responseTime = target > smooth ? 0.06 : 0.18;
+      smooth += (target - smooth) * (1 - Math.exp(-elapsed / responseTime));
+      phase += elapsed * (5 + smooth * 8);
+      draw(reduce.matches ? 0 : smooth);
       if (element.current)
         element.current.dataset.audioLevel = smooth.toFixed(2);
       frame = requestAnimationFrame(tick);
     };
-    if (state !== 'idle') tick();
+    if (state !== 'idle') frame = requestAnimationFrame(tick);
     else if (element.current) {
-      element.current.style.setProperty('--orb-energy', '0');
+      draw(0);
       element.current.dataset.audioLevel = '0.00';
     }
     return () => cancelAnimationFrame(frame);
@@ -97,27 +117,29 @@ export default function AudioOrb({
             />
           </path>
         </defs>
-        <use href={`#${gradient}-surface`} fill={`url(#${gradient})`} />
-        <use
-          className="orb-gloss"
-          href={`#${gradient}-surface`}
-          fill={`url(#${gradient}-gloss)`}
-        />
-        <use
-          href={`#${gradient}-surface`}
-          fill="none"
-          stroke="white"
-          strokeOpacity=".35"
-          strokeWidth=".45"
-        />
-        <ellipse
-          cx="33"
-          cy="25"
-          rx="15"
-          ry="5"
-          transform="rotate(-32 33 25)"
-          fill={`url(#${gradient}-shine)`}
-        />
+        <g ref={response} className="orb-response">
+          <use href={`#${gradient}-surface`} fill={`url(#${gradient})`} />
+          <use
+            className="orb-gloss"
+            href={`#${gradient}-surface`}
+            fill={`url(#${gradient}-gloss)`}
+          />
+          <use
+            href={`#${gradient}-surface`}
+            fill="none"
+            stroke="white"
+            strokeOpacity=".35"
+            strokeWidth=".45"
+          />
+          <ellipse
+            cx="33"
+            cy="25"
+            rx="15"
+            ry="5"
+            transform="rotate(-32 33 25)"
+            fill={`url(#${gradient}-shine)`}
+          />
+        </g>
       </svg>
     </span>
   );
