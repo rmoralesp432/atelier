@@ -8,11 +8,11 @@
 
  Test Files  78 passed (78)
       Tests  390 passed (390)
-   Start at  01:57:56
-   Duration  51.75s (tests 66%, import 31%, transform 1%, worker 1%)
+   Start at  02:06:36
+   Duration  46.95s (tests 67%, import 32%, transform 1%, worker 1%)
 
-     Import  195 modules were evaluated 310 times · 13.65s total, 31% of tracked time
-             ~5.07s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+     Import  195 modules were evaluated 309 times · 12.46s total, 32% of tracked time
+             ~4.60s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
              learn more: https://vitest.dev/guide/improving-performance#test-isolation
 
 npm notice
