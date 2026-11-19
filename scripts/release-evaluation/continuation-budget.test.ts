@@ -134,3 +134,43 @@ test('unknown usage on a new call still blocks continuation', async () => {
     rmSync(s.dir, { recursive: true });
   }
 });
+
+test('a resumed harness includes every settled prior call, dollar and per-task count', async () => {
+  const s = setup();
+  const previous = join(s.dir, 'settled.json');
+  const c = {
+    ...scope(),
+    reservedUsd: 0.2,
+    chargedUsd: 0.1,
+    estimatedUsd: 0.08,
+    started: '',
+    outcome: 'usage-reconciled',
+  };
+  const write = (calls: any[]) =>
+    save(previous, { authorized: true, ceilingUsd: 5, calls });
+  let sent = 0;
+  const attempt = () =>
+    continuationFetch(
+      s.next,
+      {
+        ...s.carry,
+        settledLedgers: [{ path: previous, sha256: digest(previous) }],
+      },
+      scope,
+      async () => {
+        sent++;
+        throw new Error('must not send');
+      },
+    )(url, request);
+  try {
+    write(Array(7).fill(c));
+    await assert.rejects(attempt(), /per-task/);
+    write([{ ...c, chargedUsd: 4.3 }]);
+    await assert.rejects(attempt(), /4.38 ceiling/);
+    write([{ ...c, outcome: 'interrupted-reservation-retained' }]);
+    await assert.rejects(attempt(), /Unresolved charges/);
+    assert.equal(sent, 0);
+  } finally {
+    rmSync(s.dir, { recursive: true });
+  }
+});

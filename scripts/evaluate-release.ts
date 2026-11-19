@@ -63,10 +63,16 @@ import {
   continuationFetch,
   digest,
   originalCalls,
+  settledCalls,
 } from './release-evaluation/continuation-budget';
+import { assertReplayScene, replayResponse } from './release-evaluation/replay';
 
 const applicationCommit = 'e9e3aae86e559ed9131609e2a2f3eb3e75299fba';
-const folder = '.cloud/pr22-release-continuation-438';
+const resumingBuilding = process.argv.includes('--resume-building');
+const previousFolder = '.cloud/pr22-release-continuation-438';
+const folder = resumingBuilding
+  ? '.cloud/pr22-release-resumed-building'
+  : previousFolder;
 const carryForward = {
   authorized: true,
   actualUsage: 'unknown' as const,
@@ -74,8 +80,35 @@ const carryForward = {
   maximumAdditionalUsd: 4.38,
   originalLedgerPath: '.cloud/pr22-release-final-5usd/ledger.json',
   originalLedgerSha256: digest('.cloud/pr22-release-final-5usd/ledger.json'),
+  ...(resumingBuilding
+    ? {
+        settledLedgers: [
+          {
+            path: `${previousFolder}/ledger.json`,
+            sha256: digest(`${previousFolder}/ledger.json`),
+          },
+        ],
+      }
+    : {}),
 };
-const priorCalls = originalCalls(carryForward);
+const interruptedCalls = originalCalls(carryForward);
+const settledPriorCalls = settledCalls(carryForward);
+const priorCalls = [...interruptedCalls, ...settledPriorCalls];
+const priorKnownUsd = settledPriorCalls.reduce(
+  (n, c) => n + c.estimatedUsd!,
+  0,
+);
+const priorAccountedUsd = settledPriorCalls.reduce(
+  (n, c) => n + c.chargedUsd!,
+  0,
+);
+const previousResults = resumingBuilding
+  ? JSON.parse(readFileSync(`${previousFolder}/results.json`, 'utf8')).results
+  : [];
+const buildingEvents = resumingBuilding
+  ? previousResults.find((r: any) => r.id === 'building').events
+  : [];
+let replayIndex = 0;
 mkdirSync(folder, { recursive: true });
 const ledgerPath = `${folder}/ledger.json`,
   manifestPath = `${folder}/manifest.json`;
@@ -90,6 +123,7 @@ const harnessFiles = [
   'scripts/release-evaluation/cases.ts',
   'scripts/release-evaluation/browser-state.ts',
   'scripts/release-evaluation/continuation-budget.ts',
+  'scripts/release-evaluation/replay.ts',
   'scripts/completion-evaluation/budget.ts',
   'scripts/completion-evaluation/cases.ts',
   'package-lock.json',
@@ -110,12 +144,25 @@ const manifest = {
   maximumCallsPerTask: 8,
   ceilingUsd,
   carryForward,
+  ...(resumingBuilding
+    ? {
+        resumption: {
+          sourceResultsSha256: digest(`${previousFolder}/results.json`),
+          priorManifestSha256: digest(`${previousFolder}/manifest.json`),
+          replayPaidResponses: [1, 2],
+          strategy:
+            'Reexecute the two exact saved real-AI responses in the actual App after checking equivalent scene context; continue with live reasoning at the unsent third request. Preserve all previous costs and outcomes.',
+          rerunTasks: ['building', 'height-edit'],
+          retainedTasks: ['ellipse-repair', 'recovery-tray'],
+        },
+      }
+    : {}),
   order,
   prompts,
   specification,
   pricing,
   authorization:
-    'User explicitly approved continuing: prior actual usage stays unknown, US$0.62 conservative allowance, at most US$4.38 new spending under US$5 aggregate; original call counts toward request limits; no merge or deployment.',
+    'User approved continuing under the original US$5 aggregate including US$0.62 unknown-cost allowance; all calls count toward existing limits. Routine harness fixes and retries authorized. Merge/deploy only after every release condition passes.',
 };
 const live = process.argv.includes('--live');
 assert(
@@ -127,6 +174,7 @@ assert(
         '--live',
         '--approved-budget-usd=5',
         '--approved-continuation-usd=4.38',
+        '--resume-building',
       ].includes(a),
     ),
 );
@@ -234,7 +282,8 @@ const guarded: typeof fetch = async (url, init) => {
     '32-call overall limit reached.',
   );
   const payload = JSON.parse(init!.body as string);
-  save(`${folder}/request-${ledger.calls.length + 1}.json`, payload);
+  const attemptId = `${ledger.calls.length + 1}-${Date.now()}`;
+  save(`${folder}/request-${attemptId}.json`, payload);
   console.log(
     `PAID ${caseId} ${role} call ${ledger.calls.length + 1}; previous estimate $${ledger.calls.reduce((n, c) => n + (c.estimatedUsd ?? 0), 0).toFixed(4)}`,
   );
@@ -257,8 +306,36 @@ async function recordCall(
   persist();
   try {
     const start = performance.now();
-    const response =
-      kind === 'executor'
+    let replay: any;
+    let replayed = false;
+    if (
+      resumingBuilding &&
+      caseId === 'building' &&
+      kind === 'executor' &&
+      replayIndex <= 2
+    ) {
+      const savedEvent = buildingEvents[replayIndex];
+      assertReplayScene(savedEvent.input, input);
+      if (replayIndex < 2) {
+        replay = replayResponse(savedEvent.input, input, savedEvent.response);
+        replayed = true;
+        event.replayedPaidCall = {
+          source: previousFolder,
+          index: replayIndex + 1,
+          originalElapsedMs: savedEvent.elapsedMs,
+        };
+      }
+      replayIndex++;
+      if (!live && !replayed) {
+        event.offlineReplayValidated = true;
+        throw new TaskBlockedError(
+          'Offline replay validated. No new model call was made.',
+        );
+      }
+    }
+    const response = replayed
+      ? replay
+      : kind === 'executor'
         ? await provider.plan(input, signal)
         : await provider.completionCriteria!(input, signal);
     event.elapsedMs = performance.now() - start;
@@ -646,7 +723,9 @@ async function browserTurn(id: CaseId) {
   }
 }
 function cost(ledger: Ledger, id: CaseId) {
-  const calls = ledger.calls.filter((c) => c.caseId === id);
+  const calls = [...settledPriorCalls, ...ledger.calls].filter(
+    (c) => c.caseId === id,
+  );
   return {
     calls: calls.length,
     estimatedUsd: calls.reduce((n, c) => n + (c.estimatedUsd ?? 0), 0),
@@ -654,9 +733,10 @@ function cost(ledger: Ledger, id: CaseId) {
       (n, c) => n + (c.chargedUsd ?? c.reservedUsd),
       0,
     ),
-    priorInterruptedCalls: priorCalls.filter((c) => c.caseId === id).length,
+    priorInterruptedCalls: interruptedCalls.filter((c) => c.caseId === id)
+      .length,
     callsIncludingInterrupted:
-      calls.length + priorCalls.filter((c) => c.caseId === id).length,
+      calls.length + interruptedCalls.filter((c) => c.caseId === id).length,
     reviewerMs: calls
       .filter((c) => c.role === 'reviewer')
       .reduce((n, c) => n + (c.elapsedMs ?? 0), 0),
@@ -1071,6 +1151,28 @@ async function prepareFixtures() {
 try {
   if (!live) {
     await prepareFixtures();
+    if (resumingBuilding) {
+      await browserTurn('building');
+      assert.equal(
+        replayIndex,
+        3,
+        'Both saved responses and the blocked scene must be replayed.',
+      );
+      assert.equal(active.projectPreserved, true);
+      assert.equal(active.events[2].offlineReplayValidated, true);
+      assert.equal(
+        (JSON.parse(readFileSync(ledgerPath, 'utf8')) as Ledger).calls.length,
+        0,
+      );
+      save(`${folder}/replay-preparation.json`, {
+        status: 'OFFLINE_BROWSER_REPLAY_PASSED',
+        replayedPaidResponses: 2,
+        identicalSceneBeforeContinuation: true,
+        provisionalComponentCount: active.events[2].input.scene.objects.length,
+        failedPreviewDiscarded: active.projectPreserved,
+        newPaidCalls: 0,
+      });
+    }
     console.log('OFFLINE PREPARATION PASSED: no paid calls.');
   } else {
     const p = await fetch(pricing.source, {
@@ -1080,12 +1182,25 @@ try {
     const rate = (await p.json())[model];
     assert.equal(rate?.input_cost_per_token * 1e6, pricing.inputPerMillion);
     assert.equal(rate?.output_cost_per_token * 1e6, pricing.outputPerMillion);
+    assert.equal(
+      rate?.input_cost_per_token_above_272k_tokens * 1e6,
+      pricing.reserveInputPerMillion,
+    );
+    assert.equal(
+      rate?.output_cost_per_token_above_272k_tokens * 1e6,
+      pricing.reserveOutputPerMillion,
+    );
+    assert.equal(rate?.max_input_tokens, pricing.maximumInputTokens);
     save(`${folder}/pricing-check.json`, {
       at: new Date().toISOString(),
       source: pricing.source,
       model,
       inputPerMillion: rate.input_cost_per_token * 1e6,
       outputPerMillion: rate.output_cost_per_token * 1e6,
+      longContextThreshold: pricing.longContextThreshold,
+      longInputPerMillion: rate.input_cost_per_token_above_272k_tokens * 1e6,
+      longOutputPerMillion: rate.output_cost_per_token_above_272k_tokens * 1e6,
+      maximumInputTokens: rate.max_input_tokens,
     });
     const l: Ledger = JSON.parse(readFileSync(ledgerPath, 'utf8'));
     l.authorized = true;
@@ -1102,12 +1217,22 @@ try {
           ? 'Stop rule'
           : 'Creation did not pass; no substitute handmade model',
       });
-    if (!stopped) await repairTurn();
-    else results.push({ id: 'ellipse-repair', status: 'NOT_RUN_AFTER_STOP' });
-    if (!stopped) {
-      await failedTurnControl();
-      await browserTurn('recovery-tray');
-    } else results.push({ id: 'recovery-tray', status: 'NOT_RUN_AFTER_STOP' });
+    if (resumingBuilding) {
+      for (const id of ['ellipse-repair', 'recovery-tray'])
+        results.push({
+          ...previousResults.find((r: any) => r.id === id),
+          evidenceOrigin: previousFolder,
+          rerunInThisAttempt: false,
+        });
+    } else {
+      if (!stopped) await repairTurn();
+      else results.push({ id: 'ellipse-repair', status: 'NOT_RUN_AFTER_STOP' });
+      if (!stopped) {
+        await failedTurnControl();
+        await browserTurn('recovery-tray');
+      } else
+        results.push({ id: 'recovery-tray', status: 'NOT_RUN_AFTER_STOP' });
+    }
   }
 } catch (e) {
   stopped = true;
@@ -1135,15 +1260,19 @@ try {
         transaction,
       })),
       stopped,
-      estimatedUsd: ledger.calls.reduce((n, c) => n + (c.estimatedUsd ?? 0), 0),
+      estimatedUsd:
+        priorKnownUsd +
+        ledger.calls.reduce((n, c) => n + (c.estimatedUsd ?? 0), 0),
       estimatedUsdScope:
         'Known new calls only; prior actual usage remains unknown',
       priorUnknownUsageAllowanceUsd: carryForward.allowanceUsd,
       originalActualUsage: 'unknown',
-      newBudgetAccountedUsd: budgetUsed(ledger),
-      budgetAccountedUsd: carryForward.allowanceUsd + budgetUsed(ledger),
+      newBudgetAccountedUsd: priorAccountedUsd + budgetUsed(ledger),
+      budgetAccountedUsd:
+        carryForward.allowanceUsd + priorAccountedUsd + budgetUsed(ledger),
       ceilingUsd,
-      paidCalls: ledger.calls.length,
+      paidCalls: settledPriorCalls.length + ledger.calls.length,
+      callsThisAttempt: ledger.calls.length,
       callsIncludingInterrupted: ledger.calls.length + priorCalls.length,
     });
     if (!process.exitCode && results.some((r) => r.status !== 'PASS'))

@@ -13,6 +13,8 @@ export const pricing = {
   outputPerMillion: 10,
   reserveInputPerMillion: 4,
   reserveOutputPerMillion: 15,
+  longContextThreshold: 272000,
+  maximumInputTokens: 922000,
   margin: 1.25,
 };
 export type Call = {
@@ -42,7 +44,7 @@ export function save(path: string, value: unknown) {
 export function budgetUsed(ledger: Ledger) {
   return ledger.calls.reduce((n, c) => n + (c.chargedUsd ?? c.reservedUsd), 0);
 }
-export function reservation(body: any) {
+export function inputUpperBound(body: any) {
   assert.equal(body.model, model, 'Evaluation cannot change models.');
   assert(!body.stream, 'No unmetered streaming.');
   assert(
@@ -75,7 +77,14 @@ export function reservation(body: any) {
   // UTF-8 bytes upper-bound text token counts; include serialization overhead
   // and a deliberately generous allowance for each 640 x 640 observation.
   const inputBound = Buffer.byteLength(text) + 4096 + images * 16000;
-  assert(inputBound <= 250000, 'Do not enter the long-context pricing tier.');
+  assert(
+    inputBound <= pricing.maximumInputTokens,
+    'Conservative input bound exceeds the model context capacity.',
+  );
+  return { inputBound, maximum };
+}
+export function reservation(body: any) {
+  const { inputBound, maximum } = inputUpperBound(body);
   return (
     (pricing.margin *
       (inputBound * pricing.reserveInputPerMillion +
@@ -158,7 +167,7 @@ export function meteredFetch(
         Number.isInteger(input) &&
         Number.isInteger(output) &&
         input >= 0 &&
-        input <= 250000 &&
+        input <= inputUpperBound(body).inputBound &&
         output >= 0 &&
         output <= 6000 &&
         (data.model === model || data.model?.startsWith(`${model}-`)) &&
@@ -166,9 +175,16 @@ export function meteredFetch(
       ) {
         call.inputTokens = input;
         call.outputTokens = output;
+        const longContext = input > pricing.longContextThreshold;
         call.estimatedUsd =
-          (input * pricing.inputPerMillion +
-            output * pricing.outputPerMillion) /
+          (input *
+            (longContext
+              ? pricing.reserveInputPerMillion
+              : pricing.inputPerMillion) +
+            output *
+              (longContext
+                ? pricing.reserveOutputPerMillion
+                : pricing.outputPerMillion)) /
           1e6;
         // Retain a 25% margin even after successful usage reconciliation.
         call.chargedUsd = call.estimatedUsd * pricing.margin;

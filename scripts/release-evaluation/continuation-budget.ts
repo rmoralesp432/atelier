@@ -17,6 +17,7 @@ export type CarryForward = {
   maximumAdditionalUsd: number;
   originalLedgerPath: string;
   originalLedgerSha256: string;
+  settledLedgers?: { path: string; sha256: string }[];
 };
 export const digest = (path: string) =>
   createHash('sha256').update(readFileSync(path)).digest('hex');
@@ -54,6 +55,25 @@ export function originalCalls(carry: CarryForward) {
   return original.calls;
 }
 
+export function settledCalls(carry: CarryForward) {
+  return (carry.settledLedgers ?? []).flatMap(({ path, sha256 }) => {
+    assert.equal(digest(path), sha256, 'Settled accounting changed.');
+    const ledger: Ledger = JSON.parse(readFileSync(path, 'utf8'));
+    assert.equal(ledger.ceilingUsd, 5);
+    assert(ledger.authorized);
+    assert(
+      ledger.calls.every(
+        (c) =>
+          c.outcome === 'usage-reconciled' &&
+          Number.isFinite(c.estimatedUsd) &&
+          Number.isFinite(c.chargedUsd),
+      ),
+      'Unresolved charges cannot be carried as settled.',
+    );
+    return ledger.calls;
+  });
+}
+
 export function continuationFetch(
   path: string,
   carry: CarryForward,
@@ -62,7 +82,9 @@ export function continuationFetch(
 ): typeof fetch {
   const metered = meteredFetch(path, context, send);
   return async (url, init) => {
-    const prior = originalCalls(carry);
+    const settled = settledCalls(carry);
+    const prior = [...originalCalls(carry), ...settled];
+    const settledUsed = settled.reduce((n, c) => n + c.chargedUsd!, 0);
     const current: Ledger = JSON.parse(readFileSync(path, 'utf8'));
     const scope = context();
     assert(
@@ -77,11 +99,12 @@ export function continuationFetch(
     assert(typeof init?.body === 'string');
     const reserved = reservation(JSON.parse(init.body));
     assert(
-      budgetUsed(current) + reserved <= carry.maximumAdditionalUsd,
+      settledUsed + budgetUsed(current) + reserved <=
+        carry.maximumAdditionalUsd,
       'Additional US$4.38 ceiling reached.',
     );
     assert(
-      carry.allowanceUsd + budgetUsed(current) + reserved <= 5,
+      carry.allowanceUsd + settledUsed + budgetUsed(current) + reserved <= 5,
       'Aggregate US$5 ceiling reached.',
     );
     // All existing endpoint, model, authorization, token and unknown-new-charge

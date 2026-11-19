@@ -155,3 +155,38 @@ test('token, image, endpoint and per-turn limits cannot silently enlarge the bud
     rmSync(dir, { recursive: true });
   }
 });
+
+test('large serialized scenes reserve long-context rates without confusing bytes with actual tokens', async () => {
+  const { dir, path } = ledger(true);
+  const large = { ...body, input: 'x'.repeat(500000) };
+  assert(reservation(large) > 2.5);
+  let sent = 0;
+  try {
+    const run = meteredFetch(path, scope, async () => {
+      sent++;
+      return Response.json({
+        model,
+        service_tier: 'default',
+        usage: { input_tokens: 280000, output_tokens: 2000 },
+      });
+    });
+    await run(url, { method: 'POST', body: JSON.stringify(large) });
+    const c = read(path).calls[0];
+    assert.equal(c.estimatedUsd, 1.15);
+    assert.equal(c.chargedUsd, 1.4375);
+    await assert.rejects(
+      run(url, {
+        method: 'POST',
+        body: JSON.stringify({ ...large, input: 'x'.repeat(800000) }),
+      }),
+      /ceiling/,
+    );
+    assert.throws(
+      () => reservation({ ...large, input: 'x'.repeat(922000) }),
+      /context capacity/,
+    );
+    assert.equal(sent, 1);
+  } finally {
+    rmSync(dir, { recursive: true });
+  }
+});
