@@ -1,0 +1,313 @@
+{
+  "status": "DEPLOYED_WITH_DISCLOSED_VERIFICATION_LIMITS",
+  "url": "https://atelier-emxi.onrender.com/",
+  "commit": "acf5ed9ccdb298d2853d139ce5cdf0fc35e24c36",
+  "render": {
+    "id": "dep-dbvfejd9el5s73bnu1m0",
+    "status": "live",
+    "commit": {
+      "id": "acf5ed9ccdb298d2853d139ce5cdf0fc35e24c36",
+      "message": "Merge pull request #22 from rmoralesp432/feat/evidence-based-completion\n\nVerify modeling completion and stabilize mobile and voice sessions",
+      "createdAt": "2026-11-19T13:18:24Z"
+    },
+    "finishedAt": "2026-11-19T13:20:58.617795Z"
+  },
+  "requiredCI": {
+    "run": 44527192732,
+    "conclusion": "success",
+    "source": "00510f4d68b232409c2e95a1364716e93ef56c92",
+    "deployedApplicationSourceIdentical": true
+  },
+  "smoke": {
+    "id": 44533227199,
+    "head_sha": "dc68cb309d3d0778faaaf02f2e8f6fe0dcd45f41",
+    "status": "completed",
+    "conclusion": "success",
+    "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44533227199",
+    "created_at": "2026-11-19T13:25:02Z",
+    "updated_at": "2026-11-19T13:28:42Z"
+  },
+  "smokeApplicationSourceIdentical": true,
+  "smokeJobs": [
+    {
+      "id": 135591766625,
+      "name": "smoke",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-19T13:25:06Z",
+          "completed_at": "2026-11-19T13:25:10Z"
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2,
+          "started_at": "2026-11-19T13:25:10Z",
+          "completed_at": "2026-11-19T13:25:15Z"
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3,
+          "started_at": "2026-11-19T13:25:15Z",
+          "completed_at": "2026-11-19T13:25:20Z"
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4,
+          "started_at": "2026-11-19T13:25:20Z",
+          "completed_at": "2026-11-19T13:25:25Z"
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5,
+          "started_at": "2026-11-19T13:25:25Z",
+          "completed_at": "2026-11-19T13:25:28Z"
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6,
+          "started_at": "2026-11-19T13:25:28Z",
+          "completed_at": "2026-11-19T13:26:40Z"
+        },
+        {
+          "name": "Run node scripts/smoke-render.mjs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7,
+          "started_at": "2026-11-19T13:26:40Z",
+          "completed_at": "2026-11-19T13:27:15Z"
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8,
+          "started_at": "2026-11-19T13:27:15Z",
+          "completed_at": "2026-11-19T13:27:17Z"
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15,
+          "started_at": "2026-11-19T13:27:17Z",
+          "completed_at": "2026-11-19T13:28:39Z"
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16,
+          "started_at": "2026-11-19T13:28:39Z",
+          "completed_at": "2026-11-19T13:28:39Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17,
+          "started_at": "2026-11-19T13:28:39Z",
+          "completed_at": "2026-11-19T13:28:39Z"
+        }
+      ]
+    }
+  ],
+  "smokeAnnotations": [
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/rmoralesp432/atelier/blob/dc68cb309d3d0778faaaf02f2e8f6fe0dcd45f41/.github",
+      "start_line": 2,
+      "start_column": null,
+      "end_line": 2,
+      "end_column": null,
+      "annotation_level": "warning",
+      "title": "",
+      "message": "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+      "raw_details": ""
+    },
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/rmoralesp432/atelier/blob/dc68cb309d3d0778faaaf02f2e8f6fe0dcd45f41/.github",
+      "start_line": 8,
+      "start_column": null,
+      "end_line": 8,
+      "end_column": null,
+      "annotation_level": "notice",
+      "title": "Render production smoke",
+      "message": "PASS: expected bundle, healthy configured agent, real editable geometry, persistence, reload and Undo/Redo. No paid calls.",
+      "raw_details": ""
+    },
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/rmoralesp432/atelier/blob/dc68cb309d3d0778faaaf02f2e8f6fe0dcd45f41/.github",
+      "start_line": 6,
+      "start_column": null,
+      "end_line": 6,
+      "end_column": null,
+      "annotation_level": "notice",
+      "title": "Production agent configuration",
+      "message": "{\"configured\":true,\"agentConfigured\":true,\"authenticated\":false}",
+      "raw_details": ""
+    },
+    {
+      "path": ".github",
+      "blob_href": "https://github.com/rmoralesp432/atelier/blob/dc68cb309d3d0778faaaf02f2e8f6fe0dcd45f41/.github",
+      "start_line": 5,
+      "start_column": null,
+      "end_line": 5,
+      "end_column": null,
+      "annotation_level": "notice",
+      "title": "Production liveness",
+      "message": "HTTP 200",
+      "raw_details": ""
+    }
+  ],
+  "failedSmokeAttempts": {
+    "run": 44532155338,
+    "attempts": 2,
+    "rootCause": "Undetermined; diagnostic-only harness revision passed without deployed application changes.",
+    "firstAnnotations": [
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rmoralesp432/atelier/blob/acf5ed9ccdb298d2853d139ce5cdf0fc35e24c36/.github",
+        "start_line": 2,
+        "start_column": null,
+        "end_line": 2,
+        "end_column": null,
+        "annotation_level": "warning",
+        "title": "",
+        "message": "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rmoralesp432/atelier/blob/acf5ed9ccdb298d2853d139ce5cdf0fc35e24c36/.github",
+        "start_line": 13,
+        "start_column": null,
+        "end_line": 13,
+        "end_column": null,
+        "annotation_level": "warning",
+        "title": "",
+        "message": "No files were found with the provided path: test-results/render-smoke/. No artifacts will be uploaded.",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rmoralesp432/atelier/blob/acf5ed9ccdb298d2853d139ce5cdf0fc35e24c36/.github",
+        "start_line": 55,
+        "start_column": null,
+        "end_line": 55,
+        "end_column": null,
+        "annotation_level": "failure",
+        "title": "",
+        "message": "Process completed with exit code 1.",
+        "raw_details": ""
+      }
+    ],
+    "secondAnnotations": [
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rmoralesp432/atelier/blob/acf5ed9ccdb298d2853d139ce5cdf0fc35e24c36/.github",
+        "start_line": 2,
+        "start_column": null,
+        "end_line": 2,
+        "end_column": null,
+        "annotation_level": "warning",
+        "title": "",
+        "message": "Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-node@v4, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rmoralesp432/atelier/blob/acf5ed9ccdb298d2853d139ce5cdf0fc35e24c36/.github",
+        "start_line": 13,
+        "start_column": null,
+        "end_line": 13,
+        "end_column": null,
+        "annotation_level": "warning",
+        "title": "",
+        "message": "No files were found with the provided path: test-results/render-smoke/. No artifacts will be uploaded.",
+        "raw_details": ""
+      },
+      {
+        "path": ".github",
+        "blob_href": "https://github.com/rmoralesp432/atelier/blob/acf5ed9ccdb298d2853d139ce5cdf0fc35e24c36/.github",
+        "start_line": 55,
+        "start_column": null,
+        "end_line": 55,
+        "end_column": null,
+        "annotation_level": "failure",
+        "title": "",
+        "message": "Process completed with exit code 1.",
+        "raw_details": ""
+      }
+    ]
+  },
+  "artifacts": {
+    "total_count": 1,
+    "artifacts": [
+      {
+        "id": 14534917933,
+        "node_id": "MDg6QXJ0aWZhY3QxNDUzNDkxNzkzMw==",
+        "name": "render-production-smoke",
+        "size_in_bytes": 193297,
+        "url": "https://api.github.com/repos/rmoralesp432/atelier/actions/artifacts/14534917933",
+        "archive_download_url": "https://api.github.com/repos/rmoralesp432/atelier/actions/artifacts/14534917933/zip",
+        "expired": false,
+        "digest": "sha256:8c6c727d94c7ef62b7b8f4b49f6f362baebde101363b48f0ef509542373ac831",
+        "created_at": "2026-11-19T13:27:17Z",
+        "updated_at": "2026-11-19T13:27:17Z",
+        "expires_at": "2026-12-03T13:27:15Z",
+        "workflow_run": {
+          "id": 44533227199,
+          "repository_id": 1419776051,
+          "head_repository_id": 1419776051,
+          "head_branch": "eval/pr22-final-live-acceptance",
+          "head_sha": "dc68cb309d3d0778faaaf02f2e8f6fe0dcd45f41"
+        }
+      }
+    ]
+  },
+  "focusedAcceptance": {
+    "components": 237,
+    "creationChecks": 22,
+    "editChecks": 499,
+    "allIdentitiesPreserved": true,
+    "unrelatedGeometryPreserved": true,
+    "reload": true,
+    "undoRedo": true,
+    "editResume": "Exact previously paid AI responses; restored original scene and response-bound identities verified before replay.",
+    "builtInVerification": "Explicitly incomplete for both steps; external independent checks passed."
+  },
+  "apiAccounting": {
+    "knownUsageEstimateUsd": 2.937918,
+    "unknownChargeAllowancesUsd": [0.62, 0.22113],
+    "conservativeAggregateUsd": 4.5135275,
+    "authorizedCeilingUsd": 20,
+    "productionSmokePaidCalls": 0
+  },
+  "rollback": {
+    "tag": "release/pre-pr22-2026-11-19",
+    "commit": "9bb6ad42997979f3b55b8218a1c9dcfd22f61dff",
+    "deploy": "dep-dbv0t20m7kps739tcp5g"
+  },
+  "limitations": [
+    "Physical iPhone microphone and continuous voice not validated on device.",
+    "Intermittent desktop viewport black band unreproduced; automated coverage passed.",
+    "Built-in reviewer may leave requirements explicitly unverified.",
+    "No new paid generation on production; real-AI acceptance exercised identical application code."
+  ]
+}
