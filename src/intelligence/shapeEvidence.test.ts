@@ -65,6 +65,9 @@ it.each([0.73, 1.26, 2.9])(
       const p = part(kind, d, kind === 'sphere' ? d : 1.73);
       expect((await shapeEvidence(p, kind)).met).toBe(true);
       expect((await shapeEvidence(await bake(p), kind)).met).toBe(true);
+      const stretched = kind === 'sphere' ? 'ellipsoid' : 'elliptic_cylinder';
+      expect((await shapeEvidence(p, stretched)).met).toBe(false);
+      expect((await shapeEvidence(await bake(p), stretched)).met).toBe(false);
       const wrong = { ...p, dimensions: { ...p.dimensions, depth: d * 1.3 } };
       expect((await shapeEvidence(wrong, kind)).met).toBe(false);
       expect((await shapeEvidence(await bake(wrong), kind)).met).not.toBe(true);
@@ -91,6 +94,15 @@ it.each(['sphere', 'cylinder', 'box'] as const)(
     const rotated = await orientVolume(p, { x: 23, y: 17, z: 41 });
     expect((await shapeEvidence(rotated, kind)).met).toBe(true);
     expect((await shapeEvidence(await bake(rotated), kind)).met).toBe(true);
+    if (kind !== 'box')
+      expect(
+        (
+          await shapeEvidence(
+            await bake(rotated),
+            kind === 'sphere' ? 'ellipsoid' : 'elliptic_cylinder',
+          )
+        ).met,
+      ).toBe(false);
   },
 );
 it('does not turn construction labels or bounding boxes into claims of shape or wall thickness', async () => {

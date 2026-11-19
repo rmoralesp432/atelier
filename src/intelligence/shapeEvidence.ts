@@ -6,7 +6,7 @@ import { isFlat } from '../geometry/spatial';
 
 /** Occupied-solid evidence, not recipe classification. Round shapes are metric:
  * sphere means one radius; cylinder means a right, circular cylinder. Ellipsoid
- * and elliptic_cylinder explicitly allow independent transverse radii.
+ * and elliptic_cylinder require measurably unequal principal/transverse radii.
  * Fits allow 2% curved tessellation-volume error (box 0.001%). */
 export async function shapeEvidence(
   v: Volume,
@@ -22,6 +22,17 @@ export async function shapeEvidence(
   )
     return { met: undefined };
   if (isFlat(v)) return { met: false };
+  // These requirement names denote the explicitly stretched/noncircular forms,
+  // rather than the mathematical superset that also includes a sphere/circle.
+  // Prove the round form first so alternative mesh frames cannot turn a tilted
+  // circular cross-section into positive evidence for an elliptical one.
+  if (kind === 'ellipsoid' || kind === 'elliptic_cylinder') {
+    const round = await shapeEvidence(
+      v,
+      kind === 'ellipsoid' ? 'sphere' : 'cylinder',
+    );
+    if (round.met === true) return { met: false };
+  }
   const m = await getKernel();
   return withSolid(v, (solid) => {
     const mesh = solid.getMesh();
@@ -72,7 +83,15 @@ export async function shapeEvidence(
       if (Math.min(size.x, size.y, size.z) <= 0) continue;
       const round = kind === 'sphere' || kind === 'cylinder';
       const extents =
-        kind === 'sphere' ? [size.x, size.y, size.z] : [size.x, size.z];
+        kind === 'sphere' || kind === 'ellipsoid'
+          ? [size.x, size.y, size.z]
+          : [size.x, size.z];
+      if (
+        (kind === 'ellipsoid' || kind === 'elliptic_cylinder') &&
+        Math.max(...extents) - Math.min(...extents) <=
+          Math.max(...extents) * 0.005 + 1e-7
+      )
+        continue;
       // Rotated tessellations slightly undershoot ideal bounds. Never fit
       // independently scaled radii for a round requirement.
       if (
