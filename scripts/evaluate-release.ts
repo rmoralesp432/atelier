@@ -55,6 +55,11 @@ import {
   targets,
   type CaseId,
 } from './release-evaluation/cases';
+import {
+  waitForModelingStart,
+  modelingActive,
+  cancelModeling,
+} from './release-evaluation/browser-state';
 
 const applicationCommit = 'e9e3aae86e559ed9131609e2a2f3eb3e75299fba';
 const folder = '.cloud/pr22-release-final-5usd';
@@ -70,6 +75,7 @@ const git = (...args: string[]) =>
 const harnessFiles = [
   'scripts/evaluate-release.ts',
   'scripts/release-evaluation/cases.ts',
+  'scripts/release-evaluation/browser-state.ts',
   'scripts/completion-evaluation/budget.ts',
   'scripts/completion-evaluation/cases.ts',
   'package-lock.json',
@@ -532,12 +538,9 @@ async function browserTurn(id: CaseId) {
   const start = performance.now();
   try {
     await send(prompts[id]);
-    const stop = page.getByRole('button', {
-      name: 'Stop and discard working preview',
-    });
-    await expect(stop).toBeVisible({ timeout: 20000 });
+    await waitForModelingStart(page);
     const deadline = Date.now() + 660000;
-    while (await stop.isVisible()) {
+    while (await modelingActive(page)) {
       if (Date.now() > deadline)
         throw new Error('Browser modeling exceeded evaluation deadline.');
       if (gate?.pending && !gate.performed) {
@@ -599,10 +602,7 @@ async function browserTurn(id: CaseId) {
     active.status =
       e instanceof SeriousRegression ? 'SERIOUS_REGRESSION_STOP' : 'FAILED';
     stopped = true;
-    const stop = page.getByRole('button', {
-      name: 'Stop and discard working preview',
-    });
-    if (await stop.isVisible()) await stop.click();
+    await cancelModeling(page);
     await page
       .screenshot({ path: `${folder}/${id}-failure.png` })
       .catch(() => {});

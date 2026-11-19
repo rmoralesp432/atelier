@@ -1,0 +1,25 @@
+{
+  "applicationCommit": "e9e3aae86e559ed9131609e2a2f3eb3e75299fba",
+  "initialHarnessCommit": "c9cc625",
+  "evaluationStatus": "INCOMPLETE_HARNESS_INTERRUPTION",
+  "paidRequestsStarted": 1,
+  "completedPaidResponses": 0,
+  "completedLiveTasks": 0,
+  "actualCostUSD": null,
+  "retainedReservationUSD": 0.613085,
+  "approvedCeilingUSD": 5,
+  "readOnlyUsageLookupStatus": 403,
+  "additionalPaidRequestsAfterInterruption": 0,
+  "appChanged": false,
+  "merged": false,
+  "deployed": false,
+  "proposedContinuation": {
+    "authorized": false,
+    "countPriorCallAsUSD": 0.62,
+    "maximumNewSpendUSD": 4.38,
+    "aggregateMaximumUSD": 5,
+    "totalCallsIncludingPriorMaximum": 32,
+    "buildingCallsIncludingPriorMaximum": 8,
+    "requires": "Explicit authorization to carry forward the full interrupted-call reservation without treating usage as reconciled"
+  }
+}
