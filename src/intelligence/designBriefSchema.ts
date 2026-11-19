@@ -96,6 +96,8 @@ export const designRequirement = z.union([
         'box',
         'cylinder',
         'sphere',
+        'ellipsoid',
+        'elliptic_cylinder',
         'rectangle',
         'circle',
         'polygon',

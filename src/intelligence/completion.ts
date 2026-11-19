@@ -1,11 +1,11 @@
 import { isVisible, type Volume } from '../model';
 import { equalData } from '../projects/equalData';
 import { solidStats } from '../geometry/kernel';
-import { isFlat, envelopeBounds } from '../geometry/spatial';
+import { isFlat } from '../geometry/spatial';
 import { assessRequirements, preservedValue } from './designBrief';
 import type { DesignSelector } from './designBriefSchema';
 import { resolveIds, type Session } from './engine';
-import { physicalChecks } from './completionGeometry';
+import { physicalChecks, flatPhysicalBounds } from './completionGeometry';
 import {
   completionCriteriaSchema,
   type CompletionCriteria,
@@ -268,7 +268,7 @@ export async function verifyCompletion(
         const anchor = async (v: Volume, point: 'min' | 'center' | 'max') => {
           const axis = { x: 0, y: 1, z: 2 }[r.axis];
           const bounds = isFlat(v)
-            ? envelopeBounds(v)
+            ? flatPhysicalBounds(v)
             : (await solidStats(v)).bounds;
           const coord = (edge: 'min' | 'max') =>
             Array.isArray(bounds[edge])

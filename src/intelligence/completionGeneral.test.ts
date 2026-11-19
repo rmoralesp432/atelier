@@ -523,7 +523,7 @@ it('uncertain scope and qualitative evidence remain unknown; unrelated group met
   ).toMatchObject({ status: 'verified', canCommit: true });
 });
 
-it('does not reject an equivalent box with a rotated internal mesh frame that the canonical fitter cannot classify', async () => {
+it('verifies an equivalent box after recovering its rotated internal mesh frame', async () => {
   const v = await bake(piece('angled prism', 2, 0, 3));
   const angle = (37 * Math.PI) / 180,
     p = v.geometry.positions;
@@ -550,8 +550,8 @@ it('does not reject an equivalent box with a rotated internal mesh frame that th
       newSession({ volumes: [v], selectedId: null }),
     ),
   ).toMatchObject({
-    status: 'unverified',
-    passed: false,
+    status: 'verified',
+    passed: true,
     canCommit: true,
   });
 });

@@ -1,4 +1,5 @@
-import { makeVolume, type Volume, type Vec3 } from '../model';
+import { type Volume, type Vec3 } from '../model';
+import { shapeEvidence } from './shapeEvidence';
 import {
   solidStats,
   sharedVolume,
@@ -6,7 +7,7 @@ import {
   getKernel,
 } from '../geometry/kernel';
 import { MAX_SCENE_OBJECTS } from '../limits';
-import { envelopeBounds, isFlat } from '../geometry/spatial';
+import { isFlat } from '../geometry/spatial';
 import type { Session } from './engine';
 import type { CompletionCriteria } from './completionSchema';
 import type { DesignSelector } from './designBriefSchema';
@@ -18,6 +19,47 @@ export type GeometricEvidence = {
   unavailable?: boolean;
 };
 type Bounds = { min: number[]; max: number[] };
+/** Bounds of actual rendered flat profiles, not a rotated enclosing rectangle. */
+export function flatPhysicalBounds(v: Volume): Bounds {
+  const g = v.geometry;
+  const points =
+    g?.kind === 'polygon'
+      ? g.points
+      : g?.kind === 'circle'
+        ? Array.from({ length: 64 }, (_, i) => ({
+            x: Math.cos((i * Math.PI) / 32) / 2,
+            z: Math.sin((i * Math.PI) / 32) / 2,
+          }))
+        : [
+            { x: -0.5, z: -0.5 },
+            { x: 0.5, z: -0.5 },
+            { x: 0.5, z: 0.5 },
+            { x: -0.5, z: 0.5 },
+          ];
+  const a = (v.rotation * Math.PI) / 180;
+  const world = points.map((p) => ({
+    x:
+      v.position.x +
+      p.x * v.dimensions.width * Math.cos(a) +
+      p.z * v.dimensions.depth * Math.sin(a),
+    z:
+      v.position.z -
+      p.x * v.dimensions.width * Math.sin(a) +
+      p.z * v.dimensions.depth * Math.cos(a),
+  }));
+  return {
+    min: [
+      Math.min(...world.map((p) => p.x)),
+      v.position.y,
+      Math.min(...world.map((p) => p.z)),
+    ],
+    max: [
+      Math.max(...world.map((p) => p.x)),
+      v.position.y,
+      Math.max(...world.map((p) => p.z)),
+    ],
+  };
+}
 export function physicalChecks() {
   const cache = new Map<
     Volume,
@@ -29,11 +71,7 @@ export function physicalChecks() {
   };
   const bounds = async (v: Volume): Promise<Bounds> => {
     if (!isFlat(v)) return (await stats(v)).bounds;
-    const b = envelopeBounds(v);
-    return {
-      min: [b.min.x, b.min.y, b.min.z],
-      max: [b.max.x, b.max.y, b.max.z],
-    };
+    return flatPhysicalBounds(v);
   };
   const base = async (v: Volume): Promise<Vec3> => {
     const b = await bounds(v);
@@ -72,50 +110,6 @@ export function physicalChecks() {
     };
     expected.forEach((_, i) => assign(i, new Set()));
     return matched.size;
-  };
-  const shape = async (
-    v: Volume,
-    kind: string,
-  ): Promise<boolean | undefined> => {
-    if (!['box', 'cylinder', 'sphere'].includes(kind)) return undefined;
-    if (isFlat(v)) return false;
-    // Fit a canonical solid to the evaluated local bounds, then compare its
-    // occupied space. Changing a recipe to an equivalent mesh is immaterial.
-    const b = await withSolid(v, (s) => s.boundingBox(), false);
-    const cx = (b.min[0] + b.max[0]) / 2,
-      cz = (b.min[2] + b.max[2]) / 2;
-    const angle = (v.rotation * Math.PI) / 180;
-    const reference: Volume = {
-      ...makeVolume(),
-      geometry: { kind: kind as 'box' | 'cylinder' | 'sphere' },
-      dimensions: {
-        width: b.max[0] - b.min[0],
-        height: b.max[1] - b.min[1],
-        depth: b.max[2] - b.min[2],
-      },
-      position: {
-        x: v.position.x + cx * Math.cos(angle) + cz * Math.sin(angle),
-        y: v.position.y + b.min[1],
-        z: v.position.z - cx * Math.sin(angle) + cz * Math.cos(angle),
-      },
-      rotation: v.rotation,
-    };
-    const [a, bStats, shared] = await Promise.all([
-      stats(v),
-      stats(reference),
-      sharedVolume(v, reference),
-    ]);
-    const difference = Math.max(0, a.volume + bStats.volume - 2 * shared);
-    const matches =
-      difference <=
-      Math.max(1e-8, bStats.volume * (kind === 'box' ? 0.00001 : 0.02));
-    // A successful fit proves equivalence. A failed fit cannot prove a generic
-    // mesh/Boolean is the wrong shape: its internal axes may differ. Only known
-    // canonical primitives have an unambiguous frame for a negative result.
-    return matches ||
-      ['box', 'cylinder', 'sphere'].includes(v.geometry?.kind ?? 'box')
-      ? matches
-      : undefined;
   };
   return async function check(
     r: Requirement,
@@ -207,9 +201,15 @@ export function physicalChecks() {
         observed: `Group ${r.name}: ${members.length} members; ${vs.filter((v) => group && v.groupId === group.id).length}/${vs.length} requested objects belong to it.`,
       };
     }
-    if (r.kind === 'relationship') {
+    if (r.kind === 'relationship' || r.kind === 'relation') {
       const a = select(r.first),
         b = select(r.second);
+      if (r.kind === 'relation' && (a.length !== 1 || b.length !== 1))
+        throw new Error(
+          'Legacy relation requires two individual solids. Use relationship with an explicit quantifier for sets.',
+        );
+      const quantifier = r.kind === 'relationship' ? r.quantifier : 'all';
+      const distance = r.kind === 'relationship' ? r.distance : 0;
       if (a.length * b.length > 4096)
         throw new Error(
           'Relationship comparison exceeds the bounded pair capacity.',
@@ -228,13 +228,13 @@ export function physicalChecks() {
           else {
             const gap = await withSolid(first, (sa) =>
               withSolid(second, (sb) =>
-                sa.minGap(sb, r.distance + r.tolerance + 0.001),
+                sa.minGap(sb, distance + r.tolerance + 0.001),
               ),
             );
             row.push(
               r.relation === 'touching'
                 ? shared <= epsilon && gap <= r.tolerance + 1e-8
-                : Math.abs(gap - r.distance) <= r.tolerance + 1e-8,
+                : Math.abs(gap - distance) <= r.tolerance + 1e-8,
             );
           }
         }
@@ -242,14 +242,14 @@ export function physicalChecks() {
       }
       const met =
         rows.length > 0 &&
-        (r.quantifier === 'each'
+        (quantifier === 'each'
           ? rows.every((row) => row.some(Boolean))
-          : r.quantifier === 'all'
+          : quantifier === 'all'
             ? rows.every((row) => row.length > 0 && row.every(Boolean))
             : rows.some((row) => row.some(Boolean)));
       return {
         met,
-        observed: `${r.relation}: ${rows.flat().filter(Boolean).length}/${rows.flat().length} distinct solid pairs satisfy ${r.quantifier}; tolerance ${r.tolerance} m.`,
+        observed: `${r.relation}: ${rows.flat().filter(Boolean).length}/${rows.flat().length} distinct solid pairs satisfy ${quantifier}; tolerance ${r.tolerance} m.`,
       };
     }
     if (r.kind === 'region') {
@@ -290,18 +290,60 @@ export function physicalChecks() {
         observed: `Region ${r.occupancy}: ${Math.max(0, error)} m³ inconsistent material; selected ${vs.length} objects.`,
       };
     }
+    if (r.kind === 'diameter') {
+      const vs = select(r.selector);
+      const evidence = [];
+      for (const v of vs) evidence.push(await shapeEvidence(v, r.shape));
+      const incorrect = evidence.some(
+        (e) =>
+          e.met === false ||
+          (e.diameter !== undefined &&
+            Math.abs(e.diameter - r.value) > r.tolerance + 1e-6),
+      );
+      return {
+        met:
+          vs.length > 0 &&
+          !incorrect &&
+          evidence.every((e) => e.met === true && e.diameter !== undefined),
+        unavailable:
+          !incorrect &&
+          evidence.some((e) => e.met === undefined || e.diameter === undefined),
+        observed: `True ${r.shape} diameter: ${evidence.map((e) => e.diameter ?? (e.met === false ? 'not the required round shape' : 'unverified')).join(', ')}; expected ${r.value} ± ${r.tolerance} m across ${vs.length} objects. Diameter is intrinsic, independent of world orientation.`,
+      };
+    }
     if (r.kind === 'shape') {
-      if (!['box', 'cylinder', 'sphere'].includes(r.shape)) return undefined;
+      if (
+        ![
+          'box',
+          'cylinder',
+          'sphere',
+          'ellipsoid',
+          'elliptic_cylinder',
+        ].includes(r.shape)
+      )
+        return {
+          met: false,
+          unavailable: true,
+          observed: `No occupied-geometry classifier for ${r.shape}. A construction label does not establish the requested geometric property.`,
+        };
       const vs = select(r.selector);
       if (!vs.length)
         return { met: false, observed: 'No objects match the required shape.' };
-      const matches = await Promise.all(vs.map((v) => shape(v, r.shape)));
+      const matches = [];
+      for (const v of vs) matches.push((await shapeEvidence(v, r.shape)).met);
       return {
         met: matches.every(Boolean),
         unavailable: !matches.includes(false) && matches.includes(undefined),
         observed: `Evaluated solid shape ${r.shape}: ${matches.filter(Boolean).length}/${vs.length} match occupied geometry, independent of recipe type.${matches.includes(undefined) ? ' A different internal frame or representation prevents classification of the remaining solids; they are unverified.' : ''}`,
       };
     }
+    if (r.kind === 'measure' && r.metric === 'thickness')
+      return {
+        met: false,
+        unavailable: true,
+        observed:
+          'Wall/shell thickness needs surface-to-surface evidence. A bounding-box minimum or recipe value does not prove material thickness.',
+      };
     if (
       r.kind === 'measure' &&
       ['width', 'depth', 'height', 'x', 'y', 'z', 'base', 'top'].includes(

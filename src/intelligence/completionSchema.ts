@@ -23,6 +23,16 @@ export const spatialRequirements = [
   z
     .object({
       ...identity,
+      kind: z.literal('diameter'),
+      selector: designSelector,
+      shape: z.enum(['sphere', 'cylinder']),
+      value: z.number().positive().max(2000),
+      tolerance,
+    })
+    .strict(),
+  z
+    .object({
+      ...identity,
       kind: z.literal('positions'),
       selector: designSelector,
       points: z.array(point).min(1).max(MAX_SCENE_OBJECTS),
