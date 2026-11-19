@@ -50,6 +50,63 @@ export const completionWireSchema = z
   })
   .strict();
 
+// Correction is a small patch to named invalid checks, not another full brief.
+// Selectors refer to the original compact selections; citations and edit scope
+// are copied by the host and cannot be rewritten by the correction reader.
+export const completionCorrectionWireSchema = z
+  .object({
+    corrections: z
+      .array(
+        z
+          .object({
+            checkId: z.string().min(1).max(60),
+            test: z.union([requirements[0], ...requirements.slice(1)]),
+          })
+          .strict(),
+      )
+      .max(32),
+  })
+  .strict();
+
+export function expandCompletionCorrections(
+  raw: unknown,
+  previous: CompletionCriteria,
+): CompletionCriteria {
+  const wire = completionCorrectionWireSchema.parse(raw);
+  const compact = compactCompletionCriteria(previous);
+  const patches = new Map(wire.corrections.map((c) => [c.checkId, c.test]));
+  if (
+    patches.size !== wire.corrections.length ||
+    [...patches.keys()].some(
+      (id) => !previous.checks.some((c) => c.requirement.id === id),
+    )
+  )
+    throw new Error('Correction must identify distinct existing checks.');
+  return completionCriteriaSchema.parse({
+    ...previous,
+    checks: previous.checks.map((c) => {
+      const patch = patches.get(c.requirement.id);
+      if (!patch) return c;
+      const test = { ...patch } as Record<string, unknown>;
+      for (const key of ['selector', 'first', 'second'])
+        if (key in test) {
+          const selection = compact.selections[test[key] as number];
+          if (!selection)
+            throw new Error('Correction references an unknown selection.');
+          test[key] = selection;
+        }
+      return {
+        ...c,
+        requirement: {
+          ...test,
+          id: c.requirement.id,
+          label: c.requirement.label,
+        },
+      };
+    }),
+  });
+}
+
 export function expandCompletionWire(raw: unknown): CompletionCriteria {
   const wire = completionWireSchema.parse(raw);
   return completionCriteriaSchema.parse({

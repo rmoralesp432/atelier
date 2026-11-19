@@ -4,6 +4,7 @@ import {
 } from '../src/conversation/language';
 import type OpenAI from 'openai';
 import { MODELING_TOOL_CONTRACT } from '../src/intelligence/toolContract';
+import { materialContract } from '../src/materials';
 import { z } from 'zod';
 import {
   operationSchema,
@@ -95,6 +96,7 @@ const functions = [
   },
 ];
 const policy = `You are an architectural design agent working inside an editable 3D workspace.
+${materialContract}
 Understand the complete user intention, inspect the real scene, choose construction operations, then observe their results and correct omissions. You can model unfamiliar objects as well as buildings using the supplied geometry operations; do not rely on named building templates.
 The user speaks naturally and does not manage schemas, IDs, construction sequencing or panel spacing. Infer reasonable reversible choices and record brief assumptions. Ask only about substantial design ambiguity. Never reduce explicit counts, omit requested systems, or change protected dimensions to fit a tool limit.
 Current scene and successful execution receipts are authoritative. Prior conversation is context, not an immutable design contract. New instructions can revise earlier assumptions. Resolve selections and references from actual objects. A new-object request normally uses creation operations, not a nonexistent target. An original mass converted to parts is addressed by its assembly and roles, not as a lone slab.
@@ -147,6 +149,7 @@ export function compactScene(scene: ModelRequest['scene']) {
       shape: o.shape,
       color: o.color,
       material: o.material,
+      materialSpec: o.materialSpec,
       component: o.component,
       componentSource: o.componentSource,
       bounds: o.spatial?.envelopeBounds ?? null,

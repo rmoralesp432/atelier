@@ -49,11 +49,7 @@ import {
 } from './intelligence/transaction';
 import { modelingFailureMessage } from './intelligence/planFailure';
 import { requestCompletionCriteria } from './intelligence/client';
-import {
-  verifyCompletion,
-  unavailableCompletionCriteria,
-} from './intelligence/completion';
-import type { CompletionCriteria } from './intelligence/completionSchema';
+import { completionVerifier } from './intelligence/completionVerifier';
 import SectionPanel from './studio/SectionPanel';
 import { defaultSection, sectionRange } from './studio/section';
 import { mapSources, trueNorth } from './studio/site';
@@ -1282,7 +1278,22 @@ export default function App({
     let observation: SceneObservation | undefined;
     let observedRevision = -1;
     const original = captureTransaction(snapshot());
-    let completionCriteria: CompletionCriteria | undefined;
+    const verifyRequestCompletion = completionVerifier(
+      original,
+      text,
+      (candidate, revision) =>
+        requestCompletionCriteria(
+          text,
+          original,
+          candidate,
+          frame,
+          history,
+          images,
+          AbortSignal.any([abort.signal, AbortSignal.timeout(150_000)]),
+          revision,
+        ),
+      abort.signal,
+    );
     try {
       const checked = await stagedPlan(
         original,
@@ -1338,34 +1349,7 @@ export default function App({
         abort.signal,
         {
           agent: connectionState.agentConfigured === true,
-          verifyCompletion: async (candidate) => {
-            if (!completionCriteria)
-              try {
-                completionCriteria = await requestCompletionCriteria(
-                  text,
-                  original,
-                  candidate,
-                  frame,
-                  history,
-                  images,
-                  AbortSignal.any([abort.signal, AbortSignal.timeout(150_000)]),
-                );
-              } catch (error) {
-                if (abort.signal.aborted) throw error;
-                completionCriteria = unavailableCompletionCriteria(
-                  error instanceof Error
-                    ? error.message
-                    : 'Independent review could not finish.',
-                  text,
-                );
-              }
-            return verifyCompletion(
-              completionCriteria,
-              original,
-              candidate,
-              abort.signal,
-            );
-          },
+          verifyCompletion: verifyRequestCompletion,
         },
       );
       const localized =

@@ -8,7 +8,10 @@ import { conversationHistory } from './client';
 import {
   compactCompletionCriteria,
   expandCompletionWire,
+  expandCompletionCorrections,
 } from '../../server/completionWire';
+import { reportedCriteriaIncident } from '../../tests/fixtures/criteria-contracts';
+import { verifyCompletion } from './completion';
 
 const message = 'Create three cubes with sides of two meters.';
 const input = () => ({
@@ -31,6 +34,106 @@ const expected = expandCompletionWire(
       'three cubes',
     ),
   ),
+);
+
+it.each(['responses', 'chat_completions'] as const)(
+  'bounded %s criterion correction returns patches, retaining request evidence and immutable scope',
+  async (api) => {
+    const {
+      original,
+      candidate,
+      criteria: c,
+      request,
+    } = await reportedCriteriaIncident();
+    // Normal server criteria have host-generated check IDs. The patch path also
+    // retains arbitrary historical IDs instead of re-numbering them.
+    const report = await verifyCompletion(c, original, candidate);
+    const corrected = structuredClone(c);
+    (corrected.checks[4].requirement as any).value = -3.5;
+    (corrected.checks[5].requirement as any).property = 'materialSpec';
+    const compact = compactCompletionCriteria(corrected);
+    const patch = {
+      corrections: [4, 5].map((i) => ({
+        checkId: c.checks[i].requirement.id,
+        test: compact.checks[i].test,
+      })),
+    };
+    let calls = 0;
+    const provider = createProvider(
+      'offline-only',
+      async (_url, init) => {
+        calls++;
+        const body = JSON.parse(init!.body as string);
+        const data = JSON.parse(
+          api === 'responses'
+            ? body.input[0].content[0].text
+            : body.messages[1].content[0].text,
+        );
+        expect(data.instruction).toBe(request);
+        expect(data.criterionCorrection.issues).toHaveLength(2);
+        expect(data.criterionCorrection.observations).toHaveLength(
+          report.checks.length,
+        );
+        const schema =
+          api === 'responses'
+            ? body.text.format.schema
+            : body.response_format.json_schema.schema;
+        expect(Object.keys(schema.properties)).toEqual(['corrections']);
+        const text = JSON.stringify(patch);
+        return Response.json(
+          api === 'responses'
+            ? {
+                id: 'r',
+                object: 'response',
+                status: 'completed',
+                output: [
+                  {
+                    id: 'm',
+                    type: 'message',
+                    role: 'assistant',
+                    status: 'completed',
+                    content: [{ type: 'output_text', text, annotations: [] }],
+                  },
+                ],
+              }
+            : {
+                id: 'c',
+                object: 'chat.completion',
+                choices: [
+                  {
+                    index: 0,
+                    finish_reason: 'stop',
+                    message: { role: 'assistant', content: text },
+                  },
+                ],
+              },
+        );
+      },
+      { agent: true, textApi: api },
+    );
+    const result = await provider.completionCriteria!({
+      ...input(),
+      message: request,
+      scene: sceneContext(original.project, original.context, defaultCamera),
+      revision: {
+        criteria: c,
+        issues: report.criterionIssues!,
+        observations: report.checks.map(({ id, outcome, observed }) => ({
+          id,
+          outcome,
+          observed,
+        })),
+      },
+    });
+    expect(calls).toBe(1);
+    expect(result).toEqual(corrected);
+    expect(() =>
+      expandCompletionCorrections(
+        { corrections: [{ ...patch.corrections[0], checkId: 'invented' }] },
+        c,
+      ),
+    ).toThrow();
+  },
 );
 function response(api: string, value: unknown) {
   const text = JSON.stringify(
