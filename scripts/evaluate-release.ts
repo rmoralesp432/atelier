@@ -32,7 +32,6 @@ import { verifyCompletion } from '../src/intelligence/completion';
 import type { CompletionCriteria } from '../src/intelligence/completionSchema';
 import { equalData } from '../src/projects/equalData';
 import {
-  meteredFetch,
   save,
   pricing,
   model,
@@ -60,9 +59,23 @@ import {
   modelingActive,
   cancelModeling,
 } from './release-evaluation/browser-state';
+import {
+  continuationFetch,
+  digest,
+  originalCalls,
+} from './release-evaluation/continuation-budget';
 
 const applicationCommit = 'e9e3aae86e559ed9131609e2a2f3eb3e75299fba';
-const folder = '.cloud/pr22-release-final-5usd';
+const folder = '.cloud/pr22-release-continuation-438';
+const carryForward = {
+  authorized: true,
+  actualUsage: 'unknown' as const,
+  allowanceUsd: 0.62,
+  maximumAdditionalUsd: 4.38,
+  originalLedgerPath: '.cloud/pr22-release-final-5usd/ledger.json',
+  originalLedgerSha256: digest('.cloud/pr22-release-final-5usd/ledger.json'),
+};
+const priorCalls = originalCalls(carryForward);
 mkdirSync(folder, { recursive: true });
 const ledgerPath = `${folder}/ledger.json`,
   manifestPath = `${folder}/manifest.json`;
@@ -76,6 +89,7 @@ const harnessFiles = [
   'scripts/evaluate-release.ts',
   'scripts/release-evaluation/cases.ts',
   'scripts/release-evaluation/browser-state.ts',
+  'scripts/release-evaluation/continuation-budget.ts',
   'scripts/completion-evaluation/budget.ts',
   'scripts/completion-evaluation/cases.ts',
   'package-lock.json',
@@ -95,19 +109,25 @@ const manifest = {
   maximumCalls: 32,
   maximumCallsPerTask: 8,
   ceilingUsd,
+  carryForward,
   order,
   prompts,
   specification,
   pricing,
   authorization:
-    'User approved this specific four-task evaluation with a strict US$5 maximum; no merge or deployment.',
+    'User explicitly approved continuing: prior actual usage stays unknown, US$0.62 conservative allowance, at most US$4.38 new spending under US$5 aggregate; original call counts toward request limits; no merge or deployment.',
 };
 const live = process.argv.includes('--live');
 assert(
   process.argv
     .slice(2)
     .every((a) =>
-      ['--prepare', '--live', '--approved-budget-usd=5'].includes(a),
+      [
+        '--prepare',
+        '--live',
+        '--approved-budget-usd=5',
+        '--approved-continuation-usd=4.38',
+      ].includes(a),
     ),
 );
 assert.equal(
@@ -135,6 +155,7 @@ assert.equal(
 );
 if (live) {
   assert(process.argv.includes('--approved-budget-usd=5'));
+  assert(process.argv.includes('--approved-continuation-usd=4.38'));
   assert(
     existsSync(ledgerPath) && existsSync(manifestPath),
     'Prepare before paid execution.',
@@ -156,6 +177,7 @@ if (live) {
     assert(!l.authorized && l.calls.length === 0);
   }
   save(manifestPath, manifest);
+  save(`${folder}/carry-forward.json`, carryForward);
   save(ledgerPath, { authorized: false, ceilingUsd, calls: [] });
 }
 const lock = live
@@ -199,12 +221,18 @@ function safeError(e: any) {
         ? e.name
         : String(e?.message ?? e).replace(/sk-[A-Za-z0-9_-]+/g, '[redacted]');
 }
-const metered = meteredFetch(ledgerPath, () => ({ caseId, role }));
+const metered = continuationFetch(ledgerPath, carryForward, () => ({
+  caseId,
+  role,
+}));
 const guarded: typeof fetch = async (url, init) => {
   assert(live, 'Offline preparation cannot contact paid endpoints.');
   assert(order.includes(caseId));
   const ledger: Ledger = JSON.parse(readFileSync(ledgerPath, 'utf8'));
-  assert(ledger.calls.length < 32, '32-call overall limit reached.');
+  assert(
+    ledger.calls.length + priorCalls.length < 32,
+    '32-call overall limit reached.',
+  );
   const payload = JSON.parse(init!.body as string);
   save(`${folder}/request-${ledger.calls.length + 1}.json`, payload);
   console.log(
@@ -626,6 +654,9 @@ function cost(ledger: Ledger, id: CaseId) {
       (n, c) => n + (c.chargedUsd ?? c.reservedUsd),
       0,
     ),
+    priorInterruptedCalls: priorCalls.filter((c) => c.caseId === id).length,
+    callsIncludingInterrupted:
+      calls.length + priorCalls.filter((c) => c.caseId === id).length,
     reviewerMs: calls
       .filter((c) => c.role === 'reviewer')
       .reduce((n, c) => n + (c.elapsedMs ?? 0), 0),
@@ -1105,9 +1136,15 @@ try {
       })),
       stopped,
       estimatedUsd: ledger.calls.reduce((n, c) => n + (c.estimatedUsd ?? 0), 0),
-      budgetAccountedUsd: budgetUsed(ledger),
+      estimatedUsdScope:
+        'Known new calls only; prior actual usage remains unknown',
+      priorUnknownUsageAllowanceUsd: carryForward.allowanceUsd,
+      originalActualUsage: 'unknown',
+      newBudgetAccountedUsd: budgetUsed(ledger),
+      budgetAccountedUsd: carryForward.allowanceUsd + budgetUsed(ledger),
       ceilingUsd,
       paidCalls: ledger.calls.length,
+      callsIncludingInterrupted: ledger.calls.length + priorCalls.length,
     });
     if (!process.exitCode && results.some((r) => r.status !== 'PASS'))
       process.exitCode = 2;
