@@ -113,8 +113,11 @@ export function parseSession(text: string): Session {
     ['focusIds', 'lastCreatedIds', 'lastOperands'].every(
       (k) =>
         Array.isArray(raw.context[k]) &&
-        raw.context[k].length <= 200 &&
-        raw.context[k].every((id: unknown) => typeof id === 'string'),
+        raw.context[k].length <= MAX_VOLUMES &&
+        raw.context[k].every(
+          (id: unknown) =>
+            typeof id === 'string' && id.length > 0 && id.length <= 100,
+        ),
     )
   ) {
     // A stale or malformed optional reasoning record must never prevent the

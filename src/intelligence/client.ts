@@ -1,6 +1,6 @@
 import { readLanguage } from '../conversation/language';
 import type { SceneObservation } from './observation';
-import { ModelPlanError } from './planFailure';
+import { ModelPlanError, TaskBlockedError } from './planFailure';
 import type { ExecutionContext } from './executionProtocol';
 import type { ValidationFeedback } from './checkedPlanner';
 import { parsePlan, type Operation } from './plan';
@@ -126,6 +126,11 @@ export async function requestPlan(
       history: conversationHistory(history, images),
     }),
     signal,
+  }).catch((error: unknown) => {
+    if (signal?.aborted) throw error;
+    throw new Error(
+      'The connection to ATELIER was interrupted. Your committed project is unchanged. Check your connection before sending another instruction.',
+    );
   });
   let data;
   try {
@@ -137,6 +142,8 @@ export async function requestPlan(
   }
   if (!r.ok && data.code === 'invalid_plan')
     throw new ModelPlanError(data.error);
+  if (!r.ok && data.code === 'modeling_blocked')
+    throw new TaskBlockedError(data.error);
   if (!r.ok)
     throw new Error(
       data.error || 'The AI request failed. No geometry was changed.',

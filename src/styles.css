@@ -7177,3 +7177,13 @@ summary:focus-visible {
   background: #88888818;
   color: inherit;
 }
+.agent-conflict-status {
+  width: min(38rem, calc(100% - 2rem));
+  box-sizing: border-box;
+  border-radius: 1rem;
+  white-space: normal;
+  flex-wrap: wrap;
+}
+.agent-conflict-status span {
+  flex: 1 1 100%;
+}

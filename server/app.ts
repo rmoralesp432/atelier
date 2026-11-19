@@ -1,5 +1,8 @@
 import { isLanguage } from '../src/conversation/language';
-import { ModelPlanError } from '../src/intelligence/planFailure';
+import {
+  ModelPlanError,
+  TaskBlockedError,
+} from '../src/intelligence/planFailure';
 import { lobbySchema } from './provider';
 import express from 'express';
 import { randomBytes, timingSafeEqual } from 'node:crypto';
@@ -130,11 +133,18 @@ export function createApi(
       if (!abort.signal.aborted) res.json(plan);
     } catch (error) {
       if (abort.signal.aborted) return;
+      if (error instanceof TaskBlockedError) {
+        res
+          .status(422)
+          .json({ code: 'modeling_blocked', error: error.message });
+        return;
+      }
       if (error instanceof ModelPlanError) {
         res.status(422).json({ code: 'invalid_plan', error: error.message });
         return;
       }
       res.status(502).json({
+        code: 'provider_error',
         error: providerErrorMessage(
           error,
           'The model service could not produce a valid plan. No geometry was changed. Check provider access and try again.',

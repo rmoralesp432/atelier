@@ -13,6 +13,7 @@ import {
 import {
   invalidModelPlan,
   ModelPlanError,
+  TaskBlockedError,
 } from '../src/intelligence/planFailure';
 import type { ModelRequest } from './provider';
 
@@ -29,7 +30,6 @@ const inspect = z
     role: z.string().max(80).nullable(),
   })
   .strict();
-class TaskBlockedError extends Error {}
 const completion = z
   .object({
     message: z.string().min(1).max(2000),

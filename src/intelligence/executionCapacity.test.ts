@@ -54,6 +54,10 @@ it.each([
     );
     const restored = parseSession(serializeSession(result.session));
     expect(restored.project.volumes).toHaveLength(parts.length);
+    expect(restored.context.focusIds.length).toBe(
+      result.session.context.focusIds.length,
+    );
+    expect(restored.context).toEqual(result.session.context);
     const scene = sceneContext(
       restored.project,
       restored.context,

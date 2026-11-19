@@ -41,6 +41,13 @@ import AddVolumePanel from './studio/AddVolumePanel';
 import { resolveCameraView } from './studio/cameraView';
 import { displaySummary } from './intelligence/conversationReply';
 import { stagedPlan, type PreparedPlan } from './intelligence/checkedPlanner';
+import {
+  captureTransaction,
+  assertTransactionCurrent,
+  reconcileTransaction,
+  TransactionConflictError,
+} from './intelligence/transaction';
+import { modelingFailureMessage } from './intelligence/planFailure';
 import { requestCompletionCriteria } from './intelligence/client';
 import {
   verifyCompletion,
@@ -663,11 +670,15 @@ export default function App({
   const [exporting, setExporting] = useState(false);
   const [modelingBusy, setModelingBusy] = useState(0);
   const busyRef = useRef(false);
+  const [conflictedResult, setConflictedResult] = useState<Session | null>(
+    null,
+  );
   const [pending, setPending] = useState<{
     plan: Plan;
     fingerprint: string;
     camera: CameraContext;
     prepared: PreparedPlan;
+    source: Session;
     labels?: Record<string, string>;
   } | null>(null);
   useEffect(() => {
@@ -1054,6 +1065,8 @@ export default function App({
   };
   const fingerprint = () => serializeSession(snapshot());
   const reviewName = (ref: string): string => {
+    // A review describes the request's frozen targets, not a later UI selection.
+    const source = pending?.source ?? snapshot();
     if (ref.startsWith('$name:')) return ref.slice(6);
     if (ref.startsWith('$group:'))
       return (
@@ -1063,14 +1076,14 @@ export default function App({
       );
     const ids =
       ref === '$operands'
-        ? conversation.current.lastOperands
+        ? source.context.lastOperands
         : ref === '$selected'
-          ? (current.current.selectedIds ??
-            (current.current.selectedId ? [current.current.selectedId] : []))
+          ? (source.project.selectedIds ??
+            (source.project.selectedId ? [source.project.selectedId] : []))
           : ref === '$focus'
-            ? conversation.current.focusIds
+            ? source.context.focusIds
             : ref === '$created'
-              ? conversation.current.lastCreatedIds
+              ? source.context.lastCreatedIds
               : [ref];
     return ids
       .map(
@@ -1126,7 +1139,18 @@ export default function App({
     confirmed = false,
     frame = camera.current,
     prepared?: PreparedPlan,
+    original = captureTransaction(snapshot()),
   ) => {
+    const result =
+      prepared ?? (await applyPlan(original, plan, frame, confirmed));
+    let session: Session;
+    try {
+      session = reconcileTransaction(original, result.session, snapshot());
+    } catch (error) {
+      if (error instanceof TransactionConflictError)
+        setConflictedResult(result.session);
+      throw error;
+    }
     setAlternativePreview(null);
     setExploration(assembled);
     if (
@@ -1147,15 +1171,8 @@ export default function App({
       )
     )
       setSavedViewRequest(null);
-    const before = fingerprint();
-    const result =
-      prepared ?? (await applyPlan(snapshot(), plan, frame, confirmed));
-    if (before !== fingerprint())
-      throw new Error(
-        'The scene changed while this edit was being prepared. Please try again.',
-      );
     install(
-      result.session,
+      session,
       !plan.operations.some((op) => op.type === 'undo' || op.type === 'redo'),
     );
     if (
@@ -1182,6 +1199,7 @@ export default function App({
     frame = structuredClone(camera.current),
     checked?: PreparedPlan,
     labels?: Record<string, string>,
+    source = captureTransaction(snapshot()),
   ) => {
     const before = fingerprint();
     const prepared =
@@ -1190,7 +1208,14 @@ export default function App({
       throw new Error(
         'The scene changed while this change was being checked. Please ask again.',
       );
-    const item = { plan, fingerprint: before, camera: frame, prepared, labels };
+    const item = {
+      plan,
+      fingerprint: before,
+      camera: frame,
+      prepared,
+      labels,
+      source,
+    };
     setPending(item);
     return item;
   };
@@ -1247,7 +1272,6 @@ export default function App({
     setChatExpanded(true);
     setNotice({ text: '', error: false });
     const reviewing = pendingRef.current;
-    const before = fingerprint();
     const frame = structuredClone(camera.current);
     const history = [...messagesRef.current];
     const images = [...referenceImages];
@@ -1257,7 +1281,7 @@ export default function App({
     remember('user', text, undefined, images);
     let observation: SceneObservation | undefined;
     let observedRevision = -1;
-    const original = snapshot();
+    const original = captureTransaction(snapshot());
     let completionCriteria: CompletionCriteria | undefined;
     try {
       const checked = await stagedPlan(
@@ -1356,10 +1380,13 @@ export default function App({
       const plan = localized
         ? { ...checked.plan, message: localized }
         : checked.plan;
-      if (before !== fingerprint())
-        throw new Error(
-          'The scene changed while I was considering this request. Please send it again.',
-        );
+      try {
+        assertTransactionCurrent(original, snapshot());
+      } catch (error) {
+        if (error instanceof TransactionConflictError && checked.prepared)
+          setConflictedResult(checked.prepared.session);
+        throw error;
+      }
       if (plan.intent === 'clarify') {
         setQuestion(plan.message);
         setChatExpanded(true);
@@ -1393,13 +1420,34 @@ export default function App({
       if (!plan.operations.every((op) => op.type === 'measure'))
         setPending(null);
       if (checked.reviewRequired) {
-        await prepareReview(plan, frame, checked.prepared, checked.labels);
+        await prepareReview(
+          plan,
+          frame,
+          checked.prepared
+            ? {
+                ...checked.prepared,
+                session: reconcileTransaction(
+                  original,
+                  checked.prepared.session,
+                  snapshot(),
+                ),
+              }
+            : undefined,
+          checked.labels,
+          original,
+        );
         const message =
           plan.message + ' Shall I go ahead? You can answer here or by voice.';
         remember('assistant', message);
         return message;
       }
-      const result = await execute(plan, false, frame, checked.prepared);
+      const result = await execute(
+        plan,
+        false,
+        frame,
+        checked.prepared,
+        original,
+      );
       const summary = displaySummary(plan, connectionState.agentConfigured);
       const reply = summary ?? result;
       remember('assistant', result, summary);
@@ -1409,9 +1457,7 @@ export default function App({
     } catch (e) {
       const message = abort.signal.aborted
         ? 'Stopped. No changes were applied to your project.'
-        : e instanceof Error
-          ? e.message
-          : 'The request failed.';
+        : modelingFailureMessage(e);
       remember('assistant', message, undefined, undefined, 'failed');
       setNotice({ text: message, error: true });
       return message;
@@ -2975,13 +3021,43 @@ export default function App({
             </div>
             {workingProject && (
               <div className="agent-preview-status" role="status">
-                <span>Developing your design</span>
+                <span>Working preview · not saved yet</span>
                 <button
                   type="button"
                   onClick={() => planningAbort.current?.abort()}
                   aria-label="Stop and discard working preview"
                 >
                   Stop
+                </button>
+              </div>
+            )}
+            {conflictedResult && !workingProject && (
+              <div
+                className="agent-preview-status agent-conflict-status"
+                role="status"
+              >
+                <span>
+                  Completed result kept separately. Download before leaving this
+                  workspace or another conflict.
+                </span>
+                <button
+                  type="button"
+                  onClick={() =>
+                    downloadProject(
+                      projectFile(
+                        {
+                          session: serializeSession(conflictedResult),
+                          messages: [],
+                        },
+                        'Completed modeling result',
+                      ),
+                    )
+                  }
+                >
+                  Save completed result
+                </button>
+                <button type="button" onClick={() => setConflictedResult(null)}>
+                  Dismiss result
                 </button>
               </div>
             )}

@@ -1487,7 +1487,10 @@ export default function Viewport(props: Props) {
       // Hidden tabs/keyboard transitions can briefly report zero dimensions.
       // Keep the last valid buffers and pose until the layout is measurable.
       if (width < 1 || height < 1) return;
-      const ratio = Math.min(window.devicePixelRatio, 2);
+      const ratio = Math.min(
+        window.devicePixelRatio,
+        runtime.current?.responsive ? 1 : 2,
+      );
       renderer.setPixelRatio(ratio);
       composer.setPixelRatio(ratio);
       renderer.setSize(width, height);
@@ -1503,7 +1506,14 @@ export default function Viewport(props: Props) {
         camera.left = -halfWidth;
         camera.right = halfWidth;
       }
+      // The phone panel's view offset uses full viewport dimensions. Reapply
+      // those dimensions as well as aspect; a stale offset overrides aspect.
+      applyLens();
       camera.updateProjectionMatrix();
+      container.dataset.projectionAspect = String(
+        camera.projectionMatrix.elements[5] /
+          camera.projectionMatrix.elements[0],
+      );
     };
     const resize = new ResizeObserver(resizeViewport);
     resize.observe(container);
@@ -1574,6 +1584,14 @@ export default function Viewport(props: Props) {
         frame = requestAnimationFrame(render);
         return;
       }
+      // DPR can change without ResizeObserver, visualViewport or media-query
+      // events (e.g. moving between displays). A scalar comparison in the existing
+      // frame loop avoids stale buffers; resize only when the actual ratio differs.
+      if (
+        renderer.getPixelRatio() !==
+        Math.min(window.devicePixelRatio, runtime.current?.responsive ? 1 : 2)
+      )
+        resizeViewport();
       if (document.visibilityState === 'visible') animationTime += delta * 1000;
       if (transition && !latest.current.cameraSettings.walk) {
         const t = Math.min(1, (performance.now() - transition.start) / 500);

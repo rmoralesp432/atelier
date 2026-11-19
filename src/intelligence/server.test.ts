@@ -1,4 +1,8 @@
-import { ModelPlanError } from './planFailure';
+import {
+  ModelPlanError,
+  TaskBlockedError,
+  modelingFailureMessage,
+} from './planFailure';
 import { it, expect } from 'vitest';
 import { createApi } from '../../server/app';
 import type { Provider } from '../../server/provider';
@@ -22,6 +26,52 @@ const request = {
   history: [],
   scene: sceneContext(initialProject(), emptyContext(), defaultCamera),
 };
+it('distinguishes an infeasible modeling request from provider failure and accepts the next unrelated request', async () => {
+  let calls = 0;
+  await serve(
+    {
+      plan: async () => {
+        if (++calls === 1)
+          throw new TaskBlockedError(
+            'The requested object cannot be both empty and a filled solid. Choose which result you want. No changes were applied to your project.',
+          );
+        return {
+          intent: 'clarify',
+          message: 'Ready for a new request.',
+          operations: [],
+        };
+      },
+      voice: async () => '',
+    },
+    async (url) => {
+      const send = () =>
+        fetch(url + '/api/plan', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(request),
+        });
+      const failed = await send();
+      expect(failed.status).toBe(422);
+      expect(await failed.json()).toMatchObject({
+        code: 'modeling_blocked',
+        error: expect.stringContaining('both empty and a filled solid'),
+      });
+      expect((await send()).status).toBe(200);
+    },
+  );
+});
+it('keeps repair diagnostics internal while explaining modeling failure to the user', () => {
+  expect(
+    modelingFailureMessage(
+      new ModelPlanError('operations.0.targets: invalid type'),
+    ),
+  ).not.toContain('operations.0');
+  expect(
+    modelingFailureMessage(
+      new Error('Step 3 (resize): Height must be positive.'),
+    ),
+  ).toBe('I could not complete the edit: Height must be positive.');
+});
 it.each([
   'credit_balance_exhausted',
   'insufficient_quota',
