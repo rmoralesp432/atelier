@@ -103,6 +103,7 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
   });
   await page.addInitScript(() => {
     let stream: MediaStream;
+    let playback: MediaStream;
     Object.defineProperty(navigator.mediaDevices, 'getUserMedia', {
       value: async () => {
         (window as any).micStarts = ((window as any).micStarts ?? 0) + 1;
@@ -116,6 +117,9 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
         osc.start();
         await ctx.resume();
         stream = dest.stream;
+        // Real WebRTC playback has independent tracks. Reusing the mic stream
+        // here would incorrectly silence output when half-duplex capture mutes.
+        playback = stream.clone();
         (window as any).voiceStream = stream;
         (window as any).testAudio = { ctx, osc };
         return stream;
@@ -157,13 +161,14 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
       }
       async setLocalDescription() {}
       async setRemoteDescription() {
-        this.ontrack?.({ streams: [stream] });
+        this.ontrack?.({ streams: [playback] });
         this.channel.onopen?.();
         this.channel.onmessage?.({
           data: JSON.stringify({ type: 'output_audio_buffer.started' }),
         });
       }
       close() {
+        playback?.getTracks().forEach((track) => track.stop());
         (window as any).testAudio?.osc.stop();
         void (window as any).testAudio?.ctx.close();
       }
@@ -180,6 +185,11 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
   await expect(dock).toBeVisible();
   await dock.getByRole('button', { name: 'Voice orb' }).click();
   await expect(dock).toContainText('Speaking');
+  expect(
+    await page.evaluate(
+      () => (window as any).voiceStream.getTracks()[0].enabled,
+    ),
+  ).toBe(false); // Generated input has no AEC; output must still animate the orb.
   await expect(
     page.getByRole('textbox', { name: 'Message Atelier' }),
   ).not.toBeVisible();
