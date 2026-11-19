@@ -1,0 +1,19 @@
+{
+  "initial": {
+    "position": "42.520,34.614,68.831",
+    "target": "-0.500,4.500,0.000",
+    "projection": "PerspectiveCamera"
+  },
+  "before": {
+    "position": "50.193,39.985,81.109",
+    "target": "-0.500,4.500,0.000",
+    "projection": "PerspectiveCamera"
+  },
+  "after": {
+    "position": "50.193,39.985,81.109",
+    "target": "-0.500,4.500,0.000",
+    "projection": "PerspectiveCamera"
+  },
+  "preserved": true,
+  "apiCalls": 0
+}

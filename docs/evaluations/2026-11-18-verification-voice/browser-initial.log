@@ -1,0 +1,67 @@
+[WebServer] (node:98888) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] .env not found. Continuing without it.
+[WebServer] (node:98901) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 12 tests using 1 worker
+
+(node:98922) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/completion-verification.spec.ts:56:1 › independent completion rejects a valid but incomplete model, repairs the same geometry and commits with one Undo (offline providers) (27.9s)
+  ✓   2 tests/completion-verification.spec.ts:173:1 › a failed request followed by reload does not poison an unrelated new modeling instruction (offline providers) (25.2s)
+  ✓   3 tests/completion-verification.spec.ts:257:1 › unknown verification permits safe additions with honest messaging, one Undo, and a later independently checked edit (23.4s)
+  ✘   4 tests/orb-conversation.spec.ts:3:1 › orb keeps voice modeling and follow-up edits in the minimized workspace (offline transport) (20.9s)
+(node:99403) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 tests/project-start.spec.ts:4:1 › start screen preserves projects and offers a quiet manual entry on desktop and phone (16.0s)
+  ✓   6 tests/project-start.spec.ts:68:1 › AI entry uses the existing password endpoint and never starts voice automatically (1.9s)
+  ✓   7 tests/project-start.spec.ts:113:1 › AI can be enabled after manual entry and stays enabled when changing projects (27.3s)
+  ✓   8 tests/workspace-lifecycle.spec.ts:64:3 › mobile workspace lifecycle with real geometry and offline provider › orientation, keyboard-size changes and conversation controls preserve an executing transaction and camera (9.7s)
+  ✓   9 tests/workspace-lifecycle.spec.ts:156:3 › mobile workspace lifecycle with real geometry and offline provider › an interrupted request reloads into the same workspace, preserves conversation/history and accepts a new request (11.8s)
+  ✓  10 tests/workspace-lifecycle.spec.ts:211:1 › desktop graphics recover in place, and zero-size / wide viewport transitions retain complete buffers (12.7s)
+  ✓  11 tests/workspace-lifecycle.spec.ts:270:1 › conversation language defaults to English and persists only explicit preference changes (21.8s)
+  ✓  12 tests/workspace-lifecycle.spec.ts:301:1 › a verified modeling reply respects Spanish while keeping the geometric evidence (12.2s)
+
+
+  1) tests/orb-conversation.spec.ts:3:1 › orb keeps voice modeling and follow-up edits in the minimized workspace (offline transport) 
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0.1
+    Received:   0
+
+    Call Log:
+    - Timeout 15000ms exceeded while waiting on the predicate
+
+      188 |       Number(await dock.locator('.audio-orb').getAttribute('data-audio-level')),
+      189 |     )
+    > 190 |     .toBeGreaterThan(0.1);
+          |      ^
+      191 |   await page.evaluate(() =>
+      192 |     (window as any).voiceEvents.onmessage({
+      193 |       data: JSON.stringify({
+        at /workspace/atelier/tests/orb-conversation.spec.ts:190:6
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/orb-conversation-orb-keeps-8fbcb-orkspace-offline-transport-/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/orb-conversation-orb-keeps-8fbcb-orkspace-offline-transport-/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/orb-conversation-orb-keeps-8fbcb-orkspace-offline-transport-/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/orb-conversation-orb-keeps-8fbcb-orkspace-offline-transport-/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/orb-conversation.spec.ts:3:1 › orb keeps voice modeling and follow-up edits in the minimized workspace (offline transport) 
+  11 passed (3.6m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

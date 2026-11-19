@@ -1,0 +1,583 @@
+{
+  "applicationCommit": "5032790",
+  "apiCalls": 0,
+  "estimatedCostUSD": 0,
+  "results": [
+    {
+      "label": "correct live-generated assembly",
+      "expected": "verified",
+      "status": "verified",
+      "canCommit": true,
+      "milliseconds": 161.127341,
+      "coldKernel": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (sum): 4; expected equal 4, tolerance 0. 4 element(s).",
+          "ids": [
+            "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+            "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "group",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Group Channel: 4 members; 4/4 requested objects belong to it.",
+          "ids": [
+            "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+            "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "editable",
+          "met": true,
+          "outcome": "verified",
+          "observed": "4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+            "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "count · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-5",
+          "label": "shape · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-6",
+          "label": "width · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 3.6000000000000005; expected equal 3.6 ± 0.001 m.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-7",
+          "label": "depth · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 1.4; expected equal 1.4 ± 0.001 m.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-8",
+          "label": "height · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.18; expected equal 0.18 ± 0.001 m.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-9",
+          "label": "positions · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-10",
+          "label": "shape · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape box: 2/2 match occupied geometry, independent of recipe type.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-11",
+          "label": "width · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 0.16000000000000014, 0.16000000000000014; expected equal 0.16 ± 0.001 m.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-12",
+          "label": "depth · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 1.4, 1.4; expected equal 1.4 ± 0.001 m.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-13",
+          "label": "height · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.95, 0.95; expected equal 0.95 ± 0.001 m.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-14",
+          "label": "positions · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-15",
+          "label": "count · ball",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+        },
+        {
+          "id": "check-16",
+          "label": "shape · ball",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape sphere: 1/1 match occupied geometry, independent of recipe type.",
+          "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+        },
+        {
+          "id": "check-17",
+          "label": "width · ball",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 0.3800000000000008; expected equal 0.38 ± 0.001 m.",
+          "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+        },
+        {
+          "id": "check-18",
+          "label": "positions · ball",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+        }
+      ]
+    },
+    {
+      "label": "wrong height",
+      "expected": "incorrect",
+      "status": "incorrect",
+      "canCommit": false,
+      "milliseconds": 43.87761299999988,
+      "coldKernel": false,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (sum): 4; expected equal 4, tolerance 0. 4 element(s).",
+          "ids": [
+            "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+            "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "group",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Group Channel: 4 members; 4/4 requested objects belong to it.",
+          "ids": [
+            "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+            "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "editable",
+          "met": true,
+          "outcome": "verified",
+          "observed": "4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+            "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "count · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-5",
+          "label": "shape · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-6",
+          "label": "width · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 3.6000000000000005; expected equal 3.6 ± 0.001 m.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-7",
+          "label": "depth · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 1.4; expected equal 1.4 ± 0.001 m.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-8",
+          "label": "height · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.18; expected equal 0.18 ± 0.001 m.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-9",
+          "label": "positions · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-10",
+          "label": "shape · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape box: 2/2 match occupied geometry, independent of recipe type.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-11",
+          "label": "width · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 0.16000000000000014, 0.16000000000000014; expected equal 0.16 ± 0.001 m.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-12",
+          "label": "depth · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 1.4, 1.4; expected equal 1.4 ± 0.001 m.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-13",
+          "label": "height · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.95, 0.95; expected equal 0.95 ± 0.001 m.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-14",
+          "label": "positions · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-15",
+          "label": "count · ball",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+        },
+        {
+          "id": "check-16",
+          "label": "shape · ball",
+          "met": false,
+          "outcome": "incorrect",
+          "observed": "Evaluated solid shape sphere: 0/1 match occupied geometry, independent of recipe type.",
+          "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+        },
+        {
+          "id": "check-17",
+          "label": "width · ball",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 0.3800000000000008; expected equal 0.38 ± 0.001 m.",
+          "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+        },
+        {
+          "id": "check-18",
+          "label": "positions · ball",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+        }
+      ]
+    },
+    {
+      "label": "wrong depth",
+      "expected": "incorrect",
+      "status": "incorrect",
+      "canCommit": false,
+      "milliseconds": 25.769453999999996,
+      "coldKernel": false,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (sum): 4; expected equal 4, tolerance 0. 4 element(s).",
+          "ids": [
+            "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+            "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "group",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Group Channel: 4 members; 4/4 requested objects belong to it.",
+          "ids": [
+            "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+            "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "editable",
+          "met": true,
+          "outcome": "verified",
+          "observed": "4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+            "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "count · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-5",
+          "label": "shape · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-6",
+          "label": "width · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 3.6000000000000005; expected equal 3.6 ± 0.001 m.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-7",
+          "label": "depth · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 1.4; expected equal 1.4 ± 0.001 m.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-8",
+          "label": "height · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.18; expected equal 0.18 ± 0.001 m.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-9",
+          "label": "positions · base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+        },
+        {
+          "id": "check-10",
+          "label": "shape · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape box: 2/2 match occupied geometry, independent of recipe type.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-11",
+          "label": "width · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 0.16000000000000014, 0.16000000000000014; expected equal 0.16 ± 0.001 m.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-12",
+          "label": "depth · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 1.4, 1.4; expected equal 1.4 ± 0.001 m.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-13",
+          "label": "height · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.95, 0.95; expected equal 0.95 ± 0.001 m.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-14",
+          "label": "positions · wall",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.",
+          "ids": [
+            "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+          ]
+        },
+        {
+          "id": "check-15",
+          "label": "count · ball",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+        },
+        {
+          "id": "check-16",
+          "label": "shape · ball",
+          "met": false,
+          "outcome": "incorrect",
+          "observed": "Evaluated solid shape sphere: 0/1 match occupied geometry, independent of recipe type.",
+          "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+        },
+        {
+          "id": "check-17",
+          "label": "width · ball",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 0.3800000000000008; expected equal 0.38 ± 0.001 m.",
+          "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+        },
+        {
+          "id": "check-18",
+          "label": "positions · ball",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+        }
+      ]
+    }
+  ]
+}

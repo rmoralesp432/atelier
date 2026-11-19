@@ -1,0 +1,18 @@
+[
+  {
+    "version": "baseline-a2fd752",
+    "beforeResize": "42.520,34.614,68.831",
+    "afterResize": "20.900,19.480,34.240",
+    "cameraPreserved": false,
+    "reloadShowsWelcome": true,
+    "reloadShowsWorkspace": false
+  },
+  {
+    "version": "candidate",
+    "beforeResize": "42.520,34.614,68.831",
+    "afterResize": "42.520,34.614,68.831",
+    "cameraPreserved": true,
+    "reloadShowsWelcome": false,
+    "reloadShowsWorkspace": true
+  }
+]
