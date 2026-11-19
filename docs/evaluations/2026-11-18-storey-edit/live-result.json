@@ -1,0 +1,133 @@
+{
+  "model": "gpt-6.1-sol",
+  "date": "2026-11-18",
+  "status": "PASS",
+  "buildingComponents": 244,
+  "unrelatedComponents": 1,
+  "changedComponents": 227,
+  "preservedIdentities": 245,
+  "geometryMismatches": [],
+  "undoEntries": 1,
+  "paidCalls": 3,
+  "estimatedEvaluationCostUsd": 0.664036,
+  "cumulativeLedgerEstimateUsd": 3.473486,
+  "executedOperations": 40,
+  "geometryEditingOperations": 1,
+  "modelChosenEdit": {
+    "type": "edit_components",
+    "edits": [
+      {
+        "targets": ["$group:575e5b8d-325c-4d3d-aa44-b4cb1522b13e"],
+        "where": [
+          {
+            "property": "level",
+            "equals": "Level 0"
+          },
+          {
+            "property": "height",
+            "min": 3.249,
+            "max": 3.251
+          }
+        ],
+        "translation": null,
+        "resize": {
+          "axis": "height",
+          "mode": "add",
+          "value": 1,
+          "anchor": 0
+        }
+      },
+      {
+        "targets": ["$group:575e5b8d-325c-4d3d-aa44-b4cb1522b13e"],
+        "where": [
+          {
+            "property": "level",
+            "equals": "Level 0"
+          },
+          {
+            "property": "role",
+            "equals": "window"
+          }
+        ],
+        "translation": null,
+        "resize": {
+          "axis": "height",
+          "mode": "add",
+          "value": 1,
+          "anchor": 0
+        }
+      },
+      {
+        "targets": ["$group:575e5b8d-325c-4d3d-aa44-b4cb1522b13e"],
+        "where": [
+          {
+            "property": "level",
+            "equals": "Level 0"
+          },
+          {
+            "property": "role",
+            "equals": "frame"
+          },
+          {
+            "property": "y",
+            "min": 3.449,
+            "max": 3.451
+          }
+        ],
+        "translation": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "resize": null
+      },
+      {
+        "targets": ["$group:575e5b8d-325c-4d3d-aa44-b4cb1522b13e"],
+        "where": [
+          {
+            "property": "level",
+            "equals": "Level 0"
+          },
+          {
+            "property": "role",
+            "equals": "frame"
+          },
+          {
+            "property": "height",
+            "min": 0.049,
+            "max": 0.051
+          },
+          {
+            "property": "y",
+            "min": 0.249,
+            "max": 0.251
+          }
+        ],
+        "translation": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "resize": null
+      },
+      {
+        "targets": ["$group:575e5b8d-325c-4d3d-aa44-b4cb1522b13e"],
+        "where": [
+          {
+            "property": "y",
+            "min": 3.5,
+            "max": null
+          }
+        ],
+        "translation": {
+          "x": 0,
+          "y": 1,
+          "z": 0
+        },
+        "resize": null
+      }
+    ]
+  },
+  "completion": "Ground-floor height increased from 3.5 m to 4.5 m. Connected columns, glazing and frames are coordinated; the upper floors and roof are raised by 1 m while both upper-storey heights remain 3.5 m. Verified slab and frame thicknesses, all 244 building component identities retained, and the neighboring object unchanged.",
+  "method": "Real agent Responses API calls against browser scene inventory and rendered observations. After a conservative reservation guard stopped the final call, the two already-paid proposals were replayed unchanged through the engine and only the completion call was purchased. Independent geometry comparison checked every component."
+}

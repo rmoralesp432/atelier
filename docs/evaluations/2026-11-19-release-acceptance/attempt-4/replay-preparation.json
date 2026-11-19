@@ -1,0 +1,8 @@
+{
+  "status": "OFFLINE_BROWSER_REPLAY_PASSED",
+  "replayedPaidResponses": 4,
+  "identicalSceneBeforeContinuation": true,
+  "provisionalComponentCount": 432,
+  "failedPreviewDiscarded": true,
+  "newPaidCalls": 0
+}

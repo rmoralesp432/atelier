@@ -1,0 +1,49 @@
+{
+  "checkedAt": "2026-11-19T05:03:38.811Z",
+  "service": {
+    "status": 200,
+    "id": "srv-db7vilu89jmc73dh9d40",
+    "name": "atelier",
+    "branch": "feat/phase2-conversational-modeling",
+    "autoDeploy": "no",
+    "url": "https://atelier-emxi.onrender.com"
+  },
+  "deployStatus": 200,
+  "deploys": [
+    {
+      "id": "dep-dbv0t20m7kps739tcp5g",
+      "status": "live",
+      "commit": "9bb6ad42997979f3b55b8218a1c9dcfd22f61dff",
+      "createdAt": "2026-11-18T20:46:00.255964Z",
+      "finishedAt": "2026-11-18T20:47:49.66292Z"
+    },
+    {
+      "id": "dep-dbuv5h6c6qcc73cqmbq0",
+      "status": "deactivated",
+      "commit": "42be3bd644f8586724c080c0b407573ba246a471",
+      "createdAt": "2026-11-18T18:47:32.650785Z",
+      "finishedAt": "2026-11-18T18:49:13.064238Z"
+    },
+    {
+      "id": "dep-dbmch10ae00c73ake3kg",
+      "status": "deactivated",
+      "commit": "520ec83673b09ab4d505ecb2fd678a9a44577a7a",
+      "createdAt": "2026-11-05T18:18:45.051458Z",
+      "finishedAt": "2026-11-05T18:20:39.296126Z"
+    },
+    {
+      "id": "dep-dbmce7u417fc73c2b7ag",
+      "status": "deactivated",
+      "commit": "3c12a890c061f6a1520e370244cf1cdc57e68b20",
+      "createdAt": "2026-11-05T18:12:47.69534Z",
+      "finishedAt": "2026-11-05T18:14:59.155249Z"
+    },
+    {
+      "id": "dep-dbmc7hcipgvc738uac80",
+      "status": "deactivated",
+      "commit": "0cf6f4a842baff4bbd9ae2f236accfe3b7381209",
+      "createdAt": "2026-11-05T17:58:29.300257Z",
+      "finishedAt": "2026-11-05T18:00:29.243265Z"
+    }
+  ]
+}

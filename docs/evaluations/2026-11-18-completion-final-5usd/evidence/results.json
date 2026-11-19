@@ -1,0 +1,1911 @@
+{
+  "manifest": {
+    "productionCommit": "a2fd752693c4b98bc322cbeae8f7ec0ebc15c866",
+    "source": {
+      "src": "a1b645b10ea409a1db9280cafaa6df3c2dbf3d30",
+      "server": "d2536ce86915ac33517cbb632d297380dfb49e7e"
+    },
+    "harnessHash": "0ad1fdb6fe235c89e6ad36ce3464015b12ad254229a6d0c0d5197a163839bd5f",
+    "model": "gpt-6.1-sol",
+    "transport": "responses",
+    "reasoning": {
+      "executor": "high",
+      "textReviewer": "low",
+      "imageReviewer": "high"
+    },
+    "maxOutputTokens": 6000,
+    "ceilingUsd": 5,
+    "maximumCalls": 48,
+    "perTurnCalls": 8,
+    "executionOrder": [
+      "channel",
+      "widen",
+      "zigzag",
+      "interrupted",
+      "vessel",
+      "uncertain"
+    ],
+    "prompts": {
+      "channel": "Create a four-part open channel assembly in a new group named Channel: a horizontal rectangular base 3.6 m along X, 1.4 m along Z and 18 cm thick, centered at x=4.4 m, z=1.7 m with its bottom on the ground. Put a rectangular upright wall at each X end. Each wall is 16 cm thick along X, spans the full 1.4 m depth, and rises 95 cm above the top of the base. Their outer faces are flush with the two ends of the base. Add one 38 cm diameter ball resting on the base at its center. Keep all four parts separately editable and leave every existing object and group unchanged.",
+      "widen": "Widen the Channel assembly by 70 cm along X, equally at both ends. Extend its base and move the two end walls outward so their outer faces stay flush. Keep all heights, wall thicknesses and depth unchanged. Keep the ball exactly where it is. Preserve every existing component identity and all unrelated objects.",
+      "zigzag": "Add five separate 42 cm cubes in a rising zigzag. Their base centers, in meters as (X,Y,Z), should be (-3,0,4), (-2.05,0.2,5.15), (-1.10,0.4,4), (-0.15,0.6,5.15), and (0.80,0.8,4). Keep them individually editable, with faces parallel to the world axes. Leave all existing geometry alone.",
+      "interrupted": "Increase the heights of both Channel end walls by 25 cm, keeping their bottoms, thicknesses and positions fixed. Keep the base, ball, identities and everything else unchanged.",
+      "vessel": "New task: create one hollow cylindrical vessel, open at the top, with an outside diameter of 96 cm, overall height 66 cm, 9 cm thick side walls and a 12 cm thick closed bottom. Put its bottom on the ground, centered at x=-5 m, z=-3.4 m. It must be one editable object with an actual empty cavity and no leftover cutter. Preserve everything already in the scene.",
+      "uncertain": "Create a single smooth ellipsoidal token, 84 cm along X, 58 cm along Z and 36 cm high. Center it at x=-3.8 m, z=-4.6 m with its base at y=24 cm. Give it a tranquil, welcoming character. Preserve every existing object."
+    },
+    "specification": {
+      "channel": {
+        "x": 4.4,
+        "z": 1.7,
+        "width": 3.6,
+        "depth": 1.4,
+        "base": 0.18,
+        "wall": 0.16,
+        "wallHeight": 0.95,
+        "ball": 0.38,
+        "widen": 0.7,
+        "raise": 0.25
+      },
+      "zigzag": {
+        "size": 0.42,
+        "points": [
+          [-3, 0, 4],
+          [-2.05, 0.2, 5.15],
+          [-1.1, 0.4, 4],
+          [-0.15, 0.6, 5.15],
+          [0.8, 0.8, 4]
+        ],
+        "faultZ": 0.31
+      },
+      "vessel": {
+        "x": -5,
+        "z": -3.4,
+        "diameter": 0.96,
+        "height": 0.66,
+        "wall": 0.09,
+        "bottom": 0.12
+      },
+      "uncertain": {
+        "x": -3.8,
+        "y": 0.24,
+        "z": -4.6,
+        "width": 0.84,
+        "depth": 0.58,
+        "height": 0.36
+      }
+    },
+    "pricing": {
+      "source": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+      "checked": "2026-11-18",
+      "inputPerMillion": 2,
+      "outputPerMillion": 10,
+      "reserveInputPerMillion": 4,
+      "reserveOutputPerMillion": 15,
+      "margin": 1.25
+    }
+  },
+  "results": [
+    {
+      "id": "channel",
+      "prompt": "Create a four-part open channel assembly in a new group named Channel: a horizontal rectangular base 3.6 m along X, 1.4 m along Z and 18 cm thick, centered at x=4.4 m, z=1.7 m with its bottom on the ground. Put a rectangular upright wall at each X end. Each wall is 16 cm thick along X, spans the full 1.4 m depth, and rises 95 cm above the top of the base. Their outer faces are flush with the two ends of the base. Add one 38 cm diameter ball resting on the base at its center. Keep all four parts separately editable and leave every existing object and group unchanged.",
+      "status": "FAILED_OR_BLOCKED",
+      "attempts": [
+        {
+          "kind": "executor",
+          "scene": {
+            "understanding": {
+              "inventory": [
+                {
+                  "groupId": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a",
+                  "name": "Existing props",
+                  "bounds": {
+                    "min": {
+                      "x": -9.21,
+                      "y": 0,
+                      "z": 2.7
+                    },
+                    "max": {
+                      "x": -7.55,
+                      "y": 1.3,
+                      "z": 4.21
+                    }
+                  },
+                  "visible": 2,
+                  "roles": [
+                    {
+                      "role": "element",
+                      "ids": [
+                        "98c53a6e-f536-49ee-9780-2a322378e861",
+                        "c0f62f3f-7727-41db-9c98-f3dfe961d16f"
+                      ]
+                    }
+                  ],
+                  "levels": [],
+                  "shapes": [
+                    {
+                      "shape": "sphere",
+                      "count": 1
+                    },
+                    {
+                      "shape": "box",
+                      "count": 1
+                    }
+                  ]
+                }
+              ],
+              "focus": {
+                "ids": [],
+                "bounds": null,
+                "nearby": []
+              }
+            },
+            "design": {
+              "notes": [],
+              "views": [],
+              "alternatives": []
+            },
+            "units": "meters",
+            "north": "-Z",
+            "groups": [
+              {
+                "id": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a",
+                "name": "Existing props",
+                "visible": true,
+                "locked": false,
+                "members": [
+                  "98c53a6e-f536-49ee-9780-2a322378e861",
+                  "c0f62f3f-7727-41db-9c98-f3dfe961d16f"
+                ],
+                "bounds": {
+                  "min": {
+                    "x": -9.21,
+                    "y": 0,
+                    "z": 2.7
+                  },
+                  "max": {
+                    "x": -7.55,
+                    "y": 1.3,
+                    "z": 4.21
+                  }
+                }
+              }
+            ],
+            "site": null,
+            "mapBearing": null,
+            "selectedIds": [],
+            "conversation": {
+              "focusIds": [],
+              "lastCreatedIds": [],
+              "lastOperands": [],
+              "lastOperation": null
+            },
+            "camera": {
+              "right": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "forward": {
+                "x": 0,
+                "y": 0,
+                "z": -1
+              },
+              "visible": []
+            },
+            "objects": [
+              {
+                "component": {
+                  "role": "element",
+                  "hostId": null,
+                  "level": null,
+                  "motion": "none",
+                  "travel": 1
+                },
+                "componentSource": "inferred",
+                "id": "98c53a6e-f536-49ee-9780-2a322378e861",
+                "ordinal": 1,
+                "groupId": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a",
+                "visible": true,
+                "name": "Channel wall study",
+                "dimensions": {
+                  "width": 0.42,
+                  "depth": 0.42,
+                  "height": 0.42
+                },
+                "position": {
+                  "x": -9,
+                  "y": 0,
+                  "z": 4
+                },
+                "rotation": 0,
+                "shape": "sphere",
+                "material": null,
+                "color": "#e2e7e6",
+                "fixedWindowWidth": null,
+                "display": null,
+                "formDefinition": null,
+                "formFrame": null,
+                "construction": null,
+                "opening": false,
+                "spatial": {
+                  "envelopeBounds": {
+                    "min": {
+                      "x": -9.21,
+                      "y": 0,
+                      "z": 3.79
+                    },
+                    "max": {
+                      "x": -8.79,
+                      "y": 0.42,
+                      "z": 4.21
+                    }
+                  },
+                  "flat": false,
+                  "reference": false,
+                  "footprint": null,
+                  "openingSize": null,
+                  "operands": []
+                },
+                "architecture": null
+              },
+              {
+                "component": {
+                  "role": "element",
+                  "hostId": null,
+                  "level": null,
+                  "motion": "none",
+                  "travel": 1
+                },
+                "componentSource": "inferred",
+                "id": "c0f62f3f-7727-41db-9c98-f3dfe961d16f",
+                "ordinal": 2,
+                "groupId": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a",
+                "visible": true,
+                "name": "Existing prop",
+                "dimensions": {
+                  "width": 0.9,
+                  "depth": 0.6,
+                  "height": 1.1
+                },
+                "position": {
+                  "x": -8,
+                  "y": 0.2,
+                  "z": 3
+                },
+                "rotation": 0,
+                "shape": "box",
+                "material": null,
+                "color": "#e2e7e6",
+                "fixedWindowWidth": null,
+                "display": null,
+                "formDefinition": null,
+                "formFrame": null,
+                "construction": null,
+                "opening": false,
+                "spatial": {
+                  "envelopeBounds": {
+                    "min": {
+                      "x": -8.45,
+                      "y": 0.19999999999999996,
+                      "z": 2.7
+                    },
+                    "max": {
+                      "x": -7.55,
+                      "y": 1.3,
+                      "z": 3.3
+                    }
+                  },
+                  "flat": false,
+                  "reference": false,
+                  "footprint": null,
+                  "openingSize": null,
+                  "operands": []
+                },
+                "architecture": null
+              }
+            ]
+          },
+          "execution": {
+            "stage": 1,
+            "remaining": 11,
+            "remainingOperations": 64,
+            "next": "Inspect the scene and execute the requested task using shared edit sets where appropriate.",
+            "receipts": [
+              {
+                "stage": "Create the four separately editable Channel parts without modifying existing objects.",
+                "result": "Channel: 4 independently editable elements.\nChannel base: 3.6 × 1.4 × 0.18 m; base (4.4, 0, 1.7) m.\nChannel west end wall: 0.16 × 1.4 × 0.95 m; base (2.68, 0.18, 1.7) m.\nChannel east end wall: 0.16 × 1.4 × 0.95 m; base (6.12, 0.18, 1.7) m.\nChannel center ball: 0.38 × 0.38 × 0.38 m; base (4.4, 0.18, 1.7) m.\nVerified count: 4 (4 element(s)).\nVerified width: 3.6 (1 element(s)).\nVerified depth: 1.4 (1 element(s)).\nVerified height: 0.18 (1 element(s)).\nVerified base: 0 (1 element(s)).\nVerified width: 0.16, 0.16 (2 element(s)).\nVerified depth: 1.4, 1.4 (2 element(s)).\nVerified height: 0.95, 0.95 (2 element(s)).\nVerified base: 0.18, 0.18, 0.18 (3 element(s)).\nVerified width: 0.38 (1 element(s)).\nVerified depth: 0.38 (1 element(s)).\nVerified height: 0.38 (1 element(s)).\nChannel base: 3.6 × 1.4 × 0.18 m; base (4.4, 0, 1.7) m. Material volume 0.907 m³; surface area 11.88 m²; lowest/highest elevation 0 / 0.18 m.\nChannel west end wall: 0.16 × 1.4 × 0.95 m; base (2.68, 0.18, 1.7) m. Material volume 0.213 m³; surface area 3.412 m²; lowest/highest elevation 0.18 / 1.13 m.\nChannel east end wall: 0.16 × 1.4 × 0.95 m; base (6.12, 0.18, 1.7) m. Material volume 0.213 m³; surface area 3.412 m²; lowest/highest elevation 0.18 / 1.13 m.\nChannel center ball: 0.38 × 0.38 × 0.38 m; base (4.4, 0.18, 1.7) m. Material volume 0.028 m³; surface area 0.451 m²; lowest/highest elevation 0.18 / 0.56 m.",
+                "created": [
+                  "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+                  "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                  "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+                  "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+                ],
+                "changed": [],
+                "removed": []
+              }
+            ]
+          },
+          "plan": {
+            "intent": "apply",
+            "message": "Create the four separately editable Channel parts without modifying existing objects.",
+            "operations": [
+              {
+                "type": "assembly",
+                "name": "Channel",
+                "origin": {
+                  "x": 4.4,
+                  "y": 0,
+                  "z": 1.7
+                },
+                "rotation": 0,
+                "elements": [
+                  {
+                    "key": "base",
+                    "name": "Channel base",
+                    "shape": "box",
+                    "dimensions": {
+                      "width": 3.6,
+                      "depth": 1.4,
+                      "height": 0.18
+                    },
+                    "position": {
+                      "x": 0,
+                      "y": 0,
+                      "z": 0
+                    },
+                    "rotation": 0,
+                    "role": "floor",
+                    "level": null,
+                    "material": "solid",
+                    "color": "#e2e7e6",
+                    "host": null,
+                    "repeat": null
+                  },
+                  {
+                    "key": "west-wall",
+                    "name": "Channel west end wall",
+                    "shape": "box",
+                    "dimensions": {
+                      "width": 0.16,
+                      "depth": 1.4,
+                      "height": 0.95
+                    },
+                    "position": {
+                      "x": -1.72,
+                      "y": 0.18,
+                      "z": 0
+                    },
+                    "rotation": 0,
+                    "role": "wall",
+                    "level": null,
+                    "material": "solid",
+                    "color": "#e2e7e6",
+                    "host": null,
+                    "repeat": null
+                  },
+                  {
+                    "key": "east-wall",
+                    "name": "Channel east end wall",
+                    "shape": "box",
+                    "dimensions": {
+                      "width": 0.16,
+                      "depth": 1.4,
+                      "height": 0.95
+                    },
+                    "position": {
+                      "x": 1.72,
+                      "y": 0.18,
+                      "z": 0
+                    },
+                    "rotation": 0,
+                    "role": "wall",
+                    "level": null,
+                    "material": "solid",
+                    "color": "#e2e7e6",
+                    "host": null,
+                    "repeat": null
+                  },
+                  {
+                    "key": "ball",
+                    "name": "Channel center ball",
+                    "shape": "sphere",
+                    "dimensions": {
+                      "width": 0.38,
+                      "depth": 0.38,
+                      "height": 0.38
+                    },
+                    "position": {
+                      "x": 0,
+                      "y": 0.18,
+                      "z": 0
+                    },
+                    "rotation": 0,
+                    "role": "element",
+                    "level": null,
+                    "material": "solid",
+                    "color": "#e2e7e6",
+                    "host": null,
+                    "repeat": null
+                  }
+                ]
+              },
+              {
+                "type": "verify",
+                "targets": ["$group:Channel"],
+                "metric": "count",
+                "comparison": "equal",
+                "value": 4,
+                "tolerance": 0
+              },
+              {
+                "type": "verify",
+                "targets": ["$name:Channel base"],
+                "metric": "width",
+                "comparison": "equal",
+                "value": 3.6,
+                "tolerance": 0.0001
+              },
+              {
+                "type": "verify",
+                "targets": ["$name:Channel base"],
+                "metric": "depth",
+                "comparison": "equal",
+                "value": 1.4,
+                "tolerance": 0.0001
+              },
+              {
+                "type": "verify",
+                "targets": ["$name:Channel base"],
+                "metric": "height",
+                "comparison": "equal",
+                "value": 0.18,
+                "tolerance": 0.0001
+              },
+              {
+                "type": "verify",
+                "targets": ["$name:Channel base"],
+                "metric": "base",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.0001
+              },
+              {
+                "type": "verify",
+                "targets": [
+                  "$name:Channel west end wall",
+                  "$name:Channel east end wall"
+                ],
+                "metric": "width",
+                "comparison": "equal",
+                "value": 0.16,
+                "tolerance": 0.0001
+              },
+              {
+                "type": "verify",
+                "targets": [
+                  "$name:Channel west end wall",
+                  "$name:Channel east end wall"
+                ],
+                "metric": "depth",
+                "comparison": "equal",
+                "value": 1.4,
+                "tolerance": 0.0001
+              },
+              {
+                "type": "verify",
+                "targets": [
+                  "$name:Channel west end wall",
+                  "$name:Channel east end wall"
+                ],
+                "metric": "height",
+                "comparison": "equal",
+                "value": 0.95,
+                "tolerance": 0.0001
+              },
+              {
+                "type": "verify",
+                "targets": [
+                  "$name:Channel west end wall",
+                  "$name:Channel east end wall",
+                  "$name:Channel center ball"
+                ],
+                "metric": "base",
+                "comparison": "equal",
+                "value": 0.18,
+                "tolerance": 0.0001
+              },
+              {
+                "type": "verify",
+                "targets": ["$name:Channel center ball"],
+                "metric": "width",
+                "comparison": "equal",
+                "value": 0.38,
+                "tolerance": 0.0001
+              },
+              {
+                "type": "verify",
+                "targets": ["$name:Channel center ball"],
+                "metric": "depth",
+                "comparison": "equal",
+                "value": 0.38,
+                "tolerance": 0.0001
+              },
+              {
+                "type": "verify",
+                "targets": ["$name:Channel center ball"],
+                "metric": "height",
+                "comparison": "equal",
+                "value": 0.38,
+                "tolerance": 0.0001
+              },
+              {
+                "type": "measure",
+                "targets": ["$group:Channel"],
+                "metric": "properties"
+              }
+            ],
+            "brief": null,
+            "planning": {
+              "stage": "Create the four separately editable Channel parts without modifying existing objects.",
+              "assumptions": [],
+              "next": "Inspect execution results and verify the complete request."
+            }
+          },
+          "atMs": 9148.137897
+        },
+        {
+          "kind": "executor",
+          "scene": {
+            "understanding": {
+              "inventory": [
+                {
+                  "groupId": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a",
+                  "name": "Existing props",
+                  "bounds": {
+                    "min": {
+                      "x": -9.21,
+                      "y": 0,
+                      "z": 2.7
+                    },
+                    "max": {
+                      "x": -7.55,
+                      "y": 1.3,
+                      "z": 4.21
+                    }
+                  },
+                  "visible": 2,
+                  "roles": [
+                    {
+                      "role": "element",
+                      "ids": [
+                        "98c53a6e-f536-49ee-9780-2a322378e861",
+                        "c0f62f3f-7727-41db-9c98-f3dfe961d16f"
+                      ]
+                    }
+                  ],
+                  "levels": [],
+                  "shapes": [
+                    {
+                      "shape": "sphere",
+                      "count": 1
+                    },
+                    {
+                      "shape": "box",
+                      "count": 1
+                    }
+                  ]
+                },
+                {
+                  "groupId": "4e71eef4-4134-4a31-a7a8-5a45000accec",
+                  "name": "Channel",
+                  "bounds": {
+                    "min": {
+                      "x": 2.6000000000000005,
+                      "y": 0,
+                      "z": 1
+                    },
+                    "max": {
+                      "x": 6.2,
+                      "y": 1.13,
+                      "z": 2.4
+                    }
+                  },
+                  "visible": 4,
+                  "roles": [
+                    {
+                      "role": "floor",
+                      "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+                    },
+                    {
+                      "role": "wall",
+                      "ids": [
+                        "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                        "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+                      ]
+                    },
+                    {
+                      "role": "element",
+                      "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+                    }
+                  ],
+                  "levels": [],
+                  "shapes": [
+                    {
+                      "shape": "box",
+                      "count": 3
+                    },
+                    {
+                      "shape": "sphere",
+                      "count": 1
+                    }
+                  ]
+                }
+              ],
+              "focus": {
+                "ids": [
+                  "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+                  "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                  "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+                  "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+                ],
+                "bounds": {
+                  "min": {
+                    "x": 2.6000000000000005,
+                    "y": 0,
+                    "z": 1
+                  },
+                  "max": {
+                    "x": 6.2,
+                    "y": 1.13,
+                    "z": 2.4
+                  }
+                },
+                "nearby": [
+                  {
+                    "id": "c0f62f3f-7727-41db-9c98-f3dfe961d16f",
+                    "name": "Existing prop",
+                    "envelopeGap": 10.154432529688696,
+                    "relativeCenter": {
+                      "x": -12.4,
+                      "y": 0.18500000000000005,
+                      "z": 1.3
+                    }
+                  },
+                  {
+                    "id": "98c53a6e-f536-49ee-9780-2a322378e861",
+                    "name": "Channel wall study",
+                    "envelopeGap": 11.474502167850245,
+                    "relativeCenter": {
+                      "x": -13.4,
+                      "y": -0.355,
+                      "z": 2.3
+                    }
+                  }
+                ]
+              }
+            },
+            "design": {
+              "notes": [],
+              "views": [],
+              "alternatives": []
+            },
+            "units": "meters",
+            "north": "-Z",
+            "groups": [
+              {
+                "id": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a",
+                "name": "Existing props",
+                "visible": true,
+                "locked": false,
+                "members": [
+                  "98c53a6e-f536-49ee-9780-2a322378e861",
+                  "c0f62f3f-7727-41db-9c98-f3dfe961d16f"
+                ],
+                "bounds": {
+                  "min": {
+                    "x": -9.21,
+                    "y": 0,
+                    "z": 2.7
+                  },
+                  "max": {
+                    "x": -7.55,
+                    "y": 1.3,
+                    "z": 4.21
+                  }
+                }
+              },
+              {
+                "id": "4e71eef4-4134-4a31-a7a8-5a45000accec",
+                "name": "Channel",
+                "visible": true,
+                "locked": false,
+                "members": [
+                  "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+                  "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                  "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+                  "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+                ],
+                "bounds": {
+                  "min": {
+                    "x": 2.6000000000000005,
+                    "y": 0,
+                    "z": 1
+                  },
+                  "max": {
+                    "x": 6.2,
+                    "y": 1.13,
+                    "z": 2.4
+                  }
+                }
+              }
+            ],
+            "site": null,
+            "mapBearing": null,
+            "selectedIds": [
+              "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+              "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+              "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+              "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+            ],
+            "conversation": {
+              "focusIds": [
+                "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+                "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+                "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+              ],
+              "lastCreatedIds": [
+                "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+                "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+                "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+              ],
+              "lastOperands": [],
+              "lastOperation": "assembly"
+            },
+            "camera": {
+              "right": {
+                "x": 1,
+                "y": 0,
+                "z": 0
+              },
+              "forward": {
+                "x": 0,
+                "y": 0,
+                "z": -1
+              },
+              "visible": []
+            },
+            "objects": [
+              {
+                "component": {
+                  "role": "element",
+                  "hostId": null,
+                  "level": null,
+                  "motion": "none",
+                  "travel": 1
+                },
+                "componentSource": "inferred",
+                "id": "98c53a6e-f536-49ee-9780-2a322378e861",
+                "ordinal": 1,
+                "groupId": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a",
+                "visible": true,
+                "name": "Channel wall study",
+                "dimensions": {
+                  "width": 0.42,
+                  "depth": 0.42,
+                  "height": 0.42
+                },
+                "position": {
+                  "x": -9,
+                  "y": 0,
+                  "z": 4
+                },
+                "rotation": 0,
+                "shape": "sphere",
+                "material": null,
+                "color": "#e2e7e6",
+                "fixedWindowWidth": null,
+                "display": null,
+                "formDefinition": null,
+                "formFrame": null,
+                "construction": null,
+                "opening": false,
+                "spatial": {
+                  "envelopeBounds": {
+                    "min": {
+                      "x": -9.21,
+                      "y": 0,
+                      "z": 3.79
+                    },
+                    "max": {
+                      "x": -8.79,
+                      "y": 0.42,
+                      "z": 4.21
+                    }
+                  },
+                  "flat": false,
+                  "reference": false,
+                  "footprint": null,
+                  "openingSize": null,
+                  "operands": []
+                },
+                "architecture": null
+              },
+              {
+                "component": {
+                  "role": "element",
+                  "hostId": null,
+                  "level": null,
+                  "motion": "none",
+                  "travel": 1
+                },
+                "componentSource": "inferred",
+                "id": "c0f62f3f-7727-41db-9c98-f3dfe961d16f",
+                "ordinal": 2,
+                "groupId": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a",
+                "visible": true,
+                "name": "Existing prop",
+                "dimensions": {
+                  "width": 0.9,
+                  "depth": 0.6,
+                  "height": 1.1
+                },
+                "position": {
+                  "x": -8,
+                  "y": 0.2,
+                  "z": 3
+                },
+                "rotation": 0,
+                "shape": "box",
+                "material": null,
+                "color": "#e2e7e6",
+                "fixedWindowWidth": null,
+                "display": null,
+                "formDefinition": null,
+                "formFrame": null,
+                "construction": null,
+                "opening": false,
+                "spatial": {
+                  "envelopeBounds": {
+                    "min": {
+                      "x": -8.45,
+                      "y": 0.19999999999999996,
+                      "z": 2.7
+                    },
+                    "max": {
+                      "x": -7.55,
+                      "y": 1.3,
+                      "z": 3.3
+                    }
+                  },
+                  "flat": false,
+                  "reference": false,
+                  "footprint": null,
+                  "openingSize": null,
+                  "operands": []
+                },
+                "architecture": null
+              },
+              {
+                "component": {
+                  "role": "floor",
+                  "level": null,
+                  "hostId": null,
+                  "motion": "none",
+                  "travel": 1
+                },
+                "componentSource": "explicit",
+                "id": "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+                "ordinal": 3,
+                "groupId": "4e71eef4-4134-4a31-a7a8-5a45000accec",
+                "visible": true,
+                "name": "Channel base",
+                "dimensions": {
+                  "width": 3.6,
+                  "depth": 1.4,
+                  "height": 0.18
+                },
+                "position": {
+                  "x": 4.4,
+                  "y": 0,
+                  "z": 1.7
+                },
+                "rotation": 0,
+                "shape": "box",
+                "material": "solid",
+                "color": "#e2e7e6",
+                "fixedWindowWidth": null,
+                "display": null,
+                "formDefinition": null,
+                "formFrame": null,
+                "construction": null,
+                "opening": false,
+                "spatial": {
+                  "envelopeBounds": {
+                    "min": {
+                      "x": 2.6000000000000005,
+                      "y": 0,
+                      "z": 1
+                    },
+                    "max": {
+                      "x": 6.2,
+                      "y": 0.18,
+                      "z": 2.4
+                    }
+                  },
+                  "flat": false,
+                  "reference": false,
+                  "footprint": null,
+                  "openingSize": null,
+                  "operands": []
+                },
+                "architecture": null
+              },
+              {
+                "component": {
+                  "role": "wall",
+                  "level": null,
+                  "hostId": null,
+                  "motion": "none",
+                  "travel": 1
+                },
+                "componentSource": "explicit",
+                "id": "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                "ordinal": 4,
+                "groupId": "4e71eef4-4134-4a31-a7a8-5a45000accec",
+                "visible": true,
+                "name": "Channel west end wall",
+                "dimensions": {
+                  "width": 0.16,
+                  "depth": 1.4,
+                  "height": 0.95
+                },
+                "position": {
+                  "x": 2.6800000000000006,
+                  "y": 0.18,
+                  "z": 1.7
+                },
+                "rotation": 0,
+                "shape": "box",
+                "material": "solid",
+                "color": "#e2e7e6",
+                "fixedWindowWidth": null,
+                "display": null,
+                "formDefinition": null,
+                "formFrame": null,
+                "construction": null,
+                "opening": false,
+                "spatial": {
+                  "envelopeBounds": {
+                    "min": {
+                      "x": 2.6000000000000005,
+                      "y": 0.18000000000000005,
+                      "z": 1
+                    },
+                    "max": {
+                      "x": 2.7600000000000007,
+                      "y": 1.13,
+                      "z": 2.4
+                    }
+                  },
+                  "flat": false,
+                  "reference": false,
+                  "footprint": null,
+                  "openingSize": null,
+                  "operands": []
+                },
+                "architecture": null
+              },
+              {
+                "component": {
+                  "role": "wall",
+                  "level": null,
+                  "hostId": null,
+                  "motion": "none",
+                  "travel": 1
+                },
+                "componentSource": "explicit",
+                "id": "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+                "ordinal": 5,
+                "groupId": "4e71eef4-4134-4a31-a7a8-5a45000accec",
+                "visible": true,
+                "name": "Channel east end wall",
+                "dimensions": {
+                  "width": 0.16,
+                  "depth": 1.4,
+                  "height": 0.95
+                },
+                "position": {
+                  "x": 6.12,
+                  "y": 0.18,
+                  "z": 1.7
+                },
+                "rotation": 0,
+                "shape": "box",
+                "material": "solid",
+                "color": "#e2e7e6",
+                "fixedWindowWidth": null,
+                "display": null,
+                "formDefinition": null,
+                "formFrame": null,
+                "construction": null,
+                "opening": false,
+                "spatial": {
+                  "envelopeBounds": {
+                    "min": {
+                      "x": 6.04,
+                      "y": 0.18000000000000005,
+                      "z": 1
+                    },
+                    "max": {
+                      "x": 6.2,
+                      "y": 1.13,
+                      "z": 2.4
+                    }
+                  },
+                  "flat": false,
+                  "reference": false,
+                  "footprint": null,
+                  "openingSize": null,
+                  "operands": []
+                },
+                "architecture": null
+              },
+              {
+                "component": {
+                  "role": "element",
+                  "level": null,
+                  "hostId": null,
+                  "motion": "none",
+                  "travel": 1
+                },
+                "componentSource": "explicit",
+                "id": "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b",
+                "ordinal": 6,
+                "groupId": "4e71eef4-4134-4a31-a7a8-5a45000accec",
+                "visible": true,
+                "name": "Channel center ball",
+                "dimensions": {
+                  "width": 0.38,
+                  "depth": 0.38,
+                  "height": 0.38
+                },
+                "position": {
+                  "x": 4.4,
+                  "y": 0.18,
+                  "z": 1.7
+                },
+                "rotation": 0,
+                "shape": "sphere",
+                "material": "solid",
+                "color": "#e2e7e6",
+                "fixedWindowWidth": null,
+                "display": null,
+                "formDefinition": null,
+                "formFrame": null,
+                "construction": null,
+                "opening": false,
+                "spatial": {
+                  "envelopeBounds": {
+                    "min": {
+                      "x": 4.21,
+                      "y": 0.18,
+                      "z": 1.51
+                    },
+                    "max": {
+                      "x": 4.590000000000001,
+                      "y": 0.56,
+                      "z": 1.89
+                    }
+                  },
+                  "flat": false,
+                  "reference": false,
+                  "footprint": null,
+                  "openingSize": null,
+                  "operands": []
+                },
+                "architecture": null
+              }
+            ]
+          },
+          "execution": {
+            "stage": 2,
+            "remaining": 10,
+            "remainingOperations": 50,
+            "next": "Inspect execution results and verify the complete request.",
+            "receipts": [
+              {
+                "stage": "Create the four separately editable Channel parts without modifying existing objects.",
+                "result": "Channel: 4 independently editable elements.\nChannel base: 3.6 × 1.4 × 0.18 m; base (4.4, 0, 1.7) m.\nChannel west end wall: 0.16 × 1.4 × 0.95 m; base (2.68, 0.18, 1.7) m.\nChannel east end wall: 0.16 × 1.4 × 0.95 m; base (6.12, 0.18, 1.7) m.\nChannel center ball: 0.38 × 0.38 × 0.38 m; base (4.4, 0.18, 1.7) m.\nVerified count: 4 (4 element(s)).\nVerified width: 3.6 (1 element(s)).\nVerified depth: 1.4 (1 element(s)).\nVerified height: 0.18 (1 element(s)).\nVerified base: 0 (1 element(s)).\nVerified width: 0.16, 0.16 (2 element(s)).\nVerified depth: 1.4, 1.4 (2 element(s)).\nVerified height: 0.95, 0.95 (2 element(s)).\nVerified base: 0.18, 0.18, 0.18 (3 element(s)).\nVerified width: 0.38 (1 element(s)).\nVerified depth: 0.38 (1 element(s)).\nVerified height: 0.38 (1 element(s)).\nChannel base: 3.6 × 1.4 × 0.18 m; base (4.4, 0, 1.7) m. Material volume 0.907 m³; surface area 11.88 m²; lowest/highest elevation 0 / 0.18 m.\nChannel west end wall: 0.16 × 1.4 × 0.95 m; base (2.68, 0.18, 1.7) m. Material volume 0.213 m³; surface area 3.412 m²; lowest/highest elevation 0.18 / 1.13 m.\nChannel east end wall: 0.16 × 1.4 × 0.95 m; base (6.12, 0.18, 1.7) m. Material volume 0.213 m³; surface area 3.412 m²; lowest/highest elevation 0.18 / 1.13 m.\nChannel center ball: 0.38 × 0.38 × 0.38 m; base (4.4, 0.18, 1.7) m. Material volume 0.028 m³; surface area 0.451 m²; lowest/highest elevation 0.18 / 0.56 m.",
+                "created": [
+                  "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+                  "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                  "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+                  "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+                ],
+                "changed": [],
+                "removed": []
+              }
+            ]
+          },
+          "plan": {
+            "intent": "finish",
+            "message": "Verified the Channel group contains exactly four independently editable parts: a 3.6 × 1.4 × 0.18 m base at (4.4, 0, 1.7), two 0.16 × 1.4 × 0.95 m end walls starting at y=0.18 with outer faces flush at x=2.6 and x=6.2, and a 0.38 m diameter ball centered on the base and resting at y=0.18. The model observations match the intended open assembly. Existing props and their group were left unchanged.",
+            "operations": [],
+            "brief": null,
+            "planning": null
+          },
+          "atMs": 14280.363989000001
+        },
+        {
+          "kind": "completion",
+          "report": {
+            "modeling": true,
+            "passed": true,
+            "status": "verified",
+            "canCommit": true,
+            "checks": [
+              {
+                "id": "preserved-scope",
+                "label": "Unrelated existing geometry",
+                "met": true,
+                "outcome": "verified",
+                "observed": "2 existing objects outside the requested edit scope are unchanged.",
+                "ids": []
+              },
+              {
+                "id": "check-1",
+                "label": "count",
+                "met": true,
+                "outcome": "verified",
+                "observed": "count (sum): 4; expected equal 4, tolerance 0. 4 element(s).",
+                "ids": [
+                  "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+                  "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                  "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+                  "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+                ]
+              },
+              {
+                "id": "check-2",
+                "label": "group",
+                "met": true,
+                "outcome": "verified",
+                "observed": "Group Channel: 4 members; 4/4 requested objects belong to it.",
+                "ids": [
+                  "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+                  "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                  "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+                  "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+                ]
+              },
+              {
+                "id": "check-3",
+                "label": "editable",
+                "met": true,
+                "outcome": "verified",
+                "observed": "4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+                "ids": [
+                  "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+                  "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                  "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+                  "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+                ]
+              },
+              {
+                "id": "check-4",
+                "label": "count · base",
+                "met": true,
+                "outcome": "verified",
+                "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+                "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+              },
+              {
+                "id": "check-5",
+                "label": "shape · base",
+                "met": true,
+                "outcome": "verified",
+                "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+                "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+              },
+              {
+                "id": "check-6",
+                "label": "width · base",
+                "met": true,
+                "outcome": "verified",
+                "observed": "width (each, world solids): 3.6000000000000005; expected equal 3.6 ± 0.001 m.",
+                "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+              },
+              {
+                "id": "check-7",
+                "label": "depth · base",
+                "met": true,
+                "outcome": "verified",
+                "observed": "depth (each, world solids): 1.4; expected equal 1.4 ± 0.001 m.",
+                "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+              },
+              {
+                "id": "check-8",
+                "label": "height · base",
+                "met": true,
+                "outcome": "verified",
+                "observed": "height (each, world solids): 0.18; expected equal 0.18 ± 0.001 m.",
+                "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+              },
+              {
+                "id": "check-9",
+                "label": "positions · base",
+                "met": true,
+                "outcome": "verified",
+                "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+                "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+              },
+              {
+                "id": "check-10",
+                "label": "shape · wall",
+                "met": true,
+                "outcome": "verified",
+                "observed": "Evaluated solid shape box: 2/2 match occupied geometry, independent of recipe type.",
+                "ids": [
+                  "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                  "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+                ]
+              },
+              {
+                "id": "check-11",
+                "label": "width · wall",
+                "met": true,
+                "outcome": "verified",
+                "observed": "width (each, world solids): 0.16000000000000014, 0.16000000000000014; expected equal 0.16 ± 0.001 m.",
+                "ids": [
+                  "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                  "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+                ]
+              },
+              {
+                "id": "check-12",
+                "label": "depth · wall",
+                "met": true,
+                "outcome": "verified",
+                "observed": "depth (each, world solids): 1.4, 1.4; expected equal 1.4 ± 0.001 m.",
+                "ids": [
+                  "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                  "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+                ]
+              },
+              {
+                "id": "check-13",
+                "label": "height · wall",
+                "met": true,
+                "outcome": "verified",
+                "observed": "height (each, world solids): 0.95, 0.95; expected equal 0.95 ± 0.001 m.",
+                "ids": [
+                  "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                  "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+                ]
+              },
+              {
+                "id": "check-14",
+                "label": "positions · wall",
+                "met": true,
+                "outcome": "verified",
+                "observed": "2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.",
+                "ids": [
+                  "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                  "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+                ]
+              },
+              {
+                "id": "check-15",
+                "label": "count · ball",
+                "met": true,
+                "outcome": "verified",
+                "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+                "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+              },
+              {
+                "id": "check-16",
+                "label": "shape · ball",
+                "met": true,
+                "outcome": "verified",
+                "observed": "Evaluated solid shape sphere: 1/1 match occupied geometry, independent of recipe type.",
+                "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+              },
+              {
+                "id": "check-17",
+                "label": "width · ball",
+                "met": true,
+                "outcome": "verified",
+                "observed": "width (each, world solids): 0.3800000000000008; expected equal 0.38 ± 0.001 m.",
+                "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+              },
+              {
+                "id": "check-18",
+                "label": "positions · ball",
+                "met": true,
+                "outcome": "verified",
+                "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+                "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+              }
+            ],
+            "qualitativeLimits": []
+          },
+          "externalOracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 4,
+              "actual": 4
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [2.6000000000000005, 0, 1],
+                "max": [6.200000000000001, 0.18, 2.4]
+              },
+              "actual": {
+                "min": [2.6000000000000005, 0, 1],
+                "max": [6.200000000000001, 0.18, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 0.9072,
+                "maxDifference": 0.013608
+              },
+              "actual": {
+                "id": "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+                "volume": 0.9072,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.6000000000000005, 0.18, 1],
+                "max": [2.7600000000000007, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [2.6000000000000005, 0.18, 1],
+                "max": [2.7600000000000007, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000004,
+                "maxDifference": 0.0031920000000000004
+              },
+              "actual": {
+                "id": "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+                "volume": 0.21280000000000004,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.04, 0.18, 1],
+                "max": [6.2, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [6.04, 0.18, 1],
+                "max": [6.2, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000038,
+                "maxDifference": 0.0031920000000000056
+              },
+              "actual": {
+                "id": "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+                "volume": 0.21280000000000038,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b",
+                "volume": 0.02844331720987473,
+                "symmetricDifference": 6.938893903907228e-18
+              }
+            },
+            {
+              "name": "new-editable-assembly",
+              "passed": true,
+              "expected": "Four parts in one new unlocked Channel group",
+              "actual": {
+                "group": {
+                  "id": "4e71eef4-4134-4a31-a7a8-5a45000accec",
+                  "name": "Channel",
+                  "visible": true,
+                  "locked": false
+                },
+                "ids": ["4e71eef4-4134-4a31-a7a8-5a45000accec"]
+              }
+            }
+          ],
+          "falseAcceptance": false,
+          "falseRejection": false,
+          "acceptedIncorrect": false,
+          "atMs": 23910.096718
+        }
+      ],
+      "observationsMs": 429.85882600000195,
+      "reviewerMs": 9543.300931000002,
+      "hostChecksMs": 27.880424000002677,
+      "firstCompletionAttemptMs": 14281.485491,
+      "firstCompletionApiCalls": 2,
+      "reviewRequired": false,
+      "totalMs": 23938.046906,
+      "afterFirstCompletionAttemptMs": 9630.650254,
+      "finalOracle": [
+        {
+          "name": "unrelated-geometry",
+          "passed": true,
+          "expected": "Unchanged original objects",
+          "actual": []
+        },
+        {
+          "name": "unrelated-groups",
+          "passed": true,
+          "expected": "All original group metadata preserved"
+        },
+        {
+          "name": "count",
+          "passed": true,
+          "expected": 4,
+          "actual": 4
+        },
+        {
+          "name": "editable",
+          "passed": true,
+          "expected": "Distinct unlocked objects"
+        },
+        {
+          "name": "bounds-0",
+          "passed": true,
+          "expected": {
+            "min": [2.6000000000000005, 0, 1],
+            "max": [6.200000000000001, 0.18, 2.4]
+          },
+          "actual": {
+            "min": [2.6000000000000005, 0, 1],
+            "max": [6.200000000000001, 0.18, 2.4]
+          }
+        },
+        {
+          "name": "occupied-solid-0",
+          "passed": true,
+          "expected": {
+            "volume": 0.9072,
+            "maxDifference": 0.013608
+          },
+          "actual": {
+            "id": "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+            "volume": 0.9072,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "bounds-1",
+          "passed": true,
+          "expected": {
+            "min": [2.6000000000000005, 0.18, 1],
+            "max": [2.7600000000000007, 1.13, 2.4]
+          },
+          "actual": {
+            "min": [2.6000000000000005, 0.18, 1],
+            "max": [2.7600000000000007, 1.13, 2.4]
+          }
+        },
+        {
+          "name": "occupied-solid-1",
+          "passed": true,
+          "expected": {
+            "volume": 0.21280000000000004,
+            "maxDifference": 0.0031920000000000004
+          },
+          "actual": {
+            "id": "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+            "volume": 0.21280000000000004,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "bounds-2",
+          "passed": true,
+          "expected": {
+            "min": [6.04, 0.18, 1],
+            "max": [6.2, 1.13, 2.4]
+          },
+          "actual": {
+            "min": [6.04, 0.18, 1],
+            "max": [6.2, 1.13, 2.4]
+          }
+        },
+        {
+          "name": "occupied-solid-2",
+          "passed": true,
+          "expected": {
+            "volume": 0.21280000000000038,
+            "maxDifference": 0.0031920000000000056
+          },
+          "actual": {
+            "id": "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+            "volume": 0.21280000000000038,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "bounds-3",
+          "passed": true,
+          "expected": {
+            "min": [4.21, 0.18, 1.51],
+            "max": [4.590000000000001, 0.56, 1.89]
+          },
+          "actual": {
+            "min": [4.21, 0.18, 1.51],
+            "max": [4.590000000000001, 0.56, 1.89]
+          }
+        },
+        {
+          "name": "occupied-solid-3",
+          "passed": true,
+          "expected": {
+            "volume": 0.02844331720987473,
+            "maxDifference": 0.00042664975814812097
+          },
+          "actual": {
+            "id": "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b",
+            "volume": 0.02844331720987473,
+            "symmetricDifference": 6.938893903907228e-18
+          }
+        },
+        {
+          "name": "new-editable-assembly",
+          "passed": true,
+          "expected": "Four parts in one new unlocked Channel group",
+          "actual": {
+            "group": {
+              "id": "4e71eef4-4134-4a31-a7a8-5a45000accec",
+              "name": "Channel",
+              "visible": true,
+              "locked": false
+            },
+            "ids": ["4e71eef4-4134-4a31-a7a8-5a45000accec"]
+          }
+        }
+      ],
+      "hostAccepted": true,
+      "verification": {
+        "modeling": true,
+        "passed": true,
+        "status": "verified",
+        "canCommit": true,
+        "checks": [
+          {
+            "id": "preserved-scope",
+            "label": "Unrelated existing geometry",
+            "met": true,
+            "outcome": "verified",
+            "observed": "2 existing objects outside the requested edit scope are unchanged.",
+            "ids": []
+          },
+          {
+            "id": "check-1",
+            "label": "count",
+            "met": true,
+            "outcome": "verified",
+            "observed": "count (sum): 4; expected equal 4, tolerance 0. 4 element(s).",
+            "ids": [
+              "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+              "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+              "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+              "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+            ]
+          },
+          {
+            "id": "check-2",
+            "label": "group",
+            "met": true,
+            "outcome": "verified",
+            "observed": "Group Channel: 4 members; 4/4 requested objects belong to it.",
+            "ids": [
+              "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+              "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+              "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+              "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+            ]
+          },
+          {
+            "id": "check-3",
+            "label": "editable",
+            "met": true,
+            "outcome": "verified",
+            "observed": "4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+            "ids": [
+              "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+              "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+              "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+              "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+            ]
+          },
+          {
+            "id": "check-4",
+            "label": "count · base",
+            "met": true,
+            "outcome": "verified",
+            "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+            "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+          },
+          {
+            "id": "check-5",
+            "label": "shape · base",
+            "met": true,
+            "outcome": "verified",
+            "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+            "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+          },
+          {
+            "id": "check-6",
+            "label": "width · base",
+            "met": true,
+            "outcome": "verified",
+            "observed": "width (each, world solids): 3.6000000000000005; expected equal 3.6 ± 0.001 m.",
+            "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+          },
+          {
+            "id": "check-7",
+            "label": "depth · base",
+            "met": true,
+            "outcome": "verified",
+            "observed": "depth (each, world solids): 1.4; expected equal 1.4 ± 0.001 m.",
+            "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+          },
+          {
+            "id": "check-8",
+            "label": "height · base",
+            "met": true,
+            "outcome": "verified",
+            "observed": "height (each, world solids): 0.18; expected equal 0.18 ± 0.001 m.",
+            "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+          },
+          {
+            "id": "check-9",
+            "label": "positions · base",
+            "met": true,
+            "outcome": "verified",
+            "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+            "ids": ["b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9"]
+          },
+          {
+            "id": "check-10",
+            "label": "shape · wall",
+            "met": true,
+            "outcome": "verified",
+            "observed": "Evaluated solid shape box: 2/2 match occupied geometry, independent of recipe type.",
+            "ids": [
+              "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+              "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+            ]
+          },
+          {
+            "id": "check-11",
+            "label": "width · wall",
+            "met": true,
+            "outcome": "verified",
+            "observed": "width (each, world solids): 0.16000000000000014, 0.16000000000000014; expected equal 0.16 ± 0.001 m.",
+            "ids": [
+              "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+              "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+            ]
+          },
+          {
+            "id": "check-12",
+            "label": "depth · wall",
+            "met": true,
+            "outcome": "verified",
+            "observed": "depth (each, world solids): 1.4, 1.4; expected equal 1.4 ± 0.001 m.",
+            "ids": [
+              "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+              "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+            ]
+          },
+          {
+            "id": "check-13",
+            "label": "height · wall",
+            "met": true,
+            "outcome": "verified",
+            "observed": "height (each, world solids): 0.95, 0.95; expected equal 0.95 ± 0.001 m.",
+            "ids": [
+              "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+              "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+            ]
+          },
+          {
+            "id": "check-14",
+            "label": "positions · wall",
+            "met": true,
+            "outcome": "verified",
+            "observed": "2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.",
+            "ids": [
+              "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+              "a1af0b94-c5fa-4809-9f44-65eabceeb9cd"
+            ]
+          },
+          {
+            "id": "check-15",
+            "label": "count · ball",
+            "met": true,
+            "outcome": "verified",
+            "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+            "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+          },
+          {
+            "id": "check-16",
+            "label": "shape · ball",
+            "met": true,
+            "outcome": "verified",
+            "observed": "Evaluated solid shape sphere: 1/1 match occupied geometry, independent of recipe type.",
+            "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+          },
+          {
+            "id": "check-17",
+            "label": "width · ball",
+            "met": true,
+            "outcome": "verified",
+            "observed": "width (each, world solids): 0.3800000000000008; expected equal 0.38 ± 0.001 m.",
+            "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+          },
+          {
+            "id": "check-18",
+            "label": "positions · ball",
+            "met": true,
+            "outcome": "verified",
+            "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+            "ids": ["b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"]
+          }
+        ],
+        "qualitativeLimits": []
+      },
+      "message": "Completed; measurable checks passed.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (sum): 4; expected equal 4, tolerance 0. 4 element(s).\ngroup: Group Channel: 4 members; 4/4 requested objects belong to it.\neditable: 4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · base: count (sum): 1; expected equal 1, tolerance 0. 1 element(s).\nshape · base: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+      "error": "Persistence changed geometry.\n+ actual - expected\n... Skipped lines\n\n  {\n-   design: undefined,\n    groups: [\n      {\n        id: '4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a',\n        locked: false,\n        name: 'Existing props',\n...\n      {\n-       component: undefined,\n        dimensions: {\n          depth: 0.42,\n          height: 0.42,\n          width: 0.42\n        },\n...\n      {\n-       component: undefined,\n        dimensions: {\n          depth: 0.6,\n          height: 1.1,\n          width: 0.9\n        },\n",
+      "failedTransactionPreserved": true,
+      "cost": {
+        "calls": 3,
+        "estimatedUsd": 0.088336,
+        "unresolvedReservationsUsd": 0,
+        "reviewerUsd": 0.016818,
+        "addedAfterFirstCompletionAttemptUsd": 0.016818,
+        "addedRepairCalls": 0,
+        "addedRepairApiMs": 0
+      }
+    },
+    {
+      "id": "widen",
+      "status": "NOT_RUN_DEPENDENCY_FAILED"
+    },
+    {
+      "id": "zigzag",
+      "status": "NOT_RUN_AFTER_STOP"
+    },
+    {
+      "id": "interrupted",
+      "status": "NOT_RUN_DEPENDENCY_FAILED"
+    },
+    {
+      "id": "vessel",
+      "status": "NOT_RUN_AFTER_STOP"
+    },
+    {
+      "id": "uncertain",
+      "status": "NOT_RUN_AFTER_STOP"
+    }
+  ],
+  "ledger": {
+    "ceilingUsd": 5,
+    "authorized": true,
+    "calls": [
+      {
+        "role": "executor",
+        "caseId": "channel",
+        "reservedUsd": 0.612405,
+        "started": "2026-11-19T00:40:40.691Z",
+        "status": 200,
+        "elapsedMs": 8802,
+        "modelReturned": "gpt-6.1-sol",
+        "serviceTier": "default",
+        "responseStatus": "completed",
+        "reasoningTokens": 0,
+        "responseBytes": 64703,
+        "inputTokens": 13871,
+        "outputTokens": 891,
+        "estimatedUsd": 0.036652,
+        "chargedUsd": 0.045814999999999995,
+        "outcome": "usage-reconciled"
+      },
+      {
+        "role": "executor",
+        "caseId": "channel",
+        "reservedUsd": 0.643635,
+        "started": "2026-11-19T00:40:49.636Z",
+        "status": 200,
+        "elapsedMs": 4997,
+        "modelReturned": "gpt-6.1-sol",
+        "serviceTier": "default",
+        "responseStatus": "completed",
+        "reasoningTokens": 57,
+        "responseBytes": 65189,
+        "inputTokens": 16413,
+        "outputTokens": 204,
+        "estimatedUsd": 0.034866,
+        "chargedUsd": 0.0435825,
+        "outcome": "usage-reconciled"
+      },
+      {
+        "role": "reviewer",
+        "caseId": "channel",
+        "reservedUsd": 0.22339,
+        "started": "2026-11-19T00:40:54.676Z",
+        "status": 200,
+        "elapsedMs": 9523,
+        "modelReturned": "gpt-6.1-sol",
+        "serviceTier": "default",
+        "responseStatus": "completed",
+        "reasoningTokens": 0,
+        "responseBytes": 19302,
+        "inputTokens": 3519,
+        "outputTokens": 978,
+        "estimatedUsd": 0.016818,
+        "chargedUsd": 0.0210225,
+        "outcome": "usage-reconciled"
+      }
+    ]
+  },
+  "recommendation": "Human review required; never deploy from this runner."
+}

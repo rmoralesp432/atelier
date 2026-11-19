@@ -1,0 +1,69 @@
+{
+  "recommendation": "HOLD_PR22",
+  "applicationCandidate": "e9e3aae86e559ed9131609e2a2f3eb3e75299fba",
+  "merged": false,
+  "deployed": false,
+  "existingLiveCommit": "9bb6ad42997979f3b55b8218a1c9dcfd22f61dff",
+  "url": "https://atelier-emxi.onrender.com/",
+  "applicationSourceChangedDuringEvaluation": false,
+  "knownGenerationCalls": 18,
+  "originalInterruptedCalls": 1,
+  "allStartedGenerations": 19,
+  "estimatedKnownUsd": 1.721212,
+  "originalActualUsage": "unknown",
+  "originalAllowanceUsd": 0.62,
+  "knownUsagePlusAllowanceUsd": 2.341212,
+  "accountedIncludingSafetyMarginsUsd": 2.771515,
+  "maximumAuthorizedUsd": 5,
+  "remainingConservativeHeadroomUsd": 2.228485,
+  "nextRequestReservationUsd": 2.485965,
+  "wouldAccountUsd": 5.25748,
+  "newUnreconciledCalls": 0,
+  "originalLedgerSha256": "62fd89571100a86cd3e8dd7e03b407a302d823f54bd9044123d3e88faa0b10e6",
+  "liveResults": [
+    {
+      "task": "building",
+      "status": "PROVISIONAL_GEOMETRY_CORRECT_COMMIT_NOT_ESTABLISHED",
+      "componentsCreated": 431,
+      "existingMarkerPreserved": true,
+      "offlineReplayedGeometryChecksPassed": 22,
+      "realAiFinishObserved": false,
+      "browserCommitVerified": false
+    },
+    {
+      "task": "height-edit",
+      "status": "NOT_RUN",
+      "reason": "No successfully completed live building transaction; no substitute fixture used."
+    },
+    {
+      "task": "ellipse-repair",
+      "status": "MEASURED_CORRECT_HOST_PARTLY_UNVERIFIED",
+      "autonomousRepair": true,
+      "sameObjectIdentity": true,
+      "hostBlocksInjectedFault": true,
+      "independentOraclePassed": true,
+      "strictHarnessStatus": "GEOMETRY_OR_COMPLETION_UNVERIFIED"
+    },
+    {
+      "task": "recovery-tray",
+      "status": "MEASURED_CORRECT_HOST_PARTLY_UNVERIFIED",
+      "browserCommit": true,
+      "reload": true,
+      "singleUndo": true,
+      "redo": true,
+      "independentOraclePassed": true,
+      "strictHarnessStatus": "GEOMETRY_OR_COMPLETION_UNVERIFIED"
+    }
+  ],
+  "strictHarnessFullPasses": 0,
+  "falseAcceptanceObservedInExecutedControls": 0,
+  "falseRejectionObservedInExecutedControls": 0,
+  "limits": [
+    "Building finalization and connected editing remain unverified live.",
+    "Intrinsic ellipse axes and uniform tray thickness/topology remain unverified by the built-in reader; external solid measurements establish these particular outputs.",
+    "Physical iPhone microphone/Safari audio behavior not tested.",
+    "Original desktop black viewport band not reproduced.",
+    "Public origin not reachable from this workspace; Render API reports existing deployment live."
+  ],
+  "nextGate": "Complete real-AI building finalization and connected-edit acceptance without changing success criteria. No further paid calls authorized once the next reservation exceeds the remaining headroom."
+}

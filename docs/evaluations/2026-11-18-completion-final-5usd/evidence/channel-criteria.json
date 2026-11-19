@@ -1,0 +1,371 @@
+{
+  "modeling": true,
+  "editable": [],
+  "checks": [
+    {
+      "source": "request",
+      "evidence": "Create a four-part open channel assembly in a new group named Channel:",
+      "requirement": {
+        "id": "check-1",
+        "label": "count",
+        "kind": "measure",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "metric": "count",
+        "aggregation": "sum",
+        "comparison": "equal",
+        "value": 4,
+        "tolerance": 0,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Create a four-part open channel assembly in a new group named Channel:",
+      "requirement": {
+        "id": "check-2",
+        "label": "group",
+        "kind": "group",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "name": "Channel",
+        "exclusive": true
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Keep all four parts separately editable and leave every existing object and group unchanged.",
+      "requirement": {
+        "id": "check-3",
+        "label": "editable",
+        "kind": "editable",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        }
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "a horizontal rectangular base 3.6 m along X, 1.4 m along Z and 18 cm thick, centered at x=4.4 m, z=1.7 m with its bottom on the ground.",
+      "requirement": {
+        "id": "check-4",
+        "label": "count · base",
+        "kind": "measure",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "base"
+        },
+        "metric": "count",
+        "aggregation": "sum",
+        "comparison": "equal",
+        "value": 1,
+        "tolerance": 0,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "a horizontal rectangular base 3.6 m along X, 1.4 m along Z and 18 cm thick, centered at x=4.4 m, z=1.7 m with its bottom on the ground.",
+      "requirement": {
+        "id": "check-5",
+        "label": "shape · base",
+        "kind": "shape",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "base"
+        },
+        "shape": "box"
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "a horizontal rectangular base 3.6 m along X, 1.4 m along Z and 18 cm thick, centered at x=4.4 m, z=1.7 m with its bottom on the ground.",
+      "requirement": {
+        "id": "check-6",
+        "label": "width · base",
+        "kind": "measure",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "base"
+        },
+        "metric": "width",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 3.6,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "a horizontal rectangular base 3.6 m along X, 1.4 m along Z and 18 cm thick, centered at x=4.4 m, z=1.7 m with its bottom on the ground.",
+      "requirement": {
+        "id": "check-7",
+        "label": "depth · base",
+        "kind": "measure",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "base"
+        },
+        "metric": "depth",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 1.4,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "a horizontal rectangular base 3.6 m along X, 1.4 m along Z and 18 cm thick, centered at x=4.4 m, z=1.7 m with its bottom on the ground.",
+      "requirement": {
+        "id": "check-8",
+        "label": "height · base",
+        "kind": "measure",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "base"
+        },
+        "metric": "height",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.18,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "a horizontal rectangular base 3.6 m along X, 1.4 m along Z and 18 cm thick, centered at x=4.4 m, z=1.7 m with its bottom on the ground.",
+      "requirement": {
+        "id": "check-9",
+        "label": "positions · base",
+        "kind": "positions",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "base"
+        },
+        "points": [
+          {
+            "x": 4.4,
+            "y": 0,
+            "z": 1.7
+          }
+        ],
+        "tolerance": 0.001
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Put a rectangular upright wall at each X end. Each wall is 16 cm thick along X, spans the full 1.4 m depth, and rises 95 cm above the top of the base. Their outer faces are flush with the two ends of the base.",
+      "requirement": {
+        "id": "check-10",
+        "label": "shape · wall",
+        "kind": "shape",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "wall"
+        },
+        "shape": "box"
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Put a rectangular upright wall at each X end. Each wall is 16 cm thick along X, spans the full 1.4 m depth, and rises 95 cm above the top of the base. Their outer faces are flush with the two ends of the base.",
+      "requirement": {
+        "id": "check-11",
+        "label": "width · wall",
+        "kind": "measure",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "wall"
+        },
+        "metric": "width",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.16,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Put a rectangular upright wall at each X end. Each wall is 16 cm thick along X, spans the full 1.4 m depth, and rises 95 cm above the top of the base. Their outer faces are flush with the two ends of the base.",
+      "requirement": {
+        "id": "check-12",
+        "label": "depth · wall",
+        "kind": "measure",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "wall"
+        },
+        "metric": "depth",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 1.4,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Put a rectangular upright wall at each X end. Each wall is 16 cm thick along X, spans the full 1.4 m depth, and rises 95 cm above the top of the base. Their outer faces are flush with the two ends of the base.",
+      "requirement": {
+        "id": "check-13",
+        "label": "height · wall",
+        "kind": "measure",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "wall"
+        },
+        "metric": "height",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.95,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Put a rectangular upright wall at each X end. Each wall is 16 cm thick along X, spans the full 1.4 m depth, and rises 95 cm above the top of the base. Their outer faces are flush with the two ends of the base.",
+      "requirement": {
+        "id": "check-14",
+        "label": "positions · wall",
+        "kind": "positions",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "wall"
+        },
+        "points": [
+          {
+            "x": 2.68,
+            "y": 0.18,
+            "z": 1.7
+          },
+          {
+            "x": 6.12,
+            "y": 0.18,
+            "z": 1.7
+          }
+        ],
+        "tolerance": 0.001
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Add one 38 cm diameter ball resting on the base at its center.",
+      "requirement": {
+        "id": "check-15",
+        "label": "count · ball",
+        "kind": "measure",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "ball"
+        },
+        "metric": "count",
+        "aggregation": "sum",
+        "comparison": "equal",
+        "value": 1,
+        "tolerance": 0,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Add one 38 cm diameter ball resting on the base at its center.",
+      "requirement": {
+        "id": "check-16",
+        "label": "shape · ball",
+        "kind": "shape",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "ball"
+        },
+        "shape": "sphere"
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Add one 38 cm diameter ball resting on the base at its center.",
+      "requirement": {
+        "id": "check-17",
+        "label": "width · ball",
+        "kind": "measure",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "ball"
+        },
+        "metric": "width",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.38,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Add one 38 cm diameter ball resting on the base at its center.",
+      "requirement": {
+        "id": "check-18",
+        "label": "positions · ball",
+        "kind": "positions",
+        "selector": {
+          "refs": ["$new"],
+          "role": null,
+          "level": null,
+          "nameContains": "ball"
+        },
+        "points": [
+          {
+            "x": 4.4,
+            "y": 0.18,
+            "z": 1.7
+          }
+        ],
+        "tolerance": 0.001
+      }
+    }
+  ],
+  "qualitativeLimits": []
+}

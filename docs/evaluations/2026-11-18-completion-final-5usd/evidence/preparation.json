@@ -1,0 +1,4903 @@
+{
+  "status": "OFFLINE_PREPARATION_PASSED",
+  "paidCalls": 0,
+  "manifestHash": "15efd140db59eb3d84b36cdd19ecc61b7372cfb31c2e3b6d25d2684c1b12a7f3",
+  "exampleExecutorReservationUsd": 0.485455,
+  "fixtureChecks": [
+    {
+      "id": "channel",
+      "evidence": [
+        {
+          "name": "unrelated-geometry",
+          "passed": true,
+          "expected": "Unchanged original objects",
+          "actual": []
+        },
+        {
+          "name": "unrelated-groups",
+          "passed": true,
+          "expected": "All original group metadata preserved"
+        },
+        {
+          "name": "count",
+          "passed": true,
+          "expected": 4,
+          "actual": 4
+        },
+        {
+          "name": "editable",
+          "passed": true,
+          "expected": "Distinct unlocked objects"
+        },
+        {
+          "name": "bounds-0",
+          "passed": true,
+          "expected": {
+            "min": [2.6000000000000005, 0, 1],
+            "max": [6.200000000000001, 0.18, 2.4]
+          },
+          "actual": {
+            "min": [2.6000000000000005, 0, 1],
+            "max": [6.200000000000001, 0.18, 2.4]
+          }
+        },
+        {
+          "name": "occupied-solid-0",
+          "passed": true,
+          "expected": {
+            "volume": 0.9072,
+            "maxDifference": 0.013608
+          },
+          "actual": {
+            "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+            "volume": 0.9072,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "bounds-1",
+          "passed": true,
+          "expected": {
+            "min": [2.6000000000000005, 0.18, 1],
+            "max": [2.7600000000000007, 1.13, 2.4]
+          },
+          "actual": {
+            "min": [2.6000000000000005, 0.18, 1],
+            "max": [2.7600000000000007, 1.13, 2.4]
+          }
+        },
+        {
+          "name": "occupied-solid-1",
+          "passed": true,
+          "expected": {
+            "volume": 0.21280000000000004,
+            "maxDifference": 0.0031920000000000004
+          },
+          "actual": {
+            "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+            "volume": 0.21280000000000004,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "bounds-2",
+          "passed": true,
+          "expected": {
+            "min": [6.04, 0.18, 1],
+            "max": [6.2, 1.13, 2.4]
+          },
+          "actual": {
+            "min": [6.04, 0.18, 1],
+            "max": [6.2, 1.13, 2.4]
+          }
+        },
+        {
+          "name": "occupied-solid-2",
+          "passed": true,
+          "expected": {
+            "volume": 0.21280000000000038,
+            "maxDifference": 0.0031920000000000056
+          },
+          "actual": {
+            "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+            "volume": 0.21280000000000038,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "bounds-3",
+          "passed": true,
+          "expected": {
+            "min": [4.21, 0.18, 1.51],
+            "max": [4.590000000000001, 0.56, 1.89]
+          },
+          "actual": {
+            "min": [4.21, 0.18, 1.51],
+            "max": [4.590000000000001, 0.56, 1.89]
+          }
+        },
+        {
+          "name": "occupied-solid-3",
+          "passed": true,
+          "expected": {
+            "volume": 0.02844331720987473,
+            "maxDifference": 0.00042664975814812097
+          },
+          "actual": {
+            "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+            "volume": 0.02844331720987473,
+            "symmetricDifference": 6.938893903907228e-18
+          }
+        },
+        {
+          "name": "new-editable-assembly",
+          "passed": true,
+          "expected": "Four parts in one new unlocked Channel group",
+          "actual": {
+            "group": {
+              "id": "ec8bbffc-9d0c-4677-bb12-4978b92e5d14",
+              "name": "Channel",
+              "visible": true,
+              "locked": false
+            },
+            "ids": ["ec8bbffc-9d0c-4677-bb12-4978b92e5d14"]
+          }
+        }
+      ],
+      "controls": [
+        {
+          "name": "missing-part",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": false,
+              "expected": 4,
+              "actual": 3
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [2.6000000000000005, 0, 1],
+                "max": [6.200000000000001, 0.18, 2.4]
+              },
+              "actual": [
+                {
+                  "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                  "bounds": {
+                    "min": [2.6000000000000005, 0.18, 1],
+                    "max": [2.7600000000000007, 1.13, 2.4]
+                  }
+                },
+                {
+                  "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                  "bounds": {
+                    "min": [6.04, 0.18, 1],
+                    "max": [6.2, 1.13, 2.4]
+                  }
+                },
+                {
+                  "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                  "bounds": {
+                    "min": [4.21, 0.18, 1.51],
+                    "max": [4.590000000000001, 0.56, 1.89]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.6000000000000005, 0.18, 1],
+                "max": [2.7600000000000007, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [2.6000000000000005, 0.18, 1],
+                "max": [2.7600000000000007, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000004,
+                "maxDifference": 0.0031920000000000004
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.21280000000000004,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.04, 0.18, 1],
+                "max": [6.2, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [6.04, 0.18, 1],
+                "max": [6.2, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000038,
+                "maxDifference": 0.0031920000000000056
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.21280000000000038,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.02844331720987473,
+                "symmetricDifference": 6.938893903907228e-18
+              }
+            },
+            {
+              "name": "new-editable-assembly",
+              "passed": true,
+              "expected": "Four parts in one new unlocked Channel group",
+              "actual": {
+                "group": {
+                  "id": "ec8bbffc-9d0c-4677-bb12-4978b92e5d14",
+                  "name": "Channel",
+                  "visible": true,
+                  "locked": false
+                },
+                "ids": ["ec8bbffc-9d0c-4677-bb12-4978b92e5d14"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "wrong-position",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 4,
+              "actual": 4
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [2.6000000000000005, 0, 1],
+                "max": [6.200000000000001, 0.18, 2.4]
+              },
+              "actual": [
+                {
+                  "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                  "bounds": {
+                    "min": [2.6000000000000005, 0, 1.23],
+                    "max": [6.200000000000001, 0.18, 2.63]
+                  }
+                },
+                {
+                  "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                  "bounds": {
+                    "min": [2.6000000000000005, 0.18, 1],
+                    "max": [2.7600000000000007, 1.13, 2.4]
+                  }
+                },
+                {
+                  "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                  "bounds": {
+                    "min": [6.04, 0.18, 1],
+                    "max": [6.2, 1.13, 2.4]
+                  }
+                },
+                {
+                  "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                  "bounds": {
+                    "min": [4.21, 0.18, 1.51],
+                    "max": [4.590000000000001, 0.56, 1.89]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.6000000000000005, 0.18, 1],
+                "max": [2.7600000000000007, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [2.6000000000000005, 0.18, 1],
+                "max": [2.7600000000000007, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000004,
+                "maxDifference": 0.0031920000000000004
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.21280000000000004,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.04, 0.18, 1],
+                "max": [6.2, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [6.04, 0.18, 1],
+                "max": [6.2, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000038,
+                "maxDifference": 0.0031920000000000056
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.21280000000000038,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.02844331720987473,
+                "symmetricDifference": 6.938893903907228e-18
+              }
+            },
+            {
+              "name": "new-editable-assembly",
+              "passed": true,
+              "expected": "Four parts in one new unlocked Channel group",
+              "actual": {
+                "group": {
+                  "id": "ec8bbffc-9d0c-4677-bb12-4978b92e5d14",
+                  "name": "Channel",
+                  "visible": true,
+                  "locked": false
+                },
+                "ids": ["ec8bbffc-9d0c-4677-bb12-4978b92e5d14"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "wrong-size",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 4,
+              "actual": 4
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [2.6000000000000005, 0, 1],
+                "max": [6.200000000000001, 0.18, 2.4]
+              },
+              "actual": [
+                {
+                  "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                  "bounds": {
+                    "min": [2.6000000000000005, 0, 1],
+                    "max": [6.200000000000001, 0.37, 2.4]
+                  }
+                },
+                {
+                  "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                  "bounds": {
+                    "min": [2.6000000000000005, 0.18, 1],
+                    "max": [2.7600000000000007, 1.13, 2.4]
+                  }
+                },
+                {
+                  "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                  "bounds": {
+                    "min": [6.04, 0.18, 1],
+                    "max": [6.2, 1.13, 2.4]
+                  }
+                },
+                {
+                  "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                  "bounds": {
+                    "min": [4.21, 0.18, 1.51],
+                    "max": [4.590000000000001, 0.56, 1.89]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.6000000000000005, 0.18, 1],
+                "max": [2.7600000000000007, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [2.6000000000000005, 0.18, 1],
+                "max": [2.7600000000000007, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000004,
+                "maxDifference": 0.0031920000000000004
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.21280000000000004,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.04, 0.18, 1],
+                "max": [6.2, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [6.04, 0.18, 1],
+                "max": [6.2, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000038,
+                "maxDifference": 0.0031920000000000056
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.21280000000000038,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.02844331720987473,
+                "symmetricDifference": 6.938893903907228e-18
+              }
+            },
+            {
+              "name": "new-editable-assembly",
+              "passed": true,
+              "expected": "Four parts in one new unlocked Channel group",
+              "actual": {
+                "group": {
+                  "id": "ec8bbffc-9d0c-4677-bb12-4978b92e5d14",
+                  "name": "Channel",
+                  "visible": true,
+                  "locked": false
+                },
+                "ids": ["ec8bbffc-9d0c-4677-bb12-4978b92e5d14"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "collateral-change",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": false,
+              "expected": "Unchanged original objects",
+              "actual": ["64e31f5f-23e5-44e8-b098-aec3c25a4383"]
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 4,
+              "actual": 4
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [2.6000000000000005, 0, 1],
+                "max": [6.200000000000001, 0.18, 2.4]
+              },
+              "actual": {
+                "min": [2.6000000000000005, 0, 1],
+                "max": [6.200000000000001, 0.18, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 0.9072,
+                "maxDifference": 0.013608
+              },
+              "actual": {
+                "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "volume": 0.9072,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.6000000000000005, 0.18, 1],
+                "max": [2.7600000000000007, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [2.6000000000000005, 0.18, 1],
+                "max": [2.7600000000000007, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000004,
+                "maxDifference": 0.0031920000000000004
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.21280000000000004,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.04, 0.18, 1],
+                "max": [6.2, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [6.04, 0.18, 1],
+                "max": [6.2, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000038,
+                "maxDifference": 0.0031920000000000056
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.21280000000000038,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.02844331720987473,
+                "symmetricDifference": 6.938893903907228e-18
+              }
+            },
+            {
+              "name": "new-editable-assembly",
+              "passed": true,
+              "expected": "Four parts in one new unlocked Channel group",
+              "actual": {
+                "group": {
+                  "id": "ec8bbffc-9d0c-4677-bb12-4978b92e5d14",
+                  "name": "Channel",
+                  "visible": true,
+                  "locked": false
+                },
+                "ids": ["ec8bbffc-9d0c-4677-bb12-4978b92e5d14"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "equivalent-mesh",
+          "expectedPass": true,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 4,
+              "actual": 4
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [2.6000000000000005, 0, 1],
+                "max": [6.200000000000001, 0.18, 2.4]
+              },
+              "actual": {
+                "min": [2.6000000000000005, 0, 1],
+                "max": [6.2, 0.18, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 0.9072,
+                "maxDifference": 0.013608
+              },
+              "actual": {
+                "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "volume": 0.9071999999999998,
+                "symmetricDifference": 6.661338147750939e-16
+              }
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.6000000000000005, 0.18, 1],
+                "max": [2.7600000000000007, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [2.6000000000000005, 0.18, 1],
+                "max": [2.7600000000000007, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000004,
+                "maxDifference": 0.0031920000000000004
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.21280000000000004,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.04, 0.18, 1],
+                "max": [6.2, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [6.04, 0.18, 1],
+                "max": [6.2, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000038,
+                "maxDifference": 0.0031920000000000056
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.21280000000000038,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.028443316664368078,
+                "symmetricDifference": 1.358375634197273e-9
+              }
+            },
+            {
+              "name": "new-editable-assembly",
+              "passed": true,
+              "expected": "Four parts in one new unlocked Channel group",
+              "actual": {
+                "group": {
+                  "id": "ec8bbffc-9d0c-4677-bb12-4978b92e5d14",
+                  "name": "Channel",
+                  "visible": true,
+                  "locked": false
+                },
+                "ids": ["ec8bbffc-9d0c-4677-bb12-4978b92e5d14"]
+              }
+            }
+          ]
+        },
+        {
+          "name": "equivalent-local-frame",
+          "expectedPass": true,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 4,
+              "actual": 4
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [2.6000000000000005, 0, 1],
+                "max": [6.200000000000001, 0.18, 2.4]
+              },
+              "actual": {
+                "min": [2.6000000000000005, 0, 1],
+                "max": [6.2, 0.18, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 0.9072,
+                "maxDifference": 0.013608
+              },
+              "actual": {
+                "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "volume": 0.9071999999999998,
+                "symmetricDifference": 6.661338147750939e-16
+              }
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.6000000000000005, 0.18, 1],
+                "max": [2.7600000000000007, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [2.6000000000000005, 0.18, 1],
+                "max": [2.7600000000000007, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000004,
+                "maxDifference": 0.0031920000000000004
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.21280000000000007,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.04, 0.18, 1],
+                "max": [6.2, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [6.04, 0.18, 1],
+                "max": [6.2, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000038,
+                "maxDifference": 0.0031920000000000056
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.2128000000000003,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.028443316664368078,
+                "symmetricDifference": 1.358375641136167e-9
+              }
+            },
+            {
+              "name": "new-editable-assembly",
+              "passed": true,
+              "expected": "Four parts in one new unlocked Channel group",
+              "actual": {
+                "group": {
+                  "id": "ec8bbffc-9d0c-4677-bb12-4978b92e5d14",
+                  "name": "Channel",
+                  "visible": true,
+                  "locked": false
+                },
+                "ids": ["ec8bbffc-9d0c-4677-bb12-4978b92e5d14"]
+              }
+            }
+          ]
+        }
+      ],
+      "observation": {
+        "status": "ready",
+        "views": 2
+      }
+    },
+    {
+      "id": "widen",
+      "evidence": [
+        {
+          "name": "unrelated-geometry",
+          "passed": true,
+          "expected": "Unchanged original objects",
+          "actual": []
+        },
+        {
+          "name": "unrelated-groups",
+          "passed": true,
+          "expected": "All original group metadata preserved"
+        },
+        {
+          "name": "identity",
+          "passed": true,
+          "expected": [
+            "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+            "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+            "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+            "aa777031-a63c-40ed-8ddd-b5e409449095"
+          ],
+          "actual": [
+            "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+            "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+            "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+            "aa777031-a63c-40ed-8ddd-b5e409449095"
+          ]
+        },
+        {
+          "name": "unchanged-ball",
+          "passed": true,
+          "expected": "The ball retains its location and dimensions (physical shape is checked separately)"
+        },
+        {
+          "name": "retained-properties-b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+          "passed": true,
+          "expected": "Identity, name, group, rotation, material, component metadata retained"
+        },
+        {
+          "name": "retained-properties-66a4fc96-ef05-4a86-9e46-35b706f1f332",
+          "passed": true,
+          "expected": "Identity, name, group, rotation, material, component metadata retained"
+        },
+        {
+          "name": "retained-properties-c01d22a1-f434-4253-9d2d-be71117a2a6e",
+          "passed": true,
+          "expected": "Identity, name, group, rotation, material, component metadata retained"
+        },
+        {
+          "name": "retained-properties-aa777031-a63c-40ed-8ddd-b5e409449095",
+          "passed": true,
+          "expected": "Identity, name, group, rotation, material, component metadata retained"
+        },
+        {
+          "name": "count",
+          "passed": true,
+          "expected": 4,
+          "actual": 4
+        },
+        {
+          "name": "editable",
+          "passed": true,
+          "expected": "Distinct unlocked objects"
+        },
+        {
+          "name": "bounds-0",
+          "passed": true,
+          "expected": {
+            "min": [2.2500000000000004, 0, 1],
+            "max": [6.550000000000001, 0.18, 2.4]
+          },
+          "actual": {
+            "min": [2.2500000000000004, 0, 1],
+            "max": [6.550000000000001, 0.18, 2.4]
+          }
+        },
+        {
+          "name": "occupied-solid-0",
+          "passed": true,
+          "expected": {
+            "volume": 1.0836000000000001,
+            "maxDifference": 0.016254
+          },
+          "actual": {
+            "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+            "volume": 1.0836000000000001,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "bounds-1",
+          "passed": true,
+          "expected": {
+            "min": [2.2500000000000004, 0.18, 1],
+            "max": [2.4100000000000006, 1.13, 2.4]
+          },
+          "actual": {
+            "min": [2.2500000000000004, 0.18, 1],
+            "max": [2.4100000000000006, 1.13, 2.4]
+          }
+        },
+        {
+          "name": "occupied-solid-1",
+          "passed": true,
+          "expected": {
+            "volume": 0.21280000000000004,
+            "maxDifference": 0.0031920000000000004
+          },
+          "actual": {
+            "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+            "volume": 0.21280000000000004,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "bounds-2",
+          "passed": true,
+          "expected": {
+            "min": [6.390000000000001, 0.18, 1],
+            "max": [6.550000000000001, 1.13, 2.4]
+          },
+          "actual": {
+            "min": [6.39, 0.18, 1],
+            "max": [6.55, 1.13, 2.4]
+          }
+        },
+        {
+          "name": "occupied-solid-2",
+          "passed": true,
+          "expected": {
+            "volume": 0.21279999999999993,
+            "maxDifference": 0.003191999999999999
+          },
+          "actual": {
+            "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+            "volume": 0.21279999999999993,
+            "symmetricDifference": 3.3306690738754696e-15
+          }
+        },
+        {
+          "name": "bounds-3",
+          "passed": true,
+          "expected": {
+            "min": [4.21, 0.18, 1.51],
+            "max": [4.590000000000001, 0.56, 1.89]
+          },
+          "actual": {
+            "min": [4.21, 0.18, 1.51],
+            "max": [4.590000000000001, 0.56, 1.89]
+          }
+        },
+        {
+          "name": "occupied-solid-3",
+          "passed": true,
+          "expected": {
+            "volume": 0.02844331720987473,
+            "maxDifference": 0.00042664975814812097
+          },
+          "actual": {
+            "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+            "volume": 0.02844331720987473,
+            "symmetricDifference": 6.938893903907228e-18
+          }
+        }
+      ],
+      "controls": [
+        {
+          "name": "missing-part",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "identity",
+              "passed": false,
+              "expected": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ],
+              "actual": [
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ]
+            },
+            {
+              "name": "unchanged-ball",
+              "passed": true,
+              "expected": "The ball retains its location and dimensions (physical shape is checked separately)"
+            },
+            {
+              "name": "retained-properties-b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+              "passed": false,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-66a4fc96-ef05-4a86-9e46-35b706f1f332",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-c01d22a1-f434-4253-9d2d-be71117a2a6e",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-aa777031-a63c-40ed-8ddd-b5e409449095",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "count",
+              "passed": false,
+              "expected": 4,
+              "actual": 3
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [2.2500000000000004, 0, 1],
+                "max": [6.550000000000001, 0.18, 2.4]
+              },
+              "actual": [
+                {
+                  "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                  "bounds": {
+                    "min": [2.2500000000000004, 0.18, 1],
+                    "max": [2.4100000000000006, 1.13, 2.4]
+                  }
+                },
+                {
+                  "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                  "bounds": {
+                    "min": [6.39, 0.18, 1],
+                    "max": [6.55, 1.13, 2.4]
+                  }
+                },
+                {
+                  "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                  "bounds": {
+                    "min": [4.21, 0.18, 1.51],
+                    "max": [4.590000000000001, 0.56, 1.89]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000004,
+                "maxDifference": 0.0031920000000000004
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.21280000000000004,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.390000000000001, 0.18, 1],
+                "max": [6.550000000000001, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [6.39, 0.18, 1],
+                "max": [6.55, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.21279999999999993,
+                "maxDifference": 0.003191999999999999
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.21279999999999993,
+                "symmetricDifference": 3.3306690738754696e-15
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.02844331720987473,
+                "symmetricDifference": 6.938893903907228e-18
+              }
+            }
+          ]
+        },
+        {
+          "name": "wrong-position",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "identity",
+              "passed": true,
+              "expected": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ],
+              "actual": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ]
+            },
+            {
+              "name": "unchanged-ball",
+              "passed": true,
+              "expected": "The ball retains its location and dimensions (physical shape is checked separately)"
+            },
+            {
+              "name": "retained-properties-b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-66a4fc96-ef05-4a86-9e46-35b706f1f332",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-c01d22a1-f434-4253-9d2d-be71117a2a6e",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-aa777031-a63c-40ed-8ddd-b5e409449095",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 4,
+              "actual": 4
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [2.2500000000000004, 0, 1],
+                "max": [6.550000000000001, 0.18, 2.4]
+              },
+              "actual": [
+                {
+                  "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                  "bounds": {
+                    "min": [2.2500000000000004, 0, 1.23],
+                    "max": [6.550000000000001, 0.18, 2.63]
+                  }
+                },
+                {
+                  "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                  "bounds": {
+                    "min": [2.2500000000000004, 0.18, 1],
+                    "max": [2.4100000000000006, 1.13, 2.4]
+                  }
+                },
+                {
+                  "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                  "bounds": {
+                    "min": [6.39, 0.18, 1],
+                    "max": [6.55, 1.13, 2.4]
+                  }
+                },
+                {
+                  "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                  "bounds": {
+                    "min": [4.21, 0.18, 1.51],
+                    "max": [4.590000000000001, 0.56, 1.89]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000004,
+                "maxDifference": 0.0031920000000000004
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.21280000000000004,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.390000000000001, 0.18, 1],
+                "max": [6.550000000000001, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [6.39, 0.18, 1],
+                "max": [6.55, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.21279999999999993,
+                "maxDifference": 0.003191999999999999
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.21279999999999993,
+                "symmetricDifference": 3.3306690738754696e-15
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.02844331720987473,
+                "symmetricDifference": 6.938893903907228e-18
+              }
+            }
+          ]
+        },
+        {
+          "name": "wrong-size",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "identity",
+              "passed": true,
+              "expected": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ],
+              "actual": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ]
+            },
+            {
+              "name": "unchanged-ball",
+              "passed": true,
+              "expected": "The ball retains its location and dimensions (physical shape is checked separately)"
+            },
+            {
+              "name": "retained-properties-b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-66a4fc96-ef05-4a86-9e46-35b706f1f332",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-c01d22a1-f434-4253-9d2d-be71117a2a6e",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-aa777031-a63c-40ed-8ddd-b5e409449095",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 4,
+              "actual": 4
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [2.2500000000000004, 0, 1],
+                "max": [6.550000000000001, 0.18, 2.4]
+              },
+              "actual": [
+                {
+                  "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                  "bounds": {
+                    "min": [2.2500000000000004, 0, 1],
+                    "max": [6.550000000000001, 0.37, 2.4]
+                  }
+                },
+                {
+                  "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                  "bounds": {
+                    "min": [2.2500000000000004, 0.18, 1],
+                    "max": [2.4100000000000006, 1.13, 2.4]
+                  }
+                },
+                {
+                  "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                  "bounds": {
+                    "min": [6.39, 0.18, 1],
+                    "max": [6.55, 1.13, 2.4]
+                  }
+                },
+                {
+                  "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                  "bounds": {
+                    "min": [4.21, 0.18, 1.51],
+                    "max": [4.590000000000001, 0.56, 1.89]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000004,
+                "maxDifference": 0.0031920000000000004
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.21280000000000004,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.390000000000001, 0.18, 1],
+                "max": [6.550000000000001, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [6.39, 0.18, 1],
+                "max": [6.55, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.21279999999999993,
+                "maxDifference": 0.003191999999999999
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.21279999999999993,
+                "symmetricDifference": 3.3306690738754696e-15
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.02844331720987473,
+                "symmetricDifference": 6.938893903907228e-18
+              }
+            }
+          ]
+        },
+        {
+          "name": "collateral-change",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": false,
+              "expected": "Unchanged original objects",
+              "actual": ["64e31f5f-23e5-44e8-b098-aec3c25a4383"]
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "identity",
+              "passed": true,
+              "expected": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ],
+              "actual": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ]
+            },
+            {
+              "name": "unchanged-ball",
+              "passed": true,
+              "expected": "The ball retains its location and dimensions (physical shape is checked separately)"
+            },
+            {
+              "name": "retained-properties-b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-66a4fc96-ef05-4a86-9e46-35b706f1f332",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-c01d22a1-f434-4253-9d2d-be71117a2a6e",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-aa777031-a63c-40ed-8ddd-b5e409449095",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 4,
+              "actual": 4
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [2.2500000000000004, 0, 1],
+                "max": [6.550000000000001, 0.18, 2.4]
+              },
+              "actual": {
+                "min": [2.2500000000000004, 0, 1],
+                "max": [6.550000000000001, 0.18, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 1.0836000000000001,
+                "maxDifference": 0.016254
+              },
+              "actual": {
+                "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "volume": 1.0836000000000001,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000004,
+                "maxDifference": 0.0031920000000000004
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.21280000000000004,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.390000000000001, 0.18, 1],
+                "max": [6.550000000000001, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [6.39, 0.18, 1],
+                "max": [6.55, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.21279999999999993,
+                "maxDifference": 0.003191999999999999
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.21279999999999993,
+                "symmetricDifference": 3.3306690738754696e-15
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.02844331720987473,
+                "symmetricDifference": 6.938893903907228e-18
+              }
+            }
+          ]
+        },
+        {
+          "name": "replaced-identity",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "identity",
+              "passed": false,
+              "expected": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ],
+              "actual": [
+                "dd8a25e1-3c91-4fc9-88ae-97bf85f672f2",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ]
+            },
+            {
+              "name": "unchanged-ball",
+              "passed": true,
+              "expected": "The ball retains its location and dimensions (physical shape is checked separately)"
+            },
+            {
+              "name": "retained-properties-b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+              "passed": false,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-66a4fc96-ef05-4a86-9e46-35b706f1f332",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-c01d22a1-f434-4253-9d2d-be71117a2a6e",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-aa777031-a63c-40ed-8ddd-b5e409449095",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 4,
+              "actual": 4
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [2.2500000000000004, 0, 1],
+                "max": [6.550000000000001, 0.18, 2.4]
+              },
+              "actual": {
+                "min": [2.2500000000000004, 0, 1],
+                "max": [6.550000000000001, 0.18, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 1.0836000000000001,
+                "maxDifference": 0.016254
+              },
+              "actual": {
+                "id": "dd8a25e1-3c91-4fc9-88ae-97bf85f672f2",
+                "volume": 1.0836000000000001,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.21280000000000004,
+                "maxDifference": 0.0031920000000000004
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.21280000000000004,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.390000000000001, 0.18, 1],
+                "max": [6.550000000000001, 1.13, 2.4]
+              },
+              "actual": {
+                "min": [6.39, 0.18, 1],
+                "max": [6.55, 1.13, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.21279999999999993,
+                "maxDifference": 0.003191999999999999
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.21279999999999993,
+                "symmetricDifference": 3.3306690738754696e-15
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.02844331720987473,
+                "symmetricDifference": 6.938893903907228e-18
+              }
+            }
+          ]
+        }
+      ],
+      "observation": {
+        "status": "ready",
+        "views": 2
+      }
+    },
+    {
+      "id": "zigzag",
+      "evidence": [
+        {
+          "name": "unrelated-geometry",
+          "passed": true,
+          "expected": "Unchanged original objects",
+          "actual": []
+        },
+        {
+          "name": "unrelated-groups",
+          "passed": true,
+          "expected": "All original group metadata preserved"
+        },
+        {
+          "name": "count",
+          "passed": true,
+          "expected": 5,
+          "actual": 5
+        },
+        {
+          "name": "editable",
+          "passed": true,
+          "expected": "Distinct unlocked objects"
+        },
+        {
+          "name": "bounds-0",
+          "passed": true,
+          "expected": {
+            "min": [-3.21, 0, 3.79],
+            "max": [-2.79, 0.42, 4.21]
+          },
+          "actual": {
+            "min": [-3.21, 0, 3.79],
+            "max": [-2.79, 0.42, 4.21]
+          }
+        },
+        {
+          "name": "occupied-solid-0",
+          "passed": true,
+          "expected": {
+            "volume": 0.07408799999999996,
+            "maxDifference": 0.0011113199999999994
+          },
+          "actual": {
+            "id": "56299763-42c4-43e0-9112-63d94f639e29",
+            "volume": 0.07408799999999996,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "bounds-1",
+          "passed": true,
+          "expected": {
+            "min": [-2.26, 0.2, 4.94],
+            "max": [-1.8399999999999999, 0.62, 5.36]
+          },
+          "actual": {
+            "min": [-2.26, 0.2, 4.94],
+            "max": [-1.8399999999999999, 0.62, 5.36]
+          }
+        },
+        {
+          "name": "occupied-solid-1",
+          "passed": true,
+          "expected": {
+            "volume": 0.07408799999999995,
+            "maxDifference": 0.0011113199999999992
+          },
+          "actual": {
+            "id": "75d6366c-3e46-4da1-b811-089d28b5cc2a",
+            "volume": 0.07408799999999995,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "bounds-2",
+          "passed": true,
+          "expected": {
+            "min": [-1.31, 0.4, 3.79],
+            "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+          },
+          "actual": {
+            "min": [-1.31, 0.4, 3.79],
+            "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+          }
+        },
+        {
+          "name": "occupied-solid-2",
+          "passed": true,
+          "expected": {
+            "volume": 0.07408799999999999,
+            "maxDifference": 0.0011113199999999998
+          },
+          "actual": {
+            "id": "a71d993c-ec5b-4b8c-8bf8-d806f8a25675",
+            "volume": 0.07408799999999999,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "bounds-3",
+          "passed": true,
+          "expected": {
+            "min": [-0.36, 0.6, 4.94],
+            "max": [0.06, 1.02, 5.36]
+          },
+          "actual": {
+            "min": [-0.36, 0.6, 4.94],
+            "max": [0.06, 1.02, 5.36]
+          }
+        },
+        {
+          "name": "occupied-solid-3",
+          "passed": true,
+          "expected": {
+            "volume": 0.07408799999999999,
+            "maxDifference": 0.0011113199999999998
+          },
+          "actual": {
+            "id": "de8b65d6-1969-459a-9477-e2477a44cdc7",
+            "volume": 0.07408799999999999,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "bounds-4",
+          "passed": true,
+          "expected": {
+            "min": [0.5900000000000001, 0.8, 3.79],
+            "max": [1.01, 1.22, 4.21]
+          },
+          "actual": {
+            "min": [0.5900000000000001, 0.8, 3.79],
+            "max": [1.01, 1.22, 4.21]
+          }
+        },
+        {
+          "name": "occupied-solid-4",
+          "passed": true,
+          "expected": {
+            "volume": 0.07408799999999993,
+            "maxDifference": 0.001111319999999999
+          },
+          "actual": {
+            "id": "cc029b7d-a101-4404-9f9f-c6e259deb6ac",
+            "volume": 0.07408799999999993,
+            "symmetricDifference": 0
+          }
+        }
+      ],
+      "controls": [
+        {
+          "name": "missing-part",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": false,
+              "expected": 5,
+              "actual": 4
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [-3.21, 0, 3.79],
+                "max": [-2.79, 0.42, 4.21]
+              },
+              "actual": [
+                {
+                  "id": "75d6366c-3e46-4da1-b811-089d28b5cc2a",
+                  "bounds": {
+                    "min": [-2.26, 0.2, 4.94],
+                    "max": [-1.8399999999999999, 0.62, 5.36]
+                  }
+                },
+                {
+                  "id": "a71d993c-ec5b-4b8c-8bf8-d806f8a25675",
+                  "bounds": {
+                    "min": [-1.31, 0.4, 3.79],
+                    "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+                  }
+                },
+                {
+                  "id": "de8b65d6-1969-459a-9477-e2477a44cdc7",
+                  "bounds": {
+                    "min": [-0.36, 0.6, 4.94],
+                    "max": [0.06, 1.02, 5.36]
+                  }
+                },
+                {
+                  "id": "cc029b7d-a101-4404-9f9f-c6e259deb6ac",
+                  "bounds": {
+                    "min": [0.5900000000000001, 0.8, 3.79],
+                    "max": [1.01, 1.22, 4.21]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [-2.26, 0.2, 4.94],
+                "max": [-1.8399999999999999, 0.62, 5.36]
+              },
+              "actual": {
+                "min": [-2.26, 0.2, 4.94],
+                "max": [-1.8399999999999999, 0.62, 5.36]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999995,
+                "maxDifference": 0.0011113199999999992
+              },
+              "actual": {
+                "id": "75d6366c-3e46-4da1-b811-089d28b5cc2a",
+                "volume": 0.07408799999999995,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [-1.31, 0.4, 3.79],
+                "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+              },
+              "actual": {
+                "min": [-1.31, 0.4, 3.79],
+                "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999999,
+                "maxDifference": 0.0011113199999999998
+              },
+              "actual": {
+                "id": "a71d993c-ec5b-4b8c-8bf8-d806f8a25675",
+                "volume": 0.07408799999999999,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [-0.36, 0.6, 4.94],
+                "max": [0.06, 1.02, 5.36]
+              },
+              "actual": {
+                "min": [-0.36, 0.6, 4.94],
+                "max": [0.06, 1.02, 5.36]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999999,
+                "maxDifference": 0.0011113199999999998
+              },
+              "actual": {
+                "id": "de8b65d6-1969-459a-9477-e2477a44cdc7",
+                "volume": 0.07408799999999999,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-4",
+              "passed": true,
+              "expected": {
+                "min": [0.5900000000000001, 0.8, 3.79],
+                "max": [1.01, 1.22, 4.21]
+              },
+              "actual": {
+                "min": [0.5900000000000001, 0.8, 3.79],
+                "max": [1.01, 1.22, 4.21]
+              }
+            },
+            {
+              "name": "occupied-solid-4",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999993,
+                "maxDifference": 0.001111319999999999
+              },
+              "actual": {
+                "id": "cc029b7d-a101-4404-9f9f-c6e259deb6ac",
+                "volume": 0.07408799999999993,
+                "symmetricDifference": 0
+              }
+            }
+          ]
+        },
+        {
+          "name": "wrong-position",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 5,
+              "actual": 5
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [-3.21, 0, 3.79],
+                "max": [-2.79, 0.42, 4.21]
+              },
+              "actual": [
+                {
+                  "id": "56299763-42c4-43e0-9112-63d94f639e29",
+                  "bounds": {
+                    "min": [-3.21, 0, 4.0200000000000005],
+                    "max": [-2.79, 0.42, 4.44]
+                  }
+                },
+                {
+                  "id": "75d6366c-3e46-4da1-b811-089d28b5cc2a",
+                  "bounds": {
+                    "min": [-2.26, 0.2, 4.94],
+                    "max": [-1.8399999999999999, 0.62, 5.36]
+                  }
+                },
+                {
+                  "id": "a71d993c-ec5b-4b8c-8bf8-d806f8a25675",
+                  "bounds": {
+                    "min": [-1.31, 0.4, 3.79],
+                    "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+                  }
+                },
+                {
+                  "id": "de8b65d6-1969-459a-9477-e2477a44cdc7",
+                  "bounds": {
+                    "min": [-0.36, 0.6, 4.94],
+                    "max": [0.06, 1.02, 5.36]
+                  }
+                },
+                {
+                  "id": "cc029b7d-a101-4404-9f9f-c6e259deb6ac",
+                  "bounds": {
+                    "min": [0.5900000000000001, 0.8, 3.79],
+                    "max": [1.01, 1.22, 4.21]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [-2.26, 0.2, 4.94],
+                "max": [-1.8399999999999999, 0.62, 5.36]
+              },
+              "actual": {
+                "min": [-2.26, 0.2, 4.94],
+                "max": [-1.8399999999999999, 0.62, 5.36]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999995,
+                "maxDifference": 0.0011113199999999992
+              },
+              "actual": {
+                "id": "75d6366c-3e46-4da1-b811-089d28b5cc2a",
+                "volume": 0.07408799999999995,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [-1.31, 0.4, 3.79],
+                "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+              },
+              "actual": {
+                "min": [-1.31, 0.4, 3.79],
+                "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999999,
+                "maxDifference": 0.0011113199999999998
+              },
+              "actual": {
+                "id": "a71d993c-ec5b-4b8c-8bf8-d806f8a25675",
+                "volume": 0.07408799999999999,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [-0.36, 0.6, 4.94],
+                "max": [0.06, 1.02, 5.36]
+              },
+              "actual": {
+                "min": [-0.36, 0.6, 4.94],
+                "max": [0.06, 1.02, 5.36]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999999,
+                "maxDifference": 0.0011113199999999998
+              },
+              "actual": {
+                "id": "de8b65d6-1969-459a-9477-e2477a44cdc7",
+                "volume": 0.07408799999999999,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-4",
+              "passed": true,
+              "expected": {
+                "min": [0.5900000000000001, 0.8, 3.79],
+                "max": [1.01, 1.22, 4.21]
+              },
+              "actual": {
+                "min": [0.5900000000000001, 0.8, 3.79],
+                "max": [1.01, 1.22, 4.21]
+              }
+            },
+            {
+              "name": "occupied-solid-4",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999993,
+                "maxDifference": 0.001111319999999999
+              },
+              "actual": {
+                "id": "cc029b7d-a101-4404-9f9f-c6e259deb6ac",
+                "volume": 0.07408799999999993,
+                "symmetricDifference": 0
+              }
+            }
+          ]
+        },
+        {
+          "name": "wrong-size",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 5,
+              "actual": 5
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [-3.21, 0, 3.79],
+                "max": [-2.79, 0.42, 4.21]
+              },
+              "actual": [
+                {
+                  "id": "56299763-42c4-43e0-9112-63d94f639e29",
+                  "bounds": {
+                    "min": [-3.21, 0, 3.79],
+                    "max": [-2.79, 0.61, 4.21]
+                  }
+                },
+                {
+                  "id": "75d6366c-3e46-4da1-b811-089d28b5cc2a",
+                  "bounds": {
+                    "min": [-2.26, 0.2, 4.94],
+                    "max": [-1.8399999999999999, 0.62, 5.36]
+                  }
+                },
+                {
+                  "id": "a71d993c-ec5b-4b8c-8bf8-d806f8a25675",
+                  "bounds": {
+                    "min": [-1.31, 0.4, 3.79],
+                    "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+                  }
+                },
+                {
+                  "id": "de8b65d6-1969-459a-9477-e2477a44cdc7",
+                  "bounds": {
+                    "min": [-0.36, 0.6, 4.94],
+                    "max": [0.06, 1.02, 5.36]
+                  }
+                },
+                {
+                  "id": "cc029b7d-a101-4404-9f9f-c6e259deb6ac",
+                  "bounds": {
+                    "min": [0.5900000000000001, 0.8, 3.79],
+                    "max": [1.01, 1.22, 4.21]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [-2.26, 0.2, 4.94],
+                "max": [-1.8399999999999999, 0.62, 5.36]
+              },
+              "actual": {
+                "min": [-2.26, 0.2, 4.94],
+                "max": [-1.8399999999999999, 0.62, 5.36]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999995,
+                "maxDifference": 0.0011113199999999992
+              },
+              "actual": {
+                "id": "75d6366c-3e46-4da1-b811-089d28b5cc2a",
+                "volume": 0.07408799999999995,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [-1.31, 0.4, 3.79],
+                "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+              },
+              "actual": {
+                "min": [-1.31, 0.4, 3.79],
+                "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999999,
+                "maxDifference": 0.0011113199999999998
+              },
+              "actual": {
+                "id": "a71d993c-ec5b-4b8c-8bf8-d806f8a25675",
+                "volume": 0.07408799999999999,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [-0.36, 0.6, 4.94],
+                "max": [0.06, 1.02, 5.36]
+              },
+              "actual": {
+                "min": [-0.36, 0.6, 4.94],
+                "max": [0.06, 1.02, 5.36]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999999,
+                "maxDifference": 0.0011113199999999998
+              },
+              "actual": {
+                "id": "de8b65d6-1969-459a-9477-e2477a44cdc7",
+                "volume": 0.07408799999999999,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-4",
+              "passed": true,
+              "expected": {
+                "min": [0.5900000000000001, 0.8, 3.79],
+                "max": [1.01, 1.22, 4.21]
+              },
+              "actual": {
+                "min": [0.5900000000000001, 0.8, 3.79],
+                "max": [1.01, 1.22, 4.21]
+              }
+            },
+            {
+              "name": "occupied-solid-4",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999993,
+                "maxDifference": 0.001111319999999999
+              },
+              "actual": {
+                "id": "cc029b7d-a101-4404-9f9f-c6e259deb6ac",
+                "volume": 0.07408799999999993,
+                "symmetricDifference": 0
+              }
+            }
+          ]
+        },
+        {
+          "name": "collateral-change",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": false,
+              "expected": "Unchanged original objects",
+              "actual": ["64e31f5f-23e5-44e8-b098-aec3c25a4383"]
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 5,
+              "actual": 5
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [-3.21, 0, 3.79],
+                "max": [-2.79, 0.42, 4.21]
+              },
+              "actual": {
+                "min": [-3.21, 0, 3.79],
+                "max": [-2.79, 0.42, 4.21]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999996,
+                "maxDifference": 0.0011113199999999994
+              },
+              "actual": {
+                "id": "56299763-42c4-43e0-9112-63d94f639e29",
+                "volume": 0.07408799999999996,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [-2.26, 0.2, 4.94],
+                "max": [-1.8399999999999999, 0.62, 5.36]
+              },
+              "actual": {
+                "min": [-2.26, 0.2, 4.94],
+                "max": [-1.8399999999999999, 0.62, 5.36]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999995,
+                "maxDifference": 0.0011113199999999992
+              },
+              "actual": {
+                "id": "75d6366c-3e46-4da1-b811-089d28b5cc2a",
+                "volume": 0.07408799999999995,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [-1.31, 0.4, 3.79],
+                "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+              },
+              "actual": {
+                "min": [-1.31, 0.4, 3.79],
+                "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999999,
+                "maxDifference": 0.0011113199999999998
+              },
+              "actual": {
+                "id": "a71d993c-ec5b-4b8c-8bf8-d806f8a25675",
+                "volume": 0.07408799999999999,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [-0.36, 0.6, 4.94],
+                "max": [0.06, 1.02, 5.36]
+              },
+              "actual": {
+                "min": [-0.36, 0.6, 4.94],
+                "max": [0.06, 1.02, 5.36]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999999,
+                "maxDifference": 0.0011113199999999998
+              },
+              "actual": {
+                "id": "de8b65d6-1969-459a-9477-e2477a44cdc7",
+                "volume": 0.07408799999999999,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-4",
+              "passed": true,
+              "expected": {
+                "min": [0.5900000000000001, 0.8, 3.79],
+                "max": [1.01, 1.22, 4.21]
+              },
+              "actual": {
+                "min": [0.5900000000000001, 0.8, 3.79],
+                "max": [1.01, 1.22, 4.21]
+              }
+            },
+            {
+              "name": "occupied-solid-4",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999993,
+                "maxDifference": 0.001111319999999999
+              },
+              "actual": {
+                "id": "cc029b7d-a101-4404-9f9f-c6e259deb6ac",
+                "volume": 0.07408799999999993,
+                "symmetricDifference": 0
+              }
+            }
+          ]
+        },
+        {
+          "name": "equivalent-mesh",
+          "expectedPass": true,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 5,
+              "actual": 5
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [-3.21, 0, 3.79],
+                "max": [-2.79, 0.42, 4.21]
+              },
+              "actual": {
+                "min": [-3.2099999874830245, 0, 3.7900000125169755],
+                "max": [
+                  -2.7900000125169755, 0.4199999749660492, 4.209999987483025
+                ]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999996,
+                "maxDifference": 0.0011113199999999994
+              },
+              "actual": {
+                "id": "56299763-42c4-43e0-9112-63d94f639e29",
+                "volume": 0.07408798675203404,
+                "symmetricDifference": 1.32479659187279e-8
+              }
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [-2.26, 0.2, 4.94],
+                "max": [-1.8399999999999999, 0.62, 5.36]
+              },
+              "actual": {
+                "min": [-2.2599999874830243, 0.2, 4.940000012516975],
+                "max": [
+                  -1.8400000125169753, 0.6199999749660492, 5.359999987483025
+                ]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999995,
+                "maxDifference": 0.0011113199999999992
+              },
+              "actual": {
+                "id": "75d6366c-3e46-4da1-b811-089d28b5cc2a",
+                "volume": 0.07408798675203418,
+                "symmetricDifference": 1.3247965779950022e-8
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [-1.31, 0.4, 3.79],
+                "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+              },
+              "actual": {
+                "min": [-1.3099999874830246, 0.4, 3.7900000125169755],
+                "max": [
+                  -0.8900000125169755, 0.8199999749660491, 4.209999987483025
+                ]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999999,
+                "maxDifference": 0.0011113199999999998
+              },
+              "actual": {
+                "id": "a71d993c-ec5b-4b8c-8bf8-d806f8a25675",
+                "volume": 0.07408798675203401,
+                "symmetricDifference": 1.3247965974239051e-8
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [-0.36, 0.6, 4.94],
+                "max": [0.06, 1.02, 5.36]
+              },
+              "actual": {
+                "min": [-0.3599999874830246, 0.6, 4.940000012516975],
+                "max": [
+                  0.0599999874830246, 1.019999974966049, 5.359999987483025
+                ]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999999,
+                "maxDifference": 0.0011113199999999998
+              },
+              "actual": {
+                "id": "de8b65d6-1969-459a-9477-e2477a44cdc7",
+                "volume": 0.07408798675203411,
+                "symmetricDifference": 1.3247965863216749e-8
+              }
+            },
+            {
+              "name": "bounds-4",
+              "passed": true,
+              "expected": {
+                "min": [0.5900000000000001, 0.8, 3.79],
+                "max": [1.01, 1.22, 4.21]
+              },
+              "actual": {
+                "min": [0.5900000125169754, 0.8, 3.7900000125169755],
+                "max": [
+                  1.0099999874830246, 1.2199999749660493, 4.209999987483025
+                ]
+              }
+            },
+            {
+              "name": "occupied-solid-4",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999993,
+                "maxDifference": 0.001111319999999999
+              },
+              "actual": {
+                "id": "cc029b7d-a101-4404-9f9f-c6e259deb6ac",
+                "volume": 0.07408798675203408,
+                "symmetricDifference": 1.3247965863216749e-8
+              }
+            }
+          ]
+        },
+        {
+          "name": "equivalent-local-frame",
+          "expectedPass": true,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 5,
+              "actual": 5
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [-3.21, 0, 3.79],
+                "max": [-2.79, 0.42, 4.21]
+              },
+              "actual": {
+                "min": [-3.2099999874830245, 0, 3.7900000125169755],
+                "max": [
+                  -2.7900000125169755, 0.4199999749660492, 4.209999987483025
+                ]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999996,
+                "maxDifference": 0.0011113199999999994
+              },
+              "actual": {
+                "id": "56299763-42c4-43e0-9112-63d94f639e29",
+                "volume": 0.07408798675203405,
+                "symmetricDifference": 1.3247965946483475e-8
+              }
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [-2.26, 0.2, 4.94],
+                "max": [-1.8399999999999999, 0.62, 5.36]
+              },
+              "actual": {
+                "min": [-2.2599999874830243, 0.2, 4.940000012516975],
+                "max": [
+                  -1.8400000125169753, 0.6199999749660492, 5.359999987483025
+                ]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999995,
+                "maxDifference": 0.0011113199999999992
+              },
+              "actual": {
+                "id": "75d6366c-3e46-4da1-b811-089d28b5cc2a",
+                "volume": 0.07408798675203418,
+                "symmetricDifference": 1.3247965779950022e-8
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [-1.31, 0.4, 3.79],
+                "max": [-0.8900000000000001, 0.8200000000000001, 4.21]
+              },
+              "actual": {
+                "min": [-1.3099999874830246, 0.4, 3.7900000125169755],
+                "max": [
+                  -0.8900000125169755, 0.8199999749660491, 4.209999987483025
+                ]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999999,
+                "maxDifference": 0.0011113199999999998
+              },
+              "actual": {
+                "id": "a71d993c-ec5b-4b8c-8bf8-d806f8a25675",
+                "volume": 0.07408798675203401,
+                "symmetricDifference": 1.3247965974239051e-8
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [-0.36, 0.6, 4.94],
+                "max": [0.06, 1.02, 5.36]
+              },
+              "actual": {
+                "min": [-0.3599999874830246, 0.6, 4.940000012516975],
+                "max": [
+                  0.0599999874830246, 1.019999974966049, 5.359999987483025
+                ]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999999,
+                "maxDifference": 0.0011113199999999998
+              },
+              "actual": {
+                "id": "de8b65d6-1969-459a-9477-e2477a44cdc7",
+                "volume": 0.07408798675203412,
+                "symmetricDifference": 1.3247965890972324e-8
+              }
+            },
+            {
+              "name": "bounds-4",
+              "passed": true,
+              "expected": {
+                "min": [0.5900000000000001, 0.8, 3.79],
+                "max": [1.01, 1.22, 4.21]
+              },
+              "actual": {
+                "min": [0.5900000125169754, 0.8, 3.7900000125169755],
+                "max": [
+                  1.0099999874830246, 1.2199999749660493, 4.209999987483025
+                ]
+              }
+            },
+            {
+              "name": "occupied-solid-4",
+              "passed": true,
+              "expected": {
+                "volume": 0.07408799999999993,
+                "maxDifference": 0.001111319999999999
+              },
+              "actual": {
+                "id": "cc029b7d-a101-4404-9f9f-c6e259deb6ac",
+                "volume": 0.0740879867520341,
+                "symmetricDifference": 1.3247965863216749e-8
+              }
+            }
+          ]
+        }
+      ],
+      "observation": {
+        "status": "ready",
+        "views": 2
+      }
+    },
+    {
+      "id": "interrupted",
+      "evidence": [
+        {
+          "name": "unrelated-geometry",
+          "passed": true,
+          "expected": "Unchanged original objects",
+          "actual": []
+        },
+        {
+          "name": "unrelated-groups",
+          "passed": true,
+          "expected": "All original group metadata preserved"
+        },
+        {
+          "name": "identity",
+          "passed": true,
+          "expected": [
+            "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+            "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+            "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+            "aa777031-a63c-40ed-8ddd-b5e409449095"
+          ],
+          "actual": [
+            "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+            "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+            "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+            "aa777031-a63c-40ed-8ddd-b5e409449095"
+          ]
+        },
+        {
+          "name": "unchanged-ball",
+          "passed": true,
+          "expected": "The ball retains its location and dimensions (physical shape is checked separately)"
+        },
+        {
+          "name": "retained-properties-b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+          "passed": true,
+          "expected": "Identity, name, group, rotation, material, component metadata retained"
+        },
+        {
+          "name": "retained-properties-66a4fc96-ef05-4a86-9e46-35b706f1f332",
+          "passed": true,
+          "expected": "Identity, name, group, rotation, material, component metadata retained"
+        },
+        {
+          "name": "retained-properties-c01d22a1-f434-4253-9d2d-be71117a2a6e",
+          "passed": true,
+          "expected": "Identity, name, group, rotation, material, component metadata retained"
+        },
+        {
+          "name": "retained-properties-aa777031-a63c-40ed-8ddd-b5e409449095",
+          "passed": true,
+          "expected": "Identity, name, group, rotation, material, component metadata retained"
+        },
+        {
+          "name": "count",
+          "passed": true,
+          "expected": 4,
+          "actual": 4
+        },
+        {
+          "name": "editable",
+          "passed": true,
+          "expected": "Distinct unlocked objects"
+        },
+        {
+          "name": "bounds-0",
+          "passed": true,
+          "expected": {
+            "min": [2.2500000000000004, 0, 1],
+            "max": [6.550000000000001, 0.18, 2.4]
+          },
+          "actual": {
+            "min": [2.2500000000000004, 0, 1],
+            "max": [6.550000000000001, 0.18, 2.4]
+          }
+        },
+        {
+          "name": "occupied-solid-0",
+          "passed": true,
+          "expected": {
+            "volume": 1.0836000000000001,
+            "maxDifference": 0.016254
+          },
+          "actual": {
+            "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+            "volume": 1.0836000000000001,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "bounds-1",
+          "passed": true,
+          "expected": {
+            "min": [2.2500000000000004, 0.18, 1],
+            "max": [2.4100000000000006, 1.38, 2.4]
+          },
+          "actual": {
+            "min": [2.2500000000000004, 0.18, 1],
+            "max": [2.4100000000000006, 1.38, 2.4]
+          }
+        },
+        {
+          "name": "occupied-solid-1",
+          "passed": true,
+          "expected": {
+            "volume": 0.2688000000000002,
+            "maxDifference": 0.004032000000000003
+          },
+          "actual": {
+            "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+            "volume": 0.2688000000000002,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "bounds-2",
+          "passed": true,
+          "expected": {
+            "min": [6.390000000000001, 0.18, 1],
+            "max": [6.550000000000001, 1.38, 2.4]
+          },
+          "actual": {
+            "min": [6.39, 0.18, 1],
+            "max": [6.55, 1.38, 2.4]
+          }
+        },
+        {
+          "name": "occupied-solid-2",
+          "passed": true,
+          "expected": {
+            "volume": 0.2688000000000004,
+            "maxDifference": 0.004032000000000006
+          },
+          "actual": {
+            "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+            "volume": 0.2688,
+            "symmetricDifference": 4.9960036108132044e-15
+          }
+        },
+        {
+          "name": "bounds-3",
+          "passed": true,
+          "expected": {
+            "min": [4.21, 0.18, 1.51],
+            "max": [4.590000000000001, 0.56, 1.89]
+          },
+          "actual": {
+            "min": [4.21, 0.18, 1.51],
+            "max": [4.590000000000001, 0.56, 1.89]
+          }
+        },
+        {
+          "name": "occupied-solid-3",
+          "passed": true,
+          "expected": {
+            "volume": 0.02844331720987473,
+            "maxDifference": 0.00042664975814812097
+          },
+          "actual": {
+            "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+            "volume": 0.02844331720987473,
+            "symmetricDifference": 6.938893903907228e-18
+          }
+        }
+      ],
+      "controls": [
+        {
+          "name": "missing-part",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "identity",
+              "passed": false,
+              "expected": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ],
+              "actual": [
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ]
+            },
+            {
+              "name": "unchanged-ball",
+              "passed": true,
+              "expected": "The ball retains its location and dimensions (physical shape is checked separately)"
+            },
+            {
+              "name": "retained-properties-b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+              "passed": false,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-66a4fc96-ef05-4a86-9e46-35b706f1f332",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-c01d22a1-f434-4253-9d2d-be71117a2a6e",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-aa777031-a63c-40ed-8ddd-b5e409449095",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "count",
+              "passed": false,
+              "expected": 4,
+              "actual": 3
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [2.2500000000000004, 0, 1],
+                "max": [6.550000000000001, 0.18, 2.4]
+              },
+              "actual": [
+                {
+                  "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                  "bounds": {
+                    "min": [2.2500000000000004, 0.18, 1],
+                    "max": [2.4100000000000006, 1.38, 2.4]
+                  }
+                },
+                {
+                  "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                  "bounds": {
+                    "min": [6.39, 0.18, 1],
+                    "max": [6.55, 1.38, 2.4]
+                  }
+                },
+                {
+                  "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                  "bounds": {
+                    "min": [4.21, 0.18, 1.51],
+                    "max": [4.590000000000001, 0.56, 1.89]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.38, 2.4]
+              },
+              "actual": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.38, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.2688000000000002,
+                "maxDifference": 0.004032000000000003
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.2688000000000002,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.390000000000001, 0.18, 1],
+                "max": [6.550000000000001, 1.38, 2.4]
+              },
+              "actual": {
+                "min": [6.39, 0.18, 1],
+                "max": [6.55, 1.38, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.2688000000000004,
+                "maxDifference": 0.004032000000000006
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.2688,
+                "symmetricDifference": 4.9960036108132044e-15
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.02844331720987473,
+                "symmetricDifference": 6.938893903907228e-18
+              }
+            }
+          ]
+        },
+        {
+          "name": "wrong-position",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "identity",
+              "passed": true,
+              "expected": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ],
+              "actual": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ]
+            },
+            {
+              "name": "unchanged-ball",
+              "passed": true,
+              "expected": "The ball retains its location and dimensions (physical shape is checked separately)"
+            },
+            {
+              "name": "retained-properties-b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-66a4fc96-ef05-4a86-9e46-35b706f1f332",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-c01d22a1-f434-4253-9d2d-be71117a2a6e",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-aa777031-a63c-40ed-8ddd-b5e409449095",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 4,
+              "actual": 4
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [2.2500000000000004, 0, 1],
+                "max": [6.550000000000001, 0.18, 2.4]
+              },
+              "actual": [
+                {
+                  "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                  "bounds": {
+                    "min": [2.2500000000000004, 0, 1.23],
+                    "max": [6.550000000000001, 0.18, 2.63]
+                  }
+                },
+                {
+                  "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                  "bounds": {
+                    "min": [2.2500000000000004, 0.18, 1],
+                    "max": [2.4100000000000006, 1.38, 2.4]
+                  }
+                },
+                {
+                  "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                  "bounds": {
+                    "min": [6.39, 0.18, 1],
+                    "max": [6.55, 1.38, 2.4]
+                  }
+                },
+                {
+                  "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                  "bounds": {
+                    "min": [4.21, 0.18, 1.51],
+                    "max": [4.590000000000001, 0.56, 1.89]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.38, 2.4]
+              },
+              "actual": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.38, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.2688000000000002,
+                "maxDifference": 0.004032000000000003
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.2688000000000002,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.390000000000001, 0.18, 1],
+                "max": [6.550000000000001, 1.38, 2.4]
+              },
+              "actual": {
+                "min": [6.39, 0.18, 1],
+                "max": [6.55, 1.38, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.2688000000000004,
+                "maxDifference": 0.004032000000000006
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.2688,
+                "symmetricDifference": 4.9960036108132044e-15
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.02844331720987473,
+                "symmetricDifference": 6.938893903907228e-18
+              }
+            }
+          ]
+        },
+        {
+          "name": "wrong-size",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "identity",
+              "passed": true,
+              "expected": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ],
+              "actual": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ]
+            },
+            {
+              "name": "unchanged-ball",
+              "passed": true,
+              "expected": "The ball retains its location and dimensions (physical shape is checked separately)"
+            },
+            {
+              "name": "retained-properties-b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-66a4fc96-ef05-4a86-9e46-35b706f1f332",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-c01d22a1-f434-4253-9d2d-be71117a2a6e",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-aa777031-a63c-40ed-8ddd-b5e409449095",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 4,
+              "actual": 4
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [2.2500000000000004, 0, 1],
+                "max": [6.550000000000001, 0.18, 2.4]
+              },
+              "actual": [
+                {
+                  "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                  "bounds": {
+                    "min": [2.2500000000000004, 0, 1],
+                    "max": [6.550000000000001, 0.37, 2.4]
+                  }
+                },
+                {
+                  "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                  "bounds": {
+                    "min": [2.2500000000000004, 0.18, 1],
+                    "max": [2.4100000000000006, 1.38, 2.4]
+                  }
+                },
+                {
+                  "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                  "bounds": {
+                    "min": [6.39, 0.18, 1],
+                    "max": [6.55, 1.38, 2.4]
+                  }
+                },
+                {
+                  "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                  "bounds": {
+                    "min": [4.21, 0.18, 1.51],
+                    "max": [4.590000000000001, 0.56, 1.89]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.38, 2.4]
+              },
+              "actual": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.38, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.2688000000000002,
+                "maxDifference": 0.004032000000000003
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.2688000000000002,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.390000000000001, 0.18, 1],
+                "max": [6.550000000000001, 1.38, 2.4]
+              },
+              "actual": {
+                "min": [6.39, 0.18, 1],
+                "max": [6.55, 1.38, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.2688000000000004,
+                "maxDifference": 0.004032000000000006
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.2688,
+                "symmetricDifference": 4.9960036108132044e-15
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.02844331720987473,
+                "symmetricDifference": 6.938893903907228e-18
+              }
+            }
+          ]
+        },
+        {
+          "name": "collateral-change",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": false,
+              "expected": "Unchanged original objects",
+              "actual": ["64e31f5f-23e5-44e8-b098-aec3c25a4383"]
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "identity",
+              "passed": true,
+              "expected": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ],
+              "actual": [
+                "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "aa777031-a63c-40ed-8ddd-b5e409449095"
+              ]
+            },
+            {
+              "name": "unchanged-ball",
+              "passed": true,
+              "expected": "The ball retains its location and dimensions (physical shape is checked separately)"
+            },
+            {
+              "name": "retained-properties-b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-66a4fc96-ef05-4a86-9e46-35b706f1f332",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-c01d22a1-f434-4253-9d2d-be71117a2a6e",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "retained-properties-aa777031-a63c-40ed-8ddd-b5e409449095",
+              "passed": true,
+              "expected": "Identity, name, group, rotation, material, component metadata retained"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 4,
+              "actual": 4
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [2.2500000000000004, 0, 1],
+                "max": [6.550000000000001, 0.18, 2.4]
+              },
+              "actual": {
+                "min": [2.2500000000000004, 0, 1],
+                "max": [6.550000000000001, 0.18, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 1.0836000000000001,
+                "maxDifference": 0.016254
+              },
+              "actual": {
+                "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+                "volume": 1.0836000000000001,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-1",
+              "passed": true,
+              "expected": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.38, 2.4]
+              },
+              "actual": {
+                "min": [2.2500000000000004, 0.18, 1],
+                "max": [2.4100000000000006, 1.38, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-1",
+              "passed": true,
+              "expected": {
+                "volume": 0.2688000000000002,
+                "maxDifference": 0.004032000000000003
+              },
+              "actual": {
+                "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+                "volume": 0.2688000000000002,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "bounds-2",
+              "passed": true,
+              "expected": {
+                "min": [6.390000000000001, 0.18, 1],
+                "max": [6.550000000000001, 1.38, 2.4]
+              },
+              "actual": {
+                "min": [6.39, 0.18, 1],
+                "max": [6.55, 1.38, 2.4]
+              }
+            },
+            {
+              "name": "occupied-solid-2",
+              "passed": true,
+              "expected": {
+                "volume": 0.2688000000000004,
+                "maxDifference": 0.004032000000000006
+              },
+              "actual": {
+                "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+                "volume": 0.2688,
+                "symmetricDifference": 4.9960036108132044e-15
+              }
+            },
+            {
+              "name": "bounds-3",
+              "passed": true,
+              "expected": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              },
+              "actual": {
+                "min": [4.21, 0.18, 1.51],
+                "max": [4.590000000000001, 0.56, 1.89]
+              }
+            },
+            {
+              "name": "occupied-solid-3",
+              "passed": true,
+              "expected": {
+                "volume": 0.02844331720987473,
+                "maxDifference": 0.00042664975814812097
+              },
+              "actual": {
+                "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+                "volume": 0.02844331720987473,
+                "symmetricDifference": 6.938893903907228e-18
+              }
+            }
+          ]
+        }
+      ],
+      "observation": {
+        "status": "ready",
+        "views": 2
+      }
+    },
+    {
+      "id": "vessel",
+      "evidence": [
+        {
+          "name": "unrelated-geometry",
+          "passed": true,
+          "expected": "Unchanged original objects",
+          "actual": []
+        },
+        {
+          "name": "unrelated-groups",
+          "passed": true,
+          "expected": "All original group metadata preserved"
+        },
+        {
+          "name": "count",
+          "passed": true,
+          "expected": 1,
+          "actual": 1
+        },
+        {
+          "name": "editable",
+          "passed": true,
+          "expected": "Distinct unlocked objects"
+        },
+        {
+          "name": "bounds-0",
+          "passed": true,
+          "expected": {
+            "min": [-5.48, 0, -3.88],
+            "max": [-4.52, 0.66, -2.92]
+          },
+          "actual": {
+            "min": [-5.48, 0, -3.88],
+            "max": [-4.52, 0.66, -2.92]
+          }
+        },
+        {
+          "name": "occupied-solid-0",
+          "passed": true,
+          "expected": {
+            "volume": 0.21933883594387743,
+            "maxDifference": 0.0032900825391581614
+          },
+          "actual": {
+            "id": "c0dc0c97-a6b6-4233-b473-7c5ea7241e8b",
+            "volume": 0.21933883594387743,
+            "symmetricDifference": 0
+          }
+        },
+        {
+          "name": "empty-cavity",
+          "passed": true,
+          "expected": 0,
+          "actual": 0
+        }
+      ],
+      "controls": [
+        {
+          "name": "missing-part",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": false,
+              "expected": 1,
+              "actual": 0
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [-5.48, 0, -3.88],
+                "max": [-4.52, 0.66, -2.92]
+              },
+              "actual": []
+            }
+          ]
+        },
+        {
+          "name": "wrong-position",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 1,
+              "actual": 1
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [-5.48, 0, -3.88],
+                "max": [-4.52, 0.66, -2.92]
+              },
+              "actual": [
+                {
+                  "id": "c0dc0c97-a6b6-4233-b473-7c5ea7241e8b",
+                  "bounds": {
+                    "min": [-5.48, 0, -3.65],
+                    "max": [-4.52, 0.66, -2.69]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "empty-cavity",
+              "passed": false,
+              "expected": 0,
+              "actual": 0.04634894037341187
+            }
+          ]
+        },
+        {
+          "name": "wrong-size",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 1,
+              "actual": 1
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [-5.48, 0, -3.88],
+                "max": [-4.52, 0.66, -2.92]
+              },
+              "actual": [
+                {
+                  "id": "c0dc0c97-a6b6-4233-b473-7c5ea7241e8b",
+                  "bounds": {
+                    "min": [-5.48, 0, -3.88],
+                    "max": [-4.52, 0.85, -2.92]
+                  }
+                }
+              ]
+            },
+            {
+              "name": "empty-cavity",
+              "passed": false,
+              "expected": 0,
+              "actual": 0.016480566332415847
+            }
+          ]
+        },
+        {
+          "name": "collateral-change",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": false,
+              "expected": "Unchanged original objects",
+              "actual": ["64e31f5f-23e5-44e8-b098-aec3c25a4383"]
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 1,
+              "actual": 1
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [-5.48, 0, -3.88],
+                "max": [-4.52, 0.66, -2.92]
+              },
+              "actual": {
+                "min": [-5.48, 0, -3.88],
+                "max": [-4.52, 0.66, -2.92]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 0.21933883594387743,
+                "maxDifference": 0.0032900825391581614
+              },
+              "actual": {
+                "id": "c0dc0c97-a6b6-4233-b473-7c5ea7241e8b",
+                "volume": 0.21933883594387743,
+                "symmetricDifference": 0
+              }
+            },
+            {
+              "name": "empty-cavity",
+              "passed": true,
+              "expected": 0,
+              "actual": 0
+            }
+          ]
+        },
+        {
+          "name": "filled-cavity",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 1,
+              "actual": 1
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [-5.48, 0, -3.88],
+                "max": [-4.52, 0.66, -2.92]
+              },
+              "actual": {
+                "min": [-5.48, 0, -3.88],
+                "max": [-4.52, 0.66, -2.92]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": false,
+              "expected": {
+                "volume": 0.21933883594387743,
+                "maxDifference": 0.0032900825391581614
+              },
+              "actual": {
+                "id": "c0dc0c97-a6b6-4233-b473-7c5ea7241e8b",
+                "volume": 0.4769561096663781,
+                "symmetricDifference": 0.25761727372250065
+              }
+            },
+            {
+              "name": "empty-cavity",
+              "passed": false,
+              "expected": 0,
+              "actual": 0.2576172737225002
+            }
+          ]
+        },
+        {
+          "name": "equivalent-mesh",
+          "expectedPass": true,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 1,
+              "actual": 1
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [-5.48, 0, -3.88],
+                "max": [-4.52, 0.66, -2.92]
+              },
+              "actual": {
+                "min": [-5.48, 0, -3.88],
+                "max": [-4.52, 0.66, -2.92]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 0.21933883594387743,
+                "maxDifference": 0.0032900825391581614
+              },
+              "actual": {
+                "id": "c0dc0c97-a6b6-4233-b473-7c5ea7241e8b",
+                "volume": 0.21933883567721318,
+                "symmetricDifference": 2.5312524742915343e-8
+              }
+            },
+            {
+              "name": "empty-cavity",
+              "passed": true,
+              "expected": 0,
+              "actual": 2.2594482739251793e-9
+            }
+          ]
+        },
+        {
+          "name": "equivalent-local-frame",
+          "expectedPass": true,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 1,
+              "actual": 1
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [-5.48, 0, -3.88],
+                "max": [-4.52, 0.66, -2.92]
+              },
+              "actual": {
+                "min": [-5.48, 0, -3.88],
+                "max": [-4.52, 0.66, -2.92]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 0.21933883594387743,
+                "maxDifference": 0.0032900825391581614
+              },
+              "actual": {
+                "id": "c0dc0c97-a6b6-4233-b473-7c5ea7241e8b",
+                "volume": 0.21933883567721318,
+                "symmetricDifference": 2.5312524742915343e-8
+              }
+            },
+            {
+              "name": "empty-cavity",
+              "passed": true,
+              "expected": 0,
+              "actual": 2.0452814024885706e-9
+            }
+          ]
+        }
+      ],
+      "observation": {
+        "status": "ready",
+        "views": 2
+      }
+    },
+    {
+      "id": "uncertain",
+      "evidence": [
+        {
+          "name": "unrelated-geometry",
+          "passed": true,
+          "expected": "Unchanged original objects",
+          "actual": []
+        },
+        {
+          "name": "unrelated-groups",
+          "passed": true,
+          "expected": "All original group metadata preserved"
+        },
+        {
+          "name": "count",
+          "passed": true,
+          "expected": 1,
+          "actual": 1
+        },
+        {
+          "name": "editable",
+          "passed": true,
+          "expected": "Distinct unlocked objects"
+        },
+        {
+          "name": "bounds-0",
+          "passed": true,
+          "expected": {
+            "min": [-4.22, 0.24, -4.89],
+            "max": [-3.38, 0.6, -4.31]
+          },
+          "actual": {
+            "min": [-4.22, 0.24, -4.89],
+            "max": [-3.38, 0.6, -4.31]
+          }
+        },
+        {
+          "name": "occupied-solid-0",
+          "passed": true,
+          "expected": {
+            "volume": 0.09091577292743742,
+            "maxDifference": 0.0013637365939115614
+          },
+          "actual": {
+            "id": "8745031e-0172-4cad-b3e6-86c4eb8f1549",
+            "volume": 0.09091577292743742,
+            "symmetricDifference": 0
+          }
+        }
+      ],
+      "controls": [
+        {
+          "name": "missing-part",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": false,
+              "expected": 1,
+              "actual": 0
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [-4.22, 0.24, -4.89],
+                "max": [-3.38, 0.6, -4.31]
+              },
+              "actual": []
+            }
+          ]
+        },
+        {
+          "name": "wrong-position",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 1,
+              "actual": 1
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [-4.22, 0.24, -4.89],
+                "max": [-3.38, 0.6, -4.31]
+              },
+              "actual": [
+                {
+                  "id": "8745031e-0172-4cad-b3e6-86c4eb8f1549",
+                  "bounds": {
+                    "min": [-4.22, 0.24, -4.659999999999999],
+                    "max": [-3.38, 0.6, -4.079999999999999]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "wrong-size",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 1,
+              "actual": 1
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": false,
+              "expected": {
+                "min": [-4.22, 0.24, -4.89],
+                "max": [-3.38, 0.6, -4.31]
+              },
+              "actual": [
+                {
+                  "id": "8745031e-0172-4cad-b3e6-86c4eb8f1549",
+                  "bounds": {
+                    "min": [-4.22, 0.24, -4.89],
+                    "max": [-3.38, 0.79, -4.31]
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "collateral-change",
+          "expectedPass": false,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": false,
+              "expected": "Unchanged original objects",
+              "actual": ["64e31f5f-23e5-44e8-b098-aec3c25a4383"]
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 1,
+              "actual": 1
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [-4.22, 0.24, -4.89],
+                "max": [-3.38, 0.6, -4.31]
+              },
+              "actual": {
+                "min": [-4.22, 0.24, -4.89],
+                "max": [-3.38, 0.6, -4.31]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 0.09091577292743742,
+                "maxDifference": 0.0013637365939115614
+              },
+              "actual": {
+                "id": "8745031e-0172-4cad-b3e6-86c4eb8f1549",
+                "volume": 0.09091577292743742,
+                "symmetricDifference": 0
+              }
+            }
+          ]
+        },
+        {
+          "name": "equivalent-mesh",
+          "expectedPass": true,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 1,
+              "actual": 1
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [-4.22, 0.24, -4.89],
+                "max": [-3.38, 0.6, -4.31]
+              },
+              "actual": {
+                "min": [-4.219999974966049, 0.24, -4.89],
+                "max": [-3.380000025033951, 0.6, -4.31]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 0.09091577292743742,
+                "maxDifference": 0.0013637365939115614
+              },
+              "actual": {
+                "id": "8745031e-0172-4cad-b3e6-86c4eb8f1549",
+                "volume": 0.09091577389726087,
+                "symmetricDifference": 3.898127876045265e-9
+              }
+            }
+          ]
+        },
+        {
+          "name": "equivalent-local-frame",
+          "expectedPass": true,
+          "oracle": [
+            {
+              "name": "unrelated-geometry",
+              "passed": true,
+              "expected": "Unchanged original objects",
+              "actual": []
+            },
+            {
+              "name": "unrelated-groups",
+              "passed": true,
+              "expected": "All original group metadata preserved"
+            },
+            {
+              "name": "count",
+              "passed": true,
+              "expected": 1,
+              "actual": 1
+            },
+            {
+              "name": "editable",
+              "passed": true,
+              "expected": "Distinct unlocked objects"
+            },
+            {
+              "name": "bounds-0",
+              "passed": true,
+              "expected": {
+                "min": [-4.22, 0.24, -4.89],
+                "max": [-3.38, 0.6, -4.31]
+              },
+              "actual": {
+                "min": [-4.219999974966049, 0.24, -4.89],
+                "max": [-3.380000025033951, 0.6, -4.31]
+              }
+            },
+            {
+              "name": "occupied-solid-0",
+              "passed": true,
+              "expected": {
+                "volume": 0.09091577292743742,
+                "maxDifference": 0.0013637365939115614
+              },
+              "actual": {
+                "id": "8745031e-0172-4cad-b3e6-86c4eb8f1549",
+                "volume": 0.09091577389726087,
+                "symmetricDifference": 3.898127876045265e-9
+              }
+            }
+          ]
+        }
+      ],
+      "observation": {
+        "status": "ready",
+        "views": 2
+      }
+    }
+  ],
+  "note": "Fixtures validate the harness only. Live reasoning, requirement coverage, costs and latency remain untested."
+}

@@ -1,0 +1,7 @@
+{
+  "at": "2026-11-19T04:44:11.025Z",
+  "source": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+  "model": "gpt-6.1-sol",
+  "inputPerMillion": 2,
+  "outputPerMillion": 10
+}

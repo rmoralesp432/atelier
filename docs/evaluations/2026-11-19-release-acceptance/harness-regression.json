@@ -1,0 +1,14 @@
+{
+  "applicationCommit": "e9e3aae86e559ed9131609e2a2f3eb3e75299fba",
+  "mode": "production build; offline provider fixtures",
+  "stats": {
+    "startTime": "2026-11-19T04:08:58.495Z",
+    "duration": 42559.331,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "paidCalls": 0,
+  "scope": "Harness lifecycle detection, initial reasoning longer than 20 seconds, minimized chat, committed geometry, reload and Undo/Redo"
+}

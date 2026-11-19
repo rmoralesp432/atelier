@@ -1,0 +1,80 @@
+{
+  "applicationCommit": "e9e3aae86e559ed9131609e2a2f3eb3e75299fba",
+  "results": [
+    {
+      "id": "building",
+      "status": "NOT_COMPLETED",
+      "cost": {
+        "calls": 5,
+        "estimatedUsd": 1.341084,
+        "reservedOrChargedUsd": 1.676355,
+        "priorInterruptedCalls": 1,
+        "callsIncludingInterrupted": 6,
+        "reviewerMs": 0,
+        "executorMs": 187455,
+        "reviewerCalls": 0
+      }
+    },
+    {
+      "id": "height-edit",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "ellipse-repair",
+      "status": "GEOMETRY_OR_COMPLETION_UNVERIFIED",
+      "cost": {
+        "calls": 7,
+        "estimatedUsd": 0.20588599999999999,
+        "reservedOrChargedUsd": 0.2573575,
+        "priorInterruptedCalls": 0,
+        "callsIncludingInterrupted": 7,
+        "reviewerMs": 15482,
+        "executorMs": 32199,
+        "reviewerCalls": 1
+      },
+      "transaction": {
+        "originalPreserved": true,
+        "identityRetained": true,
+        "reloadExact": true,
+        "undoExact": true,
+        "redoExact": true
+      }
+    },
+    {
+      "id": "recovery-tray",
+      "status": "GEOMETRY_OR_COMPLETION_UNVERIFIED",
+      "cost": {
+        "calls": 6,
+        "estimatedUsd": 0.174242,
+        "reservedOrChargedUsd": 0.2178025,
+        "priorInterruptedCalls": 0,
+        "callsIncludingInterrupted": 6,
+        "reviewerMs": 9773,
+        "executorMs": 34025,
+        "reviewerCalls": 1
+      },
+      "transaction": {
+        "committed": true,
+        "reloadExact": true,
+        "contextRetained": true,
+        "conversationRetained": true,
+        "singleUndo": true,
+        "redoExact": true,
+        "cameraBeforeReload": {
+          "atelier.workspace-recovery:e1c8b1c0-7788-4abe-8e61-54a97d881bf7:camera": "{\"position\":{\"x\":-24.2272620017462,\"y\":1.0109165987776603,\"z\":-16.963619202793925},\"target\":{\"x\":-25.5,\"y\":0.12000000000000001,\"z\":-19.000000000000004},\"projection\":\"perspective\",\"zoom\":1,\"fov\":40}"
+        }
+      }
+    }
+  ],
+  "stopped": false,
+  "estimatedUsd": 1.721212,
+  "estimatedUsdScope": "Known new calls only; prior actual usage remains unknown",
+  "priorUnknownUsageAllowanceUsd": 0.62,
+  "originalActualUsage": "unknown",
+  "newBudgetAccountedUsd": 2.151515,
+  "budgetAccountedUsd": 2.771515,
+  "ceilingUsd": 5,
+  "paidCalls": 18,
+  "callsThisAttempt": 1,
+  "callsIncludingInterrupted": 19
+}

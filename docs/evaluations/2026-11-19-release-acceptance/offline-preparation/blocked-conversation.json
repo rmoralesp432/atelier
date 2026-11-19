@@ -1,0 +1,11 @@
+[
+  {
+    "role": "user",
+    "content": "Offline acceptance control: begin a temporary solid, then block this request."
+  },
+  {
+    "role": "assistant",
+    "content": "Evaluation-injected blocked request. The provisional change was discarded. Your project is unchanged.",
+    "outcome": "failed"
+  }
+]

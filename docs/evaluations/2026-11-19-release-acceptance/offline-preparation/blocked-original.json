@@ -1,0 +1,34 @@
+{
+  "project": {
+    "volumes": [
+      {
+        "id": "retained-marker",
+        "name": "Existing marker",
+        "dimensions": {
+          "width": 0.82,
+          "height": 1.13,
+          "depth": 0.61
+        },
+        "position": {
+          "x": -28,
+          "y": 0.4,
+          "z": -19
+        },
+        "rotation": 17,
+        "geometry": {
+          "kind": "box"
+        },
+        "color": "#925b42"
+      }
+    ],
+    "selectedId": null
+  },
+  "past": [],
+  "future": [],
+  "context": {
+    "focusIds": [],
+    "lastCreatedIds": [],
+    "lastOperands": [],
+    "lastOperation": null
+  }
+}
