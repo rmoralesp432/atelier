@@ -68,11 +68,17 @@ import {
 import { assertReplayScene, replayResponse } from './release-evaluation/replay';
 
 const applicationCommit = 'e9e3aae86e559ed9131609e2a2f3eb3e75299fba';
-const resumingBuilding = process.argv.includes('--resume-building');
-const previousFolder = '.cloud/pr22-release-continuation-438';
-const folder = resumingBuilding
+const resumingInspection = process.argv.includes('--resume-inspection');
+const resumingBuilding =
+  process.argv.includes('--resume-building') || resumingInspection;
+const previousFolder = resumingInspection
   ? '.cloud/pr22-release-resumed-building'
-  : previousFolder;
+  : '.cloud/pr22-release-continuation-438';
+const folder = resumingInspection
+  ? '.cloud/pr22-release-resumed-inspection'
+  : resumingBuilding
+    ? '.cloud/pr22-release-resumed-building'
+    : previousFolder;
 const carryForward = {
   authorized: true,
   actualUsage: 'unknown' as const,
@@ -83,6 +89,16 @@ const carryForward = {
   ...(resumingBuilding
     ? {
         settledLedgers: [
+          ...(resumingInspection
+            ? [
+                {
+                  path: '.cloud/pr22-release-continuation-438/ledger.json',
+                  sha256: digest(
+                    '.cloud/pr22-release-continuation-438/ledger.json',
+                  ),
+                },
+              ]
+            : []),
           {
             path: `${previousFolder}/ledger.json`,
             sha256: digest(`${previousFolder}/ledger.json`),
@@ -108,6 +124,18 @@ const previousResults = resumingBuilding
 const buildingEvents = resumingBuilding
   ? previousResults.find((r: any) => r.id === 'building').events
   : [];
+const replayCount = resumingBuilding
+  ? buildingEvents.findIndex((e: any) => !e.response)
+  : 0;
+if (resumingBuilding)
+  assert(
+    replayCount > 0 &&
+      buildingEvents
+        .slice(0, replayCount)
+        .every(
+          (e: any) => e.kind === 'executor' && e.response.intent === 'apply',
+        ),
+  );
 let replayIndex = 0;
 mkdirSync(folder, { recursive: true });
 const ledgerPath = `${folder}/ledger.json`,
@@ -149,9 +177,12 @@ const manifest = {
         resumption: {
           sourceResultsSha256: digest(`${previousFolder}/results.json`),
           priorManifestSha256: digest(`${previousFolder}/manifest.json`),
-          replayPaidResponses: [1, 2],
+          replayPaidResponses: Array.from(
+            { length: replayCount },
+            (_, i) => i + 1,
+          ),
           strategy:
-            'Reexecute the two exact saved real-AI responses in the actual App after checking equivalent scene context; continue with live reasoning at the unsent third request. Preserve all previous costs and outcomes.',
+            'Reexecute exact saved real-AI responses in the actual App after checking equivalent scene context; continue with live reasoning at the unsent request. Preserve all previous costs and outcomes.',
           rerunTasks: ['building', 'height-edit'],
           retainedTasks: ['ellipse-repair', 'recovery-tray'],
         },
@@ -175,6 +206,7 @@ assert(
         '--approved-budget-usd=5',
         '--approved-continuation-usd=4.38',
         '--resume-building',
+        '--resume-inspection',
       ].includes(a),
     ),
 );
@@ -312,14 +344,14 @@ async function recordCall(
       resumingBuilding &&
       caseId === 'building' &&
       kind === 'executor' &&
-      replayIndex <= 2
+      replayIndex <= replayCount
     ) {
       const savedEvent = buildingEvents[replayIndex];
       assertReplayScene(savedEvent.input, input);
-      if (replayIndex < 2) {
+      if (replayIndex < replayCount) {
         replay = replayResponse(savedEvent.input, input, savedEvent.response);
         replayed = true;
-        event.replayedPaidCall = {
+        event.replayedPaidCall = savedEvent.replayedPaidCall ?? {
           source: previousFolder,
           index: replayIndex + 1,
           originalElapsedMs: savedEvent.elapsedMs,
@@ -1155,20 +1187,21 @@ try {
       await browserTurn('building');
       assert.equal(
         replayIndex,
-        3,
-        'Both saved responses and the blocked scene must be replayed.',
+        replayCount + 1,
+        'All saved responses and the blocked scene must be replayed.',
       );
       assert.equal(active.projectPreserved, true);
-      assert.equal(active.events[2].offlineReplayValidated, true);
+      assert.equal(active.events[replayCount].offlineReplayValidated, true);
       assert.equal(
         (JSON.parse(readFileSync(ledgerPath, 'utf8')) as Ledger).calls.length,
         0,
       );
       save(`${folder}/replay-preparation.json`, {
         status: 'OFFLINE_BROWSER_REPLAY_PASSED',
-        replayedPaidResponses: 2,
+        replayedPaidResponses: replayCount,
         identicalSceneBeforeContinuation: true,
-        provisionalComponentCount: active.events[2].input.scene.objects.length,
+        provisionalComponentCount:
+          active.events[replayCount].input.scene.objects.length,
         failedPreviewDiscarded: active.projectPreserved,
         newPaidCalls: 0,
       });

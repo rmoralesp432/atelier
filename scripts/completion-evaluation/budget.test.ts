@@ -9,6 +9,7 @@ import {
   meteredFetch,
   model,
   reservation,
+  inputUpperBound,
   save,
   type Ledger,
 } from './budget';
@@ -189,4 +190,19 @@ test('large serialized scenes reserve long-context rates without confusing bytes
   } finally {
     rmSync(dir, { recursive: true });
   }
+});
+
+test('message transport escaping is decoded, while schema overhead and UTF-8 bytes stay reserved', () => {
+  const content = '"quoted"\n\\path\\\t'.repeat(20000);
+  const request = {
+    ...body,
+    input: [{ role: 'user', content: [{ type: 'input_text', text: content }] }],
+  };
+  const measured = inputUpperBound(request).inputBound;
+  assert(measured > Buffer.byteLength(content) + 4096);
+  assert(measured < Buffer.byteLength(JSON.stringify(request)) + 4096);
+  assert(
+    inputUpperBound({ ...body, input: 'á字' }).inputBound >
+      inputUpperBound({ ...body, input: 'aa' }).inputBound,
+  );
 });

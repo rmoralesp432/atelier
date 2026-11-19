@@ -74,9 +74,39 @@ export function inputUpperBound(body: any) {
     images <= 2,
     'Only the two production observation images are allowed.',
   );
-  // UTF-8 bytes upper-bound text token counts; include serialization overhead
-  // and a deliberately generous allowance for each 640 x 640 observation.
-  const inputBound = Buffer.byteLength(text) + 4096 + images * 16000;
+  // The API decodes transport JSON before tokenizing message text. Escaped
+  // quotation marks, newlines and backslashes are not extra model input.
+  // Deduct only that transport escaping from actual message-text fields;
+  // retain all JSON structure/schema overhead and image allowances.
+  const messageText: string[] = [];
+  if (typeof body.instructions === 'string')
+    messageText.push(body.instructions);
+  if (typeof body.input === 'string') messageText.push(body.input);
+  for (const item of [
+    ...(Array.isArray(body.input) ? body.input : []),
+    ...(body.messages ?? []),
+  ]) {
+    if (typeof item.content === 'string') messageText.push(item.content);
+    if (Array.isArray(item.content))
+      for (const part of item.content)
+        if (
+          ['input_text', 'text'].includes(part.type) &&
+          typeof part.text === 'string'
+        )
+          messageText.push(part.text);
+  }
+  const transportEscaping = messageText.reduce(
+    (n, value) =>
+      n +
+      Buffer.byteLength(JSON.stringify(value)) -
+      Buffer.byteLength(value) -
+      2,
+    0,
+  );
+  // UTF-8 bytes still upper-bound decoded text tokens, without a tokenizer
+  // assumption or any change to the submitted request or generation limits.
+  const inputBound =
+    Buffer.byteLength(text) - transportEscaping + 4096 + images * 16000;
   assert(
     inputBound <= pricing.maximumInputTokens,
     'Conservative input bound exceeds the model context capacity.',

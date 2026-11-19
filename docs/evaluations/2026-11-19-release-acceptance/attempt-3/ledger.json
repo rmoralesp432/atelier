@@ -1,0 +1,42 @@
+{
+  "authorized": true,
+  "ceilingUsd": 5,
+  "calls": [
+    {
+      "caseId": "building",
+      "role": "executor",
+      "reservedUsd": 2.68032,
+      "started": "2026-11-19T04:58:34.672Z",
+      "status": 200,
+      "elapsedMs": 23502,
+      "modelReturned": "gpt-6.1-sol",
+      "serviceTier": "default",
+      "responseStatus": "completed",
+      "reasoningTokens": 446,
+      "responseBytes": 73635,
+      "inputTokens": 180143,
+      "outputTokens": 1331,
+      "estimatedUsd": 0.373596,
+      "chargedUsd": 0.466995,
+      "outcome": "usage-reconciled"
+    },
+    {
+      "caseId": "building",
+      "role": "executor",
+      "reservedUsd": 2.75713,
+      "started": "2026-11-19T04:58:58.270Z",
+      "status": 200,
+      "elapsedMs": 10627,
+      "modelReturned": "gpt-6.1-sol",
+      "serviceTier": "default",
+      "responseStatus": "completed",
+      "reasoningTokens": 162,
+      "responseBytes": 67640,
+      "inputTokens": 187913,
+      "outputTokens": 384,
+      "estimatedUsd": 0.379666,
+      "chargedUsd": 0.4745825,
+      "outcome": "usage-reconciled"
+    }
+  ]
+}
