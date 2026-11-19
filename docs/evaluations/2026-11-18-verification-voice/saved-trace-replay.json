@@ -1,5 +1,5 @@
 {
-  "applicationCommit": "5032790",
+  "applicationCommit": "cac373ac63a96222568123ed0a8ee1812648ec07",
   "apiCalls": 0,
   "estimatedCostUSD": 0,
   "results": [
@@ -8,7 +8,7 @@
       "expected": "verified",
       "status": "verified",
       "canCommit": true,
-      "milliseconds": 161.127341,
+      "milliseconds": 63.54147499999999,
       "coldKernel": true,
       "checks": [
         {
@@ -200,7 +200,7 @@
       "expected": "incorrect",
       "status": "incorrect",
       "canCommit": false,
-      "milliseconds": 43.87761299999988,
+      "milliseconds": 12.257195000000024,
       "coldKernel": false,
       "checks": [
         {
@@ -392,7 +392,7 @@
       "expected": "incorrect",
       "status": "incorrect",
       "canCommit": false,
-      "milliseconds": 25.769453999999996,
+      "milliseconds": 10.612085999999977,
       "coldKernel": false,
       "checks": [
         {

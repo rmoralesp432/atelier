@@ -6,7 +6,7 @@ This checkpoint addresses the confirmed false acceptance and the requested mobil
 
 The saved real-AI criteria asked for a sphere but only measured its width. The old shape check fitted independent axis scales, so it accepted an ellipsoid as a sphere. It also conflated construction recipes with proof of shape, and bounding dimensions with shell thickness.
 
-Shape evidence now evaluates the actual occupied solid. A sphere must have one radius, and a cylinder must have a circular cross-section. Explicit ellipsoid and elliptic-cylinder predicates are available for affine variants. Physical mesh frames allow equivalent baked XYZ rotations. An unsuccessful bounded frame search for an unfamiliar mesh is **unverified**, rather than a fabricated rejection or acceptance. Unsupported shape/thickness claims also remain unverified.
+Shape evidence now evaluates the actual occupied solid. A sphere must have one radius, and a cylinder must have a circular cross-section. Explicit ellipsoid and elliptic-cylinder predicates require measurably unequal radii: round forms cannot automatically satisfy a request for stretched/noncircular geometry either. Physical mesh frames allow equivalent baked XYZ rotations. An unsuccessful bounded frame search for an unfamiliar mesh is **unverified**, rather than a fabricated rejection or acceptance. Unsupported shape/thickness claims also remain unverified.
 
 The intrinsic-diameter check establishes roundness before measuring diameter; a world-axis width alone does not establish it. Flat-profile dimensions use actual vertices rather than the rotated enclosing rectangle. Legacy pair relationships now use the same physical contact/intersection/containment semantics as set relationships. Tolerances have consistent units. Counts, explicit set quantifiers, distinct editable objects, grouping and preservation remain independently checked.
 
@@ -16,11 +16,11 @@ See [the semantic contracts](../../VERIFICATION-CONTRACTS.md) for exact meanings
 
 [Replay program](replay.ts) loads the **exact** saved reader criteria, original project and live-generated candidate/negative probes. [Raw measurements](saved-trace-replay.json):
 
-| Saved geometry                      | Before               | After                     | Local elapsed time              |
-| ----------------------------------- | -------------------- | ------------------------- | ------------------------------- |
-| Correct four-part editable assembly | Verified             | Verified; commit allowed  | 161.1 ms (includes cold kernel) |
-| Ball stretched vertically           | Incorrectly verified | Incorrect; commit blocked | 43.9 ms                         |
-| Ball stretched in depth             | Incorrectly verified | Incorrect; commit blocked | 25.8 ms                         |
+| Saved geometry                      | Before               | After                     | Local elapsed time             |
+| ----------------------------------- | -------------------- | ------------------------- | ------------------------------ |
+| Correct four-part editable assembly | Verified             | Verified; commit allowed  | 63.5 ms (includes cold kernel) |
+| Ball stretched vertically           | Incorrectly verified | Incorrect; commit blocked | 12.3 ms                        |
+| Ball stretched in depth             | Incorrectly verified | Incorrect; commit blocked | 10.6 ms                        |
 
 These are three local observations, not an AI latency benchmark. General regressions also exercise unfamiliar diameters (0.73, 1.26 and 2.9 m), unequal cylinder radii, arbitrary baked mesh rotations, explicit ellipsoids, tilted intrinsic diameters, gaps/contact/overlap and rotated flat profiles. Existing independent-repair, unknown-scope, protected-object, serialization and Undo/Redo regressions remain in the suite.
 
@@ -57,11 +57,11 @@ Deterministic lifecycle tests additionally cover a seven-minute modeling operati
 
 ## Validation and release recommendation
 
-Current application/test commit: `7b84cb16ffbc2065851c1cd3b255b6696a567181`. The saved-trace replay records `5032790`; subsequent commits only refine voice capture behavior and the browser transport fixture.
+Application/test commit: `cac373ac63a96222568123ed0a8ee1812648ec07`. The saved-trace replay was rerun against this final geometric contract.
 
 - **390 unit tests across 78 files passed**, including geometry, recovery, agent, voice and language regressions ([log](unit-tests.log)).
 - Production build/type-check and repository formatting passed ([build](build.log), [format](format.log)). The pre-existing large-bundle warning remains.
-- The focused production-browser run passed 11 of 12 tests; the remaining failure was the shared-track fixture error described above ([initial log](browser-initial.log)). After correcting that fixture, the same orb scenario passed without relaxing its audio/microphone assertions ([rerun](browser-orb.log)).
+- The focused production-browser run passed 11 of 12 tests; the remaining failure was the shared-track fixture error described above ([initial log](browser-initial.log)). After correcting that fixture, the same orb scenario passed without relaxing its audio/microphone assertions ([rerun](browser-orb.log)). Language browser tests passed again after rejecting national material/style names as language switches ([log](browser-language.log)).
 - Complete production-browser CI is still being checked; its final result will be recorded below.
 
 Browser captures: [voice question with conversation minimized](voice-question-phone.png), [recovered desktop graphics](desktop-graphics-recovered.png), [mobile workspace after interruption and a new modeling request](mobile-workspace-recovered.png).

@@ -40,7 +40,12 @@ for (const [label, file, expected] of [
 writeFileSync(
   new URL('./saved-trace-replay.json', import.meta.url),
   JSON.stringify(
-    { applicationCommit: '5032790', apiCalls: 0, estimatedCostUSD: 0, results },
+    {
+      applicationCommit: 'cac373ac63a96222568123ed0a8ee1812648ec07',
+      apiCalls: 0,
+      estimatedCostUSD: 0,
+      results,
+    },
     null,
     2,
   ) + '\n',
