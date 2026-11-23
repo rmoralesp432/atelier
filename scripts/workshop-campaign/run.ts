@@ -30,7 +30,7 @@ import {
   oracle,
   pass,
   wrong,
-} from './geometry';
+} from './registry';
 import { meter, save, costs, ledger, stopReason } from './budget';
 
 const mode = process.argv[2],
@@ -91,6 +91,11 @@ if (mode === '--freeze') {
     ).results.every((r: any) => r.passed),
   );
   assert(JSON.parse(readFileSync(join(root, 'offline.json'), 'utf8')).passed);
+  assert(
+    JSON.parse(
+      readFileSync(join(root, 'transfer-calibration.json'), 'utf8'),
+    ).results.every((r: any) => r.passed),
+  );
   assert.equal(
     git(
       process.cwd(),
@@ -479,7 +484,9 @@ async function lane(version: Version, list: Spec[]) {
     await page.goto(origin);
     await expect(page.getByTestId('viewport')).toBeVisible({ timeout: 45000 });
     await expect
-      .poll(async () => (await saved(page)).project.volumes.length)
+      .poll(async () => (await saved(page)).project.volumes.length, {
+        timeout: 45000,
+      })
       .toBe(s.project.volumes.length);
     return page;
   }
@@ -704,11 +711,13 @@ async function lane(version: Version, list: Spec[]) {
 try {
   const chosen = specs.filter((s) => ids.includes(s.id));
   assert(chosen.length > 0);
-  const arms: Version[] = live
-    ? chosen.every((s) => s.domain === 'verifier')
-      ? ['baseline', 'verifier']
-      : ['baseline', 'workshop']
-    : ['baseline', 'workshop', 'verifier'];
+  const arms: Version[] = process.env.ATELIER_EVAL_ARM
+    ? [process.env.ATELIER_EVAL_ARM as Version]
+    : live
+      ? chosen.every((s) => s.domain === 'verifier')
+        ? ['baseline', 'verifier']
+        : ['baseline', 'workshop']
+      : ['baseline', 'workshop', 'verifier'];
   if (!live) {
     for (const v of arms)
       await lane(v, [
@@ -716,7 +725,7 @@ try {
       ]);
     save(join(root, 'offline.json'), {
       passed:
-        results.length === 9 &&
+        results.length === arms.length * 3 &&
         results.every((r) =>
           ['OFFLINE_COMMIT_PASS', 'OFFLINE_FAILURE_PRESERVED'].includes(
             r.status,
@@ -726,7 +735,16 @@ try {
     });
   } else
     await Promise.allSettled(arms.map((v) => lane(v, chosen))).then((r) => {
-      for (const x of r) if (x.status === 'rejected') throw x.reason;
+      for (let i = 0; i < r.length; i++) {
+        const x = r[i];
+        if (x.status === 'rejected') {
+          save(join(folder, `lane-${arms[i]}-error.json`), {
+            at: new Date().toISOString(),
+            error: safe(x.reason),
+          });
+          console.error('Lane failed', arms[i], safe(x.reason));
+        }
+      }
     });
 } finally {
   publish();

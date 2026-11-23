@@ -1,0 +1,3035 @@
+[
+  {
+    "id": "console-resume-workshop-W1-edit",
+    "version": "workshop",
+    "task": "W1",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 6,
+    "changedIds": [
+      "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+      "97f66d1b-1d1f-48f5-97b3-103a00372431",
+      "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+      "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 59751,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "2e58b4fb-3da7-46b5-a454-8edeb35e3dc6",
+        "arguments": {
+          "ids": [
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+            "97f66d1b-1d1f-48f5-97b3-103a00372431",
+            "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+            "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+          ],
+          "role": null,
+          "snapshot": "before",
+          "relativeTo": "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+        }
+      },
+      {
+        "call": "2e07d43f-274d-4b01-a446-843444512b5c",
+        "arguments": {
+          "ids": [
+            "97f66d1b-1d1f-48f5-97b3-103a00372431",
+            "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+            "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+          ],
+          "role": null,
+          "snapshot": "compare",
+          "relativeTo": "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+        }
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step",
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [
+      {
+        "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-8 (relationship): touching: 1/2 distinct solid pairs satisfy each; tolerance 0.001 m. Targets: 97f66d1b-1d1f-48f5-97b3-103a00372431, 67bbb6d7-fab9-47bb-a8c1-8baa9e202030, 4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0",
+        "operations": [],
+        "verification": {
+          "modeling": true,
+          "passed": false,
+          "status": "incorrect",
+          "canCommit": false,
+          "checks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": true,
+              "observed": "2 existing objects outside the requested edit scope are unchanged.",
+              "ids": [],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-1",
+              "label": "width",
+              "met": true,
+              "observed": "width (each, world solids): 2.32; expected equal 2.32 \u00b1 0.0013199999999999998 m.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-2",
+              "label": "x",
+              "met": true,
+              "observed": "x (each, world solids): 0; expected equal 0 \u00b1 0.001 m.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-3",
+              "label": "positions",
+              "met": true,
+              "observed": "2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.",
+              "ids": [
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-4",
+              "label": "preserve",
+              "met": true,
+              "observed": "2 original identities retain dimensions, rotation.",
+              "ids": [
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-5",
+              "label": "preserve",
+              "met": true,
+              "observed": "4 original identities retain depth, height, y, z, rotation.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+                "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-6",
+              "label": "width",
+              "met": true,
+              "observed": "width (each, world solids): 2.03; expected equal 2.03 \u00b1 0.001 m.",
+              "ids": [
+                "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-7",
+              "label": "preserve",
+              "met": true,
+              "observed": "1 original identities retain position.",
+              "ids": [
+                "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-8",
+              "label": "relationship",
+              "met": false,
+              "observed": "touching: 1/2 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+                "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+              ],
+              "outcome": "incorrect"
+            },
+            {
+              "id": "check-9",
+              "label": "preserve",
+              "met": true,
+              "observed": "4 original identities retain identity, name, component, material, materialSpec, color, groupId, visible.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+                "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-10",
+              "label": "count",
+              "met": true,
+              "observed": "count (each): 4; expected equal 4, tolerance 0. 4 element(s).",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+                "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-11",
+              "label": "editable",
+              "met": true,
+              "observed": "4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+                "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-12",
+              "label": "shape",
+              "met": true,
+              "observed": "Evaluated solid shape box: 4/4 match occupied geometry, independent of recipe type.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+                "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+              ],
+              "outcome": "verified"
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      }
+    ],
+    "independentCalculations": [],
+    "hostStatus": "verified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 24,
+    "calls": 5,
+    "estimatedUSD": 0.187942,
+    "reviewerMs": 13045,
+    "executorMs": 26736,
+    "usage": {
+      "input": 84151,
+      "output": 1964
+    }
+  },
+  {
+    "id": "console-resume-baseline-W1-edit",
+    "version": "baseline",
+    "task": "W1",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "COMMITTED_INCORRECT",
+    "committed": true,
+    "componentCount": 6,
+    "changedIds": [
+      "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+      "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+      "036d8747-09a9-45c0-a00e-3f929245c896",
+      "b42cda14-2293-4905-af52-f3614e4b8ad9"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 59565,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step",
+      "execute_step"
+    ],
+    "repairFeedback": [
+      {
+        "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-9 (relationship): touching: 1/2 distinct solid pairs satisfy each; tolerance 0.001 m. Targets: a406073c-12ad-49ab-905c-b2a4add7d6e6, 036d8747-09a9-45c0-a00e-3f929245c896, b42cda14-2293-4905-af52-f3614e4b8ad9",
+        "operations": [],
+        "verification": {
+          "modeling": true,
+          "passed": false,
+          "status": "incorrect",
+          "canCommit": false,
+          "checks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": true,
+              "observed": "2 existing objects outside the requested edit scope are unchanged.",
+              "ids": [],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-1",
+              "label": "preserve",
+              "met": true,
+              "observed": "4 original identities retain identity, name, component, material, materialSpec, color, groupId, visible, rotation.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+                "036d8747-09a9-45c0-a00e-3f929245c896",
+                "b42cda14-2293-4905-af52-f3614e4b8ad9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-2",
+              "label": "count",
+              "met": true,
+              "observed": "count (each): 4; expected equal 4, tolerance 0. 4 element(s).",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+                "036d8747-09a9-45c0-a00e-3f929245c896",
+                "b42cda14-2293-4905-af52-f3614e4b8ad9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-3",
+              "label": "width",
+              "met": true,
+              "observed": "width (each, world solids): 2.32; expected equal 2.32 \u00b1 0.001 m.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-4",
+              "label": "x",
+              "met": true,
+              "observed": "x (each, world solids): 0; expected equal 0 \u00b1 0.001 m.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-5",
+              "label": "preserve",
+              "met": true,
+              "observed": "4 original identities retain depth, height, y, z.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+                "036d8747-09a9-45c0-a00e-3f929245c896",
+                "b42cda14-2293-4905-af52-f3614e4b8ad9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-6",
+              "label": "preserve",
+              "met": true,
+              "observed": "2 original identities retain width, geometry.",
+              "ids": [
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+                "036d8747-09a9-45c0-a00e-3f929245c896"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-7",
+              "label": "offset",
+              "met": true,
+              "observed": "Measured world-bounds x offset (min of a406073c-12ad-49ab-905c-b2a4add7d6e6 minus min of 2f60541f-e2de-4f0a-bf1b-69b3cf056627): 0.10050000000000003 m; expected 0.1 \u00b1 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-8",
+              "label": "offset",
+              "met": true,
+              "observed": "Measured world-bounds x offset (max of 2f60541f-e2de-4f0a-bf1b-69b3cf056627 minus max of 036d8747-09a9-45c0-a00e-3f929245c896): 0.09949999999999992 m; expected 0.1 \u00b1 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+              "ids": [
+                "036d8747-09a9-45c0-a00e-3f929245c896",
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-9",
+              "label": "relationship",
+              "met": false,
+              "observed": "touching: 1/2 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+                "036d8747-09a9-45c0-a00e-3f929245c896",
+                "b42cda14-2293-4905-af52-f3614e4b8ad9"
+              ],
+              "outcome": "incorrect"
+            },
+            {
+              "id": "check-10",
+              "label": "offset",
+              "met": true,
+              "observed": "Measured world-bounds x offset (min of b42cda14-2293-4905-af52-f3614e4b8ad9 minus max of a406073c-12ad-49ab-905c-b2a4add7d6e6): -0.0004999999999999449 m; expected 0 \u00b1 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+              "ids": [
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+                "b42cda14-2293-4905-af52-f3614e4b8ad9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-11",
+              "label": "offset",
+              "met": true,
+              "observed": "Measured world-bounds x offset (min of 036d8747-09a9-45c0-a00e-3f929245c896 minus max of b42cda14-2293-4905-af52-f3614e4b8ad9): 0.000500000000000167 m; expected 0 \u00b1 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+              "ids": [
+                "b42cda14-2293-4905-af52-f3614e4b8ad9",
+                "036d8747-09a9-45c0-a00e-3f929245c896"
+              ],
+              "outcome": "verified"
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      }
+    ],
+    "independentCalculations": [],
+    "hostStatus": "verified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [
+      {
+        "name": "Expected occupied geometry a406073c-12ad-49ab-905c-b2a4add7d6e6",
+        "status": "incorrect",
+        "expected": {
+          "volume": 0.017887500000000053,
+          "bounds": {
+            "min": [
+              -1.06,
+              0,
+              -0.25
+            ],
+            "max": [
+              -1.015,
+              0.795,
+              0.25
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.01788749999999999,
+          "bounds": {
+            "min": [
+              -1.0594999999999999,
+              0,
+              -0.25
+            ],
+            "max": [
+              -1.0145,
+              0.795,
+              0.25
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry 036d8747-09a9-45c0-a00e-3f929245c896",
+        "status": "incorrect",
+        "expected": {
+          "volume": 0.01788749999999999,
+          "bounds": {
+            "min": [
+              1.0150000000000001,
+              0,
+              -0.25
+            ],
+            "max": [
+              1.06,
+              0.795,
+              0.25
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.01788749999999999,
+          "bounds": {
+            "min": [
+              1.0155,
+              0,
+              -0.25
+            ],
+            "max": [
+              1.0605,
+              0.795,
+              0.25
+            ]
+          }
+        }
+      }
+    ],
+    "externalVerifiedCheckCount": 22,
+    "calls": 3,
+    "estimatedUSD": 0.10355600000000001,
+    "reviewerMs": 15192,
+    "executorMs": 23772,
+    "usage": {
+      "input": 41408,
+      "output": 2074
+    }
+  },
+  {
+    "id": "workshop-1-workshop-W1-create",
+    "version": "workshop",
+    "task": "W1",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "INTERRUPTED_OR_HARNESS_FAILURE",
+    "committed": true,
+    "componentCount": 6,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": null,
+    "elapsedMs": 80044,
+    "error": "AssertionError [ERR_ASSERTION]: Camera changed on reload",
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step",
+      "execute_step"
+    ],
+    "repairFeedback": [
+      {
+        "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-17 (group): Group Console: 0 members; 0/4 requested objects belong to it. Targets: 6eb37da4-8767-4e9f-9c10-34c03ffe1097, 97f66d1b-1d1f-48f5-97b3-103a00372431, 67bbb6d7-fab9-47bb-a8c1-8baa9e202030, 4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0",
+        "operations": [],
+        "verification": {
+          "modeling": true,
+          "passed": false,
+          "status": "incorrect",
+          "canCommit": false,
+          "checks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": true,
+              "observed": "2 existing objects outside the requested edit scope are unchanged.",
+              "ids": [],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-1",
+              "label": "count",
+              "met": true,
+              "observed": "count (each): 4; expected equal 4, tolerance 0. 4 element(s).",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+                "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-2",
+              "label": "editable",
+              "met": true,
+              "observed": "4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+                "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-3",
+              "label": "count \u00b7 top",
+              "met": true,
+              "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-4",
+              "label": "count \u00b7 support",
+              "met": true,
+              "observed": "count (each): 2; expected equal 2, tolerance 0. 2 element(s).",
+              "ids": [
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-5",
+              "label": "count \u00b7 stretcher",
+              "met": true,
+              "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-6",
+              "label": "width \u00b7 top",
+              "met": true,
+              "observed": "width (each, world solids): 1.9; expected equal 1.9 \u00b1 0.001 m.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-7",
+              "label": "depth \u00b7 top",
+              "met": true,
+              "observed": "depth (each, world solids): 0.58; expected equal 0.58 \u00b1 0.001 m.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-8",
+              "label": "height \u00b7 top",
+              "met": true,
+              "observed": "height (each, world solids): 0.04500000000000004; expected equal 0.045 \u00b1 0.001 m.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-9",
+              "label": "top \u00b7 top",
+              "met": true,
+              "observed": "top (each, world solids): 0.8400000000000001; expected equal 0.84 \u00b1 0.001 m.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-10",
+              "label": "x \u00b7 top",
+              "met": true,
+              "observed": "x (each, world solids): 0; expected equal 0 \u00b1 0.001 m.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-11",
+              "label": "z \u00b7 top",
+              "met": true,
+              "observed": "z (each, world solids): 0; expected equal 0 \u00b1 0.001 m.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-12",
+              "label": "offset",
+              "met": true,
+              "observed": "Measured world-bounds x offset (min of 97f66d1b-1d1f-48f5-97b3-103a00372431 minus min of 6eb37da4-8767-4e9f-9c10-34c03ffe1097): 0.09999999999999998 m; expected 0.1 \u00b1 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+                "97f66d1b-1d1f-48f5-97b3-103a00372431"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-13",
+              "label": "offset",
+              "met": true,
+              "observed": "Measured world-bounds x offset (max of 67bbb6d7-fab9-47bb-a8c1-8baa9e202030 minus max of 6eb37da4-8767-4e9f-9c10-34c03ffe1097): -0.09999999999999987 m; expected -0.1 \u00b1 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-14",
+              "label": "base \u00b7 support",
+              "met": true,
+              "observed": "base (each, world solids): 0, 0; expected equal 0 \u00b1 0.001 m.",
+              "ids": [
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-15",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 2/2 distinct solid pairs satisfy each; tolerance 0.002 m.",
+              "ids": [
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-16",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 2/2 distinct solid pairs satisfy each; tolerance 0.002 m.",
+              "ids": [
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+                "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-17",
+              "label": "group",
+              "met": false,
+              "observed": "Group Console: 0 members; 0/4 requested objects belong to it.",
+              "ids": [
+                "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+                "97f66d1b-1d1f-48f5-97b3-103a00372431",
+                "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+                "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+              ],
+              "outcome": "incorrect"
+            }
+          ],
+          "qualitativeLimits": [
+            "The console should read as small and contemporary, with upright slab-like side supports and reasonable support and stretcher sections.",
+            "The stretcher should be at the back and low enough to leave a clear open space beneath the top.",
+            "The group name is not prescribed; any single exclusive console group is acceptable."
+          ]
+        }
+      }
+    ],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 25,
+    "calls": 3,
+    "estimatedUSD": 0.100512,
+    "reviewerMs": 22076,
+    "executorMs": 21233,
+    "usage": {
+      "input": 37831,
+      "output": 2485
+    }
+  },
+  {
+    "id": "workshop-1-baseline-W1-create",
+    "version": "baseline",
+    "task": "W1",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "INTERRUPTED_OR_HARNESS_FAILURE",
+    "committed": true,
+    "componentCount": 6,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": null,
+    "elapsedMs": 76573,
+    "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByTestId('viewport')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByTestId('viewport') with timeout 5000ms\n  - waiting for getByTestId('viewport')\n",
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step",
+      "finish_task",
+      "execute_step"
+    ],
+    "repairFeedback": [
+      {
+        "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-17 (group): Group Console: 0 members; 0/4 requested objects belong to it. Targets: 2f60541f-e2de-4f0a-bf1b-69b3cf056627, a406073c-12ad-49ab-905c-b2a4add7d6e6, 036d8747-09a9-45c0-a00e-3f929245c896, b42cda14-2293-4905-af52-f3614e4b8ad9",
+        "operations": [],
+        "verification": {
+          "modeling": true,
+          "passed": false,
+          "status": "incorrect",
+          "canCommit": false,
+          "checks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": true,
+              "observed": "2 existing objects outside the requested edit scope are unchanged.",
+              "ids": [],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-1",
+              "label": "count",
+              "met": true,
+              "observed": "count (each): 4; expected equal 4, tolerance 0. 4 element(s).",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+                "036d8747-09a9-45c0-a00e-3f929245c896",
+                "b42cda14-2293-4905-af52-f3614e4b8ad9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-2",
+              "label": "editable",
+              "met": true,
+              "observed": "4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+                "036d8747-09a9-45c0-a00e-3f929245c896",
+                "b42cda14-2293-4905-af52-f3614e4b8ad9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-3",
+              "label": "count \u00b7 top",
+              "met": true,
+              "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-4",
+              "label": "count \u00b7 support",
+              "met": true,
+              "observed": "count (each): 2; expected equal 2, tolerance 0. 2 element(s).",
+              "ids": [
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+                "036d8747-09a9-45c0-a00e-3f929245c896"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-5",
+              "label": "count \u00b7 stretcher",
+              "met": true,
+              "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "b42cda14-2293-4905-af52-f3614e4b8ad9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-6",
+              "label": "width \u00b7 top",
+              "met": true,
+              "observed": "width (each, world solids): 1.9; expected equal 1.9 \u00b1 0.001 m.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-7",
+              "label": "depth \u00b7 top",
+              "met": true,
+              "observed": "depth (each, world solids): 0.58; expected equal 0.58 \u00b1 0.001 m.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-8",
+              "label": "height \u00b7 top",
+              "met": true,
+              "observed": "height (each, world solids): 0.04500000000000004; expected equal 0.045 \u00b1 0.001 m.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-9",
+              "label": "top \u00b7 top",
+              "met": true,
+              "observed": "top (each, world solids): 0.8400000000000001; expected equal 0.84 \u00b1 0.001 m.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-10",
+              "label": "x \u00b7 top",
+              "met": true,
+              "observed": "x (each, world solids): 0; expected equal 0 \u00b1 0.001 m.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-11",
+              "label": "z \u00b7 top",
+              "met": true,
+              "observed": "z (each, world solids): 0; expected equal 0 \u00b1 0.001 m.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-12",
+              "label": "offset",
+              "met": true,
+              "observed": "Measured world-bounds x offset (min of a406073c-12ad-49ab-905c-b2a4add7d6e6 minus min of 2f60541f-e2de-4f0a-bf1b-69b3cf056627): 0.09999999999999998 m; expected 0.1 \u00b1 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-13",
+              "label": "offset",
+              "met": true,
+              "observed": "Measured world-bounds x offset (max of 036d8747-09a9-45c0-a00e-3f929245c896 minus max of 2f60541f-e2de-4f0a-bf1b-69b3cf056627): -0.09999999999999987 m; expected -0.1 \u00b1 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+                "036d8747-09a9-45c0-a00e-3f929245c896"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-14",
+              "label": "relationship",
+              "met": true,
+              "observed": "distance: 2/2 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+                "036d8747-09a9-45c0-a00e-3f929245c896",
+                "b42cda14-2293-4905-af52-f3614e4b8ad9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-15",
+              "label": "relationship",
+              "met": true,
+              "observed": "distance: 2/2 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+                "036d8747-09a9-45c0-a00e-3f929245c896",
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-16",
+              "label": "base \u00b7 support",
+              "met": true,
+              "observed": "base (each, world solids): 0, 0; expected equal 0 \u00b1 0.001 m.",
+              "ids": [
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+                "036d8747-09a9-45c0-a00e-3f929245c896"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-17",
+              "label": "group",
+              "met": false,
+              "observed": "Group Console: 0 members; 0/4 requested objects belong to it.",
+              "ids": [
+                "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+                "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+                "036d8747-09a9-45c0-a00e-3f929245c896",
+                "b42cda14-2293-4905-af52-f3614e4b8ad9"
+              ],
+              "outcome": "incorrect"
+            }
+          ],
+          "qualitativeLimits": [
+            "The group name is not prescribed; any single exclusive console group satisfies the grouping intent.",
+            "Supports should read as upright side slabs, and the stretcher as a low rear connecting member with reasonable sections.",
+            "The stretcher must leave a substantial clear open space below the top; no numerical clearance or rear setback was specified.",
+            "The console should have a small contemporary appearance."
+          ]
+        }
+      }
+    ],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 25,
+    "calls": 4,
+    "estimatedUSD": 0.13365,
+    "reviewerMs": 19390,
+    "executorMs": 27972,
+    "usage": {
+      "input": 54080,
+      "output": 2549
+    }
+  },
+  {
+    "id": "workshop-1-baseline-W1-diagnostic-edit",
+    "version": "baseline",
+    "task": "W1",
+    "edit": true,
+    "diagnostic": true,
+    "negative": false,
+    "status": "INTERRUPTED_OR_HARNESS_FAILURE",
+    "committed": true,
+    "componentCount": 6,
+    "changedIds": [
+      "fixture-W1-0",
+      "fixture-W1-1",
+      "fixture-W1-2",
+      "fixture-W1-3"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": null,
+    "elapsedMs": 64179,
+    "error": "AssertionError [ERR_ASSERTION]: Camera changed on reload",
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "verified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 24,
+    "calls": 2,
+    "estimatedUSD": 0.053618,
+    "reviewerMs": 11589,
+    "executorMs": 11548,
+    "usage": {
+      "input": 20204,
+      "output": 1321
+    }
+  },
+  {
+    "id": "workshop-1-baseline-W2-create",
+    "version": "baseline",
+    "task": "W2",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "INTERRUPTED_OR_HARNESS_FAILURE",
+    "committed": null,
+    "componentCount": null,
+    "changedIds": null,
+    "preservedIds": null,
+    "transaction": null,
+    "elapsedMs": 39880,
+    "error": "Error: page.evaluate: Target page, context or browser has been closed",
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": null,
+    "hostCanCommit": null,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 0,
+    "calls": 1,
+    "estimatedUSD": 0.043114,
+    "reviewerMs": 0,
+    "executorMs": 23335,
+    "usage": {
+      "input": 14442,
+      "output": 1423
+    }
+  },
+  {
+    "id": "workshop-2-workshop-W2-create",
+    "version": "workshop",
+    "task": "W2",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 11,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 62529,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step",
+      "finish_task"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 45,
+    "calls": 3,
+    "estimatedUSD": 0.103404,
+    "reviewerMs": 25531,
+    "executorMs": 20725,
+    "usage": {
+      "input": 37927,
+      "output": 2755
+    }
+  },
+  {
+    "id": "workshop-2-workshop-W2-edit",
+    "version": "workshop",
+    "task": "W2",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 11,
+    "changedIds": [
+      "87c6e909-1c8f-4291-8e43-4b7c13054277",
+      "bee57863-ddb1-451a-865b-b0c76962221d",
+      "7a5aa3ed-6171-490d-86dd-fc68bf63dfd6",
+      "2dd7cf30-4043-440a-8d68-10c10ce4ec76",
+      "4c9b3afc-c888-4d06-bf16-ade61147e7ae",
+      "1b996d72-6156-44f0-b2bd-9929106a513a",
+      "36c21f85-c392-4989-aa3d-2c5ed7667cf1",
+      "fcbbe432-e220-4a35-a244-1a34c4e002d6"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round",
+      "7e85e87d-e449-4081-848f-4805b5ad090f"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 57650,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "57bfad49-d34e-4704-b517-68319aa247e7",
+        "arguments": {
+          "ids": [
+            "87c6e909-1c8f-4291-8e43-4b7c13054277",
+            "7e85e87d-e449-4081-848f-4805b5ad090f",
+            "bee57863-ddb1-451a-865b-b0c76962221d",
+            "7a5aa3ed-6171-490d-86dd-fc68bf63dfd6",
+            "2dd7cf30-4043-440a-8d68-10c10ce4ec76",
+            "4c9b3afc-c888-4d06-bf16-ade61147e7ae",
+            "1b996d72-6156-44f0-b2bd-9929106a513a",
+            "36c21f85-c392-4989-aa3d-2c5ed7667cf1",
+            "fcbbe432-e220-4a35-a244-1a34c4e002d6"
+          ],
+          "role": null,
+          "snapshot": "before",
+          "relativeTo": null
+        }
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "verified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 39,
+    "calls": 3,
+    "estimatedUSD": 0.1235,
+    "reviewerMs": 17212,
+    "executorMs": 24876,
+    "usage": {
+      "input": 49560,
+      "output": 2438
+    }
+  },
+  {
+    "id": "workshop-2-workshop-W3-create",
+    "version": "workshop",
+    "task": "W3",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "NOT_COMMITTED",
+    "committed": false,
+    "componentCount": 2,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": null,
+    "elapsedMs": 134803,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "31c58cfc-000d-433c-bda2-6c3385872913",
+        "arguments": {
+          "ids": [
+            "8dbd5929-4ae2-4f12-bc59-8e472dc47530",
+            "f949f0ef-bd75-42be-8339-21fbf574a821"
+          ],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        }
+      },
+      {
+        "call": "01a75ced-5013-4d56-a4b0-6a92c05ccc0c",
+        "arguments": {
+          "ids": [
+            "$group:59116aaf-1aa9-4182-836e-2e5711613a73",
+            "8dbd5929-4ae2-4f12-bc59-8e472dc47530",
+            "f949f0ef-bd75-42be-8339-21fbf574a821",
+            "a98247a9-4b3b-42a5-8258-dc5db759b6d6",
+            "b368e1ef-5e68-4085-b137-776f4014d366",
+            "afc25744-1332-4878-8085-29fd67a3119a"
+          ],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        }
+      },
+      {
+        "call": "4e1e3c1d-d639-4e12-a438-bb4e3b392171",
+        "arguments": {
+          "ids": [
+            "8dbd5929-4ae2-4f12-bc59-8e472dc47530",
+            "f949f0ef-bd75-42be-8339-21fbf574a821",
+            "a98247a9-4b3b-42a5-8258-dc5db759b6d6",
+            "b368e1ef-5e68-4085-b137-776f4014d366",
+            "afc25744-1332-4878-8085-29fd67a3119a"
+          ],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        }
+      },
+      {
+        "call": "7da7337a-ce1d-4e63-a0ee-fa722a7ed750",
+        "arguments": {
+          "ids": [
+            "$group:59116aaf-1aa9-4182-836e-2e5711613a73"
+          ],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        }
+      }
+    ],
+    "toolNames": [
+      "execute_step",
+      "inspect_scene",
+      "execute_step",
+      "execute_step",
+      "inspect_scene",
+      "finish_task",
+      "inspect_scene",
+      "finish_task",
+      "inspect_scene",
+      "finish_task"
+    ],
+    "repairFeedback": [
+      {
+        "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-3 (group): Group 59116aaf-1aa9-4182-836e-2e5711613a73: 0 members; 0/5 requested objects belong to it. Targets: 8dbd5929-4ae2-4f12-bc59-8e472dc47530, f949f0ef-bd75-42be-8339-21fbf574a821, a98247a9-4b3b-42a5-8258-dc5db759b6d6, b368e1ef-5e68-4085-b137-776f4014d366, afc25744-1332-4878-8085-29fd67a3119a",
+        "operations": [],
+        "verification": {
+          "modeling": true,
+          "passed": false,
+          "status": "incorrect",
+          "canCommit": false,
+          "checks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": true,
+              "observed": "2 existing objects outside the requested edit scope are unchanged.",
+              "ids": [],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-1",
+              "label": "count",
+              "met": true,
+              "observed": "count (each): 5; expected equal 5, tolerance 0. 5 element(s).",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530",
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6",
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-2",
+              "label": "editable",
+              "met": true,
+              "observed": "5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530",
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6",
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-3",
+              "label": "group",
+              "met": false,
+              "observed": "Group 59116aaf-1aa9-4182-836e-2e5711613a73: 0 members; 0/5 requested objects belong to it.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530",
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6",
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "incorrect"
+            },
+            {
+              "id": "check-4",
+              "label": "count \u00b7 Hollow roller",
+              "met": true,
+              "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-5",
+              "label": "width \u00b7 Hollow roller",
+              "met": true,
+              "observed": "width (each, world solids): 1; expected equal 1 \u00b1 0.001 m.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-6",
+              "label": "depth \u00b7 Hollow roller",
+              "met": true,
+              "observed": "depth (each, world solids): 0.5; expected equal 0.5 \u00b1 0.001 m.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-7",
+              "label": "height \u00b7 Hollow roller",
+              "met": true,
+              "observed": "height (each, world solids): 0.5; expected equal 0.5 \u00b1 0.001 m.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-8",
+              "label": "positions \u00b7 Hollow roller",
+              "met": true,
+              "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-9",
+              "label": "volume \u00b7 Hollow roller",
+              "met": true,
+              "observed": "volume (each): 0.181; expected equal 0.1809557368, tolerance 0.0036191147359999998. 1 element(s).",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-10",
+              "label": "unavailable",
+              "met": false,
+              "observed": "Unverified: Exact circular annular geometry and a coaxial 14 cm through-bore cannot be verified by the available hollow-shape or circular-void predicates; envelope and net volume are checked separately.",
+              "ids": [],
+              "outcome": "unverified"
+            },
+            {
+              "id": "check-11",
+              "label": "count \u00b7 Central shaft",
+              "met": true,
+              "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-12",
+              "label": "diameter \u00b7 Central shaft",
+              "met": true,
+              "observed": "True cylinder diameter: 0.10000007895888828; expected 0.1 \u00b1 0.001 m across 1 objects. Diameter is intrinsic, independent of world orientation.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-13",
+              "label": "width \u00b7 Central shaft",
+              "met": true,
+              "observed": "width (each, world solids): 1.8; expected equal 1.8 \u00b1 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-14",
+              "label": "height \u00b7 Central shaft",
+              "met": true,
+              "observed": "height (each, world solids): 0.10000000000000009; expected equal 0.1 \u00b1 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-15",
+              "label": "positions \u00b7 Central shaft",
+              "met": true,
+              "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-16",
+              "label": "relationship",
+              "met": true,
+              "observed": "disjoint: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-17",
+              "label": "count \u00b7 bearing block",
+              "met": true,
+              "observed": "count (each): 2; expected equal 2, tolerance 0. 2 element(s).",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-18",
+              "label": "positions \u00b7 bearing block",
+              "met": true,
+              "observed": "2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-19",
+              "label": "width \u00b7 bearing block",
+              "met": true,
+              "observed": "width (each, world solids): 0.12, 0.12; expected equal 0.12 \u00b1 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-20",
+              "label": "depth \u00b7 bearing block",
+              "met": true,
+              "observed": "depth (each, world solids): 0.42, 0.42; expected equal 0.42 \u00b1 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-21",
+              "label": "height \u00b7 bearing block",
+              "met": true,
+              "observed": "height (each, world solids): 1, 1; expected equal 1 \u00b1 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-22",
+              "label": "volume \u00b7 bearing block",
+              "met": true,
+              "observed": "volume (each): 0.049, 0.049; expected equal 0.0485527435, tolerance 0.00097105487. 2 element(s).",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-23",
+              "label": "unavailable",
+              "met": false,
+              "observed": "Unverified: Exact 14 cm circular through-holes along X centered at y=0.8 and z=0 in both bearing blocks require a circular-void classifier not available here.",
+              "ids": [],
+              "outcome": "unverified"
+            },
+            {
+              "id": "check-24",
+              "label": "relationship",
+              "met": true,
+              "observed": "disjoint: 2/2 distinct solid pairs satisfy all; tolerance 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-25",
+              "label": "count \u00b7 Base plate",
+              "met": true,
+              "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-26",
+              "label": "shape \u00b7 Base plate",
+              "met": true,
+              "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-27",
+              "label": "width \u00b7 Base plate",
+              "met": true,
+              "observed": "width (each, world solids): 1.8; expected equal 1.8 \u00b1 0.001 m.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-28",
+              "label": "depth \u00b7 Base plate",
+              "met": true,
+              "observed": "depth (each, world solids): 0.7; expected equal 0.7 \u00b1 0.001 m.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-29",
+              "label": "height \u00b7 Base plate",
+              "met": true,
+              "observed": "height (each, world solids): 0.12; expected equal 0.12 \u00b1 0.001 m.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-30",
+              "label": "positions \u00b7 Base plate",
+              "met": true,
+              "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-31",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 2/2 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a",
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      },
+      {
+        "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-3 (group): Group 59116aaf-1aa9-4182-836e-2e5711613a73: 0 members; 0/5 requested objects belong to it. Targets: 8dbd5929-4ae2-4f12-bc59-8e472dc47530, f949f0ef-bd75-42be-8339-21fbf574a821, a98247a9-4b3b-42a5-8258-dc5db759b6d6, b368e1ef-5e68-4085-b137-776f4014d366, afc25744-1332-4878-8085-29fd67a3119a",
+        "operations": [],
+        "verification": {
+          "modeling": true,
+          "passed": false,
+          "status": "incorrect",
+          "canCommit": false,
+          "checks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": true,
+              "observed": "2 existing objects outside the requested edit scope are unchanged.",
+              "ids": [],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-1",
+              "label": "count",
+              "met": true,
+              "observed": "count (each): 5; expected equal 5, tolerance 0. 5 element(s).",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530",
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6",
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-2",
+              "label": "editable",
+              "met": true,
+              "observed": "5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530",
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6",
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-3",
+              "label": "group",
+              "met": false,
+              "observed": "Group 59116aaf-1aa9-4182-836e-2e5711613a73: 0 members; 0/5 requested objects belong to it.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530",
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6",
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "incorrect"
+            },
+            {
+              "id": "check-4",
+              "label": "count \u00b7 Hollow roller",
+              "met": true,
+              "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-5",
+              "label": "width \u00b7 Hollow roller",
+              "met": true,
+              "observed": "width (each, world solids): 1; expected equal 1 \u00b1 0.001 m.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-6",
+              "label": "depth \u00b7 Hollow roller",
+              "met": true,
+              "observed": "depth (each, world solids): 0.5; expected equal 0.5 \u00b1 0.001 m.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-7",
+              "label": "height \u00b7 Hollow roller",
+              "met": true,
+              "observed": "height (each, world solids): 0.5; expected equal 0.5 \u00b1 0.001 m.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-8",
+              "label": "positions \u00b7 Hollow roller",
+              "met": true,
+              "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-9",
+              "label": "volume \u00b7 Hollow roller",
+              "met": true,
+              "observed": "volume (each): 0.181; expected equal 0.1809557368, tolerance 0.0036191147359999998. 1 element(s).",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-10",
+              "label": "unavailable",
+              "met": false,
+              "observed": "Unverified: Exact circular annular geometry and a coaxial 14 cm through-bore cannot be verified by the available hollow-shape or circular-void predicates; envelope and net volume are checked separately.",
+              "ids": [],
+              "outcome": "unverified"
+            },
+            {
+              "id": "check-11",
+              "label": "count \u00b7 Central shaft",
+              "met": true,
+              "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-12",
+              "label": "diameter \u00b7 Central shaft",
+              "met": true,
+              "observed": "True cylinder diameter: 0.10000007895888828; expected 0.1 \u00b1 0.001 m across 1 objects. Diameter is intrinsic, independent of world orientation.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-13",
+              "label": "width \u00b7 Central shaft",
+              "met": true,
+              "observed": "width (each, world solids): 1.8; expected equal 1.8 \u00b1 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-14",
+              "label": "height \u00b7 Central shaft",
+              "met": true,
+              "observed": "height (each, world solids): 0.10000000000000009; expected equal 0.1 \u00b1 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-15",
+              "label": "positions \u00b7 Central shaft",
+              "met": true,
+              "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-16",
+              "label": "relationship",
+              "met": true,
+              "observed": "disjoint: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-17",
+              "label": "count \u00b7 bearing block",
+              "met": true,
+              "observed": "count (each): 2; expected equal 2, tolerance 0. 2 element(s).",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-18",
+              "label": "positions \u00b7 bearing block",
+              "met": true,
+              "observed": "2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-19",
+              "label": "width \u00b7 bearing block",
+              "met": true,
+              "observed": "width (each, world solids): 0.12, 0.12; expected equal 0.12 \u00b1 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-20",
+              "label": "depth \u00b7 bearing block",
+              "met": true,
+              "observed": "depth (each, world solids): 0.42, 0.42; expected equal 0.42 \u00b1 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-21",
+              "label": "height \u00b7 bearing block",
+              "met": true,
+              "observed": "height (each, world solids): 1, 1; expected equal 1 \u00b1 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-22",
+              "label": "volume \u00b7 bearing block",
+              "met": true,
+              "observed": "volume (each): 0.049, 0.049; expected equal 0.0485527435, tolerance 0.00097105487. 2 element(s).",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-23",
+              "label": "unavailable",
+              "met": false,
+              "observed": "Unverified: Exact 14 cm circular through-holes along X centered at y=0.8 and z=0 in both bearing blocks require a circular-void classifier not available here.",
+              "ids": [],
+              "outcome": "unverified"
+            },
+            {
+              "id": "check-24",
+              "label": "relationship",
+              "met": true,
+              "observed": "disjoint: 2/2 distinct solid pairs satisfy all; tolerance 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-25",
+              "label": "count \u00b7 Base plate",
+              "met": true,
+              "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-26",
+              "label": "shape \u00b7 Base plate",
+              "met": true,
+              "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-27",
+              "label": "width \u00b7 Base plate",
+              "met": true,
+              "observed": "width (each, world solids): 1.8; expected equal 1.8 \u00b1 0.001 m.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-28",
+              "label": "depth \u00b7 Base plate",
+              "met": true,
+              "observed": "depth (each, world solids): 0.7; expected equal 0.7 \u00b1 0.001 m.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-29",
+              "label": "height \u00b7 Base plate",
+              "met": true,
+              "observed": "height (each, world solids): 0.12; expected equal 0.12 \u00b1 0.001 m.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-30",
+              "label": "positions \u00b7 Base plate",
+              "met": true,
+              "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-31",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 2/2 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a",
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      },
+      {
+        "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-3 (group): Group 59116aaf-1aa9-4182-836e-2e5711613a73: 0 members; 0/5 requested objects belong to it. Targets: 8dbd5929-4ae2-4f12-bc59-8e472dc47530, f949f0ef-bd75-42be-8339-21fbf574a821, a98247a9-4b3b-42a5-8258-dc5db759b6d6, b368e1ef-5e68-4085-b137-776f4014d366, afc25744-1332-4878-8085-29fd67a3119a",
+        "operations": [],
+        "verification": {
+          "modeling": true,
+          "passed": false,
+          "status": "incorrect",
+          "canCommit": false,
+          "checks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": true,
+              "observed": "2 existing objects outside the requested edit scope are unchanged.",
+              "ids": [],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-1",
+              "label": "count",
+              "met": true,
+              "observed": "count (each): 5; expected equal 5, tolerance 0. 5 element(s).",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530",
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6",
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-2",
+              "label": "editable",
+              "met": true,
+              "observed": "5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530",
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6",
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-3",
+              "label": "group",
+              "met": false,
+              "observed": "Group 59116aaf-1aa9-4182-836e-2e5711613a73: 0 members; 0/5 requested objects belong to it.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530",
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6",
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "incorrect"
+            },
+            {
+              "id": "check-4",
+              "label": "count \u00b7 Hollow roller",
+              "met": true,
+              "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-5",
+              "label": "width \u00b7 Hollow roller",
+              "met": true,
+              "observed": "width (each, world solids): 1; expected equal 1 \u00b1 0.001 m.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-6",
+              "label": "depth \u00b7 Hollow roller",
+              "met": true,
+              "observed": "depth (each, world solids): 0.5; expected equal 0.5 \u00b1 0.001 m.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-7",
+              "label": "height \u00b7 Hollow roller",
+              "met": true,
+              "observed": "height (each, world solids): 0.5; expected equal 0.5 \u00b1 0.001 m.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-8",
+              "label": "positions \u00b7 Hollow roller",
+              "met": true,
+              "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-9",
+              "label": "volume \u00b7 Hollow roller",
+              "met": true,
+              "observed": "volume (each): 0.181; expected equal 0.1809557368, tolerance 0.0036191147359999998. 1 element(s).",
+              "ids": [
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-10",
+              "label": "unavailable",
+              "met": false,
+              "observed": "Unverified: Exact circular annular geometry and a coaxial 14 cm through-bore cannot be verified by the available hollow-shape or circular-void predicates; envelope and net volume are checked separately.",
+              "ids": [],
+              "outcome": "unverified"
+            },
+            {
+              "id": "check-11",
+              "label": "count \u00b7 Central shaft",
+              "met": true,
+              "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-12",
+              "label": "diameter \u00b7 Central shaft",
+              "met": true,
+              "observed": "True cylinder diameter: 0.10000007895888828; expected 0.1 \u00b1 0.001 m across 1 objects. Diameter is intrinsic, independent of world orientation.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-13",
+              "label": "width \u00b7 Central shaft",
+              "met": true,
+              "observed": "width (each, world solids): 1.8; expected equal 1.8 \u00b1 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-14",
+              "label": "height \u00b7 Central shaft",
+              "met": true,
+              "observed": "height (each, world solids): 0.10000000000000009; expected equal 0.1 \u00b1 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-15",
+              "label": "positions \u00b7 Central shaft",
+              "met": true,
+              "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-16",
+              "label": "relationship",
+              "met": true,
+              "observed": "disjoint: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "8dbd5929-4ae2-4f12-bc59-8e472dc47530"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-17",
+              "label": "count \u00b7 bearing block",
+              "met": true,
+              "observed": "count (each): 2; expected equal 2, tolerance 0. 2 element(s).",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-18",
+              "label": "positions \u00b7 bearing block",
+              "met": true,
+              "observed": "2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-19",
+              "label": "width \u00b7 bearing block",
+              "met": true,
+              "observed": "width (each, world solids): 0.12, 0.12; expected equal 0.12 \u00b1 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-20",
+              "label": "depth \u00b7 bearing block",
+              "met": true,
+              "observed": "depth (each, world solids): 0.42, 0.42; expected equal 0.42 \u00b1 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-21",
+              "label": "height \u00b7 bearing block",
+              "met": true,
+              "observed": "height (each, world solids): 1, 1; expected equal 1 \u00b1 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-22",
+              "label": "volume \u00b7 bearing block",
+              "met": true,
+              "observed": "volume (each): 0.049, 0.049; expected equal 0.0485527435, tolerance 0.00097105487. 2 element(s).",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-23",
+              "label": "unavailable",
+              "met": false,
+              "observed": "Unverified: Exact 14 cm circular through-holes along X centered at y=0.8 and z=0 in both bearing blocks require a circular-void classifier not available here.",
+              "ids": [],
+              "outcome": "unverified"
+            },
+            {
+              "id": "check-24",
+              "label": "relationship",
+              "met": true,
+              "observed": "disjoint: 2/2 distinct solid pairs satisfy all; tolerance 0.001 m.",
+              "ids": [
+                "f949f0ef-bd75-42be-8339-21fbf574a821",
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-25",
+              "label": "count \u00b7 Base plate",
+              "met": true,
+              "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-26",
+              "label": "shape \u00b7 Base plate",
+              "met": true,
+              "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-27",
+              "label": "width \u00b7 Base plate",
+              "met": true,
+              "observed": "width (each, world solids): 1.8; expected equal 1.8 \u00b1 0.001 m.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-28",
+              "label": "depth \u00b7 Base plate",
+              "met": true,
+              "observed": "depth (each, world solids): 0.7; expected equal 0.7 \u00b1 0.001 m.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-29",
+              "label": "height \u00b7 Base plate",
+              "met": true,
+              "observed": "height (each, world solids): 0.12; expected equal 0.12 \u00b1 0.001 m.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-30",
+              "label": "positions \u00b7 Base plate",
+              "met": true,
+              "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+              "ids": [
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-31",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 2/2 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "b368e1ef-5e68-4085-b137-776f4014d366",
+                "afc25744-1332-4878-8085-29fd67a3119a",
+                "a98247a9-4b3b-42a5-8258-dc5db759b6d6"
+              ],
+              "outcome": "verified"
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      }
+    ],
+    "independentCalculations": [],
+    "hostStatus": null,
+    "hostCanCommit": null,
+    "externalFailedChecks": [
+      {
+        "name": "Unique selectable editable identities",
+        "status": "incorrect"
+      },
+      {
+        "name": "Requested distinct component count",
+        "status": "incorrect",
+        "expected": 5,
+        "actual": 0
+      },
+      {
+        "name": "Measured component identification: base",
+        "status": "incorrect",
+        "expected": 1,
+        "actual": 0
+      },
+      {
+        "name": "Measured component identification: shaft",
+        "status": "incorrect",
+        "expected": 1,
+        "actual": 0
+      },
+      {
+        "name": "Measured component identification: roller",
+        "status": "incorrect",
+        "expected": 1,
+        "actual": 0
+      },
+      {
+        "name": "Measured component identification: bearings",
+        "status": "incorrect",
+        "expected": 2,
+        "actual": 0
+      }
+    ],
+    "externalVerifiedCheckCount": 3,
+    "calls": 11,
+    "estimatedUSD": 0.479534,
+    "reviewerMs": 28657,
+    "executorMs": 100680,
+    "usage": {
+      "input": 204817,
+      "output": 6990
+    }
+  },
+  {
+    "id": "workshop-2-workshop-W3-diagnostic-edit",
+    "version": "workshop",
+    "task": "W3",
+    "edit": true,
+    "diagnostic": true,
+    "negative": false,
+    "status": "NOT_COMMITTED",
+    "committed": false,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round",
+      "fixture-W3-0",
+      "fixture-W3-1",
+      "fixture-W3-2",
+      "fixture-W3-3",
+      "fixture-W3-4"
+    ],
+    "transaction": null,
+    "elapsedMs": 110847,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "4e14e014-5a1c-4a63-9e7d-8ce0beb04ae8",
+        "arguments": {
+          "ids": [
+            "fixture-W3-0",
+            "fixture-W3-1",
+            "fixture-W3-2",
+            "fixture-W3-3",
+            "fixture-W3-4"
+          ],
+          "role": null,
+          "snapshot": "before",
+          "relativeTo": "fixture-W3-1"
+        }
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": null,
+    "hostCanCommit": null,
+    "externalFailedChecks": [
+      {
+        "name": "Expected occupied geometry fixture-W3-0",
+        "status": "incorrect",
+        "expected": {
+          "volume": 0.1848,
+          "bounds": {
+            "min": [
+              -1.1,
+              0,
+              -0.35
+            ],
+            "max": [
+              1.1,
+              0.12,
+              0.35
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.1512,
+          "bounds": {
+            "min": [
+              -0.9,
+              0,
+              -0.35
+            ],
+            "max": [
+              0.9,
+              0.12,
+              0.35
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W3-2",
+        "status": "incorrect",
+        "expected": {
+          "volume": 0.017271821724183158,
+          "bounds": {
+            "min": [
+              -1.1,
+              0.75,
+              -0.05
+            ],
+            "max": [
+              1.1,
+              0.850000023841858,
+              0.05
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.014131490501604402,
+          "bounds": {
+            "min": [
+              -0.9,
+              0.75,
+              -0.05
+            ],
+            "max": [
+              0.9,
+              0.850000023841858,
+              0.05
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W3-1",
+        "status": "incorrect",
+        "expected": {
+          "volume": 0.25323629198932696,
+          "bounds": {
+            "min": [
+              -0.7,
+              0.5500000119209292,
+              -0.25
+            ],
+            "max": [
+              0.7,
+              1.0499999403953553,
+              0.25
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.18088306570666213,
+          "bounds": {
+            "min": [
+              -0.5,
+              0.5500000119209292,
+              -0.25
+            ],
+            "max": [
+              0.5,
+              1.0499999403953553,
+              0.25
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W3-3",
+        "status": "incorrect",
+        "expected": {
+          "volume": 0.048553483875178646,
+          "bounds": {
+            "min": [
+              -0.8999999892711639,
+              0.11999999731779087,
+              -0.2099999874830246
+            ],
+            "max": [
+              -0.7799999856948852,
+              1.12,
+              0.2099999874830246
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.04855348387517859,
+          "bounds": {
+            "min": [
+              -0.6999999892711638,
+              0.11999999731779087,
+              -0.2099999874830246
+            ],
+            "max": [
+              -0.5799999856948852,
+              1.12,
+              0.2099999874830246
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W3-4",
+        "status": "incorrect",
+        "expected": {
+          "volume": 0.04855348387517864,
+          "bounds": {
+            "min": [
+              0.7799999856948854,
+              0.11999999731779087,
+              -0.2099999874830246
+            ],
+            "max": [
+              0.8999999892711641,
+              1.12,
+              0.2099999874830246
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.048553483875178605,
+          "bounds": {
+            "min": [
+              0.5799999856948854,
+              0.11999999731779087,
+              -0.2099999874830246
+            ],
+            "max": [
+              0.699999989271164,
+              1.12,
+              0.2099999874830246
+            ]
+          }
+        }
+      }
+    ],
+    "externalVerifiedCheckCount": 23,
+    "calls": 3,
+    "estimatedUSD": 0.144722,
+    "reviewerMs": 91103,
+    "executorMs": 14335,
+    "usage": {
+      "input": 38956,
+      "output": 6681
+    }
+  },
+  {
+    "id": "workshop-2-workshop-W4-create",
+    "version": "workshop",
+    "task": "W4",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 6,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 104411,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "b66adc16-46ff-4bb6-be7b-e2c34ead98f8",
+        "arguments": {
+          "ids": [
+            "reference-block",
+            "reference-round"
+          ],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        }
+      },
+      {
+        "call": "c803507b-275d-4626-aa0c-8873db692e32",
+        "arguments": {
+          "ids": [
+            "6d3f6ebd-70b0-4962-ba34-ddc860552292"
+          ],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        }
+      },
+      {
+        "call": "5279edd4-d583-4601-920b-31431ebb3b57",
+        "arguments": {
+          "ids": [
+            "6d3f6ebd-70b0-4962-ba34-ddc860552292",
+            "cd6395dd-f974-479f-a564-3074857ba0b3",
+            "967fdd3f-ac16-424f-8e83-8e0e7a14100c"
+          ],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        }
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step",
+      "execute_step",
+      "inspect_scene",
+      "execute_step",
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [
+      {
+        "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-20 (relationship): touching: 0/2 distinct solid pairs satisfy each; tolerance 0.002 m. Targets: cd6395dd-f974-479f-a564-3074857ba0b3, 967fdd3f-ac16-424f-8e83-8e0e7a14100c, 6d3f6ebd-70b0-4962-ba34-ddc860552292",
+        "operations": [],
+        "verification": {
+          "modeling": true,
+          "passed": false,
+          "status": "incorrect",
+          "canCommit": false,
+          "checks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": true,
+              "observed": "2 existing objects outside the requested edit scope are unchanged.",
+              "ids": [],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-1",
+              "label": "count",
+              "met": true,
+              "observed": "count (sum): 4; expected equal 4, tolerance 0. 4 element(s).",
+              "ids": [
+                "6d3f6ebd-70b0-4962-ba34-ddc860552292",
+                "2ddd296f-8008-4768-bdad-837c1e65cb46",
+                "cd6395dd-f974-479f-a564-3074857ba0b3",
+                "967fdd3f-ac16-424f-8e83-8e0e7a14100c"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-2",
+              "label": "editable",
+              "met": true,
+              "observed": "4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+              "ids": [
+                "6d3f6ebd-70b0-4962-ba34-ddc860552292",
+                "2ddd296f-8008-4768-bdad-837c1e65cb46",
+                "cd6395dd-f974-479f-a564-3074857ba0b3",
+                "967fdd3f-ac16-424f-8e83-8e0e7a14100c"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-3",
+              "label": "count \u00b7 Elliptical halo",
+              "met": true,
+              "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "6d3f6ebd-70b0-4962-ba34-ddc860552292"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-4",
+              "label": "width \u00b7 Elliptical halo",
+              "met": true,
+              "observed": "width (each, world solids): 1.5; expected equal 1.5 \u00b1 0.002 m.",
+              "ids": [
+                "6d3f6ebd-70b0-4962-ba34-ddc860552292"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-5",
+              "label": "height \u00b7 Elliptical halo",
+              "met": true,
+              "observed": "height (each, world solids): 1.9999999999999998; expected equal 2 \u00b1 0.002 m.",
+              "ids": [
+                "6d3f6ebd-70b0-4962-ba34-ddc860552292"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-6",
+              "label": "x \u00b7 Elliptical halo",
+              "met": true,
+              "observed": "x (each, world solids): 0; expected equal 0 \u00b1 0.001 m.",
+              "ids": [
+                "6d3f6ebd-70b0-4962-ba34-ddc860552292"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-7",
+              "label": "z \u00b7 Elliptical halo",
+              "met": true,
+              "observed": "z (each, world solids): -1.7881393449270533e-9; expected equal 0 \u00b1 0.001 m.",
+              "ids": [
+                "6d3f6ebd-70b0-4962-ba34-ddc860552292"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-8",
+              "label": "unavailable",
+              "met": false,
+              "observed": "Unverified: Exact elliptical annular profile in the XY plane, including the concentric 1.24 m by 1.74 m elliptical opening, cannot be verified by the available shape or void predicates.",
+              "ids": [],
+              "outcome": "unverified"
+            },
+            {
+              "id": "check-9",
+              "label": "depth \u00b7 Elliptical halo",
+              "met": true,
+              "observed": "depth (each, world solids): 0.1199999964237213; expected equal 0.12 \u00b1 0.001 m.",
+              "ids": [
+                "6d3f6ebd-70b0-4962-ba34-ddc860552292"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-10",
+              "label": "base \u00b7 Elliptical halo",
+              "met": true,
+              "observed": "base (each, world solids): 0.3; expected equal 0.3 \u00b1 0.001 m.",
+              "ids": [
+                "6d3f6ebd-70b0-4962-ba34-ddc860552292"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-11",
+              "label": "count \u00b7 support",
+              "met": true,
+              "observed": "count (sum): 2; expected equal 2, tolerance 0. 2 element(s).",
+              "ids": [
+                "cd6395dd-f974-479f-a564-3074857ba0b3",
+                "967fdd3f-ac16-424f-8e83-8e0e7a14100c"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-12",
+              "label": "shape \u00b7 support",
+              "met": true,
+              "observed": "Evaluated solid shape cylinder: 2/2 match occupied geometry, independent of recipe type.",
+              "ids": [
+                "cd6395dd-f974-479f-a564-3074857ba0b3",
+                "967fdd3f-ac16-424f-8e83-8e0e7a14100c"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-13",
+              "label": "positions \u00b7 support",
+              "met": true,
+              "observed": "2/2 required world base-center positions occupied; 2 objects, tolerance 0.002 m.",
+              "ids": [
+                "cd6395dd-f974-479f-a564-3074857ba0b3",
+                "967fdd3f-ac16-424f-8e83-8e0e7a14100c"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-14",
+              "label": "count \u00b7 plinth",
+              "met": true,
+              "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+              "ids": [
+                "2ddd296f-8008-4768-bdad-837c1e65cb46"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-15",
+              "label": "width \u00b7 plinth",
+              "met": true,
+              "observed": "width (each, world solids): 1.8; expected equal 1.8 \u00b1 0.001 m.",
+              "ids": [
+                "2ddd296f-8008-4768-bdad-837c1e65cb46"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-16",
+              "label": "depth \u00b7 plinth",
+              "met": true,
+              "observed": "depth (each, world solids): 0.45; expected equal 0.45 \u00b1 0.001 m.",
+              "ids": [
+                "2ddd296f-8008-4768-bdad-837c1e65cb46"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-17",
+              "label": "height \u00b7 plinth",
+              "met": true,
+              "observed": "height (each, world solids): 0.18; expected equal 0.18 \u00b1 0.001 m.",
+              "ids": [
+                "2ddd296f-8008-4768-bdad-837c1e65cb46"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-18",
+              "label": "base \u00b7 plinth",
+              "met": true,
+              "observed": "base (each, world solids): 0; expected equal 0 \u00b1 0.001 m.",
+              "ids": [
+                "2ddd296f-8008-4768-bdad-837c1e65cb46"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-19",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 2/2 distinct solid pairs satisfy each; tolerance 0.002 m.",
+              "ids": [
+                "cd6395dd-f974-479f-a564-3074857ba0b3",
+                "967fdd3f-ac16-424f-8e83-8e0e7a14100c",
+                "2ddd296f-8008-4768-bdad-837c1e65cb46"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-20",
+              "label": "relationship",
+              "met": false,
+              "observed": "touching: 0/2 distinct solid pairs satisfy each; tolerance 0.002 m.",
+              "ids": [
+                "cd6395dd-f974-479f-a564-3074857ba0b3",
+                "967fdd3f-ac16-424f-8e83-8e0e7a14100c",
+                "6d3f6ebd-70b0-4962-ba34-ddc860552292"
+              ],
+              "outcome": "incorrect"
+            },
+            {
+              "id": "check-21",
+              "label": "unavailable",
+              "met": false,
+              "observed": "Unverified: Support termination specifically at the lower elliptical rim, without entering the elliptical opening, requires profile-aware verification unavailable in these predicates.",
+              "ids": [],
+              "outcome": "unverified"
+            }
+          ],
+          "qualitativeLimits": [
+            "Supports must be slender, vertical and round; no support diameter was specified.",
+            "The sculpture must read as a freestanding elliptical halo with an unobstructed concentric opening."
+          ]
+        }
+      }
+    ],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 28,
+    "calls": 8,
+    "estimatedUSD": 0.306298,
+    "reviewerMs": 21005,
+    "executorMs": 70541,
+    "usage": {
+      "input": 128569,
+      "output": 4916
+    }
+  },
+  {
+    "id": "workshop-2-workshop-W4-edit",
+    "version": "workshop",
+    "task": "W4",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 6,
+    "changedIds": [
+      "6d3f6ebd-70b0-4962-ba34-ddc860552292",
+      "cd6395dd-f974-479f-a564-3074857ba0b3",
+      "967fdd3f-ac16-424f-8e83-8e0e7a14100c"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round",
+      "2ddd296f-8008-4768-bdad-837c1e65cb46"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 44294,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "b541c632-4fd1-4e6a-b8d7-cc13d0fa0877",
+        "arguments": {
+          "ids": [
+            "6d3f6ebd-70b0-4962-ba34-ddc860552292",
+            "cd6395dd-f974-479f-a564-3074857ba0b3",
+            "967fdd3f-ac16-424f-8e83-8e0e7a14100c"
+          ],
+          "role": null,
+          "snapshot": "before",
+          "relativeTo": null
+        }
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 24,
+    "calls": 3,
+    "estimatedUSD": 0.10554,
+    "reviewerMs": 15003,
+    "executorMs": 17791,
+    "usage": {
+      "input": 43445,
+      "output": 1865
+    }
+  }
+]

@@ -51,4 +51,20 @@ export const verifier: Spec[] = [
   },
 ];
 verifier.push({ ...verifier[0], id: 'D-N1', mode: 'negative' });
+workshop.push(
+  {
+    id: 'W5',
+    domain: 'furniture-transfer',
+    create:
+      'Make a small workbench as five separately editable parts: a rectangular top and four round legs that taper from 10 cm diameter at the floor to 6 cm under the top. The top is 1.45 by 0.72 m, 6 cm thick, with its working surface 88 cm above ground. Center the bench at the origin and orient its long direction 31 degrees from +X toward +Z. The leg centers form a centered 1.10 by 0.48 m rectangle aligned with the top. Group the bench and leave the existing samples alone.',
+    edit: 'This workbench is too low. Raise its working surface by 23 cm, keeping its feet in their current places and preserving the top’s thickness, outline and orientation. Keep the bench coherent, keep the same parts, and leave everything else alone.',
+  },
+  {
+    id: 'W6',
+    domain: 'architecture-transfer',
+    create:
+      'Create a small stepped promenade from five separately editable solids. Put three rectangular platforms at X=-2, 0 and 2 m, all centered on Z=0; each is 80 cm long along X and 1.2 m across Z, with tops respectively 25, 55 and 85 cm above the ground. Join adjacent platforms with solid wedge ramps spanning the gaps, the same width as the platforms, with their upper surfaces meeting both platform tops exactly. All five pieces rest on the ground. Group the promenade and preserve the existing samples.',
+    edit: 'Raise the middle platform’s top by 18 cm. Keep the two end platforms exactly where they are and keep the walking route continuous, with no steps at the connections. Preserve its plan layout, width and existing parts, and leave the samples untouched.',
+  },
+);
 export const specs = [...workshop, ...verifier];
