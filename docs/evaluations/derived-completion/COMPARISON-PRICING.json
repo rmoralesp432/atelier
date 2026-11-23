@@ -1,0 +1,18 @@
+{
+  "retrievedAtUTC": "2026-11-23T17:14:58.413965+00:00",
+  "source": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+  "sourceBodySha256": "6cfdb6a682b13c1d64b7163829160370a74de10536b22378a644c93d599bc0a6",
+  "authority": "secondary, not account-verified",
+  "officialSource": "https://developers.openai.com/api/docs/pricing",
+  "officialReadResult": "Proxy CONNECT 403; not verified",
+  "model": "gpt-6.1-sol",
+  "standardInputPerMillion": 2.0,
+  "standardOutputPerMillion": 10.0,
+  "longInputPerMillion": 4.0,
+  "longOutputPerMillion": 15.0,
+  "longThresholdInputTokens": 272000,
+  "reserveMargin": 1.25,
+  "proposedCeilingUSD": 5,
+  "authorized": false,
+  "paidCalls": 0
+}
