@@ -9,6 +9,7 @@ import {
   openSync,
   closeSync,
   unlinkSync,
+  realpathSync,
 } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
@@ -64,7 +65,14 @@ const walk = (p: string): string[] =>
   readdirSync(p, { withFileTypes: true }).flatMap((f) =>
     f.isDirectory() ? walk(join(p, f.name)) : [join(p, f.name)],
   );
-const freezeFile = join(root, 'execution-freeze.json');
+const mode = process.argv[2];
+const repairRevision = ['--freeze-repair-revision', '--retry-repair'].includes(
+  mode,
+);
+const freezeFile = join(
+  root,
+  repairRevision ? 'execution-freeze-v2.json' : 'execution-freeze.json',
+);
 const frozenFiles = () =>
   [
     ...walk('scripts/phase3-evaluation'),
@@ -88,9 +96,16 @@ const currentFreeze = () => ({
   pricing,
   authorization: auth,
 });
-const mode = process.argv[2];
 assert(
-  ['--freeze', '--offline-browser', '--live', '--resume'].includes(mode),
+  [
+    '--freeze',
+    '--offline-browser',
+    '--offline-observation',
+    '--live',
+    '--resume',
+    '--freeze-repair-revision',
+    '--retry-repair',
+  ].includes(mode),
   'Choose one explicit evaluation mode.',
 );
 assert.equal(
@@ -109,7 +124,7 @@ assert.equal(
   'Application must remain byte-identical to stable production.',
 );
 mkdirSync(root, { recursive: true });
-if (mode === '--freeze') {
+if (mode === '--freeze' || mode === '--freeze-repair-revision') {
   assert(!existsSync(freezeFile), 'Do not overwrite a frozen run.');
   assert.equal(
     git(
@@ -132,16 +147,39 @@ if (mode === '--freeze') {
   assert(
     JSON.parse(readFileSync(join(root, 'offline-browser.json'), 'utf8')).passed,
   );
+  if (repairRevision) {
+    const prior = JSON.parse(
+      readFileSync(join(root, 'execution-freeze.json'), 'utf8'),
+    );
+    const next = currentFreeze();
+    assert.deepEqual(Object.keys(prior.files), Object.keys(next.files));
+    for (const [path, hash] of Object.entries(prior.files))
+      if (path !== 'scripts/phase3-evaluation/run.ts')
+        assert.equal(
+          next.files[path],
+          hash,
+          `Unrelated frozen input changed: ${path}`,
+        );
+    assert(
+      JSON.parse(readFileSync(join(root, 'offline-observation.json'), 'utf8'))
+        .passed,
+    );
+    assert(
+      existsSync(ledgerPath),
+      'Repair revision must retain existing accounting.',
+    );
+  } else {
+    mkdirSync(folder, { recursive: true });
+    assert(!existsSync(ledgerPath), 'Never reset an existing ledger.');
+    save(ledgerPath, { ceilingUsd: 15, authorized: true, calls: [] });
+  }
   save(freezeFile, currentFreeze());
-  mkdirSync(folder, { recursive: true });
-  assert(!existsSync(ledgerPath), 'Never reset an existing ledger.');
-  save(ledgerPath, { ceilingUsd: 15, authorized: true, calls: [] });
   console.log(
     'Frozen application, runner, prompts, oracles, bundle, pricing estimates and authorization. No paid calls.',
   );
   process.exit(0);
 }
-const live = mode !== '--offline-browser';
+const live = !['--offline-browser', '--offline-observation'].includes(mode);
 if (live) {
   assert.equal(auth.ceilingUsd, 15);
   assert.equal(auth.status, 'authorized-with-estimated-pricing-waiver');
@@ -174,6 +212,27 @@ const results: any[] =
   live && existsSync(join(folder, 'results.json'))
     ? JSON.parse(readFileSync(join(folder, 'results.json'), 'utf8'))
     : [];
+if (mode === '--retry-repair') {
+  assert(
+    spec.episodes.every((e: any) =>
+      e.turns.every((t: any) =>
+        results.some((r) => r.id === t.id && r.status !== 'RUNNING'),
+      ),
+    ),
+    'Repair retry must not start new primary turns.',
+  );
+  const prior = results.find((r) => r.id === 'R1');
+  assert(
+    prior?.status === 'REPAIR_NOT_COMPLETED' &&
+      prior.cost?.calls === 0 &&
+      prior.events.length === 0,
+    'This retry is only for the recorded pre-call renderer failure.',
+  );
+  assert(
+    !results.some((r) => r.id === 'R1-attempt-2'),
+    'Never repeat or overwrite an existing retry.',
+  );
+}
 const persist = () => save(join(folder, 'results.json'), results);
 const safe = (e: unknown) =>
   (e instanceof Error ? e.message : String(e))
@@ -199,7 +258,7 @@ const budgeted: typeof fetch = async (url, init) => {
   assert(!networkActive, 'No parallel paid generations.');
   const ledger: Ledger = JSON.parse(readFileSync(ledgerPath, 'utf8'));
   const bucket = (id: string) =>
-    id === 'R1'
+    id.startsWith('R1')
       ? 'repair'
       : id.startsWith('diagnostic-')
         ? 'diagnostic'
@@ -636,7 +695,11 @@ async function turn(
 async function observe(s: Session, label: string) {
   if (!vite) {
     vite = await createServer({
-      server: { host: '127.0.0.1', port: 0 },
+      server: {
+        host: '127.0.0.1',
+        port: 0,
+        fs: { allow: [resolve('.'), realpathSync('node_modules')] },
+      },
       appType: 'custom',
     });
     await vite.listen();
@@ -673,14 +736,14 @@ async function observe(s: Session, label: string) {
   );
   return o;
 }
-async function repair() {
+async function repair(id = 'R1') {
   const initial = seed('E'),
     prompt =
       spec.episodes.find((e: any) => e.id === 'E-array').turns[0].prompt +
       ' ' +
       spec.common.promptSuffix;
   active = {
-    id: 'R1',
+    id,
     prompt,
     status: 'RUNNING',
     events: [],
@@ -719,7 +782,7 @@ async function repair() {
       initial,
       defaultCamera,
       async (working, feedback, execution) => {
-        save(join(folder, `R1-stage-${active.events.length}.json`), working);
+        save(join(folder, `${id}-stage-${active.events.length}.json`), working);
         return record(
           'executor',
           {
@@ -737,7 +800,10 @@ async function repair() {
             },
             validationFeedback: feedback,
             execution,
-            observation: await observe(working, `R1-${active.events.length}`),
+            observation: await observe(
+              working,
+              `${id}-${active.events.length}`,
+            ),
           },
           AbortSignal.timeout(150000),
         );
@@ -756,7 +822,7 @@ async function repair() {
                 .sort((a, b) => a.id.localeCompare(b.id))[0],
               d = direction(31);
             badOriginal = structuredClone(candidate);
-            save(join(folder, 'R1-before-injection.json'), candidate);
+            save(join(folder, `${id}-before-injection.json`), candidate);
             injectedId = p.id;
             candidate.project = {
               ...candidate.project,
@@ -780,7 +846,7 @@ async function repair() {
               boundary:
                 'private candidate immediately before completion measurement',
             };
-            save(join(folder, 'R1-injected.json'), candidate);
+            save(join(folder, `${id}-injected.json`), candidate);
           }
           const report = await verify(candidate),
             facts = await oracle('E1', initial, initial, candidate);
@@ -830,7 +896,7 @@ async function repair() {
     active.status = 'PASS_LIVE_ENGINE_REPAIR';
     active.transactionEvidence =
       'Engine serialization and Undo/Redo; browser lifecycle is measured in A-F, not counted as a fresh browser AI repair.';
-    save(join(folder, 'R1-final.json'), candidate);
+    save(join(folder, `${id}-final.json`), candidate);
   } catch (e) {
     active.error = safe(e);
     active.status = stopped
@@ -838,11 +904,11 @@ async function repair() {
       : 'REPAIR_NOT_COMPLETED';
   } finally {
     active.elapsedMs = performance.now() - start;
-    active.cost = costs('R1');
+    active.cost = costs(id);
     persist();
     console.log(
       JSON.stringify({
-        id: 'R1',
+        id,
         status: active.status,
         error: active.error,
         cost: active.cost,
@@ -851,7 +917,24 @@ async function repair() {
   }
 }
 try {
-  if (!live) {
+  if (mode === '--offline-observation') {
+    const s = assembled('E1');
+    assert(passed(await oracle('E1', seed('E'), seed('E'), s)));
+    const observation = await observe(s, 'offline-repair-observation');
+    assert.equal(observation.status, 'ready');
+    assert.equal(observation.views.length, 2);
+    save(join(root, 'offline-observation.json'), {
+      passed: true,
+      paidCalls: 0,
+      source:
+        'Actual repair renderer and real kernel through linked dependencies',
+      views: observation.views.map((v: any) => v.label),
+      objectIds: observation.objectIds,
+    });
+    console.log(
+      'PASS offline repair observation: geometry library loaded, two actual views rendered. No paid calls.',
+    );
+  } else if (!live) {
     const page = await openProject(seed('F')),
       before = await saved(page);
     offlineKind = 'fail';
@@ -948,7 +1031,8 @@ try {
       }
       await page.context().close();
     }
-    if (!stopped && !results.some((r) => r.id === 'R1')) await repair();
+    if (!stopped && mode === '--retry-repair') await repair('R1-attempt-2');
+    else if (!stopped && !results.some((r) => r.id === 'R1')) await repair();
     // Authorized diagnostics are separate seeded edits, never replacement successes.
     for (const { episode, turn: t } of diagnoses.slice(0, 2)) {
       if (stopped || episode.id[0] === 'F') break;
