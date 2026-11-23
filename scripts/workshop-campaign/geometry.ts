@@ -61,7 +61,7 @@ export function seed(id: string): Session {
       [-0.1, 0.53, 0.42],
     ]);
     const solids = [
-      mapSolid(box(0.82, 0.46, 0.31), (x) =>
+      mapSolid(box(0.82, 0.31, 0.46), (x) =>
         x.rotate([0, 19, 0]).translate([-1.7, 0.45, -0.4]),
       ),
       mapSolid(vertical(0.76, 0.5), (x) =>

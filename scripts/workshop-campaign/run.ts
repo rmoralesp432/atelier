@@ -157,14 +157,15 @@ if (mode === '--summary') {
 }
 const lock = join(root, 'coordinator.lock');
 const lockFd = openSync(lock, 'wx');
-const browser = await chromium.launch({
-  executablePath: '/usr/bin/chromium',
-  args: [
-    '--no-sandbox',
-    '--use-angle=swiftshader',
-    '--enable-unsafe-swiftshader',
-  ],
-});
+const launchBrowser = () =>
+  chromium.launch({
+    executablePath: '/usr/bin/chromium',
+    args: [
+      '--no-sandbox',
+      '--use-angle=swiftshader',
+      '--enable-unsafe-swiftshader',
+    ],
+  });
 process.env.ATELIER_AGENT_MODEL = 'gpt-6.1-sol';
 const saved = async (page: any) =>
   parseSession(
@@ -181,14 +182,29 @@ const model = (s: any) => ({
   future: s.future,
 });
 async function persistence(page: any, before: any, after: any, label: string) {
-  const history = await chat(page),
-    camera = await page.evaluate(() =>
+  const history = await chat(page);
+  const readCamera = () =>
+    page.evaluate(() =>
       Object.fromEntries(
-        Object.entries(localStorage).filter(([k]) => k.endsWith(':camera')),
+        Object.entries(localStorage)
+          .filter(([k]) => k.endsWith(':camera'))
+          .map(([k, v]) => [k, JSON.parse(v)]),
       ),
     );
+  let camera = await readCamera(),
+    settled = false;
+  for (let i = 0; i < 12; i++) {
+    await page.waitForTimeout(500);
+    const next = await readCamera();
+    if (equalData(camera, next)) {
+      settled = true;
+      break;
+    }
+    camera = next;
+  }
+  save(join(folder, label + '-camera-before.json'), { settled, camera });
   await page.reload();
-  await expect(page.getByTestId('viewport')).toBeVisible();
+  await expect(page.getByTestId('viewport')).toBeVisible({ timeout: 45000 });
   await expect
     .poll(async () => equalData(model(await saved(page)), model(after)), {
       timeout: 30000,
@@ -202,17 +218,24 @@ async function persistence(page: any, before: any, after: any, label: string) {
     equalData((await saved(page)).context, after.context),
     'Agent context lost on reload',
   );
-  assert(
-    equalData(
-      await page.evaluate(() =>
-        Object.fromEntries(
-          Object.entries(localStorage).filter(([k]) => k.endsWith(':camera')),
-        ),
-      ),
-      camera,
-    ),
-    'Camera changed on reload',
-  );
+  await page.waitForTimeout(800);
+  const cameraAfter = await readCamera();
+  const poseEquivalent = (a: any, b: any): boolean => {
+    if (typeof a === 'number' && typeof b === 'number')
+      return Math.abs(a - b) <= 1e-9;
+    if (a && b && typeof a === 'object' && typeof b === 'object')
+      return (
+        equalData(Object.keys(a).sort(), Object.keys(b).sort()) &&
+        Object.keys(a).every((k) => poseEquivalent(a[k], b[k]))
+      );
+    return a === b;
+  };
+  const cameraEqual = poseEquivalent(camera, cameraAfter);
+  save(join(folder, label + '-camera-after.json'), {
+    camera: cameraAfter,
+    exactEqual: equalData(camera, cameraAfter),
+    equivalentWithin1e9: cameraEqual,
+  });
   save(join(folder, label + '-reloaded.json'), await saved(page));
   await page.getByRole('button', { name: 'Undo', exact: true }).click();
   await expect
@@ -243,13 +266,14 @@ async function persistence(page: any, before: any, after: any, label: string) {
     reload: true,
     conversation: true,
     context: true,
-    camera: true,
+    camera: cameraEqual,
     undo: true,
     redo: true,
     atomic: true,
   };
 }
 async function lane(version: Version, list: Spec[]) {
+  const browser = await launchBrowser();
   const v = versions[version],
     load = (p: string) => import(pathToFileURL(join(v.path, p)).href);
   const [
@@ -423,7 +447,7 @@ async function lane(version: Version, list: Spec[]) {
   const server = app.listen(0, '127.0.0.1');
   await new Promise<void>((r) => server.on('listening', r));
   const origin = `http://127.0.0.1:${(server.address() as any).port}`;
-  async function open(s: any) {
+  async function open(s: any, conversation: any[] = []) {
     const context = await browser.newContext({
       viewport: { width: 1280, height: 900 },
       reducedMotion: 'reduce',
@@ -435,7 +459,10 @@ async function lane(version: Version, list: Spec[]) {
             localStorage: [
               { name: 'atelier.start-direct', value: 'true' },
               { name: 'atelier.session.v2', value: serializeSession(s) },
-              { name: 'atelier.conversation.v2', value: '[]' },
+              {
+                name: 'atelier.conversation.v2',
+                value: JSON.stringify(conversation),
+              },
             ],
           },
         ],
@@ -514,6 +541,9 @@ async function lane(version: Version, list: Spec[]) {
       );
       const after = await saved(page);
       save(join(folder, id + '-after.json'), after);
+      await page
+        .context()
+        .storageState({ path: join(folder, id + '-committed-browser.json') });
       active.conversation = await chat(page);
       active.committed = !equalData(model(before), model(after));
       active.componentCount = after.project.volumes.length;
@@ -556,7 +586,9 @@ async function lane(version: Version, list: Spec[]) {
         active.transaction = await persistence(page, before, after, id);
         active.status = live
           ? pass(active.facts)
-            ? 'PASS'
+            ? active.transaction.camera
+              ? 'PASS'
+              : 'GEOMETRY_PASS_CAMERA_DIFFERENCE'
             : wrong(active.facts)
               ? 'COMMITTED_INCORRECT'
               : 'COMMITTED_UNVERIFIED'
@@ -602,9 +634,35 @@ async function lane(version: Version, list: Spec[]) {
   }
   try {
     for (const spec of list) {
-      if (stopReason()) break;
-      const initial = seed(spec.id),
-        page = await open(initial);
+      if (stopReason() || existsSync(join(root, 'pause'))) break;
+      const initial = seed(spec.id);
+      const source = process.argv[5];
+      if (live && source && spec.edit) {
+        const priorId = `${source}-${version}-${spec.id}-create`,
+          prior = JSON.parse(
+            readFileSync(join(root, source, 'results.json'), 'utf8'),
+          ).find((r: any) => r.id === priorId);
+        assert(
+          prior?.committed && pass(prior.facts),
+          'Resume only an independently correct committed creation',
+        );
+        const previous = JSON.parse(
+          readFileSync(join(root, source, priorId + '-after.json'), 'utf8'),
+        );
+        const p = await open(previous, prior.conversation);
+        await persistence(
+          p,
+          JSON.parse(
+            readFileSync(join(root, source, priorId + '-before.json'), 'utf8'),
+          ),
+          previous,
+          `${batch}-${version}-${spec.id}-resumed-creation`,
+        );
+        await turn(p, spec, spec.edit, initial, true);
+        await p.context().close();
+        continue;
+      }
+      const page = await open(initial);
       const made = await turn(page, spec, spec.create, initial);
       if (spec.edit && made) await turn(page, spec, spec.edit, initial, true);
       await page.context().close();
@@ -638,6 +696,8 @@ async function lane(version: Version, list: Spec[]) {
       }
     }
   } finally {
+    await browser.close();
+    server.closeAllConnections();
     await new Promise<void>((r) => server.close(() => r()));
   }
 }
@@ -670,7 +730,6 @@ try {
     });
 } finally {
   publish();
-  await browser.close();
   closeSync(lockFd);
   unlinkSync(lock);
 }

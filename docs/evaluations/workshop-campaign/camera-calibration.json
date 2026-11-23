@@ -1,0 +1,32 @@
+[
+  {
+    "f": "preflight-v2-baseline-offline-create-camera-after.json",
+    "equivalent": true,
+    "oneCentimeterErrorRejected": true
+  },
+  {
+    "f": "preflight-v2-baseline-offline-recovery-create-camera-after.json",
+    "equivalent": true,
+    "oneCentimeterErrorRejected": true
+  },
+  {
+    "f": "preflight-v2-verifier-offline-create-camera-after.json",
+    "equivalent": true,
+    "oneCentimeterErrorRejected": true
+  },
+  {
+    "f": "preflight-v2-verifier-offline-recovery-create-camera-after.json",
+    "equivalent": true,
+    "oneCentimeterErrorRejected": true
+  },
+  {
+    "f": "preflight-v2-workshop-offline-create-camera-after.json",
+    "equivalent": true,
+    "oneCentimeterErrorRejected": true
+  },
+  {
+    "f": "preflight-v2-workshop-offline-recovery-create-camera-after.json",
+    "equivalent": true,
+    "oneCentimeterErrorRejected": true
+  }
+]
