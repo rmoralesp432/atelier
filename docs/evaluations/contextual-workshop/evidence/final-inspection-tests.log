@@ -1,0 +1,14 @@
+
+ RUN  v5.0.4 /workspace/atelier-workshop
+
+
+ Test Files  2 passed (2)
+      Tests  21 passed (21)
+   Start at  17:33:46
+   Duration  1.68s (import 62%, tests 23%, transform 14%, worker 1%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

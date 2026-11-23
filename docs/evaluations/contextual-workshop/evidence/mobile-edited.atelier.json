@@ -1,0 +1,568 @@
+{
+  "version": 2,
+  "project": {
+    "groups": [
+      {
+        "id": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+        "name": "Display mobile",
+        "visible": true,
+        "locked": false
+      }
+    ],
+    "volumes": [
+      {
+        "id": "95879b90-dae9-402b-8f93-61510658f0a4",
+        "name": "Unrelated nearby marker",
+        "dimensions": {
+          "width": 0.16,
+          "depth": 0.12,
+          "height": 0.14
+        },
+        "position": {
+          "x": 0.4,
+          "y": 0,
+          "z": 0.22
+        },
+        "rotation": 0
+      },
+      {
+        "id": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+        "name": "Unrelated tall marker",
+        "dimensions": {
+          "width": 0.1,
+          "depth": 0.18,
+          "height": 0.31
+        },
+        "position": {
+          "x": -1.05,
+          "y": 0,
+          "z": -0.4
+        },
+        "rotation": 0
+      },
+      {
+        "id": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+        "name": "Oval foot",
+        "dimensions": {
+          "width": 0.6,
+          "depth": 0.42,
+          "height": 0.08
+        },
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "material": "solid",
+        "color": "#6f7c82",
+        "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+        "component": {
+          "role": "element",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+        "name": "Mast",
+        "dimensions": {
+          "width": 0.06,
+          "depth": 0.06,
+          "height": 1.73
+        },
+        "position": {
+          "x": 0,
+          "y": 0.08,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "material": "solid",
+        "color": "#6f7c82",
+        "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+        "component": {
+          "role": "element",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+        "name": "Crossbar",
+        "dimensions": {
+          "width": 1.6,
+          "depth": 0.06,
+          "height": 0.08
+        },
+        "position": {
+          "x": 0,
+          "y": 1.81,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "material": "solid",
+        "color": "#6f7c82",
+        "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+        "component": {
+          "role": "element",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "f74888d0-3b04-468a-882c-b752968b638a",
+        "name": "Left suspension",
+        "dimensions": {
+          "width": 0.015,
+          "depth": 0.015,
+          "height": 0.5
+        },
+        "position": {
+          "x": -0.62,
+          "y": 1.31,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "material": "solid",
+        "color": "#6f7c82",
+        "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+        "component": {
+          "role": "element",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+        "name": "Right suspension",
+        "dimensions": {
+          "width": 0.015,
+          "depth": 0.015,
+          "height": 0.72
+        },
+        "position": {
+          "x": 0.56,
+          "y": 1.0900000000000003,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "material": "solid",
+        "color": "#6f7c82",
+        "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+        "component": {
+          "role": "element",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+        "name": "Spherical weight",
+        "dimensions": {
+          "width": 0.22,
+          "depth": 0.22,
+          "height": 0.22
+        },
+        "position": {
+          "x": -0.62,
+          "y": 1.09,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "sphere"
+        },
+        "material": "solid",
+        "color": "#bc815c",
+        "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+        "component": {
+          "role": "element",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+        "name": "Elliptical weight",
+        "dimensions": {
+          "width": 0.18,
+          "depth": 0.12,
+          "height": 0.24
+        },
+        "position": {
+          "x": 0.56,
+          "y": 0.8500000000000001,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "material": "solid",
+        "color": "#bc815c",
+        "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+        "component": {
+          "role": "element",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      }
+    ],
+    "selectedId": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+    "selectedIds": [
+      "9eda11c3-0e64-4feb-8852-a8d1ee45f427"
+    ]
+  },
+  "past": [
+    {
+      "volumes": [
+        {
+          "id": "95879b90-dae9-402b-8f93-61510658f0a4",
+          "name": "Unrelated nearby marker",
+          "dimensions": {
+            "width": 0.16,
+            "depth": 0.12,
+            "height": 0.14
+          },
+          "position": {
+            "x": 0.4,
+            "y": 0,
+            "z": 0.22
+          },
+          "rotation": 0
+        },
+        {
+          "id": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+          "name": "Unrelated tall marker",
+          "dimensions": {
+            "width": 0.1,
+            "depth": 0.18,
+            "height": 0.31
+          },
+          "position": {
+            "x": -1.05,
+            "y": 0,
+            "z": -0.4
+          },
+          "rotation": 0
+        }
+      ],
+      "selectedId": null
+    },
+    {
+      "groups": [
+        {
+          "id": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+          "name": "Display mobile",
+          "visible": true,
+          "locked": false
+        }
+      ],
+      "volumes": [
+        {
+          "id": "95879b90-dae9-402b-8f93-61510658f0a4",
+          "name": "Unrelated nearby marker",
+          "dimensions": {
+            "width": 0.16,
+            "depth": 0.12,
+            "height": 0.14
+          },
+          "position": {
+            "x": 0.4,
+            "y": 0,
+            "z": 0.22
+          },
+          "rotation": 0
+        },
+        {
+          "id": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+          "name": "Unrelated tall marker",
+          "dimensions": {
+            "width": 0.1,
+            "depth": 0.18,
+            "height": 0.31
+          },
+          "position": {
+            "x": -1.05,
+            "y": 0,
+            "z": -0.4
+          },
+          "rotation": 0
+        },
+        {
+          "id": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+          "name": "Oval foot",
+          "dimensions": {
+            "width": 0.6,
+            "depth": 0.42,
+            "height": 0.08
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "cylinder"
+          },
+          "material": "solid",
+          "color": "#6f7c82",
+          "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+          "name": "Mast",
+          "dimensions": {
+            "width": 0.06,
+            "depth": 0.06,
+            "height": 1.44
+          },
+          "position": {
+            "x": 0,
+            "y": 0.08,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "cylinder"
+          },
+          "material": "solid",
+          "color": "#6f7c82",
+          "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+          "name": "Crossbar",
+          "dimensions": {
+            "width": 1.6,
+            "depth": 0.06,
+            "height": 0.08
+          },
+          "position": {
+            "x": 0,
+            "y": 1.52,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          },
+          "material": "solid",
+          "color": "#6f7c82",
+          "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "f74888d0-3b04-468a-882c-b752968b638a",
+          "name": "Left suspension",
+          "dimensions": {
+            "width": 0.015,
+            "depth": 0.015,
+            "height": 0.5
+          },
+          "position": {
+            "x": -0.62,
+            "y": 1.02,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "cylinder"
+          },
+          "material": "solid",
+          "color": "#6f7c82",
+          "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+          "name": "Right suspension",
+          "dimensions": {
+            "width": 0.015,
+            "depth": 0.015,
+            "height": 0.72
+          },
+          "position": {
+            "x": 0.56,
+            "y": 0.8,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "cylinder"
+          },
+          "material": "solid",
+          "color": "#6f7c82",
+          "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+          "name": "Spherical weight",
+          "dimensions": {
+            "width": 0.22,
+            "depth": 0.22,
+            "height": 0.22
+          },
+          "position": {
+            "x": -0.62,
+            "y": 0.8,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "sphere"
+          },
+          "material": "solid",
+          "color": "#bc815c",
+          "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+          "name": "Elliptical weight",
+          "dimensions": {
+            "width": 0.18,
+            "depth": 0.12,
+            "height": 0.24
+          },
+          "position": {
+            "x": 0.56,
+            "y": 0.56,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "cylinder"
+          },
+          "material": "solid",
+          "color": "#bc815c",
+          "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        }
+      ],
+      "selectedId": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+      "selectedIds": [
+        "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+        "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+        "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+        "f74888d0-3b04-468a-882c-b752968b638a",
+        "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+        "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+        "9eda11c3-0e64-4feb-8852-a8d1ee45f427"
+      ]
+    }
+  ],
+  "future": [],
+  "context": {
+    "focusIds": [
+      "9eda11c3-0e64-4feb-8852-a8d1ee45f427"
+    ],
+    "lastCreatedIds": [
+      "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+      "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+      "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+      "f74888d0-3b04-468a-882c-b752968b638a",
+      "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+      "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+      "9eda11c3-0e64-4feb-8852-a8d1ee45f427"
+    ],
+    "lastOperands": [],
+    "lastOperation": "position"
+  },
+  "name": "Offline mobile — after edit",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Build a freestanding asymmetric display mobile with an oval base, slender central mast, one horizontal crossbar and two hanging weights, one spherical and one elliptical cylindrical. Keep the seven parts separately editable, group the mobile and leave my two existing markers untouched."
+    },
+    {
+      "role": "assistant",
+      "content": "Display mobile: 7 independently editable elements.\nOval foot: 0.6 × 0.42 × 0.08 m; base (0, 0, 0) m.\nMast: 0.06 × 0.06 × 1.44 m; base (0, 0.08, 0) m.\nCrossbar: 1.6 × 0.06 × 0.08 m; base (0, 1.52, 0) m.\nLeft suspension: 0.015 × 0.015 × 0.5 m; base (-0.62, 1.02, 0) m.\nRight suspension: 0.015 × 0.015 × 0.72 m; base (0.56, 0.8, 0) m.\nSpherical weight: 0.22 × 0.22 × 0.22 m; base (-0.62, 0.8, 0) m.\nElliptical weight: 0.18 × 0.12 × 0.24 m; base (0.56, 0.56, 0) m.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount requirement: count (each): 7; expected equal 7, tolerance 0. 7 element(s).\nSeparate editable parts: 7 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\nAssembly membership: Group Display mobile: 7 members; 7/7 requested objects belong to it.\nheight requirement: height (each, world solids): 0.08; expected equal 0.08 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.6; expected equal 0.6 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 1.44; expected equal 1.44 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.06; expected equal 0.06 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.08000000000000007; expected equal 0.08 ± 0.00001 m.\nwidth requirement: width (each, world solids): 1.6; expected equal 1.6 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.5; expected equal 0.5 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.014999999999999902; expected equal 0.015 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.72; expected equal 0.72 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.014999999999999902; expected equal 0.015 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.21999999999999997; expected equal 0.22 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.21999999999999997; expected equal 0.22 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.24; expected equal 0.24 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.17999999999999994; expected equal 0.18 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nDesign assumptions:\nOffline scripted choices; fresh AI is not being tested.",
+      "summary": "Completed; measurable checks passed.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount requirement: count (each): 7; expected equal 7, tolerance 0. 7 element(s).\nSeparate editable parts: 7 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\nAssembly membership: Group Display mobile: 7 members; 7/7 requested objects belong to it.\nheight requirement: height (each, world solids): 0.08; expected equal 0.08 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.6; expected equal 0.6 ± 0.00001 m."
+    },
+    {
+      "role": "user",
+      "content": "Raise the crossbar by 0.29 m, extend the mast from its fixed foot, and let both pendants follow without changing their drop or weight shapes. Leave the base and my other objects alone."
+    },
+    {
+      "role": "assistant",
+      "content": "Moved Crossbar 0.29 m up.\nCoordinated 1 components in 1 shared edit sets; identities and construction recipes retained. Linked components followed their hosts once.\nLeft suspension: 0.015 × 0.015 × 0.5 m; base (-0.62, 1.31, 0) m.\nRight suspension: 0.015 × 0.015 × 0.72 m; base (0.56, 1.09, 0) m.\nSpherical weight: 0.22 × 0.22 × 0.22 m; base (-0.62, 1.09, 0) m.\nElliptical weight: 0.18 × 0.12 × 0.24 m; base (0.56, 0.85, 0) m.\nUnrelated existing geometry: 3 existing objects outside the requested edit scope are unchanged.\ncount requirement: count (each): 7; expected equal 7, tolerance 0. 7 element(s).\nSeparate editable parts: 7 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\nAssembly membership: Group Display mobile: 7 members; 7/7 requested objects belong to it.\nheight requirement: height (each, world solids): 0.08; expected equal 0.08 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.6; expected equal 0.6 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 1.73; expected equal 1.73 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.06; expected equal 0.06 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.08000000000000007; expected equal 0.08 ± 0.00001 m.\nwidth requirement: width (each, world solids): 1.6; expected equal 1.6 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.5; expected equal 0.5 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.014999999999999902; expected equal 0.015 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.72; expected equal 0.72 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.014999999999999902; expected equal 0.015 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.2200000000000002; expected equal 0.22 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.21999999999999997; expected equal 0.22 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.24; expected equal 0.24 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.17999999999999994; expected equal 0.18 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nRetain identities, shapes and horizontal arrangement: 7 original identities retain identity, geometry, width, depth, x, z, rotation, groupId.\nDesign assumptions:\nOffline scripted choices; fresh AI is not being tested.",
+      "summary": "Completed; measurable checks passed.\nUnrelated existing geometry: 3 existing objects outside the requested edit scope are unchanged.\ncount requirement: count (each): 7; expected equal 7, tolerance 0. 7 element(s).\nSeparate editable parts: 7 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\nAssembly membership: Group Display mobile: 7 members; 7/7 requested objects belong to it.\nheight requirement: height (each, world solids): 0.08; expected equal 0.08 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.6; expected equal 0.6 ± 0.00001 m."
+    }
+  ]
+}

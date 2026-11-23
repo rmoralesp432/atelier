@@ -1,0 +1,205 @@
+{
+  "version": 2,
+  "project": {
+    "volumes": [
+      {
+        "id": "f8cb594a-a3a1-4c95-a587-7cd472907d5b",
+        "name": "Sleeve",
+        "dimensions": {
+          "width": 0.8,
+          "height": 0.8,
+          "depth": 1.2
+        },
+        "position": {
+          "x": 0,
+          "y": 0.4,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "oriented",
+          "source": {
+            "id": "f8cb594a-a3a1-4c95-a587-7cd472907d5b",
+            "name": "Sleeve",
+            "dimensions": {
+              "width": 0.8,
+              "depth": 0.8,
+              "height": 1.2
+            },
+            "position": {
+              "x": 0,
+              "y": 0.2,
+              "z": 0
+            },
+            "rotation": 0,
+            "geometry": {
+              "kind": "hollow",
+              "source": {
+                "id": "f8cb594a-a3a1-4c95-a587-7cd472907d5b",
+                "name": "Sleeve",
+                "dimensions": {
+                  "width": 0.8,
+                  "depth": 0.8,
+                  "height": 1.2
+                },
+                "position": {
+                  "x": 0,
+                  "y": 0.2,
+                  "z": 0
+                },
+                "rotation": 0,
+                "geometry": {
+                  "kind": "cylinder"
+                }
+              },
+              "thickness": 0.08,
+              "openTop": true
+            }
+          },
+          "degrees": {
+            "x": 90,
+            "y": 0,
+            "z": 0
+          },
+          "origin": {
+            "x": 0,
+            "y": -0.4,
+            "z": 0
+          },
+          "base": {
+            "width": 0.8,
+            "height": 0.8,
+            "depth": 1.2
+          }
+        }
+      },
+      {
+        "id": "db02836f-bf02-464c-a92b-5bc20561ca8d",
+        "name": "Loose cap",
+        "dimensions": {
+          "width": 0.96,
+          "depth": 0.12,
+          "height": 0.96
+        },
+        "position": {
+          "x": 0,
+          "y": 0.32,
+          "z": 0.94
+        },
+        "rotation": 0
+      },
+      {
+        "id": "7dcfb169-a82e-4ac1-8ed2-3ccf2b6542b7",
+        "name": "Nearby untouched sphere",
+        "dimensions": {
+          "width": 0.3,
+          "depth": 0.3,
+          "height": 0.3
+        },
+        "position": {
+          "x": 0.7,
+          "y": 0.4,
+          "z": 1
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "sphere"
+        }
+      }
+    ],
+    "selectedId": "f8cb594a-a3a1-4c95-a587-7cd472907d5b",
+    "selectedIds": [
+      "f8cb594a-a3a1-4c95-a587-7cd472907d5b"
+    ]
+  },
+  "past": [
+    {
+      "volumes": [],
+      "selectedId": null
+    },
+    {
+      "volumes": [
+        {
+          "id": "f8cb594a-a3a1-4c95-a587-7cd472907d5b",
+          "name": "Sleeve",
+          "dimensions": {
+            "width": 0.8,
+            "depth": 0.8,
+            "height": 1.2
+          },
+          "position": {
+            "x": 0,
+            "y": 0.2,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "cylinder"
+          }
+        }
+      ],
+      "selectedId": "f8cb594a-a3a1-4c95-a587-7cd472907d5b",
+      "selectedIds": [
+        "f8cb594a-a3a1-4c95-a587-7cd472907d5b"
+      ]
+    },
+    {
+      "volumes": [
+        {
+          "id": "f8cb594a-a3a1-4c95-a587-7cd472907d5b",
+          "name": "Sleeve",
+          "dimensions": {
+            "width": 0.8,
+            "depth": 0.8,
+            "height": 1.2
+          },
+          "position": {
+            "x": 0,
+            "y": 0.2,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "hollow",
+            "source": {
+              "id": "f8cb594a-a3a1-4c95-a587-7cd472907d5b",
+              "name": "Sleeve",
+              "dimensions": {
+                "width": 0.8,
+                "depth": 0.8,
+                "height": 1.2
+              },
+              "position": {
+                "x": 0,
+                "y": 0.2,
+                "z": 0
+              },
+              "rotation": 0,
+              "geometry": {
+                "kind": "cylinder"
+              }
+            },
+            "thickness": 0.08,
+            "openTop": true
+          }
+        }
+      ],
+      "selectedId": "f8cb594a-a3a1-4c95-a587-7cd472907d5b",
+      "selectedIds": [
+        "f8cb594a-a3a1-4c95-a587-7cd472907d5b"
+      ]
+    }
+  ],
+  "future": [],
+  "context": {
+    "focusIds": [
+      "f8cb594a-a3a1-4c95-a587-7cd472907d5b"
+    ],
+    "lastCreatedIds": [
+      "f8cb594a-a3a1-4c95-a587-7cd472907d5b"
+    ],
+    "lastOperands": [],
+    "lastOperation": "orient"
+  },
+  "name": "Offline transfer: sleeve-before"
+}

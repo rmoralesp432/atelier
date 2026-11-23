@@ -1,0 +1,382 @@
+{
+  "provenance": "Scripted stagedPlan driver and acceptance criteria; actual geometry kernel, independent completion predicates and session codec. This transfer test does not exercise App.tsx or fresh AI.",
+  "request": "Lengthen the sleeve symmetrically by 0.46 m and retain the loose cap clearance.",
+  "before": {
+    "volume": 0.242709743172788,
+    "surfaceArea": 6.268724049060593,
+    "bounds": {
+      "min": [
+        -0.4,
+        0.4,
+        -0.6
+      ],
+      "max": [
+        0.4,
+        1.2000000000000002,
+        0.6
+      ]
+    },
+    "triangles": 508,
+    "status": "NoError"
+  },
+  "after": {
+    "volume": 0.33574847805569014,
+    "surfaceArea": 8.286984986360185,
+    "bounds": {
+      "min": [
+        -0.4,
+        0.4,
+        -0.83
+      ],
+      "max": [
+        0.4,
+        1.2000000000000002,
+        0.83
+      ]
+    },
+    "triangles": 508,
+    "status": "NoError"
+  },
+  "comparison": {
+    "available": true,
+    "snapshot": "compare",
+    "source": "request_start_and_current_transaction",
+    "units": "meters",
+    "frame": "world XYZ; Y up; north -Z",
+    "measurementContract": "World bounding envelopes only, not physical contact or structural attachment. centerDelta = second center - first center; forwardGap = second min - first max; reverseGap = first min - second max; projectedOverlap = min(maxima) - max(minima). Dimensions are local modeling dimensions. Relationships never grant edit permission.",
+    "matched": 1,
+    "omitted": 0,
+    "missingIds": [],
+    "referenceFound": {
+      "before": true,
+      "current": true
+    },
+    "objects": [
+      {
+        "id": "db02836f-bf02-464c-a92b-5bc20561ca8d",
+        "before": {
+          "id": "db02836f-bf02-464c-a92b-5bc20561ca8d",
+          "component": {
+            "role": "element",
+            "hostId": null,
+            "level": null,
+            "motion": "none",
+            "travel": 1
+          },
+          "componentSource": "inferred",
+          "ordinal": 2,
+          "groupId": null,
+          "visible": true,
+          "name": "Loose cap",
+          "dimensions": {
+            "width": 0.96,
+            "depth": 0.12,
+            "height": 0.96
+          },
+          "position": {
+            "x": 0,
+            "y": 0.32,
+            "z": 0.94
+          },
+          "rotation": 0,
+          "shape": "box",
+          "material": null,
+          "materialSpec": null,
+          "color": "#e2e7e6",
+          "opening": false,
+          "spatial": {
+            "envelopeBounds": {
+              "min": {
+                "x": -0.48,
+                "y": 0.32000000000000006,
+                "z": 0.8799999999999999
+              },
+              "max": {
+                "x": 0.48,
+                "y": 1.28,
+                "z": 1
+              }
+            },
+            "flat": false,
+            "reference": false,
+            "footprint": null,
+            "openingSize": null,
+            "operands": []
+          },
+          "fixedWindowWidth": null,
+          "display": null,
+          "formDefinition": null,
+          "formFrame": null,
+          "construction": null,
+          "architecture": null
+        },
+        "current": {
+          "id": "db02836f-bf02-464c-a92b-5bc20561ca8d",
+          "component": {
+            "role": "element",
+            "hostId": null,
+            "level": null,
+            "motion": "none",
+            "travel": 1
+          },
+          "componentSource": "inferred",
+          "ordinal": 2,
+          "groupId": null,
+          "visible": true,
+          "name": "Loose cap",
+          "dimensions": {
+            "width": 0.96,
+            "depth": 0.12,
+            "height": 0.96
+          },
+          "position": {
+            "x": 0,
+            "y": 0.32,
+            "z": 1.17
+          },
+          "rotation": 0,
+          "shape": "box",
+          "material": null,
+          "materialSpec": null,
+          "color": "#e2e7e6",
+          "opening": false,
+          "spatial": {
+            "envelopeBounds": {
+              "min": {
+                "x": -0.48,
+                "y": 0.32000000000000006,
+                "z": 1.1099999999999999
+              },
+              "max": {
+                "x": 0.48,
+                "y": 1.28,
+                "z": 1.23
+              }
+            },
+            "flat": false,
+            "reference": false,
+            "footprint": null,
+            "openingSize": null,
+            "operands": []
+          },
+          "fixedWindowWidth": null,
+          "display": null,
+          "formDefinition": null,
+          "formFrame": null,
+          "construction": null,
+          "architecture": null
+        },
+        "state": "changed",
+        "changedFields": [
+          "position",
+          "spatial"
+        ]
+      }
+    ],
+    "relations": [
+      {
+        "id": "db02836f-bf02-464c-a92b-5bc20561ca8d",
+        "before": {
+          "first": "f8cb594a-a3a1-4c95-a587-7cd472907d5b",
+          "second": "db02836f-bf02-464c-a92b-5bc20561ca8d",
+          "firstBounds": {
+            "min": {
+              "x": -0.4,
+              "y": 0.4,
+              "z": -0.6
+            },
+            "max": {
+              "x": 0.4,
+              "y": 1.2000000000000002,
+              "z": 0.6
+            }
+          },
+          "secondBounds": {
+            "min": {
+              "x": -0.48,
+              "y": 0.32000000000000006,
+              "z": 0.8799999999999999
+            },
+            "max": {
+              "x": 0.48,
+              "y": 1.28,
+              "z": 1
+            }
+          },
+          "centerDelta": {
+            "x": 0,
+            "y": 0,
+            "z": 0.94
+          },
+          "forwardGap": {
+            "x": -0.88,
+            "y": -0.8800000000000001,
+            "z": 0.2799999999999999
+          },
+          "reverseGap": {
+            "x": -0.88,
+            "y": -0.88,
+            "z": -1.6
+          },
+          "projectedOverlap": {
+            "x": 0.8,
+            "y": 0.8000000000000002,
+            "z": -0.2799999999999999
+          }
+        },
+        "current": {
+          "first": "f8cb594a-a3a1-4c95-a587-7cd472907d5b",
+          "second": "db02836f-bf02-464c-a92b-5bc20561ca8d",
+          "firstBounds": {
+            "min": {
+              "x": -0.4,
+              "y": 0.4,
+              "z": -0.83
+            },
+            "max": {
+              "x": 0.4,
+              "y": 1.2000000000000002,
+              "z": 0.83
+            }
+          },
+          "secondBounds": {
+            "min": {
+              "x": -0.48,
+              "y": 0.32000000000000006,
+              "z": 1.1099999999999999
+            },
+            "max": {
+              "x": 0.48,
+              "y": 1.28,
+              "z": 1.23
+            }
+          },
+          "centerDelta": {
+            "x": 0,
+            "y": 0,
+            "z": 1.17
+          },
+          "forwardGap": {
+            "x": -0.88,
+            "y": -0.8800000000000001,
+            "z": 0.2799999999999999
+          },
+          "reverseGap": {
+            "x": -0.88,
+            "y": -0.88,
+            "z": -2.06
+          },
+          "projectedOverlap": {
+            "x": 0.8,
+            "y": 0.8000000000000002,
+            "z": -0.2799999999999999
+          }
+        }
+      }
+    ],
+    "groups": {
+      "before": [],
+      "current": []
+    },
+    "execution": null
+  },
+  "verification": {
+    "modeling": true,
+    "passed": true,
+    "status": "verified",
+    "canCommit": true,
+    "checks": [
+      {
+        "id": "preserved-scope",
+        "label": "Unrelated existing geometry",
+        "met": true,
+        "outcome": "verified",
+        "observed": "1 existing objects outside the requested edit scope are unchanged.",
+        "ids": []
+      },
+      {
+        "id": "length",
+        "label": "depth requirement",
+        "met": true,
+        "outcome": "verified",
+        "observed": "depth (each, world solids): 1.66; expected equal 1.66 ± 0.00001 m.",
+        "ids": [
+          "f8cb594a-a3a1-4c95-a587-7cd472907d5b"
+        ]
+      },
+      {
+        "id": "gap",
+        "label": "Retain cap clearance",
+        "met": true,
+        "outcome": "verified",
+        "observed": "Measured world-bounds z offset (min of db02836f-bf02-464c-a92b-5bc20561ca8d minus max of f8cb594a-a3a1-4c95-a587-7cd472907d5b): 0.2799999999999999 m; expected 0.28 ± 0.00001 m. This is an axis/bounds check, not proof of surface connectivity.",
+        "ids": [
+          "f8cb594a-a3a1-4c95-a587-7cd472907d5b",
+          "db02836f-bf02-464c-a92b-5bc20561ca8d"
+        ]
+      },
+      {
+        "id": "cap",
+        "label": "Retain cap form and transverse position",
+        "met": true,
+        "outcome": "verified",
+        "observed": "1 original identities retain identity, geometry, dimensions, x, y, rotation.",
+        "ids": [
+          "db02836f-bf02-464c-a92b-5bc20561ca8d"
+        ]
+      }
+    ],
+    "qualitativeLimits": []
+  },
+  "displacedCap": {
+    "modeling": true,
+    "passed": false,
+    "status": "incorrect",
+    "canCommit": false,
+    "checks": [
+      {
+        "id": "preserved-scope",
+        "label": "Unrelated existing geometry",
+        "met": true,
+        "outcome": "verified",
+        "observed": "1 existing objects outside the requested edit scope are unchanged.",
+        "ids": []
+      },
+      {
+        "id": "length",
+        "label": "depth requirement",
+        "met": true,
+        "outcome": "verified",
+        "observed": "depth (each, world solids): 1.66; expected equal 1.66 ± 0.00001 m.",
+        "ids": [
+          "f8cb594a-a3a1-4c95-a587-7cd472907d5b"
+        ]
+      },
+      {
+        "id": "gap",
+        "label": "Retain cap clearance",
+        "met": false,
+        "outcome": "incorrect",
+        "observed": "Measured world-bounds z offset (min of db02836f-bf02-464c-a92b-5bc20561ca8d minus max of f8cb594a-a3a1-4c95-a587-7cd472907d5b): 0.4 m; expected 0.28 ± 0.00001 m. This is an axis/bounds check, not proof of surface connectivity.",
+        "ids": [
+          "f8cb594a-a3a1-4c95-a587-7cd472907d5b",
+          "db02836f-bf02-464c-a92b-5bc20561ca8d"
+        ]
+      },
+      {
+        "id": "cap",
+        "label": "Retain cap form and transverse position",
+        "met": true,
+        "outcome": "verified",
+        "observed": "1 original identities retain identity, geometry, dimensions, x, y, rotation.",
+        "ids": [
+          "db02836f-bf02-464c-a92b-5bc20561ca8d"
+        ]
+      }
+    ],
+    "qualitativeLimits": []
+  },
+  "allIdsPreserved": true,
+  "neighborUnchanged": true,
+  "serializationUndoRedo": true
+}

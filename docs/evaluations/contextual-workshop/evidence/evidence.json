@@ -1,0 +1,4234 @@
+{
+  "provenance": "Scripted provider and independent criteria; actual App/provider tools/geometry/commit/reload/Undo/Redo. No paid API calls.",
+  "prompts": [
+    "Build a freestanding asymmetric display mobile with an oval base, slender central mast, one horizontal crossbar and two hanging weights, one spherical and one elliptical cylindrical. Keep the seven parts separately editable, group the mobile and leave my two existing markers untouched.",
+    "Raise the crossbar by 0.29 m, extend the mast from its fixed foot, and let both pendants follow without changing their drop or weight shapes. Leave the base and my other objects alone."
+  ],
+  "trace": [
+    {
+      "stage": 1,
+      "inspection": {
+        "available": true,
+        "snapshot": "compare",
+        "source": "request_start_and_current_transaction",
+        "units": "meters",
+        "frame": "world XYZ; Y up; north -Z",
+        "measurementContract": "World bounding envelopes only, not physical contact or structural attachment. centerDelta = second center - first center; forwardGap = second min - first max; reverseGap = first min - second max; projectedOverlap = min(maxima) - max(minima). Dimensions are local modeling dimensions. Relationships never grant edit permission.",
+        "matched": 9,
+        "omitted": 0,
+        "missingIds": [],
+        "referenceFound": {
+          "before": true,
+          "current": true
+        },
+        "objects": [
+          {
+            "id": "95879b90-dae9-402b-8f93-61510658f0a4",
+            "before": {
+              "id": "95879b90-dae9-402b-8f93-61510658f0a4",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "inferred",
+              "ordinal": 1,
+              "groupId": null,
+              "visible": true,
+              "name": "Unrelated nearby marker",
+              "dimensions": {
+                "width": 0.16,
+                "depth": 0.12,
+                "height": 0.14
+              },
+              "position": {
+                "x": 0.4,
+                "y": 0,
+                "z": 0.22
+              },
+              "rotation": 0,
+              "shape": "box",
+              "material": null,
+              "materialSpec": null,
+              "color": "#e2e7e6",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": 0.32,
+                    "y": 0,
+                    "z": 0.16
+                  },
+                  "max": {
+                    "x": 0.48000000000000004,
+                    "y": 0.14,
+                    "z": 0.28
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "95879b90-dae9-402b-8f93-61510658f0a4",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "inferred",
+              "ordinal": 1,
+              "groupId": null,
+              "visible": true,
+              "name": "Unrelated nearby marker",
+              "dimensions": {
+                "width": 0.16,
+                "depth": 0.12,
+                "height": 0.14
+              },
+              "position": {
+                "x": 0.4,
+                "y": 0,
+                "z": 0.22
+              },
+              "rotation": 0,
+              "shape": "box",
+              "material": null,
+              "materialSpec": null,
+              "color": "#e2e7e6",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": 0.32,
+                    "y": 0,
+                    "z": 0.16
+                  },
+                  "max": {
+                    "x": 0.48000000000000004,
+                    "y": 0.14,
+                    "z": 0.28
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+            "before": {
+              "id": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "inferred",
+              "ordinal": 2,
+              "groupId": null,
+              "visible": true,
+              "name": "Unrelated tall marker",
+              "dimensions": {
+                "width": 0.1,
+                "depth": 0.18,
+                "height": 0.31
+              },
+              "position": {
+                "x": -1.05,
+                "y": 0,
+                "z": -0.4
+              },
+              "rotation": 0,
+              "shape": "box",
+              "material": null,
+              "materialSpec": null,
+              "color": "#e2e7e6",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -1.1,
+                    "y": 0,
+                    "z": -0.49
+                  },
+                  "max": {
+                    "x": -1,
+                    "y": 0.31,
+                    "z": -0.31000000000000005
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "inferred",
+              "ordinal": 2,
+              "groupId": null,
+              "visible": true,
+              "name": "Unrelated tall marker",
+              "dimensions": {
+                "width": 0.1,
+                "depth": 0.18,
+                "height": 0.31
+              },
+              "position": {
+                "x": -1.05,
+                "y": 0,
+                "z": -0.4
+              },
+              "rotation": 0,
+              "shape": "box",
+              "material": null,
+              "materialSpec": null,
+              "color": "#e2e7e6",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -1.1,
+                    "y": 0,
+                    "z": -0.49
+                  },
+                  "max": {
+                    "x": -1,
+                    "y": 0.31,
+                    "z": -0.31000000000000005
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+            "before": {
+              "id": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 3,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Oval foot",
+              "dimensions": {
+                "width": 0.6,
+                "depth": 0.42,
+                "height": 0.08
+              },
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.3,
+                    "y": 0,
+                    "z": -0.21
+                  },
+                  "max": {
+                    "x": 0.3,
+                    "y": 0.08,
+                    "z": 0.21
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 3,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Oval foot",
+              "dimensions": {
+                "width": 0.6,
+                "depth": 0.42,
+                "height": 0.08
+              },
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.3,
+                    "y": 0,
+                    "z": -0.21
+                  },
+                  "max": {
+                    "x": 0.3,
+                    "y": 0.08,
+                    "z": 0.21
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+            "before": {
+              "id": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 4,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Mast",
+              "dimensions": {
+                "width": 0.06,
+                "depth": 0.06,
+                "height": 1.44
+              },
+              "position": {
+                "x": 0,
+                "y": 0.08,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.03,
+                    "y": 0.07999999999999996,
+                    "z": -0.03
+                  },
+                  "max": {
+                    "x": 0.03,
+                    "y": 1.52,
+                    "z": 0.03
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 4,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Mast",
+              "dimensions": {
+                "width": 0.06,
+                "depth": 0.06,
+                "height": 1.44
+              },
+              "position": {
+                "x": 0,
+                "y": 0.08,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.03,
+                    "y": 0.07999999999999996,
+                    "z": -0.03
+                  },
+                  "max": {
+                    "x": 0.03,
+                    "y": 1.52,
+                    "z": 0.03
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+            "before": {
+              "id": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 5,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Crossbar",
+              "dimensions": {
+                "width": 1.6,
+                "depth": 0.06,
+                "height": 0.08
+              },
+              "position": {
+                "x": 0,
+                "y": 1.52,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "box",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.8,
+                    "y": 1.52,
+                    "z": -0.03
+                  },
+                  "max": {
+                    "x": 0.8,
+                    "y": 1.6,
+                    "z": 0.03
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 5,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Crossbar",
+              "dimensions": {
+                "width": 1.6,
+                "depth": 0.06,
+                "height": 0.08
+              },
+              "position": {
+                "x": 0,
+                "y": 1.52,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "box",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.8,
+                    "y": 1.52,
+                    "z": -0.03
+                  },
+                  "max": {
+                    "x": 0.8,
+                    "y": 1.6,
+                    "z": 0.03
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "f74888d0-3b04-468a-882c-b752968b638a",
+            "before": {
+              "id": "f74888d0-3b04-468a-882c-b752968b638a",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 6,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Left suspension",
+              "dimensions": {
+                "width": 0.015,
+                "depth": 0.015,
+                "height": 0.5
+              },
+              "position": {
+                "x": -0.62,
+                "y": 1.02,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.6275,
+                    "y": 1.02,
+                    "z": -0.0075
+                  },
+                  "max": {
+                    "x": -0.6125,
+                    "y": 1.52,
+                    "z": 0.0075
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "f74888d0-3b04-468a-882c-b752968b638a",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 6,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Left suspension",
+              "dimensions": {
+                "width": 0.015,
+                "depth": 0.015,
+                "height": 0.5
+              },
+              "position": {
+                "x": -0.62,
+                "y": 1.02,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.6275,
+                    "y": 1.02,
+                    "z": -0.0075
+                  },
+                  "max": {
+                    "x": -0.6125,
+                    "y": 1.52,
+                    "z": 0.0075
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+            "before": {
+              "id": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 7,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Right suspension",
+              "dimensions": {
+                "width": 0.015,
+                "depth": 0.015,
+                "height": 0.72
+              },
+              "position": {
+                "x": 0.56,
+                "y": 0.8,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": 0.5525000000000001,
+                    "y": 0.8000000000000002,
+                    "z": -0.0075
+                  },
+                  "max": {
+                    "x": 0.5675,
+                    "y": 1.52,
+                    "z": 0.0075
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 7,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Right suspension",
+              "dimensions": {
+                "width": 0.015,
+                "depth": 0.015,
+                "height": 0.72
+              },
+              "position": {
+                "x": 0.56,
+                "y": 0.8,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": 0.5525000000000001,
+                    "y": 0.8000000000000002,
+                    "z": -0.0075
+                  },
+                  "max": {
+                    "x": 0.5675,
+                    "y": 1.52,
+                    "z": 0.0075
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+            "before": {
+              "id": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 8,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Spherical weight",
+              "dimensions": {
+                "width": 0.22,
+                "depth": 0.22,
+                "height": 0.22
+              },
+              "position": {
+                "x": -0.62,
+                "y": 0.8,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "sphere",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#bc815c",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.73,
+                    "y": 0.8,
+                    "z": -0.11
+                  },
+                  "max": {
+                    "x": -0.51,
+                    "y": 1.02,
+                    "z": 0.11
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 8,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Spherical weight",
+              "dimensions": {
+                "width": 0.22,
+                "depth": 0.22,
+                "height": 0.22
+              },
+              "position": {
+                "x": -0.62,
+                "y": 0.8,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "sphere",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#bc815c",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.73,
+                    "y": 0.8,
+                    "z": -0.11
+                  },
+                  "max": {
+                    "x": -0.51,
+                    "y": 1.02,
+                    "z": 0.11
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+            "before": {
+              "id": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 9,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Elliptical weight",
+              "dimensions": {
+                "width": 0.18,
+                "depth": 0.12,
+                "height": 0.24
+              },
+              "position": {
+                "x": 0.56,
+                "y": 0.56,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#bc815c",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": 0.4700000000000001,
+                    "y": 0.56,
+                    "z": -0.06
+                  },
+                  "max": {
+                    "x": 0.65,
+                    "y": 0.8,
+                    "z": 0.06
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 9,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Elliptical weight",
+              "dimensions": {
+                "width": 0.18,
+                "depth": 0.12,
+                "height": 0.24
+              },
+              "position": {
+                "x": 0.56,
+                "y": 0.56,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#bc815c",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": 0.4700000000000001,
+                    "y": 0.56,
+                    "z": -0.06
+                  },
+                  "max": {
+                    "x": 0.65,
+                    "y": 0.8,
+                    "z": 0.06
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          }
+        ],
+        "relations": [
+          {
+            "id": "95879b90-dae9-402b-8f93-61510658f0a4",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "95879b90-dae9-402b-8f93-61510658f0a4",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": 0.32,
+                  "y": 0,
+                  "z": 0.16
+                },
+                "max": {
+                  "x": 0.48000000000000004,
+                  "y": 0.14,
+                  "z": 0.28
+                }
+              },
+              "centerDelta": {
+                "x": 0.4,
+                "y": -1.49,
+                "z": 0.22000000000000003
+              },
+              "forwardGap": {
+                "x": -0.48000000000000004,
+                "y": -1.6,
+                "z": 0.13
+              },
+              "reverseGap": {
+                "x": -1.28,
+                "y": 1.38,
+                "z": -0.31000000000000005
+              },
+              "projectedOverlap": {
+                "x": 0.16000000000000003,
+                "y": -1.38,
+                "z": -0.13
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "95879b90-dae9-402b-8f93-61510658f0a4",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": 0.32,
+                  "y": 0,
+                  "z": 0.16
+                },
+                "max": {
+                  "x": 0.48000000000000004,
+                  "y": 0.14,
+                  "z": 0.28
+                }
+              },
+              "centerDelta": {
+                "x": 0.4,
+                "y": -1.49,
+                "z": 0.22000000000000003
+              },
+              "forwardGap": {
+                "x": -0.48000000000000004,
+                "y": -1.6,
+                "z": 0.13
+              },
+              "reverseGap": {
+                "x": -1.28,
+                "y": 1.38,
+                "z": -0.31000000000000005
+              },
+              "projectedOverlap": {
+                "x": 0.16000000000000003,
+                "y": -1.38,
+                "z": -0.13
+              }
+            }
+          },
+          {
+            "id": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -1.1,
+                  "y": 0,
+                  "z": -0.49
+                },
+                "max": {
+                  "x": -1,
+                  "y": 0.31,
+                  "z": -0.31000000000000005
+                }
+              },
+              "centerDelta": {
+                "x": -1.05,
+                "y": -1.405,
+                "z": -0.4
+              },
+              "forwardGap": {
+                "x": -1.9000000000000001,
+                "y": -1.6,
+                "z": -0.52
+              },
+              "reverseGap": {
+                "x": 0.19999999999999996,
+                "y": 1.21,
+                "z": 0.28
+              },
+              "projectedOverlap": {
+                "x": -0.19999999999999996,
+                "y": -1.21,
+                "z": -0.28
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -1.1,
+                  "y": 0,
+                  "z": -0.49
+                },
+                "max": {
+                  "x": -1,
+                  "y": 0.31,
+                  "z": -0.31000000000000005
+                }
+              },
+              "centerDelta": {
+                "x": -1.05,
+                "y": -1.405,
+                "z": -0.4
+              },
+              "forwardGap": {
+                "x": -1.9000000000000001,
+                "y": -1.6,
+                "z": -0.52
+              },
+              "reverseGap": {
+                "x": 0.19999999999999996,
+                "y": 1.21,
+                "z": 0.28
+              },
+              "projectedOverlap": {
+                "x": -0.19999999999999996,
+                "y": -1.21,
+                "z": -0.28
+              }
+            }
+          },
+          {
+            "id": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.3,
+                  "y": 0,
+                  "z": -0.21
+                },
+                "max": {
+                  "x": 0.3,
+                  "y": 0.08,
+                  "z": 0.21
+                }
+              },
+              "centerDelta": {
+                "x": 0,
+                "y": -1.52,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -1.1,
+                "y": -1.6,
+                "z": -0.24
+              },
+              "reverseGap": {
+                "x": -1.1,
+                "y": 1.44,
+                "z": -0.24
+              },
+              "projectedOverlap": {
+                "x": 0.6,
+                "y": -1.44,
+                "z": 0.06
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.3,
+                  "y": 0,
+                  "z": -0.21
+                },
+                "max": {
+                  "x": 0.3,
+                  "y": 0.08,
+                  "z": 0.21
+                }
+              },
+              "centerDelta": {
+                "x": 0,
+                "y": -1.52,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -1.1,
+                "y": -1.6,
+                "z": -0.24
+              },
+              "reverseGap": {
+                "x": -1.1,
+                "y": 1.44,
+                "z": -0.24
+              },
+              "projectedOverlap": {
+                "x": 0.6,
+                "y": -1.44,
+                "z": 0.06
+              }
+            }
+          },
+          {
+            "id": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.03,
+                  "y": 0.07999999999999996,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.03,
+                  "y": 1.52,
+                  "z": 0.03
+                }
+              },
+              "centerDelta": {
+                "x": 0,
+                "y": -0.76,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -0.8300000000000001,
+                "y": -1.52,
+                "z": -0.06
+              },
+              "reverseGap": {
+                "x": -0.8300000000000001,
+                "y": 0,
+                "z": -0.06
+              },
+              "projectedOverlap": {
+                "x": 0.06,
+                "y": 0,
+                "z": 0.06
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.03,
+                  "y": 0.07999999999999996,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.03,
+                  "y": 1.52,
+                  "z": 0.03
+                }
+              },
+              "centerDelta": {
+                "x": 0,
+                "y": -0.76,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -0.8300000000000001,
+                "y": -1.52,
+                "z": -0.06
+              },
+              "reverseGap": {
+                "x": -0.8300000000000001,
+                "y": 0,
+                "z": -0.06
+              },
+              "projectedOverlap": {
+                "x": 0.06,
+                "y": 0,
+                "z": 0.06
+              }
+            }
+          },
+          {
+            "id": "f74888d0-3b04-468a-882c-b752968b638a",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "f74888d0-3b04-468a-882c-b752968b638a",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.6275,
+                  "y": 1.02,
+                  "z": -0.0075
+                },
+                "max": {
+                  "x": -0.6125,
+                  "y": 1.52,
+                  "z": 0.0075
+                }
+              },
+              "centerDelta": {
+                "x": -0.62,
+                "y": -0.29000000000000004,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -1.4275,
+                "y": -0.5800000000000001,
+                "z": -0.0375
+              },
+              "reverseGap": {
+                "x": -0.1875,
+                "y": 0,
+                "z": -0.0375
+              },
+              "projectedOverlap": {
+                "x": 0.014999999999999902,
+                "y": 0,
+                "z": 0.015
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "f74888d0-3b04-468a-882c-b752968b638a",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.6275,
+                  "y": 1.02,
+                  "z": -0.0075
+                },
+                "max": {
+                  "x": -0.6125,
+                  "y": 1.52,
+                  "z": 0.0075
+                }
+              },
+              "centerDelta": {
+                "x": -0.62,
+                "y": -0.29000000000000004,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -1.4275,
+                "y": -0.5800000000000001,
+                "z": -0.0375
+              },
+              "reverseGap": {
+                "x": -0.1875,
+                "y": 0,
+                "z": -0.0375
+              },
+              "projectedOverlap": {
+                "x": 0.014999999999999902,
+                "y": 0,
+                "z": 0.015
+              }
+            }
+          },
+          {
+            "id": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": 0.5525000000000001,
+                  "y": 0.8000000000000002,
+                  "z": -0.0075
+                },
+                "max": {
+                  "x": 0.5675,
+                  "y": 1.52,
+                  "z": 0.0075
+                }
+              },
+              "centerDelta": {
+                "x": 0.56,
+                "y": -0.3999999999999999,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -0.24749999999999994,
+                "y": -0.7999999999999999,
+                "z": -0.0375
+              },
+              "reverseGap": {
+                "x": -1.3675000000000002,
+                "y": 0,
+                "z": -0.0375
+              },
+              "projectedOverlap": {
+                "x": 0.014999999999999902,
+                "y": 0,
+                "z": 0.015
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": 0.5525000000000001,
+                  "y": 0.8000000000000002,
+                  "z": -0.0075
+                },
+                "max": {
+                  "x": 0.5675,
+                  "y": 1.52,
+                  "z": 0.0075
+                }
+              },
+              "centerDelta": {
+                "x": 0.56,
+                "y": -0.3999999999999999,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -0.24749999999999994,
+                "y": -0.7999999999999999,
+                "z": -0.0375
+              },
+              "reverseGap": {
+                "x": -1.3675000000000002,
+                "y": 0,
+                "z": -0.0375
+              },
+              "projectedOverlap": {
+                "x": 0.014999999999999902,
+                "y": 0,
+                "z": 0.015
+              }
+            }
+          },
+          {
+            "id": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.73,
+                  "y": 0.8,
+                  "z": -0.11
+                },
+                "max": {
+                  "x": -0.51,
+                  "y": 1.02,
+                  "z": 0.11
+                }
+              },
+              "centerDelta": {
+                "x": -0.62,
+                "y": -0.65,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -1.53,
+                "y": -0.8,
+                "z": -0.14
+              },
+              "reverseGap": {
+                "x": -0.29000000000000004,
+                "y": 0.5,
+                "z": -0.14
+              },
+              "projectedOverlap": {
+                "x": 0.21999999999999997,
+                "y": -0.5,
+                "z": 0.06
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.73,
+                  "y": 0.8,
+                  "z": -0.11
+                },
+                "max": {
+                  "x": -0.51,
+                  "y": 1.02,
+                  "z": 0.11
+                }
+              },
+              "centerDelta": {
+                "x": -0.62,
+                "y": -0.65,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -1.53,
+                "y": -0.8,
+                "z": -0.14
+              },
+              "reverseGap": {
+                "x": -0.29000000000000004,
+                "y": 0.5,
+                "z": -0.14
+              },
+              "projectedOverlap": {
+                "x": 0.21999999999999997,
+                "y": -0.5,
+                "z": 0.06
+              }
+            }
+          },
+          {
+            "id": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": 0.4700000000000001,
+                  "y": 0.56,
+                  "z": -0.06
+                },
+                "max": {
+                  "x": 0.65,
+                  "y": 0.8,
+                  "z": 0.06
+                }
+              },
+              "centerDelta": {
+                "x": 0.56,
+                "y": -0.88,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -0.32999999999999996,
+                "y": -1.04,
+                "z": -0.09
+              },
+              "reverseGap": {
+                "x": -1.4500000000000002,
+                "y": 0.72,
+                "z": -0.09
+              },
+              "projectedOverlap": {
+                "x": 0.17999999999999994,
+                "y": -0.72,
+                "z": 0.06
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": 0.4700000000000001,
+                  "y": 0.56,
+                  "z": -0.06
+                },
+                "max": {
+                  "x": 0.65,
+                  "y": 0.8,
+                  "z": 0.06
+                }
+              },
+              "centerDelta": {
+                "x": 0.56,
+                "y": -0.88,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -0.32999999999999996,
+                "y": -1.04,
+                "z": -0.09
+              },
+              "reverseGap": {
+                "x": -1.4500000000000002,
+                "y": 0.72,
+                "z": -0.09
+              },
+              "projectedOverlap": {
+                "x": 0.17999999999999994,
+                "y": -0.72,
+                "z": 0.06
+              }
+            }
+          }
+        ],
+        "groups": {
+          "before": [
+            {
+              "id": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "name": "Display mobile",
+              "visible": true,
+              "locked": false,
+              "members": [
+                "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+                "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+                "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+                "f74888d0-3b04-468a-882c-b752968b638a",
+                "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+                "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+                "9eda11c3-0e64-4feb-8852-a8d1ee45f427"
+              ],
+              "bounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 0,
+                  "z": -0.21
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.21
+                }
+              }
+            }
+          ],
+          "current": [
+            {
+              "id": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "name": "Display mobile",
+              "visible": true,
+              "locked": false,
+              "members": [
+                "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+                "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+                "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+                "f74888d0-3b04-468a-882c-b752968b638a",
+                "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+                "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+                "9eda11c3-0e64-4feb-8852-a8d1ee45f427"
+              ],
+              "bounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 0,
+                  "z": -0.21
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.21
+                }
+              }
+            }
+          ]
+        },
+        "execution": {
+          "stage": 1,
+          "remaining": 11,
+          "remainingOperations": 64,
+          "next": "Inspect the scene and execute the requested task using shared edit sets where appropriate.",
+          "receipts": []
+        }
+      }
+    },
+    {
+      "stage": 2,
+      "inspection": {
+        "available": true,
+        "snapshot": "compare",
+        "source": "request_start_and_current_transaction",
+        "units": "meters",
+        "frame": "world XYZ; Y up; north -Z",
+        "measurementContract": "World bounding envelopes only, not physical contact or structural attachment. centerDelta = second center - first center; forwardGap = second min - first max; reverseGap = first min - second max; projectedOverlap = min(maxima) - max(minima). Dimensions are local modeling dimensions. Relationships never grant edit permission.",
+        "matched": 9,
+        "omitted": 0,
+        "missingIds": [],
+        "referenceFound": {
+          "before": true,
+          "current": true
+        },
+        "objects": [
+          {
+            "id": "95879b90-dae9-402b-8f93-61510658f0a4",
+            "before": {
+              "id": "95879b90-dae9-402b-8f93-61510658f0a4",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "inferred",
+              "ordinal": 1,
+              "groupId": null,
+              "visible": true,
+              "name": "Unrelated nearby marker",
+              "dimensions": {
+                "width": 0.16,
+                "depth": 0.12,
+                "height": 0.14
+              },
+              "position": {
+                "x": 0.4,
+                "y": 0,
+                "z": 0.22
+              },
+              "rotation": 0,
+              "shape": "box",
+              "material": null,
+              "materialSpec": null,
+              "color": "#e2e7e6",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": 0.32,
+                    "y": 0,
+                    "z": 0.16
+                  },
+                  "max": {
+                    "x": 0.48000000000000004,
+                    "y": 0.14,
+                    "z": 0.28
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "95879b90-dae9-402b-8f93-61510658f0a4",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "inferred",
+              "ordinal": 1,
+              "groupId": null,
+              "visible": true,
+              "name": "Unrelated nearby marker",
+              "dimensions": {
+                "width": 0.16,
+                "depth": 0.12,
+                "height": 0.14
+              },
+              "position": {
+                "x": 0.4,
+                "y": 0,
+                "z": 0.22
+              },
+              "rotation": 0,
+              "shape": "box",
+              "material": null,
+              "materialSpec": null,
+              "color": "#e2e7e6",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": 0.32,
+                    "y": 0,
+                    "z": 0.16
+                  },
+                  "max": {
+                    "x": 0.48000000000000004,
+                    "y": 0.14,
+                    "z": 0.28
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+            "before": {
+              "id": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "inferred",
+              "ordinal": 2,
+              "groupId": null,
+              "visible": true,
+              "name": "Unrelated tall marker",
+              "dimensions": {
+                "width": 0.1,
+                "depth": 0.18,
+                "height": 0.31
+              },
+              "position": {
+                "x": -1.05,
+                "y": 0,
+                "z": -0.4
+              },
+              "rotation": 0,
+              "shape": "box",
+              "material": null,
+              "materialSpec": null,
+              "color": "#e2e7e6",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -1.1,
+                    "y": 0,
+                    "z": -0.49
+                  },
+                  "max": {
+                    "x": -1,
+                    "y": 0.31,
+                    "z": -0.31000000000000005
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "inferred",
+              "ordinal": 2,
+              "groupId": null,
+              "visible": true,
+              "name": "Unrelated tall marker",
+              "dimensions": {
+                "width": 0.1,
+                "depth": 0.18,
+                "height": 0.31
+              },
+              "position": {
+                "x": -1.05,
+                "y": 0,
+                "z": -0.4
+              },
+              "rotation": 0,
+              "shape": "box",
+              "material": null,
+              "materialSpec": null,
+              "color": "#e2e7e6",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -1.1,
+                    "y": 0,
+                    "z": -0.49
+                  },
+                  "max": {
+                    "x": -1,
+                    "y": 0.31,
+                    "z": -0.31000000000000005
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+            "before": {
+              "id": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 3,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Oval foot",
+              "dimensions": {
+                "width": 0.6,
+                "depth": 0.42,
+                "height": 0.08
+              },
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.3,
+                    "y": 0,
+                    "z": -0.21
+                  },
+                  "max": {
+                    "x": 0.3,
+                    "y": 0.08,
+                    "z": 0.21
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 3,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Oval foot",
+              "dimensions": {
+                "width": 0.6,
+                "depth": 0.42,
+                "height": 0.08
+              },
+              "position": {
+                "x": 0,
+                "y": 0,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.3,
+                    "y": 0,
+                    "z": -0.21
+                  },
+                  "max": {
+                    "x": 0.3,
+                    "y": 0.08,
+                    "z": 0.21
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+            "before": {
+              "id": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 4,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Mast",
+              "dimensions": {
+                "width": 0.06,
+                "depth": 0.06,
+                "height": 1.44
+              },
+              "position": {
+                "x": 0,
+                "y": 0.08,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.03,
+                    "y": 0.07999999999999996,
+                    "z": -0.03
+                  },
+                  "max": {
+                    "x": 0.03,
+                    "y": 1.52,
+                    "z": 0.03
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 4,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Mast",
+              "dimensions": {
+                "width": 0.06,
+                "depth": 0.06,
+                "height": 1.44
+              },
+              "position": {
+                "x": 0,
+                "y": 0.08,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.03,
+                    "y": 0.07999999999999996,
+                    "z": -0.03
+                  },
+                  "max": {
+                    "x": 0.03,
+                    "y": 1.52,
+                    "z": 0.03
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+            "before": {
+              "id": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 5,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Crossbar",
+              "dimensions": {
+                "width": 1.6,
+                "depth": 0.06,
+                "height": 0.08
+              },
+              "position": {
+                "x": 0,
+                "y": 1.52,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "box",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.8,
+                    "y": 1.52,
+                    "z": -0.03
+                  },
+                  "max": {
+                    "x": 0.8,
+                    "y": 1.6,
+                    "z": 0.03
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 5,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Crossbar",
+              "dimensions": {
+                "width": 1.6,
+                "depth": 0.06,
+                "height": 0.08
+              },
+              "position": {
+                "x": 0,
+                "y": 1.81,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "box",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.8,
+                    "y": 1.81,
+                    "z": -0.03
+                  },
+                  "max": {
+                    "x": 0.8,
+                    "y": 1.8900000000000001,
+                    "z": 0.03
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "changed",
+            "changedFields": [
+              "position",
+              "spatial"
+            ]
+          },
+          {
+            "id": "f74888d0-3b04-468a-882c-b752968b638a",
+            "before": {
+              "id": "f74888d0-3b04-468a-882c-b752968b638a",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 6,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Left suspension",
+              "dimensions": {
+                "width": 0.015,
+                "depth": 0.015,
+                "height": 0.5
+              },
+              "position": {
+                "x": -0.62,
+                "y": 1.02,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.6275,
+                    "y": 1.02,
+                    "z": -0.0075
+                  },
+                  "max": {
+                    "x": -0.6125,
+                    "y": 1.52,
+                    "z": 0.0075
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "f74888d0-3b04-468a-882c-b752968b638a",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 6,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Left suspension",
+              "dimensions": {
+                "width": 0.015,
+                "depth": 0.015,
+                "height": 0.5
+              },
+              "position": {
+                "x": -0.62,
+                "y": 1.02,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.6275,
+                    "y": 1.02,
+                    "z": -0.0075
+                  },
+                  "max": {
+                    "x": -0.6125,
+                    "y": 1.52,
+                    "z": 0.0075
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+            "before": {
+              "id": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 7,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Right suspension",
+              "dimensions": {
+                "width": 0.015,
+                "depth": 0.015,
+                "height": 0.72
+              },
+              "position": {
+                "x": 0.56,
+                "y": 0.8,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": 0.5525000000000001,
+                    "y": 0.8000000000000002,
+                    "z": -0.0075
+                  },
+                  "max": {
+                    "x": 0.5675,
+                    "y": 1.52,
+                    "z": 0.0075
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 7,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Right suspension",
+              "dimensions": {
+                "width": 0.015,
+                "depth": 0.015,
+                "height": 0.72
+              },
+              "position": {
+                "x": 0.56,
+                "y": 0.8,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#6f7c82",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": 0.5525000000000001,
+                    "y": 0.8000000000000002,
+                    "z": -0.0075
+                  },
+                  "max": {
+                    "x": 0.5675,
+                    "y": 1.52,
+                    "z": 0.0075
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+            "before": {
+              "id": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 8,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Spherical weight",
+              "dimensions": {
+                "width": 0.22,
+                "depth": 0.22,
+                "height": 0.22
+              },
+              "position": {
+                "x": -0.62,
+                "y": 0.8,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "sphere",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#bc815c",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.73,
+                    "y": 0.8,
+                    "z": -0.11
+                  },
+                  "max": {
+                    "x": -0.51,
+                    "y": 1.02,
+                    "z": 0.11
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 8,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Spherical weight",
+              "dimensions": {
+                "width": 0.22,
+                "depth": 0.22,
+                "height": 0.22
+              },
+              "position": {
+                "x": -0.62,
+                "y": 0.8,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "sphere",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#bc815c",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": -0.73,
+                    "y": 0.8,
+                    "z": -0.11
+                  },
+                  "max": {
+                    "x": -0.51,
+                    "y": 1.02,
+                    "z": 0.11
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          },
+          {
+            "id": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+            "before": {
+              "id": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 9,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Elliptical weight",
+              "dimensions": {
+                "width": 0.18,
+                "depth": 0.12,
+                "height": 0.24
+              },
+              "position": {
+                "x": 0.56,
+                "y": 0.56,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#bc815c",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": 0.4700000000000001,
+                    "y": 0.56,
+                    "z": -0.06
+                  },
+                  "max": {
+                    "x": 0.65,
+                    "y": 0.8,
+                    "z": 0.06
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "current": {
+              "id": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+              "component": {
+                "role": "element",
+                "hostId": null,
+                "level": null,
+                "motion": "none",
+                "travel": 1
+              },
+              "componentSource": "explicit",
+              "ordinal": 9,
+              "groupId": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "visible": true,
+              "name": "Elliptical weight",
+              "dimensions": {
+                "width": 0.18,
+                "depth": 0.12,
+                "height": 0.24
+              },
+              "position": {
+                "x": 0.56,
+                "y": 0.56,
+                "z": 0
+              },
+              "rotation": 0,
+              "shape": "cylinder",
+              "material": "solid",
+              "materialSpec": null,
+              "color": "#bc815c",
+              "opening": false,
+              "spatial": {
+                "envelopeBounds": {
+                  "min": {
+                    "x": 0.4700000000000001,
+                    "y": 0.56,
+                    "z": -0.06
+                  },
+                  "max": {
+                    "x": 0.65,
+                    "y": 0.8,
+                    "z": 0.06
+                  }
+                },
+                "flat": false,
+                "reference": false,
+                "footprint": null,
+                "openingSize": null,
+                "operands": []
+              },
+              "fixedWindowWidth": null,
+              "display": null,
+              "formDefinition": null,
+              "formFrame": null,
+              "construction": null,
+              "architecture": null
+            },
+            "state": "unchanged",
+            "changedFields": []
+          }
+        ],
+        "relations": [
+          {
+            "id": "95879b90-dae9-402b-8f93-61510658f0a4",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "95879b90-dae9-402b-8f93-61510658f0a4",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": 0.32,
+                  "y": 0,
+                  "z": 0.16
+                },
+                "max": {
+                  "x": 0.48000000000000004,
+                  "y": 0.14,
+                  "z": 0.28
+                }
+              },
+              "centerDelta": {
+                "x": 0.4,
+                "y": -1.49,
+                "z": 0.22000000000000003
+              },
+              "forwardGap": {
+                "x": -0.48000000000000004,
+                "y": -1.6,
+                "z": 0.13
+              },
+              "reverseGap": {
+                "x": -1.28,
+                "y": 1.38,
+                "z": -0.31000000000000005
+              },
+              "projectedOverlap": {
+                "x": 0.16000000000000003,
+                "y": -1.38,
+                "z": -0.13
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "95879b90-dae9-402b-8f93-61510658f0a4",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.81,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.8900000000000001,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": 0.32,
+                  "y": 0,
+                  "z": 0.16
+                },
+                "max": {
+                  "x": 0.48000000000000004,
+                  "y": 0.14,
+                  "z": 0.28
+                }
+              },
+              "centerDelta": {
+                "x": 0.4,
+                "y": -1.78,
+                "z": 0.22000000000000003
+              },
+              "forwardGap": {
+                "x": -0.48000000000000004,
+                "y": -1.8900000000000001,
+                "z": 0.13
+              },
+              "reverseGap": {
+                "x": -1.28,
+                "y": 1.67,
+                "z": -0.31000000000000005
+              },
+              "projectedOverlap": {
+                "x": 0.16000000000000003,
+                "y": -1.67,
+                "z": -0.13
+              }
+            }
+          },
+          {
+            "id": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -1.1,
+                  "y": 0,
+                  "z": -0.49
+                },
+                "max": {
+                  "x": -1,
+                  "y": 0.31,
+                  "z": -0.31000000000000005
+                }
+              },
+              "centerDelta": {
+                "x": -1.05,
+                "y": -1.405,
+                "z": -0.4
+              },
+              "forwardGap": {
+                "x": -1.9000000000000001,
+                "y": -1.6,
+                "z": -0.52
+              },
+              "reverseGap": {
+                "x": 0.19999999999999996,
+                "y": 1.21,
+                "z": 0.28
+              },
+              "projectedOverlap": {
+                "x": -0.19999999999999996,
+                "y": -1.21,
+                "z": -0.28
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.81,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.8900000000000001,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -1.1,
+                  "y": 0,
+                  "z": -0.49
+                },
+                "max": {
+                  "x": -1,
+                  "y": 0.31,
+                  "z": -0.31000000000000005
+                }
+              },
+              "centerDelta": {
+                "x": -1.05,
+                "y": -1.695,
+                "z": -0.4
+              },
+              "forwardGap": {
+                "x": -1.9000000000000001,
+                "y": -1.8900000000000001,
+                "z": -0.52
+              },
+              "reverseGap": {
+                "x": 0.19999999999999996,
+                "y": 1.5,
+                "z": 0.28
+              },
+              "projectedOverlap": {
+                "x": -0.19999999999999996,
+                "y": -1.5,
+                "z": -0.28
+              }
+            }
+          },
+          {
+            "id": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.3,
+                  "y": 0,
+                  "z": -0.21
+                },
+                "max": {
+                  "x": 0.3,
+                  "y": 0.08,
+                  "z": 0.21
+                }
+              },
+              "centerDelta": {
+                "x": 0,
+                "y": -1.52,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -1.1,
+                "y": -1.6,
+                "z": -0.24
+              },
+              "reverseGap": {
+                "x": -1.1,
+                "y": 1.44,
+                "z": -0.24
+              },
+              "projectedOverlap": {
+                "x": 0.6,
+                "y": -1.44,
+                "z": 0.06
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.81,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.8900000000000001,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.3,
+                  "y": 0,
+                  "z": -0.21
+                },
+                "max": {
+                  "x": 0.3,
+                  "y": 0.08,
+                  "z": 0.21
+                }
+              },
+              "centerDelta": {
+                "x": 0,
+                "y": -1.81,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -1.1,
+                "y": -1.8900000000000001,
+                "z": -0.24
+              },
+              "reverseGap": {
+                "x": -1.1,
+                "y": 1.73,
+                "z": -0.24
+              },
+              "projectedOverlap": {
+                "x": 0.6,
+                "y": -1.73,
+                "z": 0.06
+              }
+            }
+          },
+          {
+            "id": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.03,
+                  "y": 0.07999999999999996,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.03,
+                  "y": 1.52,
+                  "z": 0.03
+                }
+              },
+              "centerDelta": {
+                "x": 0,
+                "y": -0.76,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -0.8300000000000001,
+                "y": -1.52,
+                "z": -0.06
+              },
+              "reverseGap": {
+                "x": -0.8300000000000001,
+                "y": 0,
+                "z": -0.06
+              },
+              "projectedOverlap": {
+                "x": 0.06,
+                "y": 0,
+                "z": 0.06
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.81,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.8900000000000001,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.03,
+                  "y": 0.07999999999999996,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.03,
+                  "y": 1.52,
+                  "z": 0.03
+                }
+              },
+              "centerDelta": {
+                "x": 0,
+                "y": -1.05,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -0.8300000000000001,
+                "y": -1.81,
+                "z": -0.06
+              },
+              "reverseGap": {
+                "x": -0.8300000000000001,
+                "y": 0.29000000000000004,
+                "z": -0.06
+              },
+              "projectedOverlap": {
+                "x": 0.06,
+                "y": -0.29000000000000004,
+                "z": 0.06
+              }
+            }
+          },
+          {
+            "id": "f74888d0-3b04-468a-882c-b752968b638a",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "f74888d0-3b04-468a-882c-b752968b638a",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.6275,
+                  "y": 1.02,
+                  "z": -0.0075
+                },
+                "max": {
+                  "x": -0.6125,
+                  "y": 1.52,
+                  "z": 0.0075
+                }
+              },
+              "centerDelta": {
+                "x": -0.62,
+                "y": -0.29000000000000004,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -1.4275,
+                "y": -0.5800000000000001,
+                "z": -0.0375
+              },
+              "reverseGap": {
+                "x": -0.1875,
+                "y": 0,
+                "z": -0.0375
+              },
+              "projectedOverlap": {
+                "x": 0.014999999999999902,
+                "y": 0,
+                "z": 0.015
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "f74888d0-3b04-468a-882c-b752968b638a",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.81,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.8900000000000001,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.6275,
+                  "y": 1.02,
+                  "z": -0.0075
+                },
+                "max": {
+                  "x": -0.6125,
+                  "y": 1.52,
+                  "z": 0.0075
+                }
+              },
+              "centerDelta": {
+                "x": -0.62,
+                "y": -0.5800000000000001,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -1.4275,
+                "y": -0.8700000000000001,
+                "z": -0.0375
+              },
+              "reverseGap": {
+                "x": -0.1875,
+                "y": 0.29000000000000004,
+                "z": -0.0375
+              },
+              "projectedOverlap": {
+                "x": 0.014999999999999902,
+                "y": -0.29000000000000004,
+                "z": 0.015
+              }
+            }
+          },
+          {
+            "id": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": 0.5525000000000001,
+                  "y": 0.8000000000000002,
+                  "z": -0.0075
+                },
+                "max": {
+                  "x": 0.5675,
+                  "y": 1.52,
+                  "z": 0.0075
+                }
+              },
+              "centerDelta": {
+                "x": 0.56,
+                "y": -0.3999999999999999,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -0.24749999999999994,
+                "y": -0.7999999999999999,
+                "z": -0.0375
+              },
+              "reverseGap": {
+                "x": -1.3675000000000002,
+                "y": 0,
+                "z": -0.0375
+              },
+              "projectedOverlap": {
+                "x": 0.014999999999999902,
+                "y": 0,
+                "z": 0.015
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.81,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.8900000000000001,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": 0.5525000000000001,
+                  "y": 0.8000000000000002,
+                  "z": -0.0075
+                },
+                "max": {
+                  "x": 0.5675,
+                  "y": 1.52,
+                  "z": 0.0075
+                }
+              },
+              "centerDelta": {
+                "x": 0.56,
+                "y": -0.69,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -0.24749999999999994,
+                "y": -1.0899999999999999,
+                "z": -0.0375
+              },
+              "reverseGap": {
+                "x": -1.3675000000000002,
+                "y": 0.29000000000000004,
+                "z": -0.0375
+              },
+              "projectedOverlap": {
+                "x": 0.014999999999999902,
+                "y": -0.29000000000000004,
+                "z": 0.015
+              }
+            }
+          },
+          {
+            "id": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.73,
+                  "y": 0.8,
+                  "z": -0.11
+                },
+                "max": {
+                  "x": -0.51,
+                  "y": 1.02,
+                  "z": 0.11
+                }
+              },
+              "centerDelta": {
+                "x": -0.62,
+                "y": -0.65,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -1.53,
+                "y": -0.8,
+                "z": -0.14
+              },
+              "reverseGap": {
+                "x": -0.29000000000000004,
+                "y": 0.5,
+                "z": -0.14
+              },
+              "projectedOverlap": {
+                "x": 0.21999999999999997,
+                "y": -0.5,
+                "z": 0.06
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.81,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.8900000000000001,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": -0.73,
+                  "y": 0.8,
+                  "z": -0.11
+                },
+                "max": {
+                  "x": -0.51,
+                  "y": 1.02,
+                  "z": 0.11
+                }
+              },
+              "centerDelta": {
+                "x": -0.62,
+                "y": -0.9400000000000001,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -1.53,
+                "y": -1.09,
+                "z": -0.14
+              },
+              "reverseGap": {
+                "x": -0.29000000000000004,
+                "y": 0.79,
+                "z": -0.14
+              },
+              "projectedOverlap": {
+                "x": 0.21999999999999997,
+                "y": -0.79,
+                "z": 0.06
+              }
+            }
+          },
+          {
+            "id": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+            "before": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.52,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": 0.4700000000000001,
+                  "y": 0.56,
+                  "z": -0.06
+                },
+                "max": {
+                  "x": 0.65,
+                  "y": 0.8,
+                  "z": 0.06
+                }
+              },
+              "centerDelta": {
+                "x": 0.56,
+                "y": -0.88,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -0.32999999999999996,
+                "y": -1.04,
+                "z": -0.09
+              },
+              "reverseGap": {
+                "x": -1.4500000000000002,
+                "y": 0.72,
+                "z": -0.09
+              },
+              "projectedOverlap": {
+                "x": 0.17999999999999994,
+                "y": -0.72,
+                "z": 0.06
+              }
+            },
+            "current": {
+              "first": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+              "second": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+              "firstBounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 1.81,
+                  "z": -0.03
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.8900000000000001,
+                  "z": 0.03
+                }
+              },
+              "secondBounds": {
+                "min": {
+                  "x": 0.4700000000000001,
+                  "y": 0.56,
+                  "z": -0.06
+                },
+                "max": {
+                  "x": 0.65,
+                  "y": 0.8,
+                  "z": 0.06
+                }
+              },
+              "centerDelta": {
+                "x": 0.56,
+                "y": -1.17,
+                "z": 0
+              },
+              "forwardGap": {
+                "x": -0.32999999999999996,
+                "y": -1.33,
+                "z": -0.09
+              },
+              "reverseGap": {
+                "x": -1.4500000000000002,
+                "y": 1.01,
+                "z": -0.09
+              },
+              "projectedOverlap": {
+                "x": 0.17999999999999994,
+                "y": -1.01,
+                "z": 0.06
+              }
+            }
+          }
+        ],
+        "groups": {
+          "before": [
+            {
+              "id": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "name": "Display mobile",
+              "visible": true,
+              "locked": false,
+              "members": [
+                "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+                "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+                "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+                "f74888d0-3b04-468a-882c-b752968b638a",
+                "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+                "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+                "9eda11c3-0e64-4feb-8852-a8d1ee45f427"
+              ],
+              "bounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 0,
+                  "z": -0.21
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.6,
+                  "z": 0.21
+                }
+              }
+            }
+          ],
+          "current": [
+            {
+              "id": "de8c6852-cf68-48f9-ba3f-940db2b3d713",
+              "name": "Display mobile",
+              "visible": true,
+              "locked": false,
+              "members": [
+                "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+                "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+                "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+                "f74888d0-3b04-468a-882c-b752968b638a",
+                "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+                "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+                "9eda11c3-0e64-4feb-8852-a8d1ee45f427"
+              ],
+              "bounds": {
+                "min": {
+                  "x": -0.8,
+                  "y": 0,
+                  "z": -0.21
+                },
+                "max": {
+                  "x": 0.8,
+                  "y": 1.8900000000000001,
+                  "z": 0.21
+                }
+              }
+            }
+          ]
+        },
+        "execution": {
+          "stage": 2,
+          "remaining": 10,
+          "remainingOperations": 63,
+          "next": "Decide from current geometry and successful receipts: request independent completion if the user's task is fulfilled; otherwise address a specific unmet requirement. Do not repeat successful inspection or unrequested presentation.",
+          "receipts": [
+            {
+              "stage": "Apply the measured changes",
+              "result": "Moved Crossbar 0.29 m up.",
+              "created": [],
+              "changed": [
+                "c9fd59e2-4026-4943-ac58-9fd90a58814b"
+              ],
+              "removed": []
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "initial": [
+    {
+      "id": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+      "name": "Oval foot",
+      "bounds": {
+        "min": [
+          -0.3,
+          0,
+          -0.21
+        ],
+        "max": [
+          0.3,
+          0.08,
+          0.21
+        ]
+      },
+      "volume": 0.015808204392351533,
+      "analyticVolume": 0.015833626974092557,
+      "expectedY": 0,
+      "expectedH": 0.08
+    },
+    {
+      "id": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+      "name": "Mast",
+      "bounds": {
+        "min": [
+          -0.03,
+          0.08,
+          -0.03
+        ],
+        "max": [
+          0.03,
+          1.52,
+          0.03
+        ]
+      },
+      "volume": 0.004064966843747537,
+      "analyticVolume": 0.0040715040790523715,
+      "expectedY": 0.08,
+      "expectedH": 1.44
+    },
+    {
+      "id": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+      "name": "Crossbar",
+      "bounds": {
+        "min": [
+          -0.8,
+          1.52,
+          -0.03
+        ],
+        "max": [
+          0.8,
+          1.6,
+          0.03
+        ]
+      },
+      "volume": 0.0076800000000000115,
+      "analyticVolume": 0.00768,
+      "expectedY": 1.52,
+      "expectedH": 0.08
+    },
+    {
+      "id": "f74888d0-3b04-468a-882c-b752968b638a",
+      "name": "Left suspension",
+      "bounds": {
+        "min": [
+          -0.6275,
+          1.02,
+          -0.0075
+        ],
+        "max": [
+          -0.6125,
+          1.52,
+          0.0075
+        ]
+      },
+      "volume": 0.0000882154262966046,
+      "analyticVolume": 0.00008835729338221293,
+      "expectedY": 1.02,
+      "expectedH": 0.5
+    },
+    {
+      "id": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+      "name": "Right suspension",
+      "bounds": {
+        "min": [
+          0.5525000000000001,
+          0.8,
+          -0.0075
+        ],
+        "max": [
+          0.5675,
+          1.52,
+          0.0075
+        ]
+      },
+      "volume": 0.0001270302138671105,
+      "analyticVolume": 0.0001272345024703866,
+      "expectedY": 0.8,
+      "expectedH": 0.72
+    },
+    {
+      "id": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+      "name": "Spherical weight",
+      "bounds": {
+        "min": [
+          -0.73,
+          0.8,
+          -0.11
+        ],
+        "max": [
+          -0.51,
+          1.02,
+          0.11
+        ]
+      },
+      "volume": 0.005519471527386392,
+      "analyticVolume": 0.005575279762570686,
+      "expectedY": 0.8,
+      "expectedH": 0.22
+    },
+    {
+      "id": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+      "name": "Elliptical weight",
+      "bounds": {
+        "min": [
+          0.4700000000000001,
+          0.56,
+          -0.06
+        ],
+        "max": [
+          0.65,
+          0.8,
+          0.06
+        ]
+      },
+      "volume": 0.004064966843747537,
+      "analyticVolume": 0.004071504079052372,
+      "expectedY": 0.56,
+      "expectedH": 0.24
+    }
+  ],
+  "final": [
+    {
+      "id": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+      "name": "Oval foot",
+      "bounds": {
+        "min": [
+          -0.3,
+          0,
+          -0.21
+        ],
+        "max": [
+          0.3,
+          0.08,
+          0.21
+        ]
+      },
+      "volume": 0.015808204392351533,
+      "analyticVolume": 0.015833626974092557,
+      "expectedY": 0,
+      "expectedH": 0.08
+    },
+    {
+      "id": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+      "name": "Mast",
+      "bounds": {
+        "min": [
+          -0.03,
+          0.08,
+          -0.03
+        ],
+        "max": [
+          0.03,
+          1.81,
+          0.03
+        ]
+      },
+      "volume": 0.004883605999780027,
+      "analyticVolume": 0.004891459761639308,
+      "expectedY": 0.08,
+      "expectedH": 1.73
+    },
+    {
+      "id": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+      "name": "Crossbar",
+      "bounds": {
+        "min": [
+          -0.8,
+          1.81,
+          -0.03
+        ],
+        "max": [
+          0.8,
+          1.8900000000000001,
+          0.03
+        ]
+      },
+      "volume": 0.0076800000000000115,
+      "analyticVolume": 0.00768,
+      "expectedY": 1.81,
+      "expectedH": 0.08
+    },
+    {
+      "id": "f74888d0-3b04-468a-882c-b752968b638a",
+      "name": "Left suspension",
+      "bounds": {
+        "min": [
+          -0.6275,
+          1.31,
+          -0.0075
+        ],
+        "max": [
+          -0.6125,
+          1.81,
+          0.0075
+        ]
+      },
+      "volume": 0.00008821542629660462,
+      "analyticVolume": 0.00008835729338221293,
+      "expectedY": 1.31,
+      "expectedH": 0.5
+    },
+    {
+      "id": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+      "name": "Right suspension",
+      "bounds": {
+        "min": [
+          0.5525000000000001,
+          1.0900000000000003,
+          -0.0075
+        ],
+        "max": [
+          0.5675,
+          1.8100000000000003,
+          0.0075
+        ]
+      },
+      "volume": 0.0001270302138671105,
+      "analyticVolume": 0.0001272345024703866,
+      "expectedY": 1.09,
+      "expectedH": 0.72
+    },
+    {
+      "id": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+      "name": "Spherical weight",
+      "bounds": {
+        "min": [
+          -0.73,
+          1.09,
+          -0.11
+        ],
+        "max": [
+          -0.51,
+          1.3100000000000003,
+          0.11
+        ]
+      },
+      "volume": 0.005519471527386392,
+      "analyticVolume": 0.005575279762570686,
+      "expectedY": 1.09,
+      "expectedH": 0.22
+    },
+    {
+      "id": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+      "name": "Elliptical weight",
+      "bounds": {
+        "min": [
+          0.4700000000000001,
+          0.8500000000000001,
+          -0.06
+        ],
+        "max": [
+          0.65,
+          1.09,
+          0.06
+        ]
+      },
+      "volume": 0.004064966843747537,
+      "analyticVolume": 0.004071504079052372,
+      "expectedY": 0.8500000000000001,
+      "expectedH": 0.24
+    }
+  ],
+  "changed": [
+    {
+      "id": "51992f0f-c3d1-4a8c-aa28-b3e9ab1a2733",
+      "name": "Mast"
+    },
+    {
+      "id": "c9fd59e2-4026-4943-ac58-9fd90a58814b",
+      "name": "Crossbar"
+    },
+    {
+      "id": "f74888d0-3b04-468a-882c-b752968b638a",
+      "name": "Left suspension"
+    },
+    {
+      "id": "4f7130e2-65e9-406c-983d-0d2d29d20efe",
+      "name": "Right suspension"
+    },
+    {
+      "id": "b2a6b3bf-8c62-4e26-8f67-aec73660a3a4",
+      "name": "Spherical weight"
+    },
+    {
+      "id": "9eda11c3-0e64-4feb-8852-a8d1ee45f427",
+      "name": "Elliptical weight"
+    }
+  ],
+  "preserved": [
+    {
+      "id": "95879b90-dae9-402b-8f93-61510658f0a4",
+      "name": "Unrelated nearby marker"
+    },
+    {
+      "id": "14f29c1a-116d-4284-8f88-d0f08c1abd94",
+      "name": "Unrelated tall marker"
+    },
+    {
+      "id": "23fcafed-28fb-4e34-a5e5-14419cf1eec8",
+      "name": "Oval foot"
+    }
+  ],
+  "messages": [
+    {
+      "role": "user",
+      "content": "Build a freestanding asymmetric display mobile with an oval base, slender central mast, one horizontal crossbar and two hanging weights, one spherical and one elliptical cylindrical. Keep the seven parts separately editable, group the mobile and leave my two existing markers untouched."
+    },
+    {
+      "role": "assistant",
+      "content": "Display mobile: 7 independently editable elements.\nOval foot: 0.6 × 0.42 × 0.08 m; base (0, 0, 0) m.\nMast: 0.06 × 0.06 × 1.44 m; base (0, 0.08, 0) m.\nCrossbar: 1.6 × 0.06 × 0.08 m; base (0, 1.52, 0) m.\nLeft suspension: 0.015 × 0.015 × 0.5 m; base (-0.62, 1.02, 0) m.\nRight suspension: 0.015 × 0.015 × 0.72 m; base (0.56, 0.8, 0) m.\nSpherical weight: 0.22 × 0.22 × 0.22 m; base (-0.62, 0.8, 0) m.\nElliptical weight: 0.18 × 0.12 × 0.24 m; base (0.56, 0.56, 0) m.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount requirement: count (each): 7; expected equal 7, tolerance 0. 7 element(s).\nSeparate editable parts: 7 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\nAssembly membership: Group Display mobile: 7 members; 7/7 requested objects belong to it.\nheight requirement: height (each, world solids): 0.08; expected equal 0.08 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.6; expected equal 0.6 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 1.44; expected equal 1.44 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.06; expected equal 0.06 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.08000000000000007; expected equal 0.08 ± 0.00001 m.\nwidth requirement: width (each, world solids): 1.6; expected equal 1.6 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.5; expected equal 0.5 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.014999999999999902; expected equal 0.015 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.72; expected equal 0.72 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.014999999999999902; expected equal 0.015 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.21999999999999997; expected equal 0.22 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.21999999999999997; expected equal 0.22 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.24; expected equal 0.24 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.17999999999999994; expected equal 0.18 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nDesign assumptions:\nOffline scripted choices; fresh AI is not being tested.",
+      "summary": "Completed; measurable checks passed.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount requirement: count (each): 7; expected equal 7, tolerance 0. 7 element(s).\nSeparate editable parts: 7 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\nAssembly membership: Group Display mobile: 7 members; 7/7 requested objects belong to it.\nheight requirement: height (each, world solids): 0.08; expected equal 0.08 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.6; expected equal 0.6 ± 0.00001 m."
+    },
+    {
+      "role": "user",
+      "content": "Raise the crossbar by 0.29 m, extend the mast from its fixed foot, and let both pendants follow without changing their drop or weight shapes. Leave the base and my other objects alone."
+    },
+    {
+      "role": "assistant",
+      "content": "Moved Crossbar 0.29 m up.\nCoordinated 1 components in 1 shared edit sets; identities and construction recipes retained. Linked components followed their hosts once.\nLeft suspension: 0.015 × 0.015 × 0.5 m; base (-0.62, 1.31, 0) m.\nRight suspension: 0.015 × 0.015 × 0.72 m; base (0.56, 1.09, 0) m.\nSpherical weight: 0.22 × 0.22 × 0.22 m; base (-0.62, 1.09, 0) m.\nElliptical weight: 0.18 × 0.12 × 0.24 m; base (0.56, 0.85, 0) m.\nUnrelated existing geometry: 3 existing objects outside the requested edit scope are unchanged.\ncount requirement: count (each): 7; expected equal 7, tolerance 0. 7 element(s).\nSeparate editable parts: 7 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\nAssembly membership: Group Display mobile: 7 members; 7/7 requested objects belong to it.\nheight requirement: height (each, world solids): 0.08; expected equal 0.08 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.6; expected equal 0.6 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 1.73; expected equal 1.73 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.06; expected equal 0.06 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.08000000000000007; expected equal 0.08 ± 0.00001 m.\nwidth requirement: width (each, world solids): 1.6; expected equal 1.6 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.5; expected equal 0.5 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.014999999999999902; expected equal 0.015 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.72; expected equal 0.72 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.014999999999999902; expected equal 0.015 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.2200000000000002; expected equal 0.22 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.21999999999999997; expected equal 0.22 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nheight requirement: height (each, world solids): 0.24; expected equal 0.24 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.17999999999999994; expected equal 0.18 ± 0.00001 m.\nMeasured placement: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.00001 m.\nRetain identities, shapes and horizontal arrangement: 7 original identities retain identity, geometry, width, depth, x, z, rotation, groupId.\nDesign assumptions:\nOffline scripted choices; fresh AI is not being tested.",
+      "summary": "Completed; measurable checks passed.\nUnrelated existing geometry: 3 existing objects outside the requested edit scope are unchanged.\ncount requirement: count (each): 7; expected equal 7, tolerance 0. 7 element(s).\nSeparate editable parts: 7 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\nAssembly membership: Group Display mobile: 7 members; 7/7 requested objects belong to it.\nheight requirement: height (each, world solids): 0.08; expected equal 0.08 ± 0.00001 m.\nwidth requirement: width (each, world solids): 0.6; expected equal 0.6 ± 0.00001 m."
+    }
+  ]
+}

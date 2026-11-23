@@ -1,0 +1,27 @@
+[WebServer] (node:29419) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] .env not found. Continuing without it.
+[WebServer] (node:29432) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 1 worker
+
+(node:29453) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/agent-execution.spec.ts:5:1 › opens the retained live-generated chair as editable geometry and frames its actual scale (20.6s)
+  ✓   2 tests/agent-execution.spec.ts:43:1 › agent keeps provisional arrays private, recovers invalid arguments, verifies, then supports follow-up edits (offline provider) (22.5s)
+  ✓   3 tests/agent-execution.spec.ts:242:1 › shows provisional geometry while working and restores the saved design on Stop (12.9s)
+  ✓   4 tests/agent-execution.spec.ts:314:1 › agent camera and solar actions drive the real workspace and report playback state on follow-up (15.4s)
+  ✓   5 tests/completion-verification.spec.ts:56:1 › independent completion rejects a valid but incomplete model, repairs the same geometry and commits with one Undo (offline providers) (21.3s)
+  ✓   6 tests/completion-verification.spec.ts:173:1 › a failed request followed by reload does not poison an unrelated new modeling instruction (offline providers) (20.8s)
+  ✓   7 tests/completion-verification.spec.ts:257:1 › unknown verification permits safe additions with honest messaging, one Undo, and a later independently checked edit (19.6s)
+  ✓   8 tests/transaction-commit.spec.ts:27:3 › multistage 244-component edit with concurrent selection commits atomically (29.3s)
+  ✓   9 tests/transaction-commit.spec.ts:27:3 › multistage 244-component edit with concurrent model edit retains both results (24.9s)
+  ✓  10 tests/workshop-reference.spec.ts:193:1 › normal workspace builds and contextually edits an unfamiliar mobile using before/after inspection, with real commits and reload Undo/Redo (scripted provider) (37.3s)
+
+  10 passed (3.8m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

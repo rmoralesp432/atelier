@@ -1,0 +1,1314 @@
+diff --git a/server/agent.ts b/server/agent.ts
+index 409db27..f87d88e 100644
+--- a/server/agent.ts
++++ b/server/agent.ts
+@@ -17,6 +17,7 @@ import {
+   TaskBlockedError,
+ } from '../src/intelligence/planFailure';
+ import type { ModelRequest } from './provider';
++import { inspectScene, referenceSummary } from './sceneInspection';
+ 
+ const execute = z
+   .object({
+@@ -31,6 +32,8 @@ const inspect = z
+   .object({
+     ids: z.array(z.string().max(100)).max(200),
+     role: z.string().max(80).nullable(),
++    snapshot: z.enum(['current', 'before', 'compare']),
++    relativeTo: z.string().max(100).nullable(),
+   })
+   .strict();
+ const completion = z
+@@ -44,7 +47,7 @@ const functions = [
+   {
+     name: 'inspect_scene',
+     description:
+-      'Read full construction details when the supplied inventory is insufficient. The inventory already includes every object, its dimensions, placement and role; inspect only when additional construction details are needed. Empty ids reads the full scene. Never invent IDs.',
++      'Inspect current construction, the immutable before-edit model, or compare both by identity. relativeTo optionally measures world-envelope gaps and offsets from that object to the queried objects in each snapshot. Before means the start of THIS user request, not the previous stage. Empty ids reads the scene; comparisons and relative measurements return up to 200 objects with explicit omission counts. Use exact IDs, including removed originals; narrow large inspections. These facts do not authorize edits or certify physical connections.',
+     parameters: z.toJSONSchema(inspect),
+   },
+   {
+@@ -98,6 +101,7 @@ const functions = [
+ const policy = `You are an architectural design agent working inside an editable 3D workspace.
+ ${materialContract}
+ Understand the complete user intention, inspect the real scene, choose construction operations, then observe their results and correct omissions. You can model unfamiliar objects as well as buildings using the supplied geometry operations; do not rely on named building templates.
++For contextual edits, sceneReference identifies changes since this request began. inspect_scene(snapshot=before or compare, relativeTo=an object ID) retrieves original construction and world-envelope relationships alongside the provisional result. Use the before model when preserving existing clearances, placements or proportions; do not recover them by guessing from an already edited scene. These are bounded envelope measurements, not physical contact or edit authorization. The current user request and independent checks still control scope. Missing before data is explicitly unavailable.
+ The user speaks naturally and does not manage schemas, IDs, construction sequencing or panel spacing. Infer reasonable reversible choices and record brief assumptions. Ask only about substantial design ambiguity. Never reduce explicit counts, omit requested systems, or change protected dimensions to fit a tool limit.
+ Current scene and successful execution receipts are authoritative. Prior conversation is context, not an immutable design contract. New instructions can revise earlier assumptions. Resolve selections and references from actual objects. A new-object request normally uses creation operations, not a nonexistent target. An original mass converted to parts is addressed by its assembly and roles, not as a lone slab.
+ Operations have typed arguments and metric dimensions. Position is base-center; Y is up. Use existing repetition, profile, sweep, loft and Boolean operations to compose forms. Preserve independently editable components and identity during corrections. Use exact current IDs or unique group names. Keep unrelated and locked objects unchanged.
+@@ -207,6 +211,7 @@ export async function agentPlan(
+           instruction: input.message,
+           workspace: input.workspace,
+           scene: compactScene(input.scene),
++          sceneReference: referenceSummary(input),
+           pendingReview: input.pendingReview,
+           execution: input.execution,
+           validationFeedback: input.validationFeedback,
+@@ -341,18 +346,14 @@ export async function agentPlan(
+     try {
+       const raw = JSON.parse(args);
+       if (name === 'inspect_scene') {
+-        const query = inspect.parse(raw);
+-        const objects = input.scene.objects.filter(
+-          (o) =>
+-            (!query.ids.length || query.ids.includes(o.id)) &&
+-            (!query.role || o.component?.role === query.role),
+-        );
+-        const output = JSON.stringify({
+-          objects,
+-          matched: objects.length,
+-          groups: input.scene.groups,
+-          execution: input.execution ?? null,
++        // Accept retained pre-upgrade responses; advertise all fields explicitly
++        // in the strict tool schema, without JSON-schema default keywords.
++        const query = inspect.parse({
++          snapshot: 'current',
++          relativeTo: null,
++          ...raw,
+         });
++        const output = JSON.stringify(inspectScene(input, query));
+         chat.push({ role: 'tool', tool_call_id: call.id, content: output });
+         inputMessages.push(...items, {
+           type: 'function_call_output',
+diff --git a/server/provider.ts b/server/provider.ts
+index 344580c..0324b2b 100644
+--- a/server/provider.ts
++++ b/server/provider.ts
+@@ -50,7 +50,7 @@ const imageList = z
+       .regex(/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/),
+   )
+   .max(6);
+-export const requestSchema = z
++const baseRequestSchema = z
+   .object({
+     language: z
+       .enum(['en', 'es', 'fr', 'de', 'it', 'pt', 'ja', 'zh', 'ar', 'ko', 'ru'])
+@@ -324,6 +324,17 @@ export const requestSchema = z
+       .strict(),
+   })
+   .strict();
++export const requestSchema = baseRequestSchema.extend({
++  sceneReference: z
++    .object({
++      source: z.literal('request_start'),
++      ids: refs,
++      replacements: baseRequestSchema.shape.scene.shape.objects,
++      groups: baseRequestSchema.shape.scene.shape.groups,
++    })
++    .strict()
++    .optional(),
++});
+ export type ModelRequest = z.infer<typeof requestSchema>;
+ export const completionRequestSchema = requestSchema
+   .pick({ message: true, history: true, scene: true, images: true })
+diff --git a/server/sceneInspection.ts b/server/sceneInspection.ts
+new file mode 100644
+index 0000000..750903a
+--- /dev/null
++++ b/server/sceneInspection.ts
+@@ -0,0 +1,196 @@
++import type { ModelRequest } from './provider';
++import { equalData } from '../src/projects/equalData';
++
++type ObjectInfo = ModelRequest['scene']['objects'][number];
++export type InspectionQuery = {
++  ids: string[];
++  role: string | null;
++  snapshot: 'current' | 'before' | 'compare';
++  relativeTo: string | null;
++};
++
++export function referenceSummary(input: ModelRequest) {
++  const ref = input.sceneReference;
++  if (!ref) return { available: false };
++  const original = new Set(ref.ids),
++    current = new Set(input.scene.objects.map((o) => o.id));
++  return {
++    available: true,
++    source: ref.source,
++    created: input.scene.objects
++      .filter((o) => !original.has(o.id))
++      .map((o) => o.id),
++    removed: ref.ids.filter((id) => !current.has(id)),
++    changed: ref.replacements.filter((o) => current.has(o.id)).map((o) => o.id),
++  };
++}
++
++/** Envelope evidence, not an assertion of contact, support, or edit permission.
++ * Keep unrounded source values; positive separation means a gap on that axis.
++ * This also works for rotated objects, but their world AABBs are not surfaces. */
++function relation(
++  first: ObjectInfo | undefined,
++  second: ObjectInfo | undefined,
++) {
++  const a = first?.spatial?.envelopeBounds,
++    b = second?.spatial?.envelopeBounds;
++  if (!a || !b) return null;
++  const axes = ['x', 'y', 'z'] as const;
++  const vector = (fn: (axis: (typeof axes)[number]) => number) =>
++    Object.fromEntries(axes.map((axis) => [axis, fn(axis)]));
++  return {
++    first: first!.id,
++    second: second!.id,
++    firstBounds: a,
++    secondBounds: b,
++    centerDelta: vector(
++      (axis) => (b.min[axis] + b.max[axis] - a.min[axis] - a.max[axis]) / 2,
++    ),
++    forwardGap: vector((axis) => b.min[axis] - a.max[axis]),
++    reverseGap: vector((axis) => a.min[axis] - b.max[axis]),
++    projectedOverlap: vector(
++      (axis) =>
++        Math.min(a.max[axis], b.max[axis]) - Math.max(a.min[axis], b.min[axis]),
++    ),
++  };
++}
++
++export function inspectScene(input: ModelRequest, query: InspectionQuery) {
++  const current = new Map(input.scene.objects.map((o) => [o.id, o]));
++  const ref = input.sceneReference;
++  const replacements = new Map(ref?.replacements.map((o) => [o.id, o]));
++  const originalIds = new Set(ref?.ids);
++  // Missing reference is unknown, never silently replaced by the current model.
++  const before = new Map(
++    ref?.ids.map((id) => [id, replacements.get(id) ?? current.get(id)]),
++  );
++  const invalid =
++    !!ref &&
++    (before.size !== ref.ids.length ||
++      [...before.values()].some((o) => !o) ||
++      replacements.size !== ref.replacements.length ||
++      [...replacements.keys()].some((id) => !originalIds.has(id)));
++  if (query.snapshot !== 'current' && (!ref || invalid))
++    return {
++      available: false,
++      reason:
++        'The request-start reference is unavailable or incomplete. Do not infer original dimensions from the edited scene.',
++    };
++  const roster =
++    query.snapshot === 'before'
++      ? [...before.keys()]
++      : query.snapshot === 'compare'
++        ? [...new Set([...before.keys(), ...current.keys()])]
++        : [...current.keys()];
++  const eligible = roster.filter(
++    (id) =>
++      (!query.ids.length || query.ids.includes(id)) &&
++      (!query.role ||
++        (query.snapshot !== 'current' &&
++          before.get(id)?.component?.role === query.role) ||
++        (query.snapshot !== 'before' &&
++          current.get(id)?.component?.role === query.role)),
++  );
++  // Preserve the existing current-only construction inspection. Comparisons
++  // duplicate object details, so their bounded output explicitly reports omissions.
++  const ids =
++    query.snapshot === 'current' && !query.relativeTo
++      ? eligible
++      : eligible.slice(0, 200);
++  const fields = [
++    'name',
++    'groupId',
++    'dimensions',
++    'position',
++    'rotation',
++    'shape',
++    'material',
++    'materialSpec',
++    'color',
++    'component',
++    'construction',
++    'formDefinition',
++    'formFrame',
++    'architecture',
++    'spatial',
++    'display',
++    'visible',
++  ] as const;
++  return {
++    available: true,
++    snapshot: query.snapshot,
++    source:
++      query.snapshot === 'compare'
++        ? 'request_start_and_current_transaction'
++        : query.snapshot === 'current'
++          ? 'current_transaction'
++          : 'request_start',
++    units: 'meters',
++    frame: 'world XYZ; Y up; north -Z',
++    measurementContract:
++      'World bounding envelopes only, not physical contact or structural attachment. centerDelta = second center - first center; forwardGap = second min - first max; reverseGap = first min - second max; projectedOverlap = min(maxima) - max(minima). Dimensions are local modeling dimensions. Relationships never grant edit permission.',
++    matched: eligible.length,
++    omitted: eligible.length - ids.length,
++    missingIds: query.ids.filter((id) => !roster.includes(id)),
++    referenceFound:
++      query.relativeTo === null
++        ? null
++        : {
++            before: before.has(query.relativeTo),
++            current: current.has(query.relativeTo),
++          },
++    objects: ids.map((id) => {
++      const old = before.get(id),
++        now = current.get(id);
++      if (query.snapshot !== 'compare')
++        return query.snapshot === 'before' ? old : now;
++      return {
++        id,
++        before: old ?? null,
++        current: now ?? null,
++        state: !old
++          ? 'created'
++          : !now
++            ? 'removed'
++            : fields.some((key) => !equalData(old[key], now[key]))
++              ? 'changed'
++              : 'unchanged',
++        changedFields:
++          old && now
++            ? fields.filter((key) => !equalData(old[key], now[key]))
++            : [],
++      };
++    }),
++    relations:
++      query.relativeTo === null
++        ? []
++        : ids
++            .filter((id) => id !== query.relativeTo)
++            .map((id) => ({
++              id,
++              ...(query.snapshot !== 'current'
++                ? {
++                    before: relation(
++                      before.get(query.relativeTo!),
++                      before.get(id),
++                    ),
++                  }
++                : {}),
++              ...(query.snapshot !== 'before'
++                ? {
++                    current: relation(
++                      current.get(query.relativeTo!),
++                      current.get(id),
++                    ),
++                  }
++                : {}),
++            })),
++    groups:
++      query.snapshot === 'compare'
++        ? { before: ref?.groups ?? [], current: input.scene.groups ?? [] }
++        : query.snapshot === 'before'
++          ? (ref?.groups ?? [])
++          : (input.scene.groups ?? []),
++    execution: input.execution ?? null,
++  };
++}
+diff --git a/src/App.tsx b/src/App.tsx
+index 1bb4d4b..5d7a53f 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -1343,6 +1343,7 @@ export default function App({
+             images,
+             execution,
+             observation,
++            connectionState.agentConfigured ? original : undefined,
+           );
+         },
+         setWorkStage,
+diff --git a/src/intelligence/client.ts b/src/intelligence/client.ts
+index 573338c..fa6cf3a 100644
+--- a/src/intelligence/client.ts
++++ b/src/intelligence/client.ts
+@@ -5,6 +5,7 @@ import type { ExecutionContext } from './executionProtocol';
+ import type { ValidationFeedback } from './checkedPlanner';
+ import { parsePlan, type Operation } from './plan';
+ import { sceneContext, type CameraContext } from './context';
++import { sceneReference } from './sceneReference';
+ import type { Session } from './engine';
+ import {
+   completionCriteriaSchema,
+@@ -110,7 +111,9 @@ export async function requestPlan(
+   images?: string[],
+   execution?: ExecutionContext,
+   observation?: SceneObservation,
++  original?: Session,
+ ) {
++  const scene = sceneContext(session.project, session.context, camera);
+   const r = await fetch('/api/plan', {
+     method: 'POST',
+     headers: { 'Content-Type': 'application/json' },
+@@ -127,7 +130,10 @@ export async function requestPlan(
+         undo: session.past.length,
+         redo: session.future.length,
+       },
+-      scene: sceneContext(session.project, session.context, camera),
++      scene,
++      ...(original
++        ? { sceneReference: sceneReference(original, scene, camera) }
++        : {}),
+       history: conversationHistory(history, images),
+     }),
+     signal,
+diff --git a/src/intelligence/sceneReference.test.ts b/src/intelligence/sceneReference.test.ts
+new file mode 100644
+index 0000000..884719d
+--- /dev/null
++++ b/src/intelligence/sceneReference.test.ts
+@@ -0,0 +1,418 @@
++import { expect, it } from 'vitest';
++import { mkdirSync, writeFileSync } from 'node:fs';
++import { join } from 'node:path';
++import { makeVolume as createVolume, type Dimensions } from '../model';
++import { newSession, applyPlan, directPlan } from './engine';
++import { defaultCamera, sceneContext } from './context';
++import { sceneReference } from './sceneReference';
++import { inspectScene, referenceSummary } from '../../server/sceneInspection';
++import { requestSchema, type ModelRequest } from '../../server/provider';
++import { solidStats } from '../geometry/kernel';
++import { stagedPlan } from './checkedPlanner';
++import { verifyCompletion } from './completion';
++import { criteria, measure, selector } from '../../tests/fixtures/completion';
++import { parseSession, serializeSession } from './engine';
++
++const makeVolume = (name: string, dimensions?: Dimensions) => ({
++  ...createVolume(1, dimensions),
++  name,
++});
++
++const describe = (s: ReturnType<typeof newSession>) =>
++  sceneContext(s.project, s.context, defaultCamera);
++function input(
++  original: ReturnType<typeof newSession>,
++  current = original,
++): ModelRequest {
++  const scene = describe(current);
++  return requestSchema.parse({
++    message: 'Keep the existing clearances',
++    history: [],
++    scene,
++    sceneReference: sceneReference(original, scene, defaultCamera),
++  });
++}
++const query = {
++  ids: [],
++  role: null,
++  snapshot: 'compare',
++  relativeTo: null,
++} as const;
++const inspect = (
++  r: ModelRequest,
++  q: Partial<Parameters<typeof inspectScene>[1]> = {},
++) => inspectScene(r, { ...query, ids: [], ...q }) as any;
++
++it('retains the request-start model across several provisional changes, including removals and new identities', async () => {
++  const base = makeVolume('Elliptical foot', {
++    width: 0.72,
++    depth: 0.44,
++    height: 0.11,
++  });
++  base.geometry = { kind: 'cylinder' };
++  const original = newSession({ volumes: [base], selectedId: null });
++  const frozen = structuredClone(original);
++  const initial = input(original);
++  expect(initial.sceneReference!.replacements).toHaveLength(0);
++  let current = (
++    await applyPlan(
++      original,
++      directPlan({
++        type: 'move',
++        targets: [base.id],
++        direction: 'up',
++        distance: 0.27,
++      }),
++    )
++  ).session;
++  current = (
++    await applyPlan(
++      current,
++      directPlan({
++        type: 'move',
++        targets: [base.id],
++        direction: 'right',
++        distance: 0.42,
++      }),
++    )
++  ).session;
++  const data = inspect(input(original, current));
++  expect(data.objects[0].before.position.y).toBe(0);
++  expect(data.objects[0].current.position.y).toBe(0.27);
++  expect(data.objects[0].changedFields).toContain('position');
++  expect(original).toEqual(frozen);
++  // A new user turn starts from the last committed model, not an old reference.
++  expect(inspect(input(current)).objects[0].before.position.y).toBe(0.27);
++  expect(referenceSummary(input(current)).changed).toEqual([]);
++  current = (
++    await applyPlan(
++      current,
++      directPlan({ type: 'delete', targets: [base.id] }),
++      defaultCamera,
++      true,
++    )
++  ).session;
++  const fresh = makeVolume('Fresh identity', {
++    width: 0.2,
++    depth: 0.2,
++    height: 0.2,
++  });
++  current.project = { ...current.project, volumes: [fresh] };
++  const removed = inspect(input(original, current));
++  expect(removed.objects.map((o: any) => o.state)).toEqual([
++    'removed',
++    'created',
++  ]);
++  expect(removed.objects[0].before).toEqual(describe(original).objects[0]);
++  expect(removed.objects[1].before).toBeNull();
++});
++
++it('compares reversed signed gaps in world coordinates for rotated different shapes, without claiming surface contact', async () => {
++  const prism = makeVolume('Prism', { width: 0.9, depth: 0.55, height: 0.62 });
++  prism.rotation = 31;
++  prism.position = { x: -1.1, y: 0.4, z: 0.6 };
++  const sphere = makeVolume('Sphere', {
++    width: 0.36,
++    depth: 0.36,
++    height: 0.36,
++  });
++  sphere.geometry = { kind: 'sphere' };
++  sphere.position = { x: 0.8, y: 1.3, z: -0.2 };
++  const original = newSession({ volumes: [prism, sphere], selectedId: null });
++  const current = (
++    await applyPlan(
++      original,
++      directPlan({
++        type: 'move',
++        targets: [sphere.id],
++        direction: 'down',
++        distance: 0.21,
++      }),
++    )
++  ).session;
++  const r = input(original, current);
++  const forward = inspect(r, { ids: [sphere.id], relativeTo: prism.id });
++  const reverse = inspect(r, { ids: [prism.id], relativeTo: sphere.id });
++  const a = await solidStats(prism),
++    b = await solidStats(sphere);
++  expect(forward.relations[0].before.forwardGap.y).toBeCloseTo(
++    b.bounds.min[1] - a.bounds.max[1],
++    6,
++  );
++  expect(forward.relations[0].current.forwardGap.y).toBeCloseTo(
++    b.bounds.min[1] - 0.21 - a.bounds.max[1],
++    6,
++  );
++  expect(forward.relations[0].before.centerDelta.x).toBeCloseTo(
++    -reverse.relations[0].before.centerDelta.x,
++    9,
++  );
++  expect(forward.relations[0].before.forwardGap.x).toBeCloseTo(
++    reverse.relations[0].before.reverseGap.x,
++    9,
++  );
++  expect(forward.frame).toContain('Y up');
++  expect(forward.measurementContract).toContain('not physical contact');
++});
++
++it('never substitutes the edited model for absent or incomplete original data', () => {
++  const original = newSession({ volumes: [makeVolume('A')], selectedId: null });
++  const r = input(original);
++  expect(inspect({ ...r, sceneReference: undefined }).available).toBe(false);
++  expect(
++    inspect({ ...r, sceneReference: undefined }, { snapshot: 'current' })
++      .available,
++  ).toBe(true);
++  const broken = structuredClone(r);
++  broken.sceneReference!.ids.push('lost-id');
++  expect(inspect(broken).available).toBe(false);
++  expect(inspect(r, { ids: ['unknown'] }).missingIds).toEqual(['unknown']);
++  expect(inspect(r, { relativeTo: 'unknown' }).relations[0].before).toBeNull();
++});
++
++it('bounds inspection output and reports omitted rows for large scenes; initial reference contains no duplicate object inventory', () => {
++  const original = newSession({
++    volumes: Array.from({ length: 431 }, (_, i) => makeVolume(`Object ${i}`)),
++    selectedId: null,
++  });
++  const r = input(original);
++  expect(r.sceneReference!.replacements).toHaveLength(0);
++  expect(inspect(r).objects).toHaveLength(200);
++  expect(inspect(r).matched).toBe(431);
++  expect(inspect(r).omitted).toBe(231);
++  const last = original.project.volumes.at(-1)!.id;
++  expect(inspect(r, { ids: [last] }).objects[0].id).toBe(last);
++});
++
++it('transfers to a hollow horizontal sleeve: retains the pre-edit cap clearance across stages, protects neighbors and blocks displacement', async () => {
++  let original = newSession({ volumes: [], selectedId: null });
++  original = (
++    await applyPlan(
++      original,
++      directPlan({
++        type: 'create_at',
++        name: 'Sleeve',
++        shape: 'cylinder',
++        width: 0.8,
++        depth: 0.8,
++        height: 1.2,
++        x: 0,
++        y: 0.2,
++        z: 0,
++        rotation: 0,
++      }),
++    )
++  ).session;
++  const sleeve = original.project.volumes[0].id;
++  original = (
++    await applyPlan(
++      original,
++      directPlan({
++        type: 'hollow',
++        target: sleeve,
++        thickness: 0.08,
++        openTop: true,
++      }),
++      defaultCamera,
++      true,
++    )
++  ).session;
++  original = (
++    await applyPlan(
++      original,
++      directPlan({ type: 'orient', targets: [sleeve], x: 90, y: 0, z: 0 }),
++    )
++  ).session;
++  const cap = makeVolume('Loose cap', {
++    width: 0.96,
++    depth: 0.12,
++    height: 0.96,
++  });
++  cap.position = { x: 0, y: 0.32, z: 0.94 };
++  const neighbor = makeVolume('Nearby untouched sphere', {
++    width: 0.3,
++    depth: 0.3,
++    height: 0.3,
++  });
++  neighbor.geometry = { kind: 'sphere' };
++  neighbor.position = { x: 0.7, y: 0.4, z: 1 };
++  original.project = {
++    ...original.project,
++    volumes: [...original.project.volumes, cap, neighbor],
++  };
++  const untouched = structuredClone(original);
++  const target = criteria(
++    [
++      measure('length', 'depth', 1.66, selector([sleeve])),
++      {
++        kind: 'offset',
++        id: 'gap',
++        label: 'Retain cap clearance',
++        first: selector([sleeve]),
++        second: selector([cap.id]),
++        axis: 'z',
++        firstAnchor: 'max',
++        secondAnchor: 'min',
++        value: 0.28,
++        tolerance: 0.00001,
++      },
++      {
++        kind: 'preserve',
++        id: 'cap',
++        label: 'Retain cap form and transverse position',
++        selector: selector([cap.id]),
++        properties: [
++          'identity',
++          'geometry',
++          'dimensions',
++          'x',
++          'y',
++          'rotation',
++        ],
++      },
++    ],
++    [sleeve, cap.id],
++    'Lengthen the sleeve symmetrically by 0.46 m and retain the loose cap clearance.',
++  );
++  let calls = 0;
++  const result = await stagedPlan(
++    original,
++    defaultCamera,
++    async (working) => {
++      if (++calls === 1)
++        return {
++          intent: 'apply',
++          message: 'Lengthen sleeve',
++          operations: [
++            {
++              type: 'edit_components',
++              edits: [
++                {
++                  targets: [sleeve],
++                  where: [],
++                  translation: null,
++                  resize: {
++                    axis: 'depth',
++                    mode: 'add',
++                    value: 0.46,
++                    anchor: 0.5,
++                  },
++                },
++              ],
++            },
++          ],
++          planning: {
++            stage: 'Lengthen',
++            assumptions: [],
++            next: 'Inspect original clearance',
++          },
++        };
++      const data = inspect(input(original, working), {
++        ids: [cap.id],
++        relativeTo: sleeve,
++      });
++      const gap = data.relations[0];
++      expect(gap.before.forwardGap.z).toBeCloseTo(0.28, 8);
++      expect(gap.current.forwardGap.z).toBeCloseTo(0.05, 8);
++      // This rule exists only in the test driver, not in the application.
++      const wantedZ =
++        gap.current.firstBounds.max.z +
++        gap.before.forwardGap.z +
++        cap.dimensions.depth / 2;
++      return directPlan({
++        type: 'position',
++        targets: [cap.id],
++        x: null,
++        y: null,
++        z: wantedZ,
++      });
++    },
++    undefined,
++    undefined,
++    {
++      agent: true,
++      verifyCompletion: (candidate) =>
++        verifyCompletion(target, original, candidate),
++    },
++  );
++  expect(result.verification?.canCommit).toBe(true);
++  expect(result.verification?.status).toBe('verified');
++  const after = result.prepared!.session;
++  expect(after.project.volumes.map((v) => v.id)).toEqual(
++    original.project.volumes.map((v) => v.id),
++  );
++  expect(after.project.volumes[2]).toEqual(neighbor);
++  expect(original).toEqual(untouched);
++  const beforeSolid = await solidStats(original.project.volumes[0]),
++    afterSolid = await solidStats(after.project.volumes[0]);
++  expect(afterSolid.bounds.max[2] - afterSolid.bounds.min[2]).toBeCloseTo(
++    1.66,
++    6,
++  );
++  expect(afterSolid.volume / beforeSolid.volume).toBeCloseTo(1.66 / 1.2, 5);
++  expect(afterSolid.volume).toBeLessThan(0.5 * Math.PI * 0.4 ** 2 * 1.66); // Still hollow.
++  const bad = (
++    await applyPlan(
++      after,
++      directPlan({
++        type: 'move',
++        targets: [cap.id],
++        direction: 'back',
++        distance: 0.12,
++      }),
++    )
++  ).session;
++  expect((await verifyCompletion(target, original, bad)).canCommit).toBe(false);
++  const restored = parseSession(serializeSession(after));
++  expect(restored.project).toEqual(after.project);
++  const undo = (
++    await applyPlan(restored, directPlan({ type: 'undo', count: 1 }))
++  ).session;
++  expect(undo.project).toEqual(original.project);
++  expect(
++    (await applyPlan(undo, directPlan({ type: 'redo', count: 1 }))).session
++      .project,
++  ).toEqual(after.project);
++  const evidenceDirectory = process.env.ATELIER_WORKSHOP_EVIDENCE_DIR;
++  if (evidenceDirectory) {
++    mkdirSync(evidenceDirectory, { recursive: true });
++    for (const [name, session] of [
++      ['sleeve-before', original],
++      ['sleeve-after', after],
++    ] as const)
++      writeFileSync(
++        join(evidenceDirectory, `${name}.atelier.json`),
++        JSON.stringify(
++          {
++            ...JSON.parse(serializeSession(session)),
++            name: `Offline transfer: ${name}`,
++          },
++          null,
++          2,
++        ),
++      );
++    writeFileSync(
++      join(evidenceDirectory, 'sleeve-evidence.json'),
++      JSON.stringify(
++        {
++          provenance:
++            'Scripted stagedPlan driver and acceptance criteria; actual geometry kernel, independent completion predicates and session codec. This transfer test does not exercise App.tsx or fresh AI.',
++          request: target.checks[0].evidence,
++          before: beforeSolid,
++          after: afterSolid,
++          comparison: inspect(input(original, after), {
++            ids: [cap.id],
++            relativeTo: sleeve,
++          }),
++          verification: result.verification,
++          displacedCap: await verifyCompletion(target, original, bad),
++          allIdsPreserved: true,
++          neighborUnchanged: true,
++          serializationUndoRedo: true,
++        },
++        null,
++        2,
++      ),
++    );
++  }
++});
+diff --git a/src/intelligence/sceneReference.ts b/src/intelligence/sceneReference.ts
+new file mode 100644
+index 0000000..54a9872
+--- /dev/null
++++ b/src/intelligence/sceneReference.ts
+@@ -0,0 +1,21 @@
++import { sceneContext, type CameraContext } from './context';
++import type { Session } from './engine';
++import { equalData } from '../projects/equalData';
++
++/** Request-local read-only reference, never a new model/history entry.
++ * Only replaced/removed originals travel twice; unchanged objects are in scene.
++ * Capture from transaction start, not the previous provisional stage. */
++export function sceneReference(
++  original: Session,
++  current: ReturnType<typeof sceneContext>,
++  camera: CameraContext,
++) {
++  const before = sceneContext(original.project, original.context, camera);
++  const now = new Map(current.objects.map((o) => [o.id, o]));
++  return {
++    source: 'request_start' as const,
++    ids: before.objects.map((o) => o.id),
++    replacements: before.objects.filter((o) => !equalData(o, now.get(o.id))),
++    groups: before.groups,
++  };
++}
+diff --git a/tests/workshop-reference.spec.ts b/tests/workshop-reference.spec.ts
+new file mode 100644
+index 0000000..db88bb7
+--- /dev/null
++++ b/tests/workshop-reference.spec.ts
+@@ -0,0 +1,506 @@
++/** Offline demonstration: scripted language/tool choices, real provider adapter,
++ * inspection tool, App transaction, CAD kernel, completion gate and persistence.
++ * Nothing here establishes fresh-AI interpretation or autonomous reasoning. */
++import { expect, test, type Page } from '@playwright/test';
++import { writeFileSync } from 'node:fs';
++import { createProvider, requestSchema } from '../server/provider';
++import { criteria, measure, selector } from './fixtures/completion';
++import {
++  newSession,
++  parseSession,
++  serializeSession,
++} from '../src/intelligence/engine';
++import { makeVolume, type Project } from '../src/model';
++import { solidStats } from '../src/geometry/kernel';
++import type { CompletionCriteria } from '../src/intelligence/completionSchema';
++import type { Operation } from '../src/intelligence/plan';
++
++const definitions = [
++  ['Oval foot', 'cylinder', 0.6, 0.42, 0.08, 0, 0],
++  ['Mast', 'cylinder', 0.06, 0.06, 1.44, 0, 0.08],
++  ['Crossbar', 'box', 1.6, 0.06, 0.08, 0, 1.52],
++  ['Left suspension', 'cylinder', 0.015, 0.015, 0.5, -0.62, 1.02],
++  ['Right suspension', 'cylinder', 0.015, 0.015, 0.72, 0.56, 0.8],
++  ['Spherical weight', 'sphere', 0.22, 0.22, 0.22, -0.62, 0.8],
++  ['Elliptical weight', 'cylinder', 0.18, 0.12, 0.24, 0.56, 0.56],
++] as const;
++const createPrompt =
++  'Build a freestanding asymmetric display mobile with an oval base, slender central mast, one horizontal crossbar and two hanging weights, one spherical and one elliptical cylindrical. Keep the seven parts separately editable, group the mobile and leave my two existing markers untouched.';
++const editPrompt =
++  'Raise the crossbar by 0.29 m, extend the mast from its fixed foot, and let both pendants follow without changing their drop or weight shapes. Leave the base and my other objects alone.';
++const creation: Operation[] = [
++  {
++    type: 'assembly',
++    name: 'Display mobile',
++    origin: { x: 0, y: 0, z: 0 },
++    rotation: 0,
++    elements: definitions.map(
++      ([name, shape, width, depth, height, x, y], i) => ({
++        key: `part${i}`,
++        name,
++        shape,
++        dimensions: { width, depth, height },
++        position: { x, y, z: 0 },
++        rotation: 0,
++        role: 'element',
++        level: null,
++        material: 'solid',
++        color: i > 4 ? '#bc815c' : '#6f7c82',
++        host: null,
++        repeat: null,
++      }),
++    ),
++  },
++];
++const tool = (name: string, args: unknown) =>
++  new Response(
++    JSON.stringify({
++      id: 'offline',
++      object: 'response',
++      status: 'completed',
++      output: [
++        {
++          type: 'function_call',
++          id: 'offline',
++          call_id: 'offline',
++          status: 'completed',
++          name,
++          arguments: JSON.stringify(args),
++        },
++      ],
++    }),
++    { headers: { 'Content-Type': 'application/json' } },
++  );
++const step = (operations: Operation[], complete = true) =>
++  tool('execute_step', {
++    message: 'Apply the measured changes',
++    assumptions: ['Offline scripted choices; fresh AI is not being tested.'],
++    request_completion: complete,
++    operations,
++  });
++const saved = async (page: Page) =>
++  parseSession(
++    await page.evaluate(() => localStorage.getItem('atelier.session.v2')!),
++  );
++async function send(page: Page, text: string) {
++  await page.getByRole('textbox', { name: 'Message Atelier' }).fill(text);
++  await page.getByRole('button', { name: 'Send message', exact: true }).click();
++}
++function checks(original: Project, editing: boolean): CompletionCriteria {
++  const parts = original.volumes.filter((v) =>
++    definitions.some((d) => d[0] === v.name),
++  );
++  const selection = selector(editing ? parts.map((v) => v.id) : ['$new']);
++  const reqs: CompletionCriteria['checks'][number]['requirement'][] = [
++    measure('count', 'count', 7, selection),
++    {
++      kind: 'editable',
++      id: 'editable',
++      label: 'Separate editable parts',
++      selector: selection,
++    },
++    {
++      kind: 'group',
++      id: 'group',
++      label: 'Assembly membership',
++      selector: selection,
++      name: 'Display mobile',
++      exclusive: true,
++    },
++  ];
++  for (const [i, [name, , width, , height, x, y]] of definitions.entries()) {
++    const sel = editing
++      ? selector([parts.find((v) => v.name === name)!.id])
++      : selector(['$new'], name);
++    const dy = editing && name !== 'Oval foot' && name !== 'Mast' ? 0.29 : 0;
++    reqs.push(
++      measure(
++        `height${i}`,
++        'height',
++        height + (editing && name === 'Mast' ? 0.29 : 0),
++        sel,
++      ),
++    );
++    reqs.push(measure(`width${i}`, 'width', width, sel));
++    reqs.push({
++      kind: 'positions',
++      id: `point${i}`,
++      label: 'Measured placement',
++      selector: sel,
++      points: [{ x, y: y + dy, z: 0 }],
++      tolerance: 0.00001,
++    });
++  }
++  if (editing)
++    reqs.push({
++      kind: 'preserve',
++      id: 'identities',
++      label: 'Retain identities, shapes and horizontal arrangement',
++      selector: selection,
++      properties: [
++        'identity',
++        'geometry',
++        'width',
++        'depth',
++        'x',
++        'z',
++        'rotation',
++        'groupId',
++      ],
++    });
++  return criteria(
++    reqs,
++    editing ? parts.filter((v) => v.name !== 'Oval foot').map((v) => v.id) : [],
++    editing ? editPrompt : createPrompt,
++  );
++}
++async function externalMeasurements(project: Project, editing: boolean) {
++  const rows = [];
++  for (const [name, shape, w, d, h, x, y] of definitions) {
++    const v = project.volumes.find((v) => v.name === name)!;
++    expect(v).toBeTruthy();
++    const stats = await solidStats(v);
++    const expectedH = h + (editing && name === 'Mast' ? 0.29 : 0);
++    const expectedY =
++      y + (editing && name !== 'Oval foot' && name !== 'Mast' ? 0.29 : 0);
++    const { min, max } = stats.bounds;
++    expect(max[0] - min[0]).toBeCloseTo(w, 5);
++    expect(max[2] - min[2]).toBeCloseTo(d, 5);
++    expect(max[1] - min[1]).toBeCloseTo(expectedH, 5);
++    expect((min[0] + max[0]) / 2).toBeCloseTo(x, 5);
++    expect(min[1]).toBeCloseTo(expectedY, 5);
++    expect((min[2] + max[2]) / 2).toBeCloseTo(0, 5);
++    const analyticVolume =
++      shape === 'box'
++        ? w * d * expectedH
++        : shape === 'sphere'
++          ? (Math.PI / 6) * w * d * expectedH
++          : (Math.PI / 4) * w * d * expectedH;
++    expect(Math.abs(stats.volume / analyticVolume - 1)).toBeLessThan(0.015);
++    rows.push({
++      id: v.id,
++      name,
++      bounds: stats.bounds,
++      volume: stats.volume,
++      analyticVolume,
++      expectedY,
++      expectedH,
++    });
++  }
++  return rows;
++}
++
++test('normal workspace builds and contextually edits an unfamiliar mobile using before/after inspection, with real commits and reload Undo/Redo (scripted provider)', async ({
++  page,
++}, info) => {
++  test.setTimeout(150000);
++  const marker = makeVolume(1, { width: 0.16, depth: 0.12, height: 0.14 });
++  marker.name = 'Unrelated nearby marker';
++  marker.position = { x: 0.4, y: 0, z: 0.22 };
++  const other = makeVolume(2, { width: 0.1, depth: 0.18, height: 0.31 });
++  other.name = 'Unrelated tall marker';
++  other.position = { x: -1.05, y: 0, z: -0.4 };
++  const seeded = serializeSession(
++    newSession({ volumes: [marker, other], selectedId: null }),
++  );
++  await page.addInitScript((s) => {
++    if (!localStorage.getItem('atelier.session.v2'))
++      localStorage.setItem('atelier.session.v2', s);
++  }, seeded);
++  await page.emulateMedia({ reducedMotion: 'reduce' });
++  await page.route('**/api/config', (r) =>
++    r.fulfill({
++      json: {
++        configured: true,
++        authenticated: true,
++        voiceConfigured: false,
++        agentConfigured: true,
++      },
++    }),
++  );
++  const trace: unknown[] = [];
++  let beforeEdit: Project | undefined;
++  let negative = false;
++  await page.route('**/api/completion-criteria', (r) => {
++    const b = r.request().postDataJSON();
++    // The independent gate keeps receiving the original scene, not candidate measurements.
++    expect(b).not.toHaveProperty('sceneReference');
++    if (negative)
++      return r.fulfill({
++        json: criteria(
++          [
++            {
++              kind: 'preserve',
++              id: 'preserve-all',
++              label: 'Keep all committed geometry intact',
++              selector: selector(['$original']),
++              properties: ['all'],
++            },
++          ],
++          [],
++          b.message,
++        ),
++      });
++    return r.fulfill({
++      json: checks(
++        beforeEdit ?? (JSON.parse(seeded).project as Project),
++        !!beforeEdit,
++      ),
++    });
++  });
++  await page.route('**/api/plan', async (r) => {
++    const input = requestSchema.parse(r.request().postDataJSON());
++    const provider = createProvider(
++      'offline-scripted-no-network',
++      async (_url, init) => {
++        const request = JSON.parse(init!.body as string);
++        const last = request.input.at(-1);
++        if (input.message === createPrompt) return step(creation);
++        const crossbar = input.scene.objects.find(
++          (v) => v.name === 'Crossbar',
++        )!;
++        if (negative)
++          return step([
++            {
++              type: 'move',
++              targets: [marker.id],
++              direction: 'up',
++              distance: 0.1,
++            },
++          ]);
++        if (last.type !== 'function_call_output') {
++          const schema = request.tools.find(
++            (t: any) => t.name === 'inspect_scene',
++          ).parameters;
++          expect(schema.required).toContain('snapshot');
++          expect(schema.required).toContain('relativeTo');
++          return tool('inspect_scene', {
++            ids: [],
++            role: null,
++            snapshot: 'compare',
++            relativeTo: crossbar.id,
++          });
++        }
++        const inspection = JSON.parse(last.output);
++        expect(inspection.available).toBe(true);
++        const rows = inspection.objects as any[];
++        const bar = rows.find((o) => o.id === crossbar.id);
++        expect(bar.before.position.y).toBe(1.52);
++        expect(
++          inspection.relations.find(
++            (x: any) =>
++              x.id ===
++              rows.find((o) => o.before?.name === 'Spherical weight').id,
++          ).before.forwardGap.y,
++        ).toBeCloseTo(-0.8, 6);
++        trace.push({ stage: input.execution?.stage, inspection });
++        if (bar.state === 'unchanged') {
++          // First provisional change; later stages must still see the original bar.
++          return step(
++            [
++              {
++                type: 'move',
++                targets: [crossbar.id],
++                direction: 'up',
++                distance: 0.29,
++              },
++            ],
++            false,
++          );
++        }
++        expect(bar.current.position.y).toBeCloseTo(1.81, 6);
++        expect((await saved(page)).project).toEqual(beforeEdit);
++        const delta = bar.current.position.y - bar.before.position.y;
++        const operations: Operation[] = [];
++        for (const row of rows.filter(
++          (o) =>
++            o.before?.groupId === bar.before.groupId &&
++            o.id !== bar.id &&
++            o.before.name !== 'Oval foot',
++        )) {
++          if (row.before.name === 'Mast')
++            operations.push({
++              type: 'edit_components',
++              edits: [
++                {
++                  targets: [row.id],
++                  where: [],
++                  translation: null,
++                  resize: {
++                    axis: 'height',
++                    mode: 'set',
++                    value: row.before.dimensions.height + delta,
++                    anchor: 0,
++                  },
++                },
++              ],
++            });
++          else {
++            const relationship = inspection.relations.find(
++              (x: any) => x.id === row.id,
++            );
++            // Read the old signed clearance from tool evidence, not from edited coordinates.
++            const wantedY =
++              bar.current.spatial.envelopeBounds.max.y +
++              relationship.before.forwardGap.y;
++            operations.push({
++              type: 'position',
++              targets: [row.id],
++              x: null,
++              y: wantedY,
++              z: null,
++            });
++          }
++        }
++        return step(operations);
++      },
++      { agent: true, textApi: 'responses' },
++    );
++    return r.fulfill({ json: await provider.plan(input) });
++  });
++  await page.goto('/');
++  await expect(page.getByTestId('viewport')).toHaveAttribute(
++    'data-model-objects',
++    '2',
++  );
++  await send(page, createPrompt);
++  await expect
++    .poll(async () => (await saved(page)).project.volumes.length, {
++      timeout: 60000,
++    })
++    .toBe(9);
++  await expect(
++    page.getByRole('button', { name: 'Stop design request', exact: true }),
++  ).toBeHidden();
++  const created = await saved(page);
++  beforeEdit = created.project;
++  const initial = await externalMeasurements(created.project, false);
++  await page.getByRole('button', { name: 'Frame all', exact: true }).click();
++  await page.screenshot({ path: info.outputPath('mobile-before.png') });
++  await send(page, editPrompt);
++  await expect
++    .poll(
++      async () =>
++        (await saved(page)).project.volumes.find((v) => v.name === 'Mast')
++          ?.dimensions.height,
++      { timeout: 60000 },
++    )
++    .toBe(1.73);
++  await expect(
++    page.getByRole('button', { name: 'Stop design request', exact: true }),
++  ).toBeHidden();
++  const edited = await saved(page);
++  expect(edited.project.volumes.map((v) => v.id)).toEqual(
++    created.project.volumes.map((v) => v.id),
++  );
++  expect(edited.project.volumes.slice(0, 3)).toEqual(
++    created.project.volumes.slice(0, 3),
++  );
++  expect(edited.project.groups).toEqual(created.project.groups);
++  expect(edited.past).toHaveLength(created.past.length + 1);
++  const final = await externalMeasurements(edited.project, true);
++  expect(trace).toHaveLength(2);
++  await page.getByRole('button', { name: 'Frame all', exact: true }).click();
++  await page.getByRole('button', { name: 'Minimize conversation' }).click();
++  await page.screenshot({ path: info.outputPath('mobile-after.png') });
++  await page.reload();
++  await expect(page.getByTestId('viewport')).toHaveAttribute(
++    'data-model-objects',
++    '9',
++  );
++  expect((await saved(page)).project).toEqual(edited.project);
++  await page.getByRole('button', { name: 'Undo', exact: true }).click();
++  await expect
++    .poll(async () => (await saved(page)).project)
++    .toEqual(created.project);
++  await page.getByRole('button', { name: 'Redo', exact: true }).click();
++  await expect
++    .poll(async () => (await saved(page)).project)
++    .toEqual(edited.project);
++  const messages = await page.evaluate(() =>
++    JSON.parse(localStorage.getItem('atelier.conversation.v2')!),
++  );
++  writeFileSync(
++    info.outputPath('mobile-created.atelier.json'),
++    JSON.stringify(
++      {
++        ...JSON.parse(serializeSession(created)),
++        name: 'Offline mobile — before edit',
++        messages: messages.slice(0, 2),
++      },
++      null,
++      2,
++    ),
++  );
++  writeFileSync(
++    info.outputPath('mobile-edited.atelier.json'),
++    JSON.stringify(
++      {
++        ...JSON.parse(serializeSession(edited)),
++        name: 'Offline mobile — after edit',
++        messages,
++      },
++      null,
++      2,
++    ),
++  );
++  writeFileSync(
++    info.outputPath('evidence.json'),
++    JSON.stringify(
++      {
++        provenance:
++          'Scripted provider and independent criteria; actual App/provider tools/geometry/commit/reload/Undo/Redo. No paid API calls.',
++        prompts: [createPrompt, editPrompt],
++        trace,
++        initial,
++        final,
++        changed: edited.project.volumes
++          .filter(
++            (v, i) =>
++              JSON.stringify(v) !== JSON.stringify(created.project.volumes[i]),
++          )
++          .map((v) => ({ id: v.id, name: v.name })),
++        preserved: edited.project.volumes
++          .filter(
++            (v, i) =>
++              JSON.stringify(v) === JSON.stringify(created.project.volumes[i]),
++          )
++          .map((v) => ({ id: v.id, name: v.name })),
++        messages,
++      },
++      null,
++      2,
++    ),
++  );
++  // The new read-only access cannot broaden the independent edit scope.
++  negative = true;
++  if (
++    !(await page.getByRole('textbox', { name: 'Message Atelier' }).isVisible())
++  )
++    await page
++      .getByRole('button', { name: 'Voice orb', exact: true })
++      .press('Shift+Enter');
++  await send(page, 'Keep the mobile and both markers exactly as they are.');
++  await expect(
++    page.getByRole('button', { name: 'Stop design request', exact: true }),
++  ).toBeHidden({ timeout: 60000 });
++  expect((await saved(page)).project).toEqual(edited.project);
++  expect((await saved(page)).past).toEqual(edited.past);
++  const failed = await page.evaluate(() =>
++    JSON.parse(localStorage.getItem('atelier.conversation.v2')!),
++  );
++  expect(failed.at(-1).outcome).toBe('failed');
++  writeFileSync(
++    info.outputPath('negative-control.json'),
++    JSON.stringify(
++      {
++        outcome: 'blocked',
++        projectUnchanged: true,
++        historyUnchanged: true,
++        conversation: failed.slice(-2),
++      },
++      null,
++      2,
++    ),
++  );
++});

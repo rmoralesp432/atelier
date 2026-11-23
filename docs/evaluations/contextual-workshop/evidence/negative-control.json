@@ -1,0 +1,16 @@
+{
+  "outcome": "blocked",
+  "projectUnchanged": true,
+  "historyUnchanged": true,
+  "conversation": [
+    {
+      "role": "user",
+      "content": "Keep the mobile and both markers exactly as they are."
+    },
+    {
+      "role": "assistant",
+      "content": "The request could not be verified: Unrelated existing geometry: Restore unauthorized edits: Unrelated nearby marker (95879b90-dae9-402b-8f93-61510658f0a4): expected position(0.4,0,0.22), size(0.16,0.12,0.14), rotation 0, visible true; observed position(0.4,0.4,0.22), size(0.16,0.12,0.14), rotation 0, visible true. Preserve original identities and geometry. Keep all committed geometry intact: Preserved properties changed: Unrelated nearby marker (95879b90-dae9-402b-8f93-61510658f0a4): all. Your project is unchanged.",
+      "outcome": "failed"
+    }
+  ]
+}

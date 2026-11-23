@@ -1,0 +1,33 @@
+{
+  "implementationCommit": "f5ba62621db0d9c0a02f90be5b0143c7e21b53f7",
+  "baseCommit": "a80d6ef91a1db50692856e826af487439b885c2c",
+  "stableApplicationCommit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+  "separateFrozenVerifier": "433d9baed8265cc4eb78a5b0bfb914911b734cf7",
+  "scope": "Request-start geometry inspection; no verifier implementation changes",
+  "paidApiCalls": 0,
+  "newApiSpendingUSD": 0,
+  "merged": false,
+  "deployed": false,
+  "validation": {
+    "unitTests": 429,
+    "unitFiles": 81,
+    "finalAffectedTests": 21,
+    "productionBrowserRegressionTests": 10,
+    "finalWorkflowRerun": "passed",
+    "productionBuild": "passed",
+    "physicalDeviceTests": false,
+    "freshAI": false
+  },
+  "files": {
+    "server/agent.ts": "c43117c2bcbf09b1279d342afad7e297931b5e5fc6d2fc773b2d0d1a75528447",
+    "server/provider.ts": "806d4d488505b5a6159571a1eddfba1e72498271bec39753a6ba89f8f86ddc00",
+    "server/sceneInspection.ts": "6b31e638ccb403981394673ff812ef79a9ee828c3df293f41fee8f02a8aec2a3",
+    "src/App.tsx": "a916d192c71827867cacf2667a00f3bf3925bf090b3bd01f32fa37c7f7959ed5",
+    "src/intelligence/client.ts": "73efa7e2657cafc80be51d2a55f11950f7ca3340f3e042365bfdc0bab15e2a20",
+    "src/intelligence/sceneReference.test.ts": "454efab08e5bd6d27aebd0bf7a715fa038d4aac554d579da89f829382ff66e91",
+    "src/intelligence/sceneReference.ts": "543e70082f42957934389032c285472cba90f0fac73711204ad39e82ce745439",
+    "tests/workshop-reference.spec.ts": "2298276e2c9e4603302c875694674dc9ae746adf3ff54af33314a90ebcb5a1ca"
+  },
+  "diffSHA256": "c5cf304dd2ec4ce1114c76e15d7031de7099f8fe5fa7b9f2ba5aeac54d6407d2",
+  "futureHeldOutTasksDefined": false
+}
