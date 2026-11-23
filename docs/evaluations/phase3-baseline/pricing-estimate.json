@@ -1,0 +1,11 @@
+{
+  "checkedAt": "2026-11-23T15:50:53.565Z",
+  "source": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+  "authority": "secondary; authoritative-pricing prerequisite waived by user; actual account rates not independently verified",
+  "model": "gpt-6.1-sol",
+  "inputPerMillion": 2,
+  "outputPerMillion": 10,
+  "reserveInputPerMillion": 4,
+  "reserveOutputPerMillion": 15,
+  "margin": 1.25
+}

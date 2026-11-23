@@ -1,0 +1,16 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: equivalent local frame A2: [{"name":"Platform model data unchanged","status":"incorrect"}]
+    at check (/workspace/atelier-phase3/scripts/phase3-evaluation/calibrate.ts:14:3)
+    at async <anonymous> (/workspace/atelier-phase3/scripts/phase3-evaluation/calibrate.ts:34:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

@@ -71,3 +71,9 @@ F2 must start from the real preserved scene after F1, not a reset conversation. 
 ## Oracle calibration gate
 
 For each oracle, construct known-valid alternatives and deliberately wrong solids offline. Keep these evaluator fixtures out of the agent scene except explicitly declared starting markers/control faults. Validate using the real kernel/exported mesh. Do not infer oracle correctness from a generated model passing it. Freeze successful calibration results, tolerances and source hashes before paid execution. If an oracle later needs correction, retain its original result, version the correction and remeasure saved geometry; do not buy a new model answer just to relabel the old one.
+
+## Authorized preparation clarifications
+
+F's calibration block is X width 0.7 m, Z depth 0.5 m, and **vertical Y height 0.9 m**. A's side glazing may reasonably follow the post line or platform edge; samples establish continuous side enclosure between front/back posts while preserving the open front/back. B permits ordinary overlapping joinery and checks that the two rails connect both leg pairs. These interpretations were fixed before any paid response.
+
+Diagnostic edits on validated starting models are allowed within the existing diagnostic allowance and remain separate from failed or not-reached end-to-end turns. Published future challenges are reserved ideas, not genuinely fresh held-out tests.

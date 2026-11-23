@@ -1,0 +1,14 @@
+{
+  "passed": true,
+  "paidCalls": 0,
+  "source": "scripted provider, actual App/kernel/persistence",
+  "transaction": {
+    "reload": true,
+    "context": true,
+    "conversation": true,
+    "camera": true,
+    "singleUndo": true,
+    "redo": true
+  },
+  "failedRequestPreserved": true
+}

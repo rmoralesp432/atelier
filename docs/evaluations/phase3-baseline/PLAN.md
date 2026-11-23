@@ -1,6 +1,6 @@
 # Phase 3: autonomous modeling intelligence baseline
 
-Status: proposal for approval; no paid evaluation is authorized or running.
+Status: US$15 baseline authorized. The latest authorization and pricing waiver are recorded in `authorization.json`. Application behavior remains frozen; no deployment is authorized.
 Prepared 23 November 2026. Application changes, merge and deployment are out of scope.
 
 ## Purpose
@@ -15,7 +15,7 @@ Measure whether the current agent can understand an unfamiliar outcome, construc
 - Existing rollback tags remain: `release/pre-pr24-2026-11-19` -> `aa9dd6126f3372774c1cee03558ef4dcb87afd27`, and `release/pre-pr23-2026-11-19` -> `acf5ed9ccdb298d2853d139ce5cdf0fc35e24c36`. Leave them unchanged and pin the current stable SHA as this experiment's baseline.
 - Work is isolated on `eval/phase3-intelligence-baseline`. No `src`, `server`, application configuration, or deployment files are being changed.
 - A free authenticated model lookup returned `gpt-6.1-sol`. That establishes model access, not successful generation, current account balance, or billing accuracy.
-- The user reports about US$70 expiring 24 November 2026 and an expected future budget of about US$400/month. The balance/expiry is user-reported, not API-verified, and does not itself authorize paid calls.
+- The user verified sufficient balance, including credits expiring 24 November 2026; exact expiration time is unknown. Exact account balance is retained only in the local billing context, separate from reusable benchmark evidence. This experiment retains its separate US$15 ceiling.
 
 ## Current architectural hypothesis
 
@@ -65,7 +65,7 @@ Keep three separate assessments per turn:
 
 An externally correct result can still expose a false rejection. An application claim of success can expose false acceptance if a material requirement fails independently. A genuinely unmeasurable property stays unknown. Never turn an unknown oracle result into a pass, treat a missing coverage check as proof of failure, or count a correct preview that never commits as completed.
 
-For each explicit clause in a prompt, record its independent expected value or allowed interpretation and map it to the actual reviewer's checks. A quoted requirement or plausible component name does not demonstrate coverage. Assess visual coherence from actual neutral scene renders and section views where useful; retain the image and the observation. Do not substitute AI-rendered illustrations. Human visual judgments remain qualitative, with reviewer identity/method recorded.
+For each explicit clause in a prompt, record its independent expected value or allowed interpretation and map it to the actual reviewer's checks. A quoted requirement or plausible component name does not demonstrate coverage. Assess visual coherence from actual neutral scene renders and section views where useful; retain the image and the observation. Do not substitute AI-rendered illustrations. Visual judgments remain qualitative, with reviewer identity/method recorded.
 
 Report first-attempt and eventual completion separately, and always include denominators: attempted turns, not-reached dependent turns, budget-stopped turns, incorrect results, unverified results, false acceptances/rejections, autonomous repairs and unnecessary clarifications. Report all individual latencies; a small sample does not establish population percentiles. Separate executor, reviewer, criterion-revision, local geometry, rendering and commit time.
 
@@ -106,11 +106,11 @@ This proposal prepares exact prompts, numerical acceptance contracts and evidenc
 - Keep prompts, numerical answers and faults in evaluation files only. Neither execution agent nor reviewer receives the oracle, reference fixture or withheld-answer values beyond the user's prompt.
 - Before paid runs, prove each oracle accepts appropriate baked/rotated meshes and alternative valid subdivisions, and rejects measured counterexamples. Missing surface evidence is unknown, not a guessed pass.
 - Do not change application code during the baseline. Preserve failures and continue to unrelated episodes unless a serious false-success, data-loss/security defect or budget stop requires halting. Routine harness fixes get a new version/attempt; old outcomes remain visible.
-- Reserve the different task families in `held-out.json` for evaluation of a later approved improvement. They are excluded from this initial US$15 experiment and must not be used to select or tune an implementation.
+- Treat the published families in `held-out.json` as reserved ideas only. Define genuinely fresh held-out tasks after any later improvement is frozen. These public ideas are excluded from this initial experiment.
 
 ## Proposed API authorization
 
-**Request: up to US$15 total for this Phase 3 baseline, including all of its calls, retries and unknown-charge reservations.** No spending has been approved for this new experiment. Previous release/hotfix ledgers and their unknown charges remain immutable historical records; they are not cleared, relabeled, or reused as new authorization.
+**Authorized: up to US$15 total for this Phase 3 baseline, including all calls, retries and unknown-charge reservations.** The user subsequently waived authoritative pricing verification and will supervise actual billing; our cap applies to conservative estimates and reservations, not an independently verified invoice. Previous release/hotfix ledgers and their unknown charges remain immutable historical records; they are not cleared, relabeled, or reused as new authorization.
 
 Plan allocations: up to US$10 for A–F, US$2 for R, and US$3 for diagnostic/transport contingency. These are ceilings, not spending targets. Do not spend the reserve on repeating successful buildings. At most two diagnostic turns: choose only a failure whose attribution is genuinely uncertain and record the question before sending. Primary results never change because a diagnostic later succeeds. If unused money would need reallocating, record the change before the next call while keeping the total and reserved repair allowance intact.
 

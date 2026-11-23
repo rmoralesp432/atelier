@@ -1,9 +1,13 @@
 {
   "version": 1,
-  "status": "proposed-not-authorized",
+  "status": "authorized-pending-offline-calibration-and-execution-freeze",
   "baseline": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
   "units": "meters",
-  "axes": { "x": "east", "y": "up", "z": "north" },
+  "axes": {
+    "x": "east",
+    "y": "up",
+    "z": "north"
+  },
   "common": {
     "seed": "Two preserved unrelated objects with stable recorded IDs and group metadata; one is a nearby lookalike without physical contact. No prebuilt target assembly.",
     "promptSuffix": "Keep all parts independently editable and preserve unrelated objects.",
@@ -174,7 +178,7 @@
         "new-task",
         "transaction-integrity"
       ],
-      "seedOverride": "The two preserved marker objects plus one named calibration block, 0.7 x 0.5 x 0.9 m, at (3,0,0), recorded before the first request.",
+      "seedOverride": "Two preserved markers plus a calibration block: width X=0.7 m, depth Z=0.5 m, VERTICAL HEIGHT Y=0.9 m, base center (3,0,0). Record before the first request.",
       "turns": [
         {
           "id": "F1",
