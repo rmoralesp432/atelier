@@ -108,12 +108,15 @@
     "scripts/phase3-evaluation/geometry.ts": "95f102251b81636c48087e4f7f7436866bdec4118f91c9a92171e3436fab92f6",
     "scripts/release-evaluation/browser-state.ts": "ae96d04038f13d01aa9499532e321473f10301818ac7f583bf79169aaac93734",
     "scripts/workshop-campaign/budget.ts": "8c461a46db1a55ffe46e32e0708278e2b7dbdb0aae2ab61a4ed217ca3686154d",
+    "scripts/workshop-campaign/calibrate-transfer.ts": "55afe1c8b70f75a3ead7bdc332b626d5a918e7ddae611ed2b1cdd148a69ea81e",
     "scripts/workshop-campaign/calibrate.ts": "fc4045a618acde3f2b7a10ba2e50f28f313ffd82e8a329a14442d0acd6e74006",
     "scripts/workshop-campaign/config.ts": "e09fac6cf4aacb3cd5e091ef8c9fa8187e267f384e3b70ef3702b2d198ee1798",
     "scripts/workshop-campaign/geometry.ts": "a7d94219fc79f0ab73822e7f28d277fd823802a1c0325fbbe75c78da5d591c23",
-    "scripts/workshop-campaign/run.ts": "f91fac25f394b3eca14e24afc3e19939332114ad892a44186610c50455b299fe",
-    "scripts/workshop-campaign/specs.ts": "31c088d2cb65ac2b27fc0138d06a905e0566a1ae835d0a3e52841ff450414278"
+    "scripts/workshop-campaign/registry.ts": "1ffab5403d2d4c510f1ca27cf471b57acd038c2733933203139c1f3a084ad789",
+    "scripts/workshop-campaign/run.ts": "c2dc621ef81e6184a56e2d4285b0e916ef2092d6847a7599267f3ab40e8a28a3",
+    "scripts/workshop-campaign/specs.ts": "086733f698b1a10c8130281c9665d86c9fa0b1a9c6eb78edb7650a117aa66db0",
+    "scripts/workshop-campaign/transfer.ts": "f6c5dbd6233f4f7ed0aa1ba052b02e6596c30a63d102396fa5a87a769250647c"
   },
-  "evaluatorCommit": "1beddbc506cdc243fd1eefc749d4e6e3d483e3bc",
-  "frozenAt": "2026-11-23T19:24:42.543Z"
+  "evaluatorCommit": "01228e2098902b73e10c8d2120ec912b9642ffe7",
+  "frozenAt": "2026-11-23T19:40:20.864Z"
 }
