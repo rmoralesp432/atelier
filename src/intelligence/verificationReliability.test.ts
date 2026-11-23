@@ -269,3 +269,55 @@ it('the correction wire carries a repaired expression without rewriting scope or
   const report = await verifyCompletion(roundtrip, f.before, f.candidate);
   expect(report.status).toBe('verified');
 });
+
+it('accepts a proven unit-bearing scalar zero correction from the fresh failed shelving trace, while displacement remains incorrect', async () => {
+  const f = JSON.parse(
+    readFileSync('tests/fixtures/workshop-reliability/zero.json', 'utf8'),
+  );
+  for (const displaced of [false, true]) {
+    const candidate = structuredClone(f.candidate);
+    if (displaced)
+      candidate.project.volumes.find((v: any) =>
+        v.name.startsWith('Shelf at 250'),
+      )!.position.x += 0.025;
+    const read = vi
+      .fn()
+      .mockResolvedValueOnce(f.criteria)
+      .mockResolvedValueOnce(f.correctedCriteria);
+    const report = await completionVerifier(
+      f.before,
+      f.prompt,
+      read,
+    )(candidate);
+    expect(report.canCommit).toBe(!displaced);
+    expect(report.checks.find((c) => c.id === 'check-15')!.outcome).toBe(
+      displaced ? 'incorrect' : 'verified',
+    );
+    expect(read).toHaveBeenCalledTimes(2);
+  }
+});
+it('zero equivalence preserves sources and does not erase arrays or undefined expressions', async () => {
+  const { equivalentCalculation } = await import('./calculationEquivalence');
+  const b = calculation(),
+    length = b.quantity(28, 'cm', '28 cm'),
+    zero = b.constant(0);
+  const old = b.value(zero),
+    correct = b.value(b.op('multiply', length, zero));
+  expect(equivalentCalculation(old, correct)).toBe(true);
+  const array = b.op('range', length, length, b.constant(3));
+  const arrayProduct = b.value(b.op('multiply', array, zero));
+  const sameSources = { ...arrayProduct, output: old.output };
+  expect(equivalentCalculation(sameSources, arrayProduct)).toBe(false);
+  const undefinedProduct = b.value(
+    b.op('multiply', b.op('divide', length, zero), zero),
+  );
+  expect(
+    equivalentCalculation(
+      { ...undefinedProduct, output: old.output },
+      undefinedProduct,
+    ),
+  ).toBe(false);
+  const changed = structuredClone(correct);
+  (changed.nodes[0] as any).value = 29;
+  expect(equivalentCalculation(old, changed)).toBe(false);
+});

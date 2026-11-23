@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { serializeSession } from '../src/intelligence/engine';
 import { binaryCorrection } from './fixtures/workshop-reliability/repair';
 import { oracle, pass } from '../scripts/workshop-campaign/geometry';
-import { equalData } from '../src/projects/equalData';
+import { oracle as largeOracle } from '../scripts/reliability-evaluation/geometry';
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
 const model = (s: any) => ({
@@ -17,6 +17,7 @@ for (const scenario of [
   'reflection',
   'displaced',
   'unresolved',
+  'zero',
 ] as const) {
   test(`saved real-AI ${scenario} replay through browser commits and storage`, async ({
     browser,
@@ -25,7 +26,7 @@ for (const scenario of [
     test.setTimeout(120000);
     const f = JSON.parse(
       readFileSync(
-        `tests/fixtures/workshop-reliability/${scenario === 'group' ? 'group' : 'reflection'}.json`,
+        `tests/fixtures/workshop-reliability/${scenario === 'group' ? 'group' : scenario === 'zero' ? 'zero' : 'reflection'}.json`,
         'utf8',
       ),
     );
@@ -133,7 +134,11 @@ for (const scenario of [
       }
       return r.fulfill({
         json:
-          body.revision && scenario !== 'unresolved' ? binaryCorrection(c) : c,
+          body.revision && scenario !== 'unresolved'
+            ? scenario === 'zero'
+              ? remap(f.correctedCriteria)
+              : binaryCorrection(c)
+            : c,
       });
     });
     await page.goto(baseURL!);
@@ -148,7 +153,7 @@ for (const scenario of [
     await page
       .getByRole('button', { name: 'Send message', exact: true })
       .click();
-    const commits = ['group', 'reflection'].includes(scenario);
+    const commits = ['group', 'reflection', 'zero'].includes(scenario);
     if (commits)
       await expect
         .poll(async () => (await saved(page)).past.length, { timeout: 80000 })
@@ -173,8 +178,8 @@ for (const scenario of [
     );
     let facts: any[] = [];
     if (commits) {
-      facts = await oracle(
-        scenario === 'group' ? 'W3' : 'D-H2',
+      facts = await (scenario === 'zero' ? largeOracle : oracle)(
+        scenario === 'group' ? 'W3' : scenario === 'zero' ? 'L1' : 'D-H2',
         f.before,
         f.before,
         after,
@@ -204,13 +209,19 @@ for (const scenario of [
     }
     expect(reviews).toBe(scenario === 'group' ? 1 : 2);
     expect(models).toBe(
-      scenario === 'group' ? f.stages.length : scenario === 'displaced' ? 2 : 1,
+      scenario === 'group' || scenario === 'zero'
+        ? f.stages.length
+        : scenario === 'displaced'
+          ? 2
+          : 1,
     );
     const report = {
       scenario,
       provenance: f.provenance,
       label:
-        'Offline saved model responses and scripted reviewer correction through normal browser. No fresh AI.',
+        scenario === 'zero'
+          ? 'Offline saved model responses AND recorded real-AI reviewer correction through normal browser. No fresh AI.'
+          : 'Offline saved model responses and scripted reviewer correction through normal browser. No fresh AI.',
       committed: commits,
       models,
       reviews,
@@ -224,15 +235,15 @@ for (const scenario of [
       body: JSON.stringify(report, null, 2),
       contentType: 'application/json',
     });
-    mkdirSync('docs/evaluations/workshop-reliability/browser', {
+    mkdirSync('docs/evaluations/workshop-reliability/recovery/browser', {
       recursive: true,
     });
     writeFileSync(
-      `docs/evaluations/workshop-reliability/browser/${scenario}.json`,
+      `docs/evaluations/workshop-reliability/recovery/browser/${scenario}.json`,
       JSON.stringify(report, null, 2),
     );
     await page.screenshot({
-      path: `docs/evaluations/workshop-reliability/browser/${scenario}.png`,
+      path: `docs/evaluations/workshop-reliability/recovery/browser/${scenario}.png`,
     });
     await context.close();
   });

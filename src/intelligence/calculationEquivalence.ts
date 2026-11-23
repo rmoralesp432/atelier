@@ -1,7 +1,7 @@
 import type { Calculation } from './calculationSchema';
 
 /** Prove a correction preserves the original expression, not the candidate's
- * answer. Allows associative add/multiply regrouping and DAG reordering only.
+ * answer. Allows associative add/multiply regrouping, DAG reordering and finite scalar zero.
  * No arithmetic targets, source values, units, frames or citations may change.
  * Invalid units, cycles and unknown operations cannot be pardoned here. */
 export function equivalentCalculation(a: Calculation, b: Calculation): boolean {
@@ -15,6 +15,25 @@ export function equivalentCalculation(a: Calculation, b: Calculation): boolean {
       if (n.kind !== 'operation') return { leaf: n };
       const ancestors = new Set([...path, index]);
       const args = n.args.map((i) => visit(i, ancestors));
+      // A dimensional zero may be expressed as 0 * an existing finite scalar
+      // quantity. This changes no desired number or source. Do not cancel
+      // arrays, measurements or compound expressions: that could erase shape
+      // information or hide undefined arithmetic such as 0 * (1 / 0).
+      const zero = (t: Tree) =>
+        'leaf' in t &&
+        (t.leaf as any).kind === 'constant' &&
+        (t.leaf as any).value === 0;
+      const finiteScalarSource = (t: Tree) =>
+        'leaf' in t &&
+        ['constant', 'quantity'].includes((t.leaf as any).kind) &&
+        Number.isFinite((t.leaf as any).value);
+      if (
+        n.op === 'multiply' &&
+        args.length === 2 &&
+        ((zero(args[0]) && finiteScalarSource(args[1])) ||
+          (zero(args[1]) && finiteScalarSource(args[0])))
+      )
+        return { leaf: { kind: 'constant', value: 0 } };
       return {
         op: n.op,
         args: ['add', 'multiply'].includes(n.op)
