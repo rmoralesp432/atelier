@@ -115,10 +115,10 @@
     "scripts/workshop-campaign/geometry.ts": "a7d94219fc79f0ab73822e7f28d277fd823802a1c0325fbbe75c78da5d591c23",
     "scripts/workshop-campaign/recovery.ts": "2795106ccd5bd401dfd881f69eb916feb3c07517605f5c020ca204a86e3e8399",
     "scripts/workshop-campaign/registry.ts": "f5382328934ae13f7516f5df8a0090722d0b898c12191cfa69d471534f82ead6",
-    "scripts/workshop-campaign/run.ts": "8be4aaaf7f095820f7de3b803e187a6a531f763949971750902d15cf08c78962",
+    "scripts/workshop-campaign/run.ts": "d7e7730e8a9d3a9a4af16813302ba15b6958cb5b95efa76db08304d07eee3737",
     "scripts/workshop-campaign/specs.ts": "086733f698b1a10c8130281c9665d86c9fa0b1a9c6eb78edb7650a117aa66db0",
     "scripts/workshop-campaign/transfer.ts": "ccf645f91eaadd42e2de0c09261a1b8eb84fabefdc95e66766b8a010c78f79e4"
   },
-  "evaluatorCommit": "7b87ae24cb5df4a1b4a8262b15d7873fa8a650f3",
-  "frozenAt": "2026-11-23T20:06:00.551Z"
+  "evaluatorCommit": "31543e174218f61add0331c9a32f8c7e0f5dda58",
+  "frozenAt": "2026-11-23T20:26:03.811Z"
 }

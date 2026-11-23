@@ -40,3 +40,5 @@ The next repeated negative-control batch appends fresh-AI recovery in the same b
 ## Revision 5: paired fixture diagnosis
 
 Add an explicit evaluation-only entry to the existing validated-fixture edit path so both arms can be compared on identical W3 geometry after differing creation outcomes. This isolates a representation confound; it changes neither application behavior nor scoring. The same fixture, edit prompt, per-call safeguards and independent measurements are reused. Save the exact source and label the result diagnostic; no AI-created starting model is claimed. Revision 4's completed results and hashes remain intact.
+
+The first revision-5 freeze attempt correctly refused to overwrite the still-active revision-4 manifest; the following live-launch attempt was also stopped by the hash guard before creating a test or making any API request (ledger remained 192 calls). Both refusal logs are retained. The matching revision-4 manifest was archived, then a new revision-5 manifest was generated after calibration. No application hashes or paid acceptance results were changed.
