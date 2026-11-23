@@ -3,7 +3,7 @@ export const root = resolve(
   '/workspace/atelier-campaign/.cloud/workshop-campaign',
 );
 export const docs = resolve(
-  'docs/evaluations/workshop-reliability/recovery/live',
+  'docs/evaluations/workshop-reliability/recovery/spatial-metrics',
 );
 export const versions = {
   baseline: {

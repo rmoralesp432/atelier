@@ -1,0 +1,17 @@
+[
+  {
+    id: 'L1',
+    source: 'Actual saved baseline creation; diagnostic starting model',
+    passed: true
+  },
+  {
+    id: 'L2',
+    source: 'Actual saved baseline creation; diagnostic starting model',
+    passed: true
+  },
+  {
+    id: 'L4',
+    source: 'Actual saved baseline creation; diagnostic starting model',
+    passed: true
+  }
+]

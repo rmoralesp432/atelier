@@ -85,7 +85,7 @@ const freeze = () => {
     ),
   };
 };
-const freezePath = join(root, 'reliability-recovery-freeze.json');
+const freezePath = join(root, 'reliability-spatial-metrics-freeze.json');
 if (mode === '--freeze') {
   assert(!existsSync(freezePath), 'Never overwrite frozen conditions');
   assert(
@@ -653,7 +653,12 @@ async function lane(version: Version, list: Spec[]) {
           spec.edit && !source,
           'Fixture diagnosis needs a follow-up and cannot resume a creation',
         );
-        const fixture = referenceScene(spec.id);
+        const fixture = JSON.parse(
+          readFileSync(
+            join('scripts/reliability-evaluation/fixtures', spec.id + '.json'),
+            'utf8',
+          ),
+        );
         assert(
           pass(await oracle(spec.id, initial, initial, fixture)),
           'Paired fixture must pass independent creation measurements',

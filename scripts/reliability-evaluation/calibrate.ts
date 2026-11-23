@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { seed, referenceScene, oracle, pass, editedFixture } from './geometry';
+import { placedSolid } from './solidMatch';
+import { box, vertical } from '../phase3-evaluation/geometry';
 import { docs } from './config';
 const results = [];
 for (const id of ['L1', 'L2', 'L3', 'L4']) {
@@ -55,6 +57,43 @@ for (const id of ['L1', 'L2', 'L3', 'L4']) {
     passed: !pass(await oracle(id, initial, edited, replaced, true, 'edit2')),
   });
 }
+// Fresh calibration of the measurement contract, independent of AI labels.
+for (const [name, shape] of [
+  ['thin cylinder', vertical(1.73, 0.023)],
+  ['rotated thin panel', box(0.027, 1.11, 0.48).rotate([0, 23, 0])],
+] as const) {
+  for (const offset of [0.0015, 0.003]) {
+    const moved = shape.translate([offset, 0, 0]);
+    results.push({
+      id: name,
+      kind: `placement ${offset}m`,
+      passed: placedSolid(moved, shape) === offset <= 0.002,
+    });
+    moved.delete();
+  }
+  const deformed = shape.scale([1.2, 1, 1]);
+  results.push({
+    id: name,
+    kind: 'wrong shape',
+    passed: !placedSolid(deformed, shape),
+  });
+  deformed.delete();
+  shape.delete();
+}
+const rounded = referenceScene('L4');
+rounded.project.volumes
+  .filter((v) => !v.id.startsWith('reference-'))
+  .forEach((v) => {
+    for (const k of ['x', 'y', 'z'] as const)
+      v.position[k] = Math.round(v.position[k] * 1000) / 1000;
+  });
+const roundingFacts = await oracle('L4', seed('L4'), seed('L4'), rounded);
+results.push({
+  id: 'L4',
+  kind: 'millimeter-rounded positions within 2mm',
+  passed: pass(roundingFacts),
+  facts: roundingFacts,
+});
 mkdirSync(docs, { recursive: true });
 writeFileSync(
   docs + '/calibration.json',

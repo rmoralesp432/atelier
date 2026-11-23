@@ -1,0 +1,13 @@
+# Separate placement and shape measurement
+
+Application stays frozen at 0527761 and baseline at f925e4c. This is an evaluation-only correction following batch 2, whose original protocol, raw scores, code at b05f1bd and evidence remain preserved. Do not rewrite its original COMMITTED_INCORRECT outcome.
+
+Original scoring combined a 2 mm bounding discrepancy allowance with 2% untranslated symmetric-volume difference. For 60 mm stems this effectively imposed a roughly half-millimeter placement tolerance. The new contract checks center distance and dimensions against the same 2 mm limit, then compares occupied solids after removing only the already-allowed translation. Orientation, scale, topology and the same 2% shape threshold remain constrained. This works across shapes and never reads labels. Unrelated work and unchanged components still require exact equality.
+
+Before fresh paid trials, calibrate a different thin cylinder and rotated thin panel: 1.5 mm translations pass, 3 mm translations fail, 20% shape changes fail. Also check the large fixture rounded to millimeter coordinates, and retain all original displaced/identity/collateral controls. Reassess saved results separately with both scores present. No application geometry or verification policy changes. No original failure is silently converted to a pass.
+
+Next paid batch uses identical independently validated starting fixtures for L1, L2 and L4. It tests fresh contextual edits and their follow-ups, requiring inspection/inference without original measurements in the user request. This is diagnostic edit evidence, not successful AI creation. Both versions get the same models and prompts. Original saved creations and paired baseline comparisons remain separate. Six offline browser-harness checks are reused unchanged from the preceding harness; only external measurement and artifact paths changed.
+
+The shared ledger, prices/reservations, two isolated lanes and per-turn safeguards are unchanged. No merge/deploy. Preserve evidence and stop repetition when it no longer adds useful findings.
+
+Diagnostic source models are the actual saved baseline creations, with unchanged identities and history, given identically to both arms. The independent oracle must accept each before any edit. Provenance and hashes live in scripts/reliability-evaluation/fixtures/provenance.json. The synthetic high-resolution L4 mesh fixture measured 12.3 MB in offline preparation; using the real native model avoids artificial localStorage quota pressure. This is preparation, not an application failure or a paid trial. No starting dimensions or prescribed tools are added to the follow-up prompts.

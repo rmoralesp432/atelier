@@ -1,0 +1,26 @@
+[
+  {
+    "task": "L1",
+    "sourceCase": "reliability-recovery-1-baseline-L1-create",
+    "source": "Actual saved AI-created model, identical in both diagnostic arms. No fresh creation success is claimed for this edit trial.",
+    "sha256": "9a37810dc11795fa40a2a128d1a388e7fbd05395cdd10b56d2a644a58d42d78f",
+    "bytes": 131598,
+    "note": null
+  },
+  {
+    "task": "L2",
+    "sourceCase": "reliability-large-1-baseline-L2-create",
+    "source": "Actual saved AI-created model, identical in both diagnostic arms. No fresh creation success is claimed for this edit trial.",
+    "sha256": "b25897d70a65d552a3acbc6adf490dbd40f6cb99c21e36531eabed7da369e0b3",
+    "bytes": 160852,
+    "note": null
+  },
+  {
+    "task": "L4",
+    "sourceCase": "reliability-recovery-1-baseline-L4-create",
+    "source": "Actual saved AI-created model, identical in both diagnostic arms. No fresh creation success is claimed for this edit trial.",
+    "sha256": "1440f0559a845d0e5b6bcd851363c19bb4b3b28bae7c787a17c35bfe1a20258f",
+    "bytes": 159815,
+    "note": "Original stricter untranslated-shape score is retained; separately calibrated 2mm placement/shape metric must pass before use."
+  }
+]

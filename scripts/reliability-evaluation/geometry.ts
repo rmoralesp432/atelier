@@ -1,4 +1,5 @@
 /** Independent solids and transforms: no app verification predicates or agent labels. */
+import { placedSolid } from './solidMatch';
 import type { Session } from '../../src/intelligence/engine';
 import { newSession } from '../../src/intelligence/engine';
 import { isLocked } from '../../src/model';
@@ -312,7 +313,7 @@ export async function oracle(
               ...c.b.center.map((x: number, j: number) => x - b.center[j]),
             ),
         );
-        const match = ranked.find((a) => sameSolid(a.s, e, 0.02, 0.002));
+        const match = ranked.find((a) => placedSolid(a.s, e, 0.02, 0.002));
         check(
           `Expected occupied component ${i + 1}`,
           !!match,
@@ -337,7 +338,7 @@ export async function oracle(
         const b = stats(expected);
         check(
           `Connected edit of original ${v.id}`,
-          !!a && sameSolid(a.s, expected, 0.02, 0.002),
+          !!a && placedSolid(a.s, expected, 0.02, 0.002),
           { bounds: b.bounds, volume: b.volume },
           a ? { bounds: a.b.bounds, volume: a.b.volume } : null,
         );
