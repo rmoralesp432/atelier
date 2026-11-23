@@ -1,0 +1,100 @@
+{
+  "batch": "reliability-recovery-1",
+  "implementation": "05277619f6fa337cdb1bfb0825654cbe5259ed2d",
+  "rawResults": [
+    {
+      "id": "reliability-recovery-1-baseline-L1-create",
+      "status": "PASS",
+      "committed": true,
+      "componentCount": 33,
+      "elapsedMs": 65436,
+      "transaction": {
+        "reload": true,
+        "conversation": true,
+        "context": true,
+        "camera": true,
+        "undo": true,
+        "redo": true,
+        "atomic": true
+      }
+    },
+    {
+      "id": "reliability-recovery-1-reliability-L1-create",
+      "status": "NOT_COMMITTED",
+      "committed": false,
+      "componentCount": 2,
+      "elapsedMs": 113401,
+      "transaction": null
+    },
+    {
+      "id": "reliability-recovery-1-baseline-L1-edit",
+      "status": "PASS",
+      "committed": true,
+      "componentCount": 33,
+      "elapsedMs": 62010,
+      "transaction": {
+        "reload": true,
+        "conversation": true,
+        "context": true,
+        "camera": true,
+        "undo": true,
+        "redo": true,
+        "atomic": true
+      }
+    },
+    {
+      "id": "reliability-recovery-1-reliability-L4-create",
+      "status": "NOT_COMMITTED",
+      "committed": false,
+      "componentCount": 2,
+      "elapsedMs": 75594,
+      "transaction": null
+    },
+    {
+      "id": "reliability-recovery-1-baseline-L1-edit2",
+      "status": "PASS",
+      "committed": true,
+      "componentCount": 33,
+      "elapsedMs": 37557,
+      "transaction": {
+        "reload": true,
+        "conversation": true,
+        "context": true,
+        "camera": true,
+        "undo": true,
+        "redo": true,
+        "atomic": true
+      }
+    },
+    {
+      "id": "reliability-recovery-1-baseline-L4-create",
+      "status": "COMMITTED_INCORRECT",
+      "committed": true,
+      "componentCount": 67,
+      "elapsedMs": 71546,
+      "transaction": {
+        "reload": true,
+        "conversation": true,
+        "context": true,
+        "camera": true,
+        "undo": true,
+        "redo": true,
+        "atomic": true
+      }
+    }
+  ],
+  "calls": 21,
+  "estimatedUSD": 1.089628,
+  "conservativeAccountedUSD": 1.362035,
+  "unknown": [],
+  "executor": {
+    "calls": 13,
+    "medianMs": 10251,
+    "maxMs": 30943
+  },
+  "reviewer": {
+    "calls": 8,
+    "medianMs": 15226.5,
+    "maxMs": 35806
+  }
+}
