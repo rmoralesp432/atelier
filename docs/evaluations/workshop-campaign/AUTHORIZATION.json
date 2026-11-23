@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-23",
+  "scope": "Evaluation only; broad live matched campaign on stable baseline, f5ba626, and separate 433d9ba verifier comparison",
+  "authorized": true,
+  "fixedDollarCeiling": null,
+  "fixedCampaignTrialCount": null,
+  "supersedes": "Earlier proposed US$5 comparison ceiling and requirement for separate approval before paid calls",
+  "estimatedPricingAccepted": true,
+  "autoReload": "Do not enable or modify billing auto-recharge; its account setting is not exposed by the available model key",
+  "latestUserVerifiedBalanceUSD": 68.61,
+  "previousPhase3EstimatedSpendUSD": 2.055574,
+  "workingAvailableCreditEstimateUSD": 66.554426,
+  "balanceLimitMeaning": "Resource safeguard based on last known prepaid balance, not a new authorization ceiling; cannot see intervening account activity",
+  "expiringCreditDate": "2026-11-24",
+  "expirationTime": "unknown",
+  "mergeAuthorized": false,
+  "deployAuthorized": false,
+  "implementationChangesAuthorized": false
+}

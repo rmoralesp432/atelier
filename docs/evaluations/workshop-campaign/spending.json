@@ -1,0 +1,12 @@
+{
+  "at": "2026-11-23T19:17:13.891Z",
+  "calls": 0,
+  "estimatedUSD": 0,
+  "accountedUSD": 0,
+  "unknownReservations": [],
+  "inputTokens": 0,
+  "outputTokens": 0,
+  "reviewerMs": 0,
+  "executorMs": 0,
+  "pricingBasis": "Authorized estimated prices, not an invoice; all reservations retained until usage is known."
+}
