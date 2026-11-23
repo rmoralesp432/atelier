@@ -1,0 +1,46 @@
+{
+  "status": "proposal-for-approval",
+  "applicationBaseline": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+  "paidExecutionAuthorized": false,
+  "proposedCeilingUsd": 15,
+  "maximumStartedCalls": 60,
+  "maximumStartedCallsPerTurn": 16,
+  "allocationsUsd": {
+    "primaryEpisodes": 10,
+    "controlledRepair": 2,
+    "contingency": 3
+  },
+  "primaryPromptTurns": 12,
+  "controlledRepairRuns": 1,
+  "maximumAdditionalDiagnosticTurns": 2,
+  "applicationSettings": {
+    "model": "gpt-6.1-sol",
+    "transport": "responses",
+    "serviceTier": "default",
+    "executorReasoning": "high",
+    "textReviewerReasoning": "low",
+    "maximumOutputTokens": 6000,
+    "automaticSdkRetries": 0
+  },
+  "frozenProposalFiles": {
+    "PLAN.md": "e91763febfccd202b370ced8579a5edd311e75f5d4fb061a711d5cb07c05c907",
+    "MEASUREMENTS.md": "228d58c449f5e6ae9d077039aac03afbe913eb3af95f2cae779eb8400704a6e2",
+    "cases.json": "648a92937e2cb61a9627e0691847fa6daa2cfa468117cdf835e53e0cb6c8dba7",
+    "held-out.json": "84d8a81ce99d34d0e7415377f774bcaf25fa1d3745b05625efb1f0238995ef86",
+    "planning-checks.json": "15795da2b5465a2dd70fbd4dcda5076c1e2f51bc441100a611a6f2793e0d788b",
+    "preflight.json": "27221183d199dbf6ae47bff8c75b39d8ce47cabc763ffb0a7083b9fb0c34f546"
+  },
+  "executionFreezeReady": false,
+  "beforeFirstPaidCall": [
+    "Explicit user authorization for this experiment",
+    "Implement only evaluation runner adapters and external oracles",
+    "Calibrate valid and invalid geometry plus equivalence controls offline",
+    "Confirm baseline/source/settings and current price record",
+    "Hash complete runner, oracles, fixture seeds, bundle and cost policy",
+    "Create a new durable authorized Phase 3 ledger without modifying prior accounting"
+  ],
+  "holdoutsExcluded": true,
+  "applicationModified": false,
+  "deployed": false,
+  "paidCalls": 0
+}

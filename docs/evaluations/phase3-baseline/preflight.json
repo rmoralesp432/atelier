@@ -1,0 +1,210 @@
+{
+  "observedDate": "2026-11-23",
+  "method": "Read-only GitHub/Render/model-catalogue queries; no generation and no public-browser smoke in this preparation",
+  "application": {
+    "branch": "feat/phase2-conversational-modeling",
+    "sha": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+    "tree": "2efda5e47ddf0d66aa36b5fd8646591a8d808b5d",
+    "sourceTrees": {
+      "src": "d9e41263c3b6aa8fef33661423c8871624fa4820",
+      "server": "8e2ed17c785194103c5e32bf3762f5b4ca650ec7"
+    },
+    "lockfileSha256": "45d9c6d9a4e7495dc57ea4178915dd45b5e7b1f2139f3864e8399f312bbf62c1"
+  },
+  "render": {
+    "httpStatus": 200,
+    "service": "srv-db7vilu89jmc73dh9d40",
+    "liveDeployment": "dep-dbvig9l9fdbs73bbeo20",
+    "status": "live",
+    "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+    "finishedAt": "2026-11-19T16:49:38.840617Z"
+  },
+  "rollback": {
+    "prePr24": "aa9dd6126f3372774c1cee03558ef4dcb87afd27",
+    "prePr23": "acf5ed9ccdb298d2853d139ce5cdf0fc35e24c36"
+  },
+  "githubChecks": [
+    {
+      "name": "check",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569986346/job/135734407464",
+      "completed_at": "2026-11-19T17:05:59Z"
+    },
+    {
+      "name": "check",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569973705/job/135731148097",
+      "completed_at": "2026-11-19T17:01:05Z"
+    },
+    {
+      "name": "smoke",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569973643/job/135725054165",
+      "completed_at": "2026-11-19T16:53:15Z"
+    },
+    {
+      "name": "browser (5)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569986346/job/135723030335",
+      "completed_at": "2026-11-19T17:05:55Z"
+    },
+    {
+      "name": "browser (7)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569986346/job/135723030149",
+      "completed_at": "2026-11-19T16:58:44Z"
+    },
+    {
+      "name": "browser (8)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569986346/job/135723029947",
+      "completed_at": "2026-11-19T16:55:06Z"
+    },
+    {
+      "name": "browser (2)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569986346/job/135723029808",
+      "completed_at": "2026-11-19T17:02:10Z"
+    },
+    {
+      "name": "browser (6)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569986346/job/135723029744",
+      "completed_at": "2026-11-19T17:05:30Z"
+    },
+    {
+      "name": "browser (4)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569986346/job/135723029723",
+      "completed_at": "2026-11-19T17:02:23Z"
+    },
+    {
+      "name": "browser (1)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569986346/job/135723029672",
+      "completed_at": "2026-11-19T16:56:33Z"
+    },
+    {
+      "name": "browser (3)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569986346/job/135723029637",
+      "completed_at": "2026-11-19T16:58:50Z"
+    },
+    {
+      "name": "browser (7)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569973705/job/135722965952",
+      "completed_at": "2026-11-19T16:54:44Z"
+    },
+    {
+      "name": "browser (1)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569973705/job/135722965874",
+      "completed_at": "2026-11-19T16:53:29Z"
+    },
+    {
+      "name": "browser (4)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569973705/job/135722965826",
+      "completed_at": "2026-11-19T16:56:49Z"
+    },
+    {
+      "name": "browser (6)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569973705/job/135722965822",
+      "completed_at": "2026-11-19T17:00:54Z"
+    },
+    {
+      "name": "browser (3)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569973705/job/135722965761",
+      "completed_at": "2026-11-19T17:01:00Z"
+    },
+    {
+      "name": "browser (2)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569973705/job/135722965723",
+      "completed_at": "2026-11-19T16:59:53Z"
+    },
+    {
+      "name": "browser (8)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569973705/job/135722965698",
+      "completed_at": "2026-11-19T16:55:04Z"
+    },
+    {
+      "name": "browser (5)",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569973705/job/135722965686",
+      "completed_at": "2026-11-19T16:57:28Z"
+    },
+    {
+      "name": "validate",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569986346/job/135722074858",
+      "completed_at": "2026-11-19T16:48:32Z"
+    },
+    {
+      "name": "validate",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/rmoralesp432/atelier/actions/runs/44569973705/job/135722029904",
+      "completed_at": "2026-11-19T16:48:26Z"
+    }
+  ],
+  "modelLookup": {
+    "method": "GET",
+    "endpoint": "https://api.openai.com/v1/models/gpt-6.1-sol",
+    "httpStatus": 200,
+    "returnedId": "gpt-6.1-sol",
+    "proves": "authenticated catalogue access only; no generation or balance verification"
+  },
+  "balance": {
+    "source": "user report this turn",
+    "approximateUsd": 70,
+    "reportedExpires": "2026-11-24",
+    "futureMonthlyApproximateUsd": 400,
+    "independentlyVerified": false
+  },
+  "pricing": {
+    "source": "https://raw.githubusercontent.com/BerriAI/litellm/main/model_prices_and_context_window.json",
+    "httpStatus": 200,
+    "authority": "secondary catalogue, not OpenAI billing",
+    "model": "gpt-6.1-sol",
+    "inputUsdPerMillion": 2,
+    "outputUsdPerMillion": 10,
+    "longContextInputUsdPerMillion": 4,
+    "longContextOutputUsdPerMillion": 15,
+    "thresholdTokens": 272000,
+    "maximumInputTokens": 922000,
+    "executionRecheckRequired": true
+  },
+  "authorization": {
+    "approved": false,
+    "proposedNewPhase3CeilingUsd": 15,
+    "aggregateAcrossAllPhase3Attempts": true,
+    "priorLedgersUnchanged": true
+  },
+  "generationCalls": 0,
+  "newApiGenerationSpendingUsd": 0
+}

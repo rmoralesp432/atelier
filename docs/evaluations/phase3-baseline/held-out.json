@@ -1,0 +1,21 @@
+{
+  "status": "reserved-for-later-approved-improvement-not-in-initial-paid-baseline",
+  "rule": "Do not run these, feed their answers to the agent, or tune application logic to them during baseline diagnosis. Finalize their numerical oracles and hashes before any later improvement evaluation.",
+  "families": [
+    {
+      "id": "H1",
+      "challenge": "A suspended sign frame with independently editable hangers: shift the sign sideways while preserving its attachment points at the ceiling and keeping a neighboring light untouched.",
+      "difference": "Inference through oblique links and changing orientations, not vertical floor-height dependencies."
+    },
+    {
+      "id": "H2",
+      "challenge": "A three-bay shelving unit with unequal bay widths: widen only the middle clear opening while maintaining outer shelf alignment, all shelf heights and panel thicknesses.",
+      "difference": "Unequal internal constraints and topology-aware scope, not symmetric whole-object scaling."
+    },
+    {
+      "id": "H3",
+      "challenge": "A hollow elbow joining two offset ducts: relocate one port while retaining the other port, hollow continuity, wall thickness and a nearby independent support.",
+      "difference": "Curved path adaptation with a protected endpoint, not merely changing primitive dimensions."
+    }
+  ]
+}

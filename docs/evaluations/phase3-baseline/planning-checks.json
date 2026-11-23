@@ -1,0 +1,94 @@
+{
+  "status": "arithmetic-and-manifest-checks-only",
+  "primaryPromptTurns": 12,
+  "additionalControlledRepairRuns": 1,
+  "checks": [
+    {
+      "check": "Canopy original roof underside",
+      "actual": 2.8800000000000003,
+      "expected": 2.88,
+      "passed": true
+    },
+    {
+      "check": "Canopy revised roof underside",
+      "actual": 3.43,
+      "expected": 3.43,
+      "passed": true
+    },
+    {
+      "check": "Bench original ordinary clear rail span",
+      "actual": 1.7000000000000002,
+      "expected": 1.7,
+      "passed": true
+    },
+    {
+      "check": "Bench revised ordinary clear rail span",
+      "actual": 2.0999999999999996,
+      "expected": 2.1,
+      "passed": true
+    },
+    {
+      "check": "Mechanical original end overhang",
+      "actual": 0.12000000000000001,
+      "expected": 0.12,
+      "passed": true
+    },
+    {
+      "check": "Mechanical revised end overhang",
+      "actual": 0.12000000000000006,
+      "expected": 0.12,
+      "passed": true
+    },
+    {
+      "check": "Mechanical bore clearance",
+      "actual": 0.020000000000000018,
+      "expected": 0.02,
+      "passed": true
+    },
+    {
+      "check": "Array centroid X at pitch 0.72",
+      "actual": 0.0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "check": "Array centroid Z at pitch 0.72",
+      "actual": 0.0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "check": "Array centroid X at pitch 0.9",
+      "actual": 0.0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "check": "Array centroid Z at pitch 0.9",
+      "actual": 0.0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "check": "Wedge analytic volume",
+      "actual": 0.2925,
+      "expected": 0.2925,
+      "passed": true
+    }
+  ],
+  "analyticTargets": {
+    "annulusVolume": 0.02156389197424034,
+    "shaftVolumeBefore": 0.058810614475200924,
+    "shaftVolumeAfter": 0.07012034802812418,
+    "lanternOuterVolume": 0.9425406279300098,
+    "lanternInnerVolume": 0.6565060899643265,
+    "lanternMaterialVolume": 0.28603453796568334,
+    "hexagonPrismVolume": 0.035853451716675755
+  },
+  "notYetValidated": [
+    "new geometry oracle implementations",
+    "new runner browser lifecycle",
+    "fresh AI performance"
+  ],
+  "paidCalls": 0
+}
