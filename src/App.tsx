@@ -1343,6 +1343,7 @@ export default function App({
             images,
             execution,
             observation,
+            connectionState.agentConfigured ? original : undefined,
           );
         },
         setWorkStage,

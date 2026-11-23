@@ -17,6 +17,7 @@ import {
   TaskBlockedError,
 } from '../src/intelligence/planFailure';
 import type { ModelRequest } from './provider';
+import { inspectScene, referenceSummary } from './sceneInspection';
 
 const execute = z
   .object({
@@ -31,6 +32,8 @@ const inspect = z
   .object({
     ids: z.array(z.string().max(100)).max(200),
     role: z.string().max(80).nullable(),
+    snapshot: z.enum(['current', 'before', 'compare']),
+    relativeTo: z.string().max(100).nullable(),
   })
   .strict();
 const completion = z
@@ -44,7 +47,7 @@ const functions = [
   {
     name: 'inspect_scene',
     description:
-      'Read full construction details when the supplied inventory is insufficient. The inventory already includes every object, its dimensions, placement and role; inspect only when additional construction details are needed. Empty ids reads the full scene. Never invent IDs.',
+      'Inspect current construction, the immutable before-edit model, or compare both by identity. relativeTo optionally measures world-envelope gaps and offsets from that object to the queried objects in each snapshot. Before means the start of THIS user request, not the previous stage. Empty ids reads the scene; comparisons and relative measurements return up to 200 objects with explicit omission counts. Use exact IDs, including removed originals; narrow large inspections. These facts do not authorize edits or certify physical connections.',
     parameters: z.toJSONSchema(inspect),
   },
   {
@@ -98,6 +101,7 @@ const functions = [
 const policy = `You are an architectural design agent working inside an editable 3D workspace.
 ${materialContract}
 Understand the complete user intention, inspect the real scene, choose construction operations, then observe their results and correct omissions. You can model unfamiliar objects as well as buildings using the supplied geometry operations; do not rely on named building templates.
+For contextual edits, sceneReference identifies changes since this request began. inspect_scene(snapshot=before or compare, relativeTo=an object ID) retrieves original construction and world-envelope relationships alongside the provisional result. Use the before model when preserving existing clearances, placements or proportions; do not recover them by guessing from an already edited scene. These are bounded envelope measurements, not physical contact or edit authorization. The current user request and independent checks still control scope. Missing before data is explicitly unavailable.
 The user speaks naturally and does not manage schemas, IDs, construction sequencing or panel spacing. Infer reasonable reversible choices and record brief assumptions. Ask only about substantial design ambiguity. Never reduce explicit counts, omit requested systems, or change protected dimensions to fit a tool limit.
 Current scene and successful execution receipts are authoritative. Prior conversation is context, not an immutable design contract. New instructions can revise earlier assumptions. Resolve selections and references from actual objects. A new-object request normally uses creation operations, not a nonexistent target. An original mass converted to parts is addressed by its assembly and roles, not as a lone slab.
 Operations have typed arguments and metric dimensions. Position is base-center; Y is up. Use existing repetition, profile, sweep, loft and Boolean operations to compose forms. Preserve independently editable components and identity during corrections. Use exact current IDs or unique group names. Keep unrelated and locked objects unchanged.
@@ -207,6 +211,7 @@ export async function agentPlan(
           instruction: input.message,
           workspace: input.workspace,
           scene: compactScene(input.scene),
+          sceneReference: referenceSummary(input),
           pendingReview: input.pendingReview,
           execution: input.execution,
           validationFeedback: input.validationFeedback,
@@ -341,18 +346,14 @@ export async function agentPlan(
     try {
       const raw = JSON.parse(args);
       if (name === 'inspect_scene') {
-        const query = inspect.parse(raw);
-        const objects = input.scene.objects.filter(
-          (o) =>
-            (!query.ids.length || query.ids.includes(o.id)) &&
-            (!query.role || o.component?.role === query.role),
-        );
-        const output = JSON.stringify({
-          objects,
-          matched: objects.length,
-          groups: input.scene.groups,
-          execution: input.execution ?? null,
+        // Accept retained pre-upgrade responses; advertise all fields explicitly
+        // in the strict tool schema, without JSON-schema default keywords.
+        const query = inspect.parse({
+          snapshot: 'current',
+          relativeTo: null,
+          ...raw,
         });
+        const output = JSON.stringify(inspectScene(input, query));
         chat.push({ role: 'tool', tool_call_id: call.id, content: output });
         inputMessages.push(...items, {
           type: 'function_call_output',
