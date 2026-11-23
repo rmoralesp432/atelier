@@ -1,0 +1,71 @@
+[WebServer] .env not found. Continuing without it.
+[WebServer] (node:66370) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 9 tests using 1 worker
+
+(node:66439) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/completion-verification.spec.ts:55:1 › independent completion rejects a valid but incomplete model, repairs the same geometry and commits with one Undo (offline providers) (26.0s)
+  ✓  2 tests/completion-verification.spec.ts:172:1 › a failed request followed by reload does not poison an unrelated new modeling instruction (offline providers) (25.0s)
+  ✓  3 tests/completion-verification.spec.ts:256:1 › unsupported qualitative verification permits safe additions with honest messaging, one Undo, and a later independently checked edit (22.6s)
+  ✓  4 tests/criteria-contracts.spec.ts:42:1 › invalid criteria are independently corrected before model repair; the exact components commit, reload and Undo/Redo together (16.1s)
+  ✓  5 tests/criteria-contracts.spec.ts:178:1 › an unresolved unsupported material check commits safe geometry with explicit uncertainty, without repeated modeling repairs (9.8s)
+  ✓  6 tests/verification-reliability.spec.ts:21:3 › saved real-AI group replay through browser commits and storage (25.8s)
+  ✓  7 tests/verification-reliability.spec.ts:21:3 › saved real-AI reflection replay through browser commits and storage (19.7s)
+  ✓  8 tests/verification-reliability.spec.ts:21:3 › saved real-AI displaced replay through browser commits and storage (15.0s)
+[WebServer] [Error: ENOENT: no such file or directory, stat '/workspace/atelier-reliability/dist/index.html'] {
+[WebServer]   errno: -2,
+[WebServer]   code: 'ENOENT',
+[WebServer]   syscall: 'stat',
+[WebServer]   path: '/workspace/atelier-reliability/dist/index.html',
+[WebServer]   expose: false,
+[WebServer]   statusCode: 404,
+[WebServer]   status: 404
+[WebServer] }
+  ✘  9 tests/verification-reliability.spec.ts:21:3 › saved real-AI unresolved replay through browser commits and storage (23.6s)
+
+::error file=tests/verification-reliability.spec.ts,title=tests/verification-reliability.spec.ts:21:3 › saved real-AI unresolved replay through browser commits and storage,line=200,col=50::  1) tests/verification-reliability.spec.ts:21:3 › saved real-AI unresolved replay through browser commits and storage %0A    Error: expect(locator).toBeVisible() failed%0A%0A    Locator: getByTestId('viewport')%0A    Expected: visible%0A    Timeout: 15000ms%0A    Error: element(s) not found%0A%0A    Call log:%0A      - Expect "toBeVisible" getByTestId('viewport') with timeout 15000ms%0A      - waiting for getByTestId('viewport')%0A%0A%0A      198 |       expect(model(after)).toEqual(model(f.before));%0A      199 |       await page.reload();%0A    > 200 |       await expect(page.getByTestId('viewport')).toBeVisible();%0A          |                                                  ^%0A      201 |       await expect%0A      202 |         .poll(async () => model(await saved(page)))%0A      203 |         .toEqual(model(f.before));%0A        at /workspace/atelier-reliability/tests/verification-reliability.spec.ts:200:50
+
+
+  1) tests/verification-reliability.spec.ts:21:3 › saved real-AI unresolved replay through browser commits and storage 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByTestId('viewport')
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByTestId('viewport') with timeout 15000ms
+      - waiting for getByTestId('viewport')
+
+
+      198 |       expect(model(after)).toEqual(model(f.before));
+      199 |       await page.reload();
+    > 200 |       await expect(page.getByTestId('viewport')).toBeVisible();
+          |                                                  ^
+      201 |       await expect
+      202 |         .poll(async () => model(await saved(page)))
+      203 |         .toEqual(model(f.before));
+        at /workspace/atelier-reliability/tests/verification-reliability.spec.ts:200:50
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../../tmp/atelier-reliability-final-browser/verification-reliability-s-8ba51-browser-commits-and-storage/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../../tmp/atelier-reliability-final-browser/verification-reliability-s-8ba51-browser-commits-and-storage/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../../tmp/atelier-reliability-final-browser/verification-reliability-s-8ba51-browser-commits-and-storage/trace.zip
+    Usage:
+
+        npx playwright show-trace ../../tmp/atelier-reliability-final-browser/verification-reliability-s-8ba51-browser-commits-and-storage/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/verification-reliability.spec.ts:21:3 › saved real-AI unresolved replay through browser commits and storage 
+  8 passed (3.1m)
+::notice title=🎭 Playwright Run Summary::  1 failed%0A    tests/verification-reliability.spec.ts:21:3 › saved real-AI unresolved replay through browser commits and storage %0A  8 passed (3.1m)
