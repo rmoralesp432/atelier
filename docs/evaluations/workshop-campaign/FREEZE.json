@@ -108,15 +108,17 @@
     "scripts/phase3-evaluation/geometry.ts": "95f102251b81636c48087e4f7f7436866bdec4118f91c9a92171e3436fab92f6",
     "scripts/release-evaluation/browser-state.ts": "ae96d04038f13d01aa9499532e321473f10301818ac7f583bf79169aaac93734",
     "scripts/workshop-campaign/budget.ts": "8c461a46db1a55ffe46e32e0708278e2b7dbdb0aae2ab61a4ed217ca3686154d",
+    "scripts/workshop-campaign/calibrate-recovery.ts": "092e8a6ce2f791b7573d3142f97a7c79348413bd1919f3b06efea621c7e5395e",
     "scripts/workshop-campaign/calibrate-transfer.ts": "55afe1c8b70f75a3ead7bdc332b626d5a918e7ddae611ed2b1cdd148a69ea81e",
     "scripts/workshop-campaign/calibrate.ts": "fc4045a618acde3f2b7a10ba2e50f28f313ffd82e8a329a14442d0acd6e74006",
     "scripts/workshop-campaign/config.ts": "e09fac6cf4aacb3cd5e091ef8c9fa8187e267f384e3b70ef3702b2d198ee1798",
     "scripts/workshop-campaign/geometry.ts": "a7d94219fc79f0ab73822e7f28d277fd823802a1c0325fbbe75c78da5d591c23",
-    "scripts/workshop-campaign/registry.ts": "1ffab5403d2d4c510f1ca27cf471b57acd038c2733933203139c1f3a084ad789",
-    "scripts/workshop-campaign/run.ts": "c2dc621ef81e6184a56e2d4285b0e916ef2092d6847a7599267f3ab40e8a28a3",
+    "scripts/workshop-campaign/recovery.ts": "2795106ccd5bd401dfd881f69eb916feb3c07517605f5c020ca204a86e3e8399",
+    "scripts/workshop-campaign/registry.ts": "f5382328934ae13f7516f5df8a0090722d0b898c12191cfa69d471534f82ead6",
+    "scripts/workshop-campaign/run.ts": "8be4aaaf7f095820f7de3b803e187a6a531f763949971750902d15cf08c78962",
     "scripts/workshop-campaign/specs.ts": "086733f698b1a10c8130281c9665d86c9fa0b1a9c6eb78edb7650a117aa66db0",
-    "scripts/workshop-campaign/transfer.ts": "f6c5dbd6233f4f7ed0aa1ba052b02e6596c30a63d102396fa5a87a769250647c"
+    "scripts/workshop-campaign/transfer.ts": "ccf645f91eaadd42e2de0c09261a1b8eb84fabefdc95e66766b8a010c78f79e4"
   },
-  "evaluatorCommit": "01228e2098902b73e10c8d2120ec912b9642ffe7",
-  "frozenAt": "2026-11-23T19:40:20.864Z"
+  "evaluatorCommit": "7b87ae24cb5df4a1b4a8262b15d7873fa8a650f3",
+  "frozenAt": "2026-11-23T20:06:00.551Z"
 }

@@ -42,7 +42,7 @@ This published segment includes **18 calls, estimated $0.622392**, with usage re
 
 The roller result is particularly revealing. An **offline replay of the saved AI operations** produces actual solids that pass the external geometry checks, including the bores. The unchanged reviewer still blocks that candidate because its `group.name` requirement contains the group's UUID. In an **analysis-only counterfactual**, replacing that ID with its actual name makes the candidate commit-eligible, with unsupported circular-void classification still disclosed as unverified. This establishes a criterion-reference mismatch; it does not establish a live commit, implement a fix, or count as a fresh-AI repair success.
 
-The baseline garden-room rerun also produced a blocked creation: the reviewer interpreted footprint containment as a requirement to **fill the entire room volume**. The executor recognized that this would destroy the requested hollow room and refused to alter valid geometry to satisfy the mistaken check. Offline replay passes the same external solid oracle. Its separately seeded floor-height edit passed. This baseline result is not an end-to-end success; remaining baseline counterparts are still running.
+The baseline garden-room rerun also produced a blocked creation: the reviewer interpreted footprint containment as a requirement to **fill the entire room volume**. The executor recognized that this would destroy the requested hollow room and refused to alter valid geometry to satisfy the mistaken check. Offline replay passes the same external solid oracle. Its separately seeded floor-height edit passed. This baseline result is not an end-to-end success. The completed baseline roller creation/edit and halo creation/edit both passed all solid and persistence checks.
 
 The completed workshop-arm segment used **31 calls, estimated $1.262998**. [Full traces, measurements, saved models, interrupted baseline-start evidence, and labeled offline replay](artifacts/workshop2-evidence.tar.gz). The independent original conditions and all paid failures remain preserved.
 
@@ -52,4 +52,25 @@ Actual saved results, reopened in the normal workspace **without new AI calls**,
 
 ![Edited elliptical halo](views/workshop-2-workshop-W4-edit.png)
 
-The separate `433d9ba` verifier comparison and fresh transfer/repeat cases are still pending. No recommendation to merge or deploy is implied by these interim results.
+The comparisons below are separate from this initial workshop batch. No recommendation to merge or deploy is implied by interim results.
+
+
+## Separate verifier comparison — first matched round
+
+Both the stable baseline and `433d9ba` correctly created the sloped circular arrangement, reflected the three different existing solids, and blocked the deliberately displaced 40 mm negative control. The positive results actually committed and passed reload and Undo/Redo; the negative control left the project unchanged. The wrong candidate was scripted fault injection; its interpretation and review used fresh AI. The positive requests used fresh executor and reviewer responses.
+
+`433d9ba` emitted one deterministic calculation for the arrangement and three calculations grounded in the pre-edit model for the reflection. The baseline used literal expected positions. This proves calculation provenance was used in a real workflow, **not a higher success rate**: both versions passed. Reviewer times were 13.4/23.1 seconds for the arrangement, 13.7/27.5 seconds for the reflection, and 15.0/17.8 seconds for the negative control (baseline/433). All ten calls cost an estimated **$0.299856**.
+
+[Raw first-round results](verifier-1-results.json) · [Full reviewer calculations, geometry, browser state and calls](artifacts/verifier-evidence.tar.gz) · [Completed baseline workshop evidence](artifacts/baseline-fill-evidence.tar.gz)
+
+## Transfer cases — rotated tapered supports and connected ramps
+
+Both versions created and successfully edited the rotated workbench. The follow-up asked only to raise its working surface 23 cm while keeping the feet and top form fixed. Both independently extended all four tapered legs, preserved their identities and the unrelated reference samples, and saved the correct result with functional reload and Undo/Redo. `f5ba626` explicitly inspected the before-state group; the baseline used the original inventory/conversation already supplied by the application. **Absence of an explicit inspection call is not evidence that it ignored available state.**
+
+Both five-part ramp creations also had correct solids. An evaluator-only Float32 volume-consistency false flag was diagnosed and corrected in revision 4; original records remain intact. See [correction record](HARNESS-CORRECTIONS.md). The resulting fixture-edit diagnostics are kept separate: the baseline failed after trying a prohibited mid-transaction Undo; `f5ba626` used before/compare inspection and repaired an exact-metadata mismatch (`1.2` versus `1.2000000000000002`). This was useful recovery, though the trigger is itself an over-strict application verification issue.
+
+Fresh edits were then performed on the **actual saved AI-created ramps**. Both produced the right solids, changing the middle platform and both connecting ramps while preserving the end platforms, identities and unrelated samples. Both passed reload and Undo/Redo. The baseline received a strict PASS. `f5ba626` retains a strict `COMMITTED_INCORRECT` row only because it sensibly renamed “platform 55 cm” to “platform 73 cm”; all geometric checks passed. [Label audit](ramp-name-audit.json). This is not evidence of incorrect geometry or a meaningful baseline advantage. Neither host claimed it could fully certify continuous walking surfaces; the separate occupied-solid oracle did establish the requested wedge connections.
+
+The transfer batch used an estimated **$1.460112**, including the separately seeded diagnostics. Fresh resumed ramp edits added **$0.211714**. [Raw transfer results](transfer-1-results.json) · [Resumed ramp results](ramp-resume-results.json) · [Full transfer traces, saved editable models, numerical reassessments and browser checks](artifacts/transfer-evidence.tar.gz)
+
+Selected fresh matched repeats and same-project recovery after a blocked transaction are in progress. All applications remain frozen. Current cumulative spending is an estimate in [spending.json](spending.json), including in-flight reservations when present.

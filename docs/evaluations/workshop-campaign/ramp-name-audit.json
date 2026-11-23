@@ -1,0 +1,10 @@
+{
+  "case": "ramp-resume-workshop-W6-edit",
+  "originalStatus": "COMMITTED_INCORRECT",
+  "interpretation": "All solid geometry, identity, relationship, unrelated-object and persistence checks passed. The sole strict metadata failure was a sensible label update after the height change; do not classify as incorrect geometry. Original row retained.",
+  "property": "name",
+  "before": "Promenade platform 55 cm",
+  "after": "Promenade platform 73 cm",
+  "implementationChanged": false,
+  "scoringChanged": false
+}

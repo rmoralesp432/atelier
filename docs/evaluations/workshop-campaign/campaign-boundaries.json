@@ -2039,6 +2039,1386 @@
     }
   },
   {
+    "id": "ramp-resume-workshop-W6-edit",
+    "version": "workshop",
+    "task": "W6",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "COMMITTED_INCORRECT",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "c2628b21-90ad-43cc-bb31-f984a8e938c5",
+      "8cc93809-a534-4451-a95e-2051b5c1278c",
+      "55fc57d5-6f68-48e7-8c76-534c9e4e862c"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round",
+      "fa36b6bc-811f-4334-ad31-6a76a6275af4",
+      "473f4890-0ac7-419d-8bbc-1012795ac24b"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 57426,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "5f5068f0-baa2-4131-bd3d-2f308452203f",
+        "arguments": {
+          "ids": [
+            "c2628b21-90ad-43cc-bb31-f984a8e938c5",
+            "8cc93809-a534-4451-a95e-2051b5c1278c",
+            "55fc57d5-6f68-48e7-8c76-534c9e4e862c"
+          ],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        }
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [
+      {
+        "name": "Component properties c2628b21-90ad-43cc-bb31-f984a8e938c5",
+        "status": "incorrect"
+      }
+    ],
+    "externalVerifiedCheckCount": 23,
+    "calls": 3,
+    "estimatedUSD": 0.1063,
+    "reviewerMs": 15242,
+    "executorMs": 24216,
+    "usage": {
+      "input": 41930,
+      "output": 2244
+    }
+  },
+  {
+    "id": "ramp-resume-baseline-W6-edit",
+    "version": "baseline",
+    "task": "W6",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "6d2dbb19-6184-4d4b-8d56-5b2b4508e278",
+      "0c080fdc-8c0f-427f-8bcf-6a599ed190e5",
+      "55a4ec30-c5e4-45db-9070-484ace9d9bf9"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round",
+      "1e5b9ee3-e7c4-4eff-979c-004b9afbd5cb",
+      "12e2a992-3b8e-46aa-9015-09287d9b60c4"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 57661,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "848e0bca-b870-4c4f-964d-3f084081f1f2",
+        "arguments": {
+          "ids": [
+            "0c080fdc-8c0f-427f-8bcf-6a599ed190e5",
+            "55a4ec30-c5e4-45db-9070-484ace9d9bf9"
+          ],
+          "role": null
+        }
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 24,
+    "calls": 3,
+    "estimatedUSD": 0.105414,
+    "reviewerMs": 22132,
+    "executorMs": 17862,
+    "usage": {
+      "input": 41172,
+      "output": 2307
+    }
+  },
+  {
+    "id": "transfer-1-baseline-W5-create",
+    "version": "baseline",
+    "task": "W5",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 95691,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step",
+      "execute_step",
+      "execute_step",
+      "finish_task"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 31,
+    "calls": 5,
+    "estimatedUSD": 0.170948,
+    "reviewerMs": 19253,
+    "executorMs": 54299,
+    "usage": {
+      "input": 65399,
+      "output": 4015
+    }
+  },
+  {
+    "id": "transfer-1-workshop-W5-create",
+    "version": "workshop",
+    "task": "W5",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 107081,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "3ff6de2d-aec7-4966-8bb2-7c685ecd7c4c",
+        "arguments": {
+          "ids": [],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        }
+      },
+      {
+        "call": "9afdedd6-291c-41be-8ebe-f26d19c0b7f0",
+        "arguments": {
+          "ids": [
+            "fc6c595f-ed65-4169-b49d-fb2e8fc4323d",
+            "e519ccd4-422b-4e8c-b9f0-3cde11579526",
+            "7a460058-a7e3-4956-8d5b-258b6088e3ba",
+            "fd3229b5-fb8f-4b91-bffe-608b65d8c409"
+          ],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        }
+      }
+    ],
+    "toolNames": [
+      "execute_step",
+      "execute_step",
+      "inspect_scene",
+      "execute_step",
+      "inspect_scene",
+      "finish_task"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 31,
+    "calls": 7,
+    "estimatedUSD": 0.25238,
+    "reviewerMs": 20134,
+    "executorMs": 67326,
+    "usage": {
+      "input": 101910,
+      "output": 4856
+    }
+  },
+  {
+    "id": "transfer-1-baseline-W5-edit",
+    "version": "baseline",
+    "task": "W5",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "705805bb-14b7-44af-94c4-5ad3dce3634c",
+      "428b21c7-ea18-4cd4-9357-944b1ccd9063",
+      "c9a3ed41-4f03-4d54-97f1-bd4ad4440447",
+      "dc829647-9b44-4110-9529-f5a3d9c0da85",
+      "cad94f57-4bb6-434e-af96-5aa7aef9b1c3"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 48276,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 24,
+    "calls": 2,
+    "estimatedUSD": 0.06290799999999999,
+    "reviewerMs": 11388,
+    "executorMs": 15866,
+    "usage": {
+      "input": 23464,
+      "output": 1598
+    }
+  },
+  {
+    "id": "transfer-1-workshop-W5-edit",
+    "version": "workshop",
+    "task": "W5",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "f66adc20-8deb-42c7-92a8-5ce1d206fdad",
+      "fc6c595f-ed65-4169-b49d-fb2e8fc4323d",
+      "e519ccd4-422b-4e8c-b9f0-3cde11579526",
+      "7a460058-a7e3-4956-8d5b-258b6088e3ba",
+      "fd3229b5-fb8f-4b91-bffe-608b65d8c409"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 50485,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "77e381eb-0c6d-438d-9d26-49967ac46bd0",
+        "arguments": {
+          "ids": [
+            "$group:Workbench"
+          ],
+          "role": null,
+          "snapshot": "before",
+          "relativeTo": null
+        }
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 24,
+    "calls": 3,
+    "estimatedUSD": 0.09857,
+    "reviewerMs": 12404,
+    "executorMs": 15265,
+    "usage": {
+      "input": 41620,
+      "output": 1533
+    }
+  },
+  {
+    "id": "transfer-1-baseline-W6-create",
+    "version": "baseline",
+    "task": "W6",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "COMMITTED_INCORRECT",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 77223,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "7c16e2e9-fb80-4ae8-ab05-6e19a90c1463",
+        "arguments": {
+          "ids": [
+            "0c080fdc-8c0f-427f-8bcf-6a599ed190e5",
+            "55a4ec30-c5e4-45db-9070-484ace9d9bf9"
+          ],
+          "role": null
+        }
+      }
+    ],
+    "toolNames": [
+      "execute_step",
+      "inspect_scene",
+      "finish_task",
+      "execute_step"
+    ],
+    "repairFeedback": [
+      {
+        "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-24 (group): Group Promenade: 0 members; 0/5 requested objects belong to it. Targets: 1e5b9ee3-e7c4-4eff-979c-004b9afbd5cb, 6d2dbb19-6184-4d4b-8d56-5b2b4508e278, 12e2a992-3b8e-46aa-9015-09287d9b60c4, 0c080fdc-8c0f-427f-8bcf-6a599ed190e5, 55a4ec30-c5e4-45db-9070-484ace9d9bf9",
+        "operations": [],
+        "verification": {
+          "modeling": true,
+          "passed": false,
+          "status": "incorrect",
+          "canCommit": false,
+          "checks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": true,
+              "observed": "2 existing objects outside the requested edit scope are unchanged.",
+              "ids": [],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-1",
+              "label": "count",
+              "met": true,
+              "observed": "count (each): 5; expected equal 5, tolerance 0. 5 element(s).",
+              "ids": [
+                "1e5b9ee3-e7c4-4eff-979c-004b9afbd5cb",
+                "6d2dbb19-6184-4d4b-8d56-5b2b4508e278",
+                "12e2a992-3b8e-46aa-9015-09287d9b60c4",
+                "0c080fdc-8c0f-427f-8bcf-6a599ed190e5",
+                "55a4ec30-c5e4-45db-9070-484ace9d9bf9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-2",
+              "label": "editable",
+              "met": true,
+              "observed": "5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+              "ids": [
+                "1e5b9ee3-e7c4-4eff-979c-004b9afbd5cb",
+                "6d2dbb19-6184-4d4b-8d56-5b2b4508e278",
+                "12e2a992-3b8e-46aa-9015-09287d9b60c4",
+                "0c080fdc-8c0f-427f-8bcf-6a599ed190e5",
+                "55a4ec30-c5e4-45db-9070-484ace9d9bf9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-3",
+              "label": "count \u00b7 platform",
+              "met": true,
+              "observed": "count (each): 3; expected equal 3, tolerance 0. 3 element(s).",
+              "ids": [
+                "1e5b9ee3-e7c4-4eff-979c-004b9afbd5cb",
+                "6d2dbb19-6184-4d4b-8d56-5b2b4508e278",
+                "12e2a992-3b8e-46aa-9015-09287d9b60c4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-4",
+              "label": "shape \u00b7 platform",
+              "met": true,
+              "observed": "Evaluated solid shape box: 3/3 match occupied geometry, independent of recipe type.",
+              "ids": [
+                "1e5b9ee3-e7c4-4eff-979c-004b9afbd5cb",
+                "6d2dbb19-6184-4d4b-8d56-5b2b4508e278",
+                "12e2a992-3b8e-46aa-9015-09287d9b60c4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-5",
+              "label": "width \u00b7 platform",
+              "met": true,
+              "observed": "width (each, world solids): 0.8, 0.8, 0.8000000000000003; expected equal 0.8 \u00b1 0.001 m.",
+              "ids": [
+                "1e5b9ee3-e7c4-4eff-979c-004b9afbd5cb",
+                "6d2dbb19-6184-4d4b-8d56-5b2b4508e278",
+                "12e2a992-3b8e-46aa-9015-09287d9b60c4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-6",
+              "label": "depth",
+              "met": true,
+              "observed": "depth (each, world solids): 1.2, 1.2, 1.2, 1.2000000715255736, 1.2000000715255736; expected equal 1.2 \u00b1 0.001 m.",
+              "ids": [
+                "1e5b9ee3-e7c4-4eff-979c-004b9afbd5cb",
+                "6d2dbb19-6184-4d4b-8d56-5b2b4508e278",
+                "12e2a992-3b8e-46aa-9015-09287d9b60c4",
+                "0c080fdc-8c0f-427f-8bcf-6a599ed190e5",
+                "55a4ec30-c5e4-45db-9070-484ace9d9bf9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-7",
+              "label": "positions \u00b7 platform",
+              "met": true,
+              "observed": "3/3 required world base-center positions occupied; 3 objects, tolerance 0.001 m.",
+              "ids": [
+                "1e5b9ee3-e7c4-4eff-979c-004b9afbd5cb",
+                "6d2dbb19-6184-4d4b-8d56-5b2b4508e278",
+                "12e2a992-3b8e-46aa-9015-09287d9b60c4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-8",
+              "label": "top \u00b7 platform 1",
+              "met": true,
+              "observed": "top (each, world solids): 0.25; expected equal 0.25 \u00b1 0.001 m.",
+              "ids": [
+                "1e5b9ee3-e7c4-4eff-979c-004b9afbd5cb"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-9",
+              "label": "top \u00b7 platform 2",
+              "met": true,
+              "observed": "top (each, world solids): 0.55; expected equal 0.55 \u00b1 0.001 m.",
+              "ids": [
+                "6d2dbb19-6184-4d4b-8d56-5b2b4508e278"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-10",
+              "label": "top \u00b7 platform 3",
+              "met": true,
+              "observed": "top (each, world solids): 0.85; expected equal 0.85 \u00b1 0.001 m.",
+              "ids": [
+                "12e2a992-3b8e-46aa-9015-09287d9b60c4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-11",
+              "label": "count \u00b7 wedge ramp",
+              "met": true,
+              "observed": "count (each): 2; expected equal 2, tolerance 0. 2 element(s).",
+              "ids": [
+                "0c080fdc-8c0f-427f-8bcf-6a599ed190e5",
+                "55a4ec30-c5e4-45db-9070-484ace9d9bf9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-12",
+              "label": "positions \u00b7 wedge ramp",
+              "met": true,
+              "observed": "2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.",
+              "ids": [
+                "0c080fdc-8c0f-427f-8bcf-6a599ed190e5",
+                "55a4ec30-c5e4-45db-9070-484ace9d9bf9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-13",
+              "label": "width \u00b7 wedge ramp",
+              "met": true,
+              "observed": "width (each, world solids): 1.2000000000000002, 1.2000000000000002; expected equal 1.2 \u00b1 0.001 m.",
+              "ids": [
+                "0c080fdc-8c0f-427f-8bcf-6a599ed190e5",
+                "55a4ec30-c5e4-45db-9070-484ace9d9bf9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-14",
+              "label": "top \u00b7 wedge ramp 1",
+              "met": true,
+              "observed": "top (each, world solids): 0.55; expected equal 0.55 \u00b1 0.001 m.",
+              "ids": [
+                "0c080fdc-8c0f-427f-8bcf-6a599ed190e5"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-15",
+              "label": "top \u00b7 wedge ramp 2",
+              "met": true,
+              "observed": "top (each, world solids): 0.85; expected equal 0.85 \u00b1 0.001 m.",
+              "ids": [
+                "55a4ec30-c5e4-45db-9070-484ace9d9bf9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-16",
+              "label": "volume \u00b7 wedge ramp 1",
+              "met": true,
+              "observed": "volume (each): 0.576; expected equal 0.576, tolerance 0.0006. 1 element(s).",
+              "ids": [
+                "0c080fdc-8c0f-427f-8bcf-6a599ed190e5"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-17",
+              "label": "volume \u00b7 wedge ramp 2",
+              "met": true,
+              "observed": "volume (each): 1.008; expected equal 1.008, tolerance 0.001. 1 element(s).",
+              "ids": [
+                "55a4ec30-c5e4-45db-9070-484ace9d9bf9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-18",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "0c080fdc-8c0f-427f-8bcf-6a599ed190e5",
+                "1e5b9ee3-e7c4-4eff-979c-004b9afbd5cb"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-19",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "0c080fdc-8c0f-427f-8bcf-6a599ed190e5",
+                "6d2dbb19-6184-4d4b-8d56-5b2b4508e278"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-20",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "55a4ec30-c5e4-45db-9070-484ace9d9bf9",
+                "6d2dbb19-6184-4d4b-8d56-5b2b4508e278"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-21",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "55a4ec30-c5e4-45db-9070-484ace9d9bf9",
+                "12e2a992-3b8e-46aa-9015-09287d9b60c4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-22",
+              "label": "unavailable",
+              "met": false,
+              "observed": "Unverified: Available predicates cannot establish planar wedge upper surfaces rising from 0.25 to 0.55 m and from 0.55 to 0.85 m, with exact full-width top-edge continuity at the platform interfaces.",
+              "ids": [],
+              "outcome": "unverified"
+            },
+            {
+              "id": "check-23",
+              "label": "base",
+              "met": true,
+              "observed": "base (each, world solids): 0, 0, 0, -7.450580818968433e-9, -1.490116181557255e-8; expected equal 0 \u00b1 0.001 m.",
+              "ids": [
+                "1e5b9ee3-e7c4-4eff-979c-004b9afbd5cb",
+                "6d2dbb19-6184-4d4b-8d56-5b2b4508e278",
+                "12e2a992-3b8e-46aa-9015-09287d9b60c4",
+                "0c080fdc-8c0f-427f-8bcf-6a599ed190e5",
+                "55a4ec30-c5e4-45db-9070-484ace9d9bf9"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-24",
+              "label": "group",
+              "met": false,
+              "observed": "Group Promenade: 0 members; 0/5 requested objects belong to it.",
+              "ids": [
+                "1e5b9ee3-e7c4-4eff-979c-004b9afbd5cb",
+                "6d2dbb19-6184-4d4b-8d56-5b2b4508e278",
+                "12e2a992-3b8e-46aa-9015-09287d9b60c4",
+                "0c080fdc-8c0f-427f-8bcf-6a599ed190e5",
+                "55a4ec30-c5e4-45db-9070-484ace9d9bf9"
+              ],
+              "outcome": "incorrect"
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      }
+    ],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [
+      {
+        "name": "Closed solid 12e2a992-3b8e-46aa-9015-09287d9b60c4",
+        "status": "incorrect"
+      }
+    ],
+    "externalVerifiedCheckCount": 30,
+    "calls": 5,
+    "estimatedUSD": 0.178318,
+    "reviewerMs": 24026,
+    "executorMs": 30243,
+    "usage": {
+      "input": 74684,
+      "output": 2895
+    }
+  },
+  {
+    "id": "transfer-1-workshop-W6-create",
+    "version": "workshop",
+    "task": "W6",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "COMMITTED_INCORRECT",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 79412,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "25ebe4f9-a880-4de0-8a3e-6ff58ae805a6",
+        "arguments": {
+          "ids": [
+            "reference-block",
+            "reference-round"
+          ],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        }
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step",
+      "finish_task"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [
+      {
+        "name": "Closed solid 473f4890-0ac7-419d-8bbc-1012795ac24b",
+        "status": "incorrect"
+      }
+    ],
+    "externalVerifiedCheckCount": 30,
+    "calls": 4,
+    "estimatedUSD": 0.133578,
+    "reviewerMs": 25919,
+    "executorMs": 30456,
+    "usage": {
+      "input": 51734,
+      "output": 3011
+    }
+  },
+  {
+    "id": "transfer-1-baseline-W6-diagnostic-edit",
+    "version": "baseline",
+    "task": "W6",
+    "edit": true,
+    "diagnostic": true,
+    "negative": false,
+    "status": "NOT_COMMITTED",
+    "committed": false,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round",
+      "transfer-W6-0",
+      "transfer-W6-1",
+      "transfer-W6-2",
+      "transfer-W6-3",
+      "transfer-W6-4"
+    ],
+    "transaction": null,
+    "elapsedMs": 61504,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "f630b697-ecde-449a-b4f5-0ed90441b63e",
+        "arguments": {
+          "ids": [
+            "transfer-W6-1",
+            "transfer-W6-3",
+            "transfer-W6-4"
+          ],
+          "role": null
+        }
+      },
+      {
+        "call": "74a283eb-1cda-43ba-9cd6-a2d97a1298e3",
+        "arguments": {
+          "ids": [
+            "transfer-W6-3",
+            "transfer-W6-4"
+          ],
+          "role": null
+        }
+      },
+      {
+        "call": "e1c40234-578e-44ef-b82a-641da5752428",
+        "arguments": {
+          "ids": [
+            "transfer-W6-3",
+            "transfer-W6-4"
+          ],
+          "role": null
+        }
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step",
+      "inspect_scene",
+      "finish_task",
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [
+      {
+        "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-2 (preserve): Preserved properties changed: Left ramp (transfer-W6-3): width; Right ramp (transfer-W6-4): width. Targets: transfer-W6-0, transfer-W6-1, transfer-W6-2, transfer-W6-3, transfer-W6-4",
+        "operations": [],
+        "verification": {
+          "modeling": true,
+          "passed": false,
+          "status": "incorrect",
+          "canCommit": false,
+          "checks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": true,
+              "observed": "4 existing objects outside the requested edit scope are unchanged.",
+              "ids": [],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-1",
+              "label": "top",
+              "met": true,
+              "observed": "top (each, world solids): 0.73; expected equal 0.73 \u00b1 0.001 m.",
+              "ids": [
+                "transfer-W6-1"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-2",
+              "label": "preserve",
+              "met": false,
+              "observed": "Preserved properties changed: Left ramp (transfer-W6-3): width; Right ramp (transfer-W6-4): width.",
+              "ids": [
+                "transfer-W6-0",
+                "transfer-W6-1",
+                "transfer-W6-2",
+                "transfer-W6-3",
+                "transfer-W6-4"
+              ],
+              "outcome": "incorrect"
+            },
+            {
+              "id": "check-3",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "transfer-W6-3",
+                "transfer-W6-0"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-4",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "transfer-W6-3",
+                "transfer-W6-1"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-5",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "transfer-W6-4",
+                "transfer-W6-1"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-6",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "transfer-W6-4",
+                "transfer-W6-2"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-7",
+              "label": "unavailable",
+              "met": false,
+              "observed": "Unverified: Solid contact checks cannot establish step-free walking-surface continuity. The left ramp walking surface must meet the end platform at y=0.25 and the middle platform at y=0.73; the right ramp must meet the middle at y=0.73 and the other end at y=0.85, without gaps or steps.",
+              "ids": [],
+              "outcome": "unverified"
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      }
+    ],
+    "independentCalculations": [],
+    "hostStatus": null,
+    "hostCanCommit": null,
+    "externalFailedChecks": [
+      {
+        "name": "Platform edit transfer-W6-1",
+        "status": "incorrect",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              0.4,
+              0.73,
+              0.6
+            ]
+          },
+          "volume": 0.7008000000000001,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              0.4,
+              0.55,
+              0.6
+            ]
+          },
+          "volume": 0.528
+        }
+      },
+      {
+        "name": "Continuous ramp edit transfer-W6-3",
+        "status": "incorrect",
+        "expected": {
+          "bounds": {
+            "min": [
+              -1.6,
+              0,
+              -0.6
+            ],
+            "max": [
+              -0.3999999999999999,
+              0.7300000119209289,
+              0.6
+            ]
+          },
+          "volume": 0.7056000085830689,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -1.6,
+              0,
+              -0.6
+            ],
+            "max": [
+              -0.3999999999999999,
+              0.55,
+              0.6
+            ]
+          },
+          "volume": 0.5760000053644181
+        }
+      },
+      {
+        "name": "Continuous ramp edit transfer-W6-4",
+        "status": "incorrect",
+        "expected": {
+          "bounds": {
+            "min": [
+              0.3999999999999999,
+              0,
+              -0.6
+            ],
+            "max": [
+              1.6,
+              0.8500000238418579,
+              0.6
+            ]
+          },
+          "volume": 1.1376000257492065,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              0.3999999999999999,
+              0,
+              -0.6
+            ],
+            "max": [
+              1.6,
+              0.85,
+              0.6
+            ]
+          },
+          "volume": 1.0080000128746034
+        }
+      }
+    ],
+    "externalVerifiedCheckCount": 21,
+    "calls": 7,
+    "estimatedUSD": 0.23796,
+    "reviewerMs": 10486,
+    "executorMs": 43240,
+    "usage": {
+      "input": 106780,
+      "output": 2440
+    }
+  },
+  {
+    "id": "transfer-1-workshop-W6-diagnostic-edit",
+    "version": "workshop",
+    "task": "W6",
+    "edit": true,
+    "diagnostic": true,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "transfer-W6-1",
+      "transfer-W6-3",
+      "transfer-W6-4"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round",
+      "transfer-W6-0",
+      "transfer-W6-2"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 83599,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "8d0e8f8a-644a-44cf-9b8e-0afba7674363",
+        "arguments": {
+          "ids": [
+            "transfer-W6-1",
+            "transfer-W6-3",
+            "transfer-W6-4"
+          ],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        }
+      },
+      {
+        "call": "69676f56-8689-44de-ac29-f3b9fbd04689",
+        "arguments": {
+          "ids": [
+            "transfer-W6-1",
+            "transfer-W6-3",
+            "transfer-W6-4"
+          ],
+          "role": null,
+          "snapshot": "compare",
+          "relativeTo": null
+        }
+      },
+      {
+        "call": "6b2c9fb5-2b59-41af-ab82-0c91bed432ae",
+        "arguments": {
+          "ids": [
+            "transfer-W6-1",
+            "transfer-W6-3",
+            "transfer-W6-4"
+          ],
+          "role": null,
+          "snapshot": "compare",
+          "relativeTo": null
+        }
+      },
+      {
+        "call": "ca4c6d0c-2dfe-47ed-8d57-17aefd1beece",
+        "arguments": {
+          "ids": [
+            "transfer-W6-1",
+            "transfer-W6-3",
+            "transfer-W6-4"
+          ],
+          "role": null,
+          "snapshot": "compare",
+          "relativeTo": null
+        }
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step",
+      "inspect_scene",
+      "finish_task",
+      "inspect_scene",
+      "execute_step",
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [
+      {
+        "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-2 (preserve): Preserved properties changed: Left ramp (transfer-W6-3): width; Right ramp (transfer-W6-4): width. Targets: transfer-W6-1, transfer-W6-3, transfer-W6-4",
+        "operations": [],
+        "verification": {
+          "modeling": true,
+          "passed": false,
+          "status": "incorrect",
+          "canCommit": false,
+          "checks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": true,
+              "observed": "4 existing objects outside the requested edit scope are unchanged.",
+              "ids": [],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-1",
+              "label": "top",
+              "met": true,
+              "observed": "top (each, world solids): 0.73; expected equal 0.73 \u00b1 0.001 m.",
+              "ids": [
+                "transfer-W6-1"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-2",
+              "label": "preserve",
+              "met": false,
+              "observed": "Preserved properties changed: Left ramp (transfer-W6-3): width; Right ramp (transfer-W6-4): width.",
+              "ids": [
+                "transfer-W6-1",
+                "transfer-W6-3",
+                "transfer-W6-4"
+              ],
+              "outcome": "incorrect"
+            },
+            {
+              "id": "check-3",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "transfer-W6-0",
+                "transfer-W6-3"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-4",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "transfer-W6-3",
+                "transfer-W6-1"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-5",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "transfer-W6-1",
+                "transfer-W6-4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-6",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "transfer-W6-4",
+                "transfer-W6-2"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-7",
+              "label": "unavailable",
+              "met": false,
+              "observed": "Unverified: Solid contact does not verify walking-surface continuity. Available predicates cannot verify matching ramp and platform surface elevations across each full-width connection or absence of steps along the walking route.",
+              "ids": [],
+              "outcome": "unverified"
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      },
+      {
+        "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-2 (preserve): Preserved properties changed: Left ramp (transfer-W6-3): width; Right ramp (transfer-W6-4): width. Targets: transfer-W6-1, transfer-W6-3, transfer-W6-4",
+        "operations": [],
+        "verification": {
+          "modeling": true,
+          "passed": false,
+          "status": "incorrect",
+          "canCommit": false,
+          "checks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": true,
+              "observed": "4 existing objects outside the requested edit scope are unchanged.",
+              "ids": [],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-1",
+              "label": "top",
+              "met": true,
+              "observed": "top (each, world solids): 0.73; expected equal 0.73 \u00b1 0.001 m.",
+              "ids": [
+                "transfer-W6-1"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-2",
+              "label": "preserve",
+              "met": false,
+              "observed": "Preserved properties changed: Left ramp (transfer-W6-3): width; Right ramp (transfer-W6-4): width.",
+              "ids": [
+                "transfer-W6-1",
+                "transfer-W6-3",
+                "transfer-W6-4"
+              ],
+              "outcome": "incorrect"
+            },
+            {
+              "id": "check-3",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "transfer-W6-0",
+                "transfer-W6-3"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-4",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "transfer-W6-3",
+                "transfer-W6-1"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-5",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "transfer-W6-1",
+                "transfer-W6-4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-6",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "transfer-W6-4",
+                "transfer-W6-2"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-7",
+              "label": "unavailable",
+              "met": false,
+              "observed": "Unverified: Solid contact does not verify walking-surface continuity. Available predicates cannot verify matching ramp and platform surface elevations across each full-width connection or absence of steps along the walking route.",
+              "ids": [],
+              "outcome": "unverified"
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      }
+    ],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 24,
+    "calls": 9,
+    "estimatedUSD": 0.32545,
+    "reviewerMs": 13328,
+    "executorMs": 54518,
+    "usage": {
+      "input": 147325,
+      "output": 3080
+    }
+  },
+  {
     "id": "verifier-1-baseline-D-H1-create",
     "version": "baseline",
     "task": "D-H1",
@@ -5818,6 +7198,74 @@
     "usage": {
       "input": 43445,
       "output": 1865
+    }
+  },
+  {
+    "id": "workshop-repeat-baseline-W1-create",
+    "version": "baseline",
+    "task": "W1",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "RUNNING",
+    "committed": null,
+    "componentCount": null,
+    "changedIds": null,
+    "preservedIds": null,
+    "transaction": null,
+    "elapsedMs": null,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": null,
+    "hostCanCommit": null,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 0,
+    "calls": 2,
+    "estimatedUSD": 0.039896,
+    "reviewerMs": 0,
+    "executorMs": 18236,
+    "usage": {
+      "input": 14433,
+      "output": 1103
+    }
+  },
+  {
+    "id": "workshop-repeat-workshop-W1-create",
+    "version": "workshop",
+    "task": "W1",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "RUNNING",
+    "committed": null,
+    "componentCount": null,
+    "changedIds": null,
+    "preservedIds": null,
+    "transaction": null,
+    "elapsedMs": null,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": null,
+    "hostCanCommit": null,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 0,
+    "calls": 2,
+    "estimatedUSD": 0.03978,
+    "reviewerMs": 0,
+    "executorMs": 18258,
+    "usage": {
+      "input": 14630,
+      "output": 1052
     }
   }
 ]
