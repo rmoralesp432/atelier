@@ -1,0 +1,32 @@
+{
+  "implementationCommit": "433d9baed8265cc4eb78a5b0bfb914911b734cf7",
+  "baseCommit": "a80d6ef91a1db50692856e826af487439b885c2c",
+  "frozenAtUTC": "2026-11-23T17:05:01.176769+00:00",
+  "heldOutTasksDefinedYet": false,
+  "applicationHashAlgorithm": "SHA256 of sorted compact JSON mapping tracked non-test src/server and package/build config paths to their SHA256",
+  "applicationFileCount": 158,
+  "applicationSha256": "c24889df41c0bbf8d7802c600228efa58a362058b5b4a8324c8c65ae90e9f5f3",
+  "changedRuntimeFiles": {
+    "server/completion.ts": "bc0fe467049694fa5ebaedd7ce95a1056ed5f88233b31f2a0af6a13f93557e2d",
+    "server/completionWire.ts": "0bf8b14a2e08a55f0cfd554b9521aeb39794374c2be78b34d4e2266c9ddc93cf",
+    "src/intelligence/calculationSchema.ts": "11112c8ffdaf07ceb6347da3b306c81ad9550831c73c2f6476a910c123c4aa5e",
+    "src/intelligence/completion.ts": "0cbc873e7ca853ae888938b98672ad3028cbed8ba661e10765765a8c1396a593",
+    "src/intelligence/completionCalculations.ts": "7445a500c82592565f7102ca4c32a1e6ace07233dc1dd239355ff3da789f6ba7",
+    "src/intelligence/completionSchema.ts": "78851c68e01646b86d030c90aa9c11e6fc19c20321943beab5ac2252c7101280",
+    "src/intelligence/criteriaAudit.ts": "087739b1dc91a08a63942a2d8355eacb9233ecc7eaca82a209bf3b0ac9ba4596"
+  },
+  "validation": {
+    "unitFiles": 81,
+    "unitTests": 446,
+    "browserTests": 8,
+    "productionBuild": "passed",
+    "externalSavedRepairChecks": 36,
+    "apiCalls": 0,
+    "newApiCostUSD": 0
+  },
+  "constraints": {
+    "merge": false,
+    "deployment": false,
+    "paidEvaluation": false
+  }
+}
