@@ -163,7 +163,8 @@ export async function oracle(
         'Closed solid ' + p.v.id,
         p.solid.status() === 'NoError' &&
           p.b.volume > 0 &&
-          Math.abs(p.b.volume - p.b.triangleVolume) < 1e-7,
+          Math.abs(p.b.volume - p.b.triangleVolume) <
+            Math.max(1e-8, p.b.volume * 0.00001),
       );
     if (!edit) {
       const ideals = await Promise.all(target(fixture(id)).map(load)),

@@ -1,3 +1,4 @@
+import { recoverySpec } from './recovery';
 /** Evaluation coordinator only. Every live primary turn uses the unmodified App and provider. */
 import assert from 'node:assert/strict';
 import {
@@ -91,6 +92,11 @@ if (mode === '--freeze') {
     ).results.every((r: any) => r.passed),
   );
   assert(JSON.parse(readFileSync(join(root, 'offline.json'), 'utf8')).passed);
+  assert(
+    JSON.parse(
+      readFileSync(join(root, 'recovery-calibration.json'), 'utf8'),
+    ).rows.every((r: any) => r.passed),
+  );
   assert(
     JSON.parse(
       readFileSync(join(root, 'transfer-calibration.json'), 'utf8'),
@@ -650,11 +656,27 @@ async function lane(version: Version, list: Spec[]) {
             readFileSync(join(root, source, 'results.json'), 'utf8'),
           ).find((r: any) => r.id === priorId);
         assert(
-          prior?.committed && pass(prior.facts),
+          prior?.committed,
           'Resume only an independently correct committed creation',
         );
         const previous = JSON.parse(
           readFileSync(join(root, source, priorId + '-after.json'), 'utf8'),
+        );
+        const reassessed = await oracle(spec.id, initial, initial, previous);
+        save(
+          join(
+            folder,
+            `${batch}-${version}-${spec.id}-resume-reassessment.json`,
+          ),
+          {
+            originalStatus: prior.status,
+            originalFacts: prior.facts,
+            facts: reassessed,
+          },
+        );
+        assert(
+          pass(reassessed),
+          'Only resume measured valid geometry; retain prior scoring separately',
         );
         const p = await open(previous, prior.conversation);
         await persistence(
@@ -671,6 +693,20 @@ async function lane(version: Version, list: Spec[]) {
       }
       const page = await open(initial);
       const made = await turn(page, spec, spec.create, initial);
+      if (
+        spec.mode === 'negative' &&
+        active.status === 'NEGATIVE_BLOCKED' &&
+        active.originalPreserved
+      ) {
+        const recovered = await turn(
+          page,
+          recoverySpec,
+          recoverySpec.create,
+          initial,
+        );
+        if (recovered)
+          await turn(page, recoverySpec, recoverySpec.edit, initial, true);
+      }
       if (spec.edit && made) await turn(page, spec, spec.edit, initial, true);
       await page.context().close();
       if (spec.edit && !made && live && !stopReason()) {

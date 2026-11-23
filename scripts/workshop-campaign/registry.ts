@@ -1,3 +1,4 @@
+import * as recovery from './recovery';
 import * as base from './geometry';
 import * as transfer from './transfer';
 export { seed, arcPoints, pass, wrong } from './geometry';
@@ -11,6 +12,8 @@ export const oracle = (
   after: any,
   edit = false,
 ) =>
-  extra(id)
-    ? transfer.oracle(id, initial, before, after, edit)
-    : base.oracle(id, initial, before, after, edit);
+  id === 'D-R1'
+    ? recovery.oracle(initial, before, after, edit)
+    : extra(id)
+      ? transfer.oracle(id, initial, before, after, edit)
+      : base.oracle(id, initial, before, after, edit);

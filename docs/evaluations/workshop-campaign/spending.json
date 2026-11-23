@@ -1,18 +1,12 @@
 {
-  "at": "2026-11-23T19:44:07.713Z",
-  "calls": 61,
-  "estimatedUSD": 2.306596,
-  "accountedUSD": 3.6724399999999995,
-  "unknownReservations": [
-    {
-      "id": "69c2880c-ed49-4999-a6df-d33c444d137f",
-      "reservedUSD": 0.789195,
-      "outcome": "reserved-before-send"
-    }
-  ],
-  "inputTokens": 917673,
-  "outputTokens": 47125,
-  "reviewerMs": 345558,
-  "executorMs": 486820,
+  "at": "2026-11-23T19:58:11.349Z",
+  "calls": 123,
+  "estimatedUSD": 4.488215999999999,
+  "accountedUSD": 5.61027,
+  "unknownReservations": [],
+  "inputTokens": 1783203,
+  "outputTokens": 92181,
+  "reviewerMs": 647557,
+  "executorMs": 1001073,
   "pricingBasis": "Authorized estimated prices, not an invoice; all reservations retained until usage is known."
 }

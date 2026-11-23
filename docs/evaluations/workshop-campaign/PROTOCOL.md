@@ -45,6 +45,8 @@ End-to-end success requires creation and the natural edit to pass measurements a
 
 Retain previously frozen fresh tasks D-H1 (six cylinders on an inclined arc) and D-H2 (position-only reflection of three differently shaped pieces). Both use live executor and reviewer through the browser. D-N1 deliberately displaces one arc sample radially by 4 cm: **scripted executor, fresh independent reviewer**, no scripted repair. Its purpose is a negative control, not autonomous modeling evidence. The real application must refuse the bad transaction. Preserve the criterion calculation, feedback and committed scene. No cross-arm changes to tolerances or criteria.
 
+In a separately recorded repeat, append D-R1 in the same still-open project after D-N1 is safely blocked: a fresh natural request for a 30 cm sphere, followed by a request to align its base with the taller original reference sample. The agent receives no reference height. Independent measurements derive that height from the untouched original solids. Recovery uses real executor and reviewer calls, and must preserve both original objects and support reload/Undo/Redo. It is reported separately from unfamiliar-assembly success rates.
+
 ## Calibration, evidence and spending
 
 Before paid calls: external positive/negative/equivalent-parameterization controls plus browser commit/reload/Undo/Redo/failure/recovery on all three bundles. Save source/bundle/prompt/oracle hashes and evaluator commit. The existing oracle and calibration are external to all application versions.
