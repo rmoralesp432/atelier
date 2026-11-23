@@ -1,4 +1,10 @@
-# Narrow correction after the first frozen live batch
+# Focused reliability improvement
+
+[Final report and recommendation](FINAL-REPORT.md) · [Focused diff](reliability.diff) · [Entire runtime diff](integrated-runtime.diff)
+
+**Frozen application: 0527761. Not merged or deployed.** Offline browser proofs pass; fresh trials reveal remaining verification false rejections. See the final report before considering release.
+
+## Narrow correction after the first frozen live batch
 
 The first implementation remains frozen at `16361bb`; all first-batch failures remain published at `1481258`. This branch is a separate, focused correction, frozen at `05277619f6fa337cdb1bfb0825654cbe5259ed2d`. No application code was changed while that scored batch was running.
 
