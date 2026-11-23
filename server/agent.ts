@@ -47,7 +47,7 @@ const functions = [
   {
     name: 'inspect_scene',
     description:
-      'Inspect current construction, the immutable before-edit model, or compare both by identity. relativeTo optionally measures world-envelope gaps and offsets from that object to the queried objects in each snapshot. Before means the start of THIS user request, not the previous stage. Empty ids reads the scene; comparisons and relative measurements return up to 200 objects with explicit omission counts. Use exact IDs, including removed originals; narrow large inspections. These facts do not authorize edits or certify physical connections.',
+      'Inspect current construction, the immutable before-edit model, or compare both by identity. relativeTo optionally measures world-envelope gaps and offsets from that object to the queried objects in each snapshot. Before means the start of THIS user request, not the previous stage. Empty ids reads the scene; comparisons and relative measurements return up to 200 objects with explicit omission counts. Accepts exact object IDs, unique object names, group IDs and $name: / $group: references, resolved consistently with modeling tools. Before/compare use membership in each snapshot; relativeTo must resolve to one object. Removed originals remain inspectable by ID; narrow large inspections. These facts do not authorize edits or certify physical connections.',
     parameters: z.toJSONSchema(inspect),
   },
   {

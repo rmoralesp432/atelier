@@ -1,3 +1,4 @@
+import { resolveObjectReference } from './objectReferences';
 import { resolveCameraView } from '../studio/cameraView';
 import { sculptVolume, smoothBoolean, reviseBlend } from '../geometry/sculpt';
 import { organicMesh } from '../geometry/organic';
@@ -151,53 +152,14 @@ export function resolveIds(refs: string[], s: Session): string[] {
           ? s.context.lastCreatedIds
           : ref === '$operands'
             ? s.context.lastOperands
-            : ref.startsWith('$group:')
-              ? (() => {
-                  const name = ref.slice(7);
-                  const groups = (s.project.groups ?? []).filter(
-                    (g) => g.id === name || g.name === name,
-                  );
-                  if (groups.length !== 1)
-                    throw new Error(
-                      'That group does not identify one assembly. Use a unique group name or ID.',
-                    );
-                  return s.project.volumes
-                    .filter((v) => v.groupId === groups[0].id)
-                    .map((v) => v.id);
-                })()
-              : ref.startsWith('$name:')
-                ? (() => {
-                    const matches = s.project.volumes.filter(
-                      (v) => v.name === ref.slice(6),
-                    );
-                    if (matches.length !== 1)
-                      throw new Error(
-                        'That name does not identify one volume. Which one do you mean? Describe its position or give its name.',
-                      );
-                    return [matches[0].id];
-                  })()
-                : existingIds.has(ref)
-                  ? [ref]
-                  : (() => {
-                      // Exact human labels are safe only when unambiguous across
-                      // both namespaces. Never fuzzy-match a stale identifier.
-                      const volumes = s.project.volumes.filter(
-                        (v) => v.name === ref,
-                      );
-                      const groups = (s.project.groups ?? []).filter(
-                        (g) => g.name === ref,
-                      );
-                      if (volumes.length + groups.length === 0) return [ref];
-                      if (volumes.length + groups.length !== 1)
-                        throw new Error(
-                          'That reference is missing or ambiguous. Use an existing object ID, $name:Unique name or $group:Unique group.',
-                        );
-                      return volumes.length
-                        ? [volumes[0].id]
-                        : s.project.volumes
-                            .filter((v) => v.groupId === groups[0].id)
-                            .map((v) => v.id);
-                    })(),
+            : (() => {
+                const ids = resolveObjectReference(
+                  ref,
+                  s.project.volumes,
+                  s.project.groups ?? [],
+                );
+                return ids.length ? ids : [ref];
+              })(),
   );
   if (!result.length)
     throw new Error(

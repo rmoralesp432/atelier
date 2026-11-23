@@ -22,7 +22,11 @@ export async function verifyCompletion(
   candidate: Session,
   signal?: AbortSignal,
 ): Promise<CompletionReport> {
-  const { criteria, traces } = await compileCalculations(
+  const {
+    criteria,
+    traces,
+    issues: calculationIssues,
+  } = await compileCalculations(
     completionCriteriaSchema.parse(raw),
     original,
     signal,
@@ -32,7 +36,20 @@ export async function verifyCompletion(
   const volumes = new Map<string, Promise<number>>();
   const physical = physicalChecks();
   const select = completionSelection(original, candidate);
-  const criterionIssues = auditCriteria(criteria, select);
+  // Exclude malformed expressions from semantic audits: their literal numeric
+  // placeholders are not independent desired measurements.
+  const criterionIssues = [
+    ...calculationIssues,
+    ...auditCriteria(
+      {
+        ...criteria,
+        checks: criteria.checks.filter(
+          (c) => !calculationIssues.some((i) => i.checkId === c.requirement.id),
+        ),
+      },
+      select,
+    ),
+  ];
   const before = new Map(original.project.volumes.map((v) => [v.id, v]));
   const after = new Map(candidate.project.volumes.map((v) => [v.id, v]));
   const report: CompletionReport = {
@@ -66,7 +83,7 @@ export async function verifyCompletion(
       outcome:
         unavailable || issue ? 'unverified' : met ? 'verified' : 'incorrect',
       observed: (issue
-        ? `Invalid verification criterion: ${issue.detail} Observation (not a verdict): ${observed}`
+        ? `Invalid verification criterion: ${issue.detail}${observed && observed !== issue.detail ? ` Observation (not a verdict): ${observed}` : ''}`
         : observed
       ).slice(0, 800),
       ids: ids.slice(0, 16),
@@ -205,6 +222,11 @@ export async function verifyCompletion(
     abort();
     let ids: string[] = [];
     try {
+      const invalid = criterionIssues.find((i) => i.checkId === r.id);
+      if (invalid) {
+        add(r.id, r.label, false, invalid.detail, [], true);
+        continue;
+      }
       if (r.kind === 'unavailable') {
         add(r.id, r.label, false, `Unverified: ${r.reason}`, [], true);
         continue;
@@ -355,7 +377,33 @@ export async function verifyCompletion(
   report.passed = report.status === 'verified';
   // Unknown design qualities do not veto safe, undoable work. An unknown
   // authorization scope must never permit changes to existing objects.
+  const unresolvedRequired = report.checks.some((check) => {
+    if (check.outcome !== 'unverified') return false;
+    const r = raw.checks.find(
+      (c) => c.requirement.id === check.id,
+    )?.requirement;
+    return (
+      criterionIssues.some(
+        (i) => i.checkId === check.id && i.code !== 'unsupported_property',
+      ) ||
+      (r &&
+        ([
+          'positions',
+          'offset',
+          'radial',
+          'layout',
+          'relation',
+          'relationship',
+          'group',
+          'editable',
+        ].includes(r.kind) ||
+          (r.kind === 'measure' &&
+            ['x', 'y', 'z', 'base', 'top'].includes(r.metric)) ||
+          (r.kind === 'unavailable' && r.required === true)))
+    );
+  });
   report.canCommit =
+    !unresolvedRequired &&
     report.status !== 'incorrect' &&
     !(!scopeKnown && (changed.length > 0 || changedGroups.length > 0));
   return report;
@@ -409,6 +457,7 @@ export function unavailableCompletionCriteria(
           kind: 'unavailable',
           id: 'review-unavailable',
           label: 'Independent review',
+          required: true,
           reason: reason.slice(0, 400),
         },
       },

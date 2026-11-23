@@ -11,6 +11,7 @@ import {
 import {
   completionCriteriaSchema,
   type CompletionCriteria,
+  type CriterionIssue,
 } from './completionSchema';
 
 type Quantity = { values: number[]; length: number; angle: number };
@@ -57,6 +58,7 @@ export async function compileCalculations(
   original: Session,
   signal?: AbortSignal,
 ) {
+  const issues: CriterionIssue[] = [];
   const traces = new Map<string, CalculationTrace>();
   const originals = new Map(original.project.volumes.map((v) => [v.id, v]));
   const stats = new Map<string, ReturnType<typeof solidStats>>();
@@ -132,7 +134,9 @@ export async function compileCalculations(
                 ? args.length
                 : 2;
         if (args.length !== arity)
-          throw Error('Incorrect calculation operand count.');
+          throw Error(
+            `Node ${index}: ${node.op} requires ${arity} operands, received ${args.length}. Rewrite the calculation using valid nodes without changing its meaning or sources.`,
+          );
         if (node.op === 'concat') {
           args.forEach((v) => compatible(a, v));
           value = { ...a, values: args.flatMap((v) => v.values) };
@@ -284,20 +288,20 @@ export async function compileCalculations(
       traces.set(r.id, result.trace);
     } catch (error) {
       if (signal?.aborted) throw error;
-      checks.push({
-        ...check,
-        requirement: {
-          kind: 'unavailable',
-          id: check.requirement.id,
-          label: check.requirement.label,
-          reason:
-            `Expected measurement could not be derived: ${error instanceof Error ? error.message : 'invalid calculation'}`.slice(
-              0,
-              400,
-            ),
-        },
+      // Retain the actual required predicate. A compiler failure is neither a
+      // geometry verdict nor an unsupported qualitative design goal.
+      checks.push(check);
+      issues.push({
+        checkId: check.requirement.id,
+        code: 'invalid_calculation',
+        detail:
+          `Expected measurement could not be derived: ${error instanceof Error ? error.message : 'invalid calculation'}`.slice(
+            0,
+            1000,
+          ),
+        related: [],
       });
     }
   }
-  return { criteria: { ...raw, checks }, traces };
+  return { criteria: { ...raw, checks }, traces, issues };
 }

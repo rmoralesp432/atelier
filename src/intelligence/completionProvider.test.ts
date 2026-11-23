@@ -80,6 +80,19 @@ it.each(['responses', 'chat_completions'] as const)(
             ? body.text.format.schema
             : body.response_format.json_schema.schema;
         expect(Object.keys(schema.properties)).toEqual(['corrections']);
+        const strict = (node: any) => {
+          if (!node || typeof node !== 'object') return;
+          if (node.type === 'object') {
+            expect(node.additionalProperties).toBe(false);
+            expect([...node.required].sort()).toEqual(
+              Object.keys(node.properties).sort(),
+            );
+          }
+          Object.values(node).forEach((v) =>
+            Array.isArray(v) ? v.forEach(strict) : strict(v),
+          );
+        };
+        strict(schema);
         const text = JSON.stringify(patch);
         return Response.json(
           api === 'responses'

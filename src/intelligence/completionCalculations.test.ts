@@ -379,7 +379,7 @@ it.each(invalidCalculations)(
     expect(report).toMatchObject({
       status: 'unverified',
       passed: false,
-      canCommit: true,
+      canCommit: false,
     });
     expect(report.checks.find((c) => c.id === 'height')!.observed).toContain(
       'could not be derived',
@@ -400,10 +400,9 @@ it('bounds total work, rejects incompatible arrays, and honors cancellation with
   const mismatch = attached(
     b.value(b.op('add', b.op('range', a, a, two), b.op('range', a, a, three))),
   );
-  expect(
-    (await compileCalculations(mismatch, empty())).criteria.checks[0]
-      .requirement.kind,
-  ).toBe('unavailable');
+  expect((await compileCalculations(mismatch, empty())).issues[0].code).toBe(
+    'invalid_calculation',
+  );
   const large = calculation(),
     zero = large.quantity(0, 'm', 'origin'),
     one = large.quantity(1, 'm', '1 m'),
@@ -411,11 +410,9 @@ it('bounds total work, rejects incompatible arrays, and honors cancellation with
   let prev = large.op('range', zero, one, count);
   for (let i = 0; i < 9; i++) prev = large.op('negate', prev);
   const c = attached(large.points(prev, zero, zero));
-  expect(
-    (await compileCalculations(c, empty())).criteria.checks[0].requirement,
-  ).toMatchObject({
-    kind: 'unavailable',
-    reason: expect.stringContaining('resource limits'),
+  expect((await compileCalculations(c, empty())).issues[0]).toMatchObject({
+    code: 'invalid_calculation',
+    detail: expect.stringContaining('resource limits'),
   });
   const stop = new AbortController();
   stop.abort();

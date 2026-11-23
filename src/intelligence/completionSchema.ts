@@ -157,6 +157,7 @@ export const completionCriteriaSchema = z
                 .object({
                   ...identity,
                   kind: z.literal('unavailable'),
+                  required: z.boolean().optional(),
                   reason: z.string().min(1).max(400),
                 })
                 .strict(),
@@ -172,7 +173,12 @@ export type CompletionCriteria = z.infer<typeof completionCriteriaSchema>;
 export const criterionIssueSchema = z
   .object({
     checkId: z.string().max(60),
-    code: z.enum(['contradiction', 'invalid_contract', 'unsupported_property']),
+    code: z.enum([
+      'contradiction',
+      'invalid_contract',
+      'invalid_calculation',
+      'unsupported_property',
+    ]),
     detail: z.string().max(1000),
     related: z.array(z.string().max(60)).max(32),
   })

@@ -1,3 +1,4 @@
+import { resolveObjectReference } from '../src/intelligence/objectReferences';
 import type { ModelRequest } from './provider';
 import { equalData } from '../src/projects/equalData';
 
@@ -82,9 +83,67 @@ export function inspectScene(input: ModelRequest, query: InspectionQuery) {
       : query.snapshot === 'compare'
         ? [...new Set([...before.keys(), ...current.keys()])]
         : [...current.keys()];
+  const resolve = (reference: string, which: 'before' | 'current') =>
+    resolveObjectReference(
+      reference,
+      [...(which === 'before' ? before : current).values()].filter(
+        (o): o is ObjectInfo => !!o,
+      ),
+      (which === 'before' ? ref?.groups : input.scene.groups) ?? [],
+    );
+  let selected: Set<string>,
+    relativeBefore: string | undefined,
+    relativeCurrent: string | undefined;
+  const missingIds: string[] = [];
+  try {
+    selected = new Set(
+      query.ids.flatMap((reference) => {
+        const found = [
+          ...new Set([
+            ...(query.snapshot !== 'current'
+              ? resolve(reference, 'before')
+              : []),
+            ...(query.snapshot !== 'before'
+              ? resolve(reference, 'current')
+              : []),
+          ]),
+        ];
+        if (!found.length) missingIds.push(reference);
+        return found;
+      }),
+    );
+    if (query.relativeTo !== null) {
+      const old =
+        query.snapshot !== 'current' ? resolve(query.relativeTo, 'before') : [];
+      const now =
+        query.snapshot !== 'before' ? resolve(query.relativeTo, 'current') : [];
+      if (old.length > 1 || now.length > 1)
+        throw Error(
+          'The relative reference must identify one object, not a multi-object group.',
+        );
+      relativeBefore = old[0];
+      relativeCurrent = now[0];
+      if (
+        relativeBefore &&
+        relativeCurrent &&
+        relativeBefore !== relativeCurrent
+      )
+        throw Error(
+          'The relative reference changed identity. Use the original object ID.',
+        );
+    }
+  } catch (error) {
+    return {
+      available: false,
+      reason:
+        error instanceof Error
+          ? error.message
+          : 'The reference could not be resolved.',
+    };
+  }
   const eligible = roster.filter(
     (id) =>
-      (!query.ids.length || query.ids.includes(id)) &&
+      (!query.ids.length || selected.has(id)) &&
       (!query.role ||
         (query.snapshot !== 'current' &&
           before.get(id)?.component?.role === query.role) ||
@@ -131,13 +190,13 @@ export function inspectScene(input: ModelRequest, query: InspectionQuery) {
       'World bounding envelopes only, not physical contact or structural attachment. centerDelta = second center - first center; forwardGap = second min - first max; reverseGap = first min - second max; projectedOverlap = min(maxima) - max(minima). Dimensions are local modeling dimensions. Relationships never grant edit permission.',
     matched: eligible.length,
     omitted: eligible.length - ids.length,
-    missingIds: query.ids.filter((id) => !roster.includes(id)),
+    missingIds,
     referenceFound:
       query.relativeTo === null
         ? null
         : {
-            before: before.has(query.relativeTo),
-            current: current.has(query.relativeTo),
+            before: !!relativeBefore,
+            current: !!relativeCurrent,
           },
     objects: ids.map((id) => {
       const old = before.get(id),
@@ -165,13 +224,13 @@ export function inspectScene(input: ModelRequest, query: InspectionQuery) {
       query.relativeTo === null
         ? []
         : ids
-            .filter((id) => id !== query.relativeTo)
+            .filter((id) => id !== relativeBefore && id !== relativeCurrent)
             .map((id) => ({
               id,
               ...(query.snapshot !== 'current'
                 ? {
                     before: relation(
-                      before.get(query.relativeTo!),
+                      before.get(relativeBefore!),
                       before.get(id),
                     ),
                   }
@@ -179,7 +238,7 @@ export function inspectScene(input: ModelRequest, query: InspectionQuery) {
               ...(query.snapshot !== 'before'
                 ? {
                     current: relation(
-                      current.get(query.relativeTo!),
+                      current.get(relativeCurrent!),
                       current.get(id),
                     ),
                   }

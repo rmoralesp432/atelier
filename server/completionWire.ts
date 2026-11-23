@@ -19,6 +19,8 @@ const requirements = objects(
   for (const key of ['selector', 'first', 'second'])
     if (key in s.shape)
       compact = compact.extend({ [key]: z.number().int().min(0).max(63) });
+  if ('required' in s.shape)
+    compact = compact.extend({ required: z.boolean().nullable() });
   return compact.strict();
 });
 export const completionWireSchema = z
@@ -64,6 +66,10 @@ export const completionCorrectionWireSchema = z
         z
           .object({
             checkId: z.string().min(1).max(60),
+            calculation:
+              completionCriteriaSchema.shape.checks.element.shape.calculation
+                .unwrap()
+                .nullable(),
             test: z.union([requirements[0], ...requirements.slice(1)]),
           })
           .strict(),
@@ -76,9 +82,13 @@ export function expandCompletionCorrections(
   raw: unknown,
   previous: CompletionCriteria,
 ): CompletionCriteria {
-  const wire = completionCorrectionWireSchema.parse(raw);
+  const legacy = raw as { corrections?: Record<string, unknown>[] };
+  const wire = completionCorrectionWireSchema.parse({
+    ...legacy,
+    corrections: legacy?.corrections?.map((c) => ({ calculation: null, ...c })),
+  });
   const compact = compactCompletionCriteria(previous);
-  const patches = new Map(wire.corrections.map((c) => [c.checkId, c.test]));
+  const patches = new Map(wire.corrections.map((c) => [c.checkId, c]));
   if (
     patches.size !== wire.corrections.length ||
     [...patches.keys()].some(
@@ -91,7 +101,8 @@ export function expandCompletionCorrections(
     checks: previous.checks.map((c) => {
       const patch = patches.get(c.requirement.id);
       if (!patch) return c;
-      const test = { ...patch } as Record<string, unknown>;
+      const test = { ...patch.test } as Record<string, unknown>;
+      if (test.kind === 'unavailable') test.required = test.required ?? false;
       for (const key of ['selector', 'first', 'second'])
         if (key in test) {
           const selection = compact.selections[test[key] as number];
@@ -101,6 +112,7 @@ export function expandCompletionCorrections(
         }
       return {
         ...c,
+        ...(patch.calculation ? { calculation: patch.calculation } : {}),
         requirement: {
           ...test,
           id: c.requirement.id,
@@ -121,6 +133,7 @@ export function expandCompletionWire(raw: unknown): CompletionCriteria {
       const citation = wire.evidence[c.because];
       if (!citation) throw new Error('Unknown completion evidence reference.');
       const test = { ...(c.test as Record<string, unknown>) };
+      if (test.kind === 'unavailable') test.required = test.required ?? false;
       for (const key of ['selector', 'first', 'second'])
         if (key in test) {
           const selection = wire.selections[test[key] as number];
@@ -165,6 +178,7 @@ export function compactCompletionCriteria(criteria: CompletionCriteria) {
     evidence,
     checks: criteria.checks.map((c) => {
       const { id: _id, label: _label, ...test } = c.requirement as any;
+      if (test.kind === 'unavailable') test.required = test.required ?? false;
       for (const key of ['selector', 'first', 'second'])
         if (key in test) test[key] = index(selections, test[key]);
       return {
