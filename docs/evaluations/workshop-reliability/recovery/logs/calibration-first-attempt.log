@@ -1,0 +1,52 @@
+[
+  { id: 'L1', phase: 'create', kind: 'correct', passed: true },
+  { id: 'L1', phase: 'create', kind: 'displaced', passed: true },
+  { id: 'L1', phase: 'edit', kind: 'correct', passed: true },
+  { id: 'L1', phase: 'edit', kind: 'displaced', passed: true },
+  { id: 'L1', phase: 'edit2', kind: 'correct', passed: true },
+  { id: 'L1', phase: 'edit2', kind: 'displaced', passed: true },
+  { id: 'L1', kind: 'unrelated modification', passed: true },
+  { id: 'L1', kind: 'replaced identity', passed: true },
+  { id: 'L2', phase: 'create', kind: 'correct', passed: true },
+  { id: 'L2', phase: 'create', kind: 'displaced', passed: true },
+  { id: 'L2', phase: 'edit', kind: 'correct', passed: true },
+  { id: 'L2', phase: 'edit', kind: 'displaced', passed: true },
+  { id: 'L2', phase: 'edit2', kind: 'correct', passed: true },
+  { id: 'L2', phase: 'edit2', kind: 'displaced', passed: true },
+  { id: 'L2', kind: 'unrelated modification', passed: true },
+  { id: 'L2', kind: 'replaced identity', passed: true },
+  { id: 'L3', phase: 'create', kind: 'correct', passed: true },
+  { id: 'L3', phase: 'create', kind: 'displaced', passed: true },
+  { id: 'L3', phase: 'edit', kind: 'correct', passed: true },
+  { id: 'L3', phase: 'edit', kind: 'displaced', passed: true },
+  { id: 'L3', phase: 'edit2', kind: 'correct', passed: true },
+  { id: 'L3', phase: 'edit2', kind: 'displaced', passed: true },
+  { id: 'L3', kind: 'unrelated modification', passed: true },
+  { id: 'L3', kind: 'replaced identity', passed: true },
+  { id: 'L4', phase: 'create', kind: 'correct', passed: false },
+  { id: 'L4', phase: 'create', kind: 'displaced', passed: true },
+  { id: 'L4', phase: 'edit', kind: 'correct', passed: false },
+  { id: 'L4', phase: 'edit', kind: 'displaced', passed: true },
+  { id: 'L4', phase: 'edit2', kind: 'correct', passed: false },
+  { id: 'L4', phase: 'edit2', kind: 'displaced', passed: true },
+  { id: 'L4', kind: 'unrelated modification', passed: true },
+  { id: 'L4', kind: 'replaced identity', passed: true }
+]
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+  assert(results.every((r) => r.passed))
+
+    at <anonymous> (/workspace/atelier-reliability-recovery/scripts/reliability-evaluation/calibrate.ts:64:1) {
+  generatedMessage: true,
+  code: 'ERR_ASSERTION',
+  actual: false,
+  expected: true,
+  operator: '==',
+  diff: 'simple'
+}
+
+Node.js v24.19.0

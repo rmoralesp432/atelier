@@ -4,11 +4,11 @@ import pathlib
 import sys
 
 root = pathlib.Path('/workspace/atelier-campaign/.cloud/workshop-campaign')
-docs = pathlib.Path('docs/evaluations/workshop-reliability/live')
+docs = pathlib.Path('docs/evaluations/workshop-reliability/recovery/live')
 ledger = json.loads((root / 'ledger.json').read_text())
 rows = []
 for path in sorted(root.glob('*/results.json')):
-    if not path.parent.name.startswith('reliability-') or path.parent.name == 'reliability-calibration':
+    if not path.parent.name.startswith('reliability-') or 'calibration' in path.parent.name:
         continue
     for r in json.loads(path.read_text()):
         calls = [c for c in ledger['calls'] if c['caseId'] == r['id']]
@@ -47,7 +47,7 @@ for path in sorted(root.glob('*/results.json')):
                         calculations.append({'requirement': check.get('requirement'), 'calculation': check['calculation']})
         repairs = [e['input'].get('validationFeedback') for e in r.get('events', [])
                    if e['kind'] == 'executor' and e['input'].get('validationFeedback', {}).get('verification')]
-        row = {k: r.get(k) for k in ['id', 'version', 'task', 'edit', 'diagnostic', 'negative', 'status', 'committed', 'componentCount', 'changedIds', 'preservedIds', 'transaction', 'elapsedMs', 'error', 'originalPreserved']}
+        row = {k: r.get(k) for k in ['id', 'version', 'commit', 'task', 'edit', 'diagnostic', 'negative', 'status', 'committed', 'componentCount', 'changedIds', 'preservedIds', 'transaction', 'elapsedMs', 'error', 'originalPreserved']}
         row.update({
             'explicitSceneInspections': inspections,
             'toolNames': tool_names,

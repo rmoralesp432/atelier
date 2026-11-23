@@ -3,7 +3,7 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { seed, referenceScene, oracle, pass, editedFixture } from './geometry';
 import { docs } from './config';
 const results = [];
-for (const id of ['L1', 'L2', 'L3']) {
+for (const id of ['L1', 'L2', 'L3', 'L4']) {
   const initial = seed(id),
     created = referenceScene(id),
     edited = await editedFixture(id, created),

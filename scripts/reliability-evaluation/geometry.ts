@@ -61,6 +61,17 @@ export function expectedParts(id: string) {
         );
     for (let i = 0; i < 21; i++)
       add(box(0.08, 2.52, 0.18, -2.6 + i * 0.26, 0.18, -1.35));
+  } else if (id === 'L4') {
+    add(vertical(0.12, 1.6));
+    for (let i = 0; i < 32; i++) {
+      const a = (i * 2 * Math.PI) / 32,
+        x = 1.35 * Math.cos(a),
+        z = 1.35 * Math.sin(a);
+      add(
+        mapSolid(K.Manifold.sphere(0.09, 128), (q) => q.translate([x, 1.6, z])),
+      );
+      add(mapSolid(vertical(1.39, 0.03), (q) => q.translate([x, 0.12, z])));
+    }
   } else throw Error('Unknown external task');
   return parts;
 }
@@ -137,7 +148,32 @@ function transformed(
         q.translate([frame.centerX, 0, frame.centerZ]),
       ),
     );
-  else throw Error('Unknown external edit');
+  else if (id === 'L4') {
+    const plinth = w > 3,
+      ball = w > 0.1;
+    e = plinth
+      ? s.translate([0, 0, 0])
+      : phase === 'edit'
+        ? ball
+          ? s.translate([0, 0.2, 0])
+          : mapSolid(s.translate([0, -y, 0]), (a) =>
+              mapSolid(a.scale([1, (h + 0.2) / h, 1]), (q) =>
+                q.translate([0, y, 0]),
+              ),
+            )
+        : ball
+          ? mapSolid(s.translate([-x, -b.center[1], -z]), (a) =>
+              mapSolid(
+                a.scale([(w + 0.06) / w, (h + 0.06) / h, (d + 0.06) / d]),
+                (q) => q.translate([x, b.center[1], z]),
+              ),
+            )
+          : mapSolid(s.translate([0, -y, 0]), (a) =>
+              mapSolid(a.scale([1, (h - 0.03) / h, 1]), (q) =>
+                q.translate([0, y, 0]),
+              ),
+            );
+  } else throw Error('Unknown external edit');
   return e;
 }
 async function startingFrame(before: Session) {
@@ -207,8 +243,8 @@ export async function oracle(
     );
   check(
     'Expected component count',
-    targets.length === ({ L1: 31, L2: 34, L3: 33 } as any)[id],
-    ({ L1: 31, L2: 34, L3: 33 } as any)[id],
+    targets.length === ({ L1: 31, L2: 34, L3: 33, L4: 65 } as any)[id],
+    ({ L1: 31, L2: 34, L3: 33, L4: 65 } as any)[id],
     targets.length,
   );
   check(
@@ -283,13 +319,11 @@ export async function oracle(
           { bounds: b.bounds, volume: b.volume },
           match
             ? { id: match.v.id, bounds: match.b.bounds, volume: match.b.volume }
-            : ranked
-                .slice(0, 2)
-                .map((a) => ({
-                  id: a.v.id,
-                  bounds: a.b.bounds,
-                  volume: a.b.volume,
-                })),
+            : ranked.slice(0, 2).map((a) => ({
+                id: a.v.id,
+                bounds: a.b.bounds,
+                volume: a.b.volume,
+              })),
         );
         if (match) remaining.delete(match);
       }

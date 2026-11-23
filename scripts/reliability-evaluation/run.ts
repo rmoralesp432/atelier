@@ -73,6 +73,8 @@ const freeze = () => {
         ...walk('scripts/reliability-evaluation'),
         ...Object.values(versions).flatMap((v) => walk(join(v.path, 'dist'))),
         'scripts/phase3-evaluation/geometry.ts',
+        'scripts/workshop-campaign/geometry.ts',
+        'scripts/workshop-campaign/recovery.ts',
         'scripts/completion-evaluation/budget.ts',
         'scripts/release-evaluation/browser-state.ts',
         join(docs, 'AUTHORIZATION.json'),
@@ -83,7 +85,7 @@ const freeze = () => {
     ),
   };
 };
-const freezePath = join(root, 'reliability-freeze.json');
+const freezePath = join(root, 'reliability-recovery-freeze.json');
 if (mode === '--freeze') {
   assert(!existsSync(freezePath), 'Never overwrite frozen conditions');
   assert(

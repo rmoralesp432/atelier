@@ -1,0 +1,11 @@
+# Recovery-freeze evaluation
+
+Application source froze at 0527761 before the new L4 task was defined. L1 is a regression repeat, not held-out. L2/L3 may be repeated or separately diagnosed on identical validated fixtures; no AI creation is claimed for such diagnostics. Baseline f925e4c and candidate 0527761 receive the same natural prompts. This is an integrated branch comparison, not a pure single-change ablation. Original 16361bb and all first-batch failures remain frozen and preserved.
+
+Fresh held-out L4: a 65-piece curved sculpture comprising a plinth, 32 spherical balls and 32 supporting stems. First edit lifts the crown and retains connections; second grows the balls without moving their centers and adjusts stem lengths. Follow-ups supply changes, not starting measurements or tool choices. Full natural prompts are in specs.ts. Construction and edit expectations are independent occupied solids, derived from the actual pre-edit geometry where appropriate.
+
+The prior protocol's measurement thresholds, ledger, estimated prices, pre-call reservations, two isolated browser lanes, 32-call/15-minute turn safeguards, persistence and Undo/Redo checks remain unchanged. All failures and non-attempted dependent turns remain reported. Offline calibration must reject displaced solids, unrelated changes and replacement IDs; no paid calls occur until the harness hashes freeze. Required unresolved placement remains a blocked save, not a geometry failure or a success.
+
+All trials use fresh GPT-6.1-sol through the normal browser application, except explicitly labeled offline calibration/replays and starting fixtures. Record direct inspect_scene evidence, criteria source/measurement evidence, actual commit, retained IDs and unrelated work. Export actual saved editable projects. Publish each batch and stop when further repetition would add little evidence. No application changes during scoring, merge or deployment.
+
+Calibration record: the first L4 offline pass omitted L4 from the evaluator's component-count table, so correct 65-part fixtures were rejected with an undefined expected count. All their solid measurements passed. Added the already-specified count of 65; no application code, geometry tolerance or task expectation changed. The original failed calibration is retained in calibration-first-attempt.json and logs.

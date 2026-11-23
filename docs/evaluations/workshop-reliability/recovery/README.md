@@ -1,6 +1,6 @@
 # Narrow correction after the first frozen live batch
 
-The first implementation remains frozen at `16361bb`; all first-batch failures remain published at `1481258`. This branch is a separate, focused correction. No application code was changed while that scored batch was running.
+The first implementation remains frozen at `16361bb`; all first-batch failures remain published at `1481258`. This branch is a separate, focused correction, frozen at `05277619f6fa337cdb1bfb0825654cbe5259ed2d`. No application code was changed while that scored batch was running.
 
 The fresh 31-part library-shelf request produced correct solids, but its generated position calculation used a scalar zero where the typed range required a distance. The existing one-attempt independent correction returned zero times an already-cited shelf thickness. That is mathematically zero with length units. The first guard rejected this equivalent representation because its expression trees differed.
 

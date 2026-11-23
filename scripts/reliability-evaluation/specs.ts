@@ -1,4 +1,4 @@
-/** Fresh tasks defined after implementation 16361bb was frozen. Never imported by the app. */
+/** L1–L3 were frozen for 16361bb. L4 was defined only after 0527761 froze. Never imported by the app. */
 export type Spec = {
   id: string;
   domain: string;
@@ -34,5 +34,14 @@ export const specs: Spec[] = [
     edit: 'Lower the canopy roof by 35 cm, keeping the ground platform exactly as it is. Keep the supports and privacy screen connected to the underside of the roof, with their lower ends in place. Preserve all cross sections, plan positions and existing parts.',
     edit2:
       'Rotate the whole canopy assembly in plan by 20 degrees, about its center, with its long direction turning from +X toward +Z. Keep all its internal relationships and the same components. Leave the other objects untouched.',
+  },
+  {
+    id: 'L4',
+    domain: 'sculptural',
+    create:
+      'Create an editable sculpture of a circular crown of 32 separate spheres, each 18 cm in diameter. Their centers lie on a horizontal circle of radius 1.35 m, 1.6 m above ground, evenly spaced with the first on +X. Center the sculpture at the origin. Support each sphere on its own vertical circular stem, 6 cm in diameter, touching the bottom of the sphere. The stems stand on the top of one circular plinth, 3.2 m in diameter and 12 cm thick, resting on the ground. Keep the 65 components independent in one assembly and leave the existing samples alone.',
+    edit: 'Lift the crown of balls by 20 cm, keeping the plinth in place. Keep all sphere sizes and plan positions, and extend their existing stems so they still touch the balls. Preserve the same components and unrelated objects.',
+    edit2:
+      'Make every ball 6 cm larger in diameter without moving its center. Adjust only the stem lengths so they still meet the bottoms of the balls. Keep the plinth and all other dimensions and objects unchanged.',
   },
 ];

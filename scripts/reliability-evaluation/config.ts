@@ -2,15 +2,17 @@ import { resolve } from 'node:path';
 export const root = resolve(
   '/workspace/atelier-campaign/.cloud/workshop-campaign',
 );
-export const docs = resolve('docs/evaluations/workshop-reliability/live');
+export const docs = resolve(
+  'docs/evaluations/workshop-reliability/recovery/live',
+);
 export const versions = {
   baseline: {
     path: '/workspace/atelier-phase3',
     commit: 'f925e4cef7b4c6a27eb1532476879728aa5d7584',
   },
   reliability: {
-    path: '/workspace/atelier-reliability',
-    commit: '16361bba915d56f1eca224c953b53a30d59bc5c9',
+    path: '/workspace/atelier-reliability-recovery',
+    commit: '05277619f6fa337cdb1bfb0825654cbe5259ed2d',
   },
 } as const;
 export type Version = keyof typeof versions;
