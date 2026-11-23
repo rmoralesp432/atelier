@@ -1,0 +1,11 @@
+{
+  "id": "transfer-1-workshop-W5-edit",
+  "kind": "Offline browser interaction with an actual committed live-result export; no fresh AI",
+  "passed": true,
+  "importedExactGeometry": true,
+  "indexedDBExactGeometry": true,
+  "libraryProjectCount": 2,
+  "reloadFromIndexedDB": true,
+  "undo": true,
+  "redo": true
+}

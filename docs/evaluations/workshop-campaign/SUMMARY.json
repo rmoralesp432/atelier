@@ -1,0 +1,129 @@
+{
+  "at": "2026-11-23T20:24:22.459505+00:00",
+  "applicationChanged": false,
+  "merged": false,
+  "deployed": false,
+  "calls": 192,
+  "estimatedUSD": 7.183316,
+  "conservativeAccountedUSD": 8.979145,
+  "inputTokens": 2820198,
+  "outputTokens": 154292,
+  "unknownReservations": [],
+  "pricingBasis": "Estimated $2/M input and $10/M output, no cached-token discount. Secondary LiteLLM snapshot, not account invoice. Reservations use $4/$15 plus 25%. User authorized estimates. Auto-recharge not enabled or changed; its account setting cannot be independently read.",
+  "rawStatusCounts": {
+    "NOT_COMMITTED": 6,
+    "PASS": 34,
+    "COMMITTED_INCORRECT": 4,
+    "NEGATIVE_BLOCKED": 2,
+    "INTERRUPTED_OR_HARNESS_FAILURE": 4
+  },
+  "rawScoringCaution": "Raw flags include retained evaluator interruptions, Float32 volume false flags, a sensible height-label update and a 0.5 mm placement difference. Do not interpret all COMMITTED_INCORRECT rows as material false acceptance. See README and individual facts.",
+  "segments": {
+    "baseline-fill": {
+      "calls": 22,
+      "estimatedUSD": 0.842858
+    },
+    "console-resume": {
+      "calls": 8,
+      "estimatedUSD": 0.291498
+    },
+    "ramp-resume": {
+      "calls": 6,
+      "estimatedUSD": 0.211714
+    },
+    "transfer-1": {
+      "calls": 42,
+      "estimatedUSD": 1.460112
+    },
+    "verifier-1": {
+      "calls": 10,
+      "estimatedUSD": 0.299856
+    },
+    "workshop-1": {
+      "calls": 10,
+      "estimatedUSD": 0.330894
+    },
+    "workshop-2": {
+      "calls": 31,
+      "estimatedUSD": 1.262998
+    },
+    "workshop-repeat": {
+      "calls": 63,
+      "estimatedUSD": 2.483386
+    }
+  },
+  "versions": {
+    "baseline": {
+      "calls": 88,
+      "estimatedUSD": 3.168296,
+      "reviewerLatency": {
+        "n": 26,
+        "medianSeconds": 16.59,
+        "maxSeconds": 91.49
+      },
+      "executorLatency": {
+        "n": 62,
+        "medianSeconds": 13.01,
+        "maxSeconds": 30.75
+      },
+      "completedTurnLatency": {
+        "n": 23,
+        "medianSeconds": 63.35,
+        "maxSeconds": 135.4
+      },
+      "committedRows": 22,
+      "committedHostUnverifiedRows": 14,
+      "persistenceFailures": [],
+      "inspectionCalls": 10,
+      "zeroMatchInspectionCalls": 0
+    },
+    "workshop": {
+      "calls": 99,
+      "estimatedUSD": 3.854694,
+      "reviewerLatency": {
+        "n": 21,
+        "medianSeconds": 20.13,
+        "maxSeconds": 91.91
+      },
+      "executorLatency": {
+        "n": 78,
+        "medianSeconds": 6.73,
+        "maxSeconds": 27.53
+      },
+      "completedTurnLatency": {
+        "n": 20,
+        "medianSeconds": 69.65,
+        "maxSeconds": 134.8
+      },
+      "committedRows": 17,
+      "committedHostUnverifiedRows": 13,
+      "persistenceFailures": [],
+      "inspectionCalls": 31,
+      "zeroMatchInspectionCalls": 2
+    },
+    "verifier": {
+      "calls": 5,
+      "estimatedUSD": 0.160326,
+      "reviewerLatency": {
+        "n": 3,
+        "medianSeconds": 23.15,
+        "maxSeconds": 27.51
+      },
+      "executorLatency": {
+        "n": 2,
+        "medianSeconds": 25.44,
+        "maxSeconds": 25.59
+      },
+      "completedTurnLatency": {
+        "n": 3,
+        "medianSeconds": 69.14,
+        "maxSeconds": 78.32
+      },
+      "committedRows": 2,
+      "committedHostUnverifiedRows": 0,
+      "persistenceFailures": [],
+      "inspectionCalls": 0,
+      "zeroMatchInspectionCalls": 0
+    }
+  }
+}

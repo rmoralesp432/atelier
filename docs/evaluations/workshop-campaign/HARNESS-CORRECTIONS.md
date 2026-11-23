@@ -35,3 +35,8 @@ Revision 4 uses that existing relative-volume consistency threshold for the tran
 This numerical oracle issue is separate from a **real application verification issue** in the W6 fixture edits: a preservation predicate rejects width `1.2` versus original width `1.2000000000000002`. The baseline attempted a forbidden mid-transaction Undo to recover the old value; `f5ba626` consulted pre-edit state and restored the exact scalar while preserving correct solids. No application correction is made here.
 
 The next repeated negative-control batch appends fresh-AI recovery in the same browser project immediately after the invalid arc transaction is blocked: create an unrelated sphere, then align its base with the top of the taller original reference sample. The fault proposal is still scripted and the reviewer remains fresh AI; recovery creation/edit use fresh real executor and reviewer responses. This tests conversation/execution cleanup, actual commit, preservation and Undo/Redo without claiming the injected failure itself was autonomous AI modeling. Source state and current task criteria remain separate.
+
+
+## Revision 5: paired fixture diagnosis
+
+Add an explicit evaluation-only entry to the existing validated-fixture edit path so both arms can be compared on identical W3 geometry after differing creation outcomes. This isolates a representation confound; it changes neither application behavior nor scoring. The same fixture, edit prompt, per-call safeguards and independent measurements are reused. Save the exact source and label the result diagnostic; no AI-created starting model is claimed. Revision 4's completed results and hashes remain intact.

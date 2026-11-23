@@ -650,6 +650,29 @@ async function lane(version: Version, list: Spec[]) {
       if (stopReason() || existsSync(join(root, 'pause'))) break;
       const initial = seed(spec.id);
       const source = process.argv[5];
+      if (live && process.env.ATELIER_EVAL_DIAGNOSTIC === 'true') {
+        assert(
+          spec.edit && !source,
+          'Fixture diagnosis needs a follow-up and cannot resume a creation',
+        );
+        const fixture = referenceScene(spec.id);
+        assert(
+          pass(await oracle(spec.id, initial, initial, fixture)),
+          'Paired fixture must pass independent creation measurements',
+        );
+        save(
+          join(folder, `${batch}-${version}-${spec.id}-diagnostic-source.json`),
+          {
+            label:
+              'Identical independently validated starting fixture; no AI creation claimed',
+            fixture,
+          },
+        );
+        const p = await open(fixture);
+        await turn(p, spec, spec.edit, initial, true, true);
+        await p.context().close();
+        continue;
+      }
       if (live && source && spec.edit) {
         const priorId = `${source}-${version}-${spec.id}-create`,
           prior = JSON.parse(

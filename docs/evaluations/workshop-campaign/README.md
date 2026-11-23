@@ -89,8 +89,13 @@ The [model copies](models/) are exported from actual committed live results usin
 These exports and the screenshots are read-only reviews of saved live outputs, not additional AI runs. A model’s available copy does not erase any original strict-scoring flag; see the detailed case results.
 
 
-## Repeat batch — interim observations
+## Repeat batch — completed W1–W4 pairs
 
 Fresh console and garden-room creations plus their connected edits passed external solid checks, committed, and survived reload/Undo/Redo in both versions. Baseline garden creation exhausted its reviewer allowance; the application explicitly saved it as **incompletely verified**, not independently verified. The separate measurements established the solids were correct.
 
 The second workshop roller creation reproduced the same group-ID/name criterion error. Its saved-operation replay again passes every external solid check and becomes commit-eligible only in a labeled analysis-only group-reference correction. No application fix was applied; the live result remains blocked. The separately seeded workshop roller edit also repeated the 6,000-token reviewer exhaustion. In contrast, both baseline roller creation/edit episodes passed so far. These are observed outcomes, not proof that the workshop inspection change caused the review failures: actual generated models and reviewer inputs differ. A matched edit on the identical validated roller fixture can isolate that representation confound if needed.
+
+
+The complete W1–W4 repeat used **63 calls, estimated $2.483386**. Console, garden-room and halo creation/edit pairs passed in both arms. Baseline roller creation/edit passed; workshop roller creation and its separate fixture edit were blocked as described above. [Raw repeated results](workshop-repeat-results.json) · [Complete repeated traces and causal offline replay](artifacts/repeat-evidence.tar.gz).
+
+The [offline project-copy browser check](project-import-audit.json) also passed: import the actual edited workbench through Projects → Open project copy, establish matching durable IndexedDB geometry, remove the temporary workspace/checkpoint cache, reload from the durable project, then Undo and Redo. This is an offline persistence check of saved real-AI output, not an additional live-AI success.
