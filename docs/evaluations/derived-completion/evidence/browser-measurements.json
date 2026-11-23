@@ -1,0 +1,104 @@
+{
+  "mode": "Independent math and actual solids from offline Chromium exports",
+  "frame": "world_xyz_y_up",
+  "lengthUnit": "m",
+  "positionTolerance": 0.001,
+  "radialTolerance": 0.001,
+  "volumeRelativeTolerance": 0.02,
+  "measurements": [
+    {
+      "stage": "created",
+      "expectedPosition": [
+        14,
+        5.2,
+        -2
+      ],
+      "actualPosition": [
+        14,
+        5.2,
+        -2
+      ],
+      "diameter": 0.42,
+      "positionErrorMeters": 0,
+      "radialErrorMeters": 4.875555474903592e-7,
+      "volumeErrorRatio": 0.01000994345771811,
+      "solidVolume": 0.03840407649521066,
+      "meshStats": {
+        "bounds": {
+          "min": [
+            13.79,
+            5.2,
+            -2.21
+          ],
+          "max": [
+            14.21,
+            5.62,
+            -1.79
+          ]
+        },
+        "size": [
+          0.4200000000000017,
+          0.41999999999999993,
+          0.41999999999999993
+        ],
+        "center": [
+          14,
+          5.41,
+          -2
+        ],
+        "volume": 0.03840407649521066,
+        "triangleVolume": 0.03840407978590567,
+        "triangles": 1152
+      },
+      "identityPreserved": true,
+      "unrelatedObjectsExact": true
+    },
+    {
+      "stage": "edited",
+      "expectedPosition": [
+        14.340586795777403,
+        5.2,
+        -2.1445705175410312
+      ],
+      "actualPosition": [
+        14.340586795777403,
+        5.2,
+        -2.1445705175410312
+      ],
+      "diameter": 0.438,
+      "positionErrorMeters": 0,
+      "radialErrorMeters": 5.010140093630877e-7,
+      "volumeErrorRatio": 0.010009943457718226,
+      "solidVolume": 0.04355638083363663,
+      "meshStats": {
+        "bounds": {
+          "min": [
+            14.121586795777404,
+            5.2,
+            -2.363570517541031
+          ],
+          "max": [
+            14.559586795777403,
+            5.638000000000001,
+            -1.9255705175410311
+          ]
+        },
+        "size": [
+          0.43799999999999883,
+          0.4380000000000006,
+          0.43799999999999994
+        ],
+        "center": [
+          14.340586795777403,
+          5.4190000000000005,
+          -2.1445705175410312
+        ],
+        "volume": 0.04355638083363663,
+        "triangleVolume": 0.043556392880491686,
+        "triangles": 1152
+      },
+      "identityPreserved": true,
+      "unrelatedObjectsExact": true
+    }
+  ]
+}

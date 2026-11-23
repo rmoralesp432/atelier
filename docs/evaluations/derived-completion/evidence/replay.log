@@ -1,0 +1,17 @@
+{
+  "legacyBlocked": true,
+  "repairedPositionsVerified": true,
+  "displacedBlocked": true,
+  "externalFacts": 36,
+  "hostStatus": "unverified",
+  "transactionReplay": {
+    "scriptedResponses": 1,
+    "objects": 12,
+    "singleHistoryEntry": true,
+    "originalObjectsUnchanged": true,
+    "reloadExact": true,
+    "undoExact": true,
+    "redoExact": true
+  },
+  "newPaidCalls": 0
+}

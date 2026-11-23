@@ -12,6 +12,7 @@ import {
 } from '../../server/completionWire';
 import { reportedCriteriaIncident } from '../../tests/fixtures/criteria-contracts';
 import { verifyCompletion } from './completion';
+import { calculation } from '../../tests/fixtures/calculations';
 
 const message = 'Create three cubes with sides of two meters.';
 const input = () => ({
@@ -171,6 +172,88 @@ function response(api: string, value: unknown) {
     { headers: { 'Content-Type': 'application/json' } },
   );
 }
+it.each(['responses', 'chat_completions'] as const)(
+  'carries independent calculations and audit traces through the strict %s boundary without candidate dimensions',
+  async (api) => {
+    const b = calculation();
+    const c = criteria([measure('height', 'height', 0)], [], 'two meters');
+    c.checks[0].calculation = b.value(
+      b.op('divide', b.quantity(2, 'm', 'two meters'), b.constant(2)),
+    );
+    const wire = compactCompletionCriteria(c);
+    expect(expandCompletionWire(wire).checks[0].calculation).toEqual(
+      c.checks[0].calculation,
+    );
+    expect(
+      compactCompletionCriteria(expected).checks.every(
+        (c) => c.calculation === null,
+      ),
+    ).toBe(true);
+    let schema: any;
+    const provider = createProvider(
+      'offline-only',
+      async (_url, init) => {
+        const sent = JSON.parse(init!.body as string);
+        schema =
+          api === 'responses'
+            ? sent.text.format.schema
+            : sent.response_format.json_schema.schema;
+        return response(api, c);
+      },
+      { agent: true, textApi: api },
+    );
+    const result = await provider.completionCriteria!(input());
+    expect(result).toEqual(expandCompletionWire(wire));
+    // All object branches satisfy strict structured output; no optional fields leak into wire JSON.
+    const inspect = (node: any) => {
+      if (!node || typeof node !== 'object') return;
+      if (node.type === 'object') {
+        expect(node.additionalProperties).toBe(false);
+        expect([...node.required].sort()).toEqual(
+          Object.keys(node.properties).sort(),
+        );
+      }
+      Object.values(node).forEach((v) =>
+        Array.isArray(v) ? v.forEach(inspect) : inspect(v),
+      );
+    };
+    inspect(schema);
+  },
+);
+
+it('rejects calculation quantities attributed to invented text or to assistant claims; accepts user-history quantities', async () => {
+  for (const variant of ['invented', 'assistant', 'user'] as const) {
+    const b = calculation();
+    const c = criteria([measure('height', 'height', 0)], [], 'two meters');
+    c.checks[0].calculation = b.value(
+      b.quantity(
+        75,
+        'cm',
+        '75 cm',
+        variant === 'invented' ? 'request' : 'history',
+      ),
+    );
+    const provider = createProvider(
+      'offline-only',
+      async () => response('responses', c),
+      { agent: true },
+    );
+    const request = {
+      ...input(),
+      history: [
+        {
+          role: variant === 'user' ? ('user' as const) : ('assistant' as const),
+          content: 'The height is 75 cm',
+        },
+      ],
+    };
+    if (variant === 'user')
+      expect(
+        (await provider.completionCriteria!(request)).checks[0].calculation,
+      ).toEqual(c.checks[0].calculation);
+    else await expect(provider.completionCriteria!(request)).rejects.toThrow();
+  }
+});
 it.each(['responses', 'chat_completions'] as const)(
   'separates the independent reader from executing-agent claims and uses strict %s output (offline SDK)',
   async (api) => {

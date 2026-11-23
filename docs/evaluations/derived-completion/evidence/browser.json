@@ -1,0 +1,387 @@
+{
+  "mode": "offline scripted provider; real Chromium, App and geometry engine",
+  "calls": 3,
+  "reviews": 2,
+  "rejectedCandidate": [
+    {
+      "modeling": true,
+      "passed": false,
+      "status": "incorrect",
+      "canCommit": false,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "count",
+          "label": "count requirement",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": [
+            "63c99d3f-b23f-46bc-a6f1-78454434f8dd"
+          ]
+        },
+        {
+          "id": "placement",
+          "label": "Requested placement",
+          "met": false,
+          "outcome": "incorrect",
+          "observed": "0/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": [
+            "63c99d3f-b23f-46bc-a6f1-78454434f8dd"
+          ],
+          "calculation": {
+            "definition": {
+              "frame": "world_xyz_y_up",
+              "nodes": [
+                {
+                  "kind": "original",
+                  "objectId": "5a3490cd-8a2f-4fee-a6e1-fd053742b3f4",
+                  "metric": "x"
+                },
+                {
+                  "kind": "quantity",
+                  "value": 17,
+                  "unit": "m",
+                  "source": "request",
+                  "evidence": "17 m along +X"
+                },
+                {
+                  "kind": "operation",
+                  "op": "add",
+                  "args": [
+                    0,
+                    1
+                  ]
+                },
+                {
+                  "kind": "original",
+                  "objectId": "5a3490cd-8a2f-4fee-a6e1-fd053742b3f4",
+                  "metric": "top"
+                },
+                {
+                  "kind": "quantity",
+                  "value": 20,
+                  "unit": "cm",
+                  "source": "request",
+                  "evidence": "20 cm above"
+                },
+                {
+                  "kind": "operation",
+                  "op": "add",
+                  "args": [
+                    3,
+                    4
+                  ]
+                },
+                {
+                  "kind": "original",
+                  "objectId": "5a3490cd-8a2f-4fee-a6e1-fd053742b3f4",
+                  "metric": "z"
+                },
+                {
+                  "kind": "quantity",
+                  "value": 2,
+                  "unit": "m",
+                  "source": "request",
+                  "evidence": "2 m along -Z"
+                },
+                {
+                  "kind": "operation",
+                  "op": "subtract",
+                  "args": [
+                    6,
+                    7
+                  ]
+                }
+              ],
+              "output": {
+                "kind": "points",
+                "x": 2,
+                "y": 5,
+                "z": 8
+              }
+            },
+            "sources": [
+              {
+                "node": 0,
+                "unit": "m",
+                "values": [
+                  -3
+                ]
+              },
+              {
+                "node": 1,
+                "unit": "m",
+                "values": [
+                  17
+                ]
+              },
+              {
+                "node": 3,
+                "unit": "m",
+                "values": [
+                  5
+                ]
+              },
+              {
+                "node": 4,
+                "unit": "m",
+                "values": [
+                  0.2
+                ]
+              },
+              {
+                "node": 6,
+                "unit": "m",
+                "values": [
+                  0
+                ]
+              },
+              {
+                "node": 7,
+                "unit": "m",
+                "values": [
+                  2
+                ]
+              }
+            ],
+            "expectedUnit": "m",
+            "expected": [
+              {
+                "x": 14,
+                "y": 5.2,
+                "z": -2
+              }
+            ]
+          }
+        },
+        {
+          "id": "roundness",
+          "label": "Requested spherical diameter",
+          "met": true,
+          "outcome": "verified",
+          "observed": "True sphere diameter: 0.42000078574049915; expected 0.42 ± 0.001 m across 1 objects. Diameter is intrinsic, independent of world orientation.",
+          "ids": [
+            "63c99d3f-b23f-46bc-a6f1-78454434f8dd"
+          ],
+          "calculation": {
+            "definition": {
+              "frame": "world_xyz_y_up",
+              "nodes": [
+                {
+                  "kind": "quantity",
+                  "value": 21,
+                  "unit": "cm",
+                  "source": "request",
+                  "evidence": "radius 21 cm"
+                },
+                {
+                  "kind": "constant",
+                  "value": 2
+                },
+                {
+                  "kind": "operation",
+                  "op": "multiply",
+                  "args": [
+                    0,
+                    1
+                  ]
+                }
+              ],
+              "output": {
+                "kind": "value",
+                "node": 2
+              }
+            },
+            "sources": [
+              {
+                "node": 0,
+                "unit": "m",
+                "values": [
+                  0.21
+                ]
+              },
+              {
+                "node": 1,
+                "unit": "scalar",
+                "values": [
+                  2
+                ]
+              }
+            ],
+            "expectedUnit": "m",
+            "expected": 0.42
+          }
+        },
+        {
+          "id": "editable",
+          "label": "Editable sphere",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "63c99d3f-b23f-46bc-a6f1-78454434f8dd"
+          ]
+        }
+      ],
+      "qualitativeLimits": []
+    }
+  ],
+  "before": {
+    "volumes": [
+      {
+        "id": "5a3490cd-8a2f-4fee-a6e1-fd053742b3f4",
+        "name": "Main pavilion",
+        "dimensions": {
+          "width": 14,
+          "depth": 9,
+          "height": 5
+        },
+        "position": {
+          "x": -3,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0
+      },
+      {
+        "id": "e14f2b82-c1a3-4b4d-ba76-52a0e43be687",
+        "name": "Vertical annex",
+        "dimensions": {
+          "width": 5,
+          "depth": 9,
+          "height": 9
+        },
+        "position": {
+          "x": 6.5,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0
+      }
+    ],
+    "selectedId": "5a3490cd-8a2f-4fee-a6e1-fd053742b3f4"
+  },
+  "created": {
+    "volumes": [
+      {
+        "id": "5a3490cd-8a2f-4fee-a6e1-fd053742b3f4",
+        "name": "Main pavilion",
+        "dimensions": {
+          "width": 14,
+          "depth": 9,
+          "height": 5
+        },
+        "position": {
+          "x": -3,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0
+      },
+      {
+        "id": "e14f2b82-c1a3-4b4d-ba76-52a0e43be687",
+        "name": "Vertical annex",
+        "dimensions": {
+          "width": 5,
+          "depth": 9,
+          "height": 9
+        },
+        "position": {
+          "x": 6.5,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0
+      },
+      {
+        "id": "63c99d3f-b23f-46bc-a6f1-78454434f8dd",
+        "name": "Spherical study",
+        "dimensions": {
+          "width": 0.42,
+          "depth": 0.42,
+          "height": 0.42
+        },
+        "position": {
+          "x": 14,
+          "y": 5.2,
+          "z": -2
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "sphere"
+        }
+      }
+    ],
+    "selectedId": "63c99d3f-b23f-46bc-a6f1-78454434f8dd",
+    "selectedIds": [
+      "63c99d3f-b23f-46bc-a6f1-78454434f8dd"
+    ]
+  },
+  "edited": {
+    "volumes": [
+      {
+        "id": "5a3490cd-8a2f-4fee-a6e1-fd053742b3f4",
+        "name": "Main pavilion",
+        "dimensions": {
+          "width": 14,
+          "depth": 9,
+          "height": 5
+        },
+        "position": {
+          "x": -3,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0
+      },
+      {
+        "id": "e14f2b82-c1a3-4b4d-ba76-52a0e43be687",
+        "name": "Vertical annex",
+        "dimensions": {
+          "width": 5,
+          "depth": 9,
+          "height": 9
+        },
+        "position": {
+          "x": 6.5,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0
+      },
+      {
+        "id": "63c99d3f-b23f-46bc-a6f1-78454434f8dd",
+        "name": "Spherical study",
+        "dimensions": {
+          "width": 0.438,
+          "depth": 0.438,
+          "height": 0.438
+        },
+        "position": {
+          "x": 14.340586795777403,
+          "y": 5.2,
+          "z": -2.1445705175410312
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "sphere"
+        }
+      }
+    ],
+    "selectedId": "63c99d3f-b23f-46bc-a6f1-78454434f8dd",
+    "selectedIds": [
+      "63c99d3f-b23f-46bc-a6f1-78454434f8dd"
+    ]
+  },
+  "reload": true,
+  "undo": 2,
+  "redo": 2
+}

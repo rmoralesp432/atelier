@@ -1,0 +1,3253 @@
+{
+  "mode": "Offline replay of archived real-AI geometry and responses; manually authored independent calculation; no new AI reasoning",
+  "newPaidCalls": 0,
+  "sourceHashes": {
+    "R1-attempt-2-stage-0": "16a4ab7ea757411a23b9df214c6e0912229ea2cf58f885004ffbe881492b8c38",
+    "R1-attempt-2-injected": "72785d1a4ef282152b20fc0ecc67c0d5202f6bf2172f72a2561fb77b4fa188f7",
+    "R1-attempt-2-stage-8": "d36f389f1e6a2f3fb15f1cdebb0ad167716d410654219ee70699b0a4811d331c",
+    "R1-attempt-2-before-injection": "e5c5c75d6f656fe953234cc34ea4c98a41e83e8c1707a34a3b8f37c7ba0d4bd7",
+    "results": "b317e48435996bf12066250a91827cbbf8960224fd5657759842c4fac08c7037"
+  },
+  "prompt": "Create ten identical upright regular hexagonal prisms, 30 cm across opposite flats and 46 cm tall, in two rows of five. Centers along each row are 72 cm apart; the rows are 64 cm apart and staggered by half a pitch. Center the whole array at the origin with all bases on the ground. The rows run 31 degrees from east toward north, with X east and Z north. The row on the positive perpendicular side leads by half a pitch. Keep each prism separately editable. Keep all parts independently editable and preserve unrelated objects.",
+  "preservedOriginalCriteria": {
+    "modeling": true,
+    "editable": [],
+    "checks": [
+      {
+        "source": "request",
+        "evidence": "Create ten identical upright regular hexagonal prisms, 30 cm across opposite flats and 46 cm tall, in two rows of five.",
+        "requirement": {
+          "id": "check-1",
+          "label": "count",
+          "kind": "measure",
+          "selector": {
+            "refs": [
+              "$new"
+            ],
+            "role": null,
+            "level": null,
+            "nameContains": null
+          },
+          "metric": "count",
+          "aggregation": "each",
+          "comparison": "equal",
+          "value": 10,
+          "tolerance": 0,
+          "relativeTolerance": 0
+        }
+      },
+      {
+        "source": "request",
+        "evidence": "Create ten identical upright regular hexagonal prisms, 30 cm across opposite flats and 46 cm tall, in two rows of five.",
+        "requirement": {
+          "id": "check-2",
+          "label": "height",
+          "kind": "measure",
+          "selector": {
+            "refs": [
+              "$new"
+            ],
+            "role": null,
+            "level": null,
+            "nameContains": null
+          },
+          "metric": "height",
+          "aggregation": "each",
+          "comparison": "equal",
+          "value": 0.46,
+          "tolerance": 0.001,
+          "relativeTolerance": 0
+        }
+      },
+      {
+        "source": "request",
+        "evidence": "Create ten identical upright regular hexagonal prisms, 30 cm across opposite flats and 46 cm tall, in two rows of five.",
+        "requirement": {
+          "id": "check-3",
+          "label": "volume",
+          "kind": "measure",
+          "selector": {
+            "refs": [
+              "$new"
+            ],
+            "role": null,
+            "level": null,
+            "nameContains": null
+          },
+          "metric": "volume",
+          "aggregation": "each",
+          "comparison": "equal",
+          "value": 0.03585345,
+          "tolerance": 0.000001,
+          "relativeTolerance": 0.02
+        }
+      },
+      {
+        "source": "request",
+        "evidence": "Create ten identical upright regular hexagonal prisms, 30 cm across opposite flats and 46 cm tall, in two rows of five.",
+        "requirement": {
+          "id": "check-4",
+          "label": "unavailable",
+          "kind": "unavailable",
+          "reason": "Available predicates cannot verify upright regular hexagonal prism geometry, its 0.30 m opposite-flat spacing, or congruence of all ten prisms independently of their construction recipe."
+        }
+      },
+      {
+        "source": "request",
+        "evidence": "Centers along each row are 72 cm apart; the rows are 64 cm apart and staggered by half a pitch. Center the whole array at the origin with all bases on the ground. The rows run 31 degrees from east toward north, with X east and Z north. The row on the positive perpendicular side leads by half a pitch.",
+        "requirement": {
+          "id": "check-5",
+          "label": "positions",
+          "kind": "positions",
+          "selector": {
+            "refs": [
+              "$new"
+            ],
+            "role": null,
+            "level": null,
+            "nameContains": null
+          },
+          "points": [
+            {
+              "x": -1.223799,
+              "y": 0,
+              "z": -1.108655
+            },
+            {
+              "x": -0.606638,
+              "y": 0,
+              "z": -0.737828
+            },
+            {
+              "x": 0.010522,
+              "y": 0,
+              "z": -0.366
+            },
+            {
+              "x": 0.627683,
+              "y": 0,
+              "z": 0.003827
+            },
+            {
+              "x": 1.244843,
+              "y": 0,
+              "z": 0.374654
+            },
+            {
+              "x": -1.244843,
+              "y": 0,
+              "z": -0.374654
+            },
+            {
+              "x": -0.627683,
+              "y": 0,
+              "z": -0.003827
+            },
+            {
+              "x": -0.010522,
+              "y": 0,
+              "z": 0.366
+            },
+            {
+              "x": 0.606638,
+              "y": 0,
+              "z": 0.737828
+            },
+            {
+              "x": 1.223799,
+              "y": 0,
+              "z": 1.108655
+            }
+          ],
+          "tolerance": 0.001
+        }
+      },
+      {
+        "source": "request",
+        "evidence": "Keep each prism separately editable. Keep all parts independently editable and preserve unrelated objects.",
+        "requirement": {
+          "id": "check-6",
+          "label": "editable",
+          "kind": "editable",
+          "selector": {
+            "refs": [
+              "$new"
+            ],
+            "role": null,
+            "level": null,
+            "nameContains": null
+          }
+        }
+      }
+    ],
+    "qualitativeLimits": []
+  },
+  "suppliedCalculation": {
+    "frame": "world_xyz_y_up",
+    "nodes": [
+      {
+        "kind": "quantity",
+        "value": 72,
+        "unit": "cm",
+        "evidence": "Centers along each row are 72 cm apart",
+        "source": "request"
+      },
+      {
+        "kind": "quantity",
+        "value": 64,
+        "unit": "cm",
+        "evidence": "the rows are 64 cm apart",
+        "source": "request"
+      },
+      {
+        "kind": "quantity",
+        "value": 31,
+        "unit": "deg",
+        "evidence": "The rows run 31 degrees from east toward north, with X east and Z north.",
+        "source": "request"
+      },
+      {
+        "kind": "quantity",
+        "value": 5,
+        "unit": "scalar",
+        "evidence": "two rows of five",
+        "source": "request"
+      },
+      {
+        "kind": "constant",
+        "value": 0
+      },
+      {
+        "kind": "constant",
+        "value": 1
+      },
+      {
+        "kind": "constant",
+        "value": 2
+      },
+      {
+        "kind": "operation",
+        "op": "subtract",
+        "args": [
+          3,
+          5
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "divide",
+        "args": [
+          7,
+          6
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "negate",
+        "args": [
+          8
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "range",
+        "args": [
+          9,
+          5,
+          3
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "multiply",
+        "args": [
+          10,
+          0
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "divide",
+        "args": [
+          0,
+          6
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "divide",
+        "args": [
+          12,
+          6
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "divide",
+        "args": [
+          1,
+          6
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "subtract",
+        "args": [
+          11,
+          13
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "add",
+        "args": [
+          11,
+          13
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "concat",
+        "args": [
+          15,
+          16
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "multiply",
+        "args": [
+          4,
+          1
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "negate",
+        "args": [
+          14
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "range",
+        "args": [
+          19,
+          18,
+          3
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "range",
+        "args": [
+          14,
+          18,
+          3
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "concat",
+        "args": [
+          20,
+          21
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "cos",
+        "args": [
+          2
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "sin",
+        "args": [
+          2
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "multiply",
+        "args": [
+          17,
+          23
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "multiply",
+        "args": [
+          22,
+          24
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "subtract",
+        "args": [
+          25,
+          26
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "multiply",
+        "args": [
+          17,
+          24
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "multiply",
+        "args": [
+          22,
+          23
+        ]
+      },
+      {
+        "kind": "operation",
+        "op": "add",
+        "args": [
+          28,
+          29
+        ]
+      }
+    ],
+    "output": {
+      "kind": "points",
+      "x": 27,
+      "y": 4,
+      "z": 30
+    }
+  },
+  "toleranceMeters": 0.001,
+  "arithmetic": {
+    "legacyMiddleZ": -0.366,
+    "calculatedMiddleZ": -0.3670003897084857,
+    "errorMeters": 0.001000389708485705,
+    "formula": "u = pitch*(column - (count-1)/2) + rowSign*pitch/4; v = rowSign*separation/2; x=u*cos(angle)-v*sin(angle); z=u*sin(angle)+v*cos(angle); y=0"
+  },
+  "legacyReport": {
+    "modeling": true,
+    "passed": false,
+    "status": "incorrect",
+    "canCommit": false,
+    "checks": [
+      {
+        "id": "preserved-scope",
+        "label": "Unrelated existing geometry",
+        "met": true,
+        "outcome": "verified",
+        "observed": "2 existing objects outside the requested edit scope are unchanged.",
+        "ids": []
+      },
+      {
+        "id": "check-1",
+        "label": "count",
+        "met": true,
+        "outcome": "verified",
+        "observed": "count (each): 10; expected equal 10, tolerance 0. 10 element(s).",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ]
+      },
+      {
+        "id": "check-2",
+        "label": "height",
+        "met": true,
+        "outcome": "verified",
+        "observed": "height (each, world solids): 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46; expected equal 0.46 ± 0.001 m.",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ]
+      },
+      {
+        "id": "check-3",
+        "label": "volume",
+        "met": true,
+        "outcome": "verified",
+        "observed": "volume (each): 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036; expected equal 0.03585345, tolerance 0.0007170690000000001. 10 element(s).",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ]
+      },
+      {
+        "id": "check-4",
+        "label": "unavailable",
+        "met": false,
+        "outcome": "unverified",
+        "observed": "Unverified: Available predicates cannot verify upright regular hexagonal prism geometry, its 0.30 m opposite-flat spacing, or congruence of all ten prisms independently of their construction recipe.",
+        "ids": []
+      },
+      {
+        "id": "check-5",
+        "label": "positions",
+        "met": false,
+        "outcome": "incorrect",
+        "observed": "8/10 required world base-center positions occupied; 10 objects, tolerance 0.001 m.",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ]
+      },
+      {
+        "id": "check-6",
+        "label": "editable",
+        "met": true,
+        "outcome": "verified",
+        "observed": "10 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ]
+      }
+    ],
+    "qualitativeLimits": []
+  },
+  "correctedReport": {
+    "modeling": true,
+    "passed": false,
+    "status": "unverified",
+    "canCommit": true,
+    "checks": [
+      {
+        "id": "preserved-scope",
+        "label": "Unrelated existing geometry",
+        "met": true,
+        "outcome": "verified",
+        "observed": "2 existing objects outside the requested edit scope are unchanged.",
+        "ids": []
+      },
+      {
+        "id": "check-1",
+        "label": "count",
+        "met": true,
+        "outcome": "verified",
+        "observed": "count (each): 10; expected equal 10, tolerance 0. 10 element(s).",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ]
+      },
+      {
+        "id": "check-2",
+        "label": "height",
+        "met": true,
+        "outcome": "verified",
+        "observed": "height (each, world solids): 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46; expected equal 0.46 ± 0.001 m.",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ]
+      },
+      {
+        "id": "check-3",
+        "label": "volume",
+        "met": true,
+        "outcome": "verified",
+        "observed": "volume (each): 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036; expected equal 0.03585345, tolerance 0.0007170690000000001. 10 element(s).",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ]
+      },
+      {
+        "id": "check-4",
+        "label": "unavailable",
+        "met": false,
+        "outcome": "unverified",
+        "observed": "Unverified: Available predicates cannot verify upright regular hexagonal prism geometry, its 0.30 m opposite-flat spacing, or congruence of all ten prisms independently of their construction recipe.",
+        "ids": []
+      },
+      {
+        "id": "check-5",
+        "label": "positions",
+        "met": true,
+        "outcome": "verified",
+        "observed": "10/10 required world base-center positions occupied; 10 objects, tolerance 0.001 m.",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "quantity",
+                "value": 72,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Centers along each row are 72 cm apart"
+              },
+              {
+                "kind": "quantity",
+                "value": 64,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "the rows are 64 cm apart"
+              },
+              {
+                "kind": "quantity",
+                "value": 31,
+                "unit": "deg",
+                "source": "request",
+                "evidence": "The rows run 31 degrees from east toward north, with X east and Z north."
+              },
+              {
+                "kind": "quantity",
+                "value": 5,
+                "unit": "scalar",
+                "source": "request",
+                "evidence": "two rows of five"
+              },
+              {
+                "kind": "constant",
+                "value": 0
+              },
+              {
+                "kind": "constant",
+                "value": 1
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  3,
+                  5
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  7,
+                  6
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "negate",
+                "args": [
+                  8
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "range",
+                "args": [
+                  9,
+                  5,
+                  3
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "multiply",
+                "args": [
+                  10,
+                  0
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  0,
+                  6
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  12,
+                  6
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  6
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  11,
+                  13
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  11,
+                  13
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "concat",
+                "args": [
+                  15,
+                  16
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "multiply",
+                "args": [
+                  4,
+                  1
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "negate",
+                "args": [
+                  14
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "range",
+                "args": [
+                  19,
+                  18,
+                  3
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "range",
+                "args": [
+                  14,
+                  18,
+                  3
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "concat",
+                "args": [
+                  20,
+                  21
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "cos",
+                "args": [
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "sin",
+                "args": [
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "multiply",
+                "args": [
+                  17,
+                  23
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "multiply",
+                "args": [
+                  22,
+                  24
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  25,
+                  26
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "multiply",
+                "args": [
+                  17,
+                  24
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "multiply",
+                "args": [
+                  22,
+                  23
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  28,
+                  29
+                ]
+              }
+            ],
+            "output": {
+              "kind": "points",
+              "x": 27,
+              "y": 4,
+              "z": 30
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                0.72
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.64
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "m^0 rad^1",
+              "values": [
+                0.5410520681182421
+              ]
+            },
+            {
+              "node": 3,
+              "unit": "scalar",
+              "values": [
+                5
+              ]
+            },
+            {
+              "node": 4,
+              "unit": "scalar",
+              "values": [
+                0
+              ]
+            },
+            {
+              "node": 5,
+              "unit": "scalar",
+              "values": [
+                1
+              ]
+            },
+            {
+              "node": 6,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": [
+            {
+              "x": -1.2237988431662046,
+              "y": 0,
+              "z": -1.1086552175789637
+            },
+            {
+              "x": -0.6066383866606837,
+              "y": 0,
+              "z": -0.7378278036437247
+            },
+            {
+              "x": 0.010522069844837112,
+              "y": 0,
+              "z": -0.3670003897084857
+            },
+            {
+              "x": 0.627682526350358,
+              "y": 0,
+              "z": 0.003827024226753295
+            },
+            {
+              "x": 1.244842982855879,
+              "y": 0,
+              "z": 0.37465443816199234
+            },
+            {
+              "x": -1.244842982855879,
+              "y": 0,
+              "z": -0.37465443816199234
+            },
+            {
+              "x": -0.627682526350358,
+              "y": 0,
+              "z": -0.003827024226753295
+            },
+            {
+              "x": -0.010522069844837112,
+              "y": 0,
+              "z": 0.3670003897084857
+            },
+            {
+              "x": 0.6066383866606837,
+              "y": 0,
+              "z": 0.7378278036437247
+            },
+            {
+              "x": 1.2237988431662046,
+              "y": 0,
+              "z": 1.1086552175789637
+            }
+          ]
+        }
+      },
+      {
+        "id": "check-6",
+        "label": "editable",
+        "met": true,
+        "outcome": "verified",
+        "observed": "10 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ]
+      }
+    ],
+    "qualitativeLimits": []
+  },
+  "displacedReport": {
+    "modeling": true,
+    "passed": false,
+    "status": "incorrect",
+    "canCommit": false,
+    "checks": [
+      {
+        "id": "preserved-scope",
+        "label": "Unrelated existing geometry",
+        "met": true,
+        "outcome": "verified",
+        "observed": "2 existing objects outside the requested edit scope are unchanged.",
+        "ids": []
+      },
+      {
+        "id": "check-1",
+        "label": "count",
+        "met": true,
+        "outcome": "verified",
+        "observed": "count (each): 10; expected equal 10, tolerance 0. 10 element(s).",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ]
+      },
+      {
+        "id": "check-2",
+        "label": "height",
+        "met": true,
+        "outcome": "verified",
+        "observed": "height (each, world solids): 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46; expected equal 0.46 ± 0.001 m.",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ]
+      },
+      {
+        "id": "check-3",
+        "label": "volume",
+        "met": true,
+        "outcome": "verified",
+        "observed": "volume (each): 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036; expected equal 0.03585345, tolerance 0.0007170690000000001. 10 element(s).",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ]
+      },
+      {
+        "id": "check-4",
+        "label": "unavailable",
+        "met": false,
+        "outcome": "unverified",
+        "observed": "Unverified: Available predicates cannot verify upright regular hexagonal prism geometry, its 0.30 m opposite-flat spacing, or congruence of all ten prisms independently of their construction recipe.",
+        "ids": []
+      },
+      {
+        "id": "check-5",
+        "label": "positions",
+        "met": false,
+        "outcome": "incorrect",
+        "observed": "9/10 required world base-center positions occupied; 10 objects, tolerance 0.001 m.",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "quantity",
+                "value": 72,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Centers along each row are 72 cm apart"
+              },
+              {
+                "kind": "quantity",
+                "value": 64,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "the rows are 64 cm apart"
+              },
+              {
+                "kind": "quantity",
+                "value": 31,
+                "unit": "deg",
+                "source": "request",
+                "evidence": "The rows run 31 degrees from east toward north, with X east and Z north."
+              },
+              {
+                "kind": "quantity",
+                "value": 5,
+                "unit": "scalar",
+                "source": "request",
+                "evidence": "two rows of five"
+              },
+              {
+                "kind": "constant",
+                "value": 0
+              },
+              {
+                "kind": "constant",
+                "value": 1
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  3,
+                  5
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  7,
+                  6
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "negate",
+                "args": [
+                  8
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "range",
+                "args": [
+                  9,
+                  5,
+                  3
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "multiply",
+                "args": [
+                  10,
+                  0
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  0,
+                  6
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  12,
+                  6
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  6
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  11,
+                  13
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  11,
+                  13
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "concat",
+                "args": [
+                  15,
+                  16
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "multiply",
+                "args": [
+                  4,
+                  1
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "negate",
+                "args": [
+                  14
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "range",
+                "args": [
+                  19,
+                  18,
+                  3
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "range",
+                "args": [
+                  14,
+                  18,
+                  3
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "concat",
+                "args": [
+                  20,
+                  21
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "cos",
+                "args": [
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "sin",
+                "args": [
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "multiply",
+                "args": [
+                  17,
+                  23
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "multiply",
+                "args": [
+                  22,
+                  24
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  25,
+                  26
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "multiply",
+                "args": [
+                  17,
+                  24
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "multiply",
+                "args": [
+                  22,
+                  23
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  28,
+                  29
+                ]
+              }
+            ],
+            "output": {
+              "kind": "points",
+              "x": 27,
+              "y": 4,
+              "z": 30
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                0.72
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.64
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "m^0 rad^1",
+              "values": [
+                0.5410520681182421
+              ]
+            },
+            {
+              "node": 3,
+              "unit": "scalar",
+              "values": [
+                5
+              ]
+            },
+            {
+              "node": 4,
+              "unit": "scalar",
+              "values": [
+                0
+              ]
+            },
+            {
+              "node": 5,
+              "unit": "scalar",
+              "values": [
+                1
+              ]
+            },
+            {
+              "node": 6,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": [
+            {
+              "x": -1.2237988431662046,
+              "y": 0,
+              "z": -1.1086552175789637
+            },
+            {
+              "x": -0.6066383866606837,
+              "y": 0,
+              "z": -0.7378278036437247
+            },
+            {
+              "x": 0.010522069844837112,
+              "y": 0,
+              "z": -0.3670003897084857
+            },
+            {
+              "x": 0.627682526350358,
+              "y": 0,
+              "z": 0.003827024226753295
+            },
+            {
+              "x": 1.244842982855879,
+              "y": 0,
+              "z": 0.37465443816199234
+            },
+            {
+              "x": -1.244842982855879,
+              "y": 0,
+              "z": -0.37465443816199234
+            },
+            {
+              "x": -0.627682526350358,
+              "y": 0,
+              "z": -0.003827024226753295
+            },
+            {
+              "x": -0.010522069844837112,
+              "y": 0,
+              "z": 0.3670003897084857
+            },
+            {
+              "x": 0.6066383866606837,
+              "y": 0,
+              "z": 0.7378278036437247
+            },
+            {
+              "x": 1.2237988431662046,
+              "y": 0,
+              "z": 1.1086552175789637
+            }
+          ]
+        }
+      },
+      {
+        "id": "check-6",
+        "label": "editable",
+        "met": true,
+        "outcome": "verified",
+        "observed": "10 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+        "ids": [
+          "d108ca36-8445-4e66-98aa-c60ed195c972",
+          "0901ed2d-d519-4c83-b924-9750b321eedf",
+          "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+          "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+          "31b71d1b-9787-4fae-93d5-04b707a412f7",
+          "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+          "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+          "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+          "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+          "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+        ]
+      }
+    ],
+    "qualitativeLimits": []
+  },
+  "external": {
+    "before": [
+      {
+        "name": "Unrelated objects preserved exactly",
+        "status": "verified"
+      },
+      {
+        "name": "Protected group metadata preserved",
+        "status": "verified"
+      },
+      {
+        "name": "Scene identities unique",
+        "status": "verified"
+      },
+      {
+        "name": "Required geometry exists",
+        "status": "verified"
+      },
+      {
+        "name": "Independent selectable visible objects",
+        "status": "verified"
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: d108ca36-8445-4e66-98aa-c60ed195c972",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.03585345200643173
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 0901ed2d-d519-4c83-b924-9750b321eedf",
+        "status": "verified",
+        "expected": 0.03585345071699768,
+        "actual": 0.03585345268167005
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+        "status": "verified",
+        "expected": 0.03585345071699768,
+        "actual": 0.035853449993403175
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: b4f21053-0676-4384-9a79-d9d238ddcfe9",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.03585345189562027
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 31b71d1b-9787-4fae-93d5-04b707a412f7",
+        "status": "verified",
+        "expected": 0.03585345071699767,
+        "actual": 0.035853450045658965
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.03585345004565898
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.035853451895620274
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+        "status": "verified",
+        "expected": 0.03585345071699767,
+        "actual": 0.035853449993403175
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+        "status": "verified",
+        "expected": 0.03585345071699768,
+        "actual": 0.03585345268167006
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 95ca8d08-93ca-43aa-89fe-acbd4d87710d",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.035853452006431745
+      },
+      {
+        "name": "Ten independent prisms",
+        "status": "verified",
+        "expected": 10,
+        "actual": 10
+      },
+      {
+        "name": "Distinct array position -1.2237988431662046,0,-1.1086552175789637",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position -0.6066383866606837,0,-0.7378278036437247",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position 0.010522069844837112,0,-0.3670003897084857",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position 0.627682526350358,0,0.003827024226753295",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position 1.244842982855879,0,0.37465443816199234",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position -1.244842982855879,0,-0.37465443816199234",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position -0.627682526350358,0,-0.003827024226753295",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position -0.010522069844837112,0,0.3670003897084857",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position 0.6066383866606837,0,0.7378278036437247",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position 1.2237988431662046,0,1.1086552175789637",
+        "status": "verified"
+      },
+      {
+        "name": "Regular hexagonal section and height: d108ca36-8445-4e66-98aa-c60ed195c972",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320508130271964,
+            0.17320508250672054,
+            0.173205078769594,
+            0.1732050783984082,
+            0.17320507518730527
+          ],
+          "radii": [
+            0.17320508033461574,
+            0.1732050776271104,
+            0.17320508217750302,
+            0.17320507936651197,
+            0.17320508006691535,
+            0.17320507536168497
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 0901ed2d-d519-4c83-b924-9750b321eedf",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.17320507238319996,
+            0.17320508130271964,
+            0.17320508250672054,
+            0.17320507238319996,
+            0.17320508491483275,
+            0.1732050750572747
+          ],
+          "radii": [
+            0.17320507599033266,
+            0.17320507767045384,
+            0.17320508004870486,
+            0.17320507719437045,
+            0.17320508015360253,
+            0.17320507749048314
+          ],
+          "height": 0.46,
+          "volume": 0.03585345071699768
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511,
+            0.173205078769594,
+            0.17320508491483275,
+            0.1732050750572747
+          ],
+          "radii": [
+            0.1732050781624742,
+            0.17320507758376683,
+            0.1732050779199069,
+            0.17320508153865347,
+            0.17320508011025892,
+            0.17320507961928114
+          ],
+          "height": 0.46,
+          "volume": 0.03585345071699768
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: b4f21053-0676-4384-9a79-d9d238ddcfe9",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511,
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511
+          ],
+          "radii": [
+            0.17320507985056385,
+            0.17320507884701286,
+            0.17320507749506336,
+            0.17320507985056385,
+            0.17320507884701286,
+            0.17320507749506336
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 31b71d1b-9787-4fae-93d5-04b707a412f7",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.17320507238319996,
+            0.17320508491483275,
+            0.1732050750572747,
+            0.173205078769594,
+            0.17320507478629496,
+            0.17320508250672054
+          ],
+          "radii": [
+            0.17320507610829972,
+            0.1732050801319307,
+            0.1732050785548821,
+            0.17320507707640337,
+            0.17320507756209508,
+            0.17320507898430595
+          ],
+          "height": 0.46,
+          "volume": 0.03585345071699767
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320507478629496,
+            0.17320508250672054,
+            0.17320507238319996,
+            0.17320508491483275,
+            0.1732050750572747
+          ],
+          "radii": [
+            0.17320507707640337,
+            0.17320507756209508,
+            0.17320507898430595,
+            0.17320507610829972,
+            0.1732050801319307,
+            0.1732050785548821
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511,
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511
+          ],
+          "radii": [
+            0.17320507985056385,
+            0.17320507884701286,
+            0.17320507749506336,
+            0.17320507985056385,
+            0.17320507884701286,
+            0.17320507749506336
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320508491483275,
+            0.1732050750572747,
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511
+          ],
+          "radii": [
+            0.17320508153865347,
+            0.17320508011025892,
+            0.17320507961928114,
+            0.1732050781624742,
+            0.17320507758376683,
+            0.1732050779199069
+          ],
+          "height": 0.46,
+          "volume": 0.03585345071699767
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.17320507238319996,
+            0.17320508491483275,
+            0.1732050750572747,
+            0.17320507238319996,
+            0.17320508130271964,
+            0.17320508250672054
+          ],
+          "radii": [
+            0.17320507719437045,
+            0.17320508015360253,
+            0.17320507749048314,
+            0.17320507599033266,
+            0.17320507767045384,
+            0.17320508004870486
+          ],
+          "height": 0.46,
+          "volume": 0.03585345071699768
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 95ca8d08-93ca-43aa-89fe-acbd4d87710d",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.1732050783984082,
+            0.17320507518730527,
+            0.173205078769594,
+            0.17320508130271964,
+            0.17320508250672054
+          ],
+          "radii": [
+            0.17320507936651197,
+            0.17320508006691535,
+            0.17320507536168497,
+            0.17320508033461574,
+            0.1732050776271104,
+            0.17320508217750302
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      }
+    ],
+    "displaced": [
+      {
+        "name": "Unrelated objects preserved exactly",
+        "status": "verified"
+      },
+      {
+        "name": "Protected group metadata preserved",
+        "status": "verified"
+      },
+      {
+        "name": "Scene identities unique",
+        "status": "verified"
+      },
+      {
+        "name": "Required geometry exists",
+        "status": "verified"
+      },
+      {
+        "name": "Independent selectable visible objects",
+        "status": "verified"
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: d108ca36-8445-4e66-98aa-c60ed195c972",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.03585345200643173
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 0901ed2d-d519-4c83-b924-9750b321eedf",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.03585345011743556
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+        "status": "verified",
+        "expected": 0.03585345071699768,
+        "actual": 0.035853449993403175
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: b4f21053-0676-4384-9a79-d9d238ddcfe9",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.03585345189562027
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 31b71d1b-9787-4fae-93d5-04b707a412f7",
+        "status": "verified",
+        "expected": 0.03585345071699767,
+        "actual": 0.035853450045658965
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.03585345004565898
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.035853451895620274
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+        "status": "verified",
+        "expected": 0.03585345071699767,
+        "actual": 0.035853449993403175
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+        "status": "verified",
+        "expected": 0.03585345071699768,
+        "actual": 0.03585345268167006
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 95ca8d08-93ca-43aa-89fe-acbd4d87710d",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.035853452006431745
+      },
+      {
+        "name": "Ten independent prisms",
+        "status": "verified",
+        "expected": 10,
+        "actual": 10
+      },
+      {
+        "name": "Distinct array position -1.2237988431662046,0,-1.1086552175789637",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position -0.6066383866606837,0,-0.7378278036437247",
+        "status": "incorrect"
+      },
+      {
+        "name": "Distinct array position 0.010522069844837112,0,-0.3670003897084857",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position 0.627682526350358,0,0.003827024226753295",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position 1.244842982855879,0,0.37465443816199234",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position -1.244842982855879,0,-0.37465443816199234",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position -0.627682526350358,0,-0.003827024226753295",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position -0.010522069844837112,0,0.3670003897084857",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position 0.6066383866606837,0,0.7378278036437247",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position 1.2237988431662046,0,1.1086552175789637",
+        "status": "verified"
+      },
+      {
+        "name": "Regular hexagonal section and height: d108ca36-8445-4e66-98aa-c60ed195c972",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320508130271964,
+            0.17320508250672054,
+            0.173205078769594,
+            0.1732050783984082,
+            0.17320507518730527
+          ],
+          "radii": [
+            0.17320508033461574,
+            0.1732050776271104,
+            0.17320508217750302,
+            0.17320507936651197,
+            0.17320508006691535,
+            0.17320507536168497
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 0901ed2d-d519-4c83-b924-9750b321eedf",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511,
+            0.173205078769594,
+            0.1732050783984082,
+            0.17320507518730527
+          ],
+          "radii": [
+            0.17320507924854495,
+            0.17320507760543855,
+            0.17320507685550787,
+            0.17320508045258273,
+            0.1732050800885872,
+            0.1732050742972861
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511,
+            0.173205078769594,
+            0.17320508491483275,
+            0.1732050750572747
+          ],
+          "radii": [
+            0.1732050781624742,
+            0.17320507758376683,
+            0.1732050779199069,
+            0.17320508153865347,
+            0.17320508011025892,
+            0.17320507961928114
+          ],
+          "height": 0.46,
+          "volume": 0.03585345071699768
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: b4f21053-0676-4384-9a79-d9d238ddcfe9",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511,
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511
+          ],
+          "radii": [
+            0.17320507985056385,
+            0.17320507884701286,
+            0.17320507749506336,
+            0.17320507985056385,
+            0.17320507884701286,
+            0.17320507749506336
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 31b71d1b-9787-4fae-93d5-04b707a412f7",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.17320507238319996,
+            0.17320508491483275,
+            0.1732050750572747,
+            0.173205078769594,
+            0.17320507478629496,
+            0.17320508250672054
+          ],
+          "radii": [
+            0.17320507610829972,
+            0.1732050801319307,
+            0.1732050785548821,
+            0.17320507707640337,
+            0.17320507756209508,
+            0.17320507898430595
+          ],
+          "height": 0.46,
+          "volume": 0.03585345071699767
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320507478629496,
+            0.17320508250672054,
+            0.17320507238319996,
+            0.17320508491483275,
+            0.1732050750572747
+          ],
+          "radii": [
+            0.17320507707640337,
+            0.17320507756209508,
+            0.17320507898430595,
+            0.17320507610829972,
+            0.1732050801319307,
+            0.1732050785548821
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511,
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511
+          ],
+          "radii": [
+            0.17320507985056385,
+            0.17320507884701286,
+            0.17320507749506336,
+            0.17320507985056385,
+            0.17320507884701286,
+            0.17320507749506336
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320508491483275,
+            0.1732050750572747,
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511
+          ],
+          "radii": [
+            0.17320508153865347,
+            0.17320508011025892,
+            0.17320507961928114,
+            0.1732050781624742,
+            0.17320507758376683,
+            0.1732050779199069
+          ],
+          "height": 0.46,
+          "volume": 0.03585345071699767
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.17320507238319996,
+            0.17320508491483275,
+            0.1732050750572747,
+            0.17320507238319996,
+            0.17320508130271964,
+            0.17320508250672054
+          ],
+          "radii": [
+            0.17320507719437045,
+            0.17320508015360253,
+            0.17320507749048314,
+            0.17320507599033266,
+            0.17320507767045384,
+            0.17320508004870486
+          ],
+          "height": 0.46,
+          "volume": 0.03585345071699768
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 95ca8d08-93ca-43aa-89fe-acbd4d87710d",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.1732050783984082,
+            0.17320507518730527,
+            0.173205078769594,
+            0.17320508130271964,
+            0.17320508250672054
+          ],
+          "radii": [
+            0.17320507936651197,
+            0.17320508006691535,
+            0.17320507536168497,
+            0.17320508033461574,
+            0.1732050776271104,
+            0.17320508217750302
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      }
+    ],
+    "repaired": [
+      {
+        "name": "Unrelated objects preserved exactly",
+        "status": "verified"
+      },
+      {
+        "name": "Protected group metadata preserved",
+        "status": "verified"
+      },
+      {
+        "name": "Scene identities unique",
+        "status": "verified"
+      },
+      {
+        "name": "Required geometry exists",
+        "status": "verified"
+      },
+      {
+        "name": "Independent selectable visible objects",
+        "status": "verified"
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: d108ca36-8445-4e66-98aa-c60ed195c972",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.03585345200643173
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 0901ed2d-d519-4c83-b924-9750b321eedf",
+        "status": "verified",
+        "expected": 0.03585345071699768,
+        "actual": 0.03585345268167005
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+        "status": "verified",
+        "expected": 0.03585345071699768,
+        "actual": 0.035853449993403175
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: b4f21053-0676-4384-9a79-d9d238ddcfe9",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.03585345189562027
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 31b71d1b-9787-4fae-93d5-04b707a412f7",
+        "status": "verified",
+        "expected": 0.03585345071699767,
+        "actual": 0.035853450045658965
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.03585345004565898
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.035853451895620274
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+        "status": "verified",
+        "expected": 0.03585345071699767,
+        "actual": 0.035853449993403175
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+        "status": "verified",
+        "expected": 0.03585345071699768,
+        "actual": 0.03585345268167006
+      },
+      {
+        "name": "Closed positive solid and independent mesh volume: 95ca8d08-93ca-43aa-89fe-acbd4d87710d",
+        "status": "verified",
+        "expected": 0.035853450716997665,
+        "actual": 0.035853452006431745
+      },
+      {
+        "name": "Ten independent prisms",
+        "status": "verified",
+        "expected": 10,
+        "actual": 10
+      },
+      {
+        "name": "Distinct array position -1.2237988431662046,0,-1.1086552175789637",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position -0.6066383866606837,0,-0.7378278036437247",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position 0.010522069844837112,0,-0.3670003897084857",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position 0.627682526350358,0,0.003827024226753295",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position 1.244842982855879,0,0.37465443816199234",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position -1.244842982855879,0,-0.37465443816199234",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position -0.627682526350358,0,-0.003827024226753295",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position -0.010522069844837112,0,0.3670003897084857",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position 0.6066383866606837,0,0.7378278036437247",
+        "status": "verified"
+      },
+      {
+        "name": "Distinct array position 1.2237988431662046,0,1.1086552175789637",
+        "status": "verified"
+      },
+      {
+        "name": "Regular hexagonal section and height: d108ca36-8445-4e66-98aa-c60ed195c972",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320508130271964,
+            0.17320508250672054,
+            0.173205078769594,
+            0.1732050783984082,
+            0.17320507518730527
+          ],
+          "radii": [
+            0.17320508033461574,
+            0.1732050776271104,
+            0.17320508217750302,
+            0.17320507936651197,
+            0.17320508006691535,
+            0.17320507536168497
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 0901ed2d-d519-4c83-b924-9750b321eedf",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.17320507238319996,
+            0.17320508130271964,
+            0.17320508250672054,
+            0.17320507238319996,
+            0.17320508491483275,
+            0.1732050750572747
+          ],
+          "radii": [
+            0.17320507599033266,
+            0.17320507767045384,
+            0.17320508004870486,
+            0.17320507719437045,
+            0.17320508015360253,
+            0.17320507749048314
+          ],
+          "height": 0.46,
+          "volume": 0.03585345071699768
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511,
+            0.173205078769594,
+            0.17320508491483275,
+            0.1732050750572747
+          ],
+          "radii": [
+            0.1732050781624742,
+            0.17320507758376683,
+            0.1732050779199069,
+            0.17320508153865347,
+            0.17320508011025892,
+            0.17320507961928114
+          ],
+          "height": 0.46,
+          "volume": 0.03585345071699768
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: b4f21053-0676-4384-9a79-d9d238ddcfe9",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511,
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511
+          ],
+          "radii": [
+            0.17320507985056385,
+            0.17320507884701286,
+            0.17320507749506336,
+            0.17320507985056385,
+            0.17320507884701286,
+            0.17320507749506336
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 31b71d1b-9787-4fae-93d5-04b707a412f7",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.17320507238319996,
+            0.17320508491483275,
+            0.1732050750572747,
+            0.173205078769594,
+            0.17320507478629496,
+            0.17320508250672054
+          ],
+          "radii": [
+            0.17320507610829972,
+            0.1732050801319307,
+            0.1732050785548821,
+            0.17320507707640337,
+            0.17320507756209508,
+            0.17320507898430595
+          ],
+          "height": 0.46,
+          "volume": 0.03585345071699767
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320507478629496,
+            0.17320508250672054,
+            0.17320507238319996,
+            0.17320508491483275,
+            0.1732050750572747
+          ],
+          "radii": [
+            0.17320507707640337,
+            0.17320507756209508,
+            0.17320507898430595,
+            0.17320507610829972,
+            0.1732050801319307,
+            0.1732050785548821
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511,
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511
+          ],
+          "radii": [
+            0.17320507985056385,
+            0.17320507884701286,
+            0.17320507749506336,
+            0.17320507985056385,
+            0.17320507884701286,
+            0.17320507749506336
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.17320508491483275,
+            0.1732050750572747,
+            0.173205078769594,
+            0.17320507478629496,
+            0.1732050826367511
+          ],
+          "radii": [
+            0.17320508153865347,
+            0.17320508011025892,
+            0.17320507961928114,
+            0.1732050781624742,
+            0.17320507758376683,
+            0.1732050779199069
+          ],
+          "height": 0.46,
+          "volume": 0.03585345071699767
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.17320507238319996,
+            0.17320508491483275,
+            0.1732050750572747,
+            0.17320507238319996,
+            0.17320508130271964,
+            0.17320508250672054
+          ],
+          "radii": [
+            0.17320507719437045,
+            0.17320508015360253,
+            0.17320507749048314,
+            0.17320507599033266,
+            0.17320507767045384,
+            0.17320508004870486
+          ],
+          "height": 0.46,
+          "volume": 0.03585345071699768
+        }
+      },
+      {
+        "name": "Regular hexagonal section and height: 95ca8d08-93ca-43aa-89fe-acbd4d87710d",
+        "status": "verified",
+        "expected": {
+          "sides": 6,
+          "acrossFlats": 0.3,
+          "height": 0.46
+        },
+        "actual": {
+          "sides": 6,
+          "edges": [
+            0.173205078769594,
+            0.1732050783984082,
+            0.17320507518730527,
+            0.173205078769594,
+            0.17320508130271964,
+            0.17320508250672054
+          ],
+          "radii": [
+            0.17320507936651197,
+            0.17320508006691535,
+            0.17320507536168497,
+            0.17320508033461574,
+            0.1732050776271104,
+            0.17320508217750302
+          ],
+          "height": 0.46,
+          "volume": 0.035853450716997665
+        }
+      }
+    ]
+  },
+  "transactionReplay": {
+    "scriptedResponses": 1,
+    "objects": 12,
+    "singleHistoryEntry": true,
+    "originalObjectsUnchanged": true,
+    "reloadExact": true,
+    "undoExact": true,
+    "redoExact": true,
+    "verification": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 10; expected equal 10, tolerance 0. 10 element(s).",
+          "ids": [
+            "2a39ec8b-6586-44bb-b953-1a5bd2c85c6c",
+            "31bc8017-6f1f-479a-8b9b-323c21c3f126",
+            "9a11e48d-6c8c-43fa-9d31-413f9efb204b",
+            "9f4f3a5f-0672-4aaa-81c2-73bc4f786bc9",
+            "75b9ee91-71b5-4a34-9ffc-e4f2595a95b2",
+            "a9031e9e-6830-40ba-97c7-02b3997d8cc9",
+            "736525e1-ad8f-4595-a766-c3d4ac905a37",
+            "9057c666-963b-4d3d-8e37-e117c6ed947f",
+            "5718a7c3-6449-40db-b936-fab63a0d7fab",
+            "77766a92-6073-4384-affe-bde9e0fb387a"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "height",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46, 0.46; expected equal 0.46 ± 0.001 m.",
+          "ids": [
+            "2a39ec8b-6586-44bb-b953-1a5bd2c85c6c",
+            "31bc8017-6f1f-479a-8b9b-323c21c3f126",
+            "9a11e48d-6c8c-43fa-9d31-413f9efb204b",
+            "9f4f3a5f-0672-4aaa-81c2-73bc4f786bc9",
+            "75b9ee91-71b5-4a34-9ffc-e4f2595a95b2",
+            "a9031e9e-6830-40ba-97c7-02b3997d8cc9",
+            "736525e1-ad8f-4595-a766-c3d4ac905a37",
+            "9057c666-963b-4d3d-8e37-e117c6ed947f",
+            "5718a7c3-6449-40db-b936-fab63a0d7fab",
+            "77766a92-6073-4384-affe-bde9e0fb387a"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "volume",
+          "met": true,
+          "outcome": "verified",
+          "observed": "volume (each): 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036, 0.036; expected equal 0.03585345, tolerance 0.0007170690000000001. 10 element(s).",
+          "ids": [
+            "2a39ec8b-6586-44bb-b953-1a5bd2c85c6c",
+            "31bc8017-6f1f-479a-8b9b-323c21c3f126",
+            "9a11e48d-6c8c-43fa-9d31-413f9efb204b",
+            "9f4f3a5f-0672-4aaa-81c2-73bc4f786bc9",
+            "75b9ee91-71b5-4a34-9ffc-e4f2595a95b2",
+            "a9031e9e-6830-40ba-97c7-02b3997d8cc9",
+            "736525e1-ad8f-4595-a766-c3d4ac905a37",
+            "9057c666-963b-4d3d-8e37-e117c6ed947f",
+            "5718a7c3-6449-40db-b936-fab63a0d7fab",
+            "77766a92-6073-4384-affe-bde9e0fb387a"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "unavailable",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Unverified: Available predicates cannot verify upright regular hexagonal prism geometry, its 0.30 m opposite-flat spacing, or congruence of all ten prisms independently of their construction recipe.",
+          "ids": []
+        },
+        {
+          "id": "check-5",
+          "label": "positions",
+          "met": true,
+          "outcome": "verified",
+          "observed": "10/10 required world base-center positions occupied; 10 objects, tolerance 0.001 m.",
+          "ids": [
+            "2a39ec8b-6586-44bb-b953-1a5bd2c85c6c",
+            "31bc8017-6f1f-479a-8b9b-323c21c3f126",
+            "9a11e48d-6c8c-43fa-9d31-413f9efb204b",
+            "9f4f3a5f-0672-4aaa-81c2-73bc4f786bc9",
+            "75b9ee91-71b5-4a34-9ffc-e4f2595a95b2",
+            "a9031e9e-6830-40ba-97c7-02b3997d8cc9",
+            "736525e1-ad8f-4595-a766-c3d4ac905a37",
+            "9057c666-963b-4d3d-8e37-e117c6ed947f",
+            "5718a7c3-6449-40db-b936-fab63a0d7fab",
+            "77766a92-6073-4384-affe-bde9e0fb387a"
+          ],
+          "calculation": {
+            "definition": {
+              "frame": "world_xyz_y_up",
+              "nodes": [
+                {
+                  "kind": "quantity",
+                  "value": 72,
+                  "unit": "cm",
+                  "source": "request",
+                  "evidence": "Centers along each row are 72 cm apart"
+                },
+                {
+                  "kind": "quantity",
+                  "value": 64,
+                  "unit": "cm",
+                  "source": "request",
+                  "evidence": "the rows are 64 cm apart"
+                },
+                {
+                  "kind": "quantity",
+                  "value": 31,
+                  "unit": "deg",
+                  "source": "request",
+                  "evidence": "The rows run 31 degrees from east toward north, with X east and Z north."
+                },
+                {
+                  "kind": "quantity",
+                  "value": 5,
+                  "unit": "scalar",
+                  "source": "request",
+                  "evidence": "two rows of five"
+                },
+                {
+                  "kind": "constant",
+                  "value": 0
+                },
+                {
+                  "kind": "constant",
+                  "value": 1
+                },
+                {
+                  "kind": "constant",
+                  "value": 2
+                },
+                {
+                  "kind": "operation",
+                  "op": "subtract",
+                  "args": [
+                    3,
+                    5
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "divide",
+                  "args": [
+                    7,
+                    6
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "negate",
+                  "args": [
+                    8
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "range",
+                  "args": [
+                    9,
+                    5,
+                    3
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "multiply",
+                  "args": [
+                    10,
+                    0
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "divide",
+                  "args": [
+                    0,
+                    6
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "divide",
+                  "args": [
+                    12,
+                    6
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "divide",
+                  "args": [
+                    1,
+                    6
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "subtract",
+                  "args": [
+                    11,
+                    13
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "add",
+                  "args": [
+                    11,
+                    13
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "concat",
+                  "args": [
+                    15,
+                    16
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "multiply",
+                  "args": [
+                    4,
+                    1
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "negate",
+                  "args": [
+                    14
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "range",
+                  "args": [
+                    19,
+                    18,
+                    3
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "range",
+                  "args": [
+                    14,
+                    18,
+                    3
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "concat",
+                  "args": [
+                    20,
+                    21
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "cos",
+                  "args": [
+                    2
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "sin",
+                  "args": [
+                    2
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "multiply",
+                  "args": [
+                    17,
+                    23
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "multiply",
+                  "args": [
+                    22,
+                    24
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "subtract",
+                  "args": [
+                    25,
+                    26
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "multiply",
+                  "args": [
+                    17,
+                    24
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "multiply",
+                  "args": [
+                    22,
+                    23
+                  ]
+                },
+                {
+                  "kind": "operation",
+                  "op": "add",
+                  "args": [
+                    28,
+                    29
+                  ]
+                }
+              ],
+              "output": {
+                "kind": "points",
+                "x": 27,
+                "y": 4,
+                "z": 30
+              }
+            },
+            "sources": [
+              {
+                "node": 0,
+                "unit": "m",
+                "values": [
+                  0.72
+                ]
+              },
+              {
+                "node": 1,
+                "unit": "m",
+                "values": [
+                  0.64
+                ]
+              },
+              {
+                "node": 2,
+                "unit": "m^0 rad^1",
+                "values": [
+                  0.5410520681182421
+                ]
+              },
+              {
+                "node": 3,
+                "unit": "scalar",
+                "values": [
+                  5
+                ]
+              },
+              {
+                "node": 4,
+                "unit": "scalar",
+                "values": [
+                  0
+                ]
+              },
+              {
+                "node": 5,
+                "unit": "scalar",
+                "values": [
+                  1
+                ]
+              },
+              {
+                "node": 6,
+                "unit": "scalar",
+                "values": [
+                  2
+                ]
+              }
+            ],
+            "expectedUnit": "m",
+            "expected": [
+              {
+                "x": -1.2237988431662046,
+                "y": 0,
+                "z": -1.1086552175789637
+              },
+              {
+                "x": -0.6066383866606837,
+                "y": 0,
+                "z": -0.7378278036437247
+              },
+              {
+                "x": 0.010522069844837112,
+                "y": 0,
+                "z": -0.3670003897084857
+              },
+              {
+                "x": 0.627682526350358,
+                "y": 0,
+                "z": 0.003827024226753295
+              },
+              {
+                "x": 1.244842982855879,
+                "y": 0,
+                "z": 0.37465443816199234
+              },
+              {
+                "x": -1.244842982855879,
+                "y": 0,
+                "z": -0.37465443816199234
+              },
+              {
+                "x": -0.627682526350358,
+                "y": 0,
+                "z": -0.003827024226753295
+              },
+              {
+                "x": -0.010522069844837112,
+                "y": 0,
+                "z": 0.3670003897084857
+              },
+              {
+                "x": 0.6066383866606837,
+                "y": 0,
+                "z": 0.7378278036437247
+              },
+              {
+                "x": 1.2237988431662046,
+                "y": 0,
+                "z": 1.1086552175789637
+              }
+            ]
+          }
+        },
+        {
+          "id": "check-6",
+          "label": "editable",
+          "met": true,
+          "outcome": "verified",
+          "observed": "10 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "2a39ec8b-6586-44bb-b953-1a5bd2c85c6c",
+            "31bc8017-6f1f-479a-8b9b-323c21c3f126",
+            "9a11e48d-6c8c-43fa-9d31-413f9efb204b",
+            "9f4f3a5f-0672-4aaa-81c2-73bc4f786bc9",
+            "75b9ee91-71b5-4a34-9ffc-e4f2595a95b2",
+            "a9031e9e-6830-40ba-97c7-02b3997d8cc9",
+            "736525e1-ad8f-4595-a766-c3d4ac905a37",
+            "9057c666-963b-4d3d-8e37-e117c6ed947f",
+            "5718a7c3-6449-40db-b936-fab63a0d7fab",
+            "77766a92-6073-4384-affe-bde9e0fb387a"
+          ]
+        }
+      ],
+      "qualitativeLimits": []
+    }
+  }
+}

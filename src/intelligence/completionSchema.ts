@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { MAX_SCENE_OBJECTS } from '../limits';
+import { calculationSchema, calculationTraceSchema } from './calculationSchema';
 import {
   designRequirement,
   designSelector,
@@ -111,6 +112,7 @@ export const completionCriteriaSchema = z
           .object({
             source: z.enum(['request', 'history', 'reference']),
             evidence: z.string().min(1).max(400),
+            calculation: calculationSchema.optional(),
             requirement: z.union([
               designRequirement,
               ...spatialRequirements,
@@ -189,6 +191,7 @@ export const completionReportSchema = z
           .extend({
             ids: z.array(z.string().max(100)).max(16),
             outcome: z.enum(['verified', 'incorrect', 'unverified']),
+            calculation: calculationTraceSchema.optional(),
           })
           .strict(),
       )
