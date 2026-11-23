@@ -1,0 +1,24 @@
+{
+  "implementation": "16361bb",
+  "batch": "reliability-large-1",
+  "complete": true,
+  "turns": 12,
+  "passes": 8,
+  "notCommitted": 4,
+  "paidCalls": 46,
+  "estimatedUSD": 2.6861639999999998,
+  "accountedUSD": 3.357705,
+  "unknownReservations": [],
+  "latency": {
+    "executor": {
+      "calls": 33,
+      "medianSeconds": 9.29,
+      "maxSeconds": 41.372
+    },
+    "reviewer": {
+      "calls": 13,
+      "medianSeconds": 19.947,
+      "maxSeconds": 37.988
+    }
+  }
+}

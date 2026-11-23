@@ -1,0 +1,1362 @@
+[
+  {
+    "case": "reliability-large-1-baseline-L1-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "00f97b93-24d8-455a-9a47-08e8f5d21aee",
+        "beforeName": "Upright panel 3",
+        "afterName": "Upright panel 3",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "0bdd451c-7584-4634-80c7-b6374a89b7af",
+        "beforeName": "Upright panel 2",
+        "afterName": "Upright panel 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "1ddb2748-c251-4302-aaf3-24640dbc5675",
+        "beforeName": "Shelf top 0.70 m 5",
+        "afterName": "Shelf top 0.70 m 5",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "2a2d8eaa-e7e9-4966-947e-5d37ed46452d",
+        "beforeName": "Upright panel 1",
+        "afterName": "Upright panel 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "377ff466-8152-4e74-adb8-665b18ebf873",
+        "beforeName": "Shelf top 1.60 m 6",
+        "afterName": "Shelf top 1.60 m 6",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "3bdc57f6-d800-4dda-b5d4-efb7d0518608",
+        "beforeName": "Shelf top 1.60 m 2",
+        "afterName": "Shelf top 1.60 m 2",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "412af23f-9273-46e0-aafe-c844f07ce871",
+        "beforeName": "Shelf top 0.25 m 1",
+        "afterName": "Shelf top 0.25 m 1",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "43242b01-90cd-4433-b339-4f2533d1f75a",
+        "beforeName": "Shelf top 1.15 m 3",
+        "afterName": "Shelf top 1.15 m 3",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "469eae6d-a9d4-47a7-abe7-71d3bde9020c",
+        "beforeName": "Upright panel 7",
+        "afterName": "Upright panel 7",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "530c34ab-5cb9-4bf6-b4a0-16a40fdf8eb9",
+        "beforeName": "Upright panel 5",
+        "afterName": "Upright panel 5",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "62a68b4e-2c6a-4930-8e09-22e1ae5644b4",
+        "beforeName": "Shelf top 0.25 m 5",
+        "afterName": "Shelf top 0.25 m 5",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "75ad9899-f31c-4029-833f-c577fd3fe44f",
+        "beforeName": "Shelf top 1.15 m 2",
+        "afterName": "Shelf top 1.15 m 2",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "7a5693ca-2ff6-4a91-9f51-efa70fc4b130",
+        "beforeName": "Shelf top 0.70 m 6",
+        "afterName": "Shelf top 0.70 m 6",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "7c480662-baf5-411e-8c02-f4b9df0d0daf",
+        "beforeName": "Shelf top 1.15 m 4",
+        "afterName": "Shelf top 1.15 m 4",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "90316928-f921-4a1e-8b9b-e946ddb28a8c",
+        "beforeName": "Upright panel 6",
+        "afterName": "Upright panel 6",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "93211d50-7428-40f5-8510-0ee8c1924e05",
+        "beforeName": "Shelf top 1.15 m 1",
+        "afterName": "Shelf top 1.15 m 1",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "988c761e-5853-4cac-b8fa-d5a60b0cac62",
+        "beforeName": "Shelf top 1.60 m 4",
+        "afterName": "Shelf top 1.60 m 4",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "9f8fae3c-f2ee-4893-bed4-0f419556d00d",
+        "beforeName": "Shelf top 0.70 m 1",
+        "afterName": "Shelf top 0.70 m 1",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "a1a5a0dd-6c03-4df8-9de9-b0c392edd976",
+        "beforeName": "Shelf top 1.15 m 6",
+        "afterName": "Shelf top 1.15 m 6",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "add77dbc-fd6a-4c7c-b71a-f890ab763d29",
+        "beforeName": "Shelf top 0.25 m 3",
+        "afterName": "Shelf top 0.25 m 3",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "b8387155-636b-4a74-b8d4-b87d3d8786dd",
+        "beforeName": "Shelf top 0.25 m 4",
+        "afterName": "Shelf top 0.25 m 4",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "c0644a08-3287-445b-9fe1-52099d157aee",
+        "beforeName": "Shelf top 0.70 m 2",
+        "afterName": "Shelf top 0.70 m 2",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "c75eabea-299d-4045-9da5-00caa0754857",
+        "beforeName": "Shelf top 1.15 m 5",
+        "afterName": "Shelf top 1.15 m 5",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "cb29d876-bbcf-45de-b57d-b61b4ddf43fa",
+        "beforeName": "Shelf top 1.60 m 3",
+        "afterName": "Shelf top 1.60 m 3",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "cb7c66ac-8824-423d-8a01-6e35d8ee0cfa",
+        "beforeName": "Shelf top 1.60 m 1",
+        "afterName": "Shelf top 1.60 m 1",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "cda921e3-06ec-4b02-b69f-5c05246ab3bf",
+        "beforeName": "Shelf top 1.60 m 5",
+        "afterName": "Shelf top 1.60 m 5",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "d6dddbeb-a74a-4791-b40e-d7c97f8d3d75",
+        "beforeName": "Shelf top 0.25 m 6",
+        "afterName": "Shelf top 0.25 m 6",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "e4eb6eeb-62e8-46ea-86ce-912bd64c16ed",
+        "beforeName": "Shelf top 0.70 m 4",
+        "afterName": "Shelf top 0.70 m 4",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "eb486aaf-698b-4a7f-8d0f-c6aabedea6cb",
+        "beforeName": "Shelf top 0.25 m 2",
+        "afterName": "Shelf top 0.25 m 2",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "f488860c-3632-4520-90c8-4f937183e7a9",
+        "beforeName": "Shelf top 0.70 m 3",
+        "afterName": "Shelf top 0.70 m 3",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "4e34797b-ede2-4c73-809d-ee865e8ed92e",
+        "name": "Upright panel 4"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-large-1-baseline-L1-edit2",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "1ddb2748-c251-4302-aaf3-24640dbc5675",
+        "beforeName": "Shelf top 0.70 m 5",
+        "afterName": "Shelf top 0.70 m 5",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "7a5693ca-2ff6-4a91-9f51-efa70fc4b130",
+        "beforeName": "Shelf top 0.70 m 6",
+        "afterName": "Shelf top 0.70 m 6",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "9f8fae3c-f2ee-4893-bed4-0f419556d00d",
+        "beforeName": "Shelf top 0.70 m 1",
+        "afterName": "Shelf top 0.70 m 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c0644a08-3287-445b-9fe1-52099d157aee",
+        "beforeName": "Shelf top 0.70 m 2",
+        "afterName": "Shelf top 0.70 m 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "e4eb6eeb-62e8-46ea-86ce-912bd64c16ed",
+        "beforeName": "Shelf top 0.70 m 4",
+        "afterName": "Shelf top 0.70 m 4",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "f488860c-3632-4520-90c8-4f937183e7a9",
+        "beforeName": "Shelf top 0.70 m 3",
+        "afterName": "Shelf top 0.70 m 3",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "2a2d8eaa-e7e9-4966-947e-5d37ed46452d",
+        "name": "Upright panel 1"
+      },
+      {
+        "id": "0bdd451c-7584-4634-80c7-b6374a89b7af",
+        "name": "Upright panel 2"
+      },
+      {
+        "id": "00f97b93-24d8-455a-9a47-08e8f5d21aee",
+        "name": "Upright panel 3"
+      },
+      {
+        "id": "4e34797b-ede2-4c73-809d-ee865e8ed92e",
+        "name": "Upright panel 4"
+      },
+      {
+        "id": "530c34ab-5cb9-4bf6-b4a0-16a40fdf8eb9",
+        "name": "Upright panel 5"
+      },
+      {
+        "id": "90316928-f921-4a1e-8b9b-e946ddb28a8c",
+        "name": "Upright panel 6"
+      },
+      {
+        "id": "469eae6d-a9d4-47a7-abe7-71d3bde9020c",
+        "name": "Upright panel 7"
+      },
+      {
+        "id": "412af23f-9273-46e0-aafe-c844f07ce871",
+        "name": "Shelf top 0.25 m 1"
+      },
+      {
+        "id": "eb486aaf-698b-4a7f-8d0f-c6aabedea6cb",
+        "name": "Shelf top 0.25 m 2"
+      },
+      {
+        "id": "add77dbc-fd6a-4c7c-b71a-f890ab763d29",
+        "name": "Shelf top 0.25 m 3"
+      },
+      {
+        "id": "b8387155-636b-4a74-b8d4-b87d3d8786dd",
+        "name": "Shelf top 0.25 m 4"
+      },
+      {
+        "id": "62a68b4e-2c6a-4930-8e09-22e1ae5644b4",
+        "name": "Shelf top 0.25 m 5"
+      },
+      {
+        "id": "d6dddbeb-a74a-4791-b40e-d7c97f8d3d75",
+        "name": "Shelf top 0.25 m 6"
+      },
+      {
+        "id": "93211d50-7428-40f5-8510-0ee8c1924e05",
+        "name": "Shelf top 1.15 m 1"
+      },
+      {
+        "id": "75ad9899-f31c-4029-833f-c577fd3fe44f",
+        "name": "Shelf top 1.15 m 2"
+      },
+      {
+        "id": "43242b01-90cd-4433-b339-4f2533d1f75a",
+        "name": "Shelf top 1.15 m 3"
+      },
+      {
+        "id": "7c480662-baf5-411e-8c02-f4b9df0d0daf",
+        "name": "Shelf top 1.15 m 4"
+      },
+      {
+        "id": "c75eabea-299d-4045-9da5-00caa0754857",
+        "name": "Shelf top 1.15 m 5"
+      },
+      {
+        "id": "a1a5a0dd-6c03-4df8-9de9-b0c392edd976",
+        "name": "Shelf top 1.15 m 6"
+      },
+      {
+        "id": "cb7c66ac-8824-423d-8a01-6e35d8ee0cfa",
+        "name": "Shelf top 1.60 m 1"
+      },
+      {
+        "id": "3bdc57f6-d800-4dda-b5d4-efb7d0518608",
+        "name": "Shelf top 1.60 m 2"
+      },
+      {
+        "id": "cb29d876-bbcf-45de-b57d-b61b4ddf43fa",
+        "name": "Shelf top 1.60 m 3"
+      },
+      {
+        "id": "988c761e-5853-4cac-b8fa-d5a60b0cac62",
+        "name": "Shelf top 1.60 m 4"
+      },
+      {
+        "id": "cda921e3-06ec-4b02-b69f-5c05246ab3bf",
+        "name": "Shelf top 1.60 m 5"
+      },
+      {
+        "id": "377ff466-8152-4e74-adb8-665b18ebf873",
+        "name": "Shelf top 1.60 m 6"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-large-1-reliability-L3-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "0738c12a-57ce-4b06-a49c-daa18d9aa3ef",
+        "beforeName": "Canopy circular column 10",
+        "afterName": "Canopy circular column 10",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "07b39135-e6af-45dc-ae63-29facb3052a2",
+        "beforeName": "Canopy circular column 2",
+        "afterName": "Canopy circular column 2",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "099d479b-cde5-412b-a137-fc10a731341b",
+        "beforeName": "Rear privacy fin 4",
+        "afterName": "Rear privacy fin 4",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "0ae17d4e-f1b0-4604-9995-c906635c3e6f",
+        "beforeName": "Canopy circular column 3",
+        "afterName": "Canopy circular column 3",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "11cf05df-ae61-43e9-a344-c24679731836",
+        "beforeName": "Rear privacy fin 6",
+        "afterName": "Rear privacy fin 6",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "135a07b3-c22a-4523-be13-77e3c21b9052",
+        "beforeName": "Canopy circular column 1",
+        "afterName": "Canopy circular column 1",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "2412f5e8-4be5-41ac-b5df-8c9129709b03",
+        "beforeName": "Rear privacy fin 14",
+        "afterName": "Rear privacy fin 14",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "2643e901-3a7c-4623-af4a-976c0b1355d2",
+        "beforeName": "Canopy circular column 7",
+        "afterName": "Canopy circular column 7",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "279fdeeb-2dce-4662-af55-85b14a5e14ba",
+        "beforeName": "Rear privacy fin 8",
+        "afterName": "Rear privacy fin 8",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "2c031441-681f-4067-8410-3280ec9ef6d0",
+        "beforeName": "Rear privacy fin 19",
+        "afterName": "Rear privacy fin 19",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "2f54396e-c5a3-4261-8ea2-b18a39e1056c",
+        "beforeName": "Rear privacy fin 21",
+        "afterName": "Rear privacy fin 21",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "3315c3ab-747c-4803-b226-480d27a9e992",
+        "beforeName": "Rear privacy fin 12",
+        "afterName": "Rear privacy fin 12",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "34e6ad07-3428-4fa8-b36e-0c1d9736d8c0",
+        "beforeName": "Rear privacy fin 15",
+        "afterName": "Rear privacy fin 15",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "36c2142a-1883-4f77-b0c4-d1ec7bcc2cb1",
+        "beforeName": "Rear privacy fin 9",
+        "afterName": "Rear privacy fin 9",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "397ba9ba-aee6-4eb8-8220-392da62fc52c",
+        "beforeName": "Canopy circular column 9",
+        "afterName": "Canopy circular column 9",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "4658ef59-b688-4a78-8171-b4d82b72c652",
+        "beforeName": "Rear privacy fin 20",
+        "afterName": "Rear privacy fin 20",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "54061778-5e20-4500-a589-cafa439f1ff0",
+        "beforeName": "Canopy flat roof",
+        "afterName": "Canopy flat roof",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "772262be-e11e-48eb-b115-c232ecdfaa1b",
+        "beforeName": "Canopy circular column 4",
+        "afterName": "Canopy circular column 4",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "7bedd536-8930-491c-bfd7-19375e425927",
+        "beforeName": "Rear privacy fin 18",
+        "afterName": "Rear privacy fin 18",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "7c183311-6a45-439a-a0b8-09ff23a2a16b",
+        "beforeName": "Rear privacy fin 1",
+        "afterName": "Rear privacy fin 1",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "864f95a0-2779-45ba-8441-c09a9da6de2b",
+        "beforeName": "Rear privacy fin 17",
+        "afterName": "Rear privacy fin 17",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "866e4779-8e68-413c-98f3-50d22ca63a38",
+        "beforeName": "Rear privacy fin 5",
+        "afterName": "Rear privacy fin 5",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "99adf627-6d8d-49b3-af3a-a1029344bd3c",
+        "beforeName": "Canopy circular column 5",
+        "afterName": "Canopy circular column 5",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "9af10a68-c0f0-4fb7-9664-96f6931ba0a3",
+        "beforeName": "Canopy circular column 8",
+        "afterName": "Canopy circular column 8",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a8b91056-f5b6-454d-b8a5-3806d4fa2178",
+        "beforeName": "Canopy circular column 6",
+        "afterName": "Canopy circular column 6",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "c293e454-8404-44a1-9eb1-a16f7b8e4659",
+        "beforeName": "Rear privacy fin 7",
+        "afterName": "Rear privacy fin 7",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "cb99b102-c88e-40ef-83b7-85e96154d694",
+        "beforeName": "Rear privacy fin 10",
+        "afterName": "Rear privacy fin 10",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "cda46857-0bda-4fd2-950b-693ff0482428",
+        "beforeName": "Rear privacy fin 3",
+        "afterName": "Rear privacy fin 3",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d935710b-e270-4a6d-86fe-5d12abf4c287",
+        "beforeName": "Rear privacy fin 2",
+        "afterName": "Rear privacy fin 2",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e28d6290-412f-4a53-a803-dbe6b3e3bcaa",
+        "beforeName": "Rear privacy fin 13",
+        "afterName": "Rear privacy fin 13",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fe999de2-1adc-41b6-aef7-ec5a02009073",
+        "beforeName": "Rear privacy fin 11",
+        "afterName": "Rear privacy fin 11",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "ffe5b202-2f58-4452-896b-10055273eb61",
+        "beforeName": "Rear privacy fin 16",
+        "afterName": "Rear privacy fin 16",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "65df8853-1708-4750-b7d1-581dfc9f0079",
+        "name": "Canopy ground platform"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-large-1-baseline-L2-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "0803197a-9cdb-413e-b5cc-984170ba9544",
+        "beforeName": "Conveyor roller 1",
+        "afterName": "Conveyor roller 1",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "13b997f9-1a0e-4056-8b31-e042a17662a8",
+        "beforeName": "Conveyor roller 20",
+        "afterName": "Conveyor roller 20",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "1d46c7f3-18a8-49cb-b59f-ed7c9489d362",
+        "beforeName": "Conveyor roller 11",
+        "afterName": "Conveyor roller 11",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "229f0662-648c-47f9-a44e-32bb4d40a5bb",
+        "beforeName": "Conveyor roller 21",
+        "afterName": "Conveyor roller 21",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "3acfeb3b-a01d-4c81-aabd-20b64528862c",
+        "beforeName": "Conveyor roller 10",
+        "afterName": "Conveyor roller 10",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "426ea4f5-01c0-412b-b33e-1de3bcf2a4ea",
+        "beforeName": "Side rail 1",
+        "afterName": "Side rail 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "46c22c5a-9471-4ffd-973d-c912dcc95569",
+        "beforeName": "Conveyor roller 3",
+        "afterName": "Conveyor roller 3",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5076775b-fad0-4667-a295-0410a74f6cfd",
+        "beforeName": "Conveyor roller 14",
+        "afterName": "Conveyor roller 14",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "52fb1d4b-94f1-4bc7-ac07-8ed7e6b31833",
+        "beforeName": "Conveyor roller 6",
+        "afterName": "Conveyor roller 6",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5a709587-c472-4bb5-a986-a46d94b02aea",
+        "beforeName": "Support leg 8",
+        "afterName": "Support leg 8",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "5c092e65-bbbc-41b6-95e1-157e86c7d910",
+        "beforeName": "Conveyor roller 4",
+        "afterName": "Conveyor roller 4",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "6a5b1982-ea36-4b9c-8a6c-992900e92f84",
+        "beforeName": "Support leg 2",
+        "afterName": "Support leg 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "6f31fc24-d8fb-4013-89e8-0c6e58d88800",
+        "beforeName": "Conveyor roller 24",
+        "afterName": "Conveyor roller 24",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "7e7aa4c1-67cf-45c3-931b-fa155d2bd88f",
+        "beforeName": "Conveyor roller 15",
+        "afterName": "Conveyor roller 15",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "84c3949a-0d20-4787-94fd-a8d536704047",
+        "beforeName": "Conveyor roller 2",
+        "afterName": "Conveyor roller 2",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "8f56fd96-4787-44c7-b3d3-b9b115323fc0",
+        "beforeName": "Conveyor roller 17",
+        "afterName": "Conveyor roller 17",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "9229c222-9862-4b78-879a-6999518742c8",
+        "beforeName": "Conveyor roller 22",
+        "afterName": "Conveyor roller 22",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a28912e0-316f-4aab-afa2-0f6066f83f27",
+        "beforeName": "Conveyor roller 18",
+        "afterName": "Conveyor roller 18",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a41fccc6-5569-4ee8-a8d0-a5119c84546f",
+        "beforeName": "Conveyor roller 5",
+        "afterName": "Conveyor roller 5",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a79df5e1-d80a-4779-b4a8-dd625c1f7553",
+        "beforeName": "Conveyor roller 12",
+        "afterName": "Conveyor roller 12",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a7cb3389-01da-445a-a228-a6946c528607",
+        "beforeName": "Support leg 7",
+        "afterName": "Support leg 7",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "acf2e95d-e91e-4cac-9c7d-ef41eac31e34",
+        "beforeName": "Conveyor roller 9",
+        "afterName": "Conveyor roller 9",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "ae59e45b-5ef5-4d82-9588-aa2bc29cd4e7",
+        "beforeName": "Conveyor roller 8",
+        "afterName": "Conveyor roller 8",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "bb63d19c-52d7-47be-b775-78de7aa15262",
+        "beforeName": "Conveyor roller 13",
+        "afterName": "Conveyor roller 13",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "c0eacaee-f72e-4153-96b5-eb05391b4a71",
+        "beforeName": "Support leg 5",
+        "afterName": "Support leg 5",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c86d1fdc-6292-4523-a264-b5d18a7702d4",
+        "beforeName": "Support leg 4",
+        "afterName": "Support leg 4",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "d69e5015-6e98-4d5f-8409-10e6920cb311",
+        "beforeName": "Support leg 6",
+        "afterName": "Support leg 6",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "d98b8787-1ced-4960-8dce-f66018031aed",
+        "beforeName": "Side rail 2",
+        "afterName": "Side rail 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "da89453d-ebfd-4ded-8678-af827151e1e6",
+        "beforeName": "Support leg 1",
+        "afterName": "Support leg 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "dc539c57-d3d7-4e41-96af-cad8de572fa4",
+        "beforeName": "Conveyor roller 23",
+        "afterName": "Conveyor roller 23",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "eb1d3be0-fd51-48fc-a24c-e7dbb9fe0c47",
+        "beforeName": "Conveyor roller 16",
+        "afterName": "Conveyor roller 16",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "ed0b3482-c199-450d-9fe1-eebd70dbf329",
+        "beforeName": "Support leg 3",
+        "afterName": "Support leg 3",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "fce72756-6187-4f2f-8d78-112f1e04c009",
+        "beforeName": "Conveyor roller 7",
+        "afterName": "Conveyor roller 7",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fe27776d-3d17-460d-bd8e-1ebeb7572c06",
+        "beforeName": "Conveyor roller 19",
+        "afterName": "Conveyor roller 19",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-large-1-baseline-L2-edit2",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "0803197a-9cdb-413e-b5cc-984170ba9544",
+        "beforeName": "Conveyor roller 1",
+        "afterName": "Conveyor roller 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "13b997f9-1a0e-4056-8b31-e042a17662a8",
+        "beforeName": "Conveyor roller 20",
+        "afterName": "Conveyor roller 20",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "1d46c7f3-18a8-49cb-b59f-ed7c9489d362",
+        "beforeName": "Conveyor roller 11",
+        "afterName": "Conveyor roller 11",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "229f0662-648c-47f9-a44e-32bb4d40a5bb",
+        "beforeName": "Conveyor roller 21",
+        "afterName": "Conveyor roller 21",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "3acfeb3b-a01d-4c81-aabd-20b64528862c",
+        "beforeName": "Conveyor roller 10",
+        "afterName": "Conveyor roller 10",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "426ea4f5-01c0-412b-b33e-1de3bcf2a4ea",
+        "beforeName": "Side rail 1",
+        "afterName": "Side rail 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "46c22c5a-9471-4ffd-973d-c912dcc95569",
+        "beforeName": "Conveyor roller 3",
+        "afterName": "Conveyor roller 3",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "5076775b-fad0-4667-a295-0410a74f6cfd",
+        "beforeName": "Conveyor roller 14",
+        "afterName": "Conveyor roller 14",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "52fb1d4b-94f1-4bc7-ac07-8ed7e6b31833",
+        "beforeName": "Conveyor roller 6",
+        "afterName": "Conveyor roller 6",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "5a709587-c472-4bb5-a986-a46d94b02aea",
+        "beforeName": "Support leg 8",
+        "afterName": "Support leg 8",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5c092e65-bbbc-41b6-95e1-157e86c7d910",
+        "beforeName": "Conveyor roller 4",
+        "afterName": "Conveyor roller 4",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "6a5b1982-ea36-4b9c-8a6c-992900e92f84",
+        "beforeName": "Support leg 2",
+        "afterName": "Support leg 2",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "6f31fc24-d8fb-4013-89e8-0c6e58d88800",
+        "beforeName": "Conveyor roller 24",
+        "afterName": "Conveyor roller 24",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "7e7aa4c1-67cf-45c3-931b-fa155d2bd88f",
+        "beforeName": "Conveyor roller 15",
+        "afterName": "Conveyor roller 15",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "84c3949a-0d20-4787-94fd-a8d536704047",
+        "beforeName": "Conveyor roller 2",
+        "afterName": "Conveyor roller 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "8f56fd96-4787-44c7-b3d3-b9b115323fc0",
+        "beforeName": "Conveyor roller 17",
+        "afterName": "Conveyor roller 17",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "9229c222-9862-4b78-879a-6999518742c8",
+        "beforeName": "Conveyor roller 22",
+        "afterName": "Conveyor roller 22",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a28912e0-316f-4aab-afa2-0f6066f83f27",
+        "beforeName": "Conveyor roller 18",
+        "afterName": "Conveyor roller 18",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a41fccc6-5569-4ee8-a8d0-a5119c84546f",
+        "beforeName": "Conveyor roller 5",
+        "afterName": "Conveyor roller 5",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a79df5e1-d80a-4779-b4a8-dd625c1f7553",
+        "beforeName": "Conveyor roller 12",
+        "afterName": "Conveyor roller 12",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a7cb3389-01da-445a-a228-a6946c528607",
+        "beforeName": "Support leg 7",
+        "afterName": "Support leg 7",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "acf2e95d-e91e-4cac-9c7d-ef41eac31e34",
+        "beforeName": "Conveyor roller 9",
+        "afterName": "Conveyor roller 9",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "ae59e45b-5ef5-4d82-9588-aa2bc29cd4e7",
+        "beforeName": "Conveyor roller 8",
+        "afterName": "Conveyor roller 8",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "bb63d19c-52d7-47be-b775-78de7aa15262",
+        "beforeName": "Conveyor roller 13",
+        "afterName": "Conveyor roller 13",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c0eacaee-f72e-4153-96b5-eb05391b4a71",
+        "beforeName": "Support leg 5",
+        "afterName": "Support leg 5",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "c86d1fdc-6292-4523-a264-b5d18a7702d4",
+        "beforeName": "Support leg 4",
+        "afterName": "Support leg 4",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d69e5015-6e98-4d5f-8409-10e6920cb311",
+        "beforeName": "Support leg 6",
+        "afterName": "Support leg 6",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d98b8787-1ced-4960-8dce-f66018031aed",
+        "beforeName": "Side rail 2",
+        "afterName": "Side rail 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "da89453d-ebfd-4ded-8678-af827151e1e6",
+        "beforeName": "Support leg 1",
+        "afterName": "Support leg 1",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "dc539c57-d3d7-4e41-96af-cad8de572fa4",
+        "beforeName": "Conveyor roller 23",
+        "afterName": "Conveyor roller 23",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "eb1d3be0-fd51-48fc-a24c-e7dbb9fe0c47",
+        "beforeName": "Conveyor roller 16",
+        "afterName": "Conveyor roller 16",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "ed0b3482-c199-450d-9fe1-eebd70dbf329",
+        "beforeName": "Support leg 3",
+        "afterName": "Support leg 3",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fce72756-6187-4f2f-8d78-112f1e04c009",
+        "beforeName": "Conveyor roller 7",
+        "afterName": "Conveyor roller 7",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "fe27776d-3d17-460d-bd8e-1ebeb7572c06",
+        "beforeName": "Conveyor roller 19",
+        "afterName": "Conveyor roller 19",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  }
+]
