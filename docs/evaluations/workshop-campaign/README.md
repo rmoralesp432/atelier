@@ -65,7 +65,7 @@ Both the stable baseline and `433d9ba` correctly created the sloped circular arr
 
 ## Transfer cases — rotated tapered supports and connected ramps
 
-Both versions created and successfully edited the rotated workbench. The follow-up asked only to raise its working surface 23 cm while keeping the feet and top form fixed. Both independently extended all four tapered legs, preserved their identities and the unrelated reference samples, and saved the correct result with functional reload and Undo/Redo. `f5ba626` explicitly inspected the before-state group; the baseline used the original inventory/conversation already supplied by the application. **Absence of an explicit inspection call is not evidence that it ignored available state.**
+Both versions created and successfully edited the rotated workbench. The follow-up asked only to raise its working surface 23 cm while keeping the feet and top form fixed. Both independently extended all four tapered legs, preserved their identities and the unrelated reference samples, and saved the correct result with functional reload and Undo/Redo. `f5ba626` attempted a before-state group inspection, but its `$group:Workbench` shorthand matched zero members: the inspection tool expects object IDs. The response still included a group roster/bounds, and the application already supplied the original scene inventory/conversation. This is not evidence of successful member inspection; both edits nevertheless passed the independent solid checks. **Absence of an explicit inspection call is not evidence that it ignored available state.**
 
 Both five-part ramp creations also had correct solids. An evaluator-only Float32 volume-consistency false flag was diagnosed and corrected in revision 4; original records remain intact. See [correction record](HARNESS-CORRECTIONS.md). The resulting fixture-edit diagnostics are kept separate: the baseline failed after trying a prohibited mid-transaction Undo; `f5ba626` used before/compare inspection and repaired an exact-metadata mismatch (`1.2` versus `1.2000000000000002`). This was useful recovery, though the trigger is itself an over-strict application verification issue.
 
@@ -74,3 +74,23 @@ Fresh edits were then performed on the **actual saved AI-created ramps**. Both p
 The transfer batch used an estimated **$1.460112**, including the separately seeded diagnostics. Fresh resumed ramp edits added **$0.211714**. [Raw transfer results](transfer-1-results.json) · [Resumed ramp results](ramp-resume-results.json) · [Full transfer traces, saved editable models, numerical reassessments and browser checks](artifacts/transfer-evidence.tar.gz)
 
 Selected fresh matched repeats and same-project recovery after a blocked transaction are in progress. All applications remain frozen. Current cumulative spending is an estimate in [spending.json](spending.json), including in-flight reservations when present.
+
+
+## Editable results for direct review
+
+The [model copies](models/) are exported from actual committed live results using ATELIER’s existing project exporter. Their solids, groups and Undo/Redo history were checked for exact equality after re-reading the exported copy. Download a `.atelier.json` file and use **Projects → Open project copy**. This creates a new imported project and does not overwrite existing work.
+
+- [Raised rotated workbench — baseline](models/transfer-1-baseline-W5-edit.atelier.json) / [workshop](models/transfer-1-workshop-W5-edit.atelier.json)
+- [Edited promenade — baseline](models/ramp-resume-baseline-W6-edit.atelier.json) / [workshop](models/ramp-resume-workshop-W6-edit.atelier.json)
+- [Edited garden enclosure](models/workshop-2-workshop-W2-edit.atelier.json)
+- [Lengthened bored roller assembly](models/baseline-fill-baseline-W3-edit.atelier.json)
+- [Raised elliptical halo](models/workshop-2-workshop-W4-edit.atelier.json)
+
+These exports and the screenshots are read-only reviews of saved live outputs, not additional AI runs. A model’s available copy does not erase any original strict-scoring flag; see the detailed case results.
+
+
+## Repeat batch — interim observations
+
+Fresh console and garden-room creations plus their connected edits passed external solid checks, committed, and survived reload/Undo/Redo in both versions. Baseline garden creation exhausted its reviewer allowance; the application explicitly saved it as **incompletely verified**, not independently verified. The separate measurements established the solids were correct.
+
+The second workshop roller creation reproduced the same group-ID/name criterion error. Its saved-operation replay again passes every external solid check and becomes commit-eligible only in a labeled analysis-only group-reference correction. No application fix was applied; the live result remains blocked. The separately seeded workshop roller edit also repeated the 6,000-token reviewer exhaustion. In contrast, both baseline roller creation/edit episodes passed so far. These are observed outcomes, not proof that the workshop inspection change caused the review failures: actual generated models and reviewer inputs differ. A matched edit on the identical validated roller fixture can isolate that representation confound if needed.

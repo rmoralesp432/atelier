@@ -13,6 +13,17 @@ for path in sorted(root.glob('*/results.json')):
     for r in json.loads(path.read_text()):
         calls = [c for c in ledger['calls'] if c['caseId'] == r['id']]
         inspections, tool_names, calculations = [], [], []
+        tool_outputs = {}
+        for c in calls:
+            request_path = root / 'calls' / (c['id'] + '-request.json')
+            if not request_path.exists():
+                continue
+            for item in json.loads(request_path.read_text()).get('input', []):
+                if isinstance(item, dict) and item.get('type') == 'function_call_output':
+                    try:
+                        tool_outputs[item['call_id']] = json.loads(item['output'])
+                    except (ValueError, TypeError):
+                        pass
         for c in calls:
             response_path = root / 'calls' / (c['id'] + '-response.json')
             if not response_path.exists():
@@ -23,7 +34,12 @@ for path in sorted(root.glob('*/results.json')):
                     continue
                 tool_names.append(output['name'])
                 if output['name'] == 'inspect_scene':
-                    inspections.append({'call': c['id'], 'arguments': json.loads(output['arguments'])})
+                    result = tool_outputs.get(output.get('call_id'), {})
+                    inspections.append({'call': c['id'], 'arguments': json.loads(output['arguments']),
+                        'resultRecorded': bool(result), 'available': result.get('available'),
+                        'matched': result.get('matched', len(result.get('objects', []))),
+                        'missingIds': result.get('missingIds', []), 'source': result.get('source'),
+                        'returnedObjectIds': [o.get('id') for o in result.get('objects', [])]})
         for e in r.get('events', []):
             if e['kind'] == 'reviewer':
                 for check in (e.get('response') or {}).get('checks', []):
