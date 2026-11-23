@@ -1,0 +1,189 @@
+[
+  {
+    "id": "workshop-1-workshop-W1-create",
+    "status": "INTERRUPTED_OR_HARNESS_FAILURE",
+    "committed": true,
+    "hostStatus": "unverified",
+    "transaction": null,
+    "inspections": [],
+    "repairFeedback": 1,
+    "callCount": 3,
+    "estimatedUSD": 0.100512,
+    "failedFacts": []
+  },
+  {
+    "id": "workshop-1-baseline-W1-create",
+    "status": "INTERRUPTED_OR_HARNESS_FAILURE",
+    "committed": true,
+    "hostStatus": "unverified",
+    "transaction": null,
+    "inspections": [],
+    "repairFeedback": 1,
+    "callCount": 4,
+    "estimatedUSD": 0.13365,
+    "failedFacts": []
+  },
+  {
+    "id": "workshop-1-baseline-W1-diagnostic-edit",
+    "status": "INTERRUPTED_OR_HARNESS_FAILURE",
+    "committed": true,
+    "hostStatus": "verified",
+    "transaction": null,
+    "inspections": [],
+    "repairFeedback": 0,
+    "callCount": 2,
+    "estimatedUSD": 0.053618,
+    "failedFacts": []
+  },
+  {
+    "id": "workshop-1-baseline-W2-create",
+    "status": "INTERRUPTED_OR_HARNESS_FAILURE",
+    "committed": null,
+    "hostStatus": null,
+    "transaction": null,
+    "inspections": [],
+    "repairFeedback": 0,
+    "callCount": 1,
+    "estimatedUSD": 0.043114,
+    "failedFacts": []
+  },
+  {
+    "id": "console-resume-workshop-W1-edit",
+    "status": "PASS",
+    "committed": true,
+    "hostStatus": "verified",
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "inspections": [
+      {
+        "name": "inspect_scene",
+        "arguments": {
+          "ids": [
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+            "97f66d1b-1d1f-48f5-97b3-103a00372431",
+            "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+            "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+          ],
+          "role": null,
+          "snapshot": "before",
+          "relativeTo": "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+        }
+      },
+      {
+        "name": "inspect_scene",
+        "arguments": {
+          "ids": [
+            "97f66d1b-1d1f-48f5-97b3-103a00372431",
+            "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+            "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+          ],
+          "role": null,
+          "snapshot": "compare",
+          "relativeTo": "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+        }
+      }
+    ],
+    "repairFeedback": 1,
+    "callCount": 5,
+    "estimatedUSD": 0.187942,
+    "failedFacts": []
+  },
+  {
+    "id": "console-resume-baseline-W1-edit",
+    "status": "COMMITTED_INCORRECT",
+    "committed": true,
+    "hostStatus": "verified",
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "inspections": [],
+    "repairFeedback": 1,
+    "callCount": 3,
+    "estimatedUSD": 0.10355600000000001,
+    "failedFacts": [
+      {
+        "name": "Expected occupied geometry a406073c-12ad-49ab-905c-b2a4add7d6e6",
+        "status": "incorrect",
+        "expected": {
+          "volume": 0.017887500000000053,
+          "bounds": {
+            "min": [
+              -1.06,
+              0,
+              -0.25
+            ],
+            "max": [
+              -1.015,
+              0.795,
+              0.25
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.01788749999999999,
+          "bounds": {
+            "min": [
+              -1.0594999999999999,
+              0,
+              -0.25
+            ],
+            "max": [
+              -1.0145,
+              0.795,
+              0.25
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry 036d8747-09a9-45c0-a00e-3f929245c896",
+        "status": "incorrect",
+        "expected": {
+          "volume": 0.01788749999999999,
+          "bounds": {
+            "min": [
+              1.0150000000000001,
+              0,
+              -0.25
+            ],
+            "max": [
+              1.06,
+              0.795,
+              0.25
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.01788749999999999,
+          "bounds": {
+            "min": [
+              1.0155,
+              0,
+              -0.25
+            ],
+            "max": [
+              1.0605,
+              0.795,
+              0.25
+            ]
+          }
+        }
+      }
+    ]
+  }
+]

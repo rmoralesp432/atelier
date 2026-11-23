@@ -1,0 +1,16 @@
+[
+  {
+    "id": "workshop-2-workshop-W2-create",
+    "version": "workshop",
+    "commit": "f5ba62621db0d9c0a02f90be5b0143c7e21b53f7",
+    "task": "W2",
+    "prompt": "Model a simple garden room centered at the origin, 3.6 m along X by 2.8 m along Z. Give it a separate 12 cm floor slab resting on the ground, a flat 15 cm roof whose underside is 2.6 m above the floor surface, four slender corner posts, full-height glazing along the two side façades, and a solid back wall; leave the front open. Use one editable object for each slab, post, side glazing panel and back wall, organized as one assembly. Use reasonable posts and wall thicknesses and keep all of them within the footprint. Leave the existing samples alone.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "RUNNING",
+    "started": "2026-11-23T19:26:47.455Z",
+    "requestCount": 3,
+    "eventCount": 3
+  }
+]

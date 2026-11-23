@@ -110,10 +110,10 @@
     "scripts/workshop-campaign/budget.ts": "8c461a46db1a55ffe46e32e0708278e2b7dbdb0aae2ab61a4ed217ca3686154d",
     "scripts/workshop-campaign/calibrate.ts": "fc4045a618acde3f2b7a10ba2e50f28f313ffd82e8a329a14442d0acd6e74006",
     "scripts/workshop-campaign/config.ts": "e09fac6cf4aacb3cd5e091ef8c9fa8187e267f384e3b70ef3702b2d198ee1798",
-    "scripts/workshop-campaign/geometry.ts": "44ac643614622fc976b8ef7146b90ae910070d1c6660eb09721d268d4d2d2998",
-    "scripts/workshop-campaign/run.ts": "74e6b88ab7604a046dca4adbb9a46a9e69d9844dedd827527065d1a0a9ee20f8",
+    "scripts/workshop-campaign/geometry.ts": "a7d94219fc79f0ab73822e7f28d277fd823802a1c0325fbbe75c78da5d591c23",
+    "scripts/workshop-campaign/run.ts": "f91fac25f394b3eca14e24afc3e19939332114ad892a44186610c50455b299fe",
     "scripts/workshop-campaign/specs.ts": "31c088d2cb65ac2b27fc0138d06a905e0566a1ae835d0a3e52841ff450414278"
   },
-  "evaluatorCommit": "e3065bf3d7a5b8077689b0c51e1b718ca8ca0c98",
-  "frozenAt": "2026-11-23T19:18:03.095Z"
+  "evaluatorCommit": "1beddbc506cdc243fd1eefc749d4e6e3d483e3bc",
+  "frozenAt": "2026-11-23T19:24:42.543Z"
 }
