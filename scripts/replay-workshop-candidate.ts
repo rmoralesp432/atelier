@@ -3,7 +3,7 @@ import {readFileSync,mkdirSync} from 'node:fs';
 import {join} from 'node:path';
 import {applyPlan} from '../src/intelligence/engine';
 import {verifyCompletion} from '../src/intelligence/completion';
-import {oracle,pass} from './workshop-campaign/geometry';
+import {oracle,pass} from './workshop-campaign/registry';
 import {save} from './workshop-campaign/budget';
 const root='.cloud/workshop-campaign',batch=process.argv[2],id=process.argv[3];
 const r=JSON.parse(readFileSync(join(root,batch,'results.json'),'utf8')).find((r:any)=>r.id===id);
@@ -14,6 +14,7 @@ for(const e of r.events.filter((e:any)=>e.kind==='executor'&&e.response)){
  for(const original of e.input.scene.objects){const candidates=current.project.volumes.filter((v:any)=>v.name===original.name);if(candidates.length===1)ids.set(original.id,candidates[0].id);}
  for(const original of e.input.scene.groups??[]){const candidates=current.project.groups.filter((v:any)=>v.name===original.name);if(candidates.length===1)ids.set(original.id,candidates[0].id);}
  if(!e.response.operations?.length)continue;
+ if(events.some((x:any)=>x.applied)&&e.response.operations.some((op:any)=>['undo','redo'].includes(op.type))){events.push({message:e.response.message,applied:false,error:'Undo must start a design request. Replayed the checkedPlanner staged-Undo guard; the live request stopped here.'});break;}
  try{current=(await applyPlan(current,substitute(e.response),undefined,true)).session;events.push({message:e.response.message,applied:true,count:current.project.volumes.length});}
  catch(error){events.push({message:e.response.message,applied:false,error:String(error)});}
 }

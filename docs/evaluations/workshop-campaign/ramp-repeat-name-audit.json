@@ -1,0 +1,36 @@
+{
+  "case": "transfer-repeat-workshop-W6-edit",
+  "rawStatus": "COMMITTED_INCORRECT",
+  "soleStrictFailures": [
+    {
+      "id": "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+      "changes": {
+        "name": [
+          "Platform 55 cm",
+          "Platform 73 cm"
+        ]
+      }
+    },
+    {
+      "id": "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+      "changes": {
+        "name": [
+          "Ramp 25 to 55 cm",
+          "Ramp 25 to 73 cm"
+        ]
+      }
+    },
+    {
+      "id": "d8357c2d-46af-474f-8354-d050bc2e4737",
+      "changes": {
+        "name": [
+          "Ramp 55 to 85 cm",
+          "Ramp 73 to 85 cm"
+        ]
+      }
+    }
+  ],
+  "interpretation": "All occupied-solid, connection, identity, preservation and persistence checks pass. Names were sensibly updated to reflect the new heights. Preserve raw metadata flags; these are not geometric errors.",
+  "implementationChanged": false,
+  "scoringChanged": false
+}

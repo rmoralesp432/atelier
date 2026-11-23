@@ -8,9 +8,550 @@
     "edit": false,
     "diagnostic": false,
     "negative": false,
-    "status": "RUNNING",
+    "status": "PASS",
     "started": "2026-11-23T20:30:35.065Z",
     "requestCount": 5,
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Make a small workbench as five separately editable parts: a rectangular top and four round legs that taper from 10 cm diameter at the floor to 6 cm under the top. The top is 1.45 by 0.72 m, 6 cm thick, with its working surface 88 cm above ground. Center the bench at the origin and orient its long direction 31 degrees from +X toward +Z. The leg centers form a centered 1.10 by 0.48 m rectangle aligned with the top. Group the bench and leave the existing samples alone."
+      },
+      {
+        "role": "assistant",
+        "content": "Created or replaced 1 rectangle section(s), extruded along local Y. Existing identities and placements retained.\nWorkbench top: 1.45 × 0.72 × 0.06 m; base (0, 0.82, 0) m.\nWorkbench tapered leg: 1 × 1 × 8.2 m; base (0, 0, 0) m. Closed revolve solid; profile/path parameters preserved.\nScaled 1 objects and their spacing by 0.1, about (0, 0, 0) m.\nWorkbench tapered leg: 0.1 × 0.1 × 0.82 m; base (-0.55, 0, -0.24) m.\nCreated 4 array instances including the original group (3 new objects).\nCreated group Workbench with 5 selected objects.\nRotated 5 volumes together -31° around the reference volume; relative layout and elevations preserved.\nIdentified 5 furniture element(s).\nVerified count: 5 (5 element(s)).\nVerified width: 1.45 (1 element(s)).\nVerified depth: 0.72 (1 element(s)).\nVerified height: 0.06 (1 element(s)).\nVerified top: 0.88 (1 element(s)).\nWorkbench top: 1.45 × 0.72 × 0.06 m; base (0, 0.82, 0) m. Material volume 0.063 m³; surface area 2.348 m²; lowest/highest elevation 0.82 / 0.88 m.\nWorkbench tapered leg: 0.1 × 0.1 × 0.82 m; base (-0.348, 0, -0.489) m. Material volume 0.004 m³; surface area 0.217 m²; lowest/highest elevation 0 / 0.82 m.\nWorkbench tapered leg copy: 0.1 × 0.1 × 0.82 m; base (0.595, 0, 0.078) m. Material volume 0.004 m³; surface area 0.217 m²; lowest/highest elevation 0 / 0.82 m.\nWorkbench tapered leg copy (2): 0.1 × 0.1 × 0.82 m; base (-0.595, 0, -0.078) m. Material volume 0.004 m³; surface area 0.217 m²; lowest/highest elevation 0 / 0.82 m.\nWorkbench tapered leg copy (3): 0.1 × 0.1 × 0.82 m; base (0.348, 0, 0.489) m. Material volume 0.004 m³; surface area 0.217 m²; lowest/highest elevation 0 / 0.82 m.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · Workbench top: count (each): 1; expected equal 1, tolerance 0. 1 element(s).\ncount · leg: count (each): 4; expected equal 4, tolerance 0. 4 element(s).\nshape · Workbench top: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.\nheight · Workbench top: height (each, world solids): 0.05999999999999994; expected equal 0.06 ± 0.001 m.\ntop · Workbench top: top (each, world solids): 0.8799999999999999; expected equal 0.88 ± 0.001 m.\nwidth · Workbench top: width (each, world solids): 1.6137199999533018; expected equal 1.613718 ± 0.002 m.\ndepth · Workbench top: depth (each, world solids): 1.3639656651250993; expected equal 1.363965 ± 0.002 m.\nlayout · Workbench top: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.\npositions · leg: 4/4 required world base-center positions occupied; 4 objects, tolerance 0.002 m.\ntop · leg: top (each, world solids): 0.82, 0.82, 0.82, 0.82; expected equal 0.82 ± 0.001 m.\nrelationship: touching: 4/4 distinct solid pairs satisfy each; tolerance 0.001 m.\nunavailable: Unverified: The available predicates cannot verify circular tapered legs with a 0.10 m diameter at the floor and a 0.06 m diameter under the top; a cylinder diameter predicate would incorrectly require constant diameter.\ngroup: Group Workbench: 5 members; 5/5 requested objects belong to it.\nDesign assumptions:\nThe top underside is 0.82 m above ground, so each leg is 0.82 m tall.\nThe requested plan direction is a 31-degree turn from +X toward +Z; the existing samples are excluded from all edits.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nunavailable: Unverified: The available predicates cannot verify circular tapered legs with a 0.10 m diameter at the floor and a 0.06 m diameter under the top; a cylinder diameter predicate would incorrectly require constant diameter.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · Workbench top: count (each): 1; expected equal 1, tolerance 0. 1 element(s).\ncount · leg: count (each): 4; expected equal 4, tolerance 0. 4 element(s).\nshape · Workbench top: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type."
+      }
+    ],
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "facts": [
+      {
+        "name": "Unrelated reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated group",
+        "status": "verified"
+      },
+      {
+        "name": "Five editable parts",
+        "status": "verified",
+        "expected": 5,
+        "actual": 5
+      },
+      {
+        "name": "Distinct identities",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 431b0e3b-04c5-492b-bcda-27acfef1ed36",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid e4cef43f-1a68-450f-a3cb-8882a09ff914",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid cdf4ccee-1682-4020-a64b-94fab99a2775",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 7e7c9b08-6c67-4899-91f7-7363d96a0cee",
+        "status": "verified"
+      },
+      {
+        "name": "Placement Workbench top 0",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Placement Workbench top 1",
+        "status": "verified",
+        "expected": 0.8499999946355818,
+        "actual": 0.8499999999999999
+      },
+      {
+        "name": "Placement Workbench top 2",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Occupied geometry Workbench top",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.8068599999766509,
+              0.8199999928474426,
+              -0.6819828325625497
+            ],
+            "max": [
+              0.8068599999766509,
+              0.8799999964237212,
+              0.6819828325625497
+            ]
+          },
+          "volume": 0.06264000359032022,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.8068599999766509,
+              0.82,
+              -0.6819828325625497
+            ],
+            "max": [
+              0.8068599999766509,
+              0.8799999999999999,
+              0.6819828325625497
+            ]
+          },
+          "volume": 0.06263999999999992
+        }
+      },
+      {
+        "name": "Placement Tapered leg 0",
+        "status": "verified",
+        "expected": -0.34783287442751837,
+        "actual": -0.348
+      },
+      {
+        "name": "Placement Tapered leg 1",
+        "status": "verified",
+        "expected": 0.41,
+        "actual": 0.41
+      },
+      {
+        "name": "Placement Tapered leg 2",
+        "status": "verified",
+        "expected": -0.48899108144811493,
+        "actual": -0.489
+      },
+      {
+        "name": "Occupied geometry Tapered leg",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.39783284169949595,
+              0,
+              -0.5389910338189402
+            ],
+            "max": [
+              -0.2978329071555408,
+              0.82,
+              -0.43899112907728965
+            ]
+          },
+          "volume": 0.004205950052415854,
+          "relativeTolerance": 0.02
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.3979923840916452,
+              0,
+              -0.5389923840916452
+            ],
+            "max": [
+              -0.29800761590835473,
+              0.82,
+              -0.43900761590835474
+            ]
+          },
+          "volume": 0.004204636346050512
+        }
+      },
+      {
+        "name": "Placement Tapered leg 0",
+        "status": "verified",
+        "expected": -0.5950511399535376,
+        "actual": -0.595
+      },
+      {
+        "name": "Placement Tapered leg 1",
+        "status": "verified",
+        "expected": 0.41,
+        "actual": 0.41
+      },
+      {
+        "name": "Placement Tapered leg 2",
+        "status": "verified",
+        "expected": -0.07755079201225333,
+        "actual": -0.078
+      },
+      {
+        "name": "Occupied geometry Tapered leg",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.6450511206365523,
+              0,
+              -0.12755076524469186
+            ],
+            "max": [
+              -0.5450511592705231,
+              0.82,
+              -0.027550818779814808
+            ]
+          },
+          "volume": 0.004205950153417559,
+          "relativeTolerance": 0.02
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.6449923840916452,
+              0,
+              -0.12799238409164523
+            ],
+            "max": [
+              -0.5450076159083548,
+              0.82,
+              -0.028007615908354766
+            ]
+          },
+          "volume": 0.004204636346050512
+        }
+      },
+      {
+        "name": "Placement Tapered leg 0",
+        "status": "verified",
+        "expected": 0.5950511399535376,
+        "actual": 0.595
+      },
+      {
+        "name": "Placement Tapered leg 1",
+        "status": "verified",
+        "expected": 0.41,
+        "actual": 0.41
+      },
+      {
+        "name": "Placement Tapered leg 2",
+        "status": "verified",
+        "expected": 0.07755079201225333,
+        "actual": 0.078
+      },
+      {
+        "name": "Occupied geometry Tapered leg",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              0.5450511592705231,
+              0,
+              0.027550818779814808
+            ],
+            "max": [
+              0.6450511206365523,
+              0.82,
+              0.12755076524469186
+            ]
+          },
+          "volume": 0.004205950153417559,
+          "relativeTolerance": 0.02
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              0.5450076159083548,
+              0,
+              0.028007615908354766
+            ],
+            "max": [
+              0.6449923840916452,
+              0.82,
+              0.12799238409164523
+            ]
+          },
+          "volume": 0.004204636346050512
+        }
+      },
+      {
+        "name": "Placement Tapered leg 0",
+        "status": "verified",
+        "expected": 0.34783287442751837,
+        "actual": 0.348
+      },
+      {
+        "name": "Placement Tapered leg 1",
+        "status": "verified",
+        "expected": 0.41,
+        "actual": 0.41
+      },
+      {
+        "name": "Placement Tapered leg 2",
+        "status": "verified",
+        "expected": 0.48899108144811493,
+        "actual": 0.489
+      },
+      {
+        "name": "Occupied geometry Tapered leg",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              0.2978329071555408,
+              0,
+              0.43899112907728965
+            ],
+            "max": [
+              0.39783284169949595,
+              0.82,
+              0.5389910338189402
+            ]
+          },
+          "volume": 0.004205950052415854,
+          "relativeTolerance": 0.02
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              0.29800761590835473,
+              0,
+              0.43900761590835474
+            ],
+            "max": [
+              0.3979923840916452,
+              0.82,
+              0.5389923840916452
+            ]
+          },
+          "volume": 0.004204636346050512
+        }
+      },
+      {
+        "name": "Grouped assembly",
+        "status": "verified"
+      }
+    ],
+    "hostReplay": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 5; expected equal 5, tolerance 0. 5 element(s).",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36",
+            "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+            "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+            "cdf4ccee-1682-4020-a64b-94fab99a2775",
+            "7e7c9b08-6c67-4899-91f7-7363d96a0cee"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "editable",
+          "met": true,
+          "outcome": "verified",
+          "observed": "5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36",
+            "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+            "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+            "cdf4ccee-1682-4020-a64b-94fab99a2775",
+            "7e7c9b08-6c67-4899-91f7-7363d96a0cee"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "count · Workbench top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "count · leg",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 4; expected equal 4, tolerance 0. 4 element(s).",
+          "ids": [
+            "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+            "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+            "cdf4ccee-1682-4020-a64b-94fab99a2775",
+            "7e7c9b08-6c67-4899-91f7-7363d96a0cee"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "shape · Workbench top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36"
+          ]
+        },
+        {
+          "id": "check-6",
+          "label": "height · Workbench top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.05999999999999994; expected equal 0.06 ± 0.001 m.",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36"
+          ]
+        },
+        {
+          "id": "check-7",
+          "label": "top · Workbench top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.8799999999999999; expected equal 0.88 ± 0.001 m.",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36"
+          ]
+        },
+        {
+          "id": "check-8",
+          "label": "width · Workbench top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 1.6137199999533018; expected equal 1.613718 ± 0.002 m.",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36"
+          ]
+        },
+        {
+          "id": "check-9",
+          "label": "depth · Workbench top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 1.3639656651250993; expected equal 1.363965 ± 0.002 m.",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36"
+          ]
+        },
+        {
+          "id": "check-10",
+          "label": "layout · Workbench top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36"
+          ]
+        },
+        {
+          "id": "check-11",
+          "label": "positions · leg",
+          "met": true,
+          "outcome": "verified",
+          "observed": "4/4 required world base-center positions occupied; 4 objects, tolerance 0.002 m.",
+          "ids": [
+            "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+            "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+            "cdf4ccee-1682-4020-a64b-94fab99a2775",
+            "7e7c9b08-6c67-4899-91f7-7363d96a0cee"
+          ]
+        },
+        {
+          "id": "check-12",
+          "label": "top · leg",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.82, 0.82, 0.82, 0.82; expected equal 0.82 ± 0.001 m.",
+          "ids": [
+            "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+            "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+            "cdf4ccee-1682-4020-a64b-94fab99a2775",
+            "7e7c9b08-6c67-4899-91f7-7363d96a0cee"
+          ]
+        },
+        {
+          "id": "check-13",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 4/4 distinct solid pairs satisfy each; tolerance 0.001 m.",
+          "ids": [
+            "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+            "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+            "cdf4ccee-1682-4020-a64b-94fab99a2775",
+            "7e7c9b08-6c67-4899-91f7-7363d96a0cee",
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36"
+          ]
+        },
+        {
+          "id": "check-14",
+          "label": "unavailable",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Unverified: The available predicates cannot verify circular tapered legs with a 0.10 m diameter at the floor and a 0.06 m diameter under the top; a cylinder diameter predicate would incorrectly require constant diameter.",
+          "ids": []
+        },
+        {
+          "id": "check-15",
+          "label": "group",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Group Workbench: 5 members; 5/5 requested objects belong to it.",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36",
+            "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+            "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+            "cdf4ccee-1682-4020-a64b-94fab99a2775",
+            "7e7c9b08-6c67-4899-91f7-7363d96a0cee"
+          ]
+        }
+      ],
+      "qualitativeLimits": []
+    },
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 98413,
+    "cost": {
+      "calls": 5,
+      "estimatedUSD": 0.17560599999999998,
+      "accountedUSD": 0.2195075,
+      "unknownReservations": [],
+      "inputTokens": 65568,
+      "outputTokens": 4447,
+      "reviewerMs": 21262,
+      "executorMs": 55062
+    },
     "eventCount": 5
   },
   {
@@ -22,9 +563,3547 @@
     "edit": false,
     "diagnostic": false,
     "negative": false,
-    "status": "RUNNING",
+    "status": "PASS",
     "started": "2026-11-23T20:30:35.766Z",
     "requestCount": 7,
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Make a small workbench as five separately editable parts: a rectangular top and four round legs that taper from 10 cm diameter at the floor to 6 cm under the top. The top is 1.45 by 0.72 m, 6 cm thick, with its working surface 88 cm above ground. Center the bench at the origin and orient its long direction 31 degrees from +X toward +Z. The leg centers form a centered 1.10 by 0.48 m rectangle aligned with the top. Group the bench and leave the existing samples alone."
+      },
+      {
+        "role": "assistant",
+        "content": "Workbench top component: 1 independently editable elements.\nWorkbench top: 1.45 × 0.72 × 0.06 m; base (0, 0.82, 0) m.\nWorkbench tapered leg: 1 × 1 × 8.2 m; base (0, 0, 0) m. Closed revolve solid; profile/path parameters preserved.\nScaled 1 objects and their spacing by 0.1, about (0, 0, 0) m.\nWorkbench tapered leg: 0.1 × 0.1 × 0.82 m; base (-0.55, 0, -0.24) m.\nCreated 4 array instances including the original group (3 new objects).\nVerified count: 4 (4 element(s)).\nVerified height: 0.82, 0.82, 0.82, 0.82 (4 element(s)).\nVerified base: 0, 0, 0, 0 (4 element(s)).\nCreated group Workbench with 5 selected objects.\nIdentified 5 furniture element(s).\nRotated 5 volumes together -31° around the reference volume; relative layout and elevations preserved.\nVerified count: 5 (5 element(s)).\nVerified width: 1.45 (1 element(s)).\nVerified depth: 0.72 (1 element(s)).\nVerified height: 0.06 (1 element(s)).\nVerified top: 0.88 (1 element(s)).\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · top: count (each): 1; expected equal 1, tolerance 0. 1 element(s).\ncount · leg: count (each): 4; expected equal 4, tolerance 0. 4 element(s).\nshape · top: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.\nwidth · top: width (each, world solids): 1.6137199999533018; expected equal 1.61372 ± 0.001 m.\ndepth · top: depth (each, world solids): 1.3639656651250993; expected equal 1.363965 ± 0.001 m.\nheight · top: height (each, world solids): 0.05999999999999994; expected equal 0.06 ± 0.001 m.\nvolume · top: volume (each): 0.063; expected equal 0.06264, tolerance 0.00001. 1 element(s).\nlayout · top: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.\npositions · leg: 4/4 required world base-center positions occupied; 4 objects, tolerance 0.001 m.\nheight · leg: height (each, world solids): 0.82, 0.82, 0.82, 0.82; expected equal 0.82 ± 0.001 m.\nrelationship: touching: 4/4 distinct solid pairs satisfy each; tolerance 0.001 m.\nunavailable: Unverified: The available shape predicates cannot verify circular tapered legs with 0.10 m floor diameters and 0.06 m diameters under the top.\nunavailable: Unverified: Shared bench grouping cannot be checked without a group name; the request specifies no name and the supplied roster provides only a generated group identifier.\nDesign assumptions:\nThe top underside is at 0.82 m, so each leg is 0.82 m high.\nA yaw of -31 degrees places the long direction from +X toward +Z.\nBuild the revolved leg at larger scale, then reduce it to avoid the primitive creation minimum.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nunavailable: Unverified: The available shape predicates cannot verify circular tapered legs with 0.10 m floor diameters and 0.06 m diameters under the top.\nunavailable: Unverified: Shared bench grouping cannot be checked without a group name; the request specifies no name and the supplied roster provides only a generated group identifier.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · top: count (each): 1; expected equal 1, tolerance 0. 1 element(s).\ncount · leg: count (each): 4; expected equal 4, tolerance 0. 4 element(s).\nshape · top: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type."
+      }
+    ],
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "facts": [
+      {
+        "name": "Unrelated reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated group",
+        "status": "verified"
+      },
+      {
+        "name": "Five editable parts",
+        "status": "verified",
+        "expected": 5,
+        "actual": 5
+      },
+      {
+        "name": "Distinct identities",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 187f3165-4865-45bf-b5b9-929dbf347cc5",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 098a3fcf-d1a3-4377-947b-94d98a7adfb3",
+        "status": "verified"
+      },
+      {
+        "name": "Placement Workbench top 0",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Placement Workbench top 1",
+        "status": "verified",
+        "expected": 0.8499999946355818,
+        "actual": 0.8499999999999999
+      },
+      {
+        "name": "Placement Workbench top 2",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Occupied geometry Workbench top",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.8068599999766509,
+              0.8199999928474426,
+              -0.6819828325625497
+            ],
+            "max": [
+              0.8068599999766509,
+              0.8799999964237212,
+              0.6819828325625497
+            ]
+          },
+          "volume": 0.06264000359032022,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.8068599999766509,
+              0.82,
+              -0.6819828325625497
+            ],
+            "max": [
+              0.8068599999766509,
+              0.8799999999999999,
+              0.6819828325625497
+            ]
+          },
+          "volume": 0.0626399999999999
+        }
+      },
+      {
+        "name": "Placement Tapered leg 0",
+        "status": "verified",
+        "expected": -0.34783287442751837,
+        "actual": -0.348
+      },
+      {
+        "name": "Placement Tapered leg 1",
+        "status": "verified",
+        "expected": 0.41,
+        "actual": 0.41
+      },
+      {
+        "name": "Placement Tapered leg 2",
+        "status": "verified",
+        "expected": -0.48899108144811493,
+        "actual": -0.489
+      },
+      {
+        "name": "Occupied geometry Tapered leg",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.39783284169949595,
+              0,
+              -0.5389910338189402
+            ],
+            "max": [
+              -0.2978329071555408,
+              0.82,
+              -0.43899112907728965
+            ]
+          },
+          "volume": 0.004205950052415854,
+          "relativeTolerance": 0.02
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.3979923840916452,
+              0,
+              -0.5389923840916452
+            ],
+            "max": [
+              -0.29800761590835473,
+              0.82,
+              -0.43900761590835474
+            ]
+          },
+          "volume": 0.004204636346050512
+        }
+      },
+      {
+        "name": "Placement Tapered leg 0",
+        "status": "verified",
+        "expected": -0.5950511399535376,
+        "actual": -0.595
+      },
+      {
+        "name": "Placement Tapered leg 1",
+        "status": "verified",
+        "expected": 0.41,
+        "actual": 0.41
+      },
+      {
+        "name": "Placement Tapered leg 2",
+        "status": "verified",
+        "expected": -0.07755079201225333,
+        "actual": -0.078
+      },
+      {
+        "name": "Occupied geometry Tapered leg",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.6450511206365523,
+              0,
+              -0.12755076524469186
+            ],
+            "max": [
+              -0.5450511592705231,
+              0.82,
+              -0.027550818779814808
+            ]
+          },
+          "volume": 0.004205950153417559,
+          "relativeTolerance": 0.02
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.6449923840916452,
+              0,
+              -0.12799238409164523
+            ],
+            "max": [
+              -0.5450076159083548,
+              0.82,
+              -0.028007615908354766
+            ]
+          },
+          "volume": 0.004204636346050512
+        }
+      },
+      {
+        "name": "Placement Tapered leg 0",
+        "status": "verified",
+        "expected": 0.5950511399535376,
+        "actual": 0.595
+      },
+      {
+        "name": "Placement Tapered leg 1",
+        "status": "verified",
+        "expected": 0.41,
+        "actual": 0.41
+      },
+      {
+        "name": "Placement Tapered leg 2",
+        "status": "verified",
+        "expected": 0.07755079201225333,
+        "actual": 0.078
+      },
+      {
+        "name": "Occupied geometry Tapered leg",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              0.5450511592705231,
+              0,
+              0.027550818779814808
+            ],
+            "max": [
+              0.6450511206365523,
+              0.82,
+              0.12755076524469186
+            ]
+          },
+          "volume": 0.004205950153417559,
+          "relativeTolerance": 0.02
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              0.5450076159083548,
+              0,
+              0.028007615908354766
+            ],
+            "max": [
+              0.6449923840916452,
+              0.82,
+              0.12799238409164523
+            ]
+          },
+          "volume": 0.004204636346050512
+        }
+      },
+      {
+        "name": "Placement Tapered leg 0",
+        "status": "verified",
+        "expected": 0.34783287442751837,
+        "actual": 0.348
+      },
+      {
+        "name": "Placement Tapered leg 1",
+        "status": "verified",
+        "expected": 0.41,
+        "actual": 0.41
+      },
+      {
+        "name": "Placement Tapered leg 2",
+        "status": "verified",
+        "expected": 0.48899108144811493,
+        "actual": 0.489
+      },
+      {
+        "name": "Occupied geometry Tapered leg",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              0.2978329071555408,
+              0,
+              0.43899112907728965
+            ],
+            "max": [
+              0.39783284169949595,
+              0.82,
+              0.5389910338189402
+            ]
+          },
+          "volume": 0.004205950052415854,
+          "relativeTolerance": 0.02
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              0.29800761590835473,
+              0,
+              0.43900761590835474
+            ],
+            "max": [
+              0.3979923840916452,
+              0.82,
+              0.5389923840916452
+            ]
+          },
+          "volume": 0.004204636346050512
+        }
+      },
+      {
+        "name": "Grouped assembly",
+        "status": "verified"
+      }
+    ],
+    "hostReplay": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 5; expected equal 5, tolerance 0. 5 element(s).",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5",
+            "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+            "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+            "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+            "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "editable",
+          "met": true,
+          "outcome": "verified",
+          "observed": "5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5",
+            "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+            "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+            "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+            "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "count · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "count · leg",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 4; expected equal 4, tolerance 0. 4 element(s).",
+          "ids": [
+            "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+            "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+            "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+            "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "shape · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5"
+          ]
+        },
+        {
+          "id": "check-6",
+          "label": "width · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 1.6137199999533018; expected equal 1.61372 ± 0.001 m.",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5"
+          ]
+        },
+        {
+          "id": "check-7",
+          "label": "depth · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 1.3639656651250993; expected equal 1.363965 ± 0.001 m.",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5"
+          ]
+        },
+        {
+          "id": "check-8",
+          "label": "height · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.05999999999999994; expected equal 0.06 ± 0.001 m.",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5"
+          ]
+        },
+        {
+          "id": "check-9",
+          "label": "volume · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "volume (each): 0.063; expected equal 0.06264, tolerance 0.00001. 1 element(s).",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5"
+          ]
+        },
+        {
+          "id": "check-10",
+          "label": "layout · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5"
+          ]
+        },
+        {
+          "id": "check-11",
+          "label": "positions · leg",
+          "met": true,
+          "outcome": "verified",
+          "observed": "4/4 required world base-center positions occupied; 4 objects, tolerance 0.001 m.",
+          "ids": [
+            "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+            "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+            "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+            "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+          ]
+        },
+        {
+          "id": "check-12",
+          "label": "height · leg",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.82, 0.82, 0.82, 0.82; expected equal 0.82 ± 0.001 m.",
+          "ids": [
+            "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+            "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+            "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+            "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+          ]
+        },
+        {
+          "id": "check-13",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 4/4 distinct solid pairs satisfy each; tolerance 0.001 m.",
+          "ids": [
+            "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+            "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+            "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+            "098a3fcf-d1a3-4377-947b-94d98a7adfb3",
+            "187f3165-4865-45bf-b5b9-929dbf347cc5"
+          ]
+        },
+        {
+          "id": "check-14",
+          "label": "unavailable",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Unverified: The available shape predicates cannot verify circular tapered legs with 0.10 m floor diameters and 0.06 m diameters under the top.",
+          "ids": []
+        },
+        {
+          "id": "check-15",
+          "label": "unavailable",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Unverified: Shared bench grouping cannot be checked without a group name; the request specifies no name and the supplied roster provides only a generated group identifier.",
+          "ids": []
+        }
+      ],
+      "qualitativeLimits": []
+    },
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 113595,
+    "cost": {
+      "calls": 7,
+      "estimatedUSD": 0.254486,
+      "accountedUSD": 0.31810749999999993,
+      "unknownReservations": [],
+      "inputTokens": 102493,
+      "outputTokens": 4950,
+      "reviewerMs": 20581,
+      "executorMs": 68513
+    },
     "eventCount": 5
+  },
+  {
+    "id": "transfer-repeat-baseline-W5-edit",
+    "version": "baseline",
+    "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+    "task": "W5",
+    "prompt": "This workbench is too low. Raise its working surface by 23 cm, keeping its feet in their current places and preserving the top’s thickness, outline and orientation. Keep the bench coherent, keep the same parts, and leave everything else alone.",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "started": "2026-11-23T20:32:13.494Z",
+    "requestCount": 2,
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Make a small workbench as five separately editable parts: a rectangular top and four round legs that taper from 10 cm diameter at the floor to 6 cm under the top. The top is 1.45 by 0.72 m, 6 cm thick, with its working surface 88 cm above ground. Center the bench at the origin and orient its long direction 31 degrees from +X toward +Z. The leg centers form a centered 1.10 by 0.48 m rectangle aligned with the top. Group the bench and leave the existing samples alone."
+      },
+      {
+        "role": "assistant",
+        "content": "Created or replaced 1 rectangle section(s), extruded along local Y. Existing identities and placements retained.\nWorkbench top: 1.45 × 0.72 × 0.06 m; base (0, 0.82, 0) m.\nWorkbench tapered leg: 1 × 1 × 8.2 m; base (0, 0, 0) m. Closed revolve solid; profile/path parameters preserved.\nScaled 1 objects and their spacing by 0.1, about (0, 0, 0) m.\nWorkbench tapered leg: 0.1 × 0.1 × 0.82 m; base (-0.55, 0, -0.24) m.\nCreated 4 array instances including the original group (3 new objects).\nCreated group Workbench with 5 selected objects.\nRotated 5 volumes together -31° around the reference volume; relative layout and elevations preserved.\nIdentified 5 furniture element(s).\nVerified count: 5 (5 element(s)).\nVerified width: 1.45 (1 element(s)).\nVerified depth: 0.72 (1 element(s)).\nVerified height: 0.06 (1 element(s)).\nVerified top: 0.88 (1 element(s)).\nWorkbench top: 1.45 × 0.72 × 0.06 m; base (0, 0.82, 0) m. Material volume 0.063 m³; surface area 2.348 m²; lowest/highest elevation 0.82 / 0.88 m.\nWorkbench tapered leg: 0.1 × 0.1 × 0.82 m; base (-0.348, 0, -0.489) m. Material volume 0.004 m³; surface area 0.217 m²; lowest/highest elevation 0 / 0.82 m.\nWorkbench tapered leg copy: 0.1 × 0.1 × 0.82 m; base (0.595, 0, 0.078) m. Material volume 0.004 m³; surface area 0.217 m²; lowest/highest elevation 0 / 0.82 m.\nWorkbench tapered leg copy (2): 0.1 × 0.1 × 0.82 m; base (-0.595, 0, -0.078) m. Material volume 0.004 m³; surface area 0.217 m²; lowest/highest elevation 0 / 0.82 m.\nWorkbench tapered leg copy (3): 0.1 × 0.1 × 0.82 m; base (0.348, 0, 0.489) m. Material volume 0.004 m³; surface area 0.217 m²; lowest/highest elevation 0 / 0.82 m.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · Workbench top: count (each): 1; expected equal 1, tolerance 0. 1 element(s).\ncount · leg: count (each): 4; expected equal 4, tolerance 0. 4 element(s).\nshape · Workbench top: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.\nheight · Workbench top: height (each, world solids): 0.05999999999999994; expected equal 0.06 ± 0.001 m.\ntop · Workbench top: top (each, world solids): 0.8799999999999999; expected equal 0.88 ± 0.001 m.\nwidth · Workbench top: width (each, world solids): 1.6137199999533018; expected equal 1.613718 ± 0.002 m.\ndepth · Workbench top: depth (each, world solids): 1.3639656651250993; expected equal 1.363965 ± 0.002 m.\nlayout · Workbench top: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.\npositions · leg: 4/4 required world base-center positions occupied; 4 objects, tolerance 0.002 m.\ntop · leg: top (each, world solids): 0.82, 0.82, 0.82, 0.82; expected equal 0.82 ± 0.001 m.\nrelationship: touching: 4/4 distinct solid pairs satisfy each; tolerance 0.001 m.\nunavailable: Unverified: The available predicates cannot verify circular tapered legs with a 0.10 m diameter at the floor and a 0.06 m diameter under the top; a cylinder diameter predicate would incorrectly require constant diameter.\ngroup: Group Workbench: 5 members; 5/5 requested objects belong to it.\nDesign assumptions:\nThe top underside is 0.82 m above ground, so each leg is 0.82 m tall.\nThe requested plan direction is a 31-degree turn from +X toward +Z; the existing samples are excluded from all edits.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nunavailable: Unverified: The available predicates cannot verify circular tapered legs with a 0.10 m diameter at the floor and a 0.06 m diameter under the top; a cylinder diameter predicate would incorrectly require constant diameter.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · Workbench top: count (each): 1; expected equal 1, tolerance 0. 1 element(s).\ncount · leg: count (each): 4; expected equal 4, tolerance 0. 4 element(s).\nshape · Workbench top: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type."
+      },
+      {
+        "role": "user",
+        "content": "This workbench is too low. Raise its working surface by 23 cm, keeping its feet in their current places and preserving the top’s thickness, outline and orientation. Keep the bench coherent, keep the same parts, and leave everything else alone."
+      },
+      {
+        "role": "assistant",
+        "content": "Coordinated 5 components in 2 shared edit sets; identities and construction recipes retained. Linked components followed their hosts once.\nVerified top: 1.11 (1 element(s)).\nVerified height: 0.06 (1 element(s)).\nVerified width: 1.45 (1 element(s)).\nVerified depth: 0.72 (1 element(s)).\nVerified base: 0, 0, 0, 0 (4 element(s)).\nVerified top: 1.05, 1.05, 1.05, 1.05 (4 element(s)).\nVerified count: 5 (5 element(s)).\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ntop: top (each, world solids): 1.11; expected equal 1.11 ± 0.001 m.\npreserve: 1 original identities retain dimensions, rotation, x, z.\nshape: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.\npreserve: 4 original identities retain position, width, depth, rotation.\nrelationship: touching: 4/4 distinct solid pairs satisfy each; tolerance 0.001 m.\npreserve: 5 original identities retain identity, name, component, material, materialSpec, color, groupId, visible.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\ncount: count (each): 0; expected equal 0, tolerance 0. 0 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\nNot independently verified: The extended legs should retain their existing tapered character and form a coherent bench; the available shape predicates cannot verify preservation of a tapered profile.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nQualitative goals remain unverified: The extended legs should retain their existing tapered character and form a coherent bench; the available shape predicates cannot verify preservation of a tapered profile..\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ntop: top (each, world solids): 1.11; expected equal 1.11 ± 0.001 m.\npreserve: 1 original identities retain dimensions, rotation, x, z.\nshape: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.\npreserve: 4 original identities retain position, width, depth, rotation.\nrelationship: touching: 4/4 distinct solid pairs satisfy each; tolerance 0.001 m."
+      }
+    ],
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "431b0e3b-04c5-492b-bcda-27acfef1ed36",
+      "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+      "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+      "cdf4ccee-1682-4020-a64b-94fab99a2775",
+      "7e7c9b08-6c67-4899-91f7-7363d96a0cee"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "facts": [
+      {
+        "name": "Unrelated reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated group",
+        "status": "verified"
+      },
+      {
+        "name": "Five editable parts",
+        "status": "verified",
+        "expected": 5,
+        "actual": 5
+      },
+      {
+        "name": "Distinct identities",
+        "status": "verified"
+      },
+      {
+        "name": "Same identity roster",
+        "status": "verified"
+      },
+      {
+        "name": "Groups preserved",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties 431b0e3b-04c5-492b-bcda-27acfef1ed36",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties e4cef43f-1a68-450f-a3cb-8882a09ff914",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties 438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties cdf4ccee-1682-4020-a64b-94fab99a2775",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties 7e7c9b08-6c67-4899-91f7-7363d96a0cee",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 431b0e3b-04c5-492b-bcda-27acfef1ed36",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid e4cef43f-1a68-450f-a3cb-8882a09ff914",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid cdf4ccee-1682-4020-a64b-94fab99a2775",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 7e7c9b08-6c67-4899-91f7-7363d96a0cee",
+        "status": "verified"
+      },
+      {
+        "name": "Expected occupied edit 431b0e3b-04c5-492b-bcda-27acfef1ed36",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.8068599999766509,
+              1.05,
+              -0.6819828325625497
+            ],
+            "max": [
+              0.8068599999766509,
+              1.1099999999999999,
+              0.6819828325625497
+            ]
+          },
+          "volume": 0.06263999999999982,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.8068599999766509,
+              1.05,
+              -0.6819828325625497
+            ],
+            "max": [
+              0.8068599999766509,
+              1.11,
+              0.6819828325625497
+            ]
+          },
+          "volume": 0.06264000000000004
+        }
+      },
+      {
+        "name": "Expected occupied edit e4cef43f-1a68-450f-a3cb-8882a09ff914",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.3979923840916452,
+              0,
+              -0.5389923840916452
+            ],
+            "max": [
+              -0.29800761590835473,
+              1.05,
+              -0.43900761590835474
+            ]
+          },
+          "volume": 0.005383985565064681,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.3979923840916452,
+              0,
+              -0.5389923840916452
+            ],
+            "max": [
+              -0.29800761590835473,
+              1.05,
+              -0.43900761590835474
+            ]
+          },
+          "volume": 0.005383985565064681
+        }
+      },
+      {
+        "name": "Expected occupied edit 438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              0.5450076159083548,
+              0,
+              0.028007615908354766
+            ],
+            "max": [
+              0.6449923840916452,
+              1.05,
+              0.12799238409164523
+            ]
+          },
+          "volume": 0.00538398556506468,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              0.5450076159083548,
+              0,
+              0.028007615908354766
+            ],
+            "max": [
+              0.6449923840916452,
+              1.05,
+              0.12799238409164523
+            ]
+          },
+          "volume": 0.00538398556506468
+        }
+      },
+      {
+        "name": "Expected occupied edit cdf4ccee-1682-4020-a64b-94fab99a2775",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.6449923840916452,
+              0,
+              -0.12799238409164523
+            ],
+            "max": [
+              -0.5450076159083548,
+              1.05,
+              -0.028007615908354766
+            ]
+          },
+          "volume": 0.00538398556506468,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.6449923840916452,
+              0,
+              -0.12799238409164523
+            ],
+            "max": [
+              -0.5450076159083548,
+              1.05,
+              -0.028007615908354766
+            ]
+          },
+          "volume": 0.00538398556506468
+        }
+      },
+      {
+        "name": "Expected occupied edit 7e7c9b08-6c67-4899-91f7-7363d96a0cee",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              0.29800761590835473,
+              0,
+              0.43900761590835474
+            ],
+            "max": [
+              0.3979923840916452,
+              1.05,
+              0.5389923840916452
+            ]
+          },
+          "volume": 0.005383985565064681,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              0.29800761590835473,
+              0,
+              0.43900761590835474
+            ],
+            "max": [
+              0.3979923840916452,
+              1.05,
+              0.5389923840916452
+            ]
+          },
+          "volume": 0.005383985565064681
+        }
+      }
+    ],
+    "hostReplay": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 1.11; expected equal 1.11 ± 0.001 m.",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1 original identities retain dimensions, rotation, x, z.",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "shape",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "4 original identities retain position, width, depth, rotation.",
+          "ids": [
+            "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+            "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+            "cdf4ccee-1682-4020-a64b-94fab99a2775",
+            "7e7c9b08-6c67-4899-91f7-7363d96a0cee"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 4/4 distinct solid pairs satisfy each; tolerance 0.001 m.",
+          "ids": [
+            "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+            "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+            "cdf4ccee-1682-4020-a64b-94fab99a2775",
+            "7e7c9b08-6c67-4899-91f7-7363d96a0cee",
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36"
+          ]
+        },
+        {
+          "id": "check-6",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "5 original identities retain identity, name, component, material, materialSpec, color, groupId, visible.",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36",
+            "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+            "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+            "cdf4ccee-1682-4020-a64b-94fab99a2775",
+            "7e7c9b08-6c67-4899-91f7-7363d96a0cee"
+          ]
+        },
+        {
+          "id": "check-7",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 5; expected equal 5, tolerance 0. 5 element(s).",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36",
+            "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+            "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+            "cdf4ccee-1682-4020-a64b-94fab99a2775",
+            "7e7c9b08-6c67-4899-91f7-7363d96a0cee"
+          ]
+        },
+        {
+          "id": "check-8",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 0; expected equal 0, tolerance 0. 0 element(s).",
+          "ids": []
+        },
+        {
+          "id": "check-9",
+          "label": "editable",
+          "met": true,
+          "outcome": "verified",
+          "observed": "5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "431b0e3b-04c5-492b-bcda-27acfef1ed36",
+            "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+            "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+            "cdf4ccee-1682-4020-a64b-94fab99a2775",
+            "7e7c9b08-6c67-4899-91f7-7363d96a0cee"
+          ]
+        }
+      ],
+      "qualitativeLimits": [
+        "The extended legs should retain their existing tapered character and form a coherent bench; the available shape predicates cannot verify preservation of a tapered profile."
+      ]
+    },
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 49975,
+    "cost": {
+      "calls": 2,
+      "estimatedUSD": 0.064206,
+      "accountedUSD": 0.08025750000000001,
+      "unknownReservations": [],
+      "inputTokens": 23588,
+      "outputTokens": 1703,
+      "reviewerMs": 14276,
+      "executorMs": 14033
+    },
+    "eventCount": 2
+  },
+  {
+    "id": "transfer-repeat-workshop-W5-edit",
+    "version": "workshop",
+    "commit": "f5ba62621db0d9c0a02f90be5b0143c7e21b53f7",
+    "task": "W5",
+    "prompt": "This workbench is too low. Raise its working surface by 23 cm, keeping its feet in their current places and preserving the top’s thickness, outline and orientation. Keep the bench coherent, keep the same parts, and leave everything else alone.",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "started": "2026-11-23T20:32:29.369Z",
+    "requestCount": 3,
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Make a small workbench as five separately editable parts: a rectangular top and four round legs that taper from 10 cm diameter at the floor to 6 cm under the top. The top is 1.45 by 0.72 m, 6 cm thick, with its working surface 88 cm above ground. Center the bench at the origin and orient its long direction 31 degrees from +X toward +Z. The leg centers form a centered 1.10 by 0.48 m rectangle aligned with the top. Group the bench and leave the existing samples alone."
+      },
+      {
+        "role": "assistant",
+        "content": "Workbench top component: 1 independently editable elements.\nWorkbench top: 1.45 × 0.72 × 0.06 m; base (0, 0.82, 0) m.\nWorkbench tapered leg: 1 × 1 × 8.2 m; base (0, 0, 0) m. Closed revolve solid; profile/path parameters preserved.\nScaled 1 objects and their spacing by 0.1, about (0, 0, 0) m.\nWorkbench tapered leg: 0.1 × 0.1 × 0.82 m; base (-0.55, 0, -0.24) m.\nCreated 4 array instances including the original group (3 new objects).\nVerified count: 4 (4 element(s)).\nVerified height: 0.82, 0.82, 0.82, 0.82 (4 element(s)).\nVerified base: 0, 0, 0, 0 (4 element(s)).\nCreated group Workbench with 5 selected objects.\nIdentified 5 furniture element(s).\nRotated 5 volumes together -31° around the reference volume; relative layout and elevations preserved.\nVerified count: 5 (5 element(s)).\nVerified width: 1.45 (1 element(s)).\nVerified depth: 0.72 (1 element(s)).\nVerified height: 0.06 (1 element(s)).\nVerified top: 0.88 (1 element(s)).\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · top: count (each): 1; expected equal 1, tolerance 0. 1 element(s).\ncount · leg: count (each): 4; expected equal 4, tolerance 0. 4 element(s).\nshape · top: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.\nwidth · top: width (each, world solids): 1.6137199999533018; expected equal 1.61372 ± 0.001 m.\ndepth · top: depth (each, world solids): 1.3639656651250993; expected equal 1.363965 ± 0.001 m.\nheight · top: height (each, world solids): 0.05999999999999994; expected equal 0.06 ± 0.001 m.\nvolume · top: volume (each): 0.063; expected equal 0.06264, tolerance 0.00001. 1 element(s).\nlayout · top: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.\npositions · leg: 4/4 required world base-center positions occupied; 4 objects, tolerance 0.001 m.\nheight · leg: height (each, world solids): 0.82, 0.82, 0.82, 0.82; expected equal 0.82 ± 0.001 m.\nrelationship: touching: 4/4 distinct solid pairs satisfy each; tolerance 0.001 m.\nunavailable: Unverified: The available shape predicates cannot verify circular tapered legs with 0.10 m floor diameters and 0.06 m diameters under the top.\nunavailable: Unverified: Shared bench grouping cannot be checked without a group name; the request specifies no name and the supplied roster provides only a generated group identifier.\nDesign assumptions:\nThe top underside is at 0.82 m, so each leg is 0.82 m high.\nA yaw of -31 degrees places the long direction from +X toward +Z.\nBuild the revolved leg at larger scale, then reduce it to avoid the primitive creation minimum.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nunavailable: Unverified: The available shape predicates cannot verify circular tapered legs with 0.10 m floor diameters and 0.06 m diameters under the top.\nunavailable: Unverified: Shared bench grouping cannot be checked without a group name; the request specifies no name and the supplied roster provides only a generated group identifier.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · top: count (each): 1; expected equal 1, tolerance 0. 1 element(s).\ncount · leg: count (each): 4; expected equal 4, tolerance 0. 4 element(s).\nshape · top: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type."
+      },
+      {
+        "role": "user",
+        "content": "This workbench is too low. Raise its working surface by 23 cm, keeping its feet in their current places and preserving the top’s thickness, outline and orientation. Keep the bench coherent, keep the same parts, and leave everything else alone."
+      },
+      {
+        "role": "assistant",
+        "content": "Coordinated 5 components in 2 shared edit sets; identities and construction recipes retained. Linked components followed their hosts once.\nVerified top: 1.11 (1 element(s)).\nVerified height: 0.06 (1 element(s)).\nVerified width: 1.45 (1 element(s)).\nVerified depth: 0.72 (1 element(s)).\nVerified base: 0, 0, 0, 0 (4 element(s)).\nVerified top: 1.05, 1.05, 1.05, 1.05 (4 element(s)).\nVerified count: 5 (5 element(s)).\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ntop: top (each, world solids): 1.11; expected equal 1.11 ± 0.00119 m.\npreserve: 1 original identities retain dimensions, rotation, x, z.\nshape: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.\npreserve: 4 original identities retain position.\npreserve: 5 original identities retain identity, name, groupId, material, materialSpec, color, visible.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\ncount: count (each): 0; expected equal 0, tolerance 0. 0 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\nrelationship: touching: 4/4 distinct solid pairs satisfy each; tolerance 0.001 m.\ntop: top (each, world solids): 1.05, 1.05, 1.05, 1.05; expected equal 1.05 ± 0.001 m.\nNot independently verified: The bench should retain its recognizable original parts and coherent leg profiles; bounds and contact checks alone do not establish preservation of the tapered leg surfaces or foot contact outlines.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nQualitative goals remain unverified: The bench should retain its recognizable original parts and coherent leg profiles; bounds and contact checks alone do not establish preservation of the tapered leg surfaces or foot contact outlines..\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ntop: top (each, world solids): 1.11; expected equal 1.11 ± 0.00119 m.\npreserve: 1 original identities retain dimensions, rotation, x, z.\nshape: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.\npreserve: 4 original identities retain position.\npreserve: 5 original identities retain identity, name, groupId, material, materialSpec, color, visible."
+      }
+    ],
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "187f3165-4865-45bf-b5b9-929dbf347cc5",
+      "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+      "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+      "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+      "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "facts": [
+      {
+        "name": "Unrelated reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated group",
+        "status": "verified"
+      },
+      {
+        "name": "Five editable parts",
+        "status": "verified",
+        "expected": 5,
+        "actual": 5
+      },
+      {
+        "name": "Distinct identities",
+        "status": "verified"
+      },
+      {
+        "name": "Same identity roster",
+        "status": "verified"
+      },
+      {
+        "name": "Groups preserved",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties 187f3165-4865-45bf-b5b9-929dbf347cc5",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties 8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties 6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties 098a3fcf-d1a3-4377-947b-94d98a7adfb3",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 187f3165-4865-45bf-b5b9-929dbf347cc5",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 098a3fcf-d1a3-4377-947b-94d98a7adfb3",
+        "status": "verified"
+      },
+      {
+        "name": "Expected occupied edit 187f3165-4865-45bf-b5b9-929dbf347cc5",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.8068599999766509,
+              1.05,
+              -0.6819828325625497
+            ],
+            "max": [
+              0.8068599999766509,
+              1.1099999999999999,
+              0.6819828325625497
+            ]
+          },
+          "volume": 0.06263999999999982,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.8068599999766509,
+              1.05,
+              -0.6819828325625497
+            ],
+            "max": [
+              0.8068599999766509,
+              1.11,
+              0.6819828325625497
+            ]
+          },
+          "volume": 0.06264000000000004
+        }
+      },
+      {
+        "name": "Expected occupied edit 8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.3979923840916452,
+              0,
+              -0.5389923840916452
+            ],
+            "max": [
+              -0.29800761590835473,
+              1.05,
+              -0.43900761590835474
+            ]
+          },
+          "volume": 0.005383985565064681,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.3979923840916452,
+              0,
+              -0.5389923840916452
+            ],
+            "max": [
+              -0.29800761590835473,
+              1.05,
+              -0.43900761590835474
+            ]
+          },
+          "volume": 0.005383985565064681
+        }
+      },
+      {
+        "name": "Expected occupied edit bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              0.5450076159083548,
+              0,
+              0.028007615908354766
+            ],
+            "max": [
+              0.6449923840916452,
+              1.05,
+              0.12799238409164523
+            ]
+          },
+          "volume": 0.00538398556506468,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              0.5450076159083548,
+              0,
+              0.028007615908354766
+            ],
+            "max": [
+              0.6449923840916452,
+              1.05,
+              0.12799238409164523
+            ]
+          },
+          "volume": 0.00538398556506468
+        }
+      },
+      {
+        "name": "Expected occupied edit 6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.6449923840916452,
+              0,
+              -0.12799238409164523
+            ],
+            "max": [
+              -0.5450076159083548,
+              1.05,
+              -0.028007615908354766
+            ]
+          },
+          "volume": 0.00538398556506468,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.6449923840916452,
+              0,
+              -0.12799238409164523
+            ],
+            "max": [
+              -0.5450076159083548,
+              1.05,
+              -0.028007615908354766
+            ]
+          },
+          "volume": 0.00538398556506468
+        }
+      },
+      {
+        "name": "Expected occupied edit 098a3fcf-d1a3-4377-947b-94d98a7adfb3",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              0.29800761590835473,
+              0,
+              0.43900761590835474
+            ],
+            "max": [
+              0.3979923840916452,
+              1.05,
+              0.5389923840916452
+            ]
+          },
+          "volume": 0.005383985565064681,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              0.29800761590835473,
+              0,
+              0.43900761590835474
+            ],
+            "max": [
+              0.3979923840916452,
+              1.05,
+              0.5389923840916452
+            ]
+          },
+          "volume": 0.005383985565064681
+        }
+      }
+    ],
+    "hostReplay": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 1.11; expected equal 1.11 ± 0.00119 m.",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1 original identities retain dimensions, rotation, x, z.",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "shape",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "4 original identities retain position.",
+          "ids": [
+            "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+            "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+            "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+            "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "5 original identities retain identity, name, groupId, material, materialSpec, color, visible.",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5",
+            "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+            "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+            "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+            "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+          ]
+        },
+        {
+          "id": "check-6",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 5; expected equal 5, tolerance 0. 5 element(s).",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5",
+            "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+            "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+            "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+            "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+          ]
+        },
+        {
+          "id": "check-7",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 0; expected equal 0, tolerance 0. 0 element(s).",
+          "ids": []
+        },
+        {
+          "id": "check-8",
+          "label": "editable",
+          "met": true,
+          "outcome": "verified",
+          "observed": "5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5",
+            "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+            "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+            "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+            "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+          ]
+        },
+        {
+          "id": "check-9",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 4/4 distinct solid pairs satisfy each; tolerance 0.001 m.",
+          "ids": [
+            "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+            "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+            "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+            "098a3fcf-d1a3-4377-947b-94d98a7adfb3",
+            "187f3165-4865-45bf-b5b9-929dbf347cc5"
+          ]
+        },
+        {
+          "id": "check-10",
+          "label": "top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 1.05, 1.05, 1.05, 1.05; expected equal 1.05 ± 0.001 m.",
+          "ids": [
+            "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+            "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+            "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+            "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+          ]
+        }
+      ],
+      "qualitativeLimits": [
+        "The bench should retain its recognizable original parts and coherent leg profiles; bounds and contact checks alone do not establish preservation of the tapered leg surfaces or foot contact outlines."
+      ]
+    },
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 54745,
+    "cost": {
+      "calls": 3,
+      "estimatedUSD": 0.105314,
+      "accountedUSD": 0.1316425,
+      "unknownReservations": [],
+      "inputTokens": 43242,
+      "outputTokens": 1883,
+      "reviewerMs": 14446,
+      "executorMs": 19170
+    },
+    "eventCount": 2
+  },
+  {
+    "id": "transfer-repeat-baseline-W6-create",
+    "version": "baseline",
+    "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+    "task": "W6",
+    "prompt": "Create a small stepped promenade from five separately editable solids. Put three rectangular platforms at X=-2, 0 and 2 m, all centered on Z=0; each is 80 cm long along X and 1.2 m across Z, with tops respectively 25, 55 and 85 cm above the ground. Join adjacent platforms with solid wedge ramps spanning the gaps, the same width as the platforms, with their upper surfaces meeting both platform tops exactly. All five pieces rest on the ground. Group the promenade and preserve the existing samples.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "started": "2026-11-23T20:33:09.315Z",
+    "requestCount": 6,
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Create a small stepped promenade from five separately editable solids. Put three rectangular platforms at X=-2, 0 and 2 m, all centered on Z=0; each is 80 cm long along X and 1.2 m across Z, with tops respectively 25, 55 and 85 cm above the ground. Join adjacent platforms with solid wedge ramps spanning the gaps, the same width as the platforms, with their upper surfaces meeting both platform tops exactly. All five pieces rest on the ground. Group the promenade and preserve the existing samples."
+      },
+      {
+        "role": "assistant",
+        "content": "Stepped promenade platforms: 3 independently editable elements.\nPlatform 25 cm: 0.8 × 1.2 × 0.25 m; base (-2, 0, 0) m.\nPlatform 55 cm: 0.8 × 1.2 × 0.55 m; base (0, 0, 0) m.\nPlatform 85 cm: 0.8 × 1.2 × 0.85 m; base (2, 0, 0) m.\nRamp 25 to 55 cm: 1.2 × 0.55 × 1.2 m; base (-1, 0, 0) m. Closed loft solid; profile/path parameters preserved.\nRamp 55 to 85 cm: 1.2 × 0.85 × 1.2 m; base (1, 0, 0) m. Closed loft solid; profile/path parameters preserved.\nRotated 2 solid(s) about their centers: X 90°, Y 0°, Z 0°. Source geometry retained.\nRamp 25 to 55 cm: 1.2 × 1.2 × 0.55 m; base (-1, 0, 0) m.\nRamp 55 to 85 cm: 1.2 × 1.2 × 0.85 m; base (1, 0, 0) m.\nSet 2 element(s) to solid.\nUpdated 2 object color(s) to #c6c3ba.\nRamp 25 to 55 cm: 1.2 × 1.2 × 0.55 m; base (-1, 0, 0) m. Material volume 0.576 m³; surface area 4.844 m²; lowest/highest elevation 0 / 0.55 m.\nRamp 55 to 85 cm: 1.2 × 1.2 × 0.85 m; base (1, 0, 0) m. Material volume 1.008 m³; surface area 6.284 m²; lowest/highest elevation 0 / 0.85 m.\nCreated group Stepped promenade with 5 selected objects.\nVerified count: 5 (5 element(s)).\nVerified base: 0, 0, 0, 0, 0 (5 element(s)).\nVerified depth: 1.2, 1.2, 1.2, 1.2, 1.2 (5 element(s)).\nVerified width: 0.8, 0.8, 0.8 (3 element(s)).\nVerified top: 0.25 (1 element(s)).\nVerified top: 0.55 (1 element(s)).\nVerified top: 0.85 (1 element(s)).\nGroup settings updated.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · Platform: count (each): 3; expected equal 3, tolerance 0. 3 element(s).\nshape · Platform: Evaluated solid shape box: 3/3 match occupied geometry, independent of recipe type.\npositions · Platform: 3/3 required world base-center positions occupied; 3 objects, tolerance 0.001 m.\nwidth · Platform: width (each, world solids): 0.8, 0.8, 0.8000000000000003; expected equal 0.8 ± 0.001 m.\ndepth · Platform: depth (each, world solids): 1.2, 1.2, 1.2; expected equal 1.2 ± 0.001 m.\ntop · Platform 25: top (each, world solids): 0.25; expected equal 0.25 ± 0.001 m.\ntop · Platform 55: top (each, world solids): 0.55; expected equal 0.55 ± 0.001 m.\ntop · Platform 85: top (each, world solids): 0.85; expected equal 0.85 ± 0.001 m.\nbase: base (each, world solids): 0, 0, 0, 0, 0; expected equal 0 ± 0.001 m.\ncount · Ramp: count (each): 2; expected equal 2, tolerance 0. 2 element(s).\npositions · Ramp: 2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.\nwidth · Ramp: width (each, world solids): 1.1999999761581392, 1.1999999761581392; expected equal 1.2 ± 0.001 m.\ndepth · Ramp: depth (each, world solids): 1.1999999761581392, 1.1999999761581392; expected equal 1.2 ± 0.001 m.\ntop · Ramp 25: top (each, world solids): 0.5499999955296513; expected equal 0.55 ± 0.001 m.\ntop · Ramp 55: top (each, world solids): 0.8499999985098832; expected equal 0.85 ± 0.001 m.\nvolume · Ramp 25: volume (each): 0.576; expected equal 0.576, tolerance 0.011519999999999999. 1 element(s).\nvolume · Ramp 55: volume (each): 1.008; expected equal 1.008, tolerance 0.02016. 1 element(s).\nrelationship: touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.\nunavailable: Unverified: Bounds, volume and contact checks do not verify planar sloping ramp upper surfaces or their exact edge-height matches to both platform tops.\ngroup: Group promenade: 5 members; 5/5 requested objects belong to it.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nunavailable: Unverified: Bounds, volume and contact checks do not verify planar sloping ramp upper surfaces or their exact edge-height matches to both platform tops.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · Platform: count (each): 3; expected equal 3, tolerance 0. 3 element(s).\nshape · Platform: Evaluated solid shape box: 3/3 match occupied geometry, independent of recipe type.\npositions · Platform: 3/3 required world base-center positions occupied; 3 objects, tolerance 0.001 m."
+      }
+    ],
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "facts": [
+      {
+        "name": "Unrelated reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated group",
+        "status": "verified"
+      },
+      {
+        "name": "Five editable parts",
+        "status": "verified",
+        "expected": 5,
+        "actual": 5
+      },
+      {
+        "name": "Distinct identities",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 15be0922-a496-490c-b3d3-c99627d71478",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 48c02612-db5f-49e3-94c9-cfe2a7f29616",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 701eb415-fdc8-4573-963a-cd587149c9e4",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid d8048df5-3e84-4239-a34b-3ef569587fa6",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 815ffaf1-ef64-4207-8c68-07b54d956792",
+        "status": "verified"
+      },
+      {
+        "name": "Placement Platform 0",
+        "status": "verified",
+        "expected": -2.0000000596046448,
+        "actual": -2
+      },
+      {
+        "name": "Placement Platform 1",
+        "status": "verified",
+        "expected": 0.125,
+        "actual": 0.125
+      },
+      {
+        "name": "Placement Platform 2",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Occupied geometry Platform",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -2.4000000953674316,
+              0,
+              -0.6
+            ],
+            "max": [
+              -1.600000023841858,
+              0.25,
+              0.6
+            ]
+          },
+          "volume": 0.2400000214576721,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -2.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              -1.5999999999999999,
+              0.25,
+              0.6
+            ]
+          },
+          "volume": 0.24000000000000002
+        }
+      },
+      {
+        "name": "Placement Platform 0",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Placement Platform 1",
+        "status": "verified",
+        "expected": 0.275,
+        "actual": 0.275
+      },
+      {
+        "name": "Placement Platform 2",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Occupied geometry Platform",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              0.4,
+              0.55,
+              0.6
+            ]
+          },
+          "volume": 0.528,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              0.4,
+              0.55,
+              0.6
+            ]
+          },
+          "volume": 0.528
+        }
+      },
+      {
+        "name": "Placement Platform 0",
+        "status": "verified",
+        "expected": 2.0000000596046448,
+        "actual": 2
+      },
+      {
+        "name": "Placement Platform 1",
+        "status": "verified",
+        "expected": 0.425,
+        "actual": 0.425
+      },
+      {
+        "name": "Placement Platform 2",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Occupied geometry Platform",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              1.600000023841858,
+              0,
+              -0.6
+            ],
+            "max": [
+              2.4000000953674316,
+              0.85,
+              0.6
+            ]
+          },
+          "volume": 0.816000072956085,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              1.6,
+              0,
+              -0.6
+            ],
+            "max": [
+              2.4000000000000004,
+              0.85,
+              0.6
+            ]
+          },
+          "volume": 0.8160000000000003
+        }
+      },
+      {
+        "name": "Placement Left ramp 0",
+        "status": "verified",
+        "expected": -1,
+        "actual": -1
+      },
+      {
+        "name": "Placement Left ramp 1",
+        "status": "verified",
+        "expected": 0.275,
+        "actual": 0.27499999776482564
+      },
+      {
+        "name": "Placement Left ramp 2",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Occupied geometry Left ramp",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -1.6,
+              0,
+              -0.6
+            ],
+            "max": [
+              -0.3999999999999999,
+              0.55,
+              0.6
+            ]
+          },
+          "volume": 0.5760000053644181,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -1.5999999880790696,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              -0.4000000119209304,
+              0.5499999955296513,
+              0.5999999880790696
+            ]
+          },
+          "volume": 0.575999974307686
+        }
+      },
+      {
+        "name": "Placement Right ramp 0",
+        "status": "verified",
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "name": "Placement Right ramp 1",
+        "status": "verified",
+        "expected": 0.425,
+        "actual": 0.4249999992549416
+      },
+      {
+        "name": "Placement Right ramp 2",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Occupied geometry Right ramp",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              0.3999999999999999,
+              0,
+              -0.6
+            ],
+            "max": [
+              1.6,
+              0.85,
+              0.6
+            ]
+          },
+          "volume": 1.0080000128746034,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              0.4000000119209304,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              1.5999999880790696,
+              0.8499999985098832,
+              0.5999999880790696
+            ]
+          },
+          "volume": 1.0079999554963621
+        }
+      },
+      {
+        "name": "Grouped assembly",
+        "status": "verified"
+      }
+    ],
+    "hostReplay": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 5; expected equal 5, tolerance 0. 5 element(s).",
+          "ids": [
+            "15be0922-a496-490c-b3d3-c99627d71478",
+            "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+            "701eb415-fdc8-4573-963a-cd587149c9e4",
+            "d8048df5-3e84-4239-a34b-3ef569587fa6",
+            "815ffaf1-ef64-4207-8c68-07b54d956792"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "editable",
+          "met": true,
+          "outcome": "verified",
+          "observed": "5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "15be0922-a496-490c-b3d3-c99627d71478",
+            "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+            "701eb415-fdc8-4573-963a-cd587149c9e4",
+            "d8048df5-3e84-4239-a34b-3ef569587fa6",
+            "815ffaf1-ef64-4207-8c68-07b54d956792"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "count · Platform",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 3; expected equal 3, tolerance 0. 3 element(s).",
+          "ids": [
+            "15be0922-a496-490c-b3d3-c99627d71478",
+            "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+            "701eb415-fdc8-4573-963a-cd587149c9e4"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "shape · Platform",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape box: 3/3 match occupied geometry, independent of recipe type.",
+          "ids": [
+            "15be0922-a496-490c-b3d3-c99627d71478",
+            "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+            "701eb415-fdc8-4573-963a-cd587149c9e4"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "positions · Platform",
+          "met": true,
+          "outcome": "verified",
+          "observed": "3/3 required world base-center positions occupied; 3 objects, tolerance 0.001 m.",
+          "ids": [
+            "15be0922-a496-490c-b3d3-c99627d71478",
+            "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+            "701eb415-fdc8-4573-963a-cd587149c9e4"
+          ]
+        },
+        {
+          "id": "check-6",
+          "label": "width · Platform",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 0.8, 0.8, 0.8000000000000003; expected equal 0.8 ± 0.001 m.",
+          "ids": [
+            "15be0922-a496-490c-b3d3-c99627d71478",
+            "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+            "701eb415-fdc8-4573-963a-cd587149c9e4"
+          ]
+        },
+        {
+          "id": "check-7",
+          "label": "depth · Platform",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 1.2, 1.2, 1.2; expected equal 1.2 ± 0.001 m.",
+          "ids": [
+            "15be0922-a496-490c-b3d3-c99627d71478",
+            "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+            "701eb415-fdc8-4573-963a-cd587149c9e4"
+          ]
+        },
+        {
+          "id": "check-8",
+          "label": "top · Platform 25",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.25; expected equal 0.25 ± 0.001 m.",
+          "ids": [
+            "15be0922-a496-490c-b3d3-c99627d71478"
+          ]
+        },
+        {
+          "id": "check-9",
+          "label": "top · Platform 55",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.55; expected equal 0.55 ± 0.001 m.",
+          "ids": [
+            "48c02612-db5f-49e3-94c9-cfe2a7f29616"
+          ]
+        },
+        {
+          "id": "check-10",
+          "label": "top · Platform 85",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.85; expected equal 0.85 ± 0.001 m.",
+          "ids": [
+            "701eb415-fdc8-4573-963a-cd587149c9e4"
+          ]
+        },
+        {
+          "id": "check-11",
+          "label": "base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "base (each, world solids): 0, 0, 0, 0, 0; expected equal 0 ± 0.001 m.",
+          "ids": [
+            "15be0922-a496-490c-b3d3-c99627d71478",
+            "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+            "701eb415-fdc8-4573-963a-cd587149c9e4",
+            "d8048df5-3e84-4239-a34b-3ef569587fa6",
+            "815ffaf1-ef64-4207-8c68-07b54d956792"
+          ]
+        },
+        {
+          "id": "check-12",
+          "label": "count · Ramp",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 2; expected equal 2, tolerance 0. 2 element(s).",
+          "ids": [
+            "d8048df5-3e84-4239-a34b-3ef569587fa6",
+            "815ffaf1-ef64-4207-8c68-07b54d956792"
+          ]
+        },
+        {
+          "id": "check-13",
+          "label": "positions · Ramp",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.",
+          "ids": [
+            "d8048df5-3e84-4239-a34b-3ef569587fa6",
+            "815ffaf1-ef64-4207-8c68-07b54d956792"
+          ]
+        },
+        {
+          "id": "check-14",
+          "label": "width · Ramp",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 1.1999999761581392, 1.1999999761581392; expected equal 1.2 ± 0.001 m.",
+          "ids": [
+            "d8048df5-3e84-4239-a34b-3ef569587fa6",
+            "815ffaf1-ef64-4207-8c68-07b54d956792"
+          ]
+        },
+        {
+          "id": "check-15",
+          "label": "depth · Ramp",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 1.1999999761581392, 1.1999999761581392; expected equal 1.2 ± 0.001 m.",
+          "ids": [
+            "d8048df5-3e84-4239-a34b-3ef569587fa6",
+            "815ffaf1-ef64-4207-8c68-07b54d956792"
+          ]
+        },
+        {
+          "id": "check-16",
+          "label": "top · Ramp 25",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.5499999955296513; expected equal 0.55 ± 0.001 m.",
+          "ids": [
+            "d8048df5-3e84-4239-a34b-3ef569587fa6"
+          ]
+        },
+        {
+          "id": "check-17",
+          "label": "top · Ramp 55",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.8499999985098832; expected equal 0.85 ± 0.001 m.",
+          "ids": [
+            "815ffaf1-ef64-4207-8c68-07b54d956792"
+          ]
+        },
+        {
+          "id": "check-18",
+          "label": "volume · Ramp 25",
+          "met": true,
+          "outcome": "verified",
+          "observed": "volume (each): 0.576; expected equal 0.576, tolerance 0.011519999999999999. 1 element(s).",
+          "ids": [
+            "d8048df5-3e84-4239-a34b-3ef569587fa6"
+          ]
+        },
+        {
+          "id": "check-19",
+          "label": "volume · Ramp 55",
+          "met": true,
+          "outcome": "verified",
+          "observed": "volume (each): 1.008; expected equal 1.008, tolerance 0.02016. 1 element(s).",
+          "ids": [
+            "815ffaf1-ef64-4207-8c68-07b54d956792"
+          ]
+        },
+        {
+          "id": "check-20",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.",
+          "ids": [
+            "d8048df5-3e84-4239-a34b-3ef569587fa6",
+            "15be0922-a496-490c-b3d3-c99627d71478"
+          ]
+        },
+        {
+          "id": "check-21",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.",
+          "ids": [
+            "d8048df5-3e84-4239-a34b-3ef569587fa6",
+            "48c02612-db5f-49e3-94c9-cfe2a7f29616"
+          ]
+        },
+        {
+          "id": "check-22",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.",
+          "ids": [
+            "815ffaf1-ef64-4207-8c68-07b54d956792",
+            "48c02612-db5f-49e3-94c9-cfe2a7f29616"
+          ]
+        },
+        {
+          "id": "check-23",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.",
+          "ids": [
+            "815ffaf1-ef64-4207-8c68-07b54d956792",
+            "701eb415-fdc8-4573-963a-cd587149c9e4"
+          ]
+        },
+        {
+          "id": "check-24",
+          "label": "unavailable",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Unverified: Bounds, volume and contact checks do not verify planar sloping ramp upper surfaces or their exact edge-height matches to both platform tops.",
+          "ids": []
+        },
+        {
+          "id": "check-25",
+          "label": "group",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Group promenade: 5 members; 5/5 requested objects belong to it.",
+          "ids": [
+            "15be0922-a496-490c-b3d3-c99627d71478",
+            "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+            "701eb415-fdc8-4573-963a-cd587149c9e4",
+            "d8048df5-3e84-4239-a34b-3ef569587fa6",
+            "815ffaf1-ef64-4207-8c68-07b54d956792"
+          ]
+        }
+      ],
+      "qualitativeLimits": []
+    },
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 90829,
+    "cost": {
+      "calls": 6,
+      "estimatedUSD": 0.23497400000000002,
+      "accountedUSD": 0.2937175,
+      "unknownReservations": [],
+      "inputTokens": 97737,
+      "outputTokens": 3950,
+      "reviewerMs": 24808,
+      "executorMs": 44989
+    },
+    "eventCount": 4
+  },
+  {
+    "id": "transfer-repeat-workshop-W6-create",
+    "version": "workshop",
+    "commit": "f5ba62621db0d9c0a02f90be5b0143c7e21b53f7",
+    "task": "W6",
+    "prompt": "Create a small stepped promenade from five separately editable solids. Put three rectangular platforms at X=-2, 0 and 2 m, all centered on Z=0; each is 80 cm long along X and 1.2 m across Z, with tops respectively 25, 55 and 85 cm above the ground. Join adjacent platforms with solid wedge ramps spanning the gaps, the same width as the platforms, with their upper surfaces meeting both platform tops exactly. All five pieces rest on the ground. Group the promenade and preserve the existing samples.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "started": "2026-11-23T20:33:30.815Z",
+    "requestCount": 5,
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Create a small stepped promenade from five separately editable solids. Put three rectangular platforms at X=-2, 0 and 2 m, all centered on Z=0; each is 80 cm long along X and 1.2 m across Z, with tops respectively 25, 55 and 85 cm above the ground. Join adjacent platforms with solid wedge ramps spanning the gaps, the same width as the platforms, with their upper surfaces meeting both platform tops exactly. All five pieces rest on the ground. Group the promenade and preserve the existing samples."
+      },
+      {
+        "role": "assistant",
+        "content": "Promenade platforms: 3 independently editable elements.\nPlatform 25 cm: 0.8 × 1.2 × 0.25 m; base (-2, 0, 0) m.\nPlatform 55 cm: 0.8 × 1.2 × 0.55 m; base (0, 0, 0) m.\nPlatform 85 cm: 0.8 × 1.2 × 0.85 m; base (2, 0, 0) m.\nRamp 25 to 55 cm: 1.2 × 0.55 × 1.2 m; base (-1, 0, 0) m. Closed loft solid; profile/path parameters preserved.\nRotated 1 solid(s) about their centers: X 90°, Y 0°, Z 0°. Source geometry retained.\nRamp 25 to 55 cm: 1.2 × 1.2 × 0.55 m; base (-1, 0, 0) m.\nRamp 55 to 85 cm: 1.2 × 0.85 × 1.2 m; base (1, 0, 0) m. Closed loft solid; profile/path parameters preserved.\nRotated 1 solid(s) about their centers: X 90°, Y 0°, Z 0°. Source geometry retained.\nRamp 55 to 85 cm: 1.2 × 1.2 × 0.85 m; base (1, 0, 0) m.\nIdentified 2 floor element(s).\nSet 2 element(s) to solid.\nUpdated 2 object color(s) to #c4c7c5.\nCreated group Stepped promenade with 5 selected objects.\nGroup settings updated.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · Platform: count (each): 3; expected equal 3, tolerance 0. 3 element(s).\nshape · Platform: Evaluated solid shape box: 3/3 match occupied geometry, independent of recipe type.\nwidth · Platform: width (each, world solids): 0.8, 0.8, 0.8000000000000003; expected equal 0.8 ± 0.001 m.\ndepth: depth (each, world solids): 1.2, 1.2, 1.2, 1.1999999761581392, 1.1999999761581392; expected equal 1.2 ± 0.001 m.\npositions · Platform 25: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.\npositions · Platform 55: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.\npositions · Platform 85: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.\ntop · Platform 25: top (each, world solids): 0.25; expected equal 0.25 ± 0.001 m.\ntop · Platform 55: top (each, world solids): 0.55; expected equal 0.55 ± 0.001 m.\ntop · Platform 85: top (each, world solids): 0.85; expected equal 0.85 ± 0.001 m.\ncount · Ramp: count (each): 2; expected equal 2, tolerance 0. 2 element(s).\nwidth · Ramp: width (each, world solids): 1.1999999761581392, 1.1999999761581392; expected equal 1.2 ± 0.001 m.\npositions · Ramp 25: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.\npositions · Ramp 55: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.\ntop · Ramp 25: top (each, world solids): 0.5499999955296513; expected equal 0.55 ± 0.001 m.\ntop · Ramp 55: top (each, world solids): 0.8499999985098832; expected equal 0.85 ± 0.001 m.\nvolume · Ramp 25: volume (each): 0.576; expected equal 0.576, tolerance 0.011519999999999999. 1 element(s).\nvolume · Ramp 55: volume (each): 1.008; expected equal 1.008, tolerance 0.02016. 1 element(s).\nrelationship: touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.\nunavailable: Unverified: The predicates cannot verify a planar sloped upper surface meeting the full platform-top edges at both ramp ends; bounds, volumes and contact alone do not establish wedge geometry.\nbase: base (each, world solids): 0, 0, 0, 0, 0; expected equal 0 ± 0.001 m.\ngroup: Group Promenade: 5 members; 5/5 requested objects belong to it.\nDesign assumptions:\nEach connector fills the 1.2 m clear gap between adjacent platform edges, with a flat ground base and a planar upper surface.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nunavailable: Unverified: The predicates cannot verify a planar sloped upper surface meeting the full platform-top edges at both ramp ends; bounds, volumes and contact alone do not establish wedge geometry.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · Platform: count (each): 3; expected equal 3, tolerance 0. 3 element(s).\nshape · Platform: Evaluated solid shape box: 3/3 match occupied geometry, independent of recipe type.\nwidth · Platform: width (each, world solids): 0.8, 0.8, 0.8000000000000003; expected equal 0.8 ± 0.001 m."
+      }
+    ],
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "facts": [
+      {
+        "name": "Unrelated reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated group",
+        "status": "verified"
+      },
+      {
+        "name": "Five editable parts",
+        "status": "verified",
+        "expected": 5,
+        "actual": 5
+      },
+      {
+        "name": "Distinct identities",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid b8ecbe9b-e535-4018-b980-efef4bbb3496",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid cc8d1a68-83d8-44cf-940d-53e3420b178e",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 7df1b56b-478c-47cc-82ea-af7e62bd0672",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid d8357c2d-46af-474f-8354-d050bc2e4737",
+        "status": "verified"
+      },
+      {
+        "name": "Placement Platform 0",
+        "status": "verified",
+        "expected": -2.0000000596046448,
+        "actual": -2
+      },
+      {
+        "name": "Placement Platform 1",
+        "status": "verified",
+        "expected": 0.125,
+        "actual": 0.125
+      },
+      {
+        "name": "Placement Platform 2",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Occupied geometry Platform",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -2.4000000953674316,
+              0,
+              -0.6
+            ],
+            "max": [
+              -1.600000023841858,
+              0.25,
+              0.6
+            ]
+          },
+          "volume": 0.2400000214576721,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -2.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              -1.5999999999999999,
+              0.25,
+              0.6
+            ]
+          },
+          "volume": 0.24000000000000002
+        }
+      },
+      {
+        "name": "Placement Platform 0",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Placement Platform 1",
+        "status": "verified",
+        "expected": 0.275,
+        "actual": 0.275
+      },
+      {
+        "name": "Placement Platform 2",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Occupied geometry Platform",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              0.4,
+              0.55,
+              0.6
+            ]
+          },
+          "volume": 0.528,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              0.4,
+              0.55,
+              0.6
+            ]
+          },
+          "volume": 0.528
+        }
+      },
+      {
+        "name": "Placement Platform 0",
+        "status": "verified",
+        "expected": 2.0000000596046448,
+        "actual": 2
+      },
+      {
+        "name": "Placement Platform 1",
+        "status": "verified",
+        "expected": 0.425,
+        "actual": 0.425
+      },
+      {
+        "name": "Placement Platform 2",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Occupied geometry Platform",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              1.600000023841858,
+              0,
+              -0.6
+            ],
+            "max": [
+              2.4000000953674316,
+              0.85,
+              0.6
+            ]
+          },
+          "volume": 0.816000072956085,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              1.6,
+              0,
+              -0.6
+            ],
+            "max": [
+              2.4000000000000004,
+              0.85,
+              0.6
+            ]
+          },
+          "volume": 0.8160000000000003
+        }
+      },
+      {
+        "name": "Placement Left ramp 0",
+        "status": "verified",
+        "expected": -1,
+        "actual": -1
+      },
+      {
+        "name": "Placement Left ramp 1",
+        "status": "verified",
+        "expected": 0.275,
+        "actual": 0.27499999776482564
+      },
+      {
+        "name": "Placement Left ramp 2",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Occupied geometry Left ramp",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -1.6,
+              0,
+              -0.6
+            ],
+            "max": [
+              -0.3999999999999999,
+              0.55,
+              0.6
+            ]
+          },
+          "volume": 0.5760000053644181,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -1.5999999880790696,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              -0.4000000119209304,
+              0.5499999955296513,
+              0.5999999880790696
+            ]
+          },
+          "volume": 0.575999974307686
+        }
+      },
+      {
+        "name": "Placement Right ramp 0",
+        "status": "verified",
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "name": "Placement Right ramp 1",
+        "status": "verified",
+        "expected": 0.425,
+        "actual": 0.4249999992549416
+      },
+      {
+        "name": "Placement Right ramp 2",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Occupied geometry Right ramp",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              0.3999999999999999,
+              0,
+              -0.6
+            ],
+            "max": [
+              1.6,
+              0.85,
+              0.6
+            ]
+          },
+          "volume": 1.0080000128746034,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              0.4000000119209304,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              1.5999999880790696,
+              0.8499999985098832,
+              0.5999999880790696
+            ]
+          },
+          "volume": 1.0079999554963621
+        }
+      },
+      {
+        "name": "Grouped assembly",
+        "status": "verified"
+      }
+    ],
+    "hostReplay": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 5; expected equal 5, tolerance 0. 5 element(s).",
+          "ids": [
+            "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+            "cc8d1a68-83d8-44cf-940d-53e3420b178e",
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "d8357c2d-46af-474f-8354-d050bc2e4737"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "editable",
+          "met": true,
+          "outcome": "verified",
+          "observed": "5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+            "cc8d1a68-83d8-44cf-940d-53e3420b178e",
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "d8357c2d-46af-474f-8354-d050bc2e4737"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "count · Platform",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 3; expected equal 3, tolerance 0. 3 element(s).",
+          "ids": [
+            "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+            "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "shape · Platform",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape box: 3/3 match occupied geometry, independent of recipe type.",
+          "ids": [
+            "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+            "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "width · Platform",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 0.8, 0.8, 0.8000000000000003; expected equal 0.8 ± 0.001 m.",
+          "ids": [
+            "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+            "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+          ]
+        },
+        {
+          "id": "check-6",
+          "label": "depth",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 1.2, 1.2, 1.2, 1.1999999761581392, 1.1999999761581392; expected equal 1.2 ± 0.001 m.",
+          "ids": [
+            "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+            "cc8d1a68-83d8-44cf-940d-53e3420b178e",
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "d8357c2d-46af-474f-8354-d050bc2e4737"
+          ]
+        },
+        {
+          "id": "check-7",
+          "label": "positions · Platform 25",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": [
+            "8dc69afc-c6d2-4fd8-9456-fb8feea89d56"
+          ]
+        },
+        {
+          "id": "check-8",
+          "label": "positions · Platform 55",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": [
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496"
+          ]
+        },
+        {
+          "id": "check-9",
+          "label": "positions · Platform 85",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": [
+            "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+          ]
+        },
+        {
+          "id": "check-10",
+          "label": "top · Platform 25",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.25; expected equal 0.25 ± 0.001 m.",
+          "ids": [
+            "8dc69afc-c6d2-4fd8-9456-fb8feea89d56"
+          ]
+        },
+        {
+          "id": "check-11",
+          "label": "top · Platform 55",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.55; expected equal 0.55 ± 0.001 m.",
+          "ids": [
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496"
+          ]
+        },
+        {
+          "id": "check-12",
+          "label": "top · Platform 85",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.85; expected equal 0.85 ± 0.001 m.",
+          "ids": [
+            "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+          ]
+        },
+        {
+          "id": "check-13",
+          "label": "count · Ramp",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 2; expected equal 2, tolerance 0. 2 element(s).",
+          "ids": [
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "d8357c2d-46af-474f-8354-d050bc2e4737"
+          ]
+        },
+        {
+          "id": "check-14",
+          "label": "width · Ramp",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 1.1999999761581392, 1.1999999761581392; expected equal 1.2 ± 0.001 m.",
+          "ids": [
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "d8357c2d-46af-474f-8354-d050bc2e4737"
+          ]
+        },
+        {
+          "id": "check-15",
+          "label": "positions · Ramp 25",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": [
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672"
+          ]
+        },
+        {
+          "id": "check-16",
+          "label": "positions · Ramp 55",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": [
+            "d8357c2d-46af-474f-8354-d050bc2e4737"
+          ]
+        },
+        {
+          "id": "check-17",
+          "label": "top · Ramp 25",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.5499999955296513; expected equal 0.55 ± 0.001 m.",
+          "ids": [
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672"
+          ]
+        },
+        {
+          "id": "check-18",
+          "label": "top · Ramp 55",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.8499999985098832; expected equal 0.85 ± 0.001 m.",
+          "ids": [
+            "d8357c2d-46af-474f-8354-d050bc2e4737"
+          ]
+        },
+        {
+          "id": "check-19",
+          "label": "volume · Ramp 25",
+          "met": true,
+          "outcome": "verified",
+          "observed": "volume (each): 0.576; expected equal 0.576, tolerance 0.011519999999999999. 1 element(s).",
+          "ids": [
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672"
+          ]
+        },
+        {
+          "id": "check-20",
+          "label": "volume · Ramp 55",
+          "met": true,
+          "outcome": "verified",
+          "observed": "volume (each): 1.008; expected equal 1.008, tolerance 0.02016. 1 element(s).",
+          "ids": [
+            "d8357c2d-46af-474f-8354-d050bc2e4737"
+          ]
+        },
+        {
+          "id": "check-21",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+          "ids": [
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "8dc69afc-c6d2-4fd8-9456-fb8feea89d56"
+          ]
+        },
+        {
+          "id": "check-22",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+          "ids": [
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496"
+          ]
+        },
+        {
+          "id": "check-23",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+          "ids": [
+            "d8357c2d-46af-474f-8354-d050bc2e4737",
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496"
+          ]
+        },
+        {
+          "id": "check-24",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+          "ids": [
+            "d8357c2d-46af-474f-8354-d050bc2e4737",
+            "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+          ]
+        },
+        {
+          "id": "check-25",
+          "label": "unavailable",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Unverified: The predicates cannot verify a planar sloped upper surface meeting the full platform-top edges at both ramp ends; bounds, volumes and contact alone do not establish wedge geometry.",
+          "ids": []
+        },
+        {
+          "id": "check-26",
+          "label": "base",
+          "met": true,
+          "outcome": "verified",
+          "observed": "base (each, world solids): 0, 0, 0, 0, 0; expected equal 0 ± 0.001 m.",
+          "ids": [
+            "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+            "cc8d1a68-83d8-44cf-940d-53e3420b178e",
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "d8357c2d-46af-474f-8354-d050bc2e4737"
+          ]
+        },
+        {
+          "id": "check-27",
+          "label": "group",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Group Promenade: 5 members; 5/5 requested objects belong to it.",
+          "ids": [
+            "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+            "cc8d1a68-83d8-44cf-940d-53e3420b178e",
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "d8357c2d-46af-474f-8354-d050bc2e4737"
+          ]
+        }
+      ],
+      "qualitativeLimits": []
+    },
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 82159,
+    "cost": {
+      "calls": 5,
+      "estimatedUSD": 0.18712199999999998,
+      "accountedUSD": 0.2339025,
+      "unknownReservations": [],
+      "inputTokens": 75886,
+      "outputTokens": 3535,
+      "reviewerMs": 24543,
+      "executorMs": 36406
+    },
+    "eventCount": 4
+  },
+  {
+    "id": "transfer-repeat-baseline-W6-edit",
+    "version": "baseline",
+    "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+    "task": "W6",
+    "prompt": "Raise the middle platform’s top by 18 cm. Keep the two end platforms exactly where they are and keep the walking route continuous, with no steps at the connections. Preserve its plan layout, width and existing parts, and leave the samples untouched.",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "NOT_COMMITTED",
+    "started": "2026-11-23T20:34:40.160Z",
+    "requestCount": 5,
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Create a small stepped promenade from five separately editable solids. Put three rectangular platforms at X=-2, 0 and 2 m, all centered on Z=0; each is 80 cm long along X and 1.2 m across Z, with tops respectively 25, 55 and 85 cm above the ground. Join adjacent platforms with solid wedge ramps spanning the gaps, the same width as the platforms, with their upper surfaces meeting both platform tops exactly. All five pieces rest on the ground. Group the promenade and preserve the existing samples."
+      },
+      {
+        "role": "assistant",
+        "content": "Stepped promenade platforms: 3 independently editable elements.\nPlatform 25 cm: 0.8 × 1.2 × 0.25 m; base (-2, 0, 0) m.\nPlatform 55 cm: 0.8 × 1.2 × 0.55 m; base (0, 0, 0) m.\nPlatform 85 cm: 0.8 × 1.2 × 0.85 m; base (2, 0, 0) m.\nRamp 25 to 55 cm: 1.2 × 0.55 × 1.2 m; base (-1, 0, 0) m. Closed loft solid; profile/path parameters preserved.\nRamp 55 to 85 cm: 1.2 × 0.85 × 1.2 m; base (1, 0, 0) m. Closed loft solid; profile/path parameters preserved.\nRotated 2 solid(s) about their centers: X 90°, Y 0°, Z 0°. Source geometry retained.\nRamp 25 to 55 cm: 1.2 × 1.2 × 0.55 m; base (-1, 0, 0) m.\nRamp 55 to 85 cm: 1.2 × 1.2 × 0.85 m; base (1, 0, 0) m.\nSet 2 element(s) to solid.\nUpdated 2 object color(s) to #c6c3ba.\nRamp 25 to 55 cm: 1.2 × 1.2 × 0.55 m; base (-1, 0, 0) m. Material volume 0.576 m³; surface area 4.844 m²; lowest/highest elevation 0 / 0.55 m.\nRamp 55 to 85 cm: 1.2 × 1.2 × 0.85 m; base (1, 0, 0) m. Material volume 1.008 m³; surface area 6.284 m²; lowest/highest elevation 0 / 0.85 m.\nCreated group Stepped promenade with 5 selected objects.\nVerified count: 5 (5 element(s)).\nVerified base: 0, 0, 0, 0, 0 (5 element(s)).\nVerified depth: 1.2, 1.2, 1.2, 1.2, 1.2 (5 element(s)).\nVerified width: 0.8, 0.8, 0.8 (3 element(s)).\nVerified top: 0.25 (1 element(s)).\nVerified top: 0.55 (1 element(s)).\nVerified top: 0.85 (1 element(s)).\nGroup settings updated.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · Platform: count (each): 3; expected equal 3, tolerance 0. 3 element(s).\nshape · Platform: Evaluated solid shape box: 3/3 match occupied geometry, independent of recipe type.\npositions · Platform: 3/3 required world base-center positions occupied; 3 objects, tolerance 0.001 m.\nwidth · Platform: width (each, world solids): 0.8, 0.8, 0.8000000000000003; expected equal 0.8 ± 0.001 m.\ndepth · Platform: depth (each, world solids): 1.2, 1.2, 1.2; expected equal 1.2 ± 0.001 m.\ntop · Platform 25: top (each, world solids): 0.25; expected equal 0.25 ± 0.001 m.\ntop · Platform 55: top (each, world solids): 0.55; expected equal 0.55 ± 0.001 m.\ntop · Platform 85: top (each, world solids): 0.85; expected equal 0.85 ± 0.001 m.\nbase: base (each, world solids): 0, 0, 0, 0, 0; expected equal 0 ± 0.001 m.\ncount · Ramp: count (each): 2; expected equal 2, tolerance 0. 2 element(s).\npositions · Ramp: 2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.\nwidth · Ramp: width (each, world solids): 1.1999999761581392, 1.1999999761581392; expected equal 1.2 ± 0.001 m.\ndepth · Ramp: depth (each, world solids): 1.1999999761581392, 1.1999999761581392; expected equal 1.2 ± 0.001 m.\ntop · Ramp 25: top (each, world solids): 0.5499999955296513; expected equal 0.55 ± 0.001 m.\ntop · Ramp 55: top (each, world solids): 0.8499999985098832; expected equal 0.85 ± 0.001 m.\nvolume · Ramp 25: volume (each): 0.576; expected equal 0.576, tolerance 0.011519999999999999. 1 element(s).\nvolume · Ramp 55: volume (each): 1.008; expected equal 1.008, tolerance 0.02016. 1 element(s).\nrelationship: touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.\nunavailable: Unverified: Bounds, volume and contact checks do not verify planar sloping ramp upper surfaces or their exact edge-height matches to both platform tops.\ngroup: Group promenade: 5 members; 5/5 requested objects belong to it.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nunavailable: Unverified: Bounds, volume and contact checks do not verify planar sloping ramp upper surfaces or their exact edge-height matches to both platform tops.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · Platform: count (each): 3; expected equal 3, tolerance 0. 3 element(s).\nshape · Platform: Evaluated solid shape box: 3/3 match occupied geometry, independent of recipe type.\npositions · Platform: 3/3 required world base-center positions occupied; 3 objects, tolerance 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Raise the middle platform’s top by 18 cm. Keep the two end platforms exactly where they are and keep the walking route continuous, with no steps at the connections. Preserve its plan layout, width and existing parts, and leave the samples untouched."
+      },
+      {
+        "role": "assistant",
+        "content": "Verification is incomplete and could not establish the permitted edit scope. No changes were applied.",
+        "outcome": "failed"
+      }
+    ],
+    "committed": false,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round",
+      "15be0922-a496-490c-b3d3-c99627d71478",
+      "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+      "701eb415-fdc8-4573-963a-cd587149c9e4",
+      "d8048df5-3e84-4239-a34b-3ef569587fa6",
+      "815ffaf1-ef64-4207-8c68-07b54d956792"
+    ],
+    "facts": [
+      {
+        "name": "Unrelated reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated group",
+        "status": "verified"
+      },
+      {
+        "name": "Five editable parts",
+        "status": "verified",
+        "expected": 5,
+        "actual": 5
+      },
+      {
+        "name": "Distinct identities",
+        "status": "verified"
+      },
+      {
+        "name": "Same identity roster",
+        "status": "verified"
+      },
+      {
+        "name": "Groups preserved",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties 15be0922-a496-490c-b3d3-c99627d71478",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties 48c02612-db5f-49e3-94c9-cfe2a7f29616",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties 701eb415-fdc8-4573-963a-cd587149c9e4",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties d8048df5-3e84-4239-a34b-3ef569587fa6",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties 815ffaf1-ef64-4207-8c68-07b54d956792",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 15be0922-a496-490c-b3d3-c99627d71478",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 48c02612-db5f-49e3-94c9-cfe2a7f29616",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 701eb415-fdc8-4573-963a-cd587149c9e4",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid d8048df5-3e84-4239-a34b-3ef569587fa6",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 815ffaf1-ef64-4207-8c68-07b54d956792",
+        "status": "verified"
+      },
+      {
+        "name": "Platform edit 15be0922-a496-490c-b3d3-c99627d71478",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -2.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              -1.5999999999999999,
+              0.25,
+              0.6
+            ]
+          },
+          "volume": 0.24000000000000002,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -2.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              -1.5999999999999999,
+              0.25,
+              0.6
+            ]
+          },
+          "volume": 0.24000000000000002
+        }
+      },
+      {
+        "name": "Platform edit 48c02612-db5f-49e3-94c9-cfe2a7f29616",
+        "status": "incorrect",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              0.4,
+              0.73,
+              0.6
+            ]
+          },
+          "volume": 0.7008000000000001,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              0.4,
+              0.55,
+              0.6
+            ]
+          },
+          "volume": 0.528
+        }
+      },
+      {
+        "name": "Platform edit 701eb415-fdc8-4573-963a-cd587149c9e4",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              1.6,
+              0,
+              -0.6
+            ],
+            "max": [
+              2.4000000000000004,
+              0.85,
+              0.6
+            ]
+          },
+          "volume": 0.8160000000000003,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              1.6,
+              0,
+              -0.6
+            ],
+            "max": [
+              2.4000000000000004,
+              0.85,
+              0.6
+            ]
+          },
+          "volume": 0.8160000000000003
+        }
+      },
+      {
+        "name": "Continuous ramp edit d8048df5-3e84-4239-a34b-3ef569587fa6",
+        "status": "incorrect",
+        "expected": {
+          "bounds": {
+            "min": [
+              -1.5999999880790696,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              -0.4000000119209304,
+              0.7300000119209289,
+              0.5999999880790696
+            ]
+          },
+          "volume": 0.7055999805450405,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -1.5999999880790696,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              -0.4000000119209304,
+              0.5499999955296513,
+              0.5999999880790696
+            ]
+          },
+          "volume": 0.575999974307686
+        }
+      },
+      {
+        "name": "Continuous ramp edit 815ffaf1-ef64-4207-8c68-07b54d956792",
+        "status": "incorrect",
+        "expected": {
+          "bounds": {
+            "min": [
+              0.4000000119209304,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              1.5999999880790696,
+              0.8500000238418579,
+              0.5999999880790696
+            ]
+          },
+          "volume": 1.1375999805450379,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              0.4000000119209304,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              1.5999999880790696,
+              0.8499999985098832,
+              0.5999999880790696
+            ]
+          },
+          "volume": 1.0079999554963621
+        }
+      }
+    ],
+    "originalPreserved": true,
+    "elapsedMs": 148250,
+    "cost": {
+      "calls": 5,
+      "estimatedUSD": 0.24597000000000002,
+      "accountedUSD": 0.3074625,
+      "unknownReservations": [],
+      "inputTokens": 78780,
+      "outputTokens": 8841,
+      "reviewerMs": 91990,
+      "executorMs": 50226
+    },
+    "eventCount": 3
+  },
+  {
+    "id": "transfer-repeat-workshop-W6-edit",
+    "version": "workshop",
+    "commit": "f5ba62621db0d9c0a02f90be5b0143c7e21b53f7",
+    "task": "W6",
+    "prompt": "Raise the middle platform’s top by 18 cm. Keep the two end platforms exactly where they are and keep the walking route continuous, with no steps at the connections. Preserve its plan layout, width and existing parts, and leave the samples untouched.",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "COMMITTED_INCORRECT",
+    "started": "2026-11-23T20:34:52.998Z",
+    "requestCount": 5,
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Create a small stepped promenade from five separately editable solids. Put three rectangular platforms at X=-2, 0 and 2 m, all centered on Z=0; each is 80 cm long along X and 1.2 m across Z, with tops respectively 25, 55 and 85 cm above the ground. Join adjacent platforms with solid wedge ramps spanning the gaps, the same width as the platforms, with their upper surfaces meeting both platform tops exactly. All five pieces rest on the ground. Group the promenade and preserve the existing samples."
+      },
+      {
+        "role": "assistant",
+        "content": "Promenade platforms: 3 independently editable elements.\nPlatform 25 cm: 0.8 × 1.2 × 0.25 m; base (-2, 0, 0) m.\nPlatform 55 cm: 0.8 × 1.2 × 0.55 m; base (0, 0, 0) m.\nPlatform 85 cm: 0.8 × 1.2 × 0.85 m; base (2, 0, 0) m.\nRamp 25 to 55 cm: 1.2 × 0.55 × 1.2 m; base (-1, 0, 0) m. Closed loft solid; profile/path parameters preserved.\nRotated 1 solid(s) about their centers: X 90°, Y 0°, Z 0°. Source geometry retained.\nRamp 25 to 55 cm: 1.2 × 1.2 × 0.55 m; base (-1, 0, 0) m.\nRamp 55 to 85 cm: 1.2 × 0.85 × 1.2 m; base (1, 0, 0) m. Closed loft solid; profile/path parameters preserved.\nRotated 1 solid(s) about their centers: X 90°, Y 0°, Z 0°. Source geometry retained.\nRamp 55 to 85 cm: 1.2 × 1.2 × 0.85 m; base (1, 0, 0) m.\nIdentified 2 floor element(s).\nSet 2 element(s) to solid.\nUpdated 2 object color(s) to #c4c7c5.\nCreated group Stepped promenade with 5 selected objects.\nGroup settings updated.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · Platform: count (each): 3; expected equal 3, tolerance 0. 3 element(s).\nshape · Platform: Evaluated solid shape box: 3/3 match occupied geometry, independent of recipe type.\nwidth · Platform: width (each, world solids): 0.8, 0.8, 0.8000000000000003; expected equal 0.8 ± 0.001 m.\ndepth: depth (each, world solids): 1.2, 1.2, 1.2, 1.1999999761581392, 1.1999999761581392; expected equal 1.2 ± 0.001 m.\npositions · Platform 25: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.\npositions · Platform 55: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.\npositions · Platform 85: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.\ntop · Platform 25: top (each, world solids): 0.25; expected equal 0.25 ± 0.001 m.\ntop · Platform 55: top (each, world solids): 0.55; expected equal 0.55 ± 0.001 m.\ntop · Platform 85: top (each, world solids): 0.85; expected equal 0.85 ± 0.001 m.\ncount · Ramp: count (each): 2; expected equal 2, tolerance 0. 2 element(s).\nwidth · Ramp: width (each, world solids): 1.1999999761581392, 1.1999999761581392; expected equal 1.2 ± 0.001 m.\npositions · Ramp 25: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.\npositions · Ramp 55: 1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.\ntop · Ramp 25: top (each, world solids): 0.5499999955296513; expected equal 0.55 ± 0.001 m.\ntop · Ramp 55: top (each, world solids): 0.8499999985098832; expected equal 0.85 ± 0.001 m.\nvolume · Ramp 25: volume (each): 0.576; expected equal 0.576, tolerance 0.011519999999999999. 1 element(s).\nvolume · Ramp 55: volume (each): 1.008; expected equal 1.008, tolerance 0.02016. 1 element(s).\nrelationship: touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.\nunavailable: Unverified: The predicates cannot verify a planar sloped upper surface meeting the full platform-top edges at both ramp ends; bounds, volumes and contact alone do not establish wedge geometry.\nbase: base (each, world solids): 0, 0, 0, 0, 0; expected equal 0 ± 0.001 m.\ngroup: Group Promenade: 5 members; 5/5 requested objects belong to it.\nDesign assumptions:\nEach connector fills the 1.2 m clear gap between adjacent platform edges, with a flat ground base and a planar upper surface.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nunavailable: Unverified: The predicates cannot verify a planar sloped upper surface meeting the full platform-top edges at both ramp ends; bounds, volumes and contact alone do not establish wedge geometry.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 5; expected equal 5, tolerance 0. 5 element(s).\neditable: 5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · Platform: count (each): 3; expected equal 3, tolerance 0. 3 element(s).\nshape · Platform: Evaluated solid shape box: 3/3 match occupied geometry, independent of recipe type.\nwidth · Platform: width (each, world solids): 0.8, 0.8, 0.8000000000000003; expected equal 0.8 ± 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Raise the middle platform’s top by 18 cm. Keep the two end platforms exactly where they are and keep the walking route continuous, with no steps at the connections. Preserve its plan layout, width and existing parts, and leave the samples untouched."
+      },
+      {
+        "role": "assistant",
+        "content": "Coordinated 1 components in 1 shared edit sets; identities and construction recipes retained. Linked components followed their hosts once.\nNamed Platform 55 cm “Platform 73 cm”.\nRamp 25 to 73 cm: 1.2 × 0.73 × 1.2 m; base (-1, 0, 0) m. Closed loft solid; profile/path parameters preserved.\nRamp 73 to 85 cm: 1.2 × 0.85 × 1.2 m; base (1, 0, 0) m. Closed loft solid; profile/path parameters preserved.\nRotated 2 solid(s) about their centers: X 90°, Y 0°, Z 0°. Source geometry retained.\nRamp 25 to 73 cm: 1.2 × 1.2 × 0.73 m; base (-1, 0, 0) m.\nRamp 73 to 85 cm: 1.2 × 1.2 × 0.85 m; base (1, 0, 0) m.\nPlatform 25 cm: 0.8 × 1.2 × 0.25 m; base (-2, 0, 0) m. Material volume 0.24 m³; surface area 2.92 m²; lowest/highest elevation 0 / 0.25 m.\nPlatform 73 cm: 0.8 × 1.2 × 0.73 m; base (0, 0, 0) m. Material volume 0.701 m³; surface area 4.84 m²; lowest/highest elevation 0 / 0.73 m.\nPlatform 85 cm: 0.8 × 1.2 × 0.85 m; base (2, 0, 0) m. Material volume 0.816 m³; surface area 5.32 m²; lowest/highest elevation 0 / 0.85 m.\nRamp 25 to 73 cm: 1.2 × 1.2 × 0.73 m; base (-1, 0, 0) m. Material volume 0.706 m³; surface area 5.343 m²; lowest/highest elevation 0 / 0.73 m.\nRamp 73 to 85 cm: 1.2 × 1.2 × 0.85 m; base (1, 0, 0) m. Material volume 1.138 m³; surface area 6.679 m²; lowest/highest elevation 0 / 0.85 m.\nUnrelated existing geometry: 4 existing objects outside the requested edit scope are unchanged.\ntop: top (each, world solids): 0.73; expected equal 0.73 ± 0.0010199999999999999 m.\npreserve: 3 original identities retain identity, width, depth, x, z, rotation, groupId.\neditable: 3 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\nshape: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.\nrelationship: touching: 1/1 distinct solid pairs satisfy each; tolerance 0.0001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy each; tolerance 0.0001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy each; tolerance 0.0001 m.\nrelationship: touching: 1/1 distinct solid pairs satisfy each; tolerance 0.0001 m.\nunavailable: Unverified: Solid contact alone cannot verify a continuous walking surface with zero step across the full width of all four ramp-to-platform connections.\nDesign assumptions:\nThe middle platform remains ground-based; its height increases from 0.55 m to 0.73 m.\nRetain all five object identities, the promenade group, plan footprints and 1.2 m route width. Only the ramp profiles adjoining the middle platform change.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nunavailable: Unverified: Solid contact alone cannot verify a continuous walking surface with zero step across the full width of all four ramp-to-platform connections.\nUnrelated existing geometry: 4 existing objects outside the requested edit scope are unchanged.\ntop: top (each, world solids): 0.73; expected equal 0.73 ± 0.0010199999999999999 m.\npreserve: 3 original identities retain identity, width, depth, x, z, rotation, groupId.\neditable: 3 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\nshape: Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.\nrelationship: touching: 1/1 distinct solid pairs satisfy each; tolerance 0.0001 m."
+      }
+    ],
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+      "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+      "d8357c2d-46af-474f-8354-d050bc2e4737"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round",
+      "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+      "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+    ],
+    "facts": [
+      {
+        "name": "Unrelated reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Unrelated group",
+        "status": "verified"
+      },
+      {
+        "name": "Five editable parts",
+        "status": "verified",
+        "expected": 5,
+        "actual": 5
+      },
+      {
+        "name": "Distinct identities",
+        "status": "verified"
+      },
+      {
+        "name": "Same identity roster",
+        "status": "verified"
+      },
+      {
+        "name": "Groups preserved",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties 8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties b8ecbe9b-e535-4018-b980-efef4bbb3496",
+        "status": "incorrect"
+      },
+      {
+        "name": "Component properties cc8d1a68-83d8-44cf-940d-53e3420b178e",
+        "status": "verified"
+      },
+      {
+        "name": "Component properties 7df1b56b-478c-47cc-82ea-af7e62bd0672",
+        "status": "incorrect"
+      },
+      {
+        "name": "Component properties d8357c2d-46af-474f-8354-d050bc2e4737",
+        "status": "incorrect"
+      },
+      {
+        "name": "Closed solid 8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid b8ecbe9b-e535-4018-b980-efef4bbb3496",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid cc8d1a68-83d8-44cf-940d-53e3420b178e",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid 7df1b56b-478c-47cc-82ea-af7e62bd0672",
+        "status": "verified"
+      },
+      {
+        "name": "Closed solid d8357c2d-46af-474f-8354-d050bc2e4737",
+        "status": "verified"
+      },
+      {
+        "name": "Platform edit 8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -2.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              -1.5999999999999999,
+              0.25,
+              0.6
+            ]
+          },
+          "volume": 0.24000000000000002,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -2.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              -1.5999999999999999,
+              0.25,
+              0.6
+            ]
+          },
+          "volume": 0.24000000000000002
+        }
+      },
+      {
+        "name": "Platform edit b8ecbe9b-e535-4018-b980-efef4bbb3496",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              0.4,
+              0.73,
+              0.6
+            ]
+          },
+          "volume": 0.7008000000000001,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              0.4,
+              0.73,
+              0.6
+            ]
+          },
+          "volume": 0.7008000000000001
+        }
+      },
+      {
+        "name": "Platform edit cc8d1a68-83d8-44cf-940d-53e3420b178e",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              1.6,
+              0,
+              -0.6
+            ],
+            "max": [
+              2.4000000000000004,
+              0.85,
+              0.6
+            ]
+          },
+          "volume": 0.8160000000000003,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              1.6,
+              0,
+              -0.6
+            ],
+            "max": [
+              2.4000000000000004,
+              0.85,
+              0.6
+            ]
+          },
+          "volume": 0.8160000000000003
+        }
+      },
+      {
+        "name": "Continuous ramp edit 7df1b56b-478c-47cc-82ea-af7e62bd0672",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              -1.5999999880790696,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              -0.4000000119209304,
+              0.7300000119209289,
+              0.5999999880790696
+            ]
+          },
+          "volume": 0.7055999805450405,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -1.5999999880790696,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              -0.4000000119209304,
+              0.7299999973177904,
+              0.5999999880790696
+            ]
+          },
+          "volume": 0.7055999694767028
+        }
+      },
+      {
+        "name": "Continuous ramp edit d8357c2d-46af-474f-8354-d050bc2e4737",
+        "status": "verified",
+        "expected": {
+          "bounds": {
+            "min": [
+              0.4000000119209304,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              1.5999999880790696,
+              0.8500000238418579,
+              0.5999999880790696
+            ]
+          },
+          "volume": 1.1375999805450379,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              0.4000000119209304,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              1.5999999880790696,
+              0.8499999985098832,
+              0.5999999880790696
+            ]
+          },
+          "volume": 1.1375999553764509
+        }
+      }
+    ],
+    "hostReplay": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "4 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.73; expected equal 0.73 ± 0.0010199999999999999 m.",
+          "ids": [
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "3 original identities retain identity, width, depth, x, z, rotation, groupId.",
+          "ids": [
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "d8357c2d-46af-474f-8354-d050bc2e4737"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "editable",
+          "met": true,
+          "outcome": "verified",
+          "observed": "3 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "d8357c2d-46af-474f-8354-d050bc2e4737"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "shape",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+          "ids": [
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.0001 m.",
+          "ids": [
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "8dc69afc-c6d2-4fd8-9456-fb8feea89d56"
+          ]
+        },
+        {
+          "id": "check-6",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.0001 m.",
+          "ids": [
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496"
+          ]
+        },
+        {
+          "id": "check-7",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.0001 m.",
+          "ids": [
+            "d8357c2d-46af-474f-8354-d050bc2e4737",
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496"
+          ]
+        },
+        {
+          "id": "check-8",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.0001 m.",
+          "ids": [
+            "d8357c2d-46af-474f-8354-d050bc2e4737",
+            "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+          ]
+        },
+        {
+          "id": "check-9",
+          "label": "unavailable",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Unverified: Solid contact alone cannot verify a continuous walking surface with zero step across the full width of all four ramp-to-platform connections.",
+          "ids": []
+        }
+      ],
+      "qualitativeLimits": []
+    },
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 66671,
+    "cost": {
+      "calls": 5,
+      "estimatedUSD": 0.192216,
+      "accountedUSD": 0.24026999999999998,
+      "unknownReservations": [],
+      "inputTokens": 82938,
+      "outputTokens": 2634,
+      "reviewerMs": 13077,
+      "executorMs": 35127
+    },
+    "eventCount": 3
   }
 ]

@@ -32,6 +32,7 @@ for version in ['baseline','workshop','verifier']:
       'completedTurnLatency':latency([r['elapsedMs'] for r in rs if r.get('elapsedMs') and r['status'] not in ['RUNNING','INTERRUPTED_OR_HARNESS_FAILURE']]),
       'committedRows':sum(bool(r.get('committed')) for r in rs),
       'committedHostUnverifiedRows':sum(bool(r.get('committed')) and r.get('hostStatus')=='unverified' for r in rs),
+      'unverifiedPersistenceRows':[r['id'] for r in rs if r.get('committed') and not r.get('transaction')],
       'persistenceFailures':[r['id'] for r in rs if r.get('committed') and r.get('transaction') and not all(r['transaction'].values())],
       'inspectionCalls':sum(len(r['explicitSceneInspections']) for r in rs),
       'zeroMatchInspectionCalls':sum(i.get('resultRecorded',False) and i.get('matched')==0 for r in rs for i in r['explicitSceneInspections'])}

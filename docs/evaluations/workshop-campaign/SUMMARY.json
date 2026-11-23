@@ -1,33 +1,19 @@
 {
-  "at": "2026-11-23T20:31:25.048886+00:00",
+  "at": "2026-11-23T20:50:14.496387+00:00",
   "applicationChanged": false,
   "merged": false,
   "deployed": false,
-  "calls": 217,
-  "estimatedUSD": 7.837264,
-  "conservativeAccountedUSD": 11.074065,
-  "inputTokens": 3060192,
-  "outputTokens": 171688,
-  "unknownReservations": [
-    {
-      "id": "a235587e-0b61-47e5-9c64-b740d11f5952",
-      "caseId": "transfer-repeat-baseline-W5-create",
-      "reservedUsd": 0.6334,
-      "outcome": "reserved-before-send"
-    },
-    {
-      "id": "d8df73f1-2f7a-4742-b256-3d03980f1006",
-      "caseId": "transfer-repeat-workshop-W5-create",
-      "reservedUsd": 0.644085,
-      "outcome": "reserved-before-send"
-    }
-  ],
+  "calls": 258,
+  "estimatedUSD": 9.422058,
+  "conservativeAccountedUSD": 11.777572,
+  "inputTokens": 3672419,
+  "outputTokens": 207722,
+  "unknownReservations": [],
   "pricingBasis": "Estimated $2/M input and $10/M output, no cached-token discount. Secondary LiteLLM snapshot, not account invoice. Reservations use $4/$15 plus 25%. User authorized estimates. Auto-recharge not enabled or changed; its account setting cannot be independently read.",
   "rawStatusCounts": {
-    "NOT_COMMITTED": 6,
-    "PASS": 42,
-    "COMMITTED_INCORRECT": 4,
-    "RUNNING": 2,
+    "NOT_COMMITTED": 7,
+    "PASS": 52,
+    "COMMITTED_INCORRECT": 5,
     "NEGATIVE_BLOCKED": 4,
     "INTERRUPTED_OR_HARNESS_FAILURE": 4
   },
@@ -45,13 +31,21 @@
       "calls": 6,
       "estimatedUSD": 0.211714
     },
+    "reflection-repeat": {
+      "calls": 4,
+      "estimatedUSD": 0.13207
+    },
+    "roller-fixture": {
+      "calls": 6,
+      "estimatedUSD": 0.183514
+    },
     "transfer-1": {
       "calls": 42,
       "estimatedUSD": 1.460112
     },
     "transfer-repeat": {
-      "calls": 7,
-      "estimatedUSD": 0.190684
+      "calls": 38,
+      "estimatedUSD": 1.459894
     },
     "verifier-1": {
       "calls": 10,
@@ -76,73 +70,81 @@
   },
   "versions": {
     "baseline": {
-      "calls": 100,
-      "estimatedUSD": 3.468124,
+      "calls": 120,
+      "estimatedUSD": 4.262154,
       "reviewerLatency": {
-        "n": 31,
+        "n": 37,
         "medianSeconds": 15.01,
-        "maxSeconds": 91.49
+        "maxSeconds": 91.99
       },
       "executorLatency": {
-        "n": 68,
-        "medianSeconds": 13.04,
+        "n": 83,
+        "medianSeconds": 12.94,
         "maxSeconds": 30.75
       },
       "completedTurnLatency": {
-        "n": 28,
-        "medianSeconds": 60.6,
-        "maxSeconds": 135.4
+        "n": 34,
+        "medianSeconds": 61.87,
+        "maxSeconds": 148.25
       },
-      "committedRows": 26,
-      "committedHostUnverifiedRows": 14,
+      "committedRows": 31,
+      "committedHostUnverifiedRows": 18,
+      "unverifiedPersistenceRows": [
+        "workshop-1-baseline-W1-create",
+        "workshop-1-baseline-W1-diagnostic-edit"
+      ],
       "persistenceFailures": [],
-      "inspectionCalls": 10,
+      "inspectionCalls": 15,
       "zeroMatchInspectionCalls": 0
     },
     "workshop": {
-      "calls": 103,
-      "estimatedUSD": 3.968534,
+      "calls": 122,
+      "estimatedUSD": 4.687454,
       "reviewerLatency": {
-        "n": 21,
-        "medianSeconds": 20.13,
+        "n": 26,
+        "medianSeconds": 19.16,
         "maxSeconds": 91.91
       },
       "executorLatency": {
-        "n": 81,
-        "medianSeconds": 7.32,
+        "n": 96,
+        "medianSeconds": 6.08,
         "maxSeconds": 27.53
       },
       "completedTurnLatency": {
-        "n": 20,
-        "medianSeconds": 69.65,
+        "n": 25,
+        "medianSeconds": 68.18,
         "maxSeconds": 134.8
       },
-      "committedRows": 17,
-      "committedHostUnverifiedRows": 13,
+      "committedRows": 22,
+      "committedHostUnverifiedRows": 18,
+      "unverifiedPersistenceRows": [
+        "workshop-1-workshop-W1-create"
+      ],
       "persistenceFailures": [],
-      "inspectionCalls": 32,
+      "inspectionCalls": 38,
       "zeroMatchInspectionCalls": 2
     },
     "verifier": {
-      "calls": 14,
-      "estimatedUSD": 0.400606,
+      "calls": 16,
+      "estimatedUSD": 0.47245,
       "reviewerLatency": {
-        "n": 8,
-        "medianSeconds": 17.34,
+        "n": 9,
+        "medianSeconds": 17.81,
         "maxSeconds": 27.51
       },
       "executorLatency": {
-        "n": 6,
-        "medianSeconds": 20.79,
+        "n": 7,
+        "medianSeconds": 21.15,
         "maxSeconds": 25.59
       },
       "completedTurnLatency": {
-        "n": 8,
-        "medianSeconds": 42.91,
+        "n": 9,
+        "medianSeconds": 56.56,
         "maxSeconds": 78.32
       },
-      "committedRows": 6,
+      "committedRows": 7,
       "committedHostUnverifiedRows": 1,
+      "unverifiedPersistenceRows": [],
       "persistenceFailures": [],
       "inspectionCalls": 0,
       "zeroMatchInspectionCalls": 0

@@ -1,6 +1,8 @@
-# ATELIER workshop campaign — running evidence
+# ATELIER workshop campaign — evidence archive
 
 Evaluation only; no application behavior, production branch or deployment changed.
+
+**Completed report: [comparison, limitations, costs and recommendation](REPORT.md).** 258 live API calls; estimated $9.422058. [Editable model copies](artifacts/editable-models.zip). The chronological records below preserve failures, interruptions and diagnostic distinctions.
 
 ## Published batch: console creation and follow-up
 
@@ -73,7 +75,7 @@ Fresh edits were then performed on the **actual saved AI-created ramps**. Both p
 
 The transfer batch used an estimated **$1.460112**, including the separately seeded diagnostics. Fresh resumed ramp edits added **$0.211714**. [Raw transfer results](transfer-1-results.json) · [Resumed ramp results](ramp-resume-results.json) · [Full transfer traces, saved editable models, numerical reassessments and browser checks](artifacts/transfer-evidence.tar.gz)
 
-Selected fresh matched repeats and same-project recovery after a blocked transaction are in progress. All applications remain frozen. Current cumulative spending is an estimate in [spending.json](spending.json), including in-flight reservations when present.
+The later sections record the completed fresh matched repeats and same-project recovery after a blocked transaction. All applications remain frozen. Final estimated spending and reconciled usage are in [spending.json](spending.json) and [ledger.json](ledger.json).
 
 
 ## Editable results for direct review
@@ -110,3 +112,17 @@ A saved-trace [offline arity audit](calculation-arity-audit.json) establishes th
 After each live negative control, a new fresh-AI request in the same still-open project successfully created a sphere. A subsequent natural request aligned its base with the taller existing reference sample, without supplying that sample's height. Both versions preserved the samples and sphere identity, committed, and passed reload and Undo/Redo. The negative executor was scripted fault injection with a fresh reviewer; the recovery creation/edit used fresh executor and reviewer responses.
 
 This repeated verifier/recovery segment used **18 calls, estimated $0.463264**. [Raw repeated results](verifier-repeat-results.json) · [Full negative control, fresh recovery, API records and retained guard refusals](artifacts/verifier-repeat-evidence.tar.gz) · [Recorded successful calculation provenance](calculation-provenance.json).
+
+
+## Completed transfer repeats and controlled roller diagnosis
+
+Both versions again created and raised the rotated workbench correctly. In this repeat, `f5ba626` successfully retrieved all five original components through before-state inspection; the first round's group shorthand had returned zero members. Both retained the five identities and two unrelated samples, with exact persisted Undo/Redo.
+
+Both fresh promenade creations passed. The workshop edit produced the correct middle platform and both ramps, preserving four other objects; its three raw metadata flags are sensible height-label updates, [audited separately](ramp-repeat-name-audit.json). The baseline edit did not commit because its reviewer exhausted 6,000 output tokens after about 92 seconds. Replaying its saved operations yields correct occupied solids and connections, also with sensible height-label updates; no live commit is claimed for that replay. This is a completion-verification failure rather than an inability to reshape the ramps.
+
+The representation-controlled roller diagnosis then gave **both versions exactly the same validated starting fixture and the same follow-up request**. Both passed actual solids, all five original component IDs, the two unrelated samples, save/reload and Undo/Redo. Baseline inspected four current components; workshop inspected five before-state components. Both disclosed unsupported bore/qualitative verification rather than claiming complete coverage. This diagnoses editing independently of creation; it is not counted as a successful AI creation episode. Earlier fixture reviewer failures remain failures and demonstrate variability.
+
+The transfer repeat cost an estimated **$1.459894** across 38 calls. The paired roller diagnostic added **$0.183514** across six calls. [Repeated transfer results](transfer-repeat-results.json) · [Paired fixture results](roller-fixture-results.json) · [Complete traces, raw models and offline ramp replay](artifacts/transfer-repeat-evidence.tar.gz) · [Component-by-component changes](component-changes.json).
+
+
+The third reflected-layout repeat verified correctly in both arms. Thus the derived verifier successfully calculated two of three reflection runs; one remained unverified due to operand count. [Final repeat and saved-trace diagnostic evidence](artifacts/final-diagnostics-evidence.tar.gz).

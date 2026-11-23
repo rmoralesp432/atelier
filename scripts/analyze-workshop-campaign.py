@@ -47,7 +47,7 @@ for path in sorted(root.glob('*/results.json')):
                         calculations.append({'requirement': check.get('requirement'), 'calculation': check['calculation']})
         repairs = [e['input'].get('validationFeedback') for e in r.get('events', [])
                    if e['kind'] == 'executor' and e['input'].get('validationFeedback', {}).get('verification')]
-        row = {k: r.get(k) for k in ['id', 'version', 'task', 'edit', 'diagnostic', 'negative', 'status', 'committed', 'componentCount', 'changedIds', 'preservedIds', 'transaction', 'elapsedMs', 'error']}
+        row = {k: r.get(k) for k in ['id', 'version', 'task', 'edit', 'diagnostic', 'negative', 'status', 'committed', 'componentCount', 'changedIds', 'preservedIds', 'transaction', 'elapsedMs', 'error', 'originalPreserved']}
         row.update({
             'explicitSceneInspections': inspections,
             'toolNames': tool_names,
@@ -65,6 +65,23 @@ for path in sorted(root.glob('*/results.json')):
         })
         rows.append(row)
 (docs / 'campaign-boundaries.json').write_text(json.dumps(rows, indent=2))
+changes = []
+for r in rows:
+    if not r.get('edit') or not r.get('committed'):
+        continue
+    marker = '-baseline-' if '-baseline-' in r['id'] else '-workshop-' if '-workshop-' in r['id'] else '-verifier-'
+    folder = root / r['id'].split(marker)[0]
+    before = json.loads((folder / (r['id'] + '-before.json')).read_text())['project']['volumes']
+    after = json.loads((folder / (r['id'] + '-after.json')).read_text())['project']['volumes']
+    old, new = {v['id']: v for v in before}, {v['id']: v for v in after}
+    changes.append({'case': r['id'], 'rawStatus': r['status'], 'diagnostic': r['diagnostic'],
+        'changed': [{'id': i, 'beforeName': old[i].get('name'), 'afterName': new[i].get('name'),
+                     'changedFields': [k for k in sorted(set(old[i]) | set(new[i])) if old[i].get(k) != new[i].get(k)]}
+                    for i in sorted(old.keys() & new.keys()) if old[i] != new[i]],
+        'preserved': [{'id': i, 'name': v.get('name')} for i, v in old.items() if new.get(i) == v],
+        'newIds': sorted(new.keys() - old.keys()), 'removedIds': sorted(old.keys() - new.keys()), 'transaction': r['transaction']})
+(docs / 'component-changes.json').write_text(json.dumps(changes, indent=2) + '\n')
+
 print(json.dumps({'rows': [{k:r.get(k) for k in ['id','status','calls','estimatedUSD']} for r in rows],
                   'totalCalls': len(ledger['calls']), 'estimatedUSD': sum(c.get('estimatedUsd', 0) for c in ledger['calls']),
                   'unresolved': [dict(id=c['id'],case=c['caseId'],reservation=c['reservedUsd'],outcome=c['outcome']) for c in ledger['calls'] if c['outcome'] != 'usage-reconciled']}, indent=2))

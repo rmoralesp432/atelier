@@ -1,0 +1,1797 @@
+[
+  {
+    "case": "baseline-fill-baseline-W2-diagnostic-edit",
+    "rawStatus": "PASS",
+    "diagnostic": true,
+    "changed": [
+      {
+        "id": "fixture-W2-0",
+        "beforeName": "Floor",
+        "afterName": "Floor",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "fixture-W2-2",
+        "beforeName": "Post",
+        "afterName": "Post",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "fixture-W2-3",
+        "beforeName": "Post",
+        "afterName": "Post",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "fixture-W2-4",
+        "beforeName": "Post",
+        "afterName": "Post",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "fixture-W2-5",
+        "beforeName": "Post",
+        "afterName": "Post",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "fixture-W2-6",
+        "beforeName": "Side glazing",
+        "afterName": "Side glazing",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "fixture-W2-7",
+        "beforeName": "Side glazing",
+        "afterName": "Side glazing",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "fixture-W2-8",
+        "beforeName": "Back wall",
+        "afterName": "Back wall",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "fixture-W2-1",
+        "name": "Roof"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "baseline-fill-baseline-W3-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "657d3efe-5863-4db4-ba32-1f6f5b74571e",
+        "beforeName": "Left bearing block",
+        "afterName": "Left bearing block",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c9f14662-baea-48b8-99dc-0f89ac1059b2",
+        "beforeName": "Roller base plate",
+        "afterName": "Roller base plate",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e52152d7-b802-4350-950f-77771834c63b",
+        "beforeName": "Centered shaft",
+        "afterName": "Centered shaft",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e92d1f90-dcd7-4974-a8ca-60d13f03d045",
+        "beforeName": "Hollow roller",
+        "afterName": "Hollow roller",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fe60bd48-6968-49cc-8a4a-700de89c834c",
+        "beforeName": "Right bearing block",
+        "afterName": "Right bearing block",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "baseline-fill-baseline-W4-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "2839f57b-2c31-4058-ba83-7dff6d4a1eb0",
+        "beforeName": "Halo right round support",
+        "afterName": "Halo right round support",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "54bce225-2565-46c5-a177-0effeaa6f876",
+        "beforeName": "Halo left round support",
+        "afterName": "Halo left round support",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "9fcc2cac-d424-4187-8590-933f048f5665",
+        "beforeName": "Elliptical halo",
+        "afterName": "Elliptical halo",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "876027e8-ef60-4f3b-aad3-23efa8b61cbe",
+        "name": "Halo plinth"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "console-resume-workshop-W1-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0",
+        "beforeName": "Console low back stretcher",
+        "afterName": "Console low back stretcher",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+        "beforeName": "Console right slab support",
+        "afterName": "Console right slab support",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+        "beforeName": "Console top",
+        "afterName": "Console top",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "97f66d1b-1d1f-48f5-97b3-103a00372431",
+        "beforeName": "Console left slab support",
+        "afterName": "Console left slab support",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "console-resume-baseline-W1-edit",
+    "rawStatus": "COMMITTED_INCORRECT",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "036d8747-09a9-45c0-a00e-3f929245c896",
+        "beforeName": "Console right slab support",
+        "afterName": "Console right slab support",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+        "beforeName": "Console top",
+        "afterName": "Console top",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+        "beforeName": "Console left slab support",
+        "afterName": "Console left slab support",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "b42cda14-2293-4905-af52-f3614e4b8ad9",
+        "beforeName": "Console low back stretcher",
+        "afterName": "Console low back stretcher",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "ramp-resume-workshop-W6-edit",
+    "rawStatus": "COMMITTED_INCORRECT",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "55fc57d5-6f68-48e7-8c76-534c9e4e862c",
+        "beforeName": "Promenade ramp 55 to 85 cm",
+        "afterName": "Promenade ramp 55 to 85 cm",
+        "changedFields": [
+          "geometry"
+        ]
+      },
+      {
+        "id": "8cc93809-a534-4451-a95e-2051b5c1278c",
+        "beforeName": "Promenade ramp 25 to 55 cm",
+        "afterName": "Promenade ramp 25 to 55 cm",
+        "changedFields": [
+          "dimensions",
+          "geometry"
+        ]
+      },
+      {
+        "id": "c2628b21-90ad-43cc-bb31-f984a8e938c5",
+        "beforeName": "Promenade platform 55 cm",
+        "afterName": "Promenade platform 73 cm",
+        "changedFields": [
+          "dimensions",
+          "name"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "fa36b6bc-811f-4334-ad31-6a76a6275af4",
+        "name": "Promenade platform 25 cm"
+      },
+      {
+        "id": "473f4890-0ac7-419d-8bbc-1012795ac24b",
+        "name": "Promenade platform 85 cm"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "ramp-resume-baseline-W6-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "0c080fdc-8c0f-427f-8bcf-6a599ed190e5",
+        "beforeName": "Promenade wedge ramp 1",
+        "afterName": "Promenade wedge ramp 1",
+        "changedFields": [
+          "dimensions",
+          "geometry"
+        ]
+      },
+      {
+        "id": "55a4ec30-c5e4-45db-9070-484ace9d9bf9",
+        "beforeName": "Promenade wedge ramp 2",
+        "afterName": "Promenade wedge ramp 2",
+        "changedFields": [
+          "geometry"
+        ]
+      },
+      {
+        "id": "6d2dbb19-6184-4d4b-8d56-5b2b4508e278",
+        "beforeName": "Promenade platform 2",
+        "afterName": "Promenade platform 2",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "1e5b9ee3-e7c4-4eff-979c-004b9afbd5cb",
+        "name": "Promenade platform 1"
+      },
+      {
+        "id": "12e2a992-3b8e-46aa-9015-09287d9b60c4",
+        "name": "Promenade platform 3"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "roller-fixture-workshop-W3-diagnostic-edit",
+    "rawStatus": "PASS",
+    "diagnostic": true,
+    "changed": [
+      {
+        "id": "fixture-W3-0",
+        "beforeName": "Base",
+        "afterName": "Base",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fixture-W3-1",
+        "beforeName": "Hollow roller",
+        "afterName": "Hollow roller",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fixture-W3-2",
+        "beforeName": "Shaft",
+        "afterName": "Shaft",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fixture-W3-3",
+        "beforeName": "Bearing",
+        "afterName": "Bearing",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "fixture-W3-4",
+        "beforeName": "Bearing",
+        "afterName": "Bearing",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "roller-fixture-baseline-W3-diagnostic-edit",
+    "rawStatus": "PASS",
+    "diagnostic": true,
+    "changed": [
+      {
+        "id": "fixture-W3-0",
+        "beforeName": "Base",
+        "afterName": "Base",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fixture-W3-1",
+        "beforeName": "Hollow roller",
+        "afterName": "Hollow roller",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fixture-W3-2",
+        "beforeName": "Shaft",
+        "afterName": "Shaft",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fixture-W3-3",
+        "beforeName": "Bearing",
+        "afterName": "Bearing",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "fixture-W3-4",
+        "beforeName": "Bearing",
+        "afterName": "Bearing",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "transfer-1-baseline-W5-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "428b21c7-ea18-4cd4-9357-944b1ccd9063",
+        "beforeName": "Workbench tapered leg",
+        "afterName": "Workbench tapered leg",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "705805bb-14b7-44af-94c4-5ad3dce3634c",
+        "beforeName": "Workbench top",
+        "afterName": "Workbench top",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c9a3ed41-4f03-4d54-97f1-bd4ad4440447",
+        "beforeName": "Workbench tapered leg copy",
+        "afterName": "Workbench tapered leg copy",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "cad94f57-4bb6-434e-af96-5aa7aef9b1c3",
+        "beforeName": "Workbench tapered leg copy (3)",
+        "afterName": "Workbench tapered leg copy (3)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "dc829647-9b44-4110-9529-f5a3d9c0da85",
+        "beforeName": "Workbench tapered leg copy (2)",
+        "afterName": "Workbench tapered leg copy (2)",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "transfer-1-workshop-W5-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "7a460058-a7e3-4956-8d5b-258b6088e3ba",
+        "beforeName": "Workbench tapered leg copy (2)",
+        "afterName": "Workbench tapered leg copy (2)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e519ccd4-422b-4e8c-b9f0-3cde11579526",
+        "beforeName": "Workbench tapered leg copy",
+        "afterName": "Workbench tapered leg copy",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "f66adc20-8deb-42c7-92a8-5ce1d206fdad",
+        "beforeName": "Workbench top",
+        "afterName": "Workbench top",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "fc6c595f-ed65-4169-b49d-fb2e8fc4323d",
+        "beforeName": "Workbench tapered leg",
+        "afterName": "Workbench tapered leg",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fd3229b5-fb8f-4b91-bffe-608b65d8c409",
+        "beforeName": "Workbench tapered leg copy (3)",
+        "afterName": "Workbench tapered leg copy (3)",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "transfer-1-workshop-W6-diagnostic-edit",
+    "rawStatus": "PASS",
+    "diagnostic": true,
+    "changed": [
+      {
+        "id": "transfer-W6-1",
+        "beforeName": "Platform",
+        "afterName": "Platform",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "transfer-W6-3",
+        "beforeName": "Left ramp",
+        "afterName": "Left ramp",
+        "changedFields": [
+          "component",
+          "dimensions",
+          "geometry"
+        ]
+      },
+      {
+        "id": "transfer-W6-4",
+        "beforeName": "Right ramp",
+        "afterName": "Right ramp",
+        "changedFields": [
+          "component",
+          "geometry"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "transfer-W6-0",
+        "name": "Platform"
+      },
+      {
+        "id": "transfer-W6-2",
+        "name": "Platform"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "transfer-repeat-baseline-W5-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "431b0e3b-04c5-492b-bcda-27acfef1ed36",
+        "beforeName": "Workbench top",
+        "afterName": "Workbench top",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+        "beforeName": "Workbench tapered leg copy",
+        "afterName": "Workbench tapered leg copy",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "7e7c9b08-6c67-4899-91f7-7363d96a0cee",
+        "beforeName": "Workbench tapered leg copy (3)",
+        "afterName": "Workbench tapered leg copy (3)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "cdf4ccee-1682-4020-a64b-94fab99a2775",
+        "beforeName": "Workbench tapered leg copy (2)",
+        "afterName": "Workbench tapered leg copy (2)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+        "beforeName": "Workbench tapered leg",
+        "afterName": "Workbench tapered leg",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "transfer-repeat-workshop-W5-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "098a3fcf-d1a3-4377-947b-94d98a7adfb3",
+        "beforeName": "Workbench tapered leg copy (3)",
+        "afterName": "Workbench tapered leg copy (3)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "187f3165-4865-45bf-b5b9-929dbf347cc5",
+        "beforeName": "Workbench top",
+        "afterName": "Workbench top",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+        "beforeName": "Workbench tapered leg copy (2)",
+        "afterName": "Workbench tapered leg copy (2)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+        "beforeName": "Workbench tapered leg",
+        "afterName": "Workbench tapered leg",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+        "beforeName": "Workbench tapered leg copy",
+        "afterName": "Workbench tapered leg copy",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "transfer-repeat-workshop-W6-edit",
+    "rawStatus": "COMMITTED_INCORRECT",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+        "beforeName": "Ramp 25 to 55 cm",
+        "afterName": "Ramp 25 to 73 cm",
+        "changedFields": [
+          "dimensions",
+          "geometry",
+          "name"
+        ]
+      },
+      {
+        "id": "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+        "beforeName": "Platform 55 cm",
+        "afterName": "Platform 73 cm",
+        "changedFields": [
+          "dimensions",
+          "name"
+        ]
+      },
+      {
+        "id": "d8357c2d-46af-474f-8354-d050bc2e4737",
+        "beforeName": "Ramp 55 to 85 cm",
+        "afterName": "Ramp 73 to 85 cm",
+        "changedFields": [
+          "geometry",
+          "name"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+        "name": "Platform 25 cm"
+      },
+      {
+        "id": "cc8d1a68-83d8-44cf-940d-53e3420b178e",
+        "name": "Platform 85 cm"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "verifier-repeat-baseline-D-R1-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "43761de4-e6f1-4299-8d36-295749fe55d5",
+        "beforeName": "Independent 30 cm sphere",
+        "afterName": "Independent 30 cm sphere",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "verifier-repeat-verifier-D-R1-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "3615d013-2630-4f4c-b253-0c07955c67ae",
+        "beforeName": "Independent 30 cm sphere",
+        "afterName": "Independent 30 cm sphere",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "workshop-1-baseline-W1-diagnostic-edit",
+    "rawStatus": "INTERRUPTED_OR_HARNESS_FAILURE",
+    "diagnostic": true,
+    "changed": [
+      {
+        "id": "fixture-W1-0",
+        "beforeName": "Top",
+        "afterName": "Top",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fixture-W1-1",
+        "beforeName": "Side",
+        "afterName": "Side",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "fixture-W1-2",
+        "beforeName": "Side",
+        "afterName": "Side",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "fixture-W1-3",
+        "beforeName": "Back stretcher",
+        "afterName": "Back stretcher",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": null
+  },
+  {
+    "case": "workshop-2-workshop-W2-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "1b996d72-6156-44f0-b2bd-9929106a513a",
+        "beforeName": "Garden room west glazing",
+        "afterName": "Garden room west glazing",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "2dd7cf30-4043-440a-8d68-10c10ce4ec76",
+        "beforeName": "Garden room corner post 3",
+        "afterName": "Garden room corner post 3",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "36c21f85-c392-4989-aa3d-2c5ed7667cf1",
+        "beforeName": "Garden room east glazing",
+        "afterName": "Garden room east glazing",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "4c9b3afc-c888-4d06-bf16-ade61147e7ae",
+        "beforeName": "Garden room corner post 4",
+        "afterName": "Garden room corner post 4",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "7a5aa3ed-6171-490d-86dd-fc68bf63dfd6",
+        "beforeName": "Garden room corner post 2",
+        "afterName": "Garden room corner post 2",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "87c6e909-1c8f-4291-8e43-4b7c13054277",
+        "beforeName": "Garden room floor slab",
+        "afterName": "Garden room floor slab",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "bee57863-ddb1-451a-865b-b0c76962221d",
+        "beforeName": "Garden room corner post 1",
+        "afterName": "Garden room corner post 1",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "fcbbe432-e220-4a35-a244-1a34c4e002d6",
+        "beforeName": "Garden room back wall",
+        "afterName": "Garden room back wall",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "7e85e87d-e449-4081-848f-4805b5ad090f",
+        "name": "Garden room roof slab"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "workshop-2-workshop-W4-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "6d3f6ebd-70b0-4962-ba34-ddc860552292",
+        "beforeName": "Elliptical halo",
+        "afterName": "Elliptical halo",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "967fdd3f-ac16-424f-8e83-8e0e7a14100c",
+        "beforeName": "Halo right round support",
+        "afterName": "Halo right round support",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "cd6395dd-f974-479f-a564-3074857ba0b3",
+        "beforeName": "Halo left round support",
+        "afterName": "Halo left round support",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "2ddd296f-8008-4768-bdad-837c1e65cb46",
+        "name": "Halo plinth"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "workshop-repeat-workshop-W1-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "0f1408a7-df9c-4516-910e-7a810503e0b1",
+        "beforeName": "Console low back stretcher",
+        "afterName": "Console low back stretcher",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "4d129b39-e751-4823-850c-ec6523fcb570",
+        "beforeName": "Console top",
+        "afterName": "Console top",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "57058069-f286-4056-bfe5-7165a04f9e2f",
+        "beforeName": "Console left slab support",
+        "afterName": "Console left slab support",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c2931d29-9a22-49fc-9cfc-500deaad855d",
+        "beforeName": "Console right slab support",
+        "afterName": "Console right slab support",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "workshop-repeat-baseline-W1-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "39986767-da46-43d9-b958-0f79d1f6d35b",
+        "beforeName": "Console top",
+        "afterName": "Console top",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "53504303-5035-469e-9528-07bf71c08968",
+        "beforeName": "Console left slab support",
+        "afterName": "Console left slab support",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "7459083d-26bb-40cd-a4b8-64b2374d02a3",
+        "beforeName": "Console right slab support",
+        "afterName": "Console right slab support",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "87705ead-7fcf-478e-8771-677eebe8c015",
+        "beforeName": "Console low back stretcher",
+        "afterName": "Console low back stretcher",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "workshop-repeat-workshop-W2-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "10ee6df9-0649-4c20-b6b4-92d127526c07",
+        "beforeName": "Garden room solid back wall",
+        "afterName": "Garden room solid back wall",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "2e6b9bd1-1dc0-4d10-a0b4-b219d46b63b6",
+        "beforeName": "Garden room front west post",
+        "afterName": "Garden room front west post",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "6194eaaa-50cf-4a5f-b125-63f1804667df",
+        "beforeName": "Garden room east glazing",
+        "afterName": "Garden room east glazing",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "ade31e19-778a-4992-955d-81601f5d5768",
+        "beforeName": "Garden room west glazing",
+        "afterName": "Garden room west glazing",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "cc36f1b5-9d5b-426d-a143-629f629fbf1d",
+        "beforeName": "Garden room back west post",
+        "afterName": "Garden room back west post",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "d4325ef5-3559-4c0d-ac91-05cc4b2bbbf4",
+        "beforeName": "Garden room back east post",
+        "afterName": "Garden room back east post",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "d6e104c3-4d6b-4ddf-b2e4-f553f490a1ac",
+        "beforeName": "Garden room front east post",
+        "afterName": "Garden room front east post",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "fe0e6b8c-d7a3-420a-b3a0-1cf18254f510",
+        "beforeName": "Garden room floor slab",
+        "afterName": "Garden room floor slab",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "54adce59-38e5-4db6-b0ae-99a48d38a3a8",
+        "name": "Garden room flat roof"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "workshop-repeat-baseline-W2-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "37759f56-ba89-4b84-a760-77cf761933da",
+        "beforeName": "Garden room corner post 4",
+        "afterName": "Garden room corner post 4",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "44c9b1ab-7e46-4c7c-8372-553621609e0f",
+        "beforeName": "Garden room corner post 3",
+        "afterName": "Garden room corner post 3",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "456fc9e7-d0cc-444a-9443-551e86a9907b",
+        "beforeName": "Garden room corner post 2",
+        "afterName": "Garden room corner post 2",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "534316a7-fbde-4555-bf9b-2876ee5793ab",
+        "beforeName": "Garden room west glazing",
+        "afterName": "Garden room west glazing",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "917bb935-9865-4d07-ab03-3698844b82c2",
+        "beforeName": "Garden room east glazing",
+        "afterName": "Garden room east glazing",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "9297d62c-7168-480d-b394-62e335009d52",
+        "beforeName": "Garden room corner post 1",
+        "afterName": "Garden room corner post 1",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "94e805be-0427-4fd5-8573-f9be04d3b3d7",
+        "beforeName": "Garden room floor slab",
+        "afterName": "Garden room floor slab",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "aaa32945-be2a-4b24-ab79-f228879cd012",
+        "beforeName": "Garden room back wall",
+        "afterName": "Garden room back wall",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "f3d420d2-50fe-41a5-adf2-e4834ebe221b",
+        "name": "Garden room roof slab"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "workshop-repeat-baseline-W3-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "31ad7cdb-f908-4c1b-bd02-328a040ab434",
+        "beforeName": "Left bearing block",
+        "afterName": "Left bearing block",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "704b7ed1-ada5-46df-ab20-9079e318bbe8",
+        "beforeName": "Right bearing block",
+        "afterName": "Right bearing block",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "b4175a0b-9ac9-46cc-bc06-636610115439",
+        "beforeName": "Roller base plate",
+        "afterName": "Roller base plate",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "c738cab6-ab0b-48aa-b59e-1fae3378f507",
+        "beforeName": "Roller shaft",
+        "afterName": "Roller shaft",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fcab1cac-a517-49eb-ac9b-1eab26414195",
+        "beforeName": "Hollow roller",
+        "afterName": "Hollow roller",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "workshop-repeat-workshop-W4-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "5ef14a41-c7b3-42d5-87dc-4b4c6b35d429",
+        "beforeName": "Elliptical halo",
+        "afterName": "Elliptical halo",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "7b2a75bf-b1a6-4212-b538-08eb12ecc194",
+        "beforeName": "Halo left round support",
+        "afterName": "Halo left round support",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e4eedb71-aaab-493c-b5e1-c404db51e0be",
+        "beforeName": "Halo right round support",
+        "afterName": "Halo right round support",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "361a6005-5375-49a0-a7ce-108ae07881a0",
+        "name": "Halo plinth"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "workshop-repeat-baseline-W4-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "1383f5fc-b8b4-4e90-94ea-51a34320a37a",
+        "beforeName": "Halo left round support",
+        "afterName": "Halo left round support",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "53574a05-2f10-485f-b1ab-25259d0844e5",
+        "beforeName": "Elliptical halo",
+        "afterName": "Elliptical halo",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "d93a7887-3766-4ff9-93ca-2c30033a3983",
+        "beforeName": "Halo right round support",
+        "afterName": "Halo right round support",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "a1ee3dad-19fe-4bde-bf95-7112cd08630c",
+        "name": "Halo plinth"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  }
+]

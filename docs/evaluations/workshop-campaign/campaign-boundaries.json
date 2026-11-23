@@ -17,6 +17,7 @@
     "transaction": null,
     "elapsedMs": 75447,
     "error": null,
+    "originalPreserved": true,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step",
@@ -1035,6 +1036,7 @@
     },
     "elapsedMs": 47046,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -1080,6 +1082,7 @@
     },
     "elapsedMs": 80820,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step",
@@ -1132,6 +1135,7 @@
     },
     "elapsedMs": 59705,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "b0750966-d39c-44c1-9c67-f636c4d363cd",
@@ -1202,6 +1206,7 @@
     },
     "elapsedMs": 99449,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "9673cb88-8a76-4e40-a22e-8e06d2c3d899",
@@ -1534,6 +1539,7 @@
     },
     "elapsedMs": 41456,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -1584,6 +1590,7 @@
     },
     "elapsedMs": 59751,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "2e58b4fb-3da7-46b5-a454-8edeb35e3dc6",
@@ -1847,6 +1854,7 @@
     },
     "elapsedMs": 59565,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step",
@@ -2118,6 +2126,7 @@
     },
     "elapsedMs": 57426,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "5f5068f0-baa2-4131-bd3d-2f308452203f",
@@ -2199,6 +2208,7 @@
     },
     "elapsedMs": 57661,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "848e0bca-b870-4c4f-964d-3f084081f1f2",
@@ -2240,6 +2250,817 @@
     }
   },
   {
+    "id": "reflection-repeat-baseline-D-H2-create",
+    "version": "baseline",
+    "task": "D-H2",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 5,
+    "changedIds": [
+      "display-0",
+      "display-1",
+      "display-2"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 62228,
+    "error": null,
+    "originalPreserved": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "verified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 27,
+    "calls": 2,
+    "estimatedUSD": 0.060226,
+    "reviewerMs": 12823,
+    "executorMs": 25196,
+    "usage": {
+      "input": 20078,
+      "output": 2007
+    }
+  },
+  {
+    "id": "reflection-repeat-verifier-D-H2-create",
+    "version": "verifier",
+    "task": "D-H2",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 5,
+    "changedIds": [
+      "display-0",
+      "display-1",
+      "display-2"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 69451,
+    "error": null,
+    "originalPreserved": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [
+      {
+        "requirement": {
+          "id": "check-1",
+          "label": "positions",
+          "kind": "positions",
+          "selector": {
+            "refs": [
+              "display-0"
+            ],
+            "role": null,
+            "level": null,
+            "nameContains": null
+          },
+          "points": [
+            {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          ],
+          "tolerance": 0.0001
+        },
+        "calculation": {
+          "frame": "world_xyz_y_up",
+          "nodes": [
+            {
+              "kind": "quantity",
+              "value": 1.1,
+              "unit": "m",
+              "source": "request",
+              "evidence": "X = 1.1 m"
+            },
+            {
+              "kind": "quantity",
+              "value": -0.8,
+              "unit": "m",
+              "source": "request",
+              "evidence": "Z = -0.8 m"
+            },
+            {
+              "kind": "quantity",
+              "value": 34,
+              "unit": "deg",
+              "source": "request",
+              "evidence": "34 degrees from +X toward +Z"
+            },
+            {
+              "kind": "operation",
+              "op": "cos",
+              "args": [
+                2
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "sin",
+              "args": [
+                2
+              ]
+            },
+            {
+              "kind": "original",
+              "objectId": "display-0",
+              "metric": "x"
+            },
+            {
+              "kind": "original",
+              "objectId": "display-0",
+              "metric": "z"
+            },
+            {
+              "kind": "original",
+              "objectId": "display-0",
+              "metric": "y"
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                5,
+                0
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                6,
+                1
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                8,
+                3
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                9,
+                4
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                10,
+                11
+              ]
+            },
+            {
+              "kind": "constant",
+              "value": 2
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                13,
+                12
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                14,
+                3
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                14,
+                4
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                0,
+                15
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                17,
+                8
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                1,
+                16
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                19,
+                9
+              ]
+            }
+          ],
+          "output": {
+            "kind": "points",
+            "x": 18,
+            "y": 7,
+            "z": 20
+          }
+        }
+      },
+      {
+        "requirement": {
+          "id": "check-2",
+          "label": "positions",
+          "kind": "positions",
+          "selector": {
+            "refs": [
+              "display-1"
+            ],
+            "role": null,
+            "level": null,
+            "nameContains": null
+          },
+          "points": [
+            {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          ],
+          "tolerance": 0.0001
+        },
+        "calculation": {
+          "frame": "world_xyz_y_up",
+          "nodes": [
+            {
+              "kind": "quantity",
+              "value": 1.1,
+              "unit": "m",
+              "source": "request",
+              "evidence": "X = 1.1 m"
+            },
+            {
+              "kind": "quantity",
+              "value": -0.8,
+              "unit": "m",
+              "source": "request",
+              "evidence": "Z = -0.8 m"
+            },
+            {
+              "kind": "quantity",
+              "value": 34,
+              "unit": "deg",
+              "source": "request",
+              "evidence": "34 degrees from +X toward +Z"
+            },
+            {
+              "kind": "operation",
+              "op": "cos",
+              "args": [
+                2
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "sin",
+              "args": [
+                2
+              ]
+            },
+            {
+              "kind": "original",
+              "objectId": "display-1",
+              "metric": "x"
+            },
+            {
+              "kind": "original",
+              "objectId": "display-1",
+              "metric": "z"
+            },
+            {
+              "kind": "original",
+              "objectId": "display-1",
+              "metric": "y"
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                5,
+                0
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                6,
+                1
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                8,
+                3
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                9,
+                4
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                10,
+                11
+              ]
+            },
+            {
+              "kind": "constant",
+              "value": 2
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                13,
+                12
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                14,
+                3
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                14,
+                4
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                0,
+                15
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                17,
+                8
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                1,
+                16
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                19,
+                9
+              ]
+            }
+          ],
+          "output": {
+            "kind": "points",
+            "x": 18,
+            "y": 7,
+            "z": 20
+          }
+        }
+      },
+      {
+        "requirement": {
+          "id": "check-3",
+          "label": "positions",
+          "kind": "positions",
+          "selector": {
+            "refs": [
+              "display-2"
+            ],
+            "role": null,
+            "level": null,
+            "nameContains": null
+          },
+          "points": [
+            {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          ],
+          "tolerance": 0.0001
+        },
+        "calculation": {
+          "frame": "world_xyz_y_up",
+          "nodes": [
+            {
+              "kind": "quantity",
+              "value": 1.1,
+              "unit": "m",
+              "source": "request",
+              "evidence": "X = 1.1 m"
+            },
+            {
+              "kind": "quantity",
+              "value": -0.8,
+              "unit": "m",
+              "source": "request",
+              "evidence": "Z = -0.8 m"
+            },
+            {
+              "kind": "quantity",
+              "value": 34,
+              "unit": "deg",
+              "source": "request",
+              "evidence": "34 degrees from +X toward +Z"
+            },
+            {
+              "kind": "operation",
+              "op": "cos",
+              "args": [
+                2
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "sin",
+              "args": [
+                2
+              ]
+            },
+            {
+              "kind": "original",
+              "objectId": "display-2",
+              "metric": "x"
+            },
+            {
+              "kind": "original",
+              "objectId": "display-2",
+              "metric": "z"
+            },
+            {
+              "kind": "original",
+              "objectId": "display-2",
+              "metric": "y"
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                5,
+                0
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                6,
+                1
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                8,
+                3
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                9,
+                4
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                10,
+                11
+              ]
+            },
+            {
+              "kind": "constant",
+              "value": 2
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                13,
+                12
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                14,
+                3
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                14,
+                4
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                0,
+                15
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                17,
+                8
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                1,
+                16
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                19,
+                9
+              ]
+            }
+          ],
+          "output": {
+            "kind": "points",
+            "x": 18,
+            "y": 7,
+            "z": 20
+          }
+        }
+      }
+    ],
+    "hostStatus": "verified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 27,
+    "calls": 2,
+    "estimatedUSD": 0.07184399999999999,
+    "reviewerMs": 26903,
+    "executorMs": 24707,
+    "usage": {
+      "input": 20712,
+      "output": 3042
+    }
+  },
+  {
+    "id": "roller-fixture-workshop-W3-diagnostic-edit",
+    "version": "workshop",
+    "task": "W3",
+    "edit": true,
+    "diagnostic": true,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "fixture-W3-0",
+      "fixture-W3-1",
+      "fixture-W3-2",
+      "fixture-W3-3",
+      "fixture-W3-4"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 49571,
+    "error": null,
+    "originalPreserved": null,
+    "explicitSceneInspections": [
+      {
+        "call": "95fe4caa-ae2d-43e9-b59c-cc48bee51fe0",
+        "arguments": {
+          "ids": [
+            "fixture-W3-0",
+            "fixture-W3-1",
+            "fixture-W3-2",
+            "fixture-W3-3",
+            "fixture-W3-4"
+          ],
+          "role": null,
+          "snapshot": "before",
+          "relativeTo": "fixture-W3-1"
+        },
+        "resultRecorded": true,
+        "available": true,
+        "matched": 5,
+        "missingIds": [],
+        "source": "request_start",
+        "returnedObjectIds": [
+          "fixture-W3-0",
+          "fixture-W3-1",
+          "fixture-W3-2",
+          "fixture-W3-3",
+          "fixture-W3-4"
+        ]
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 28,
+    "calls": 3,
+    "estimatedUSD": 0.093622,
+    "reviewerMs": 13494,
+    "executorMs": 15160,
+    "usage": {
+      "input": 38956,
+      "output": 1571
+    }
+  },
+  {
+    "id": "roller-fixture-baseline-W3-diagnostic-edit",
+    "version": "baseline",
+    "task": "W3",
+    "edit": true,
+    "diagnostic": true,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "fixture-W3-0",
+      "fixture-W3-1",
+      "fixture-W3-2",
+      "fixture-W3-3",
+      "fixture-W3-4"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 48405,
+    "error": null,
+    "originalPreserved": null,
+    "explicitSceneInspections": [
+      {
+        "call": "6501e03d-80c4-4428-b21f-684560346c8e",
+        "arguments": {
+          "ids": [
+            "fixture-W3-1",
+            "fixture-W3-2",
+            "fixture-W3-3",
+            "fixture-W3-4"
+          ],
+          "role": null
+        },
+        "resultRecorded": true,
+        "available": null,
+        "matched": 4,
+        "missingIds": [],
+        "source": null,
+        "returnedObjectIds": [
+          "fixture-W3-1",
+          "fixture-W3-2",
+          "fixture-W3-3",
+          "fixture-W3-4"
+        ]
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 28,
+    "calls": 3,
+    "estimatedUSD": 0.089892,
+    "reviewerMs": 13231,
+    "executorMs": 14323,
+    "usage": {
+      "input": 37421,
+      "output": 1505
+    }
+  },
+  {
     "id": "transfer-1-baseline-W5-create",
     "version": "baseline",
     "task": "W5",
@@ -2265,6 +3086,7 @@
     },
     "elapsedMs": 95691,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step",
@@ -2313,6 +3135,7 @@
     },
     "elapsedMs": 107081,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "3ff6de2d-aec7-4966-8bb2-7c685ecd7c4c",
@@ -2413,6 +3236,7 @@
     },
     "elapsedMs": 48276,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -2464,6 +3288,7 @@
     },
     "elapsedMs": 50485,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "77e381eb-0c6d-438d-9d26-49967ac46bd0",
@@ -2530,6 +3355,7 @@
     },
     "elapsedMs": 77223,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "7c16e2e9-fb80-4ae8-ab05-6e19a90c1463",
@@ -2898,6 +3724,7 @@
     },
     "elapsedMs": 79412,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "25ebe4f9-a880-4de0-8a3e-6ff58ae805a6",
@@ -2969,6 +3796,7 @@
     "transaction": null,
     "elapsedMs": 61504,
     "error": null,
+    "originalPreserved": true,
     "explicitSceneInspections": [
       {
         "call": "f630b697-ecde-449a-b4f5-0ed90441b63e",
@@ -3289,6 +4117,7 @@
     },
     "elapsedMs": 83599,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "8d0e8f8a-644a-44cf-9b8e-0afba7674363",
@@ -3606,32 +4435,46 @@
     "edit": false,
     "diagnostic": false,
     "negative": false,
-    "status": "RUNNING",
-    "committed": null,
-    "componentCount": null,
-    "changedIds": null,
-    "preservedIds": null,
-    "transaction": null,
-    "elapsedMs": null,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 98413,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step",
-      "execute_step"
+      "execute_step",
+      "execute_step",
+      "finish_task"
     ],
     "repairFeedback": [],
     "independentCalculations": [],
-    "hostStatus": null,
-    "hostCanCommit": null,
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
     "externalFailedChecks": [],
-    "externalVerifiedCheckCount": 0,
-    "calls": 3,
-    "estimatedUSD": 0.076844,
-    "reviewerMs": 0,
-    "executorMs": 31185,
+    "externalVerifiedCheckCount": 31,
+    "calls": 5,
+    "estimatedUSD": 0.175606,
+    "reviewerMs": 21262,
+    "executorMs": 55062,
     "usage": {
-      "input": 29342,
-      "output": 1816
+      "input": 65568,
+      "output": 4447
     }
   },
   {
@@ -3641,14 +4484,26 @@
     "edit": false,
     "diagnostic": false,
     "negative": false,
-    "status": "RUNNING",
-    "committed": null,
-    "componentCount": null,
-    "changedIds": null,
-    "preservedIds": null,
-    "transaction": null,
-    "elapsedMs": null,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 113595,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "942f08ba-6911-4a21-87dd-a98904a7d7a4",
@@ -3667,9 +4522,1041 @@
           "reference-block",
           "reference-round"
         ]
+      },
+      {
+        "call": "c4a2d56b-77c8-47ba-ad1e-6536243455ed",
+        "arguments": {
+          "ids": [
+            "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+            "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+            "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+            "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+          ],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        },
+        "resultRecorded": true,
+        "available": true,
+        "matched": 4,
+        "missingIds": [],
+        "source": "current_transaction",
+        "returnedObjectIds": [
+          "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+          "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+          "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+          "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+        ]
       }
     ],
     "toolNames": [
+      "execute_step",
+      "inspect_scene",
+      "execute_step",
+      "execute_step",
+      "inspect_scene",
+      "finish_task"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 31,
+    "calls": 7,
+    "estimatedUSD": 0.254486,
+    "reviewerMs": 20581,
+    "executorMs": 68513,
+    "usage": {
+      "input": 102493,
+      "output": 4950
+    }
+  },
+  {
+    "id": "transfer-repeat-baseline-W5-edit",
+    "version": "baseline",
+    "task": "W5",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "431b0e3b-04c5-492b-bcda-27acfef1ed36",
+      "e4cef43f-1a68-450f-a3cb-8882a09ff914",
+      "438d6cb5-3e0d-4c10-acf3-26a233c5b664",
+      "cdf4ccee-1682-4020-a64b-94fab99a2775",
+      "7e7c9b08-6c67-4899-91f7-7363d96a0cee"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 49975,
+    "error": null,
+    "originalPreserved": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 24,
+    "calls": 2,
+    "estimatedUSD": 0.064206,
+    "reviewerMs": 14276,
+    "executorMs": 14033,
+    "usage": {
+      "input": 23588,
+      "output": 1703
+    }
+  },
+  {
+    "id": "transfer-repeat-workshop-W5-edit",
+    "version": "workshop",
+    "task": "W5",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "187f3165-4865-45bf-b5b9-929dbf347cc5",
+      "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+      "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+      "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+      "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 54745,
+    "error": null,
+    "originalPreserved": null,
+    "explicitSceneInspections": [
+      {
+        "call": "cb0eeba9-b7d3-4f1b-bdfe-eb2f39057e3c",
+        "arguments": {
+          "ids": [
+            "187f3165-4865-45bf-b5b9-929dbf347cc5",
+            "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+            "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+            "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+            "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+          ],
+          "role": null,
+          "snapshot": "before",
+          "relativeTo": null
+        },
+        "resultRecorded": true,
+        "available": true,
+        "matched": 5,
+        "missingIds": [],
+        "source": "request_start",
+        "returnedObjectIds": [
+          "187f3165-4865-45bf-b5b9-929dbf347cc5",
+          "8333d5dc-4ce6-4ebd-aa17-3ed809b78b49",
+          "bb8a7db2-d327-4c00-a4ea-4912752dc5b3",
+          "6ff8cf51-f703-4721-a2b2-475576bd1e3d",
+          "098a3fcf-d1a3-4377-947b-94d98a7adfb3"
+        ]
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 24,
+    "calls": 3,
+    "estimatedUSD": 0.10531399999999999,
+    "reviewerMs": 14446,
+    "executorMs": 19170,
+    "usage": {
+      "input": 43242,
+      "output": 1883
+    }
+  },
+  {
+    "id": "transfer-repeat-baseline-W6-create",
+    "version": "baseline",
+    "task": "W6",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 90829,
+    "error": null,
+    "originalPreserved": null,
+    "explicitSceneInspections": [
+      {
+        "call": "224dbfaa-83ff-4d18-8b31-4da533afc5e5",
+        "arguments": {
+          "ids": [
+            "d8048df5-3e84-4239-a34b-3ef569587fa6",
+            "815ffaf1-ef64-4207-8c68-07b54d956792"
+          ],
+          "role": null
+        },
+        "resultRecorded": true,
+        "available": null,
+        "matched": 2,
+        "missingIds": [],
+        "source": null,
+        "returnedObjectIds": [
+          "d8048df5-3e84-4239-a34b-3ef569587fa6",
+          "815ffaf1-ef64-4207-8c68-07b54d956792"
+        ]
+      },
+      {
+        "call": "1e5ea784-a3b6-4f90-a611-b66d1ce052ba",
+        "arguments": {
+          "ids": [
+            "d8048df5-3e84-4239-a34b-3ef569587fa6",
+            "815ffaf1-ef64-4207-8c68-07b54d956792"
+          ],
+          "role": null
+        },
+        "resultRecorded": true,
+        "available": null,
+        "matched": 2,
+        "missingIds": [],
+        "source": null,
+        "returnedObjectIds": [
+          "d8048df5-3e84-4239-a34b-3ef569587fa6",
+          "815ffaf1-ef64-4207-8c68-07b54d956792"
+        ]
+      }
+    ],
+    "toolNames": [
+      "execute_step",
+      "inspect_scene",
+      "execute_step",
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [
+      {
+        "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-25 (group): Group promenade: 0 members; 0/5 requested objects belong to it. Targets: 15be0922-a496-490c-b3d3-c99627d71478, 48c02612-db5f-49e3-94c9-cfe2a7f29616, 701eb415-fdc8-4573-963a-cd587149c9e4, d8048df5-3e84-4239-a34b-3ef569587fa6, 815ffaf1-ef64-4207-8c68-07b54d956792",
+        "operations": [],
+        "verification": {
+          "modeling": true,
+          "passed": false,
+          "status": "incorrect",
+          "canCommit": false,
+          "checks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": true,
+              "observed": "2 existing objects outside the requested edit scope are unchanged.",
+              "ids": [],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-1",
+              "label": "count",
+              "met": true,
+              "observed": "count (each): 5; expected equal 5, tolerance 0. 5 element(s).",
+              "ids": [
+                "15be0922-a496-490c-b3d3-c99627d71478",
+                "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+                "701eb415-fdc8-4573-963a-cd587149c9e4",
+                "d8048df5-3e84-4239-a34b-3ef569587fa6",
+                "815ffaf1-ef64-4207-8c68-07b54d956792"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-2",
+              "label": "editable",
+              "met": true,
+              "observed": "5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+              "ids": [
+                "15be0922-a496-490c-b3d3-c99627d71478",
+                "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+                "701eb415-fdc8-4573-963a-cd587149c9e4",
+                "d8048df5-3e84-4239-a34b-3ef569587fa6",
+                "815ffaf1-ef64-4207-8c68-07b54d956792"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-3",
+              "label": "count \u00b7 Platform",
+              "met": true,
+              "observed": "count (each): 3; expected equal 3, tolerance 0. 3 element(s).",
+              "ids": [
+                "15be0922-a496-490c-b3d3-c99627d71478",
+                "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+                "701eb415-fdc8-4573-963a-cd587149c9e4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-4",
+              "label": "shape \u00b7 Platform",
+              "met": true,
+              "observed": "Evaluated solid shape box: 3/3 match occupied geometry, independent of recipe type.",
+              "ids": [
+                "15be0922-a496-490c-b3d3-c99627d71478",
+                "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+                "701eb415-fdc8-4573-963a-cd587149c9e4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-5",
+              "label": "positions \u00b7 Platform",
+              "met": true,
+              "observed": "3/3 required world base-center positions occupied; 3 objects, tolerance 0.001 m.",
+              "ids": [
+                "15be0922-a496-490c-b3d3-c99627d71478",
+                "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+                "701eb415-fdc8-4573-963a-cd587149c9e4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-6",
+              "label": "width \u00b7 Platform",
+              "met": true,
+              "observed": "width (each, world solids): 0.8, 0.8, 0.8000000000000003; expected equal 0.8 \u00b1 0.001 m.",
+              "ids": [
+                "15be0922-a496-490c-b3d3-c99627d71478",
+                "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+                "701eb415-fdc8-4573-963a-cd587149c9e4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-7",
+              "label": "depth \u00b7 Platform",
+              "met": true,
+              "observed": "depth (each, world solids): 1.2, 1.2, 1.2; expected equal 1.2 \u00b1 0.001 m.",
+              "ids": [
+                "15be0922-a496-490c-b3d3-c99627d71478",
+                "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+                "701eb415-fdc8-4573-963a-cd587149c9e4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-8",
+              "label": "top \u00b7 Platform 25",
+              "met": true,
+              "observed": "top (each, world solids): 0.25; expected equal 0.25 \u00b1 0.001 m.",
+              "ids": [
+                "15be0922-a496-490c-b3d3-c99627d71478"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-9",
+              "label": "top \u00b7 Platform 55",
+              "met": true,
+              "observed": "top (each, world solids): 0.55; expected equal 0.55 \u00b1 0.001 m.",
+              "ids": [
+                "48c02612-db5f-49e3-94c9-cfe2a7f29616"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-10",
+              "label": "top \u00b7 Platform 85",
+              "met": true,
+              "observed": "top (each, world solids): 0.85; expected equal 0.85 \u00b1 0.001 m.",
+              "ids": [
+                "701eb415-fdc8-4573-963a-cd587149c9e4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-11",
+              "label": "base",
+              "met": true,
+              "observed": "base (each, world solids): 0, 0, 0, 0, 0; expected equal 0 \u00b1 0.001 m.",
+              "ids": [
+                "15be0922-a496-490c-b3d3-c99627d71478",
+                "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+                "701eb415-fdc8-4573-963a-cd587149c9e4",
+                "d8048df5-3e84-4239-a34b-3ef569587fa6",
+                "815ffaf1-ef64-4207-8c68-07b54d956792"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-12",
+              "label": "count \u00b7 Ramp",
+              "met": true,
+              "observed": "count (each): 2; expected equal 2, tolerance 0. 2 element(s).",
+              "ids": [
+                "d8048df5-3e84-4239-a34b-3ef569587fa6",
+                "815ffaf1-ef64-4207-8c68-07b54d956792"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-13",
+              "label": "positions \u00b7 Ramp",
+              "met": true,
+              "observed": "2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.",
+              "ids": [
+                "d8048df5-3e84-4239-a34b-3ef569587fa6",
+                "815ffaf1-ef64-4207-8c68-07b54d956792"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-14",
+              "label": "width \u00b7 Ramp",
+              "met": true,
+              "observed": "width (each, world solids): 1.1999999761581392, 1.1999999761581392; expected equal 1.2 \u00b1 0.001 m.",
+              "ids": [
+                "d8048df5-3e84-4239-a34b-3ef569587fa6",
+                "815ffaf1-ef64-4207-8c68-07b54d956792"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-15",
+              "label": "depth \u00b7 Ramp",
+              "met": true,
+              "observed": "depth (each, world solids): 1.1999999761581392, 1.1999999761581392; expected equal 1.2 \u00b1 0.001 m.",
+              "ids": [
+                "d8048df5-3e84-4239-a34b-3ef569587fa6",
+                "815ffaf1-ef64-4207-8c68-07b54d956792"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-16",
+              "label": "top \u00b7 Ramp 25",
+              "met": true,
+              "observed": "top (each, world solids): 0.5499999955296513; expected equal 0.55 \u00b1 0.001 m.",
+              "ids": [
+                "d8048df5-3e84-4239-a34b-3ef569587fa6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-17",
+              "label": "top \u00b7 Ramp 55",
+              "met": true,
+              "observed": "top (each, world solids): 0.8499999985098832; expected equal 0.85 \u00b1 0.001 m.",
+              "ids": [
+                "815ffaf1-ef64-4207-8c68-07b54d956792"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-18",
+              "label": "volume \u00b7 Ramp 25",
+              "met": true,
+              "observed": "volume (each): 0.576; expected equal 0.576, tolerance 0.011519999999999999. 1 element(s).",
+              "ids": [
+                "d8048df5-3e84-4239-a34b-3ef569587fa6"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-19",
+              "label": "volume \u00b7 Ramp 55",
+              "met": true,
+              "observed": "volume (each): 1.008; expected equal 1.008, tolerance 0.02016. 1 element(s).",
+              "ids": [
+                "815ffaf1-ef64-4207-8c68-07b54d956792"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-20",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.",
+              "ids": [
+                "d8048df5-3e84-4239-a34b-3ef569587fa6",
+                "15be0922-a496-490c-b3d3-c99627d71478"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-21",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.",
+              "ids": [
+                "d8048df5-3e84-4239-a34b-3ef569587fa6",
+                "48c02612-db5f-49e3-94c9-cfe2a7f29616"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-22",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.",
+              "ids": [
+                "815ffaf1-ef64-4207-8c68-07b54d956792",
+                "48c02612-db5f-49e3-94c9-cfe2a7f29616"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-23",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.",
+              "ids": [
+                "815ffaf1-ef64-4207-8c68-07b54d956792",
+                "701eb415-fdc8-4573-963a-cd587149c9e4"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-24",
+              "label": "unavailable",
+              "met": false,
+              "observed": "Unverified: Bounds, volume and contact checks do not verify planar sloping ramp upper surfaces or their exact edge-height matches to both platform tops.",
+              "ids": [],
+              "outcome": "unverified"
+            },
+            {
+              "id": "check-25",
+              "label": "group",
+              "met": false,
+              "observed": "Group promenade: 0 members; 0/5 requested objects belong to it.",
+              "ids": [
+                "15be0922-a496-490c-b3d3-c99627d71478",
+                "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+                "701eb415-fdc8-4573-963a-cd587149c9e4",
+                "d8048df5-3e84-4239-a34b-3ef569587fa6",
+                "815ffaf1-ef64-4207-8c68-07b54d956792"
+              ],
+              "outcome": "incorrect"
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      }
+    ],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 31,
+    "calls": 6,
+    "estimatedUSD": 0.234974,
+    "reviewerMs": 24808,
+    "executorMs": 44989,
+    "usage": {
+      "input": 97737,
+      "output": 3950
+    }
+  },
+  {
+    "id": "transfer-repeat-workshop-W6-create",
+    "version": "workshop",
+    "task": "W6",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 82159,
+    "error": null,
+    "originalPreserved": null,
+    "explicitSceneInspections": [
+      {
+        "call": "497f89b2-cc27-46af-963a-ad5c4c69dfc7",
+        "arguments": {
+          "ids": [
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "d8357c2d-46af-474f-8354-d050bc2e4737"
+          ],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        },
+        "resultRecorded": true,
+        "available": true,
+        "matched": 2,
+        "missingIds": [],
+        "source": "current_transaction",
+        "returnedObjectIds": [
+          "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+          "d8357c2d-46af-474f-8354-d050bc2e4737"
+        ]
+      }
+    ],
+    "toolNames": [
+      "execute_step",
+      "inspect_scene",
+      "finish_task",
+      "execute_step"
+    ],
+    "repairFeedback": [
+      {
+        "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-27 (group): Group Promenade: 0 members; 0/5 requested objects belong to it. Targets: 8dc69afc-c6d2-4fd8-9456-fb8feea89d56, b8ecbe9b-e535-4018-b980-efef4bbb3496, cc8d1a68-83d8-44cf-940d-53e3420b178e, 7df1b56b-478c-47cc-82ea-af7e62bd0672, d8357c2d-46af-474f-8354-d050bc2e4737",
+        "operations": [],
+        "verification": {
+          "modeling": true,
+          "passed": false,
+          "status": "incorrect",
+          "canCommit": false,
+          "checks": [
+            {
+              "id": "preserved-scope",
+              "label": "Unrelated existing geometry",
+              "met": true,
+              "observed": "2 existing objects outside the requested edit scope are unchanged.",
+              "ids": [],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-1",
+              "label": "count",
+              "met": true,
+              "observed": "count (each): 5; expected equal 5, tolerance 0. 5 element(s).",
+              "ids": [
+                "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+                "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+                "cc8d1a68-83d8-44cf-940d-53e3420b178e",
+                "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+                "d8357c2d-46af-474f-8354-d050bc2e4737"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-2",
+              "label": "editable",
+              "met": true,
+              "observed": "5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+              "ids": [
+                "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+                "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+                "cc8d1a68-83d8-44cf-940d-53e3420b178e",
+                "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+                "d8357c2d-46af-474f-8354-d050bc2e4737"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-3",
+              "label": "count \u00b7 Platform",
+              "met": true,
+              "observed": "count (each): 3; expected equal 3, tolerance 0. 3 element(s).",
+              "ids": [
+                "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+                "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+                "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-4",
+              "label": "shape \u00b7 Platform",
+              "met": true,
+              "observed": "Evaluated solid shape box: 3/3 match occupied geometry, independent of recipe type.",
+              "ids": [
+                "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+                "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+                "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-5",
+              "label": "width \u00b7 Platform",
+              "met": true,
+              "observed": "width (each, world solids): 0.8, 0.8, 0.8000000000000003; expected equal 0.8 \u00b1 0.001 m.",
+              "ids": [
+                "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+                "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+                "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-6",
+              "label": "depth",
+              "met": true,
+              "observed": "depth (each, world solids): 1.2, 1.2, 1.2, 1.1999999761581392, 1.1999999761581392; expected equal 1.2 \u00b1 0.001 m.",
+              "ids": [
+                "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+                "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+                "cc8d1a68-83d8-44cf-940d-53e3420b178e",
+                "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+                "d8357c2d-46af-474f-8354-d050bc2e4737"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-7",
+              "label": "positions \u00b7 Platform 25",
+              "met": true,
+              "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+              "ids": [
+                "8dc69afc-c6d2-4fd8-9456-fb8feea89d56"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-8",
+              "label": "positions \u00b7 Platform 55",
+              "met": true,
+              "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+              "ids": [
+                "b8ecbe9b-e535-4018-b980-efef4bbb3496"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-9",
+              "label": "positions \u00b7 Platform 85",
+              "met": true,
+              "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+              "ids": [
+                "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-10",
+              "label": "top \u00b7 Platform 25",
+              "met": true,
+              "observed": "top (each, world solids): 0.25; expected equal 0.25 \u00b1 0.001 m.",
+              "ids": [
+                "8dc69afc-c6d2-4fd8-9456-fb8feea89d56"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-11",
+              "label": "top \u00b7 Platform 55",
+              "met": true,
+              "observed": "top (each, world solids): 0.55; expected equal 0.55 \u00b1 0.001 m.",
+              "ids": [
+                "b8ecbe9b-e535-4018-b980-efef4bbb3496"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-12",
+              "label": "top \u00b7 Platform 85",
+              "met": true,
+              "observed": "top (each, world solids): 0.85; expected equal 0.85 \u00b1 0.001 m.",
+              "ids": [
+                "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-13",
+              "label": "count \u00b7 Ramp",
+              "met": true,
+              "observed": "count (each): 2; expected equal 2, tolerance 0. 2 element(s).",
+              "ids": [
+                "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+                "d8357c2d-46af-474f-8354-d050bc2e4737"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-14",
+              "label": "width \u00b7 Ramp",
+              "met": true,
+              "observed": "width (each, world solids): 1.1999999761581392, 1.1999999761581392; expected equal 1.2 \u00b1 0.001 m.",
+              "ids": [
+                "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+                "d8357c2d-46af-474f-8354-d050bc2e4737"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-15",
+              "label": "positions \u00b7 Ramp 25",
+              "met": true,
+              "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+              "ids": [
+                "7df1b56b-478c-47cc-82ea-af7e62bd0672"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-16",
+              "label": "positions \u00b7 Ramp 55",
+              "met": true,
+              "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+              "ids": [
+                "d8357c2d-46af-474f-8354-d050bc2e4737"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-17",
+              "label": "top \u00b7 Ramp 25",
+              "met": true,
+              "observed": "top (each, world solids): 0.5499999955296513; expected equal 0.55 \u00b1 0.001 m.",
+              "ids": [
+                "7df1b56b-478c-47cc-82ea-af7e62bd0672"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-18",
+              "label": "top \u00b7 Ramp 55",
+              "met": true,
+              "observed": "top (each, world solids): 0.8499999985098832; expected equal 0.85 \u00b1 0.001 m.",
+              "ids": [
+                "d8357c2d-46af-474f-8354-d050bc2e4737"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-19",
+              "label": "volume \u00b7 Ramp 25",
+              "met": true,
+              "observed": "volume (each): 0.576; expected equal 0.576, tolerance 0.011519999999999999. 1 element(s).",
+              "ids": [
+                "7df1b56b-478c-47cc-82ea-af7e62bd0672"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-20",
+              "label": "volume \u00b7 Ramp 55",
+              "met": true,
+              "observed": "volume (each): 1.008; expected equal 1.008, tolerance 0.02016. 1 element(s).",
+              "ids": [
+                "d8357c2d-46af-474f-8354-d050bc2e4737"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-21",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+                "8dc69afc-c6d2-4fd8-9456-fb8feea89d56"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-22",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+                "b8ecbe9b-e535-4018-b980-efef4bbb3496"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-23",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "d8357c2d-46af-474f-8354-d050bc2e4737",
+                "b8ecbe9b-e535-4018-b980-efef4bbb3496"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-24",
+              "label": "relationship",
+              "met": true,
+              "observed": "touching: 1/1 distinct solid pairs satisfy each; tolerance 0.001 m.",
+              "ids": [
+                "d8357c2d-46af-474f-8354-d050bc2e4737",
+                "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-25",
+              "label": "unavailable",
+              "met": false,
+              "observed": "Unverified: The predicates cannot verify a planar sloped upper surface meeting the full platform-top edges at both ramp ends; bounds, volumes and contact alone do not establish wedge geometry.",
+              "ids": [],
+              "outcome": "unverified"
+            },
+            {
+              "id": "check-26",
+              "label": "base",
+              "met": true,
+              "observed": "base (each, world solids): 0, 0, 0, 0, 0; expected equal 0 \u00b1 0.001 m.",
+              "ids": [
+                "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+                "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+                "cc8d1a68-83d8-44cf-940d-53e3420b178e",
+                "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+                "d8357c2d-46af-474f-8354-d050bc2e4737"
+              ],
+              "outcome": "verified"
+            },
+            {
+              "id": "check-27",
+              "label": "group",
+              "met": false,
+              "observed": "Group Promenade: 0 members; 0/5 requested objects belong to it.",
+              "ids": [
+                "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+                "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+                "cc8d1a68-83d8-44cf-940d-53e3420b178e",
+                "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+                "d8357c2d-46af-474f-8354-d050bc2e4737"
+              ],
+              "outcome": "incorrect"
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      }
+    ],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 31,
+    "calls": 5,
+    "estimatedUSD": 0.187122,
+    "reviewerMs": 24543,
+    "executorMs": 36406,
+    "usage": {
+      "input": 75886,
+      "output": 3535
+    }
+  },
+  {
+    "id": "transfer-repeat-baseline-W6-edit",
+    "version": "baseline",
+    "task": "W6",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "NOT_COMMITTED",
+    "committed": false,
+    "componentCount": 7,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round",
+      "15be0922-a496-490c-b3d3-c99627d71478",
+      "48c02612-db5f-49e3-94c9-cfe2a7f29616",
+      "701eb415-fdc8-4573-963a-cd587149c9e4",
+      "d8048df5-3e84-4239-a34b-3ef569587fa6",
+      "815ffaf1-ef64-4207-8c68-07b54d956792"
+    ],
+    "transaction": null,
+    "elapsedMs": 148250,
+    "error": null,
+    "originalPreserved": true,
+    "explicitSceneInspections": [
+      {
+        "call": "2d5f6717-12dd-4956-9deb-12d6f06411fe",
+        "arguments": {
+          "ids": [
+            "d8048df5-3e84-4239-a34b-3ef569587fa6",
+            "815ffaf1-ef64-4207-8c68-07b54d956792"
+          ],
+          "role": null
+        },
+        "resultRecorded": true,
+        "available": null,
+        "matched": 2,
+        "missingIds": [],
+        "source": null,
+        "returnedObjectIds": [
+          "d8048df5-3e84-4239-a34b-3ef569587fa6",
+          "815ffaf1-ef64-4207-8c68-07b54d956792"
+        ]
+      },
+      {
+        "call": "24ed20a0-d558-48dc-8582-94bf33b1cf88",
+        "arguments": {
+          "ids": [
+            "d8048df5-3e84-4239-a34b-3ef569587fa6",
+            "815ffaf1-ef64-4207-8c68-07b54d956792"
+          ],
+          "role": null
+        },
+        "resultRecorded": true,
+        "available": null,
+        "matched": 2,
+        "missingIds": [],
+        "source": null,
+        "returnedObjectIds": [
+          "d8048df5-3e84-4239-a34b-3ef569587fa6",
+          "815ffaf1-ef64-4207-8c68-07b54d956792"
+        ]
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
       "execute_step",
       "inspect_scene",
       "execute_step"
@@ -3678,15 +5565,236 @@
     "independentCalculations": [],
     "hostStatus": null,
     "hostCanCommit": null,
-    "externalFailedChecks": [],
-    "externalVerifiedCheckCount": 0,
-    "calls": 4,
-    "estimatedUSD": 0.11384,
-    "reviewerMs": 0,
-    "executorMs": 40211,
+    "externalFailedChecks": [
+      {
+        "name": "Platform edit 48c02612-db5f-49e3-94c9-cfe2a7f29616",
+        "status": "incorrect",
+        "expected": {
+          "bounds": {
+            "min": [
+              -0.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              0.4,
+              0.73,
+              0.6
+            ]
+          },
+          "volume": 0.7008000000000001,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -0.4,
+              0,
+              -0.6
+            ],
+            "max": [
+              0.4,
+              0.55,
+              0.6
+            ]
+          },
+          "volume": 0.528
+        }
+      },
+      {
+        "name": "Continuous ramp edit d8048df5-3e84-4239-a34b-3ef569587fa6",
+        "status": "incorrect",
+        "expected": {
+          "bounds": {
+            "min": [
+              -1.5999999880790696,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              -0.4000000119209304,
+              0.7300000119209289,
+              0.5999999880790696
+            ]
+          },
+          "volume": 0.7055999805450405,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              -1.5999999880790696,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              -0.4000000119209304,
+              0.5499999955296513,
+              0.5999999880790696
+            ]
+          },
+          "volume": 0.575999974307686
+        }
+      },
+      {
+        "name": "Continuous ramp edit 815ffaf1-ef64-4207-8c68-07b54d956792",
+        "status": "incorrect",
+        "expected": {
+          "bounds": {
+            "min": [
+              0.4000000119209304,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              1.5999999880790696,
+              0.8500000238418579,
+              0.5999999880790696
+            ]
+          },
+          "volume": 1.1375999805450379,
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "bounds": {
+            "min": [
+              0.4000000119209304,
+              0,
+              -0.5999999880790696
+            ],
+            "max": [
+              1.5999999880790696,
+              0.8499999985098832,
+              0.5999999880790696
+            ]
+          },
+          "volume": 1.0079999554963621
+        }
+      }
+    ],
+    "externalVerifiedCheckCount": 21,
+    "calls": 5,
+    "estimatedUSD": 0.24597000000000002,
+    "reviewerMs": 91990,
+    "executorMs": 50226,
     "usage": {
-      "input": 45830,
-      "output": 2218
+      "input": 78780,
+      "output": 8841
+    }
+  },
+  {
+    "id": "transfer-repeat-workshop-W6-edit",
+    "version": "workshop",
+    "task": "W6",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "COMMITTED_INCORRECT",
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+      "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+      "d8357c2d-46af-474f-8354-d050bc2e4737"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round",
+      "8dc69afc-c6d2-4fd8-9456-fb8feea89d56",
+      "cc8d1a68-83d8-44cf-940d-53e3420b178e"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 66671,
+    "error": null,
+    "originalPreserved": null,
+    "explicitSceneInspections": [
+      {
+        "call": "916cd1fa-6fe1-4433-a8c3-ecdcee9953e4",
+        "arguments": {
+          "ids": [
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "d8357c2d-46af-474f-8354-d050bc2e4737"
+          ],
+          "role": null,
+          "snapshot": "before",
+          "relativeTo": null
+        },
+        "resultRecorded": true,
+        "available": true,
+        "matched": 3,
+        "missingIds": [],
+        "source": "request_start",
+        "returnedObjectIds": [
+          "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+          "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+          "d8357c2d-46af-474f-8354-d050bc2e4737"
+        ]
+      },
+      {
+        "call": "fcc8c1b6-1d38-4974-9df6-ea63dc72f290",
+        "arguments": {
+          "ids": [
+            "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+            "d8357c2d-46af-474f-8354-d050bc2e4737",
+            "b8ecbe9b-e535-4018-b980-efef4bbb3496"
+          ],
+          "role": null,
+          "snapshot": "compare",
+          "relativeTo": null
+        },
+        "resultRecorded": true,
+        "available": true,
+        "matched": 3,
+        "missingIds": [],
+        "source": "request_start_and_current_transaction",
+        "returnedObjectIds": [
+          "b8ecbe9b-e535-4018-b980-efef4bbb3496",
+          "7df1b56b-478c-47cc-82ea-af7e62bd0672",
+          "d8357c2d-46af-474f-8354-d050bc2e4737"
+        ]
+      }
+    ],
+    "toolNames": [
+      "inspect_scene",
+      "execute_step",
+      "inspect_scene",
+      "finish_task"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [
+      {
+        "name": "Component properties b8ecbe9b-e535-4018-b980-efef4bbb3496",
+        "status": "incorrect"
+      },
+      {
+        "name": "Component properties 7df1b56b-478c-47cc-82ea-af7e62bd0672",
+        "status": "incorrect"
+      },
+      {
+        "name": "Component properties d8357c2d-46af-474f-8354-d050bc2e4737",
+        "status": "incorrect"
+      }
+    ],
+    "externalVerifiedCheckCount": 21,
+    "calls": 5,
+    "estimatedUSD": 0.192216,
+    "reviewerMs": 13077,
+    "executorMs": 35127,
+    "usage": {
+      "input": 82938,
+      "output": 2634
     }
   },
   {
@@ -3715,6 +5823,7 @@
     },
     "elapsedMs": 57624,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -3760,6 +5869,7 @@
     },
     "elapsedMs": 69141,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -4011,6 +6121,7 @@
     },
     "elapsedMs": 62550,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -4060,6 +6171,7 @@
     },
     "elapsedMs": 78324,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -4626,6 +6738,7 @@
     "transaction": null,
     "elapsedMs": 24382,
     "error": null,
+    "originalPreserved": true,
     "explicitSceneInspections": [],
     "toolNames": [],
     "repairFeedback": [],
@@ -4696,6 +6809,7 @@
     "transaction": null,
     "elapsedMs": 22640,
     "error": null,
+    "originalPreserved": true,
     "explicitSceneInspections": [],
     "toolNames": [],
     "repairFeedback": [],
@@ -4976,6 +7090,7 @@
     },
     "elapsedMs": 56560,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -5203,6 +7318,7 @@
     },
     "elapsedMs": 54726,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -5252,6 +7368,7 @@
     },
     "elapsedMs": 57421,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -5301,6 +7418,7 @@
     },
     "elapsedMs": 67154,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -5846,6 +7964,7 @@
     "transaction": null,
     "elapsedMs": 22878,
     "error": null,
+    "originalPreserved": true,
     "explicitSceneInspections": [],
     "toolNames": [],
     "repairFeedback": [],
@@ -5916,6 +8035,7 @@
     "transaction": null,
     "elapsedMs": 26370,
     "error": null,
+    "originalPreserved": true,
     "explicitSceneInspections": [],
     "toolNames": [],
     "repairFeedback": [],
@@ -6180,6 +8300,7 @@
     },
     "elapsedMs": 30265,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -6225,6 +8346,7 @@
     },
     "elapsedMs": 29267,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -6272,6 +8394,7 @@
     },
     "elapsedMs": 30892,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -6319,6 +8442,7 @@
     },
     "elapsedMs": 27633,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -6356,6 +8480,7 @@
     "transaction": null,
     "elapsedMs": 80044,
     "error": "AssertionError [ERR_ASSERTION]: Camera changed on reload",
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step",
@@ -6607,6 +8732,7 @@
     "transaction": null,
     "elapsedMs": 76573,
     "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByTestId('viewport')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByTestId('viewport') with timeout 5000ms\n  - waiting for getByTestId('viewport')\n",
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step",
@@ -6865,6 +8991,7 @@
     "transaction": null,
     "elapsedMs": 64179,
     "error": "AssertionError [ERR_ASSERTION]: Camera changed on reload",
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -6899,6 +9026,7 @@
     "transaction": null,
     "elapsedMs": 39880,
     "error": "Error: page.evaluate: Target page, context or browser has been closed",
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -6944,6 +9072,7 @@
     },
     "elapsedMs": 62529,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step",
@@ -7000,6 +9129,7 @@
     },
     "elapsedMs": 57650,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "57bfad49-d34e-4704-b517-68319aa247e7",
@@ -7074,6 +9204,7 @@
     "transaction": null,
     "elapsedMs": 134803,
     "error": null,
+    "originalPreserved": true,
     "explicitSceneInspections": [
       {
         "call": "31c58cfc-000d-433c-bda2-6c3385872913",
@@ -8309,6 +10440,7 @@
     "transaction": null,
     "elapsedMs": 110847,
     "error": null,
+    "originalPreserved": true,
     "explicitSceneInspections": [
       {
         "call": "4e14e014-5a1c-4a63-9e7d-8ce0beb04ae8",
@@ -8559,6 +10691,7 @@
     },
     "elapsedMs": 104411,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "b66adc16-46ff-4bb6-be7b-e2c34ead98f8",
@@ -8923,6 +11056,7 @@
     },
     "elapsedMs": 44294,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "b541c632-4fd1-4e6a-b8d7-cc13d0fa0877",
@@ -8993,6 +11127,7 @@
     },
     "elapsedMs": 79278,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step",
@@ -9332,6 +11467,7 @@
     },
     "elapsedMs": 57726,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -9382,6 +11518,7 @@
     },
     "elapsedMs": 60922,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "554bf593-7c03-4559-8699-b64e5d2d8e06",
@@ -9634,6 +11771,7 @@
     },
     "elapsedMs": 100094,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step",
@@ -9971,6 +12109,7 @@
     },
     "elapsedMs": 71111,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step",
@@ -10017,6 +12156,7 @@
     },
     "elapsedMs": 135395,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -10072,6 +12212,7 @@
     },
     "elapsedMs": 68180,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "ad7e901c-da0b-4e32-a1ee-c7ae83221ac4",
@@ -10146,6 +12287,7 @@
     "transaction": null,
     "elapsedMs": 111362,
     "error": null,
+    "originalPreserved": true,
     "explicitSceneInspections": [
       {
         "call": "688e830e-9226-4386-8a9b-513f7346c1f3",
@@ -11345,6 +13487,7 @@
     },
     "elapsedMs": 63353,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"
@@ -11387,6 +13530,7 @@
     "transaction": null,
     "elapsedMs": 111225,
     "error": null,
+    "originalPreserved": true,
     "explicitSceneInspections": [
       {
         "call": "3f88ac4c-ac82-4915-8d49-c12a87d02b5d",
@@ -11637,6 +13781,7 @@
     },
     "elapsedMs": 93489,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step",
@@ -11690,6 +13835,7 @@
     },
     "elapsedMs": 65319,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "4cd5888a-189c-4481-9f00-f6c12bacfe49",
@@ -11760,6 +13906,7 @@
     },
     "elapsedMs": 81257,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "7b037b60-9217-4322-ba7e-b9c5b0375f73",
@@ -12106,6 +14253,7 @@
     },
     "elapsedMs": 116112,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "e7b2b5ed-a9dc-49dd-a08a-e1ca842bdbd4",
@@ -12412,6 +14560,7 @@
     },
     "elapsedMs": 48898,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [
       {
         "call": "c79a841e-72cf-410c-a445-ee27d4f03aff",
@@ -12489,6 +14638,7 @@
     },
     "elapsedMs": 41194,
     "error": null,
+    "originalPreserved": null,
     "explicitSceneInspections": [],
     "toolNames": [
       "execute_step"

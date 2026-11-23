@@ -1,0 +1,968 @@
+[
+  {
+    "id": "roller-fixture-workshop-W3-diagnostic-edit",
+    "version": "workshop",
+    "commit": "f5ba62621db0d9c0a02f90be5b0143c7e21b53f7",
+    "task": "W3",
+    "prompt": "Make the roller 40 cm longer without moving its center. Let the bearing blocks follow its ends while preserving their existing air gaps. Adjust the shaft and base so their current end overhangs and the bearings’ setbacks from the base ends stay the same. Keep bore diameters, transverse sizes and existing component identities, and leave the other objects alone.",
+    "edit": true,
+    "diagnostic": true,
+    "negative": false,
+    "status": "PASS",
+    "started": "2026-11-23T20:37:42.235Z",
+    "requestCount": 3,
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Make the roller 40 cm longer without moving its center. Let the bearing blocks follow its ends while preserving their existing air gaps. Adjust the shaft and base so their current end overhangs and the bearings’ setbacks from the base ends stay the same. Keep bore diameters, transverse sizes and existing component identities, and leave the other objects alone."
+      },
+      {
+        "role": "assistant",
+        "content": "Coordinated 5 components in 3 shared edit sets; identities and construction recipes retained. Linked components followed their hosts once.\nVerified width: 1.4 (1 element(s)).\nVerified width: 2.2, 2.2 (2 element(s)).\nBase: 2.2 × 0.7 × 0.12 m; base (0, 0, 0) m. Material volume 0.185 m³; surface area 3.776 m²; lowest/highest elevation 0 / 0.12 m.\nHollow roller: 1.4 × 0.5 × 0.5 m; base (0, 0.55, 0) m. Material volume 0.253 m³; surface area 3.176 m²; lowest/highest elevation 0.55 / 1.05 m.\nShaft: 2.2 × 0.1 × 0.1 m; base (0, 0.75, 0) m. Material volume 0.017 m³; surface area 0.707 m²; lowest/highest elevation 0.75 / 0.85 m.\nBearing: 0.12 × 0.42 × 1 m; base (-0.84, 0.12, 0) m. Material volume 0.049 m³; surface area 1.203 m²; lowest/highest elevation 0.12 / 1.12 m.\nBearing: 0.12 × 0.42 × 1 m; base (0.84, 0.12, 0) m. Material volume 0.049 m³; surface area 1.203 m²; lowest/highest elevation 0.12 / 1.12 m.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 1.4; expected equal 1.4 ± 0.0001 m.\npreserve: 1 original identities retain position.\noffset: Measured world-bounds x offset (min of fixture-W3-1 minus max of fixture-W3-3): 0.07999998569488531 m; expected 0.08 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (min of fixture-W3-4 minus max of fixture-W3-1): 0.07999998569488531 m; expected 0.08 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (min of fixture-W3-3 minus min of fixture-W3-2): 0.20000001072883622 m; expected 0.2 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (max of fixture-W3-2 minus max of fixture-W3-4): 0.20000001072883622 m; expected 0.2 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (min of fixture-W3-3 minus min of fixture-W3-0): 0.20000001072883622 m; expected 0.2 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (max of fixture-W3-0 minus max of fixture-W3-4): 0.20000001072883622 m; expected 0.2 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity.\npreserve: 5 original identities retain identity, name, component, groupId, depth, height, y, z, rotation, material, materialSpec, color, visible.\npreserve: 2 original identities retain geometry.\nunavailable: Unverified: Original bore diameters and internal geometry are not supplied; preservation of roller and shaft bore diameters cannot be verified from the provided bounds.\nDesign assumptions:\nThe length axis is world X. Add 0.20 m at each roller end while keeping its center fixed.\nPreserve the original 0.08 m roller-to-bearing air gaps and 0.20 m shaft overhangs and base setbacks measured from the bearings' outer faces.\nApply axial-only resizing to existing meshes; do not alter transverse geometry, bores, identities, or unrelated objects.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nunavailable: Unverified: Original bore diameters and internal geometry are not supplied; preservation of roller and shaft bore diameters cannot be verified from the provided bounds.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 1.4; expected equal 1.4 ± 0.0001 m.\npreserve: 1 original identities retain position.\noffset: Measured world-bounds x offset (min of fixture-W3-1 minus max of fixture-W3-3): 0.07999998569488531 m; expected 0.08 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (min of fixture-W3-4 minus max of fixture-W3-1): 0.07999998569488531 m; expected 0.08 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (min of fixture-W3-3 minus min of fixture-W3-2): 0.20000001072883622 m; expected 0.2 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity."
+      }
+    ],
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "fixture-W3-0",
+      "fixture-W3-1",
+      "fixture-W3-2",
+      "fixture-W3-3",
+      "fixture-W3-4"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "facts": [
+      {
+        "name": "Protected object reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Protected object reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Protected groups",
+        "status": "verified"
+      },
+      {
+        "name": "Unique selectable editable identities",
+        "status": "verified"
+      },
+      {
+        "name": "Original object roster retained",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties fixture-W3-0",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties fixture-W3-1",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties fixture-W3-2",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties fixture-W3-3",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties fixture-W3-4",
+        "status": "verified"
+      },
+      {
+        "name": "Assembly group metadata retained",
+        "status": "verified"
+      },
+      {
+        "name": "Closed occupied solid fixture-W3-0",
+        "status": "verified",
+        "expected": 0.1848,
+        "actual": 0.1847999967277049
+      },
+      {
+        "name": "Closed occupied solid fixture-W3-1",
+        "status": "verified",
+        "expected": 0.25323629198932696,
+        "actual": 0.2532362936891283
+      },
+      {
+        "name": "Closed occupied solid fixture-W3-2",
+        "status": "verified",
+        "expected": 0.017271821724183158,
+        "actual": 0.017271821931510466
+      },
+      {
+        "name": "Closed occupied solid fixture-W3-3",
+        "status": "verified",
+        "expected": 0.04855348387517859,
+        "actual": 0.048553486020691344
+      },
+      {
+        "name": "Closed occupied solid fixture-W3-4",
+        "status": "verified",
+        "expected": 0.04855348387517859,
+        "actual": 0.048553486020691414
+      },
+      {
+        "name": "Requested distinct component count",
+        "status": "verified",
+        "expected": 5,
+        "actual": 5
+      },
+      {
+        "name": "Measured component identification: base",
+        "status": "verified",
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "name": "Measured component identification: shaft",
+        "status": "verified",
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "name": "Measured component identification: roller",
+        "status": "verified",
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "name": "Measured component identification: bearings",
+        "status": "verified",
+        "expected": 2,
+        "actual": 2
+      },
+      {
+        "name": "Expected occupied geometry fixture-W3-0",
+        "status": "verified",
+        "expected": {
+          "volume": 0.1848,
+          "bounds": {
+            "min": [
+              -1.1,
+              0,
+              -0.35
+            ],
+            "max": [
+              1.1,
+              0.12,
+              0.35
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.1848,
+          "bounds": {
+            "min": [
+              -1.1,
+              0,
+              -0.35
+            ],
+            "max": [
+              1.1,
+              0.12,
+              0.35
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W3-2",
+        "status": "verified",
+        "expected": {
+          "volume": 0.017271821724183158,
+          "bounds": {
+            "min": [
+              -1.1,
+              0.75,
+              -0.05
+            ],
+            "max": [
+              1.1,
+              0.850000023841858,
+              0.05
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.017271821724183158,
+          "bounds": {
+            "min": [
+              -1.1,
+              0.75,
+              -0.05
+            ],
+            "max": [
+              1.1,
+              0.850000023841858,
+              0.05
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W3-1",
+        "status": "verified",
+        "expected": {
+          "volume": 0.25323629198932696,
+          "bounds": {
+            "min": [
+              -0.7,
+              0.5500000119209292,
+              -0.25
+            ],
+            "max": [
+              0.7,
+              1.0499999403953553,
+              0.25
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.25323629198932696,
+          "bounds": {
+            "min": [
+              -0.7,
+              0.5500000119209292,
+              -0.25
+            ],
+            "max": [
+              0.7,
+              1.0499999403953553,
+              0.25
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W3-3",
+        "status": "verified",
+        "expected": {
+          "volume": 0.048553483875178646,
+          "bounds": {
+            "min": [
+              -0.8999999892711639,
+              0.11999999731779087,
+              -0.2099999874830246
+            ],
+            "max": [
+              -0.7799999856948852,
+              1.12,
+              0.2099999874830246
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.04855348387517859,
+          "bounds": {
+            "min": [
+              -0.8999999892711639,
+              0.11999999731779087,
+              -0.2099999874830246
+            ],
+            "max": [
+              -0.7799999856948853,
+              1.12,
+              0.2099999874830246
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W3-4",
+        "status": "verified",
+        "expected": {
+          "volume": 0.04855348387517864,
+          "bounds": {
+            "min": [
+              0.7799999856948854,
+              0.11999999731779087,
+              -0.2099999874830246
+            ],
+            "max": [
+              0.8999999892711641,
+              1.12,
+              0.2099999874830246
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.04855348387517859,
+          "bounds": {
+            "min": [
+              0.7799999856948853,
+              0.11999999731779087,
+              -0.2099999874830246
+            ],
+            "max": [
+              0.8999999892711639,
+              1.12,
+              0.2099999874830246
+            ]
+          }
+        }
+      }
+    ],
+    "hostReplay": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "width",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 1.4; expected equal 1.4 ± 0.0001 m.",
+          "ids": [
+            "fixture-W3-1"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1 original identities retain position.",
+          "ids": [
+            "fixture-W3-1"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (min of fixture-W3-1 minus max of fixture-W3-3): 0.07999998569488531 m; expected 0.08 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "fixture-W3-3",
+            "fixture-W3-1"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (min of fixture-W3-4 minus max of fixture-W3-1): 0.07999998569488531 m; expected 0.08 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "fixture-W3-1",
+            "fixture-W3-4"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (min of fixture-W3-3 minus min of fixture-W3-2): 0.20000001072883622 m; expected 0.2 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "fixture-W3-2",
+            "fixture-W3-3"
+          ]
+        },
+        {
+          "id": "check-6",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (max of fixture-W3-2 minus max of fixture-W3-4): 0.20000001072883622 m; expected 0.2 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "fixture-W3-4",
+            "fixture-W3-2"
+          ]
+        },
+        {
+          "id": "check-7",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (min of fixture-W3-3 minus min of fixture-W3-0): 0.20000001072883622 m; expected 0.2 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "fixture-W3-0",
+            "fixture-W3-3"
+          ]
+        },
+        {
+          "id": "check-8",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (max of fixture-W3-0 minus max of fixture-W3-4): 0.20000001072883622 m; expected 0.2 ± 0.0001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "fixture-W3-4",
+            "fixture-W3-0"
+          ]
+        },
+        {
+          "id": "check-9",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "5 original identities retain identity, name, component, groupId, depth, height, y, z, rotation, material, materialSpec, color, visible.",
+          "ids": [
+            "fixture-W3-0",
+            "fixture-W3-1",
+            "fixture-W3-2",
+            "fixture-W3-3",
+            "fixture-W3-4"
+          ]
+        },
+        {
+          "id": "check-10",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 original identities retain geometry.",
+          "ids": [
+            "fixture-W3-3",
+            "fixture-W3-4"
+          ]
+        },
+        {
+          "id": "check-11",
+          "label": "unavailable",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Unverified: Original bore diameters and internal geometry are not supplied; preservation of roller and shaft bore diameters cannot be verified from the provided bounds.",
+          "ids": []
+        }
+      ],
+      "qualitativeLimits": []
+    },
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 49571,
+    "cost": {
+      "calls": 3,
+      "estimatedUSD": 0.093622,
+      "accountedUSD": 0.1170275,
+      "unknownReservations": [],
+      "inputTokens": 38956,
+      "outputTokens": 1571,
+      "reviewerMs": 13494,
+      "executorMs": 15160
+    },
+    "eventCount": 2
+  },
+  {
+    "id": "roller-fixture-baseline-W3-diagnostic-edit",
+    "version": "baseline",
+    "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+    "task": "W3",
+    "prompt": "Make the roller 40 cm longer without moving its center. Let the bearing blocks follow its ends while preserving their existing air gaps. Adjust the shaft and base so their current end overhangs and the bearings’ setbacks from the base ends stay the same. Keep bore diameters, transverse sizes and existing component identities, and leave the other objects alone.",
+    "edit": true,
+    "diagnostic": true,
+    "negative": false,
+    "status": "PASS",
+    "started": "2026-11-23T20:37:42.991Z",
+    "requestCount": 3,
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Make the roller 40 cm longer without moving its center. Let the bearing blocks follow its ends while preserving their existing air gaps. Adjust the shaft and base so their current end overhangs and the bearings’ setbacks from the base ends stay the same. Keep bore diameters, transverse sizes and existing component identities, and leave the other objects alone."
+      },
+      {
+        "role": "assistant",
+        "content": "Coordinated 5 components in 3 shared edit sets; identities and construction recipes retained. Linked components followed their hosts once.\nVerified width: 1.4 (1 element(s)).\nVerified width: 2.2, 2.2 (2 element(s)).\nVerified width: 0.12, 0.12 (2 element(s)).\nVerified depth: 0.42, 0.42 (2 element(s)).\nVerified height: 1, 1 (2 element(s)).\nBase: 2.2 × 0.7 × 0.12 m; base (0, 0, 0) m. Material volume 0.185 m³; surface area 3.776 m²; lowest/highest elevation 0 / 0.12 m.\nHollow roller: 1.4 × 0.5 × 0.5 m; base (0, 0.55, 0) m. Material volume 0.253 m³; surface area 3.176 m²; lowest/highest elevation 0.55 / 1.05 m.\nShaft: 2.2 × 0.1 × 0.1 m; base (0, 0.75, 0) m. Material volume 0.017 m³; surface area 0.707 m²; lowest/highest elevation 0.75 / 0.85 m.\nBearing: 0.12 × 0.42 × 1 m; base (-0.84, 0.12, 0) m. Material volume 0.049 m³; surface area 1.203 m²; lowest/highest elevation 0.12 / 1.12 m.\nBearing: 0.12 × 0.42 × 1 m; base (0.84, 0.12, 0) m. Material volume 0.049 m³; surface area 1.203 m²; lowest/highest elevation 0.12 / 1.12 m.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 1.4; expected equal 1.4 ± 0.001 m.\npreserve: 1 original identities retain position.\noffset: Measured world-bounds x offset (min of fixture-W3-1 minus max of fixture-W3-3): 0.07999998569488531 m; expected 0.08 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (min of fixture-W3-4 minus max of fixture-W3-1): 0.07999998569488531 m; expected 0.08 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (min of fixture-W3-3 minus min of fixture-W3-2): 0.20000001072883622 m; expected 0.2 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (max of fixture-W3-2 minus max of fixture-W3-4): 0.20000001072883622 m; expected 0.2 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (min of fixture-W3-3 minus min of fixture-W3-0): 0.20000001072883622 m; expected 0.2 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (max of fixture-W3-0 minus max of fixture-W3-4): 0.20000001072883622 m; expected 0.2 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.\npreserve: 5 original identities retain identity, name, component, groupId, depth, height, y, z, rotation.\npreserve: 2 original identities retain geometry.\nunavailable: Unverified: Original bore diameters and internal geometry are not supplied; preservation of roller and bearing bore diameters cannot be numerically verified from the original bounds.\nDesign assumptions:\nThe roller axis is world X. Its existing 0.08 m bearing air gaps, 0.20 m shaft overhangs beyond each bearing, and 0.20 m bearing setbacks from the base ends remain unchanged.\nApply only axial resizing to the existing roller, shaft and base meshes; translate the bearings rigidly so bore diameters and component identities are preserved.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nunavailable: Unverified: Original bore diameters and internal geometry are not supplied; preservation of roller and bearing bore diameters cannot be numerically verified from the original bounds.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 1.4; expected equal 1.4 ± 0.001 m.\npreserve: 1 original identities retain position.\noffset: Measured world-bounds x offset (min of fixture-W3-1 minus max of fixture-W3-3): 0.07999998569488531 m; expected 0.08 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (min of fixture-W3-4 minus max of fixture-W3-1): 0.07999998569488531 m; expected 0.08 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (min of fixture-W3-3 minus min of fixture-W3-2): 0.20000001072883622 m; expected 0.2 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity."
+      }
+    ],
+    "committed": true,
+    "componentCount": 7,
+    "changedIds": [
+      "fixture-W3-0",
+      "fixture-W3-1",
+      "fixture-W3-2",
+      "fixture-W3-3",
+      "fixture-W3-4"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "facts": [
+      {
+        "name": "Protected object reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Protected object reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Protected groups",
+        "status": "verified"
+      },
+      {
+        "name": "Unique selectable editable identities",
+        "status": "verified"
+      },
+      {
+        "name": "Original object roster retained",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties fixture-W3-0",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties fixture-W3-1",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties fixture-W3-2",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties fixture-W3-3",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties fixture-W3-4",
+        "status": "verified"
+      },
+      {
+        "name": "Assembly group metadata retained",
+        "status": "verified"
+      },
+      {
+        "name": "Closed occupied solid fixture-W3-0",
+        "status": "verified",
+        "expected": 0.1848,
+        "actual": 0.1847999967277049
+      },
+      {
+        "name": "Closed occupied solid fixture-W3-1",
+        "status": "verified",
+        "expected": 0.25323629198932696,
+        "actual": 0.2532362936891283
+      },
+      {
+        "name": "Closed occupied solid fixture-W3-2",
+        "status": "verified",
+        "expected": 0.017271821724183158,
+        "actual": 0.017271821931510466
+      },
+      {
+        "name": "Closed occupied solid fixture-W3-3",
+        "status": "verified",
+        "expected": 0.04855348387517859,
+        "actual": 0.048553486020691344
+      },
+      {
+        "name": "Closed occupied solid fixture-W3-4",
+        "status": "verified",
+        "expected": 0.04855348387517859,
+        "actual": 0.048553486020691414
+      },
+      {
+        "name": "Requested distinct component count",
+        "status": "verified",
+        "expected": 5,
+        "actual": 5
+      },
+      {
+        "name": "Measured component identification: base",
+        "status": "verified",
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "name": "Measured component identification: shaft",
+        "status": "verified",
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "name": "Measured component identification: roller",
+        "status": "verified",
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "name": "Measured component identification: bearings",
+        "status": "verified",
+        "expected": 2,
+        "actual": 2
+      },
+      {
+        "name": "Expected occupied geometry fixture-W3-0",
+        "status": "verified",
+        "expected": {
+          "volume": 0.1848,
+          "bounds": {
+            "min": [
+              -1.1,
+              0,
+              -0.35
+            ],
+            "max": [
+              1.1,
+              0.12,
+              0.35
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.1848,
+          "bounds": {
+            "min": [
+              -1.1,
+              0,
+              -0.35
+            ],
+            "max": [
+              1.1,
+              0.12,
+              0.35
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W3-2",
+        "status": "verified",
+        "expected": {
+          "volume": 0.017271821724183158,
+          "bounds": {
+            "min": [
+              -1.1,
+              0.75,
+              -0.05
+            ],
+            "max": [
+              1.1,
+              0.850000023841858,
+              0.05
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.017271821724183158,
+          "bounds": {
+            "min": [
+              -1.1,
+              0.75,
+              -0.05
+            ],
+            "max": [
+              1.1,
+              0.850000023841858,
+              0.05
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W3-1",
+        "status": "verified",
+        "expected": {
+          "volume": 0.25323629198932696,
+          "bounds": {
+            "min": [
+              -0.7,
+              0.5500000119209292,
+              -0.25
+            ],
+            "max": [
+              0.7,
+              1.0499999403953553,
+              0.25
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.25323629198932696,
+          "bounds": {
+            "min": [
+              -0.7,
+              0.5500000119209292,
+              -0.25
+            ],
+            "max": [
+              0.7,
+              1.0499999403953553,
+              0.25
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W3-3",
+        "status": "verified",
+        "expected": {
+          "volume": 0.048553483875178646,
+          "bounds": {
+            "min": [
+              -0.8999999892711639,
+              0.11999999731779087,
+              -0.2099999874830246
+            ],
+            "max": [
+              -0.7799999856948852,
+              1.12,
+              0.2099999874830246
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.04855348387517859,
+          "bounds": {
+            "min": [
+              -0.8999999892711639,
+              0.11999999731779087,
+              -0.2099999874830246
+            ],
+            "max": [
+              -0.7799999856948853,
+              1.12,
+              0.2099999874830246
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W3-4",
+        "status": "verified",
+        "expected": {
+          "volume": 0.04855348387517864,
+          "bounds": {
+            "min": [
+              0.7799999856948854,
+              0.11999999731779087,
+              -0.2099999874830246
+            ],
+            "max": [
+              0.8999999892711641,
+              1.12,
+              0.2099999874830246
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.04855348387517859,
+          "bounds": {
+            "min": [
+              0.7799999856948853,
+              0.11999999731779087,
+              -0.2099999874830246
+            ],
+            "max": [
+              0.8999999892711639,
+              1.12,
+              0.2099999874830246
+            ]
+          }
+        }
+      }
+    ],
+    "hostReplay": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "width",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 1.4; expected equal 1.4 ± 0.001 m.",
+          "ids": [
+            "fixture-W3-1"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1 original identities retain position.",
+          "ids": [
+            "fixture-W3-1"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (min of fixture-W3-1 minus max of fixture-W3-3): 0.07999998569488531 m; expected 0.08 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "fixture-W3-3",
+            "fixture-W3-1"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (min of fixture-W3-4 minus max of fixture-W3-1): 0.07999998569488531 m; expected 0.08 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "fixture-W3-1",
+            "fixture-W3-4"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (min of fixture-W3-3 minus min of fixture-W3-2): 0.20000001072883622 m; expected 0.2 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "fixture-W3-2",
+            "fixture-W3-3"
+          ]
+        },
+        {
+          "id": "check-6",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (max of fixture-W3-2 minus max of fixture-W3-4): 0.20000001072883622 m; expected 0.2 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "fixture-W3-4",
+            "fixture-W3-2"
+          ]
+        },
+        {
+          "id": "check-7",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (min of fixture-W3-3 minus min of fixture-W3-0): 0.20000001072883622 m; expected 0.2 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "fixture-W3-0",
+            "fixture-W3-3"
+          ]
+        },
+        {
+          "id": "check-8",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (max of fixture-W3-0 minus max of fixture-W3-4): 0.20000001072883622 m; expected 0.2 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "fixture-W3-4",
+            "fixture-W3-0"
+          ]
+        },
+        {
+          "id": "check-9",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "5 original identities retain identity, name, component, groupId, depth, height, y, z, rotation.",
+          "ids": [
+            "fixture-W3-0",
+            "fixture-W3-1",
+            "fixture-W3-2",
+            "fixture-W3-3",
+            "fixture-W3-4"
+          ]
+        },
+        {
+          "id": "check-10",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 original identities retain geometry.",
+          "ids": [
+            "fixture-W3-3",
+            "fixture-W3-4"
+          ]
+        },
+        {
+          "id": "check-11",
+          "label": "unavailable",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Unverified: Original bore diameters and internal geometry are not supplied; preservation of roller and bearing bore diameters cannot be numerically verified from the original bounds.",
+          "ids": []
+        }
+      ],
+      "qualitativeLimits": []
+    },
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 48405,
+    "cost": {
+      "calls": 3,
+      "estimatedUSD": 0.089892,
+      "accountedUSD": 0.112365,
+      "unknownReservations": [],
+      "inputTokens": 37421,
+      "outputTokens": 1505,
+      "reviewerMs": 13231,
+      "executorMs": 14323
+    },
+    "eventCount": 2
+  }
+]
