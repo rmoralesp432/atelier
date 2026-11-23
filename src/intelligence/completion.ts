@@ -5,6 +5,7 @@ import { isFlat } from '../geometry/spatial';
 import { assessRequirements, preservedValue } from './designBrief';
 import { completionSelection } from './completionSelection';
 import { auditCriteria } from './criteriaAudit';
+import { compileCalculations } from './completionCalculations';
 import { resolveIds, type Session } from './engine';
 import { physicalChecks, flatPhysicalBounds } from './completionGeometry';
 import {
@@ -21,7 +22,11 @@ export async function verifyCompletion(
   candidate: Session,
   signal?: AbortSignal,
 ): Promise<CompletionReport> {
-  const criteria = completionCriteriaSchema.parse(raw);
+  const { criteria, traces } = await compileCalculations(
+    completionCriteriaSchema.parse(raw),
+    original,
+    signal,
+  );
   // Share expensive solid-volume measurements within this immutable candidate;
   // every repair/completion attempt gets a fresh cache.
   const volumes = new Map<string, Promise<number>>();
@@ -65,6 +70,9 @@ export async function verifyCompletion(
         : observed
       ).slice(0, 800),
       ids: ids.slice(0, 16),
+      ...(traces.has(id) && currentCriterionId === id
+        ? { calculation: traces.get(id) }
+        : {}),
     });
   };
   const abort = () => {

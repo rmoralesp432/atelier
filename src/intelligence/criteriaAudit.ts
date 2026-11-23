@@ -304,7 +304,8 @@ export function acceptCriteriaRevision(
       !allowed.has(a.id) ||
       a.id !== b.id ||
       old.source !== fresh.source ||
-      old.evidence !== fresh.evidence
+      old.evidence !== fresh.evidence ||
+      !equalData(old.calculation, fresh.calculation)
     )
       throw new Error(
         'Criterion correction changed an independently valid requirement or its evidence.',

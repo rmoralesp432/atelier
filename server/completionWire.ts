@@ -41,6 +41,10 @@ export const completionWireSchema = z
         z
           .object({
             because: z.number().int().min(0).max(31),
+            calculation:
+              completionCriteriaSchema.shape.checks.element.shape.calculation
+                .unwrap()
+                .nullable(),
             test: z.union([requirements[0], ...requirements.slice(1)]),
           })
           .strict(),
@@ -130,6 +134,7 @@ export function expandCompletionWire(raw: unknown): CompletionCriteria {
       return {
         source: citation.source,
         evidence: citation.text,
+        ...(c.calculation ? { calculation: c.calculation } : {}),
         requirement: {
           ...test,
           id: `check-${i + 1}`,
@@ -164,6 +169,7 @@ export function compactCompletionCriteria(criteria: CompletionCriteria) {
         if (key in test) test[key] = index(selections, test[key]);
       return {
         because: index(evidence, { source: c.source, text: c.evidence }),
+        calculation: c.calculation ?? null,
         test,
       };
     }),

@@ -5,6 +5,7 @@ import type { ExecutionContext } from './executionProtocol';
 import type { ValidationFeedback } from './checkedPlanner';
 import { parsePlan, type Operation } from './plan';
 import { sceneContext, type CameraContext } from './context';
+import { sceneReference } from './sceneReference';
 import type { Session } from './engine';
 import {
   completionCriteriaSchema,
@@ -110,7 +111,9 @@ export async function requestPlan(
   images?: string[],
   execution?: ExecutionContext,
   observation?: SceneObservation,
+  original?: Session,
 ) {
+  const scene = sceneContext(session.project, session.context, camera);
   const r = await fetch('/api/plan', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -127,7 +130,10 @@ export async function requestPlan(
         undo: session.past.length,
         redo: session.future.length,
       },
-      scene: sceneContext(session.project, session.context, camera),
+      scene,
+      ...(original
+        ? { sceneReference: sceneReference(original, scene, camera) }
+        : {}),
       history: conversationHistory(history, images),
     }),
     signal,
