@@ -1,0 +1,484 @@
+{
+  "source": "Offline numerical audit of saved live repair traces; no new model calls; original scoring unchanged.",
+  "injection": {
+    "id": "0901ed2d-d519-4c83-b924-9750b321eedf",
+    "delta": [
+      -0.09785723423291029,
+      0,
+      0.16286178713340135
+    ],
+    "boundary": "private candidate immediately before completion measurement"
+  },
+  "originalPass": true,
+  "injectedFail": [
+    {
+      "name": "Distinct array position -0.6066383866606837,0,-0.7378278036437247",
+      "status": "incorrect"
+    }
+  ],
+  "repairedPass": true,
+  "repairedFacts": [
+    {
+      "name": "Unrelated objects preserved exactly",
+      "status": "verified"
+    },
+    {
+      "name": "Protected group metadata preserved",
+      "status": "verified"
+    },
+    {
+      "name": "Scene identities unique",
+      "status": "verified"
+    },
+    {
+      "name": "Required geometry exists",
+      "status": "verified"
+    },
+    {
+      "name": "Independent selectable visible objects",
+      "status": "verified"
+    },
+    {
+      "name": "Closed positive solid and independent mesh volume: d108ca36-8445-4e66-98aa-c60ed195c972",
+      "status": "verified",
+      "expected": 0.035853450716997665,
+      "actual": 0.03585345200643173
+    },
+    {
+      "name": "Closed positive solid and independent mesh volume: 0901ed2d-d519-4c83-b924-9750b321eedf",
+      "status": "verified",
+      "expected": 0.03585345071699768,
+      "actual": 0.03585345268167005
+    },
+    {
+      "name": "Closed positive solid and independent mesh volume: f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+      "status": "verified",
+      "expected": 0.03585345071699768,
+      "actual": 0.035853449993403175
+    },
+    {
+      "name": "Closed positive solid and independent mesh volume: b4f21053-0676-4384-9a79-d9d238ddcfe9",
+      "status": "verified",
+      "expected": 0.035853450716997665,
+      "actual": 0.03585345189562027
+    },
+    {
+      "name": "Closed positive solid and independent mesh volume: 31b71d1b-9787-4fae-93d5-04b707a412f7",
+      "status": "verified",
+      "expected": 0.03585345071699767,
+      "actual": 0.035853450045658965
+    },
+    {
+      "name": "Closed positive solid and independent mesh volume: 95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+      "status": "verified",
+      "expected": 0.035853450716997665,
+      "actual": 0.03585345004565898
+    },
+    {
+      "name": "Closed positive solid and independent mesh volume: 9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+      "status": "verified",
+      "expected": 0.035853450716997665,
+      "actual": 0.035853451895620274
+    },
+    {
+      "name": "Closed positive solid and independent mesh volume: e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+      "status": "verified",
+      "expected": 0.03585345071699767,
+      "actual": 0.035853449993403175
+    },
+    {
+      "name": "Closed positive solid and independent mesh volume: 99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+      "status": "verified",
+      "expected": 0.03585345071699768,
+      "actual": 0.03585345268167006
+    },
+    {
+      "name": "Closed positive solid and independent mesh volume: 95ca8d08-93ca-43aa-89fe-acbd4d87710d",
+      "status": "verified",
+      "expected": 0.035853450716997665,
+      "actual": 0.035853452006431745
+    },
+    {
+      "name": "Ten independent prisms",
+      "status": "verified",
+      "expected": 10,
+      "actual": 10
+    },
+    {
+      "name": "Distinct array position -1.2237988431662046,0,-1.1086552175789637",
+      "status": "verified"
+    },
+    {
+      "name": "Distinct array position -0.6066383866606837,0,-0.7378278036437247",
+      "status": "verified"
+    },
+    {
+      "name": "Distinct array position 0.010522069844837112,0,-0.3670003897084857",
+      "status": "verified"
+    },
+    {
+      "name": "Distinct array position 0.627682526350358,0,0.003827024226753295",
+      "status": "verified"
+    },
+    {
+      "name": "Distinct array position 1.244842982855879,0,0.37465443816199234",
+      "status": "verified"
+    },
+    {
+      "name": "Distinct array position -1.244842982855879,0,-0.37465443816199234",
+      "status": "verified"
+    },
+    {
+      "name": "Distinct array position -0.627682526350358,0,-0.003827024226753295",
+      "status": "verified"
+    },
+    {
+      "name": "Distinct array position -0.010522069844837112,0,0.3670003897084857",
+      "status": "verified"
+    },
+    {
+      "name": "Distinct array position 0.6066383866606837,0,0.7378278036437247",
+      "status": "verified"
+    },
+    {
+      "name": "Distinct array position 1.2237988431662046,0,1.1086552175789637",
+      "status": "verified"
+    },
+    {
+      "name": "Regular hexagonal section and height: d108ca36-8445-4e66-98aa-c60ed195c972",
+      "status": "verified",
+      "expected": {
+        "sides": 6,
+        "acrossFlats": 0.3,
+        "height": 0.46
+      },
+      "actual": {
+        "sides": 6,
+        "edges": [
+          0.173205078769594,
+          0.17320508130271964,
+          0.17320508250672054,
+          0.173205078769594,
+          0.1732050783984082,
+          0.17320507518730527
+        ],
+        "radii": [
+          0.17320508033461574,
+          0.1732050776271104,
+          0.17320508217750302,
+          0.17320507936651197,
+          0.17320508006691535,
+          0.17320507536168497
+        ],
+        "height": 0.46,
+        "volume": 0.035853450716997665
+      }
+    },
+    {
+      "name": "Regular hexagonal section and height: 0901ed2d-d519-4c83-b924-9750b321eedf",
+      "status": "verified",
+      "expected": {
+        "sides": 6,
+        "acrossFlats": 0.3,
+        "height": 0.46
+      },
+      "actual": {
+        "sides": 6,
+        "edges": [
+          0.17320507238319996,
+          0.17320508130271964,
+          0.17320508250672054,
+          0.17320507238319996,
+          0.17320508491483275,
+          0.1732050750572747
+        ],
+        "radii": [
+          0.17320507599033266,
+          0.17320507767045384,
+          0.17320508004870486,
+          0.17320507719437045,
+          0.17320508015360253,
+          0.17320507749048314
+        ],
+        "height": 0.46,
+        "volume": 0.03585345071699768
+      }
+    },
+    {
+      "name": "Regular hexagonal section and height: f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+      "status": "verified",
+      "expected": {
+        "sides": 6,
+        "acrossFlats": 0.3,
+        "height": 0.46
+      },
+      "actual": {
+        "sides": 6,
+        "edges": [
+          0.173205078769594,
+          0.17320507478629496,
+          0.1732050826367511,
+          0.173205078769594,
+          0.17320508491483275,
+          0.1732050750572747
+        ],
+        "radii": [
+          0.1732050781624742,
+          0.17320507758376683,
+          0.1732050779199069,
+          0.17320508153865347,
+          0.17320508011025892,
+          0.17320507961928114
+        ],
+        "height": 0.46,
+        "volume": 0.03585345071699768
+      }
+    },
+    {
+      "name": "Regular hexagonal section and height: b4f21053-0676-4384-9a79-d9d238ddcfe9",
+      "status": "verified",
+      "expected": {
+        "sides": 6,
+        "acrossFlats": 0.3,
+        "height": 0.46
+      },
+      "actual": {
+        "sides": 6,
+        "edges": [
+          0.173205078769594,
+          0.17320507478629496,
+          0.1732050826367511,
+          0.173205078769594,
+          0.17320507478629496,
+          0.1732050826367511
+        ],
+        "radii": [
+          0.17320507985056385,
+          0.17320507884701286,
+          0.17320507749506336,
+          0.17320507985056385,
+          0.17320507884701286,
+          0.17320507749506336
+        ],
+        "height": 0.46,
+        "volume": 0.035853450716997665
+      }
+    },
+    {
+      "name": "Regular hexagonal section and height: 31b71d1b-9787-4fae-93d5-04b707a412f7",
+      "status": "verified",
+      "expected": {
+        "sides": 6,
+        "acrossFlats": 0.3,
+        "height": 0.46
+      },
+      "actual": {
+        "sides": 6,
+        "edges": [
+          0.17320507238319996,
+          0.17320508491483275,
+          0.1732050750572747,
+          0.173205078769594,
+          0.17320507478629496,
+          0.17320508250672054
+        ],
+        "radii": [
+          0.17320507610829972,
+          0.1732050801319307,
+          0.1732050785548821,
+          0.17320507707640337,
+          0.17320507756209508,
+          0.17320507898430595
+        ],
+        "height": 0.46,
+        "volume": 0.03585345071699767
+      }
+    },
+    {
+      "name": "Regular hexagonal section and height: 95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+      "status": "verified",
+      "expected": {
+        "sides": 6,
+        "acrossFlats": 0.3,
+        "height": 0.46
+      },
+      "actual": {
+        "sides": 6,
+        "edges": [
+          0.173205078769594,
+          0.17320507478629496,
+          0.17320508250672054,
+          0.17320507238319996,
+          0.17320508491483275,
+          0.1732050750572747
+        ],
+        "radii": [
+          0.17320507707640337,
+          0.17320507756209508,
+          0.17320507898430595,
+          0.17320507610829972,
+          0.1732050801319307,
+          0.1732050785548821
+        ],
+        "height": 0.46,
+        "volume": 0.035853450716997665
+      }
+    },
+    {
+      "name": "Regular hexagonal section and height: 9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+      "status": "verified",
+      "expected": {
+        "sides": 6,
+        "acrossFlats": 0.3,
+        "height": 0.46
+      },
+      "actual": {
+        "sides": 6,
+        "edges": [
+          0.173205078769594,
+          0.17320507478629496,
+          0.1732050826367511,
+          0.173205078769594,
+          0.17320507478629496,
+          0.1732050826367511
+        ],
+        "radii": [
+          0.17320507985056385,
+          0.17320507884701286,
+          0.17320507749506336,
+          0.17320507985056385,
+          0.17320507884701286,
+          0.17320507749506336
+        ],
+        "height": 0.46,
+        "volume": 0.035853450716997665
+      }
+    },
+    {
+      "name": "Regular hexagonal section and height: e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+      "status": "verified",
+      "expected": {
+        "sides": 6,
+        "acrossFlats": 0.3,
+        "height": 0.46
+      },
+      "actual": {
+        "sides": 6,
+        "edges": [
+          0.173205078769594,
+          0.17320508491483275,
+          0.1732050750572747,
+          0.173205078769594,
+          0.17320507478629496,
+          0.1732050826367511
+        ],
+        "radii": [
+          0.17320508153865347,
+          0.17320508011025892,
+          0.17320507961928114,
+          0.1732050781624742,
+          0.17320507758376683,
+          0.1732050779199069
+        ],
+        "height": 0.46,
+        "volume": 0.03585345071699767
+      }
+    },
+    {
+      "name": "Regular hexagonal section and height: 99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+      "status": "verified",
+      "expected": {
+        "sides": 6,
+        "acrossFlats": 0.3,
+        "height": 0.46
+      },
+      "actual": {
+        "sides": 6,
+        "edges": [
+          0.17320507238319996,
+          0.17320508491483275,
+          0.1732050750572747,
+          0.17320507238319996,
+          0.17320508130271964,
+          0.17320508250672054
+        ],
+        "radii": [
+          0.17320507719437045,
+          0.17320508015360253,
+          0.17320507749048314,
+          0.17320507599033266,
+          0.17320507767045384,
+          0.17320508004870486
+        ],
+        "height": 0.46,
+        "volume": 0.03585345071699768
+      }
+    },
+    {
+      "name": "Regular hexagonal section and height: 95ca8d08-93ca-43aa-89fe-acbd4d87710d",
+      "status": "verified",
+      "expected": {
+        "sides": 6,
+        "acrossFlats": 0.3,
+        "height": 0.46
+      },
+      "actual": {
+        "sides": 6,
+        "edges": [
+          0.173205078769594,
+          0.1732050783984082,
+          0.17320507518730527,
+          0.173205078769594,
+          0.17320508130271964,
+          0.17320508250672054
+        ],
+        "radii": [
+          0.17320507936651197,
+          0.17320508006691535,
+          0.17320507536168497,
+          0.17320508033461574,
+          0.1732050776271104,
+          0.17320508217750302
+        ],
+        "height": 0.46,
+        "volume": 0.035853450716997665
+      }
+    }
+  ],
+  "otherObjectsExactlyPreserved": true,
+  "injectedIdentityRetained": true,
+  "groupsPreserved": true,
+  "reviewerCoordinateErrors": [
+    {
+      "expectedByReviewer": {
+        "x": 0.010522,
+        "y": 0,
+        "z": -0.366
+      },
+      "actualCorrectPosition": {
+        "x": 0.010522069844836945,
+        "y": 0,
+        "z": -0.3670003897084859
+      },
+      "id": "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+      "distanceM": 0.0010003897109241275,
+      "toleranceM": 0.001
+    },
+    {
+      "expectedByReviewer": {
+        "x": -0.010522,
+        "y": 0,
+        "z": 0.366
+      },
+      "actualCorrectPosition": {
+        "x": -0.010522069844836945,
+        "y": 0,
+        "z": 0.367000389708486
+      },
+      "id": "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+      "distanceM": 0.001000389710924183,
+      "toleranceM": 0.001
+    }
+  ],
+  "finalCompletion": "Blocked by unchanged reviewer positions criterion; no committed repair transaction. Last correct private scene retained in stage-8 snapshot."
+}

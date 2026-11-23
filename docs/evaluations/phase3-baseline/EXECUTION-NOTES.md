@@ -16,9 +16,15 @@ The original `R1: REPAIR_NOT_COMPLETED`, error, zero-call cost, stage snapshot, 
 
 The v2 execution freeze permits only the evaluator runner hash to differ from v1. Every other frozen file is checked unchanged. The first twelve paid turns are not repeated, and no geometry acceptance condition is weakened. The revised runner includes explicit retry/version bookkeeping so neither evidence nor accounting is overwritten.
 
+The live retry completed its evaluation but **failed the end-to-end repair objective**. It detected and repaired the injected geometry error; two incorrect reviewer-generated coordinates then prevented commitment. The corrected private geometry passed the independent measurements and retained all other objects exactly. This application-level negative result is preserved without another paid reroll or an application fix. See RESULTS.md and the numerical audit.
+
 ## Read-only analysis correction
 
 An offline replay analysis initially tried to read a raw session snapshot with the application's compact persistence decoder, which correctly rejected that file format. Reading the raw snapshot as JSON resolved it. This diagnostic made no paid requests and did not alter live results. The corrected replay of C2's first candidate passes the original frozen external oracle; its small position deviations came from coordinated-edit millimeter rounding, whereas the generated reviewer required 0.1 mm precision. Preserve that distinction when counting autonomous repairs.
+
+The archive credential scanner initially blocked a long `sk-`-shaped substring inside an opaque API `reasoning.encrypted_content` response. Field-level inspection established that this was encoded response content, not a plaintext credential. Validation continued to scan every byte for configured secret values, and scanned all non-opaque fields for generic credential patterns. No credential was found and no raw response was edited. The initially empty archive was replaced only after validation; `evidence-validation.json` records this exception.
+
+The first final checksum command ran from the repository root rather than the evidence directory required by its relative-path manifest. Re-running it from the documented directory validated all 42 files. The compressed archive was also checked byte-for-byte against all 270 selected source files. Neither issue affected model calls, measurements or scoring.
 
 ## Boundaries
 

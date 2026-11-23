@@ -1,6 +1,6 @@
 # Phase 3: autonomous modeling intelligence baseline
 
-Status: US$15 baseline authorized. The latest authorization and pricing waiver are recorded in `authorization.json`. Application behavior remains frozen; no deployment is authorized.
+Status: baseline completed; see [RESULTS.md](RESULTS.md). All twelve main turns achieved their expected outcomes; the controlled repair restored correct geometry but was blocked by an erroneous independent criterion. The US$15 authorization and pricing waiver remain recorded in `authorization.json`. Application behavior was not changed; nothing was deployed.
 Prepared 23 November 2026. Application changes, merge and deployment are out of scope.
 
 ## Purpose

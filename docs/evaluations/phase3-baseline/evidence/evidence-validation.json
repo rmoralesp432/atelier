@@ -1,0 +1,15 @@
+{
+  "credentialScan": "passed; no configured secret values anywhere, and no key-shaped plaintext outside opaque encrypted_content response fields",
+  "opaquePatternMatches": 1,
+  "opaqueFalsePositive": "A 957-character substring in API reasoning encrypted_content coincidentally matched the generic sk- pattern. JSON field identity confirmed; raw bytes were not edited.",
+  "privateBillingContextExcluded": true,
+  "priorLedgerPrefixUnchanged": true,
+  "priorResultsUnchanged": true,
+  "allUsageReconciled": true,
+  "changedFrozenFiles": [
+    "scripts/phase3-evaluation/run.ts"
+  ],
+  "applicationDiffEmpty": true,
+  "selectedFiles": 270,
+  "totalSelectedBytes": 40599520
+}
