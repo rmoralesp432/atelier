@@ -1,0 +1,2482 @@
+{
+  "label": "Saved fresh-AI reviewer trace, offline evaluation of actual solids. No new API request, browser commit, or application change. Binary normalization is a counterfactual, not an implemented fix.",
+  "displacement": {
+    "object": "display-1",
+    "axis": "world X",
+    "meters": 0.04
+  },
+  "cases": [
+    {
+      "label": "recorded criteria / actual correct result",
+      "externalPass": true,
+      "geometry": [
+        {
+          "name": "Protected object reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Protected object reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Protected groups",
+          "status": "verified"
+        },
+        {
+          "name": "Unique selectable editable identities",
+          "status": "verified"
+        },
+        {
+          "name": "Original object roster retained",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties display-0",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties display-1",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties display-2",
+          "status": "verified"
+        },
+        {
+          "name": "Assembly group metadata retained",
+          "status": "verified"
+        },
+        {
+          "name": "Closed occupied solid display-0",
+          "status": "verified",
+          "expected": 0.11693200509852655,
+          "actual": 0.11693203341723593
+        },
+        {
+          "name": "Closed occupied solid display-1",
+          "status": "verified",
+          "expected": 0.11766192232798008,
+          "actual": 0.11766191555141374
+        },
+        {
+          "name": "Closed occupied solid display-2",
+          "status": "verified",
+          "expected": 0.15091749800887047,
+          "actual": 0.15091750095039072
+        },
+        {
+          "name": "Three pieces remain",
+          "status": "verified",
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "Reflected X display-0",
+          "status": "verified",
+          "expected": 0.42197507119477784,
+          "actual": 0.4219751078318901
+        },
+        {
+          "name": "Reflected Z display-0",
+          "status": "verified",
+          "expected": -3.545957396754999,
+          "actual": -3.5459574510717515
+        },
+        {
+          "name": "Base preserved display-0",
+          "status": "verified",
+          "expected": 0.44999998807907143,
+          "actual": 0.44999998807907143
+        },
+        {
+          "name": "Occupied geometry only translated display-0",
+          "status": "verified",
+          "expected": {
+            "volume": 0.11693200509852653,
+            "bounds": {
+              "min": [
+                -0.0405682478958167,
+                0.44999998807907143,
+                -3.8969096333886584
+              ],
+              "max": [
+                0.8845183902853722,
+                0.7599999815225602,
+                -3.19500516012134
+              ]
+            },
+            "relativeTolerance": 0.00001
+          },
+          "actual": {
+            "volume": 0.11693200509852655,
+            "bounds": {
+              "min": [
+                -0.04056821125870441,
+                0.44999998807907143,
+                -3.896909687705411
+              ],
+              "max": [
+                0.8845184269224846,
+                0.7599999815225602,
+                -3.1950052144380923
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reflected X display-1",
+          "status": "verified",
+          "expected": 3.45168721057164,
+          "actual": 3.451687244169363
+        },
+        {
+          "name": "Reflected Z display-1",
+          "status": "verified",
+          "expected": -2.720824576441892,
+          "actual": -2.7208246262525657
+        },
+        {
+          "name": "Base preserved display-1",
+          "status": "verified",
+          "expected": 1.1499999761581412,
+          "actual": 1.1499999761581412
+        },
+        {
+          "name": "Occupied geometry only translated display-1",
+          "status": "verified",
+          "expected": {
+            "volume": 0.11766192232798006,
+            "bounds": {
+              "min": [
+                3.1834903742635867,
+                1.1499999761581412,
+                -2.9234726836306044
+              ],
+              "max": [
+                3.7198840468796925,
+                1.9099999547004698,
+                -2.518176469253179
+              ]
+            },
+            "relativeTolerance": 0.00001
+          },
+          "actual": {
+            "volume": 0.11766192232798008,
+            "bounds": {
+              "min": [
+                3.18349040786131,
+                1.1499999761581412,
+                -2.9234727334412787
+              ],
+              "max": [
+                3.7198840804774163,
+                1.9099999547004698,
+                -2.518176519063853
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reflected X display-2",
+          "status": "verified",
+          "expected": 0.7454441903481426,
+          "actual": 0.7454441770866959
+        },
+        {
+          "name": "Reflected Z display-2",
+          "status": "verified",
+          "expected": 0.6106698822186004,
+          "actual": 0.6106699019089149
+        },
+        {
+          "name": "Base preserved display-2",
+          "status": "verified",
+          "expected": 0.8000000119209292,
+          "actual": 0.8000000119209292
+        },
+        {
+          "name": "Occupied geometry only translated display-2",
+          "status": "verified",
+          "expected": {
+            "volume": 0.15091749800887055,
+            "bounds": {
+              "min": [
+                0.40727168448433004,
+                0.8000000119209292,
+                0.1781168818322465
+              ],
+              "max": [
+                1.0836166962119553,
+                1.3300000631809237,
+                1.0432228826049545
+              ]
+            },
+            "relativeTolerance": 0.00001
+          },
+          "actual": {
+            "volume": 0.15091749800887047,
+            "bounds": {
+              "min": [
+                0.40727167122288316,
+                0.8000000119209292,
+                0.17811690152256093
+              ],
+              "max": [
+                1.0836166829505085,
+                1.3300000631809237,
+                1.0432229022952688
+              ]
+            }
+          }
+        }
+      ],
+      "report": {
+        "modeling": true,
+        "passed": false,
+        "status": "unverified",
+        "canCommit": true,
+        "checks": [
+          {
+            "id": "preserved-scope",
+            "label": "Unrelated existing geometry",
+            "met": true,
+            "outcome": "verified",
+            "observed": "2 existing objects outside the requested edit scope are unchanged.",
+            "ids": []
+          },
+          {
+            "id": "check-1",
+            "label": "positions",
+            "met": false,
+            "outcome": "unverified",
+            "observed": "Unverified: Expected measurement could not be derived: Incorrect calculation operand count.",
+            "ids": []
+          },
+          {
+            "id": "check-2",
+            "label": "positions",
+            "met": false,
+            "outcome": "unverified",
+            "observed": "Unverified: Expected measurement could not be derived: Incorrect calculation operand count.",
+            "ids": []
+          },
+          {
+            "id": "check-3",
+            "label": "positions",
+            "met": false,
+            "outcome": "unverified",
+            "observed": "Unverified: Expected measurement could not be derived: Incorrect calculation operand count.",
+            "ids": []
+          },
+          {
+            "id": "check-4",
+            "label": "preserve",
+            "met": true,
+            "outcome": "verified",
+            "observed": "3 original identities retain identity, dimensions, geometry, rotation, y.",
+            "ids": [
+              "display-0",
+              "display-1",
+              "display-2"
+            ]
+          },
+          {
+            "id": "check-5",
+            "label": "count",
+            "met": true,
+            "outcome": "verified",
+            "observed": "count (sum): 0; expected equal 0, tolerance 0. 0 element(s).",
+            "ids": []
+          }
+        ],
+        "qualitativeLimits": []
+      }
+    },
+    {
+      "label": "recorded criteria / deliberately displaced result",
+      "externalPass": false,
+      "geometry": [
+        {
+          "name": "Protected object reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Protected object reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Protected groups",
+          "status": "verified"
+        },
+        {
+          "name": "Unique selectable editable identities",
+          "status": "verified"
+        },
+        {
+          "name": "Original object roster retained",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties display-0",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties display-1",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties display-2",
+          "status": "verified"
+        },
+        {
+          "name": "Assembly group metadata retained",
+          "status": "verified"
+        },
+        {
+          "name": "Closed occupied solid display-0",
+          "status": "verified",
+          "expected": 0.11693200509852655,
+          "actual": 0.11693203341723593
+        },
+        {
+          "name": "Closed occupied solid display-1",
+          "status": "verified",
+          "expected": 0.11766192232798009,
+          "actual": 0.11766190559630614
+        },
+        {
+          "name": "Closed occupied solid display-2",
+          "status": "verified",
+          "expected": 0.15091749800887047,
+          "actual": 0.15091750095039072
+        },
+        {
+          "name": "Three pieces remain",
+          "status": "verified",
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "Reflected X display-0",
+          "status": "verified",
+          "expected": 0.42197507119477784,
+          "actual": 0.4219751078318901
+        },
+        {
+          "name": "Reflected Z display-0",
+          "status": "verified",
+          "expected": -3.545957396754999,
+          "actual": -3.5459574510717515
+        },
+        {
+          "name": "Base preserved display-0",
+          "status": "verified",
+          "expected": 0.44999998807907143,
+          "actual": 0.44999998807907143
+        },
+        {
+          "name": "Occupied geometry only translated display-0",
+          "status": "verified",
+          "expected": {
+            "volume": 0.11693200509852653,
+            "bounds": {
+              "min": [
+                -0.0405682478958167,
+                0.44999998807907143,
+                -3.8969096333886584
+              ],
+              "max": [
+                0.8845183902853722,
+                0.7599999815225602,
+                -3.19500516012134
+              ]
+            },
+            "relativeTolerance": 0.00001
+          },
+          "actual": {
+            "volume": 0.11693200509852655,
+            "bounds": {
+              "min": [
+                -0.04056821125870441,
+                0.44999998807907143,
+                -3.896909687705411
+              ],
+              "max": [
+                0.8845184269224846,
+                0.7599999815225602,
+                -3.1950052144380923
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reflected X display-1",
+          "status": "incorrect",
+          "expected": 3.45168721057164,
+          "actual": 3.491687244169363
+        },
+        {
+          "name": "Reflected Z display-1",
+          "status": "verified",
+          "expected": -2.720824576441892,
+          "actual": -2.7208246262525657
+        },
+        {
+          "name": "Base preserved display-1",
+          "status": "verified",
+          "expected": 1.1499999761581412,
+          "actual": 1.1499999761581412
+        },
+        {
+          "name": "Occupied geometry only translated display-1",
+          "status": "incorrect",
+          "expected": {
+            "volume": 0.11766192232798006,
+            "bounds": {
+              "min": [
+                3.1834903742635867,
+                1.1499999761581412,
+                -2.9234726836306044
+              ],
+              "max": [
+                3.7198840468796925,
+                1.9099999547004698,
+                -2.518176469253179
+              ]
+            },
+            "relativeTolerance": 0.00001
+          },
+          "actual": {
+            "volume": 0.11766192232798009,
+            "bounds": {
+              "min": [
+                3.22349040786131,
+                1.1499999761581412,
+                -2.9234727334412787
+              ],
+              "max": [
+                3.7598840804774163,
+                1.9099999547004698,
+                -2.518176519063853
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reflected X display-2",
+          "status": "verified",
+          "expected": 0.7454441903481426,
+          "actual": 0.7454441770866959
+        },
+        {
+          "name": "Reflected Z display-2",
+          "status": "verified",
+          "expected": 0.6106698822186004,
+          "actual": 0.6106699019089149
+        },
+        {
+          "name": "Base preserved display-2",
+          "status": "verified",
+          "expected": 0.8000000119209292,
+          "actual": 0.8000000119209292
+        },
+        {
+          "name": "Occupied geometry only translated display-2",
+          "status": "verified",
+          "expected": {
+            "volume": 0.15091749800887055,
+            "bounds": {
+              "min": [
+                0.40727168448433004,
+                0.8000000119209292,
+                0.1781168818322465
+              ],
+              "max": [
+                1.0836166962119553,
+                1.3300000631809237,
+                1.0432228826049545
+              ]
+            },
+            "relativeTolerance": 0.00001
+          },
+          "actual": {
+            "volume": 0.15091749800887047,
+            "bounds": {
+              "min": [
+                0.40727167122288316,
+                0.8000000119209292,
+                0.17811690152256093
+              ],
+              "max": [
+                1.0836166829505085,
+                1.3300000631809237,
+                1.0432229022952688
+              ]
+            }
+          }
+        }
+      ],
+      "report": {
+        "modeling": true,
+        "passed": false,
+        "status": "unverified",
+        "canCommit": true,
+        "checks": [
+          {
+            "id": "preserved-scope",
+            "label": "Unrelated existing geometry",
+            "met": true,
+            "outcome": "verified",
+            "observed": "2 existing objects outside the requested edit scope are unchanged.",
+            "ids": []
+          },
+          {
+            "id": "check-1",
+            "label": "positions",
+            "met": false,
+            "outcome": "unverified",
+            "observed": "Unverified: Expected measurement could not be derived: Incorrect calculation operand count.",
+            "ids": []
+          },
+          {
+            "id": "check-2",
+            "label": "positions",
+            "met": false,
+            "outcome": "unverified",
+            "observed": "Unverified: Expected measurement could not be derived: Incorrect calculation operand count.",
+            "ids": []
+          },
+          {
+            "id": "check-3",
+            "label": "positions",
+            "met": false,
+            "outcome": "unverified",
+            "observed": "Unverified: Expected measurement could not be derived: Incorrect calculation operand count.",
+            "ids": []
+          },
+          {
+            "id": "check-4",
+            "label": "preserve",
+            "met": true,
+            "outcome": "verified",
+            "observed": "3 original identities retain identity, dimensions, geometry, rotation, y.",
+            "ids": [
+              "display-0",
+              "display-1",
+              "display-2"
+            ]
+          },
+          {
+            "id": "check-5",
+            "label": "count",
+            "met": true,
+            "outcome": "verified",
+            "observed": "count (sum): 0; expected equal 0, tolerance 0. 0 element(s).",
+            "ids": []
+          }
+        ],
+        "qualitativeLimits": []
+      }
+    },
+    {
+      "label": "analysis-only binary normalization / actual correct result",
+      "externalPass": true,
+      "geometry": [
+        {
+          "name": "Protected object reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Protected object reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Protected groups",
+          "status": "verified"
+        },
+        {
+          "name": "Unique selectable editable identities",
+          "status": "verified"
+        },
+        {
+          "name": "Original object roster retained",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties display-0",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties display-1",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties display-2",
+          "status": "verified"
+        },
+        {
+          "name": "Assembly group metadata retained",
+          "status": "verified"
+        },
+        {
+          "name": "Closed occupied solid display-0",
+          "status": "verified",
+          "expected": 0.11693200509852655,
+          "actual": 0.11693203341723593
+        },
+        {
+          "name": "Closed occupied solid display-1",
+          "status": "verified",
+          "expected": 0.11766192232798008,
+          "actual": 0.11766191555141374
+        },
+        {
+          "name": "Closed occupied solid display-2",
+          "status": "verified",
+          "expected": 0.15091749800887047,
+          "actual": 0.15091750095039072
+        },
+        {
+          "name": "Three pieces remain",
+          "status": "verified",
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "Reflected X display-0",
+          "status": "verified",
+          "expected": 0.42197507119477784,
+          "actual": 0.4219751078318901
+        },
+        {
+          "name": "Reflected Z display-0",
+          "status": "verified",
+          "expected": -3.545957396754999,
+          "actual": -3.5459574510717515
+        },
+        {
+          "name": "Base preserved display-0",
+          "status": "verified",
+          "expected": 0.44999998807907143,
+          "actual": 0.44999998807907143
+        },
+        {
+          "name": "Occupied geometry only translated display-0",
+          "status": "verified",
+          "expected": {
+            "volume": 0.11693200509852653,
+            "bounds": {
+              "min": [
+                -0.0405682478958167,
+                0.44999998807907143,
+                -3.8969096333886584
+              ],
+              "max": [
+                0.8845183902853722,
+                0.7599999815225602,
+                -3.19500516012134
+              ]
+            },
+            "relativeTolerance": 0.00001
+          },
+          "actual": {
+            "volume": 0.11693200509852655,
+            "bounds": {
+              "min": [
+                -0.04056821125870441,
+                0.44999998807907143,
+                -3.896909687705411
+              ],
+              "max": [
+                0.8845184269224846,
+                0.7599999815225602,
+                -3.1950052144380923
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reflected X display-1",
+          "status": "verified",
+          "expected": 3.45168721057164,
+          "actual": 3.451687244169363
+        },
+        {
+          "name": "Reflected Z display-1",
+          "status": "verified",
+          "expected": -2.720824576441892,
+          "actual": -2.7208246262525657
+        },
+        {
+          "name": "Base preserved display-1",
+          "status": "verified",
+          "expected": 1.1499999761581412,
+          "actual": 1.1499999761581412
+        },
+        {
+          "name": "Occupied geometry only translated display-1",
+          "status": "verified",
+          "expected": {
+            "volume": 0.11766192232798006,
+            "bounds": {
+              "min": [
+                3.1834903742635867,
+                1.1499999761581412,
+                -2.9234726836306044
+              ],
+              "max": [
+                3.7198840468796925,
+                1.9099999547004698,
+                -2.518176469253179
+              ]
+            },
+            "relativeTolerance": 0.00001
+          },
+          "actual": {
+            "volume": 0.11766192232798008,
+            "bounds": {
+              "min": [
+                3.18349040786131,
+                1.1499999761581412,
+                -2.9234727334412787
+              ],
+              "max": [
+                3.7198840804774163,
+                1.9099999547004698,
+                -2.518176519063853
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reflected X display-2",
+          "status": "verified",
+          "expected": 0.7454441903481426,
+          "actual": 0.7454441770866959
+        },
+        {
+          "name": "Reflected Z display-2",
+          "status": "verified",
+          "expected": 0.6106698822186004,
+          "actual": 0.6106699019089149
+        },
+        {
+          "name": "Base preserved display-2",
+          "status": "verified",
+          "expected": 0.8000000119209292,
+          "actual": 0.8000000119209292
+        },
+        {
+          "name": "Occupied geometry only translated display-2",
+          "status": "verified",
+          "expected": {
+            "volume": 0.15091749800887055,
+            "bounds": {
+              "min": [
+                0.40727168448433004,
+                0.8000000119209292,
+                0.1781168818322465
+              ],
+              "max": [
+                1.0836166962119553,
+                1.3300000631809237,
+                1.0432228826049545
+              ]
+            },
+            "relativeTolerance": 0.00001
+          },
+          "actual": {
+            "volume": 0.15091749800887047,
+            "bounds": {
+              "min": [
+                0.40727167122288316,
+                0.8000000119209292,
+                0.17811690152256093
+              ],
+              "max": [
+                1.0836166829505085,
+                1.3300000631809237,
+                1.0432229022952688
+              ]
+            }
+          }
+        }
+      ],
+      "report": {
+        "modeling": true,
+        "passed": true,
+        "status": "verified",
+        "canCommit": true,
+        "checks": [
+          {
+            "id": "preserved-scope",
+            "label": "Unrelated existing geometry",
+            "met": true,
+            "outcome": "verified",
+            "observed": "2 existing objects outside the requested edit scope are unchanged.",
+            "ids": []
+          },
+          {
+            "id": "check-1",
+            "label": "positions",
+            "met": true,
+            "outcome": "verified",
+            "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.0001 m.",
+            "ids": [
+              "display-0"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "quantity",
+                    "value": 1.1,
+                    "unit": "m",
+                    "source": "request",
+                    "evidence": "X = 1.1 m"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": -0.8,
+                    "unit": "m",
+                    "source": "request",
+                    "evidence": "Z = -0.8 m"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 34,
+                    "unit": "deg",
+                    "source": "request",
+                    "evidence": "34 degrees from +X toward +Z"
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      2,
+                      3
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "cos",
+                    "args": [
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "sin",
+                    "args": [
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-0",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-0",
+                    "metric": "z"
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-0",
+                    "metric": "y"
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      7,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      8,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      5,
+                      10
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      6,
+                      11
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      12
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      14,
+                      13
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      6,
+                      10
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      5,
+                      11
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      1,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      18,
+                      17
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "points",
+                  "x": 15,
+                  "y": 9,
+                  "z": 19
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    1.1
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    -0.8
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "m^0 rad^1",
+                  "values": [
+                    0.5934119456780721
+                  ]
+                },
+                {
+                  "node": 3,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                },
+                {
+                  "node": 7,
+                  "unit": "m",
+                  "values": [
+                    -1.6999999724302715
+                  ]
+                },
+                {
+                  "node": 8,
+                  "unit": "m",
+                  "values": [
+                    -0.40000002091838216
+                  ]
+                },
+                {
+                  "node": 9,
+                  "unit": "m",
+                  "values": [
+                    0.44999998807907143
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": [
+                {
+                  "x": 0.4219750711947775,
+                  "y": 0.44999998807907143,
+                  "z": -3.545957396754998
+                }
+              ]
+            }
+          },
+          {
+            "id": "check-2",
+            "label": "positions",
+            "met": true,
+            "outcome": "verified",
+            "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.0001 m.",
+            "ids": [
+              "display-1"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "quantity",
+                    "value": 1.1,
+                    "unit": "m",
+                    "source": "request",
+                    "evidence": "X = 1.1 m"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": -0.8,
+                    "unit": "m",
+                    "source": "request",
+                    "evidence": "Z = -0.8 m"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 34,
+                    "unit": "deg",
+                    "source": "request",
+                    "evidence": "34 degrees from +X toward +Z"
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      2,
+                      3
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "cos",
+                    "args": [
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "sin",
+                    "args": [
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-1",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-1",
+                    "metric": "z"
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-1",
+                    "metric": "y"
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      7,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      8,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      5,
+                      10
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      6,
+                      11
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      12
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      14,
+                      13
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      6,
+                      10
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      5,
+                      11
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      1,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      18,
+                      17
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "points",
+                  "x": 15,
+                  "y": 9,
+                  "z": 19
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    1.1
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    -0.8
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "m^0 rad^1",
+                  "values": [
+                    0.5934119456780721
+                  ]
+                },
+                {
+                  "node": 3,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                },
+                {
+                  "node": 7,
+                  "unit": "m",
+                  "values": [
+                    0.2
+                  ]
+                },
+                {
+                  "node": 8,
+                  "unit": "m",
+                  "values": [
+                    2.099999963763688
+                  ]
+                },
+                {
+                  "node": 9,
+                  "unit": "m",
+                  "values": [
+                    1.1499999761581412
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": [
+                {
+                  "x": 3.451687210571639,
+                  "y": 1.1499999761581412,
+                  "z": -2.720824576441892
+                }
+              ]
+            }
+          },
+          {
+            "id": "check-3",
+            "label": "positions",
+            "met": true,
+            "outcome": "verified",
+            "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.0001 m.",
+            "ids": [
+              "display-2"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "quantity",
+                    "value": 1.1,
+                    "unit": "m",
+                    "source": "request",
+                    "evidence": "X = 1.1 m"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": -0.8,
+                    "unit": "m",
+                    "source": "request",
+                    "evidence": "Z = -0.8 m"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 34,
+                    "unit": "deg",
+                    "source": "request",
+                    "evidence": "34 degrees from +X toward +Z"
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      2,
+                      3
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "cos",
+                    "args": [
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "sin",
+                    "args": [
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-2",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-2",
+                    "metric": "z"
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-2",
+                    "metric": "y"
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      7,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      8,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      5,
+                      10
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      6,
+                      11
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      12
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      14,
+                      13
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      6,
+                      10
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      5,
+                      11
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      1,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      18,
+                      17
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "points",
+                  "x": 15,
+                  "y": 9,
+                  "z": 19
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    1.1
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    -0.8
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "m^0 rad^1",
+                  "values": [
+                    0.5934119456780721
+                  ]
+                },
+                {
+                  "node": 3,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                },
+                {
+                  "node": 7,
+                  "unit": "m",
+                  "values": [
+                    2.2751313948872154
+                  ]
+                },
+                {
+                  "node": 8,
+                  "unit": "m",
+                  "values": [
+                    -1.657184661264393
+                  ]
+                },
+                {
+                  "node": 9,
+                  "unit": "m",
+                  "values": [
+                    0.8000000119209292
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": [
+                {
+                  "x": 0.7454441903481427,
+                  "y": 0.8000000119209292,
+                  "z": 0.6106698822186005
+                }
+              ]
+            }
+          },
+          {
+            "id": "check-4",
+            "label": "preserve",
+            "met": true,
+            "outcome": "verified",
+            "observed": "3 original identities retain identity, dimensions, geometry, rotation, y.",
+            "ids": [
+              "display-0",
+              "display-1",
+              "display-2"
+            ]
+          },
+          {
+            "id": "check-5",
+            "label": "count",
+            "met": true,
+            "outcome": "verified",
+            "observed": "count (sum): 0; expected equal 0, tolerance 0. 0 element(s).",
+            "ids": []
+          }
+        ],
+        "qualitativeLimits": []
+      }
+    },
+    {
+      "label": "analysis-only binary normalization / deliberately displaced result",
+      "externalPass": false,
+      "geometry": [
+        {
+          "name": "Protected object reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Protected object reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Protected groups",
+          "status": "verified"
+        },
+        {
+          "name": "Unique selectable editable identities",
+          "status": "verified"
+        },
+        {
+          "name": "Original object roster retained",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties display-0",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties display-1",
+          "status": "verified"
+        },
+        {
+          "name": "Retain properties display-2",
+          "status": "verified"
+        },
+        {
+          "name": "Assembly group metadata retained",
+          "status": "verified"
+        },
+        {
+          "name": "Closed occupied solid display-0",
+          "status": "verified",
+          "expected": 0.11693200509852655,
+          "actual": 0.11693203341723593
+        },
+        {
+          "name": "Closed occupied solid display-1",
+          "status": "verified",
+          "expected": 0.11766192232798009,
+          "actual": 0.11766190559630614
+        },
+        {
+          "name": "Closed occupied solid display-2",
+          "status": "verified",
+          "expected": 0.15091749800887047,
+          "actual": 0.15091750095039072
+        },
+        {
+          "name": "Three pieces remain",
+          "status": "verified",
+          "expected": 3,
+          "actual": 3
+        },
+        {
+          "name": "Reflected X display-0",
+          "status": "verified",
+          "expected": 0.42197507119477784,
+          "actual": 0.4219751078318901
+        },
+        {
+          "name": "Reflected Z display-0",
+          "status": "verified",
+          "expected": -3.545957396754999,
+          "actual": -3.5459574510717515
+        },
+        {
+          "name": "Base preserved display-0",
+          "status": "verified",
+          "expected": 0.44999998807907143,
+          "actual": 0.44999998807907143
+        },
+        {
+          "name": "Occupied geometry only translated display-0",
+          "status": "verified",
+          "expected": {
+            "volume": 0.11693200509852653,
+            "bounds": {
+              "min": [
+                -0.0405682478958167,
+                0.44999998807907143,
+                -3.8969096333886584
+              ],
+              "max": [
+                0.8845183902853722,
+                0.7599999815225602,
+                -3.19500516012134
+              ]
+            },
+            "relativeTolerance": 0.00001
+          },
+          "actual": {
+            "volume": 0.11693200509852655,
+            "bounds": {
+              "min": [
+                -0.04056821125870441,
+                0.44999998807907143,
+                -3.896909687705411
+              ],
+              "max": [
+                0.8845184269224846,
+                0.7599999815225602,
+                -3.1950052144380923
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reflected X display-1",
+          "status": "incorrect",
+          "expected": 3.45168721057164,
+          "actual": 3.491687244169363
+        },
+        {
+          "name": "Reflected Z display-1",
+          "status": "verified",
+          "expected": -2.720824576441892,
+          "actual": -2.7208246262525657
+        },
+        {
+          "name": "Base preserved display-1",
+          "status": "verified",
+          "expected": 1.1499999761581412,
+          "actual": 1.1499999761581412
+        },
+        {
+          "name": "Occupied geometry only translated display-1",
+          "status": "incorrect",
+          "expected": {
+            "volume": 0.11766192232798006,
+            "bounds": {
+              "min": [
+                3.1834903742635867,
+                1.1499999761581412,
+                -2.9234726836306044
+              ],
+              "max": [
+                3.7198840468796925,
+                1.9099999547004698,
+                -2.518176469253179
+              ]
+            },
+            "relativeTolerance": 0.00001
+          },
+          "actual": {
+            "volume": 0.11766192232798009,
+            "bounds": {
+              "min": [
+                3.22349040786131,
+                1.1499999761581412,
+                -2.9234727334412787
+              ],
+              "max": [
+                3.7598840804774163,
+                1.9099999547004698,
+                -2.518176519063853
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reflected X display-2",
+          "status": "verified",
+          "expected": 0.7454441903481426,
+          "actual": 0.7454441770866959
+        },
+        {
+          "name": "Reflected Z display-2",
+          "status": "verified",
+          "expected": 0.6106698822186004,
+          "actual": 0.6106699019089149
+        },
+        {
+          "name": "Base preserved display-2",
+          "status": "verified",
+          "expected": 0.8000000119209292,
+          "actual": 0.8000000119209292
+        },
+        {
+          "name": "Occupied geometry only translated display-2",
+          "status": "verified",
+          "expected": {
+            "volume": 0.15091749800887055,
+            "bounds": {
+              "min": [
+                0.40727168448433004,
+                0.8000000119209292,
+                0.1781168818322465
+              ],
+              "max": [
+                1.0836166962119553,
+                1.3300000631809237,
+                1.0432228826049545
+              ]
+            },
+            "relativeTolerance": 0.00001
+          },
+          "actual": {
+            "volume": 0.15091749800887047,
+            "bounds": {
+              "min": [
+                0.40727167122288316,
+                0.8000000119209292,
+                0.17811690152256093
+              ],
+              "max": [
+                1.0836166829505085,
+                1.3300000631809237,
+                1.0432229022952688
+              ]
+            }
+          }
+        }
+      ],
+      "report": {
+        "modeling": true,
+        "passed": false,
+        "status": "incorrect",
+        "canCommit": false,
+        "checks": [
+          {
+            "id": "preserved-scope",
+            "label": "Unrelated existing geometry",
+            "met": true,
+            "outcome": "verified",
+            "observed": "2 existing objects outside the requested edit scope are unchanged.",
+            "ids": []
+          },
+          {
+            "id": "check-1",
+            "label": "positions",
+            "met": true,
+            "outcome": "verified",
+            "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.0001 m.",
+            "ids": [
+              "display-0"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "quantity",
+                    "value": 1.1,
+                    "unit": "m",
+                    "source": "request",
+                    "evidence": "X = 1.1 m"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": -0.8,
+                    "unit": "m",
+                    "source": "request",
+                    "evidence": "Z = -0.8 m"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 34,
+                    "unit": "deg",
+                    "source": "request",
+                    "evidence": "34 degrees from +X toward +Z"
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      2,
+                      3
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "cos",
+                    "args": [
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "sin",
+                    "args": [
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-0",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-0",
+                    "metric": "z"
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-0",
+                    "metric": "y"
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      7,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      8,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      5,
+                      10
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      6,
+                      11
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      12
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      14,
+                      13
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      6,
+                      10
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      5,
+                      11
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      1,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      18,
+                      17
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "points",
+                  "x": 15,
+                  "y": 9,
+                  "z": 19
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    1.1
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    -0.8
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "m^0 rad^1",
+                  "values": [
+                    0.5934119456780721
+                  ]
+                },
+                {
+                  "node": 3,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                },
+                {
+                  "node": 7,
+                  "unit": "m",
+                  "values": [
+                    -1.6999999724302715
+                  ]
+                },
+                {
+                  "node": 8,
+                  "unit": "m",
+                  "values": [
+                    -0.40000002091838216
+                  ]
+                },
+                {
+                  "node": 9,
+                  "unit": "m",
+                  "values": [
+                    0.44999998807907143
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": [
+                {
+                  "x": 0.4219750711947775,
+                  "y": 0.44999998807907143,
+                  "z": -3.545957396754998
+                }
+              ]
+            }
+          },
+          {
+            "id": "check-2",
+            "label": "positions",
+            "met": false,
+            "outcome": "incorrect",
+            "observed": "0/1 required world base-center positions occupied; 1 objects, tolerance 0.0001 m.",
+            "ids": [
+              "display-1"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "quantity",
+                    "value": 1.1,
+                    "unit": "m",
+                    "source": "request",
+                    "evidence": "X = 1.1 m"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": -0.8,
+                    "unit": "m",
+                    "source": "request",
+                    "evidence": "Z = -0.8 m"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 34,
+                    "unit": "deg",
+                    "source": "request",
+                    "evidence": "34 degrees from +X toward +Z"
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      2,
+                      3
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "cos",
+                    "args": [
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "sin",
+                    "args": [
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-1",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-1",
+                    "metric": "z"
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-1",
+                    "metric": "y"
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      7,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      8,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      5,
+                      10
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      6,
+                      11
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      12
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      14,
+                      13
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      6,
+                      10
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      5,
+                      11
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      1,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      18,
+                      17
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "points",
+                  "x": 15,
+                  "y": 9,
+                  "z": 19
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    1.1
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    -0.8
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "m^0 rad^1",
+                  "values": [
+                    0.5934119456780721
+                  ]
+                },
+                {
+                  "node": 3,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                },
+                {
+                  "node": 7,
+                  "unit": "m",
+                  "values": [
+                    0.2
+                  ]
+                },
+                {
+                  "node": 8,
+                  "unit": "m",
+                  "values": [
+                    2.099999963763688
+                  ]
+                },
+                {
+                  "node": 9,
+                  "unit": "m",
+                  "values": [
+                    1.1499999761581412
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": [
+                {
+                  "x": 3.451687210571639,
+                  "y": 1.1499999761581412,
+                  "z": -2.720824576441892
+                }
+              ]
+            }
+          },
+          {
+            "id": "check-3",
+            "label": "positions",
+            "met": true,
+            "outcome": "verified",
+            "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.0001 m.",
+            "ids": [
+              "display-2"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "quantity",
+                    "value": 1.1,
+                    "unit": "m",
+                    "source": "request",
+                    "evidence": "X = 1.1 m"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": -0.8,
+                    "unit": "m",
+                    "source": "request",
+                    "evidence": "Z = -0.8 m"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 34,
+                    "unit": "deg",
+                    "source": "request",
+                    "evidence": "34 degrees from +X toward +Z"
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      2,
+                      3
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "cos",
+                    "args": [
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "sin",
+                    "args": [
+                      4
+                    ]
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-2",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-2",
+                    "metric": "z"
+                  },
+                  {
+                    "kind": "original",
+                    "objectId": "display-2",
+                    "metric": "y"
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      7,
+                      0
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      8,
+                      1
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      5,
+                      10
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      6,
+                      11
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      12
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      14,
+                      13
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      6,
+                      10
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "multiply",
+                    "args": [
+                      5,
+                      11
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      1,
+                      16
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      18,
+                      17
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "points",
+                  "x": 15,
+                  "y": 9,
+                  "z": 19
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    1.1
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    -0.8
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "m^0 rad^1",
+                  "values": [
+                    0.5934119456780721
+                  ]
+                },
+                {
+                  "node": 3,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                },
+                {
+                  "node": 7,
+                  "unit": "m",
+                  "values": [
+                    2.2751313948872154
+                  ]
+                },
+                {
+                  "node": 8,
+                  "unit": "m",
+                  "values": [
+                    -1.657184661264393
+                  ]
+                },
+                {
+                  "node": 9,
+                  "unit": "m",
+                  "values": [
+                    0.8000000119209292
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": [
+                {
+                  "x": 0.7454441903481427,
+                  "y": 0.8000000119209292,
+                  "z": 0.6106698822186005
+                }
+              ]
+            }
+          },
+          {
+            "id": "check-4",
+            "label": "preserve",
+            "met": true,
+            "outcome": "verified",
+            "observed": "3 original identities retain identity, dimensions, geometry, rotation, y.",
+            "ids": [
+              "display-0",
+              "display-1",
+              "display-2"
+            ]
+          },
+          {
+            "id": "check-5",
+            "label": "count",
+            "met": true,
+            "outcome": "verified",
+            "observed": "count (sum): 0; expected equal 0, tolerance 0. 0 element(s).",
+            "ids": []
+          }
+        ],
+        "qualitativeLimits": []
+      }
+    }
+  ]
+}

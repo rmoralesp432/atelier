@@ -1,0 +1,30 @@
+[
+  {
+    "id": "transfer-repeat-baseline-W5-create",
+    "version": "baseline",
+    "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+    "task": "W5",
+    "prompt": "Make a small workbench as five separately editable parts: a rectangular top and four round legs that taper from 10 cm diameter at the floor to 6 cm under the top. The top is 1.45 by 0.72 m, 6 cm thick, with its working surface 88 cm above ground. Center the bench at the origin and orient its long direction 31 degrees from +X toward +Z. The leg centers form a centered 1.10 by 0.48 m rectangle aligned with the top. Group the bench and leave the existing samples alone.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "RUNNING",
+    "started": "2026-11-23T20:30:35.065Z",
+    "requestCount": 5,
+    "eventCount": 5
+  },
+  {
+    "id": "transfer-repeat-workshop-W5-create",
+    "version": "workshop",
+    "commit": "f5ba62621db0d9c0a02f90be5b0143c7e21b53f7",
+    "task": "W5",
+    "prompt": "Make a small workbench as five separately editable parts: a rectangular top and four round legs that taper from 10 cm diameter at the floor to 6 cm under the top. The top is 1.45 by 0.72 m, 6 cm thick, with its working surface 88 cm above ground. Center the bench at the origin and orient its long direction 31 degrees from +X toward +Z. The leg centers form a centered 1.10 by 0.48 m rectangle aligned with the top. Group the bench and leave the existing samples alone.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "RUNNING",
+    "started": "2026-11-23T20:30:35.766Z",
+    "requestCount": 7,
+    "eventCount": 5
+  }
+]

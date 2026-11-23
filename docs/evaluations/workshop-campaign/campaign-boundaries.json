@@ -3600,6 +3600,96 @@
     }
   },
   {
+    "id": "transfer-repeat-baseline-W5-create",
+    "version": "baseline",
+    "task": "W5",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "RUNNING",
+    "committed": null,
+    "componentCount": null,
+    "changedIds": null,
+    "preservedIds": null,
+    "transaction": null,
+    "elapsedMs": null,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step",
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": null,
+    "hostCanCommit": null,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 0,
+    "calls": 3,
+    "estimatedUSD": 0.076844,
+    "reviewerMs": 0,
+    "executorMs": 31185,
+    "usage": {
+      "input": 29342,
+      "output": 1816
+    }
+  },
+  {
+    "id": "transfer-repeat-workshop-W5-create",
+    "version": "workshop",
+    "task": "W5",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "RUNNING",
+    "committed": null,
+    "componentCount": null,
+    "changedIds": null,
+    "preservedIds": null,
+    "transaction": null,
+    "elapsedMs": null,
+    "error": null,
+    "explicitSceneInspections": [
+      {
+        "call": "942f08ba-6911-4a21-87dd-a98904a7d7a4",
+        "arguments": {
+          "ids": [],
+          "role": null,
+          "snapshot": "current",
+          "relativeTo": null
+        },
+        "resultRecorded": true,
+        "available": true,
+        "matched": 2,
+        "missingIds": [],
+        "source": "current_transaction",
+        "returnedObjectIds": [
+          "reference-block",
+          "reference-round"
+        ]
+      }
+    ],
+    "toolNames": [
+      "execute_step",
+      "inspect_scene",
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": null,
+    "hostCanCommit": null,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 0,
+    "calls": 4,
+    "estimatedUSD": 0.11384,
+    "reviewerMs": 0,
+    "executorMs": 40211,
+    "usage": {
+      "input": 45830,
+      "output": 2218
+    }
+  },
+  {
     "id": "verifier-1-baseline-D-H1-create",
     "version": "baseline",
     "task": "D-H1",
@@ -4858,6 +4948,1394 @@
     "usage": {
       "input": 4612,
       "output": 1053
+    }
+  },
+  {
+    "id": "verifier-repeat-verifier-D-H1-create",
+    "version": "verifier",
+    "task": "D-H1",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 8,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 56560,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [
+      {
+        "requirement": {
+          "id": "check-6",
+          "label": "positions",
+          "kind": "positions",
+          "selector": {
+            "refs": [
+              "$new"
+            ],
+            "role": null,
+            "level": null,
+            "nameContains": null
+          },
+          "points": [
+            {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          ],
+          "tolerance": 0.001
+        },
+        "calculation": {
+          "frame": "world_xyz_y_up",
+          "nodes": [
+            {
+              "kind": "quantity",
+              "value": 120,
+              "unit": "deg",
+              "source": "request",
+              "evidence": "120-degree"
+            },
+            {
+              "kind": "quantity",
+              "value": 37,
+              "unit": "deg",
+              "source": "request",
+              "evidence": "37 degrees"
+            },
+            {
+              "kind": "quantity",
+              "value": 6,
+              "unit": "scalar",
+              "source": "request",
+              "evidence": "six"
+            },
+            {
+              "kind": "constant",
+              "value": 1
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                2,
+                3
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "divide",
+              "args": [
+                0,
+                4
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "negate",
+              "args": [
+                5
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "range",
+              "args": [
+                1,
+                6,
+                2
+              ]
+            },
+            {
+              "kind": "quantity",
+              "value": 1.7,
+              "unit": "m",
+              "source": "request",
+              "evidence": "radius 1.7 m"
+            },
+            {
+              "kind": "quantity",
+              "value": -0.9,
+              "unit": "m",
+              "source": "request",
+              "evidence": "X = -0.9 m"
+            },
+            {
+              "kind": "quantity",
+              "value": 1.3,
+              "unit": "m",
+              "source": "request",
+              "evidence": "Z = 1.3 m"
+            },
+            {
+              "kind": "operation",
+              "op": "cos",
+              "args": [
+                7
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                8,
+                11
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                9,
+                12
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "sin",
+              "args": [
+                7
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                8,
+                14
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                10,
+                15
+              ]
+            },
+            {
+              "kind": "quantity",
+              "value": 0.6,
+              "unit": "m",
+              "source": "request",
+              "evidence": "The first base is at 0.6 m"
+            },
+            {
+              "kind": "quantity",
+              "value": 11,
+              "unit": "cm",
+              "source": "request",
+              "evidence": "each successive base is 11 cm higher."
+            },
+            {
+              "kind": "operation",
+              "op": "range",
+              "args": [
+                17,
+                18,
+                2
+              ]
+            }
+          ],
+          "output": {
+            "kind": "points",
+            "x": 13,
+            "y": 19,
+            "z": 16
+          }
+        }
+      }
+    ],
+    "hostStatus": "verified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 35,
+    "calls": 2,
+    "estimatedUSD": 0.060242000000000004,
+    "reviewerMs": 16468,
+    "executorMs": 20422,
+    "usage": {
+      "input": 19206,
+      "output": 2183
+    }
+  },
+  {
+    "id": "verifier-repeat-baseline-D-H1-create",
+    "version": "baseline",
+    "task": "D-H1",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 8,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 54726,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "verified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 35,
+    "calls": 2,
+    "estimatedUSD": 0.058482,
+    "reviewerMs": 14983,
+    "executorMs": 20699,
+    "usage": {
+      "input": 18546,
+      "output": 2139
+    }
+  },
+  {
+    "id": "verifier-repeat-baseline-D-H2-create",
+    "version": "baseline",
+    "task": "D-H2",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 5,
+    "changedIds": [
+      "display-0",
+      "display-1",
+      "display-2"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 57421,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "verified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 27,
+    "calls": 2,
+    "estimatedUSD": 0.060476,
+    "reviewerMs": 13811,
+    "executorMs": 23048,
+    "usage": {
+      "input": 20078,
+      "output": 2032
+    }
+  },
+  {
+    "id": "verifier-repeat-verifier-D-H2-create",
+    "version": "verifier",
+    "task": "D-H2",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 5,
+    "changedIds": [
+      "display-0",
+      "display-1",
+      "display-2"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 67154,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [
+      {
+        "requirement": {
+          "id": "check-1",
+          "label": "positions",
+          "kind": "positions",
+          "selector": {
+            "refs": [
+              "display-0"
+            ],
+            "role": null,
+            "level": null,
+            "nameContains": null
+          },
+          "points": [
+            {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          ],
+          "tolerance": 0.0001
+        },
+        "calculation": {
+          "frame": "world_xyz_y_up",
+          "nodes": [
+            {
+              "kind": "quantity",
+              "value": 1.1,
+              "unit": "m",
+              "source": "request",
+              "evidence": "X = 1.1 m"
+            },
+            {
+              "kind": "quantity",
+              "value": -0.8,
+              "unit": "m",
+              "source": "request",
+              "evidence": "Z = -0.8 m"
+            },
+            {
+              "kind": "quantity",
+              "value": 34,
+              "unit": "deg",
+              "source": "request",
+              "evidence": "34 degrees from +X toward +Z"
+            },
+            {
+              "kind": "constant",
+              "value": 2
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                2,
+                3
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "cos",
+              "args": [
+                4
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "sin",
+              "args": [
+                4
+              ]
+            },
+            {
+              "kind": "original",
+              "objectId": "display-0",
+              "metric": "x"
+            },
+            {
+              "kind": "original",
+              "objectId": "display-0",
+              "metric": "z"
+            },
+            {
+              "kind": "original",
+              "objectId": "display-0",
+              "metric": "y"
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                7,
+                0
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                8,
+                1
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                5,
+                10
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                6,
+                11
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                0,
+                12,
+                13
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                6,
+                10
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                5,
+                11
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                1,
+                15
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                17,
+                16
+              ]
+            }
+          ],
+          "output": {
+            "kind": "points",
+            "x": 14,
+            "y": 9,
+            "z": 18
+          }
+        }
+      },
+      {
+        "requirement": {
+          "id": "check-2",
+          "label": "positions",
+          "kind": "positions",
+          "selector": {
+            "refs": [
+              "display-1"
+            ],
+            "role": null,
+            "level": null,
+            "nameContains": null
+          },
+          "points": [
+            {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          ],
+          "tolerance": 0.0001
+        },
+        "calculation": {
+          "frame": "world_xyz_y_up",
+          "nodes": [
+            {
+              "kind": "quantity",
+              "value": 1.1,
+              "unit": "m",
+              "source": "request",
+              "evidence": "X = 1.1 m"
+            },
+            {
+              "kind": "quantity",
+              "value": -0.8,
+              "unit": "m",
+              "source": "request",
+              "evidence": "Z = -0.8 m"
+            },
+            {
+              "kind": "quantity",
+              "value": 34,
+              "unit": "deg",
+              "source": "request",
+              "evidence": "34 degrees from +X toward +Z"
+            },
+            {
+              "kind": "constant",
+              "value": 2
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                2,
+                3
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "cos",
+              "args": [
+                4
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "sin",
+              "args": [
+                4
+              ]
+            },
+            {
+              "kind": "original",
+              "objectId": "display-1",
+              "metric": "x"
+            },
+            {
+              "kind": "original",
+              "objectId": "display-1",
+              "metric": "z"
+            },
+            {
+              "kind": "original",
+              "objectId": "display-1",
+              "metric": "y"
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                7,
+                0
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                8,
+                1
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                5,
+                10
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                6,
+                11
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                0,
+                12,
+                13
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                6,
+                10
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                5,
+                11
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                1,
+                15
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                17,
+                16
+              ]
+            }
+          ],
+          "output": {
+            "kind": "points",
+            "x": 14,
+            "y": 9,
+            "z": 18
+          }
+        }
+      },
+      {
+        "requirement": {
+          "id": "check-3",
+          "label": "positions",
+          "kind": "positions",
+          "selector": {
+            "refs": [
+              "display-2"
+            ],
+            "role": null,
+            "level": null,
+            "nameContains": null
+          },
+          "points": [
+            {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          ],
+          "tolerance": 0.0001
+        },
+        "calculation": {
+          "frame": "world_xyz_y_up",
+          "nodes": [
+            {
+              "kind": "quantity",
+              "value": 1.1,
+              "unit": "m",
+              "source": "request",
+              "evidence": "X = 1.1 m"
+            },
+            {
+              "kind": "quantity",
+              "value": -0.8,
+              "unit": "m",
+              "source": "request",
+              "evidence": "Z = -0.8 m"
+            },
+            {
+              "kind": "quantity",
+              "value": 34,
+              "unit": "deg",
+              "source": "request",
+              "evidence": "34 degrees from +X toward +Z"
+            },
+            {
+              "kind": "constant",
+              "value": 2
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                2,
+                3
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "cos",
+              "args": [
+                4
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "sin",
+              "args": [
+                4
+              ]
+            },
+            {
+              "kind": "original",
+              "objectId": "display-2",
+              "metric": "x"
+            },
+            {
+              "kind": "original",
+              "objectId": "display-2",
+              "metric": "z"
+            },
+            {
+              "kind": "original",
+              "objectId": "display-2",
+              "metric": "y"
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                7,
+                0
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                8,
+                1
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                5,
+                10
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                6,
+                11
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                0,
+                12,
+                13
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                6,
+                10
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                5,
+                11
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                1,
+                15
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                17,
+                16
+              ]
+            }
+          ],
+          "output": {
+            "kind": "points",
+            "x": 14,
+            "y": 9,
+            "z": 18
+          }
+        }
+      }
+    ],
+    "hostStatus": "unverified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 27,
+    "calls": 2,
+    "estimatedUSD": 0.06997400000000001,
+    "reviewerMs": 25099,
+    "executorMs": 21148,
+    "usage": {
+      "input": 20712,
+      "output": 2855
+    }
+  },
+  {
+    "id": "verifier-repeat-baseline-D-N1-create",
+    "version": "baseline",
+    "task": "D-N1",
+    "edit": false,
+    "diagnostic": false,
+    "negative": true,
+    "status": "NEGATIVE_BLOCKED",
+    "committed": false,
+    "componentCount": 2,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": null,
+    "elapsedMs": 22878,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": null,
+    "hostCanCommit": null,
+    "externalFailedChecks": [
+      {
+        "name": "Unique selectable editable identities",
+        "status": "incorrect"
+      },
+      {
+        "name": "Six sample objects",
+        "status": "incorrect",
+        "expected": 6,
+        "actual": 0
+      },
+      {
+        "name": "Sample 0 exists",
+        "status": "incorrect"
+      },
+      {
+        "name": "Sample 1 exists",
+        "status": "incorrect"
+      },
+      {
+        "name": "Sample 2 exists",
+        "status": "incorrect"
+      },
+      {
+        "name": "Sample 3 exists",
+        "status": "incorrect"
+      },
+      {
+        "name": "Sample 4 exists",
+        "status": "incorrect"
+      },
+      {
+        "name": "Sample 5 exists",
+        "status": "incorrect"
+      }
+    ],
+    "externalVerifiedCheckCount": 3,
+    "calls": 1,
+    "estimatedUSD": 0.016676,
+    "reviewerMs": 14839,
+    "executorMs": 0,
+    "usage": {
+      "input": 3978,
+      "output": 872
+    }
+  },
+  {
+    "id": "verifier-repeat-verifier-D-N1-create",
+    "version": "verifier",
+    "task": "D-N1",
+    "edit": false,
+    "diagnostic": false,
+    "negative": true,
+    "status": "NEGATIVE_BLOCKED",
+    "committed": false,
+    "componentCount": 2,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": null,
+    "elapsedMs": 26370,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [],
+    "repairFeedback": [],
+    "independentCalculations": [
+      {
+        "requirement": {
+          "id": "check-4",
+          "label": "positions",
+          "kind": "positions",
+          "selector": {
+            "refs": [
+              "$new"
+            ],
+            "role": null,
+            "level": null,
+            "nameContains": null
+          },
+          "points": [
+            {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
+          ],
+          "tolerance": 0.001
+        },
+        "calculation": {
+          "frame": "world_xyz_y_up",
+          "nodes": [
+            {
+              "kind": "quantity",
+              "value": 6,
+              "unit": "scalar",
+              "source": "request",
+              "evidence": "Create six separate upright cylindrical samples, each 14 cm in diameter and 48 cm tall."
+            },
+            {
+              "kind": "constant",
+              "value": 1
+            },
+            {
+              "kind": "constant",
+              "value": 0
+            },
+            {
+              "kind": "operation",
+              "op": "subtract",
+              "args": [
+                0,
+                1
+              ]
+            },
+            {
+              "kind": "quantity",
+              "value": 120,
+              "unit": "deg",
+              "source": "request",
+              "evidence": "In plan, their centers follow a 120-degree circular arc of radius 1.7 m around X = -0.9 m, Z = 1.3 m."
+            },
+            {
+              "kind": "operation",
+              "op": "divide",
+              "args": [
+                4,
+                3
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "negate",
+              "args": [
+                5
+              ]
+            },
+            {
+              "kind": "quantity",
+              "value": 37,
+              "unit": "deg",
+              "source": "request",
+              "evidence": "The first center is at 37 degrees from +X toward +Z; proceed toward decreasing angles, including both ends of the arc, with equal angular spacing."
+            },
+            {
+              "kind": "operation",
+              "op": "range",
+              "args": [
+                7,
+                6,
+                0
+              ]
+            },
+            {
+              "kind": "quantity",
+              "value": 1.7,
+              "unit": "m",
+              "source": "request",
+              "evidence": "In plan, their centers follow a 120-degree circular arc of radius 1.7 m around X = -0.9 m, Z = 1.3 m."
+            },
+            {
+              "kind": "quantity",
+              "value": -0.9,
+              "unit": "m",
+              "source": "request",
+              "evidence": "In plan, their centers follow a 120-degree circular arc of radius 1.7 m around X = -0.9 m, Z = 1.3 m."
+            },
+            {
+              "kind": "quantity",
+              "value": 1.3,
+              "unit": "m",
+              "source": "request",
+              "evidence": "In plan, their centers follow a 120-degree circular arc of radius 1.7 m around X = -0.9 m, Z = 1.3 m."
+            },
+            {
+              "kind": "operation",
+              "op": "cos",
+              "args": [
+                8
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "sin",
+              "args": [
+                8
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                9,
+                12
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "multiply",
+              "args": [
+                9,
+                13
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                10,
+                14
+              ]
+            },
+            {
+              "kind": "operation",
+              "op": "add",
+              "args": [
+                11,
+                15
+              ]
+            },
+            {
+              "kind": "quantity",
+              "value": 0.6,
+              "unit": "m",
+              "source": "request",
+              "evidence": "The first base is at 0.6 m and each successive base is 11 cm higher."
+            },
+            {
+              "kind": "quantity",
+              "value": 11,
+              "unit": "cm",
+              "source": "request",
+              "evidence": "The first base is at 0.6 m and each successive base is 11 cm higher."
+            },
+            {
+              "kind": "operation",
+              "op": "range",
+              "args": [
+                18,
+                19,
+                0
+              ]
+            }
+          ],
+          "output": {
+            "kind": "points",
+            "x": 16,
+            "y": 20,
+            "z": 17
+          }
+        }
+      }
+    ],
+    "hostStatus": null,
+    "hostCanCommit": null,
+    "externalFailedChecks": [
+      {
+        "name": "Unique selectable editable identities",
+        "status": "incorrect"
+      },
+      {
+        "name": "Six sample objects",
+        "status": "incorrect",
+        "expected": 6,
+        "actual": 0
+      },
+      {
+        "name": "Sample 0 exists",
+        "status": "incorrect"
+      },
+      {
+        "name": "Sample 1 exists",
+        "status": "incorrect"
+      },
+      {
+        "name": "Sample 2 exists",
+        "status": "incorrect"
+      },
+      {
+        "name": "Sample 3 exists",
+        "status": "incorrect"
+      },
+      {
+        "name": "Sample 4 exists",
+        "status": "incorrect"
+      },
+      {
+        "name": "Sample 5 exists",
+        "status": "incorrect"
+      }
+    ],
+    "externalVerifiedCheckCount": 3,
+    "calls": 1,
+    "estimatedUSD": 0.019438,
+    "reviewerMs": 16862,
+    "executorMs": 0,
+    "usage": {
+      "input": 4624,
+      "output": 1019
+    }
+  },
+  {
+    "id": "verifier-repeat-baseline-D-R1-create",
+    "version": "baseline",
+    "task": "D-R1",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 3,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 30265,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "verified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 7,
+    "calls": 2,
+    "estimatedUSD": 0.041914,
+    "reviewerMs": 5303,
+    "executorMs": 5756,
+    "usage": {
+      "input": 18387,
+      "output": 514
+    }
+  },
+  {
+    "id": "verifier-repeat-verifier-D-R1-create",
+    "version": "verifier",
+    "task": "D-R1",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 3,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 29267,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "verified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 7,
+    "calls": 2,
+    "estimatedUSD": 0.043512,
+    "reviewerMs": 5528,
+    "executorMs": 5549,
+    "usage": {
+      "input": 19021,
+      "output": 547
+    }
+  },
+  {
+    "id": "verifier-repeat-baseline-D-R1-edit",
+    "version": "baseline",
+    "task": "D-R1",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 3,
+    "changedIds": [
+      "43761de4-e6f1-4299-8d36-295749fe55d5"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 30892,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "verified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 8,
+    "calls": 2,
+    "estimatedUSD": 0.045436000000000004,
+    "reviewerMs": 5551,
+    "executorMs": 6575,
+    "usage": {
+      "input": 19818,
+      "output": 580
+    }
+  },
+  {
+    "id": "verifier-repeat-verifier-D-R1-edit",
+    "version": "verifier",
+    "task": "D-R1",
+    "edit": true,
+    "diagnostic": false,
+    "negative": false,
+    "status": "PASS",
+    "committed": true,
+    "componentCount": 3,
+    "changedIds": [
+      "3615d013-2630-4f4c-b253-0c07955c67ae"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 27633,
+    "error": null,
+    "explicitSceneInspections": [],
+    "toolNames": [
+      "execute_step"
+    ],
+    "repairFeedback": [],
+    "independentCalculations": [],
+    "hostStatus": "verified",
+    "hostCanCommit": true,
+    "externalFailedChecks": [],
+    "externalVerifiedCheckCount": 8,
+    "calls": 2,
+    "estimatedUSD": 0.047114,
+    "reviewerMs": 6201,
+    "executorMs": 6330,
+    "usage": {
+      "input": 20452,
+      "output": 621
     }
   },
   {
