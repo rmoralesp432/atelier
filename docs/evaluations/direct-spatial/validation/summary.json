@@ -1,0 +1,130 @@
+{
+  "baseline": "05277619f6fa337cdb1bfb0825654cbe5259ed2d",
+  "paidCalls": 0,
+  "unit": {
+    "files": 85,
+    "passed": 465,
+    "failed": 0
+  },
+  "productionBuild": "passed",
+  "normalBrowserReplays": [
+    {
+      "case": "conveyor",
+      "passed": true,
+      "turns": [
+        {
+          "committed": true,
+          "externalChecks": 110,
+          "changed": 34,
+          "preserved": 2,
+          "reload": true,
+          "undoRedo": true
+        }
+      ],
+      "sha256": "5639d0ffb9f0d0da8dba86d444bdf03e87ec60cc735d5bc7142ac6522cb73289"
+    },
+    {
+      "case": "conveyor-displaced",
+      "passed": true,
+      "turns": [
+        {
+          "committed": false,
+          "externalChecks": 0,
+          "changed": 0,
+          "preserved": 0,
+          "reload": true,
+          "undoRedo": false
+        }
+      ],
+      "sha256": "e77616ec17d5129b43502234bc21b3e580e08f6ccecf633ad1a3010e520b1e5a"
+    },
+    {
+      "case": "conveyor-original-criteria",
+      "passed": true,
+      "turns": [
+        {
+          "committed": false,
+          "externalChecks": 0,
+          "changed": 0,
+          "preserved": 0,
+          "reload": true,
+          "undoRedo": false
+        }
+      ],
+      "sha256": "761b96028d3d9d9d87d4c276cfe440b7389dba5ee549813000ca98317d096c19"
+    },
+    {
+      "case": "sculpture",
+      "passed": true,
+      "turns": [
+        {
+          "committed": true,
+          "externalChecks": 204,
+          "changed": 64,
+          "preserved": 3,
+          "reload": true,
+          "undoRedo": true
+        },
+        {
+          "committed": true,
+          "externalChecks": 204,
+          "changed": 64,
+          "preserved": 3,
+          "reload": true,
+          "undoRedo": true
+        }
+      ],
+      "sha256": "e0db5988c5721247e670dadd06dd80fddd5ddf14e8be536fbfd109d1603f1207"
+    },
+    {
+      "case": "shelf",
+      "passed": true,
+      "turns": [
+        {
+          "committed": true,
+          "externalChecks": 102,
+          "changed": 30,
+          "preserved": 3,
+          "reload": true,
+          "undoRedo": true
+        }
+      ],
+      "sha256": "d9035b0b462814697bc5f5922d72fbb7d239bcc7f347b41752ac65016a3346de"
+    },
+    {
+      "case": "shelf-displaced",
+      "passed": true,
+      "turns": [
+        {
+          "committed": false,
+          "externalChecks": 0,
+          "changed": 0,
+          "preserved": 0,
+          "reload": true,
+          "undoRedo": false
+        }
+      ],
+      "sha256": "8dc39c82770d4f93e49e6625a2c82478087bf13294cc16a869585b63048adf5b"
+    },
+    {
+      "case": "shelf-original-criteria",
+      "passed": true,
+      "turns": [
+        {
+          "committed": false,
+          "externalChecks": 0,
+          "changed": 0,
+          "preserved": 0,
+          "reload": true,
+          "undoRedo": false
+        }
+      ],
+      "sha256": "6a204a341096882c9c851e5dab4cfd823806d6335c1319093781d5bea0aa919a"
+    }
+  ],
+  "existingCompletionBrowserRegressions": {
+    "passed": 3,
+    "failed": 0
+  },
+  "ledgerSHA256": "a1c7f3b9c3beea1467281e587748b685df6eabb0a3dc23d11cc41f649cd6ca49"
+}

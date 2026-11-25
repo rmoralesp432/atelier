@@ -1,0 +1,22 @@
+
+> atelier@0.1.0 test
+> vitest run
+
+
+ RUN  v5.0.4 /workspace/atelier-spatial-relations
+
+
+ Test Files  85 passed (85)
+      Tests  465 passed (465)
+   Start at  16:54:51
+   Duration  74.15s (tests 60%, import 36%, transform 4%, worker 1%)
+
+     Import  223 modules were evaluated 305 times · 21.83s total, 36% of tracked time
+             ~5.87s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice
