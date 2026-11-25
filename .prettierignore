@@ -5,3 +5,4 @@ docs/evaluations/**/*.atelier.json
 # Immutable captured evaluation evidence retains the exact original bytes.
 docs/evaluations/**/attempt-*/
 docs/evaluations/**/offline-preparation/
+docs/evaluations/direct-spatial/browser-run-*/

@@ -4,6 +4,7 @@ import { solidStats } from '../geometry/kernel';
 import { isFlat } from '../geometry/spatial';
 import { assessRequirements, preservedValue } from './designBrief';
 import { completionSelection } from './completionSelection';
+import { preservedOffsets } from './preservedOffsets';
 import { auditCriteria } from './criteriaAudit';
 import { compileCalculations } from './completionCalculations';
 import { resolveIds, type Session } from './engine';
@@ -35,6 +36,7 @@ export async function verifyCompletion(
   // every repair/completion attempt gets a fresh cache.
   const volumes = new Map<string, Promise<number>>();
   const physical = physicalChecks();
+  const offsets = preservedOffsets();
   const select = completionSelection(original, candidate);
   // Exclude malformed expressions from semantic audits: their literal numeric
   // placeholders are not independent desired measurements.
@@ -264,6 +266,17 @@ export async function verifyCompletion(
             : `${originals.length} original identities retain ${r.properties.join(', ')}.`,
           ids,
         );
+      } else if (r.kind === 'preserve_offsets') {
+        const result = await offsets(
+          r,
+          select(r.first, true),
+          select(r.second, true),
+          after,
+          abort,
+        );
+        ids = result.ids;
+        add(r.id, r.label, result.met, result.observed, ids);
+        report.checks[report.checks.length - 1].offsets = result.trace;
       } else if (r.kind === 'offset') {
         const a = select(r.first),
           b = select(r.second);
@@ -390,6 +403,7 @@ export async function verifyCompletion(
         ([
           'positions',
           'offset',
+          'preserve_offsets',
           'radial',
           'layout',
           'relation',

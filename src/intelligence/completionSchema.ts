@@ -24,6 +24,21 @@ export const spatialRequirements = [
   z
     .object({
       ...identity,
+      kind: z.literal('preserve_offsets'),
+      first: designSelector,
+      second: designSelector,
+      axis: z.enum(['x', 'y', 'z']),
+      firstAnchor: z.enum(['min', 'center', 'max']),
+      secondAnchor: z.enum(['min', 'center', 'max']),
+      tolerance,
+    })
+    .strict()
+    .describe(
+      'For each original first object, bind the nearest distinct original second object by world-bounds anchor-point distance (other axes at center). Preserve secondAnchor minus firstAnchor on axis using the SAME identities after editing. Ties are unverified. Bounds offsets do not prove surface contact. Expected values come only from the original scene; no calculation is needed.',
+    ),
+  z
+    .object({
+      ...identity,
       kind: z.literal('diameter'),
       selector: designSelector,
       shape: z.enum(['sphere', 'cylinder']),
@@ -184,6 +199,38 @@ export const criterionIssueSchema = z
   })
   .strict();
 export type CriterionIssue = z.infer<typeof criterionIssueSchema>;
+export const offsetPreservationTraceSchema = z
+  .object({
+    source: z.literal('original'),
+    frame: z.literal('world_xyz_y_up'),
+    unit: z.literal('m'),
+    axis: z.enum(['x', 'y', 'z']),
+    firstAnchor: z.enum(['min', 'center', 'max']),
+    secondAnchor: z.enum(['min', 'center', 'max']),
+    formula: z.literal('second - first'),
+    binding: z.literal('nearest_original_anchor_points'),
+    pairs: z.number().int().positive(),
+    maxError: z.number().finite().nonnegative().nullable(),
+    // All pairs are checked. Keep response size bounded; failed pairs first.
+    samples: z
+      .array(
+        z
+          .object({
+            first: z.string(),
+            second: z.string(),
+            originalFirst: z.number().finite(),
+            originalSecond: z.number().finite(),
+            expected: z.number().finite(),
+            measured: z.number().finite().nullable(),
+          })
+          .strict(),
+      )
+      .max(16),
+  })
+  .strict();
+export type OffsetPreservationTrace = z.infer<
+  typeof offsetPreservationTraceSchema
+>;
 export const completionReportSchema = z
   .object({
     modeling: z.boolean(),
@@ -198,6 +245,7 @@ export const completionReportSchema = z
             ids: z.array(z.string().max(100)).max(16),
             outcome: z.enum(['verified', 'incorrect', 'unverified']),
             calculation: calculationTraceSchema.optional(),
+            offsets: offsetPreservationTraceSchema.optional(),
           })
           .strict(),
       )
