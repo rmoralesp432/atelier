@@ -1,0 +1,34 @@
+{
+  "passed": true,
+  "at": "2026-11-26T16:23:55.819Z",
+  "paidCalls": 0,
+  "checks": [
+    {
+      "name": "Aggregate accounting and call limit before send, unknown reservations retained",
+      "passed": true
+    },
+    {
+      "name": "A",
+      "passed": true,
+      "components": 19,
+      "positiveChecks": 101,
+      "negativeFailures": [
+        "Requested occupied solid e9c39bfbc3d4388c9f3b8c12f1d84a57",
+        "Upper connection e9c39bfbc3d4388c9f3b8c12f1d84a57",
+        "Upper surface contact e9c39bfbc3d4388c9f3b8c12f1d84a57"
+      ],
+      "sha256": "2070d2c6f66cbea3ca21837ac3521fd36e3c693ccf489249a3e85c3a62382a61"
+    },
+    {
+      "name": "B",
+      "passed": true,
+      "components": 13,
+      "positiveChecks": 54,
+      "negativeFailures": [
+        "Requested occupied solid 01f8cfa85ca48bc11d07c8e52a2f31f2",
+        "Original paired XYZ offset 01f8cfa85ca48bc11d07c8e52a2f31f2"
+      ],
+      "sha256": "e80ea3640a11e9e218c9ff308533f00353b3fc3c1e1fa1703e6edf7b011921e1"
+    }
+  ]
+}

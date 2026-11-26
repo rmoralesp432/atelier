@@ -1,0 +1,17 @@
+# Approved matched comparison: preparation
+
+Evaluation only, November 26, 2026. Application implementations remain frozen at `05277619f6fa337cdb1bfb0825654cbe5259ed2d` and `711a8cff9eb54a4c5254e5c20187b7b2614020da`. The published [protocol](../direct-spatial/FRESH-AI-PROTOCOL.md) is unchanged. The user authorized US$3 aggregate conservative accounting and at most 20 paid calls, including incomplete calls and reservations. No merge or deployment is authorized.
+
+The free model-access lookup succeeded. The secondary pricing snapshot matches the approved estimates; it does not establish account-specific prices or a billing balance. See `preflight.json`. The meter reserves before sending, retains unknown usage, and applies the published 25% accounting margin without assuming cached-input discounts. Automatic recharge is not enabled or changed by this evaluation.
+
+Both unfamiliar fixtures were materialized before paid execution. Expected geometry is derived from original solids and the stated displacement; it is not derived from candidate geometry. Task A has 19 independent objects and 101 external checks. Task B has 13 objects and 54 checks. Coordinates are world XYZ, Y is vertical, lengths are meters, positional tolerance is 0.001 m, and the existing 2% curved-solid tessellation allowance is retained. The external oracle is never supplied to the model. Only ordinary scene access and identical neutral history are provided.
+
+Offline calibration accepted both correct edits and rejected the shortened suspension and displaced knob. Four scripted browser rehearsals also saved the correct results, reloaded, restored the original model with Undo, reloaded while undone, and restored the edited model with Redo. All scripted negative controls were blocked by measured errors and preserved the original project/history. These rehearsals validate harness plumbing, not fresh reasoning or reviewer selection.
+
+Before calibration, harness authoring required syntax/type corrections, the repository validator import, and TypeScript 7's `--ignoreConfig` flag. These were preparation errors before paid execution, not ATELIER failures. After rehearsal, the meter was tightened to stop remaining runs when a pre-call authorization fails, and the recorder was extended to retain an earlier correct proposal for a dependent negative control even if later continuation fails. Standalone strict TypeScript checking passed. No application behavior was edited.
+
+Live order is A-baseline, A-treatment, B-treatment, B-baseline. Separate browser storage, projects, and local frozen application servers isolate runs. Fresh executor/reviewer calls use `gpt-6.1-sol`, Responses API, default tier, existing high/low reasoning settings, and a 6,000-token output ceiling. All actual save and history checks use the normal browser flow. Offline shadow execution records proposed geometry separately and must not be reported as a browser commit.
+
+Negative controls reuse a genuinely correct proposal and the exact fresh criteria, with a deliberate geometric perturbation and no new AI calls or scripted repairs. They are reported as measured rejection, unresolved-verification block, false acceptance, or not reached. No correct proposal means not reached. All four primary slots, including incomplete/unstarted slots, must be reported.
+
+`LIVE-FREEZE.json` records checksums before the first paid call. Raw evidence retains original bytes. No scored attempt will be overwritten or changed into a pass.

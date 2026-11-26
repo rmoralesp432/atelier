@@ -1,0 +1,18 @@
+{
+  "authorized": true,
+  "date": "2026-11-26",
+  "purpose": "Published fresh-AI comparison of 0527761 and 711a8cf on tasks A and B",
+  "ceilingUSD": 3,
+  "maximumPaidCalls": 20,
+  "estimatedPricingAccepted": true,
+  "conservativeReservationsRequired": true,
+  "negativeControlEligibility": "A correct proposal must exist; otherwise not reached",
+  "negativeOutcomes": [
+    "blocked by measured geometry error",
+    "blocked by unresolved verification",
+    "false acceptance"
+  ],
+  "evaluationOnly": true,
+  "mergeAuthorized": false,
+  "deploymentAuthorized": false
+}
