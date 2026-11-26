@@ -1,0 +1,1415 @@
+{
+  "date": "2026-11-05",
+  "model": "gpt-4.1",
+  "endpoint": "chat/completions",
+  "estimatedUSD": 2.926726,
+  "cachedDiscountsCounted": false,
+  "ratesUSDPerMillion": {
+    "input": 2,
+    "output": 8
+  },
+  "results": [
+    {
+      "case": "dimensions",
+      "status": "FAIL",
+      "seconds": 0.438,
+      "error": "Provider 401 invalid_api_key"
+    },
+    {
+      "case": "dimensions",
+      "status": "PASS",
+      "seconds": 5.239
+    },
+    {
+      "case": "correction",
+      "status": "FAIL",
+      "seconds": 18.466,
+      "error": "Preserved properties changed on Atrium: dimensions, position, rotation. Correct the edit without weakening the design brief."
+    },
+    {
+      "case": "polar_array",
+      "status": "PASS",
+      "seconds": 10.266
+    },
+    {
+      "case": "subtract",
+      "status": "FAIL",
+      "seconds": 15.157,
+      "error": "An edit must contain an operation."
+    },
+    {
+      "case": "undo_intersect",
+      "status": "FAIL",
+      "seconds": 0.001,
+      "error": "ENOENT: no such file or directory, open '/tmp/atelier-budgeted-evaluation/subtract.json'"
+    },
+    {
+      "case": "extrusion",
+      "status": "FAIL",
+      "seconds": 12.936,
+      "error": "The agreed design brief cannot be weakened or replaced during a request. Use execution.brief and correct the geometry."
+    },
+    {
+      "case": "workspace",
+      "status": "FAIL",
+      "seconds": 1.415,
+      "error": "Expected values to be strictly deep-equal:\n+ actual - expected\n\n  [\n    {\n+     component: undefined,\n      dimensions: {\n        depth: 4,\n        height: 3,\n        width: 6\n      },\n"
+    },
+    {
+      "case": "correction",
+      "status": "PASS",
+      "seconds": 9.665
+    },
+    {
+      "case": "subtract",
+      "status": "FAIL",
+      "seconds": 20.22,
+      "error": "I couldn't satisfy these design requirements: El resultado contiene un vacío cuadrado de 2×2 m a lo largo de la altura total del bloque. Your project is unchanged."
+    },
+    {
+      "case": "extrusion",
+      "status": "PASS",
+      "seconds": 4.464
+    },
+    {
+      "case": "subtract",
+      "status": "FAIL",
+      "seconds": 13.211,
+      "error": "I couldn't satisfy these design requirements: Resulting object has a through square hole; Block and Cutter do not appear as separate objects. Your project is unchanged."
+    },
+    {
+      "case": "undo_intersect",
+      "status": "FAIL",
+      "seconds": 0,
+      "error": "ENOENT: no such file or directory, open '/tmp/atelier-budgeted-evaluation/subtract.json'"
+    },
+    {
+      "case": "gallery",
+      "status": "FAIL",
+      "seconds": 21.367,
+      "error": "Needs clarification: No changes applied yet. The geometry for all requested slabs, columns, glazing, and frames is present and correctly named in the Gallery group. However, the acceptance checks failed because the brief is attempting to verify the base elevation of both floor slabs together as 0 m, instead of separately checking one at 0 m and the other at 3.2 m. Should we revise the requirements to verify each slab's elevation individually, matching the actual structure? All geometry matches your requested layout, and there are no unintended solid walls at the short ends."
+    },
+    {
+      "case": "scoped_columns",
+      "status": "FAIL",
+      "seconds": 0,
+      "error": "ENOENT: no such file or directory, open '/tmp/atelier-budgeted-evaluation/gallery.json'"
+    },
+    {
+      "case": "organic",
+      "status": "FAIL",
+      "seconds": 19.722,
+      "error": "The agreed design brief cannot be weakened or replaced during a request. Use execution.brief and correct the geometry."
+    },
+    {
+      "case": "gallery",
+      "mode": "offline replay of live response",
+      "status": "PASS",
+      "seconds": 0.049
+    },
+    {
+      "case": "workspace",
+      "mode": "offline replay of live response",
+      "status": "PASS",
+      "seconds": 0.001
+    },
+    {
+      "case": "scoped_columns",
+      "mode": "live",
+      "status": "PASS",
+      "seconds": 18.963
+    },
+    {
+      "case": "window",
+      "mode": "live",
+      "status": "FAIL",
+      "seconds": 32.348,
+      "error": "Step 2 (revolve): The footprint doubles back on itself."
+    },
+    {
+      "case": "organic",
+      "mode": "live",
+      "status": "FAIL",
+      "seconds": 23.85,
+      "error": "The agreed design brief cannot be weakened or replaced during a request. Use execution.brief and correct the geometry."
+    },
+    {
+      "case": "subtract",
+      "mode": "live",
+      "status": "PASS",
+      "seconds": 3.969
+    },
+    {
+      "case": "undo_intersect",
+      "mode": "live",
+      "status": "FAIL",
+      "seconds": 0.003,
+      "error": "Connection error."
+    },
+    {
+      "case": "window",
+      "mode": "live",
+      "status": "BLOCKED",
+      "seconds": 21.197,
+      "error": "Evaluation budget reached before sending another paid request."
+    },
+    {
+      "case": "undo_intersect",
+      "mode": "live",
+      "status": "BLOCKED",
+      "seconds": 0.003,
+      "error": "Evaluation budget reached before sending another paid request."
+    },
+    {
+      "case": "grid_ipr",
+      "mode": "live",
+      "status": "BLOCKED",
+      "seconds": 0.001,
+      "error": "Evaluation budget reached before sending another paid request."
+    },
+    {
+      "case": "mixed_levels",
+      "mode": "live",
+      "status": "BLOCKED",
+      "seconds": 0.002,
+      "error": "Evaluation budget reached before sending another paid request."
+    },
+    {
+      "case": "bridge",
+      "mode": "live",
+      "status": "BLOCKED",
+      "seconds": 0.002,
+      "error": "Evaluation budget reached before sending another paid request."
+    },
+    {
+      "case": "undo_intersect",
+      "mode": "live",
+      "status": "FAIL",
+      "seconds": 11.076,
+      "error": "That reference is missing or ambiguous. Use an existing object ID, $name:Unique name or $group:Unique group."
+    },
+    {
+      "case": "grid_ipr",
+      "mode": "live",
+      "status": "FAIL",
+      "seconds": 33.159,
+      "error": "The agreed design brief cannot be weakened or replaced during a request. Use execution.brief and correct the geometry."
+    },
+    {
+      "case": "mixed_levels",
+      "mode": "live",
+      "status": "FAIL",
+      "seconds": 18.633,
+      "error": "Expected 0, got 0.1"
+    },
+    {
+      "case": "bridge",
+      "mode": "live",
+      "status": "BLOCKED",
+      "seconds": 6.198,
+      "error": "Evaluation budget reached before sending another paid request."
+    },
+    {
+      "case": "undo_intersect",
+      "mode": "offline replay of live response",
+      "status": "PASS",
+      "seconds": 0.05
+    },
+    {
+      "case": "window",
+      "mode": "live",
+      "status": "FAIL",
+      "seconds": 20.26,
+      "error": "The agreed design brief cannot be weakened or replaced during a request. Use execution.brief and correct the geometry."
+    },
+    {
+      "case": "grid_ipr",
+      "mode": "live",
+      "status": "BLOCKED",
+      "seconds": 7.878,
+      "error": "Evaluation budget reached before sending another paid request."
+    },
+    {
+      "case": "mixed_levels",
+      "mode": "live",
+      "status": "BLOCKED",
+      "seconds": 0.002,
+      "error": "Evaluation budget reached before sending another paid request."
+    },
+    {
+      "case": "mixed_levels",
+      "mode": "live",
+      "status": "PASS",
+      "seconds": 10.814
+    },
+    {
+      "case": "grid_ipr",
+      "mode": "live",
+      "status": "FAIL",
+      "seconds": 23.95,
+      "error": "The agreed design brief cannot be weakened or replaced during a request. Use execution.brief and correct the geometry."
+    },
+    {
+      "case": "bridge",
+      "mode": "live",
+      "status": "BLOCKED",
+      "seconds": 0.008,
+      "error": "Evaluation budget reached before sending another paid request."
+    },
+    {
+      "case": "organic",
+      "mode": "live",
+      "status": "BLOCKED",
+      "seconds": 0.003,
+      "error": "Evaluation budget reached before sending another paid request."
+    }
+  ],
+  "calls": [
+    {
+      "case": "dimensions",
+      "status": 401,
+      "usage": null,
+      "estimatedUSD": 0
+    },
+    {
+      "case": "chat_auth_probe",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 11,
+        "completion_tokens": 1,
+        "total_tokens": 12,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 2.9999999999999997e-5
+    },
+    {
+      "case": "dimensions",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 20218,
+        "completion_tokens": 535,
+        "total_tokens": 20753,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.044716
+    },
+    {
+      "case": "correction",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21082,
+        "completion_tokens": 870,
+        "total_tokens": 21952,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.049124
+    },
+    {
+      "case": "correction",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21839,
+        "completion_tokens": 905,
+        "total_tokens": 22744,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.05091799999999999
+    },
+    {
+      "case": "correction",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21842,
+        "completion_tokens": 877,
+        "total_tokens": 22719,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.0507
+    },
+    {
+      "case": "polar_array",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 20220,
+        "completion_tokens": 720,
+        "total_tokens": 20940,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.0462
+    },
+    {
+      "case": "polar_array",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 20306,
+        "completion_tokens": 667,
+        "total_tokens": 20973,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.045947999999999996
+    },
+    {
+      "case": "subtract",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 20868,
+        "completion_tokens": 365,
+        "total_tokens": 21233,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.044655999999999994
+    },
+    {
+      "case": "subtract",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21559,
+        "completion_tokens": 531,
+        "total_tokens": 22090,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.047366
+    },
+    {
+      "case": "subtract",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21449,
+        "completion_tokens": 128,
+        "total_tokens": 21577,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.043921999999999996
+    },
+    {
+      "case": "subtract",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21719,
+        "completion_tokens": 413,
+        "total_tokens": 22132,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.046742
+    },
+    {
+      "case": "extrusion",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 20211,
+        "completion_tokens": 470,
+        "total_tokens": 20681,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.044182
+    },
+    {
+      "case": "extrusion",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21707,
+        "completion_tokens": 649,
+        "total_tokens": 22356,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.048606
+    },
+    {
+      "case": "extrusion",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21776,
+        "completion_tokens": 576,
+        "total_tokens": 22352,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.04816
+    },
+    {
+      "case": "workspace",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 20596,
+        "completion_tokens": 95,
+        "total_tokens": 20691,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.041951999999999996
+    },
+    {
+      "case": "correction",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21412,
+        "completion_tokens": 876,
+        "total_tokens": 22288,
+        "prompt_tokens_details": {
+          "cached_tokens": 10112,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.049832
+    },
+    {
+      "case": "subtract",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21220,
+        "completion_tokens": 468,
+        "total_tokens": 21688,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.046183999999999996
+    },
+    {
+      "case": "subtract",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 22102,
+        "completion_tokens": 802,
+        "total_tokens": 22904,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.05062
+    },
+    {
+      "case": "subtract",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 22213,
+        "completion_tokens": 666,
+        "total_tokens": 22879,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.049754
+    },
+    {
+      "case": "extrusion",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 20541,
+        "completion_tokens": 457,
+        "total_tokens": 20998,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.044738
+    },
+    {
+      "case": "subtract",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21263,
+        "completion_tokens": 402,
+        "total_tokens": 21665,
+        "prompt_tokens_details": {
+          "cached_tokens": 10112,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.045742
+    },
+    {
+      "case": "subtract",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 22071,
+        "completion_tokens": 522,
+        "total_tokens": 22593,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.048318
+    },
+    {
+      "case": "subtract",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 22239,
+        "completion_tokens": 545,
+        "total_tokens": 22784,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.048838
+    },
+    {
+      "case": "gallery",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 20659,
+        "completion_tokens": 1609,
+        "total_tokens": 22268,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.05419
+    },
+    {
+      "case": "gallery",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 28879,
+        "completion_tokens": 1316,
+        "total_tokens": 30195,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.068286
+    },
+    {
+      "case": "gallery",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 29876,
+        "completion_tokens": 124,
+        "total_tokens": 30000,
+        "prompt_tokens_details": {
+          "cached_tokens": 21376,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.060744
+    },
+    {
+      "case": "organic",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 20620,
+        "completion_tokens": 1035,
+        "total_tokens": 21655,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.049519999999999995
+    },
+    {
+      "case": "organic",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 22865,
+        "completion_tokens": 783,
+        "total_tokens": 23648,
+        "prompt_tokens_details": {
+          "cached_tokens": 19328,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.051994
+    },
+    {
+      "case": "organic",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 22916,
+        "completion_tokens": 1121,
+        "total_tokens": 24037,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.0548
+    },
+    {
+      "case": "scoped_columns",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 27129,
+        "completion_tokens": 928,
+        "total_tokens": 28057,
+        "prompt_tokens_details": {
+          "cached_tokens": 3968,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.061682
+    },
+    {
+      "case": "scoped_columns",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 27350,
+        "completion_tokens": 1763,
+        "total_tokens": 29113,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.068804
+    },
+    {
+      "case": "window",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 20924,
+        "completion_tokens": 1134,
+        "total_tokens": 22058,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.05091999999999999
+    },
+    {
+      "case": "window",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21792,
+        "completion_tokens": 2683,
+        "total_tokens": 24475,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.065048
+    },
+    {
+      "case": "window",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21790,
+        "completion_tokens": 1084,
+        "total_tokens": 22874,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.052252
+    },
+    {
+      "case": "organic",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 20894,
+        "completion_tokens": 1040,
+        "total_tokens": 21934,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.050108
+    },
+    {
+      "case": "organic",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 23266,
+        "completion_tokens": 1166,
+        "total_tokens": 24432,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.05585999999999999
+    },
+    {
+      "case": "organic",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 23558,
+        "completion_tokens": 1140,
+        "total_tokens": 24698,
+        "prompt_tokens_details": {
+          "cached_tokens": 21376,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.056235999999999994
+    },
+    {
+      "case": "subtract",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21541,
+        "completion_tokens": 434,
+        "total_tokens": 21975,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.046554
+    },
+    {
+      "case": "window",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21044,
+        "completion_tokens": 932,
+        "total_tokens": 21976,
+        "prompt_tokens_details": {
+          "cached_tokens": 12160,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.049544
+    },
+    {
+      "case": "window",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21215,
+        "completion_tokens": 984,
+        "total_tokens": 22199,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.05030199999999999
+    },
+    {
+      "case": "undo_intersect",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21969,
+        "completion_tokens": 729,
+        "total_tokens": 22698,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.049769999999999995
+    },
+    {
+      "case": "undo_intersect",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 22066,
+        "completion_tokens": 692,
+        "total_tokens": 22758,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.049668
+    },
+    {
+      "case": "grid_ipr",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21052,
+        "completion_tokens": 883,
+        "total_tokens": 21935,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.049167999999999996
+    },
+    {
+      "case": "grid_ipr",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 26969,
+        "completion_tokens": 1854,
+        "total_tokens": 28823,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.06877
+    },
+    {
+      "case": "grid_ipr",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 27837,
+        "completion_tokens": 1845,
+        "total_tokens": 29682,
+        "prompt_tokens_details": {
+          "cached_tokens": 21376,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.070434
+    },
+    {
+      "case": "mixed_levels",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21085,
+        "completion_tokens": 1104,
+        "total_tokens": 22189,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.051002
+    },
+    {
+      "case": "mixed_levels",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21641,
+        "completion_tokens": 1740,
+        "total_tokens": 23381,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.057202
+    },
+    {
+      "case": "bridge",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21696,
+        "completion_tokens": 781,
+        "total_tokens": 22477,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.049640000000000004
+    },
+    {
+      "case": "window",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21160,
+        "completion_tokens": 948,
+        "total_tokens": 22108,
+        "prompt_tokens_details": {
+          "cached_tokens": 12160,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.049904
+    },
+    {
+      "case": "window",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21306,
+        "completion_tokens": 788,
+        "total_tokens": 22094,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.048915999999999994
+    },
+    {
+      "case": "window",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 25387,
+        "completion_tokens": 885,
+        "total_tokens": 26272,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.057854
+    },
+    {
+      "case": "grid_ipr",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21168,
+        "completion_tokens": 889,
+        "total_tokens": 22057,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.049448
+    },
+    {
+      "case": "mixed_levels",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21270,
+        "completion_tokens": 1409,
+        "total_tokens": 22679,
+        "prompt_tokens_details": {
+          "cached_tokens": 12160,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.053812
+    },
+    {
+      "case": "grid_ipr",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 21237,
+        "completion_tokens": 721,
+        "total_tokens": 21958,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.048242
+    },
+    {
+      "case": "grid_ipr",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 28402,
+        "completion_tokens": 1036,
+        "total_tokens": 29438,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.065092
+    },
+    {
+      "case": "grid_ipr",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 28214,
+        "completion_tokens": 107,
+        "total_tokens": 28321,
+        "prompt_tokens_details": {
+          "cached_tokens": 20352,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.057284
+    },
+    {
+      "case": "grid_ipr",
+      "status": 200,
+      "usage": {
+        "prompt_tokens": 28814,
+        "completion_tokens": 1100,
+        "total_tokens": 29914,
+        "prompt_tokens_details": {
+          "cached_tokens": 21376,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "estimatedUSD": 0.066428
+    }
+  ]
+}

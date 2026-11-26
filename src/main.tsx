@@ -1,9 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import WorkspaceHost from './projects/WorkspaceHost';
+import wasmUrl from 'manifold-3d/manifold.wasm?url';
+import { setKernelWasmUrl } from './geometry/kernel';
+setKernelWasmUrl(wasmUrl);
 import './styles.css';
+import './conversation/orb.css';
+import './projects/start.css';
+import './studio/interface.css';
+import './studio/phone.css';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <WorkspaceHost />
   </React.StrictMode>,
 );

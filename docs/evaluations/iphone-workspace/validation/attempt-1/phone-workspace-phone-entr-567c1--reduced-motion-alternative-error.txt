@@ -1,0 +1,149 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: phone-workspace.spec.ts >> phone entrance and idle glass reflections animate with a still reduced-motion alternative
+- Location: tests/phone-workspace.spec.ts:163:1
+
+# Error details
+
+```
+Error: expect(received).toBe(expected) // Object.is equality
+
+Expected: true
+Received: false
+```
+
+# Page snapshot
+
+```yaml
+- main "ATELIER start screen" [ref=e1]:
+  - generic [ref=e2]:
+    - img "Atelier" [ref=e3]
+    - navigation [ref=e6]:
+      - group [ref=e7]:
+        - generic "AI settings" [ref=e8] [cursor=pointer]
+  - generic [ref=e9]:
+    - heading "Space for your ideas." [level=1] [ref=e11]
+    - button "Continue without AI" [ref=e12] [cursor=pointer]: Open studio
+```
+
+# Test source
+
+```ts
+  88  |   await page.reload();
+  89  |   await expect(page.getByTestId('viewport')).toHaveAttribute(
+  90  |     'data-rendered',
+  91  |     'true',
+  92  |   );
+  93  |   expect((await saved(page)).project.volumes).toEqual(edited.project.volumes);
+  94  |   await page
+  95  |     .getByRole('button', { name: 'Minimize conversation', exact: true })
+  96  |     .tap();
+  97  |   await page.getByRole('button', { name: 'Undo', exact: true }).tap();
+  98  |   await expect
+  99  |     .poll(async () => (await saved(page)).project.volumes)
+  100 |     .toEqual(starting.project.volumes);
+  101 |   await page.getByRole('button', { name: 'Redo', exact: true }).tap();
+  102 |   await expect
+  103 |     .poll(async () => (await saved(page)).project.volumes)
+  104 |     .toEqual(edited.project.volumes);
+  105 |   await page.screenshot({ path: 'test-results/iphone-dock.png' });
+  106 | });
+  107 | 
+  108 | test('Safari-style keyboard viewport keeps the composer visible without changing geometry or capture state', async ({
+  109 |   page,
+  110 | }) => {
+  111 |   test.setTimeout(90000);
+  112 |   await ready(page);
+  113 |   const original = await saved(page);
+  114 |   const message = page.getByRole('textbox', { name: 'Message Atelier' });
+  115 |   await message.fill('An idea kept while the keyboard changes');
+  116 |   // Synthetic visual-viewport metrics, not a physical iPhone keyboard test.
+  117 |   await page.evaluate(() => {
+  118 |     Object.defineProperty(visualViewport, 'height', {
+  119 |       configurable: true,
+  120 |       get: () => 430,
+  121 |     });
+  122 |     visualViewport!.dispatchEvent(new Event('resize'));
+  123 |   });
+  124 |   await expect(page.locator('html')).toHaveAttribute('data-phone-keyboard', '');
+  125 |   await expect(
+  126 |     page.getByRole('navigation', { name: 'Workspace actions' }),
+  127 |   ).toBeHidden();
+  128 |   const composer = page.locator('.conversation-composer');
+  129 |   const r = (await composer.boundingBox())!;
+  130 |   expect(r.y).toBeGreaterThanOrEqual(0);
+  131 |   expect(r.y + r.height).toBeLessThanOrEqual(430);
+  132 |   expect((await saved(page)).project).toEqual(original.project);
+  133 |   await page.screenshot({ path: 'test-results/iphone-keyboard-metrics.png' });
+  134 |   await page.evaluate(() => {
+  135 |     Object.defineProperty(visualViewport, 'scale', {
+  136 |       configurable: true,
+  137 |       get: () => 1.5,
+  138 |     });
+  139 |     visualViewport!.dispatchEvent(new Event('resize'));
+  140 |   });
+  141 |   await expect(page.locator('html')).not.toHaveAttribute('data-phone-keyboard');
+  142 |   expect(
+  143 |     await page
+  144 |       .locator('html')
+  145 |       .evaluate((el) => el.style.getPropertyValue('--phone-keyboard-lift')),
+  146 |   ).toBe('0px');
+  147 |   await page.evaluate(() => {
+  148 |     delete (visualViewport as any).height;
+  149 |     delete (visualViewport as any).scale;
+  150 |     (document.activeElement as HTMLElement)?.blur();
+  151 |     visualViewport!.dispatchEvent(new Event('resize'));
+  152 |   });
+  153 |   await expect(
+  154 |     page.getByRole('navigation', { name: 'Workspace actions' }),
+  155 |   ).toBeVisible();
+  156 |   await expect(message).toHaveValue('An idea kept while the keyboard changes');
+  157 |   expect((await saved(page)).project).toEqual(original.project);
+  158 |   expect((await saved(page)).past).toEqual(original.past);
+  159 | });
+  160 | 
+  161 | test('phone entrance and idle glass reflections animate with a still reduced-motion alternative', async ({
+  162 |   page,
+  163 | }) => {
+  164 |   test.setTimeout(60000);
+  165 |   await page.addInitScript(() =>
+  166 |     localStorage.removeItem('atelier.start-direct'),
+  167 |   );
+  168 |   await page.emulateMedia({ reducedMotion: 'no-preference' });
+  169 |   await page.goto('/');
+  170 |   const orb = page.locator('.orb-large');
+  171 |   await expect(orb).toBeVisible();
+  172 |   const light = () =>
+  173 |     orb
+  174 |       .locator('.orb-reflections')
+  175 |       .evaluate((el) => getComputedStyle(el).transform);
+  176 |   const initial = await light();
+  177 |   await expect.poll(light).not.toBe(initial);
+  178 |   await expect(orb).toHaveAttribute('data-state', 'idle');
+  179 |   await page.screenshot({ path: 'test-results/iphone-welcome.png' });
+  180 |   await page.emulateMedia({ reducedMotion: 'reduce' });
+  181 |   await expect.poll(light).toBe('none');
+  182 |   expect(
+  183 |     await orb
+  184 |       .locator('svg.orb-core')
+  185 |       .evaluate((el) => (el as SVGSVGElement).animationsPaused()),
+  186 |   ).toBe(true);
+  187 |   await page
+> 188 |     .getByRole('button', { name: 'Continue without AI', exact: true })
+      |     ^ Error: expect(received).toBe(expected) // Object.is equality
+  189 |     .tap();
+  190 |   await page.screenshot({ path: 'test-results/iphone-projects.png' });
+  191 |   expect(
+  192 |     await page.evaluate(
+  193 |       () => document.documentElement.scrollWidth <= innerWidth,
+  194 |     ),
+  195 |   ).toBe(true);
+  196 | });
+  197 | 
+```

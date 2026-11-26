@@ -1,0 +1,14 @@
+{
+  "authorized": true,
+  "ceilingUsd": 5,
+  "calls": [
+    {
+      "caseId": "building",
+      "role": "executor",
+      "reservedUsd": 0.613085,
+      "started": "2026-11-19T04:05:01.523Z",
+      "elapsedMs": 19821,
+      "outcome": "interrupted-reservation-retained"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "artifactChecks": [
+    {
+      "attempt": "attempt-1",
+      "integrityAndCredentialCheck": "passed"
+    },
+    {
+      "attempt": "attempt-2",
+      "integrityAndCredentialCheck": "passed"
+    },
+    {
+      "attempt": "attempt-3",
+      "integrityAndCredentialCheck": "passed"
+    },
+    {
+      "attempt": "attempt-4",
+      "integrityAndCredentialCheck": "passed"
+    }
+  ],
+  "initialFormatCheck": {
+    "result": "failed",
+    "reason": "Five immutable captured offline JSON files had raw recorder formatting.",
+    "correction": "Ignore immutable attempt/offline-preparation capture directories; application source still checked."
+  },
+  "initialCredentialPatternScan": {
+    "result": "false-positive",
+    "reason": "Unanchored sk- pattern matched a task- identifier.",
+    "correction": "Require credential word boundary and independently check configured secret values without logging them."
+  },
+  "harnessTests": {
+    "passed": 11,
+    "failed": 0,
+    "paidCalls": 0
+  },
+  "finalFormatCheck": {
+    "result": "passed",
+    "scope": "Full repository format:check"
+  },
+  "originalLedgerByteIdentity": "passed"
+}

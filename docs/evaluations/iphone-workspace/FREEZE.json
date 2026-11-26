@@ -1,0 +1,37 @@
+{
+  "base_commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+  "branch": "feat/iphone-workspace",
+  "scope": "Phone interface and audio orb only; no paid API calls, merge or deployment",
+  "api_spend_usd": 0,
+  "validation": {
+    "unit_tests": 424,
+    "unit_files": 80,
+    "browser_suite_passed": 22,
+    "final_label_polish_browser_recheck_passed": 6,
+    "build": "passed",
+    "format": "passed",
+    "physical_iphone": "not tested",
+    "remote_full_ci": "not run"
+  },
+  "manual_preview": {
+    "browser": "Chromium touch emulation",
+    "viewport": [390, 844],
+    "existing_editable_components": 134,
+    "canvas_rendered": true,
+    "undo_hit_target": "Undo",
+    "horizontal_overflow": false
+  },
+  "application_and_test_sha256": {
+    "index.html": "b35ccf161c5ceba8a6b5588c0b3e2d19b48b2846b9de1dbd0fcb1bdadfbd711c",
+    "src/App.tsx": "f9cde5af085e112dfcfd5a437234d6034da850d0f4eabec1c1e3d1e0e238e8d2",
+    "src/conversation/AudioOrb.tsx": "0bede2fe5411f399aac3318f1ba4779f1f898f729d96a24ca5948c7dde0b4ea8",
+    "src/conversation/orb.css": "f7d0a3d9f65a531cf643ab5adbadac32edd6afd48b1c4ca16410907fd35892f9",
+    "src/main.tsx": "7cc46dae1e497f9fd1b68dc75be7018b1de476184f1ec5604b245f6c8ba87205",
+    "src/studio/PhoneDock.tsx": "1609d86385f9c87658236c755d76d73e3171d25bb7037675c2183938798898c6",
+    "src/studio/phone.css": "2a7268a3e268b7922b762d768dea63b929e921d93959c3df27d8ebf0a56b744e",
+    "src/studio/usePhoneViewport.ts": "965fc6e78739e2ecaebae553b9750433b9409be60aaeb17246d2fec893714377",
+    "tests/interface-refinement.spec.ts": "8de196d4c47558ac83b869e00c4040cef63939565de67bcc304cbd33a46a0346",
+    "tests/orb-conversation.spec.ts": "b70de659374c2c8c642dcb1938d2c62f2f1971a2dcd41c339d2328e1f3720ccc",
+    "tests/phone-workspace.spec.ts": "0313f2c40c3b57e31d30b5b2f6881cabe6d25b7f249f19a64fc123754021c79d"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "applicationCommit": "fbab5bfd4dcfc68da9f9d15020790259abd60ca4",
+  "results": [
+    {
+      "id": "building",
+      "status": "NOT_COMPLETED",
+      "cost": {
+        "thisAttempt": {
+          "calls": 4,
+          "estimatedUsd": 0.351462,
+          "reviewerMs": 0,
+          "executorMs": 252058
+        },
+        "calls": 9,
+        "estimatedUsd": 1.6925459999999999,
+        "reservedOrChargedUsd": 2.1156825,
+        "priorInterruptedCalls": 1,
+        "callsIncludingInterrupted": 10,
+        "reviewerMs": 0,
+        "executorMs": 439513,
+        "reviewerCalls": 0
+      }
+    },
+    {
+      "id": "height-edit",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "ellipse-repair",
+      "status": "FAILED",
+      "error": "Connection error.",
+      "cost": {
+        "thisAttempt": {
+          "calls": 2,
+          "estimatedUsd": 0.032278,
+          "reviewerMs": 6688,
+          "executorMs": 7309
+        },
+        "calls": 9,
+        "estimatedUsd": 0.238164,
+        "reservedOrChargedUsd": 0.5188349999999999,
+        "priorInterruptedCalls": 0,
+        "callsIncludingInterrupted": 9,
+        "reviewerMs": 22170,
+        "executorMs": 39508,
+        "reviewerCalls": 2
+      }
+    },
+    {
+      "id": "recovery-tray",
+      "status": "NOT_RUN_AFTER_STOP"
+    }
+  ],
+  "stopped": true,
+  "estimatedUsd": 2.104952,
+  "estimatedUsdScope": "Known new calls only; prior actual usage remains unknown",
+  "priorUnknownUsageAllowanceUsd": 0.62,
+  "originalActualUsage": "unknown",
+  "newBudgetAccountedUsd": 2.8523199999999997,
+  "budgetAccountedUsd": 3.47232,
+  "ceilingUsd": 20,
+  "paidCalls": 24,
+  "callsThisAttempt": 6,
+  "callsIncludingInterrupted": 25
+}

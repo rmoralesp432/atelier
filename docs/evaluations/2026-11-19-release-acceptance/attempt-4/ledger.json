@@ -1,0 +1,24 @@
+{
+  "authorized": true,
+  "ceilingUsd": 5,
+  "calls": [
+    {
+      "caseId": "building",
+      "role": "executor",
+      "reservedUsd": 2.534615,
+      "started": "2026-11-19T05:03:22.973Z",
+      "status": 200,
+      "elapsedMs": 13056,
+      "modelReturned": "gpt-6.1-sol",
+      "serviceTier": "default",
+      "responseStatus": "completed",
+      "reasoningTokens": 251,
+      "responseBytes": 68832,
+      "inputTokens": 184147,
+      "outputTokens": 438,
+      "estimatedUsd": 0.372674,
+      "chargedUsd": 0.4658425,
+      "outcome": "usage-reconciled"
+    }
+  ]
+}

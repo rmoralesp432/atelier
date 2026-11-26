@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  MAX_VOLUMES,
   executeCommand,
   initialProject,
   parseProject,
@@ -72,11 +73,13 @@ describe('precise geometry commands', () => {
   });
   it('limits volume count', () => {
     const p = initialProject();
-    p.volumes = Array.from({ length: 200 }, () => ({
+    p.volumes = Array.from({ length: MAX_VOLUMES }, () => ({
       ...p.volumes[0],
       id: crypto.randomUUID(),
     }));
-    expect(() => executeCommand(p, 'create box 1 x 2 x 3')).toThrow('200');
+    expect(() => executeCommand(p, 'create box 1 x 2 x 3')).toThrow(
+      String(MAX_VOLUMES),
+    );
   });
 });
 describe('project persistence and inspector validation', () => {
@@ -105,4 +108,23 @@ describe('project persistence and inspector validation', () => {
     ).toThrow();
     expect(() => updateVolume(p, p.selectedId!, { name: '' })).toThrow();
   });
+});
+
+it('deletes the complete selection atomically and preserves unselected objects', () => {
+  const p = initialProject();
+  p.volumes.push({ ...p.volumes[0], id: 'keep', name: 'Keep this' });
+  p.selectedIds = p.volumes.slice(0, 2).map((v) => v.id);
+  const before = structuredClone(p);
+  const result = executeCommand(p, 'delete selected');
+  expect(result.project.volumes.map((v) => v.id)).toEqual(['keep']);
+  expect(result.project.selectedIds).toEqual([]);
+  expect(result.project.selectedId).toBeNull();
+  expect(result.message).toContain('2 objects');
+  expect(p).toEqual(before);
+  p.groups = [{ id: 'locked', name: 'Protected', visible: true, locked: true }];
+  p.volumes[1].groupId = 'locked';
+  expect(() => executeCommand(p, 'delete selected')).toThrow(
+    'Nothing was deleted',
+  );
+  expect(p.volumes).toHaveLength(3);
 });

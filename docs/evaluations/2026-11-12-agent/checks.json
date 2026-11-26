@@ -1,0 +1,38 @@
+{
+  "chair": {
+    "objects": 4,
+    "preservedSupportsAndSeat": true,
+    "preservedIDs": true,
+    "backrestMoreUpright": true
+  },
+  "building": {
+    "objects": 153,
+    "columns": 48,
+    "floorBaseElevations": [0, 6, 9.5, 13],
+    "oldColumnBounds": {
+      "min": {
+        "x": -8.775,
+        "y": 0,
+        "z": -5.7749999999999995
+      },
+      "max": {
+        "x": 8.775,
+        "y": 16.5,
+        "z": 5.7749999999999995
+      }
+    },
+    "newColumnBounds": {
+      "min": {
+        "x": -7.7749999999999995,
+        "y": 0,
+        "z": -4.7749999999999995
+      },
+      "max": {
+        "x": 7.7749999999999995,
+        "y": 16.5,
+        "z": 4.7749999999999995
+      }
+    },
+    "preservedOtherParts": true
+  }
+}

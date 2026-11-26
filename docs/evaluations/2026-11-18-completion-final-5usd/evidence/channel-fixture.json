@@ -1,0 +1,143 @@
+{
+  "project": {
+    "volumes": [
+      {
+        "id": "64e31f5f-23e5-44e8-b098-aec3c25a4383",
+        "name": "Channel wall study",
+        "dimensions": {
+          "width": 0.42,
+          "depth": 0.42,
+          "height": 0.42
+        },
+        "position": {
+          "x": -9,
+          "y": 0,
+          "z": 4
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "sphere"
+        },
+        "groupId": "e35b49e5-dd03-4a49-ae38-28ca05459675"
+      },
+      {
+        "id": "eac18ac3-c9b6-4fdb-ad43-0b28cec0d2e4",
+        "name": "Existing prop",
+        "dimensions": {
+          "width": 0.9,
+          "depth": 0.6,
+          "height": 1.1
+        },
+        "position": {
+          "x": -8,
+          "y": 0.2,
+          "z": 3
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "groupId": "e35b49e5-dd03-4a49-ae38-28ca05459675"
+      },
+      {
+        "id": "b4e1cb27-3d0e-4240-bad2-f6651de5d17f",
+        "name": "Channel base",
+        "dimensions": {
+          "width": 3.6,
+          "depth": 1.4,
+          "height": 0.18
+        },
+        "position": {
+          "x": 4.4,
+          "y": 0,
+          "z": 1.7
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "groupId": "ec8bbffc-9d0c-4677-bb12-4978b92e5d14"
+      },
+      {
+        "id": "66a4fc96-ef05-4a86-9e46-35b706f1f332",
+        "name": "Channel left wall",
+        "dimensions": {
+          "width": 0.16,
+          "depth": 1.4,
+          "height": 0.95
+        },
+        "position": {
+          "x": 2.6800000000000006,
+          "y": 0.18,
+          "z": 1.7
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "groupId": "ec8bbffc-9d0c-4677-bb12-4978b92e5d14"
+      },
+      {
+        "id": "c01d22a1-f434-4253-9d2d-be71117a2a6e",
+        "name": "Channel right wall",
+        "dimensions": {
+          "width": 0.16,
+          "depth": 1.4,
+          "height": 0.95
+        },
+        "position": {
+          "x": 6.12,
+          "y": 0.18,
+          "z": 1.7
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "groupId": "ec8bbffc-9d0c-4677-bb12-4978b92e5d14"
+      },
+      {
+        "id": "aa777031-a63c-40ed-8ddd-b5e409449095",
+        "name": "Channel ball",
+        "dimensions": {
+          "width": 0.38,
+          "depth": 0.38,
+          "height": 0.38
+        },
+        "position": {
+          "x": 4.4,
+          "y": 0.18,
+          "z": 1.7
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "sphere"
+        },
+        "groupId": "ec8bbffc-9d0c-4677-bb12-4978b92e5d14"
+      }
+    ],
+    "selectedId": null,
+    "groups": [
+      {
+        "id": "e35b49e5-dd03-4a49-ae38-28ca05459675",
+        "name": "Existing props",
+        "visible": true,
+        "locked": false
+      },
+      {
+        "id": "ec8bbffc-9d0c-4677-bb12-4978b92e5d14",
+        "name": "Channel",
+        "visible": true,
+        "locked": false
+      }
+    ]
+  },
+  "past": [],
+  "future": [],
+  "context": {
+    "focusIds": [],
+    "lastCreatedIds": [],
+    "lastOperands": [],
+    "lastOperation": null
+  }
+}

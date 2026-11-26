@@ -1,0 +1,247 @@
+{
+  "project": {
+    "volumes": [
+      {
+        "id": "98c53a6e-f536-49ee-9780-2a322378e861",
+        "name": "Channel wall study",
+        "dimensions": {
+          "width": 0.42,
+          "depth": 0.42,
+          "height": 0.42
+        },
+        "position": {
+          "x": -9,
+          "y": 0,
+          "z": 4
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "sphere"
+        },
+        "groupId": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a"
+      },
+      {
+        "id": "c0f62f3f-7727-41db-9c98-f3dfe961d16f",
+        "name": "Existing prop",
+        "dimensions": {
+          "width": 0.9,
+          "depth": 0.6,
+          "height": 1.1
+        },
+        "position": {
+          "x": -8,
+          "y": 0.2,
+          "z": 3
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "groupId": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a"
+      },
+      {
+        "id": "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+        "name": "Channel base",
+        "dimensions": {
+          "width": 3.6,
+          "depth": 1.4,
+          "height": 0.18
+        },
+        "position": {
+          "x": 4.4,
+          "y": 0,
+          "z": 1.7
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "material": "solid",
+        "color": "#e2e7e6",
+        "groupId": "4e71eef4-4134-4a31-a7a8-5a45000accec",
+        "component": {
+          "role": "floor",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+        "name": "Channel west end wall",
+        "dimensions": {
+          "width": 0.16,
+          "depth": 1.4,
+          "height": 0.95
+        },
+        "position": {
+          "x": 2.6800000000000006,
+          "y": 0.18,
+          "z": 1.7
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "material": "solid",
+        "color": "#e2e7e6",
+        "groupId": "4e71eef4-4134-4a31-a7a8-5a45000accec",
+        "component": {
+          "role": "wall",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+        "name": "Channel east end wall",
+        "dimensions": {
+          "width": 0.16,
+          "depth": 1.4,
+          "height": 0.95
+        },
+        "position": {
+          "x": 6.12,
+          "y": 0.18,
+          "z": 1.7
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "material": "solid",
+        "color": "#e2e7e6",
+        "groupId": "4e71eef4-4134-4a31-a7a8-5a45000accec",
+        "component": {
+          "role": "wall",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b",
+        "name": "Channel center ball",
+        "dimensions": {
+          "width": 0.38,
+          "depth": 0.5700000000000001,
+          "height": 0.38
+        },
+        "position": {
+          "x": 4.4,
+          "y": 0.18,
+          "z": 1.7
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "sphere"
+        },
+        "material": "solid",
+        "color": "#e2e7e6",
+        "groupId": "4e71eef4-4134-4a31-a7a8-5a45000accec",
+        "component": {
+          "role": "element",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      }
+    ],
+    "selectedId": "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b",
+    "groups": [
+      {
+        "id": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a",
+        "name": "Existing props",
+        "visible": true,
+        "locked": false
+      },
+      {
+        "id": "4e71eef4-4134-4a31-a7a8-5a45000accec",
+        "name": "Channel",
+        "visible": true,
+        "locked": false
+      }
+    ],
+    "selectedIds": [
+      "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+      "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+      "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+      "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+    ]
+  },
+  "past": [
+    {
+      "volumes": [
+        {
+          "id": "98c53a6e-f536-49ee-9780-2a322378e861",
+          "name": "Channel wall study",
+          "dimensions": {
+            "width": 0.42,
+            "depth": 0.42,
+            "height": 0.42
+          },
+          "position": {
+            "x": -9,
+            "y": 0,
+            "z": 4
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "sphere"
+          },
+          "groupId": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a"
+        },
+        {
+          "id": "c0f62f3f-7727-41db-9c98-f3dfe961d16f",
+          "name": "Existing prop",
+          "dimensions": {
+            "width": 0.9,
+            "depth": 0.6,
+            "height": 1.1
+          },
+          "position": {
+            "x": -8,
+            "y": 0.2,
+            "z": 3
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          },
+          "groupId": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a"
+        }
+      ],
+      "selectedId": null,
+      "groups": [
+        {
+          "id": "4251a9fa-3db4-4c82-aa76-bb6a7ef90a2a",
+          "name": "Existing props",
+          "visible": true,
+          "locked": false
+        }
+      ]
+    }
+  ],
+  "future": [],
+  "context": {
+    "focusIds": [
+      "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+      "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+      "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+      "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+    ],
+    "lastCreatedIds": [
+      "b98e0d57-19e7-4059-bdfd-9bf01b7cd7e9",
+      "4230c23d-2f1e-46b0-9cd9-5a56412acd72",
+      "a1af0b94-c5fa-4809-9f44-65eabceeb9cd",
+      "b9ec8ca6-f40d-4902-8a19-a8354a7ba92b"
+    ],
+    "lastOperands": [],
+    "lastOperation": "assembly"
+  }
+}
