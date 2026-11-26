@@ -235,6 +235,10 @@ test('shadows follow a moved object beyond the original site and studio controls
   expect(panel!.x).toBeGreaterThanOrEqual(0);
   expect(panel!.x + panel!.width).toBeLessThanOrEqual(390);
   await page.getByRole('button', { name: 'Close studio settings' }).click();
+  await page
+    .getByRole('navigation', { name: 'Workspace actions' })
+    .getByRole('button', { name: 'Open chat', exact: true })
+    .click();
   const input = await page
     .getByRole('textbox', { name: 'Message Atelier' })
     .boundingBox();

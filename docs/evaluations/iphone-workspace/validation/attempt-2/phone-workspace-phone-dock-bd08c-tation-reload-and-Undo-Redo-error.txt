@@ -1,0 +1,199 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: phone-workspace.spec.ts >> phone dock creates editable solids, switches sheets, retains drafts and survives rotation, reload and Undo/Redo
+- Location: tests/phone-workspace.spec.ts:19:1
+
+# Error details
+
+```
+Error: locator.tap: Test ended.
+Call log:
+  - waiting for getByRole('navigation', { name: 'Workspace actions' }).getByRole('button', { name: 'Design tools', exact: true })
+    - locator resolved to <button aria-expanded="false" aria-label="Design tools" class="compact-tools-toggle">…</button>
+  - attempting tap action
+    - waiting for element to be visible, enabled and stable
+    - element is visible, enabled and stable
+    - scrolling into view if needed
+    - done scrolling
+    - performing tap action
+
+```
+
+# Test source
+
+```ts
+  1   | import { test, expect, type Page } from '@playwright/test';
+  2   | 
+  3   | test.use({
+  4   |   viewport: { width: 390, height: 844 },
+  5   |   isMobile: true,
+  6   |   hasTouch: true,
+  7   | });
+  8   | const saved = (page: Page) =>
+  9   |   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
+  10  | async function ready(page: Page) {
+  11  |   await page.emulateMedia({ reducedMotion: 'reduce' });
+  12  |   await page.goto('/');
+  13  |   await expect(page.getByTestId('viewport')).toHaveAttribute(
+  14  |     'data-rendered',
+  15  |     'true',
+  16  |   );
+  17  | }
+  18  | 
+  19  | test('phone dock creates editable solids, switches sheets, retains drafts and survives rotation, reload and Undo/Redo', async ({
+  20  |   page,
+  21  | }) => {
+  22  |   test.setTimeout(120000);
+  23  |   await ready(page);
+  24  |   const starting = await saved(page);
+  25  |   const message = page.getByRole('textbox', { name: 'Message Atelier' });
+  26  |   await message.fill('Keep this unsent design idea');
+  27  |   const dock = page.getByRole('navigation', { name: 'Workspace actions' });
+  28  |   await dock.getByRole('button', { name: 'Hide chat', exact: true }).tap();
+  29  |   await dock
+  30  |     .getByRole('button', { name: 'Create a 3D shape', exact: true })
+  31  |     .tap();
+  32  |   const create = page.getByRole('region', {
+  33  |     name: 'Create and transform',
+  34  |     exact: true,
+  35  |   });
+  36  |   await expect(create).toBeVisible();
+  37  |   const d = (await dock.boundingBox())!,
+  38  |     sheet = (await create.boundingBox())!;
+  39  |   expect(sheet.y + sheet.height).toBeLessThan(d.y);
+  40  |   await create.getByRole('button', { name: 'Cylinder', exact: true }).tap();
+  41  |   await create.getByLabel('Solid width').fill('1.2');
+  42  |   await create.getByLabel('Solid height').fill('2.4');
+  43  |   await create
+  44  |     .getByRole('button', { name: 'Create 3D shape', exact: true })
+  45  |     .tap();
+  46  |   await expect
+  47  |     .poll(async () => (await saved(page)).project.volumes.length)
+  48  |     .toBe(starting.project.volumes.length + 1);
+  49  |   const edited = await saved(page);
+  50  |   expect(edited.project.volumes.at(-1).dimensions).toEqual({
+  51  |     width: 1.2,
+  52  |     depth: 1.2,
+  53  |     height: 2.4,
+  54  |   });
+  55  |   for (const original of starting.project.volumes)
+  56  |     expect(
+  57  |       edited.project.volumes.find((v: any) => v.id === original.id),
+  58  |     ).toEqual(original);
+  59  |   await dock.getByRole('button', { name: 'Show objects', exact: true }).tap();
+  60  |   await expect(create).toBeHidden();
+  61  |   await expect(
+  62  |     page.getByRole('heading', { name: /Scene objects/ }),
+  63  |   ).toBeVisible();
+  64  |   await dock.getByRole('button', { name: 'Open chat', exact: true }).tap();
+  65  |   await expect(message).toHaveValue('Keep this unsent design idea');
+  66  |   await dock.getByRole('button', { name: 'Hide chat', exact: true }).tap();
+> 67  |   await dock.getByRole('button', { name: 'Design tools', exact: true }).tap();
+      |                                                                         ^ Error: locator.tap: Test ended.
+  68  |   await expect(
+  69  |     page.getByRole('region', { name: 'Design tools menu' }),
+  70  |   ).toBeVisible();
+  71  |   await page.getByRole('button', { name: 'Close tools', exact: true }).tap();
+  72  |   for (const size of [
+  73  |     { width: 844, height: 390 },
+  74  |     { width: 320, height: 568 },
+  75  |     { width: 390, height: 844 },
+  76  |   ]) {
+  77  |     await page.setViewportSize(size);
+  78  |     await expect(dock).toBeVisible();
+  79  |     const bounds = (await dock.boundingBox())!;
+  80  |     expect(bounds.x).toBeGreaterThanOrEqual(0);
+  81  |     expect(bounds.x + bounds.width).toBeLessThanOrEqual(size.width);
+  82  |     expect(bounds.y + bounds.height).toBeLessThanOrEqual(size.height);
+  83  |     for (const button of await dock.getByRole('button').all()) {
+  84  |       const r = (await button.boundingBox())!;
+  85  |       expect(r.width).toBeGreaterThanOrEqual(44);
+  86  |       expect(r.height).toBeGreaterThanOrEqual(44);
+  87  |     }
+  88  |     expect((await saved(page)).project.volumes).toEqual(edited.project.volumes);
+  89  |   }
+  90  |   await page.reload();
+  91  |   await expect(page.getByTestId('viewport')).toHaveAttribute(
+  92  |     'data-rendered',
+  93  |     'true',
+  94  |   );
+  95  |   expect((await saved(page)).project.volumes).toEqual(edited.project.volumes);
+  96  |   await page
+  97  |     .getByRole('button', { name: 'Minimize conversation', exact: true })
+  98  |     .tap();
+  99  |   await page.getByRole('button', { name: 'Undo', exact: true }).tap();
+  100 |   await expect
+  101 |     .poll(async () => (await saved(page)).project.volumes)
+  102 |     .toEqual(starting.project.volumes);
+  103 |   await page.getByRole('button', { name: 'Redo', exact: true }).tap();
+  104 |   await expect
+  105 |     .poll(async () => (await saved(page)).project.volumes)
+  106 |     .toEqual(edited.project.volumes);
+  107 |   await page.screenshot({ path: 'test-results/iphone-dock.png' });
+  108 | });
+  109 | 
+  110 | test('Safari-style keyboard viewport keeps the composer visible without changing geometry or capture state', async ({
+  111 |   page,
+  112 | }) => {
+  113 |   test.setTimeout(90000);
+  114 |   await ready(page);
+  115 |   const original = await saved(page);
+  116 |   const message = page.getByRole('textbox', { name: 'Message Atelier' });
+  117 |   await message.fill('An idea kept while the keyboard changes');
+  118 |   // Synthetic visual-viewport metrics, not a physical iPhone keyboard test.
+  119 |   await page.evaluate(() => {
+  120 |     Object.defineProperty(visualViewport, 'height', {
+  121 |       configurable: true,
+  122 |       get: () => 430,
+  123 |     });
+  124 |     visualViewport!.dispatchEvent(new Event('resize'));
+  125 |   });
+  126 |   await expect(page.locator('html')).toHaveAttribute('data-phone-keyboard', '');
+  127 |   await expect(
+  128 |     page.getByRole('navigation', { name: 'Workspace actions' }),
+  129 |   ).toBeHidden();
+  130 |   const composer = page.locator('.conversation-composer');
+  131 |   const r = (await composer.boundingBox())!;
+  132 |   expect(r.y).toBeGreaterThanOrEqual(0);
+  133 |   expect(r.y + r.height).toBeLessThanOrEqual(430);
+  134 |   expect((await saved(page)).project).toEqual(original.project);
+  135 |   await page.screenshot({ path: 'test-results/iphone-keyboard-metrics.png' });
+  136 |   await page.evaluate(() => {
+  137 |     Object.defineProperty(visualViewport, 'scale', {
+  138 |       configurable: true,
+  139 |       get: () => 1.5,
+  140 |     });
+  141 |     visualViewport!.dispatchEvent(new Event('resize'));
+  142 |   });
+  143 |   await expect(page.locator('html')).not.toHaveAttribute('data-phone-keyboard');
+  144 |   expect(
+  145 |     await page
+  146 |       .locator('html')
+  147 |       .evaluate((el) => el.style.getPropertyValue('--phone-keyboard-lift')),
+  148 |   ).toBe('0px');
+  149 |   await page.evaluate(() => {
+  150 |     delete (visualViewport as any).height;
+  151 |     delete (visualViewport as any).scale;
+  152 |     (document.activeElement as HTMLElement)?.blur();
+  153 |     visualViewport!.dispatchEvent(new Event('resize'));
+  154 |   });
+  155 |   await expect(
+  156 |     page.getByRole('navigation', { name: 'Workspace actions' }),
+  157 |   ).toBeVisible();
+  158 |   await expect(message).toHaveValue('An idea kept while the keyboard changes');
+  159 |   expect((await saved(page)).project).toEqual(original.project);
+  160 |   expect((await saved(page)).past).toEqual(original.past);
+  161 | });
+  162 | 
+  163 | test('phone entrance and idle glass reflections animate with a still reduced-motion alternative', async ({
+  164 |   page,
+  165 | }) => {
+  166 |   test.setTimeout(60000);
+  167 |   await page.addInitScript(() =>
+```

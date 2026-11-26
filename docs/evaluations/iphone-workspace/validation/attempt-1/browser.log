@@ -1,0 +1,182 @@
+[WebServer] (node:29531) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] .env not found. Continuing without it.
+[WebServer] (node:29544) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 18 tests using 1 worker
+
+(node:29556) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 tests/interface-refinement.spec.ts:13:1 › calm desktop and phone surfaces retain draft, theme, geometry and reachable menu controls (1.5m)
+(node:30443) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 tests/interface-refinement.spec.ts:80:1 › phone hold opens actions, deletion is undoable, double tap focuses, and drags do not open actions (16.1s)
+  ✓   3 tests/interface-refinement.spec.ts:213:1 › exploded assembly guides, axonometric camera, component interaction and reassembly preserve the model (33.7s)
+  ✓   4 tests/orb-conversation.spec.ts:3:1 › orb keeps voice modeling and follow-up edits in the minimized workspace (offline transport) (23.8s)
+  ✘   5 tests/phone-workspace.spec.ts:19:1 › phone dock creates editable solids, switches sheets, retains drafts and survives rotation, reload and Undo/Redo (22.5s)
+(node:31397) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 tests/phone-workspace.spec.ts:110:1 › Safari-style keyboard viewport keeps the composer visible without changing geometry or capture state (6.6s)
+  ✘   7 tests/phone-workspace.spec.ts:163:1 › phone entrance and idle glass reflections animate with a still reduced-motion alternative (2.0s)
+(node:31607) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 tests/project-start.spec.ts:4:1 › start screen preserves projects and offers a quiet manual entry on desktop and phone (21.8s)
+  ✓   9 tests/project-start.spec.ts:68:1 › AI entry uses the existing password endpoint and never starts voice automatically (1.8s)
+  ✓  10 tests/project-start.spec.ts:113:1 › AI can be enabled after manual entry and stays enabled when changing projects (23.2s)
+  ✓  11 tests/viewport-coverage.spec.ts:72:1 › canvas covers the workspace through desktop zoom-equivalent layouts, DPR-only changes, panels and visual-viewport zoom (1.3m)
+  ✓  12 tests/viewport-coverage.spec.ts:123:1 › phone panel projection remains sized to the canvas across portrait, landscape and keyboard layouts (8.3s)
+  ✘  13 tests/workspace-lifecycle.spec.ts:64:3 › mobile workspace lifecycle with real geometry and offline provider › orientation, keyboard-size changes and conversation controls preserve an executing transaction and camera (1.5m)
+(node:32468) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  14 tests/workspace-lifecycle.spec.ts:156:3 › mobile workspace lifecycle with real geometry and offline provider › an interrupted request reloads into the same workspace, preserves conversation/history and accepts a new request (13.3s)
+  ✓  15 tests/workspace-lifecycle.spec.ts:211:1 › desktop graphics recover in place, and zero-size / wide viewport transitions retain complete buffers (13.2s)
+  ✓  16 tests/workspace-lifecycle.spec.ts:270:1 › conversation language defaults to English and persists only explicit preference changes (21.9s)
+  ✓  17 tests/workspace-lifecycle.spec.ts:307:1 › a verified modeling reply respects Spanish while keeping the geometric evidence (11.9s)
+(node:33163) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  18 tests/voice-permission.spec.ts:20:1 › browser microphone denial leaves voice stopped and the mobile workspace usable (7.1s)
+
+
+  1) tests/interface-refinement.spec.ts:13:1 › calm desktop and phone surfaces retain draft, theme, geometry and reachable menu controls 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Close studio', exact: true })
+
+
+      41 |   await page.getByRole('button', { name: 'Appearance', exact: true }).click();
+      42 |   await page.getByRole('button', { name: 'Day', exact: true }).click();
+    > 43 |   await page.getByRole('button', { name: 'Close studio settings', exact: true }).click();
+         |                                                                         ^
+      44 |   await page.screenshot({ path: 'test-results/refined-phone-composer.png' });
+      45 |   await page.getByRole('button', { name: 'Minimize conversation' }).click();
+      46 |   await expect(input).toBeHidden();
+        at /workspace/atelier-iphone/tests/interface-refinement.spec.ts:43:73
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/interface-refinement-calm--ab04b-and-reachable-menu-controls/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/interface-refinement-calm--ab04b-and-reachable-menu-controls/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/interface-refinement-calm--ab04b-and-reachable-menu-controls/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/interface-refinement-calm--ab04b-and-reachable-menu-controls/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/phone-workspace.spec.ts:19:1 › phone dock creates editable solids, switches sheets, retains drafts and survives rotation, reload and Undo/Redo 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('region', { name: 'Scene objects' })
+    Expected: visible
+    Timeout: 15000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('region', { name: 'Scene objects' }) with timeout 15000ms
+      - waiting for getByRole('region', { name: 'Scene objects' })
+
+
+      61 |   await expect(page.getByRole('heading', { name: /Scene objects/ })).toBeVisible();
+      62 |   await dock.getByRole('button', { name: 'Open chat', exact: true }).tap();
+    > 63 |   await expect(message).toHaveValue('Keep this unsent design idea');
+         |     ^
+      64 |   await dock.getByRole('button', { name: 'Hide chat', exact: true }).tap();
+      65 |   await dock.getByRole('button', { name: 'Design tools', exact: true }).tap();
+      66 |   await expect(
+        at /workspace/atelier-iphone/tests/phone-workspace.spec.ts:63:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/phone-workspace-phone-dock-bd08c-tation-reload-and-Undo-Redo/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/phone-workspace-phone-dock-bd08c-tation-reload-and-Undo-Redo/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/phone-workspace-phone-dock-bd08c-tation-reload-and-Undo-Redo/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/phone-workspace-phone-dock-bd08c-tation-reload-and-Undo-Redo/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/phone-workspace.spec.ts:163:1 › phone entrance and idle glass reflections animate with a still reduced-motion alternative 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      186 |   ).toBe(true);
+      187 |   await page
+    > 188 |     .getByRole('button', { name: 'Continue without AI', exact: true })
+          |     ^
+      189 |     .tap();
+      190 |   await page.screenshot({ path: 'test-results/iphone-projects.png' });
+      191 |   expect(
+        at /workspace/atelier-iphone/tests/phone-workspace.spec.ts:188:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/phone-workspace-phone-entr-567c1--reduced-motion-alternative/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/phone-workspace-phone-entr-567c1--reduced-motion-alternative/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/phone-workspace-phone-entr-567c1--reduced-motion-alternative/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/phone-workspace-phone-entr-567c1--reduced-motion-alternative/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) tests/workspace-lifecycle.spec.ts:64:3 › mobile workspace lifecycle with real geometry and offline provider › orientation, keyboard-size changes and conversation controls preserve an executing transaction and camera 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Undo', exact: true })
+
+
+      145 |     expect(after.project.volumes.slice(0, 2)).toEqual(before.project.volumes);
+      146 |     expect(after.past).toHaveLength(before.past.length + 1);
+    > 147 |     await page.getByRole('button', { name: 'Undo', exact: true }).click();
+          |                                                                   ^
+      148 |     await expect
+      149 |       .poll(async () => (await saved(page)).project)
+      150 |       .toEqual(before.project);
+        at /workspace/atelier-iphone/tests/workspace-lifecycle.spec.ts:147:67
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/workspace-lifecycle-mobile-cbcbd-ting-transaction-and-camera/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/workspace-lifecycle-mobile-cbcbd-ting-transaction-and-camera/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/workspace-lifecycle-mobile-cbcbd-ting-transaction-and-camera/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/workspace-lifecycle-mobile-cbcbd-ting-transaction-and-camera/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    tests/interface-refinement.spec.ts:13:1 › calm desktop and phone surfaces retain draft, theme, geometry and reachable menu controls 
+    tests/phone-workspace.spec.ts:19:1 › phone dock creates editable solids, switches sheets, retains drafts and survives rotation, reload and Undo/Redo 
+    tests/phone-workspace.spec.ts:163:1 › phone entrance and idle glass reflections animate with a still reduced-motion alternative 
+    tests/workspace-lifecycle.spec.ts:64:3 › mobile workspace lifecycle with real geometry and offline provider › orientation, keyboard-size changes and conversation controls preserve an executing transaction and camera 
+  14 passed (8.2m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

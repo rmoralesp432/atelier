@@ -32,6 +32,15 @@ for (const phone of [false, true]) {
     await expect(view).toHaveAttribute('data-model-objects', '1', {
       timeout: 20000,
     });
+    if (phone) {
+      await expect(objects).toBeVisible();
+      await expect(
+        page.getByRole('textbox', { name: 'Message Atelier' }),
+      ).toBeHidden();
+      await expect(
+        page.getByRole('button', { name: 'Voice orb', exact: true }),
+      ).toBeVisible();
+    }
     if (!(await objects.isVisible()))
       await page
         .getByRole('button', { name: 'Show objects', exact: true })

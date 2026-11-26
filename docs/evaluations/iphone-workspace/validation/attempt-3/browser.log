@@ -1,0 +1,149 @@
+[WebServer] (node:34438) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] .env not found. Continuing without it.
+[WebServer] (node:34451) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 22 tests using 1 worker
+
+(node:34463) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/interface-refinement.spec.ts:13:1 › calm desktop and phone surfaces retain draft, theme, geometry and reachable menu controls (23.4s)
+  ✘   2 tests/interface-refinement.spec.ts:82:1 › phone hold opens actions, deletion is undoable, double tap focuses, and drags do not open actions (1.5m)
+(node:35220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   3 tests/interface-refinement.spec.ts:215:1 › exploded assembly guides, axonometric camera, component interaction and reassembly preserve the model (109ms)
+
+
+  1) tests/interface-refinement.spec.ts:82:1 › phone hold opens actions, deletion is undoable, double tap focuses, and drags do not open actions 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Browser logs:
+
+    <launching> /usr/bin/chromium --disable-field-trial-config --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-back-forward-cache --disable-breakpad --disable-client-side-phishing-detection --disable-component-extensions-with-background-pages --disable-component-update --no-default-browser-check --disable-default-apps --disable-dev-shm-usage --disable-edgeupdater --disable-extensions --disable-features=AvoidUnnecessaryBeforeUnloadCheckSync,DestroyProfileOnBrowserClose,DialMediaRouteProvider,GlobalMediaControls,HttpsUpgrades,LensOverlay,MediaRouter,PaintHolding,ThirdPartyStoragePartitioning,BlockOriginHeaderModificationOnRedirect,AvoidCorsURLLoaderRestartOnRedirect,Translate,AutoDeElevate,OptimizationHints,NetworkTimeServiceQuerying,AimEnabled,msForceBrowserSignIn,msEdgeUpdateLaunchServicesPreferredVersion --enable-features=CDPScreenshotNewSurface --allow-pre-commit-input --disable-hang-monitor --disable-ipc-flooding-protection --disable-popup-blocking --disable-prompt-on-repost --disable-renderer-backgrounding --disable-updater-scheduler --force-color-profile=srgb --metrics-recording-only --no-first-run --password-store=basic --use-mock-keychain --no-service-autorun --export-tagged-pdf --disable-search-engine-choice-screen --unsafely-disable-devtools-self-xss-warnings --edge-skip-compat-layer-relaunch --disable-infobars --disable-search-engine-choice-screen --disable-sync --enable-unsafe-swiftshader --headless --hide-scrollbars --mute-audio --blink-settings=primaryHoverType=2,availableHoverTypes=2,primaryPointerType=4,availablePointerTypes=4 --no-sandbox --no-sandbox --use-angle=swiftshader --enable-unsafe-swiftshader --user-data-dir=/tmp/playwright_chromiumdev_profile-S0ZNlk --remote-debugging-pipe --no-startup-window
+    <launched> pid=34475
+    [pid=34475][err] [34475:34475:1126/185341.121316:ERROR:third_party/crashpad/crashpad/util/file/filesystem_posix.cc:63] mkdir : No such file or directory (2)
+    [pid=34475][err] chrome_crashpad_handler: --database is required
+    [pid=34475][err] Try 'chrome_crashpad_handler --help' for more information.
+    [pid=34475][err] [34475:34499:1126/185341.163877:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+    [pid=34475][err] [34475:34499:1126/185341.164346:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=34475][err] [34475:34499:1126/185341.167145:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+    [pid=34475][err] [34475:34499:1126/185341.167255:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+    [pid=34475][err] [34475:34499:1126/185341.167264:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=34475][err] [34475:34509:1126/185341.171615:ERROR:content/browser/zygote_host/zygote_host_impl_linux.cc:300] Failed to adjust OOM score of renderer with pid 34511: Read-only file system (30)
+    [pid=34475][err] Fontconfig error: No writable cache directories
+    [pid=34475][err] [34475:34499:1126/185341.219707:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=34475][err] [34475:34509:1126/185341.222085:ERROR:content/browser/zygote_host/zygote_host_impl_linux.cc:300] Failed to adjust OOM score of renderer with pid 34538: Read-only file system (30)
+    [pid=34475][err] [34475:34475:1126/185341.234420:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+    [pid=34475][err] [34475:34499:1126/185341.234531:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=34475][err] [34475:34475:1126/185341.234577:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+    [pid=34475][err] [34475:34499:1126/185341.234648:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=34475][err] [34475:34475:1126/185341.239180:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+    [pid=34475][err] [34475:34499:1126/185341.239301:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=34475][err] [34475:34475:1126/185341.241214:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+    [pid=34475][err] [34475:34499:1126/185341.241222:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+    [pid=34475][err] [34475:34499:1126/185341.241242:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+    [pid=34475][err] [34475:34475:1126/185341.241250:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+    [pid=34475][err] [34475:34499:1126/185341.241343:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=34475][err] [34475:34475:1126/185341.242490:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+    [pid=34475][err] [34475:34475:1126/185341.242952:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.Properties.GetAll: object_path= /org/freedesktop/UPower/devices/DisplayDevice: unknown error type: 
+    [pid=34475][err] [34475:34475:1126/185341.242971:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+    [pid=34475][err] [34475:34499:1126/185341.243066:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=34475][err] [34475:34475:1126/185341.245424:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+    [pid=34475][err] [34475:34499:1126/185341.245474:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+    [pid=34475][err] [34475:34475:1126/185341.246068:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+    [pid=34475][err] 
+    [pid=34475][err] (process:34475): dconf-CRITICAL **: 18:53:41.260: unable to create directory '/home/agent/.cache/dconf': Read-only file system.  dconf will not work properly.
+    [pid=34475][err] 
+    [pid=34475][err] (process:34475): dconf-CRITICAL **: 18:53:41.261: unable to create directory '/home/agent/.cache/dconf': Read-only file system.  dconf will not work properly.
+    [pid=34475][err] 
+    [pid=34475][err] (process:34475): dconf-CRITICAL **: 18:53:41.261: unable to create directory '/home/agent/.cache/dconf': Read-only file system.  dconf will not work properly.
+    [pid=34475][err] [34475:34509:1126/185341.285867:ERROR:content/browser/zygote_host/zygote_host_impl_linux.cc:300] Failed to adjust OOM score of renderer with pid 34555: Read-only file system (30)
+    [pid=34475][err] [34475:34509:1126/185341.307108:ERROR:content/browser/zygote_host/zygote_host_impl_linux.cc:300] Failed to adjust OOM score of renderer with pid 34564: Read-only file system (30)
+    [pid=34475][err] [34475:34509:1126/185341.313491:ERROR:content/browser/zygote_host/zygote_host_impl_linux.cc:300] Failed to adjust OOM score of renderer with pid 34571: Read-only file system (30)
+    [pid=34475][err] [34475:34509:1126/185341.701894:ERROR:content/browser/zygote_host/zygote_host_impl_linux.cc:300] Failed to adjust OOM score of renderer with pid 34590: Read-only file system (30)
+    [pid=34475][err] [34475:34509:1126/185341.716516:ERROR:content/browser/zygote_host/zygote_host_impl_linux.cc:300] Failed to adjust OOM score of renderer with pid 34597: Read-only file system (30)
+    [pid=34475][err] [34475:34509:1126/185404.788304:ERROR:content/browser/zygote_host/zygote_host_impl_linux.cc:300] Failed to adjust OOM score of renderer with pid 34620: Read-only file system (30)
+    [pid=34475][err] [34475:34509:1126/185404.804525:ERROR:content/browser/zygote_host/zygote_host_impl_linux.cc:300] Failed to adjust OOM score of renderer with pid 34629: Read-only file system (30)
+    [pid=34475][err] [34475:34509:1126/185404.806905:ERROR:content/browser/zygote_host/zygote_host_impl_linux.cc:300] Failed to adjust OOM score of renderer with pid 34631: Read-only file system (30)
+    [pid=34475][err] [34475:34509:1126/185404.973816:ERROR:content/browser/zygote_host/zygote_host_impl_linux.cc:300] Failed to adjust OOM score of renderer with pid 34651: Read-only file system (30)
+    [pid=34475][err] [34475:34509:1126/185404.990267:ERROR:content/browser/zygote_host/zygote_host_impl_linux.cc:300] Failed to adjust OOM score of renderer with pid 34660: Read-only file system (30)
+    [pid=34475] <gracefully close start>
+    Call log:
+      - waiting for getByRole('button', { name: 'Undo', exact: true })
+        - locator resolved to <button aria-label="Undo" title="Undo (Ctrl/⌘ Z)">…</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <header class="app-header">…</header> intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <header class="app-header">…</header> intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        129 × waiting for element to be visible, enabled and stable
+            - element is visible, enabled and stable
+            - scrolling into view if needed
+            - done scrolling
+            - <header class="app-header">…</header> intercepts pointer events
+          - retrying click action
+            - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+
+
+      143 |     '0',
+      144 |   );
+    > 145 |   await page.getByRole('button', { name: 'Undo', exact: true }).click();
+          |                                                                 ^
+      146 |   await expect(page.getByTestId('viewport')).toHaveAttribute(
+      147 |     'data-model-objects',
+      148 |     '1',
+        at /workspace/atelier-iphone/tests/interface-refinement.spec.ts:145:65
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/interface-refinement-phone-7eb1d-d-drags-do-not-open-actions/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/interface-refinement-phone-7eb1d-d-drags-do-not-open-actions/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/interface-refinement-phone-7eb1d-d-drags-do-not-open-actions/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/interface-refinement-phone-7eb1d-d-drags-do-not-open-actions/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/interface-refinement.spec.ts:215:1 › exploded assembly guides, axonometric camera, component interaction and reassembly preserve the model 
+
+    Test was interrupted.
+
+    Error: browser.newContext: Test ended.
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/interface-refinement-explo-22ec7-assembly-preserve-the-model/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/interface-refinement-explo-22ec7-assembly-preserve-the-model/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    tests/interface-refinement.spec.ts:82:1 › phone hold opens actions, deletion is undoable, double tap focuses, and drags do not open actions 
+  1 interrupted
+    tests/interface-refinement.spec.ts:215:1 › exploded assembly guides, axonometric camera, component interaction and reassembly preserve the model 
+  19 did not run
+  1 passed (2.0m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

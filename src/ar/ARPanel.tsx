@@ -14,6 +14,7 @@ export default function ARPanel({
   onClose,
   onActive,
   onConversationHost,
+  onConversationOpen,
   onNativeOpen,
   onCamera,
   onReload,
@@ -24,6 +25,7 @@ export default function ARPanel({
   onClose: () => void;
   onActive: (value: boolean) => void;
   onConversationHost: (node: HTMLDivElement | null) => void;
+  onConversationOpen: () => void;
   onNativeOpen: () => void;
   onCamera: (camera: CameraContext) => void;
   onReload: () => Promise<void>;
@@ -980,7 +982,10 @@ export default function ARPanel({
                 </button>
                 <button
                   aria-pressed={chatOpen}
-                  onClick={() => setChatOpen(!chatOpen)}
+                  onClick={() => {
+                    if (!chatOpen) onConversationOpen();
+                    setChatOpen(!chatOpen);
+                  }}
                 >
                   Chat
                 </button>

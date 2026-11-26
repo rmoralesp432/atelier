@@ -1,0 +1,528 @@
+/* Touch workspace chrome. No model, camera or project state depends on these layouts. */
+.phone-workspace-dock {
+  display: none;
+}
+.immersive.phone-workspace {
+  --phone-dock-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+  --phone-sheet-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+  min-height: 0;
+  height: 100dvh;
+  overscroll-behavior: none;
+}
+.immersive.phone-workspace .app-header {
+  height: calc(58px + env(safe-area-inset-top, 0px));
+  min-height: calc(58px + env(safe-area-inset-top, 0px));
+  padding: env(safe-area-inset-top, 0px) max(16px, env(safe-area-inset-right)) 0
+    max(12px, env(safe-area-inset-left));
+  gap: 10px;
+  background: var(--chrome);
+}
+.phone-workspace
+  .app-header
+  > :is(.scene-toggle, .primary-create, .compact-tools-toggle) {
+  display: none;
+}
+.phone-workspace .app-header .brand {
+  width: 44px;
+  flex: 0 0 44px;
+  min-height: 44px;
+  justify-content: center;
+}
+.phone-workspace .app-header > .project-switcher {
+  flex: 1;
+  min-width: 0;
+  max-width: none;
+  width: auto;
+  margin: 0 96px 0 0;
+  padding: 8px 0;
+  border: 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--ui-text);
+  text-align: left;
+}
+.phone-workspace .project-switcher svg {
+  display: none;
+}
+.phone-workspace .app-header > .explore-launcher {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 12px;
+}
+.phone-workspace .explore-launcher span {
+  display: none;
+}
+.phone-workspace .phone-workspace-dock {
+  position: fixed;
+  z-index: 35;
+  bottom: var(--phone-dock-bottom);
+  left: max(12px, env(safe-area-inset-left));
+  right: max(12px, env(safe-area-inset-right));
+  display: grid;
+  grid-template-columns: 1fr 1fr 80px 1fr 1fr;
+  max-width: 480px;
+  margin-inline: auto;
+  align-items: center;
+  min-height: 70px;
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: color-mix(in srgb, var(--panel) 92%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(20px) saturate(140%);
+  box-shadow:
+    0 8px 32px #00000014,
+    inset 0 1px #ffffff40;
+  color: var(--ui-text);
+}
+.phone-workspace-dock button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 44px;
+  min-height: 56px;
+  border-radius: 20px;
+  padding: 5px 0;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 500;
+  touch-action: manipulation;
+}
+.phone-workspace-dock button:is([aria-pressed='true'], [aria-expanded='true']) {
+  background: var(--control-selected);
+  color: var(--ui-text);
+}
+.immersive .phone-workspace-dock .compact-tools-toggle span {
+  display: inline;
+}
+.phone-workspace .orb-dock {
+  position: fixed;
+  z-index: 36;
+  bottom: calc(var(--phone-dock-bottom) - 3px);
+  width: 80px;
+  height: 80px;
+}
+.phone-workspace .orb-dock .orb-open {
+  width: 80px;
+  height: 80px;
+}
+.phone-workspace .orb-dock .audio-orb {
+  width: 64px;
+  height: 64px;
+}
+.phone-workspace .orb-dock .voice-mute {
+  position: absolute;
+  bottom: 88px;
+  left: 18px;
+  width: 44px;
+  height: 44px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: var(--ui-shadow);
+}
+.phone-workspace .orb-question {
+  position: fixed;
+  bottom: calc(
+    var(--phone-sheet-bottom) + 48px + var(--phone-keyboard-lift, 0px)
+  );
+  max-height: calc(var(--phone-visible-height, 100dvh) - 210px);
+  overflow-y: auto;
+}
+.phone-workspace .orb-question :is(input, button) {
+  font-size: 16px;
+  min-height: 44px;
+}
+.phone-workspace .quick-theme {
+  display: none;
+} /* Theme remains in Appearance and Tools. */
+.phone-workspace .viewport-bar {
+  top: 12px;
+  right: max(14px, env(safe-area-inset-right));
+}
+.phone-workspace .viewport-bar .view-button {
+  min-height: 44px;
+  font-size: 13px;
+}
+.phone-workspace .studio-launcher {
+  top: 12px;
+  right: calc(max(14px, env(safe-area-inset-right)) + 132px);
+  width: 44px;
+  height: 44px;
+}
+.phone-workspace .studio-launcher span {
+  display: none;
+}
+.phone-workspace .tool-palette {
+  left: max(12px, env(safe-area-inset-left));
+  top: 12px;
+  border-radius: 23px;
+  padding: 4px;
+  border: 1px solid var(--line);
+}
+.phone-workspace .tool-palette > button {
+  width: 44px;
+  height: 44px;
+}
+.phone-workspace .selection-chip {
+  left: calc(max(12px, env(safe-area-inset-left)) + 60px);
+  top: 70px;
+}
+.phone-workspace .north-compass {
+  top: 142px;
+}
+.immersive.phone-workspace .status-bar {
+  display: flex;
+  /* Header is layer 50. The fixed history controls must be above its hit area. */
+  z-index: 60;
+  bottom: var(--phone-sheet-bottom);
+  padding: 0 16px;
+}
+.phone-workspace .history-actions {
+  position: fixed;
+  top: calc(7px + env(safe-area-inset-top, 0px));
+  right: calc(50px + max(16px, env(safe-area-inset-right)));
+  z-index: 45;
+  gap: 0;
+}
+.phone-workspace .history-actions button {
+  width: 44px;
+  height: 44px;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.phone-workspace:not(.chat-docked) .status-bar > span,
+.phone-workspace:is(.tool-panel-open, .objects-open, .phone-actions-open)
+  .status-bar
+  > span,
+.phone-workspace:has(.header-actions.phone-tools-open) .status-bar > span {
+  display: none;
+}
+
+/* A single conversation surface; the input remains visible while history scrolls. */
+.immersive.phone-workspace .modeling-area > .conversation-area {
+  position: fixed;
+  z-index: 30;
+  left: max(12px, env(safe-area-inset-left));
+  right: max(12px, env(safe-area-inset-right));
+  bottom: calc(var(--phone-sheet-bottom) + var(--phone-keyboard-lift, 0px));
+  transform: none;
+  width: auto;
+  max-height: min(56dvh, calc(var(--phone-visible-height, 100dvh) - 200px));
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 10px 8px 4px;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  background: var(--panel);
+  color: var(--ui-text);
+  box-shadow: var(--ui-shadow);
+}
+.phone-workspace .conversation-heading {
+  margin: 0;
+  padding: 0 2px;
+  flex-shrink: 0;
+}
+.phone-workspace .conversation-heading button {
+  min-height: 44px;
+}
+.phone-workspace .conversation-heading .minimize-conversation {
+  order: 4;
+  background: var(--field);
+}
+.phone-workspace .conversation-language {
+  margin-left: auto;
+}
+.phone-workspace .conversation-language select {
+  font-size: 16px;
+  min-height: 44px;
+  max-width: 94px;
+  padding: 6px;
+}
+.phone-workspace .conversation-welcome {
+  margin: 8px 12px 4px;
+}
+.phone-workspace .conversation-welcome strong {
+  font-size: 18px;
+  font-weight: 500;
+}
+.phone-workspace .conversation-welcome p {
+  display: none;
+}
+.phone-workspace :is(.conversation-log, .conversation-latest) {
+  min-height: 0;
+  max-height: 26dvh;
+  flex: 1 1 auto;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  margin: 4px 0 0;
+  padding: 10px 12px;
+  background: transparent;
+  overscroll-behavior: contain;
+}
+.phone-workspace .chat-message p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.phone-workspace .conversation-area form.conversation-composer {
+  flex: 0 0 auto;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  padding: 10px 6px 4px;
+  box-shadow: none;
+}
+.phone-workspace .conversation-area .conversation-composer textarea {
+  font-size: 16px;
+  min-height: 44px;
+  max-height: 64px;
+}
+.phone-workspace .composer-context {
+  display: none;
+}
+.phone-workspace .conversation-area .composer-actions {
+  gap: 8px;
+}
+.phone-workspace .conversation-area .composer-actions .attach-reference {
+  margin-right: auto;
+}
+.phone-workspace .command-feedback:empty {
+  display: none;
+}
+
+/* Consistent phone sheets stay above the dock; closing one exposes the same live model. */
+.immersive.phone-workspace
+  :is(
+    .section-panel,
+    .studio-panel,
+    .inspector-panel:not([hidden]),
+    .objects-panel,
+    .phone-object-actions
+  ):not(.ar-panel),
+.immersive.phone-workspace .header-actions.phone-tools-open {
+  position: fixed !important;
+  top: auto !important;
+  bottom: calc(
+    var(--phone-sheet-bottom) + var(--phone-keyboard-lift, 0px)
+  ) !important;
+  left: max(12px, env(safe-area-inset-left)) !important;
+  right: max(12px, env(safe-area-inset-right)) !important;
+  width: auto !important;
+  max-width: none;
+  height: auto;
+  max-height: min(
+    60dvh,
+    calc(var(--phone-visible-height, 100dvh) - 190px)
+  ) !important;
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 18px;
+  box-shadow: var(--ui-shadow);
+}
+.phone-workspace
+  :is(.studio-panel, .section-panel, .objects-panel, .header-actions)
+  :is(button, select) {
+  min-height: 44px;
+}
+.phone-workspace
+  :is(.studio-panel, .section-panel, .objects-panel, .header-actions)
+  input:not([type='checkbox']):not([type='range']) {
+  font-size: 16px;
+  min-height: 44px;
+}
+.phone-workspace .walk-placement-bar {
+  bottom: var(--phone-sheet-bottom);
+}
+
+/* AR setup remains independently scrollable, with its actions above the orb.
+ * Its compact floor-preview height and the full-screen AR overlay stay intact. */
+.immersive.phone-workspace .section-panel.ar-panel {
+  top: auto !important;
+  bottom: calc(
+    var(--phone-sheet-bottom) + var(--phone-keyboard-lift, 0px)
+  ) !important;
+  max-height: calc(var(--phone-visible-height, 100dvh) - 190px);
+}
+.phone-workspace.presentation-mode
+  :is(.phone-workspace-dock, .orb-dock, .status-bar) {
+  display: none;
+}
+
+/* The visual viewport moves with the iOS keyboard; geometry and saved cameras do not. */
+html[data-phone-keyboard]
+  .phone-workspace
+  :is(.phone-workspace-dock, .orb-dock, .status-bar, .tool-palette) {
+  display: none;
+}
+html[data-phone-keyboard] .phone-workspace {
+  --phone-sheet-bottom: 8px;
+}
+html[data-phone-keyboard] .phone-workspace .modeling-area > .conversation-area {
+  max-height: calc(var(--phone-visible-height, 100dvh) - 80px);
+}
+html[data-phone-keyboard] .phone-workspace .conversation-welcome {
+  display: none;
+}
+/* A typed clarification must not hide the only way to mute/end live voice. */
+html[data-phone-keyboard] .phone-workspace.chat-docked:has(.voice-mute) {
+  --phone-sheet-bottom: 64px;
+}
+html[data-phone-keyboard]
+  .phone-workspace.chat-docked
+  .orb-dock:has(.voice-mute) {
+  display: flex;
+  bottom: calc(6px + var(--phone-keyboard-lift, 0px));
+  height: 52px;
+}
+html[data-phone-keyboard] .phone-workspace.chat-docked .orb-dock .orb-open {
+  height: 52px;
+}
+html[data-phone-keyboard] .phone-workspace.chat-docked .orb-dock .audio-orb {
+  width: 44px;
+  height: 44px;
+}
+html[data-phone-keyboard] .phone-workspace.chat-docked .orb-dock .voice-mute {
+  left: -36px;
+  bottom: 4px;
+}
+
+@media (max-width: 600px) {
+  .project-start {
+    padding: calc(16px + env(safe-area-inset-top))
+      max(24px, env(safe-area-inset-right))
+      max(32px, env(safe-area-inset-bottom))
+      max(24px, env(safe-area-inset-left));
+    background: radial-gradient(ellipse at 50% 35%, #ffffff, #f4f5f7 80%);
+  }
+  .project-start[data-step='connect'] .start-intro {
+    margin-top: clamp(50px, 11dvh, 140px);
+  }
+  .project-start[data-step='connect'] .orb-large {
+    width: 210px;
+    height: 210px;
+    margin-bottom: 34px;
+  }
+  .project-start .start-intro h1 {
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.05em;
+  }
+  .project-start[data-step='projects'] .start-intro {
+    margin-top: 20px;
+  }
+  .project-start[data-step='projects'] .orb-large {
+    width: 74px;
+    height: 74px;
+    margin-bottom: 10px;
+  }
+  .project-start[data-step='projects'] h1 {
+    text-align: left;
+    margin-bottom: 22px;
+  }
+  .project-start .start-enter {
+    min-width: 180px;
+    min-height: 52px;
+    font-size: 16px;
+  }
+  .project-start .start-connection summary {
+    font-size: 14px;
+    border-radius: 24px;
+    background: #ffffffc9;
+    border: 1px solid #e8e9ed;
+    padding: 0 16px;
+  }
+  .project-start .start-new-project {
+    padding: 8px;
+    background: white;
+    border: 1px solid #e5e7ea;
+    border-radius: 22px;
+  }
+  .project-start .start-new-project input {
+    border: 0;
+    padding: 8px;
+    font-size: 16px;
+  }
+  .project-start .start-new-project button {
+    font-size: 13px;
+    padding: 10px 12px;
+    background: #f2f3f5;
+    border: 0;
+    border-radius: 16px;
+  }
+  .project-start .start-projects {
+    gap: 0;
+    border-radius: 22px;
+    background: white;
+    overflow: hidden;
+    border: 1px solid #e5e7ea;
+  }
+  .project-start .start-projects button {
+    border: 0;
+    border-radius: 0;
+    min-height: 76px;
+    padding: 16px;
+    font-size: 15px;
+  }
+  .project-start .start-projects button + button {
+    border-top: 1px solid #eeeff1;
+  }
+  .project-start .start-preference {
+    justify-content: flex-start;
+    font-size: 12px;
+    min-height: 44px;
+  }
+  .project-start input[type='checkbox'] {
+    width: 20px;
+    height: 20px;
+    accent-color: #34383e;
+  }
+  .project-start :is(input:not([type='checkbox']), .start-connection input) {
+    font-size: 16px;
+  }
+  .projects-dialog {
+    position: fixed;
+    inset: auto 12px max(12px, env(safe-area-inset-bottom));
+    margin: 0;
+    width: auto;
+    max-height: calc(100dvh - 80px - env(safe-area-inset-top));
+    padding: 22px;
+    border-radius: 28px;
+    overscroll-behavior: contain;
+  }
+  .projects-dialog :is(button, input) {
+    min-height: 44px;
+  }
+  .projects-dialog input {
+    font-size: 16px;
+  }
+}
+@media (max-height: 500px) {
+  .phone-workspace .phone-workspace-dock {
+    min-height: 58px;
+    padding-block: 2px;
+  }
+  .phone-workspace-dock button {
+    min-height: 48px;
+    gap: 2px;
+  }
+  .phone-workspace .orb-dock {
+    bottom: calc(var(--phone-dock-bottom) - 9px);
+  }
+  .immersive.phone-workspace {
+    --phone-sheet-bottom: calc(74px + env(safe-area-inset-bottom));
+  }
+  .phone-workspace .conversation-welcome {
+    display: none;
+  }
+  .immersive.phone-workspace .modeling-area > .conversation-area {
+    max-height: calc(var(--phone-visible-height, 100dvh) - 145px);
+  }
+}
