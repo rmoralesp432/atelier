@@ -1,0 +1,99 @@
+{
+  "expectedCommit": "280bbc12a87d998fad3bbd87da0bada08c6196ba",
+  "evaluatedRef": "d2462cac0f9d002980c456fe8cffbc5a8144ff1a",
+  "runtimeMatchesDeployed": true,
+  "paidCalls": 0,
+  "checks": [
+    {
+      "name": "Desktop",
+      "status": "PASS",
+      "result": {
+        "status": "PASS",
+        "origin": "https://atelier-emxi.onrender.com",
+        "sourceCommit": "280bbc12a87d998fad3bbd87da0bada08c6196ba",
+        "expectedAssets": [
+          "./assets/index-TgoYHKYY.js",
+          "./assets/rolldown-runtime-WkwZ5CU-.js",
+          "./assets/index-C77KotQe.css"
+        ],
+        "health": true,
+        "config": {
+          "configured": true,
+          "authenticated": false,
+          "voiceConfigured": true,
+          "agentConfigured": true
+        },
+        "manualGeometry": true,
+        "reload": true,
+        "undo": true,
+        "redo": true,
+        "paidCalls": 0,
+        "liveAIGenerationTestedHere": false
+      }
+    },
+    {
+      "name": "Phone",
+      "status": "PASS",
+      "result": {
+        "origin": "https://atelier-emxi.onrender.com",
+        "started": "2026-11-26T23:40:19.481Z",
+        "label": "Production phone smoke: actual deployed UI and manual geometry; no paid generation or physical iPhone audio",
+        "paidCalls": 0,
+        "checks": [
+          "Live welcome orb reflections animate",
+          "Phone dock creation, editable component, unrelated geometry, draft retention",
+          "Portrait, landscape and small-screen layout preserve model",
+          "Production persistence, reload, Undo and Redo",
+          "Return to model and Frame all restore the overall view without modifying geometry"
+        ],
+        "status": "PASS",
+        "viewport": {
+          "testid": "viewport",
+          "alignMap": "false",
+          "gridSpacing": "1",
+          "cameraDistance": "86.79598184682473",
+          "cameraPosition": "42.629,34.690,69.007",
+          "cameraTarget": "-0.500,4.500,0.000",
+          "constructionActive": "false",
+          "constructionPhase": "complete",
+          "explorationGuides": "false",
+          "exploration": "assembled",
+          "explorationAnimating": "false",
+          "projection": "PerspectiveCamera",
+          "navigationDetail": "full",
+          "displayTriangles": "276",
+          "renderFrames": "30",
+          "rendered": "true",
+          "viewQuality": "detail",
+          "touchNavigation": "orbit",
+          "savedView": "",
+          "shadowUpdates": "5",
+          "sunPaths": "0",
+          "sunDisk": "false",
+          "sunDiagram": "false",
+          "shadowSpan": "160",
+          "shadowCenter": "-0.5,4.5,0",
+          "section": "off",
+          "sectionPosition": "3",
+          "bufferSize": "390x786",
+          "projectionAspect": "0.49618320610687017",
+          "selectionGlow": "1",
+          "transformTool": "none",
+          "theme": "day",
+          "modelObjects": "3",
+          "renderMode": "studio",
+          "glassParts": "0",
+          "opaqueGlass": "0",
+          "indexedTriangles": "0",
+          "renderVertices": "828",
+          "meshBuilds": "4",
+          "cameraFraming": "all",
+          "cameraFocusIds": "",
+          "cameraGoalDistance": "86.79598184682473"
+        },
+        "finished": "2026-11-26T23:40:51.269Z"
+      }
+    }
+  ],
+  "status": "PASS"
+}

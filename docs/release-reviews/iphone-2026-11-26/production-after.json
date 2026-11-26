@@ -1,0 +1,9 @@
+{
+  "checkedAt": "2026-11-26T23:41:35.315Z",
+  "deploy": "dep-dc4c22m1egvs73fuvcng",
+  "status": "live",
+  "commit": "280bbc12a87d998fad3bbd87da0bada08c6196ba",
+  "url": "https://atelier-emxi.onrender.com/",
+  "rollbackCommit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+  "rollbackTag": "rollback/iphone-2026-11-26"
+}

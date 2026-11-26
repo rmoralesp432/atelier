@@ -1,0 +1,14 @@
+{
+  "diagnosticApplication": "deb730317cafe2e0b251a788693934196660140c",
+  "diagnosticEvidenceCommit": "46bd050",
+  "diagnosticPublishedReport": "https://github.com/rmoralesp432/atelier/blob/46bd050/docs/evaluations/design-decisions/seeded-live/REPORT.md",
+  "iphoneCandidate": "93d936be54290e60922c15699a6877f97c0f5435",
+  "iphonePullRequest": 26,
+  "approval": "User explicitly requested publication of the iPhone fixes in the same message authorizing only the separate seeded diagnostic.",
+  "excludedFromRelease": [
+    "PR #25",
+    "frozen deb7303",
+    "seeded diagnostic evidence"
+  ],
+  "freshPhoneAPICalls": 0
+}
