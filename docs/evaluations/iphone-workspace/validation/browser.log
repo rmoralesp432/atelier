@@ -1,0 +1,41 @@
+[WebServer] (node:35473) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] .env not found. Continuing without it.
+[WebServer] (node:35486) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 22 tests using 1 worker
+
+(node:35498) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/interface-refinement.spec.ts:13:1 › calm desktop and phone surfaces retain draft, theme, geometry and reachable menu controls (23.1s)
+  ✓   2 tests/interface-refinement.spec.ts:82:1 › phone hold opens actions, deletion is undoable, double tap focuses, and drags do not open actions (15.1s)
+  ✓   3 tests/interface-refinement.spec.ts:215:1 › exploded assembly guides, axonometric camera, component interaction and reassembly preserve the model (29.0s)
+  ✓   4 tests/orb-conversation.spec.ts:3:1 › orb keeps voice modeling and follow-up edits in the minimized workspace (offline transport) (24.8s)
+  ✓   5 tests/phone-workspace.spec.ts:19:1 › phone dock creates editable solids, switches sheets, retains drafts and survives rotation, reload and Undo/Redo (18.8s)
+  ✓   6 tests/phone-workspace.spec.ts:110:1 › Safari-style keyboard viewport keeps the composer visible without changing geometry or capture state (5.1s)
+  ✓   7 tests/phone-workspace.spec.ts:163:1 › phone entrance and idle glass reflections animate with a still reduced-motion alternative (1.8s)
+  ✓   8 tests/project-start.spec.ts:4:1 › start screen preserves projects and offers a quiet manual entry on desktop and phone (11.8s)
+  ✓   9 tests/project-start.spec.ts:68:1 › AI entry uses the existing password endpoint and never starts voice automatically (1.7s)
+  ✓  10 tests/project-start.spec.ts:113:1 › AI can be enabled after manual entry and stays enabled when changing projects (22.8s)
+  ✓  11 tests/projects.spec.ts:7:1 › projects isolate geometry, conversation, site and history, restore on reload and preserve the first workspace (1.1m)
+  ✓  12 tests/projects.spec.ts:151:1 › a failed project save keeps the current workspace and project identity (11.9s)
+  ✓  13 tests/projects.spec.ts:187:1 › rename any project and delete inactive or active projects with cancellation and durable replacement (41.6s)
+  ✓  14 tests/projects.spec.ts:272:1 › a failed deletion transaction preserves both active project and geometry (18.6s)
+  ✓  15 tests/viewport-coverage.spec.ts:72:1 › canvas covers the workspace through desktop zoom-equivalent layouts, DPR-only changes, panels and visual-viewport zoom (1.4m)
+  ✓  16 tests/viewport-coverage.spec.ts:123:1 › phone panel projection remains sized to the canvas across portrait, landscape and keyboard layouts (9.5s)
+  ✓  17 tests/workspace-lifecycle.spec.ts:64:3 › mobile workspace lifecycle with real geometry and offline provider › orientation, keyboard-size changes and conversation controls preserve an executing transaction and camera (10.0s)
+  ✓  18 tests/workspace-lifecycle.spec.ts:156:3 › mobile workspace lifecycle with real geometry and offline provider › an interrupted request reloads into the same workspace, preserves conversation/history and accepts a new request (10.9s)
+  ✓  19 tests/workspace-lifecycle.spec.ts:211:1 › desktop graphics recover in place, and zero-size / wide viewport transitions retain complete buffers (11.2s)
+  ✓  20 tests/workspace-lifecycle.spec.ts:270:1 › conversation language defaults to English and persists only explicit preference changes (21.6s)
+  ✓  21 tests/workspace-lifecycle.spec.ts:307:1 › a verified modeling reply respects Spanish while keeping the geometric evidence (11.9s)
+(node:37507) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  22 tests/voice-permission.spec.ts:20:1 › browser microphone denial leaves voice stopped and the mobile workspace usable (7.2s)
+
+  22 passed (7.7m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

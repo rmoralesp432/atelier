@@ -1,0 +1,63 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: interface-refinement.spec.ts >> phone hold opens actions, deletion is undoable, double tap focuses, and drags do not open actions
+- Location: tests/interface-refinement.spec.ts:82:1
+
+# Error details
+
+```
+Test timeout of 90000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - link "ATELIER home" [ref=e5] [cursor=pointer]:
+      - /url: ./
+    - button "Projects" [ref=e8] [cursor=pointer]:
+      - generic [ref=e9]: Untitled study
+    - button "Explore design" [ref=e10] [cursor=pointer]
+  - main [ref=e14]:
+    - region "Modeling workspace" [ref=e15]:
+      - combobox "Camera view" [ref=e17]:
+        - option "Perspective" [selected]
+        - option "Orthographic"
+        - option "Top view"
+      - generic [ref=e18]:
+        - button "Appearance" [ref=e19] [cursor=pointer]
+        - generic "Project north":
+          - generic: ↑
+          - generic: Project N
+        - generic "Interactive 3D modeling viewport" [ref=e24]
+        - toolbar "Modeling tools" [ref=e25]:
+          - toolbar "Touch navigation" [ref=e26]:
+            - button "Touch orbit" [pressed] [ref=e27] [cursor=pointer]
+            - button "Touch pan" [ref=e31] [cursor=pointer]
+            - button "Touch edit" [ref=e37] [cursor=pointer]
+          - button "Frame all" [ref=e41] [cursor=pointer]
+      - generic "Atelier voice companion" [ref=e48]:
+        - button "Voice orb" [ref=e49] [cursor=pointer]
+        - status [ref=e51]: Atelier
+      - navigation "Workspace actions" [ref=e52]:
+        - button "Show objects" [ref=e53] [cursor=pointer]:
+          - generic [ref=e58]: Objects
+        - button "Create a 3D shape" [ref=e59] [cursor=pointer]:
+          - generic [ref=e61]: Create
+        - button "Open chat" [ref=e62] [cursor=pointer]:
+          - generic [ref=e65]: Chat
+        - button "Design tools" [ref=e66] [cursor=pointer]:
+          - generic [ref=e70]: Tools
+  - contentinfo:
+    - generic: 0 volumes No selection
+    - generic [ref=e71]:
+      - button "Undo" [ref=e72] [cursor=pointer]
+      - button "Redo" [disabled] [ref=e76]
+```

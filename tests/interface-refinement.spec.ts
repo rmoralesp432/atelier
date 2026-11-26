@@ -37,8 +37,11 @@ test('calm desktop and phone surfaces retain draft, theme, geometry and reachabl
   await page.screenshot({ path: 'test-results/refined-desktop-night.png' });
   await page.setViewportSize({ width: 390, height: 844 });
   await input.fill('');
+  // Phone appearance lives in its sheet; the duplicate floating theme button is removed.
+  await page.getByRole('button', { name: 'Appearance', exact: true }).click();
+  await page.getByRole('button', { name: 'Day', exact: true }).click();
   await page
-    .getByRole('button', { name: 'Switch to Day', exact: true })
+    .getByRole('button', { name: 'Close studio settings', exact: true })
     .click();
   await page.screenshot({ path: 'test-results/refined-phone-composer.png' });
   await page.getByRole('button', { name: 'Minimize conversation' }).click();

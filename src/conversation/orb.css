@@ -6,7 +6,7 @@
   height: 58px;
   isolation: isolate;
   /* The wrapper is only a hit area: no enclosing sphere, rim or glass shell. */
-  transform: scale(calc(1 + var(--orb-energy) * 0.3));
+  transform: scale(calc(1 + var(--orb-energy) * 0.34));
 }
 .orb-large {
   width: 164px;
@@ -19,27 +19,27 @@
   height: 100%;
   overflow: visible;
   pointer-events: none;
-  filter: drop-shadow(0 3px 5px #0000001a);
-  animation: orb-flow 14s ease-in-out infinite;
+  filter: drop-shadow(0 5px 5px #00000021);
+  animation: orb-flow 10s ease-in-out infinite;
 }
 .audio-orb[data-state='thinking'] .orb-core {
-  animation-duration: 10s;
+  animation-duration: 7s;
 }
 /* A nearly circular surface gently yields without tumbling or broad wobble.
    Idle motion is separate from the measured audio response. */
 @keyframes orb-flow {
   0%,
   100% {
-    transform: translate(0, 0) rotate(-3deg) scale(1, 0.985);
+    transform: translate(0, 0) rotate(-5deg) scale(1, 0.98);
   }
   25% {
-    transform: translate(0.8%, -1%) rotate(1.5deg) scale(0.985, 1.015);
+    transform: translate(1.5%, -2%) rotate(3deg) scale(0.975, 1.025);
   }
   50% {
-    transform: translate(-0.8%, 1%) rotate(3deg) scale(1.015, 0.985);
+    transform: translate(-1.5%, 2%) rotate(5deg) scale(1.025, 0.98);
   }
   75% {
-    transform: translate(0.8%, 0) rotate(-1.5deg) scale(0.985, 1);
+    transform: translate(1.5%, 0) rotate(-3deg) scale(0.98, 1);
   }
 }
 .orb-dock {
@@ -193,10 +193,36 @@
 }
 .orb-gloss {
   transform-origin: 50px 50px;
-  animation: orb-gloss-pulse 14s ease-in-out infinite;
+  animation: orb-gloss-pulse 10s ease-in-out infinite;
 }
 .audio-orb[data-state='thinking'] .orb-gloss {
-  animation-duration: 10s;
+  animation-duration: 7s;
+}
+.orb-reflections {
+  transform-origin: 50px 50px;
+  animation: orb-light 10s ease-in-out infinite;
+}
+.audio-orb[data-state='thinking'] .orb-reflections {
+  animation-duration: 7s;
+}
+@keyframes orb-light {
+  0%,
+  100% {
+    transform: rotate(-5deg) translate(-1px, 0);
+    opacity: 0.75;
+  }
+  25% {
+    transform: rotate(4deg) translate(1px, -1px);
+    opacity: 0.95;
+  }
+  50% {
+    transform: rotate(9deg) translate(2px, 1px);
+    opacity: 0.82;
+  }
+  75% {
+    transform: rotate(1deg) translate(-1px, 2px);
+    opacity: 1;
+  }
 }
 @keyframes orb-gloss-pulse {
   0%,

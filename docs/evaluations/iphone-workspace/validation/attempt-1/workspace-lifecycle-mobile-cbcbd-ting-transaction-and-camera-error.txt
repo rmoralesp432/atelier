@@ -1,0 +1,309 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: workspace-lifecycle.spec.ts >> mobile workspace lifecycle with real geometry and offline provider >> orientation, keyboard-size changes and conversation controls preserve an executing transaction and camera
+- Location: tests/workspace-lifecycle.spec.ts:64:3
+
+# Error details
+
+```
+Test timeout of 90000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 90000ms exceeded.
+Call log:
+  - waiting for getByRole('button', { name: 'Undo', exact: true })
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - link "ATELIER home" [ref=e5] [cursor=pointer]:
+      - /url: ./
+    - button "Projects" [ref=e8] [cursor=pointer]:
+      - generic [ref=e9]: Untitled study
+    - button "Explore design" [ref=e10] [cursor=pointer]
+  - main [ref=e14]:
+    - region "Modeling workspace" [ref=e15]:
+      - combobox "Camera view" [ref=e17]:
+        - option "Perspective" [selected]
+        - option "Orthographic"
+        - option "Top view"
+      - generic [ref=e18]:
+        - button "Appearance" [ref=e19] [cursor=pointer]
+        - generic "Project north":
+          - generic: ↑
+          - generic: Project N
+        - generic "Interactive 3D modeling viewport" [ref=e24]
+        - generic [ref=e25]:
+          - generic "Object color" [ref=e26]:
+            - textbox "Selected object color" [ref=e27] [cursor=pointer]: "#e2e7e6"
+          - button "Edit selected dimensions" [ref=e28] [cursor=pointer]:
+            - generic [ref=e29]: Travel study
+            - strong [ref=e30]: 1.3 × 0.9 × 1.7 m
+          - button "Selected object actions" [ref=e31] [cursor=pointer]
+        - toolbar "Modeling tools" [ref=e36]:
+          - toolbar "Touch navigation" [ref=e37]:
+            - button "Touch orbit" [pressed] [ref=e38] [cursor=pointer]
+            - button "Touch pan" [ref=e42] [cursor=pointer]
+            - button "Touch edit" [ref=e48] [cursor=pointer]
+          - button "Frame all" [ref=e52] [cursor=pointer]
+      - generic "Atelier voice companion" [ref=e59]:
+        - button "Voice orb" [active] [ref=e60] [cursor=pointer]
+        - status [ref=e62]: Atelier
+      - navigation "Workspace actions" [ref=e63]:
+        - button "Show objects" [ref=e64] [cursor=pointer]:
+          - generic [ref=e69]: Objects
+        - button "Create a 3D shape" [ref=e70] [cursor=pointer]:
+          - generic [ref=e72]: Create
+        - button "Hide chat" [pressed] [ref=e73] [cursor=pointer]:
+          - generic [ref=e76]: Chat
+        - button "Design tools" [ref=e77] [cursor=pointer]:
+          - generic [ref=e81]: Tools
+      - generic [ref=e82]:
+        - generic [ref=e83]:
+          - button "Atelier Close conversation" [expanded] [ref=e84] [cursor=pointer]:
+            - generic [ref=e87]: Conversation
+          - button "Minimize conversation" [ref=e90] [cursor=pointer]
+          - combobox "Conversation language" [ref=e93]:
+            - option "English" [selected]
+            - option "Spanish"
+            - option "French"
+            - option "German"
+            - option "Italian"
+            - option "Portuguese"
+            - option "Japanese"
+            - option "Chinese"
+            - option "Arabic"
+            - option "Korean"
+            - option "Russian"
+        - log "Design conversation" [ref=e94]:
+          - paragraph [ref=e96]: Create a small block and keep existing objects unchanged.
+          - generic [ref=e97]:
+            - paragraph [ref=e98]: "Completed; measurable checks passed. Unrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged. count requirement: count (each): 1; expected equal 1, tolerance 0. 1 element(s). height requirement: height (each, world solids): 1.7; expected equal 1.7 ± 0.00001 m."
+            - group [ref=e99]:
+              - generic "Measurements & changes" [ref=e100] [cursor=pointer]
+        - generic [ref=e101]:
+          - textbox "Message Atelier" [ref=e102]:
+            - /placeholder: Ask Atelier to create or change anything…
+          - generic [ref=e103]:
+            - button "Attach a reference photo" [ref=e104] [cursor=pointer]
+            - button "Start voice conversation" [disabled] [ref=e106]
+            - button "Send message" [disabled] [ref=e110]
+```
+
+# Test source
+
+```ts
+  47  |     },
+  48  |   ],
+  49  | };
+  50  | const finish = {
+  51  |   intent: 'finish',
+  52  |   message: 'Done',
+  53  |   operations: [],
+  54  |   brief: null,
+  55  |   planning: null,
+  56  | };
+  57  | 
+  58  | test.describe('mobile workspace lifecycle with real geometry and offline provider', () => {
+  59  |   test.use({
+  60  |     viewport: { width: 390, height: 844 },
+  61  |     isMobile: true,
+  62  |     hasTouch: true,
+  63  |   });
+  64  |   test('orientation, keyboard-size changes and conversation controls preserve an executing transaction and camera', async ({
+  65  |     page,
+  66  |   }) => {
+  67  |     test.setTimeout(90000);
+  68  |     await ready(page);
+  69  |     await page.waitForTimeout(600);
+  70  |     const before = await saved(page),
+  71  |       viewport = page.getByTestId('viewport');
+  72  | 
+  73  |     await viewport.locator('canvas').evaluate((c) => {
+  74  |       (c as any).identityMarker = 'original-canvas';
+  75  |     });
+  76  |     let release!: () => void,
+  77  |       pending = false;
+  78  |     const gate = new Promise<void>((resolve) => {
+  79  |       release = resolve;
+  80  |     });
+  81  |     await page.route('**/api/plan', async (r) => {
+  82  |       if (!r.request().postDataJSON().execution?.receipts.length) {
+  83  |         pending = true;
+  84  |         await gate;
+  85  |         return r.fulfill({ json: create });
+  86  |       }
+  87  |       return r.fulfill({ json: finish });
+  88  |     });
+  89  |     await page.route('**/api/completion-criteria', (r) =>
+  90  |       r.fulfill({
+  91  |         json: criteria([
+  92  |           measure('count', 'count', 1),
+  93  |           measure('height', 'height', 1.7),
+  94  |         ]),
+  95  |       }),
+  96  |     );
+  97  |     await send(
+  98  |       page,
+  99  |       'Create a small block and keep existing objects unchanged.',
+  100 |     );
+  101 |     await expect.poll(() => pending).toBe(true);
+  102 |     let lastPose: string | null = null,
+  103 |       stable = 0;
+  104 |     await expect
+  105 |       .poll(
+  106 |         async () => {
+  107 |           const next = await viewport.getAttribute('data-camera-position');
+  108 |           stable = next === lastPose ? stable + 1 : 0;
+  109 |           lastPose = next;
+  110 |           return stable >= 3;
+  111 |         },
+  112 |         { intervals: [150, 200, 300] },
+  113 |       )
+  114 |       .toBe(true);
+  115 |     const camera = lastPose;
+  116 |     await page
+  117 |       .getByRole('link', { name: 'ATELIER home' })
+  118 |       .dispatchEvent('click');
+  119 |     await expect(viewport).toBeVisible();
+  120 |     for (const size of [
+  121 |       { width: 844, height: 390 },
+  122 |       { width: 390, height: 430 },
+  123 |       { width: 390, height: 844 },
+  124 |     ]) {
+  125 |       await page.setViewportSize(size);
+  126 |       await page.evaluate(() =>
+  127 |         window.dispatchEvent(new Event('orientationchange')),
+  128 |       );
+  129 |       await expect(viewport).toBeVisible();
+  130 |       await expect(viewport).toHaveAttribute('data-camera-position', camera!);
+  131 |     }
+  132 |     await page.getByRole('button', { name: 'Minimize conversation' }).click();
+  133 |     await page.getByRole('button', { name: 'Voice orb' }).dblclick();
+  134 |     expect(
+  135 |       await viewport
+  136 |         .locator('canvas')
+  137 |         .evaluate((c) => (c as any).identityMarker),
+  138 |     ).toBe('original-canvas');
+  139 |     expect((await saved(page)).project).toEqual(before.project);
+  140 |     release();
+  141 |     await expect
+  142 |       .poll(async () => (await saved(page)).project.volumes.length)
+  143 |       .toBe(3);
+  144 |     const after = await saved(page);
+  145 |     expect(after.project.volumes.slice(0, 2)).toEqual(before.project.volumes);
+  146 |     expect(after.past).toHaveLength(before.past.length + 1);
+> 147 |     await page.getByRole('button', { name: 'Undo', exact: true }).click();
+      |                                                                   ^ Error: locator.click: Test timeout of 90000ms exceeded.
+  148 |     await expect
+  149 |       .poll(async () => (await saved(page)).project)
+  150 |       .toEqual(before.project);
+  151 |     await page.getByRole('button', { name: 'Redo', exact: true }).click();
+  152 |     await expect
+  153 |       .poll(async () => (await saved(page)).project)
+  154 |       .toEqual(after.project);
+  155 |   });
+  156 |   test('an interrupted request reloads into the same workspace, preserves conversation/history and accepts a new request', async ({
+  157 |     page,
+  158 |   }) => {
+  159 |     test.setTimeout(90000);
+  160 |     await ready(page);
+  161 |     // The default welcome preference must not override an open tab's recovery.
+  162 |     await page.evaluate(() => localStorage.removeItem('atelier.start-direct'));
+  163 |     const before = await saved(page);
+  164 |     let requested = false;
+  165 |     await page.route('**/api/plan', async (r) => {
+  166 |       requested = true;
+  167 |       await new Promise<void>((resolve) => setTimeout(resolve, 1200));
+  168 |       await r.abort().catch(() => {});
+  169 |     });
+  170 |     await send(page, 'Create a long-running study.');
+  171 |     await expect.poll(() => requested).toBe(true);
+  172 |     await page.reload();
+  173 |     await expect(page.getByTestId('viewport')).toHaveAttribute(
+  174 |       'data-model-objects',
+  175 |       '2',
+  176 |     );
+  177 |     expect((await saved(page)).project).toEqual(before.project);
+  178 |     const messages = await page.evaluate(() =>
+  179 |       JSON.parse(localStorage.getItem('atelier.conversation.v2') || '[]'),
+  180 |     );
+  181 |     expect(
+  182 |       messages.some((m: any) => m.content.includes('long-running study')),
+  183 |     ).toBe(true);
+  184 |     await expect
+  185 |       .poll(() =>
+  186 |         page.evaluate(() => localStorage.getItem('atelier.conversation.v2')),
+  187 |       )
+  188 |       .toContain('previous request was interrupted');
+  189 |     await page.unroute('**/api/plan');
+  190 |     await page.route('**/api/plan', (r) =>
+  191 |       r.fulfill({
+  192 |         json: r.request().postDataJSON().execution?.receipts.length
+  193 |           ? finish
+  194 |           : create,
+  195 |       }),
+  196 |     );
+  197 |     await page.route('**/api/completion-criteria', (r) =>
+  198 |       r.fulfill({ json: criteria([measure('count', 'count', 1)]) }),
+  199 |     );
+  200 |     await send(page, 'Create a fresh small block.');
+  201 |     await expect
+  202 |       .poll(async () => (await saved(page)).project.volumes.length)
+  203 |       .toBe(3);
+  204 |     expect((await saved(page)).past).toHaveLength(before.past.length + 1);
+  205 |     await page.screenshot({
+  206 |       path: 'test-results/mobile-workspace-recovered.png',
+  207 |     });
+  208 |   });
+  209 | });
+  210 | 
+  211 | test('desktop graphics recover in place, and zero-size / wide viewport transitions retain complete buffers', async ({
+  212 |   page,
+  213 | }) => {
+  214 |   test.setTimeout(90000);
+  215 |   await ready(page);
+  216 |   const viewport = page.getByTestId('viewport'),
+  217 |     before = await saved(page);
+  218 |   await page.waitForTimeout(600);
+  219 |   const position = await viewport.getAttribute('data-camera-position');
+  220 |   for (const size of [
+  221 |     { width: 1800, height: 750 },
+  222 |     { width: 1024, height: 1000 },
+  223 |     { width: 1440, height: 1000 },
+  224 |   ]) {
+  225 |     await page.setViewportSize(size);
+  226 |     await expect(viewport).toHaveAttribute('data-camera-position', position!);
+  227 |     await expect
+  228 |       .poll(() =>
+  229 |         viewport.locator('canvas').evaluate((c: HTMLCanvasElement) => {
+  230 |           const r = c.getBoundingClientRect(),
+  231 |             gl = c.getContext('webgl2')!;
+  232 |           return (
+  233 |             c.width === Math.round(r.width * Math.min(devicePixelRatio, 2)) &&
+  234 |             c.height === Math.round(r.height * Math.min(devicePixelRatio, 2)) &&
+  235 |             gl.drawingBufferWidth === c.width &&
+  236 |             gl.drawingBufferHeight === c.height
+  237 |           );
+  238 |         }),
+  239 |       )
+  240 |       .toBe(true);
+  241 |   }
+  242 |   await viewport.evaluate((v) => {
+  243 |     v.style.display = 'none';
+  244 |   });
+  245 |   await page.waitForTimeout(100);
+  246 |   await viewport.evaluate((v) => {
+  247 |     v.style.display = '';
+```

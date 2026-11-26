@@ -271,6 +271,27 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
   ).toContainText('open to the sky');
   await expect(page.getByLabel('Answer Atelier')).toBeVisible();
   await expect(dock).toBeVisible();
+  // Typing a clarification must leave mute/end available above an iOS-style keyboard.
+  await page.getByLabel('Answer Atelier').focus();
+  await page.evaluate(() => {
+    Object.defineProperty(visualViewport, 'height', {
+      configurable: true,
+      get: () => 430,
+    });
+    visualViewport!.dispatchEvent(new Event('resize'));
+  });
+  await expect(page.locator('html')).toHaveAttribute('data-phone-keyboard', '');
+  await expect(
+    dock.getByRole('button', { name: 'Mute microphone' }),
+  ).toBeVisible();
+  const voiceBounds = (await dock.boundingBox())!;
+  expect(voiceBounds.y + voiceBounds.height).toBeLessThanOrEqual(430);
+  await page.evaluate(() => {
+    delete (visualViewport as any).height;
+    (document.activeElement as HTMLElement)?.blur();
+    visualViewport!.dispatchEvent(new Event('resize'));
+  });
+  await expect(page.locator('html')).not.toHaveAttribute('data-phone-keyboard');
   await expect(
     page.getByRole('textbox', { name: 'Message Atelier' }),
   ).not.toBeVisible();

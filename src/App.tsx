@@ -10,6 +10,8 @@ import {
 import type { SceneObservation } from './intelligence/observation';
 import SolarPlayer from './studio/SolarPlayer';
 import { useSolarPlayback } from './studio/useSolarPlayback';
+import PhoneDock from './studio/PhoneDock';
+import { usePhoneViewport } from './studio/usePhoneViewport';
 import BrandMark from './components/BrandMark';
 import OrbControl from './conversation/OrbControl';
 import AudioOrb, { type AudioLevels } from './conversation/AudioOrb';
@@ -542,6 +544,7 @@ export default function App({
   const [touchNavigation, setTouchNavigation] = useState<
     'orbit' | 'pan' | 'edit'
   >('orbit');
+  usePhoneViewport(phoneLayout);
   useEffect(() => {
     const query = matchMedia('(max-width: 800px), (pointer: coarse)');
     const update = () => setPhoneLayout(query.matches);
@@ -607,6 +610,7 @@ export default function App({
   const revealConversation = () => {
     setChatDocked(false);
     setPhoneActions(false);
+    setToolsOpen(false);
     if (phoneLayout) {
       if (panels.active) panels.setters[panels.active](false);
       setObjectsOpen(false);
@@ -1925,7 +1929,7 @@ export default function App({
           else void importFile(files[0]);
         } else reportError(new Error('Import one file at a time.'));
       }}
-      className={`app-shell phase-two immersive ${panels.active ? 'tool-panel-open' : ''} ${chatDocked ? 'chat-docked' : ''} ${exploration.mode !== 'assembled' ? 'exploration-mode' : ''} ${phoneActions ? 'phone-actions-open' : ''} ${busy || modelingBusy > 0 ? 'is-processing' : ''} ${presentation ? 'presentation-mode' : ''} theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
+      className={`app-shell phase-two immersive ${phoneLayout ? 'phone-workspace' : ''} ${panels.active ? 'tool-panel-open' : ''} ${chatDocked ? 'chat-docked' : ''} ${exploration.mode !== 'assembled' ? 'exploration-mode' : ''} ${phoneActions ? 'phone-actions-open' : ''} ${busy || modelingBusy > 0 ? 'is-processing' : ''} ${presentation ? 'presentation-mode' : ''} theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
     >
       {panoramaOpen && (
         <Suspense
@@ -3675,59 +3679,109 @@ export default function App({
                     )}
                   </section>
                 )}
-                <div
-                  className="orb-dock"
-                  aria-label="Atelier voice companion"
-                  data-ai-enabled={aiEnabled}
-                >
-                  {voiceActive && (
-                    <button
-                      className="voice-mute"
-                      aria-label={
-                        voiceMuted ? 'Unmute microphone' : 'Mute microphone'
-                      }
-                      onClick={() => {
-                        const muted = !voiceMuted;
-                        setVoiceMuted(muted);
-                        voice.current?.setMuted(muted);
-                      }}
-                    >
-                      {voiceMuted ? <MicOff size={18} /> : <Mic size={18} />}
-                    </button>
-                  )}
-                  <OrbControl
-                    onVoice={() =>
-                      connectionState.voiceConfigured
-                        ? void toggleVoice()
-                        : setSettingsOpen(true)
-                    }
-                    onOpen={revealConversation}
-                    active={voiceActive}
-                  >
-                    <AudioOrb
-                      levels={voiceLevels}
-                      state={
-                        busy
-                          ? 'thinking'
-                          : voiceStatus === 'Speaking'
-                            ? 'speaking'
-                            : voiceActive
-                              ? 'listening'
-                              : 'idle'
-                      }
-                    />
-                  </OrbControl>
-                  <span className="orb-dock-status" role="status">
-                    {busy
-                      ? 'Thinking…'
-                      : voiceStatus === 'Speaking'
-                        ? 'Speaking'
-                        : voiceActive
-                          ? voiceStatus
-                          : 'Atelier'}
-                  </span>
-                </div>
               </>
+            )}
+            {(chatDocked || phoneLayout) && (
+              <div
+                className="orb-dock"
+                aria-label="Atelier voice companion"
+                data-ai-enabled={aiEnabled}
+              >
+                {voiceActive && chatDocked && (
+                  <button
+                    className="voice-mute"
+                    aria-label={
+                      voiceMuted ? 'Unmute microphone' : 'Mute microphone'
+                    }
+                    onClick={() => {
+                      const muted = !voiceMuted;
+                      setVoiceMuted(muted);
+                      voice.current?.setMuted(muted);
+                    }}
+                  >
+                    {voiceMuted ? <MicOff size={18} /> : <Mic size={18} />}
+                  </button>
+                )}
+                <OrbControl
+                  onVoice={() =>
+                    connectionState.voiceConfigured
+                      ? void toggleVoice()
+                      : setSettingsOpen(true)
+                  }
+                  onOpen={revealConversation}
+                  active={voiceActive}
+                >
+                  <AudioOrb
+                    levels={voiceLevels}
+                    state={
+                      busy
+                        ? 'thinking'
+                        : voiceStatus === 'Speaking'
+                          ? 'speaking'
+                          : voiceActive
+                            ? 'listening'
+                            : 'idle'
+                    }
+                  />
+                </OrbControl>
+                <span className="orb-dock-status" role="status">
+                  {busy
+                    ? 'Thinking…'
+                    : voiceStatus === 'Speaking'
+                      ? 'Speaking'
+                      : voiceActive
+                        ? voiceStatus
+                        : 'Atelier'}
+                </span>
+              </div>
+            )}
+
+            {phoneLayout && !arActive && !presentation && (
+              <PhoneDock
+                active={
+                  toolsOpen
+                    ? 'tools'
+                    : objectsOpen
+                      ? 'objects'
+                      : panels.active === 'model'
+                        ? 'create'
+                        : !chatDocked && !panels.active
+                          ? 'chat'
+                          : null
+                }
+                onObjects={() => {
+                  setChatDocked(true);
+                  setPhoneActions(false);
+                  setToolsOpen(false);
+                  if (panels.active) panels.setters[panels.active](false);
+                  setObjectsOpen(!objectsOpen);
+                }}
+                onCreate={() => {
+                  setChatDocked(true);
+                  setPhoneActions(false);
+                  setToolsOpen(false);
+                  setObjectsOpen(false);
+                  setModelAction('solid');
+                  panels.setters.model(panels.active !== 'model');
+                }}
+                onConversation={() => {
+                  if (
+                    !chatDocked &&
+                    !panels.active &&
+                    !objectsOpen &&
+                    !toolsOpen
+                  )
+                    setChatDocked(true);
+                  else revealConversation();
+                }}
+                onTools={() => {
+                  setChatDocked(true);
+                  setPhoneActions(false);
+                  setObjectsOpen(false);
+                  if (panels.active) panels.setters[panels.active](false);
+                  setToolsOpen(!toolsOpen);
+                }}
+              />
             )}
 
             <div

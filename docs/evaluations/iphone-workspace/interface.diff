@@ -1,0 +1,1353 @@
+diff --git a/index.html b/index.html
+index 128c09b..4e6f041 100644
+--- a/index.html
++++ b/index.html
+@@ -2,7 +2,10 @@
+ <html lang="en">
+   <head>
+     <meta charset="UTF-8" />
+-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
++    <meta
++      name="viewport"
++      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
++    />
+     <meta name="theme-color" content="#141719" />
+     <meta
+       name="description"
+diff --git a/src/App.tsx b/src/App.tsx
+index 1bb4d4b..dfb8077 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -10,6 +10,8 @@ import {
+ import type { SceneObservation } from './intelligence/observation';
+ import SolarPlayer from './studio/SolarPlayer';
+ import { useSolarPlayback } from './studio/useSolarPlayback';
++import PhoneDock from './studio/PhoneDock';
++import { usePhoneViewport } from './studio/usePhoneViewport';
+ import BrandMark from './components/BrandMark';
+ import OrbControl from './conversation/OrbControl';
+ import AudioOrb, { type AudioLevels } from './conversation/AudioOrb';
+@@ -542,6 +544,7 @@ export default function App({
+   const [touchNavigation, setTouchNavigation] = useState<
+     'orbit' | 'pan' | 'edit'
+   >('orbit');
++  usePhoneViewport(phoneLayout);
+   useEffect(() => {
+     const query = matchMedia('(max-width: 800px), (pointer: coarse)');
+     const update = () => setPhoneLayout(query.matches);
+@@ -607,6 +610,7 @@ export default function App({
+   const revealConversation = () => {
+     setChatDocked(false);
+     setPhoneActions(false);
++    setToolsOpen(false);
+     if (phoneLayout) {
+       if (panels.active) panels.setters[panels.active](false);
+       setObjectsOpen(false);
+@@ -1925,7 +1929,7 @@ export default function App({
+           else void importFile(files[0]);
+         } else reportError(new Error('Import one file at a time.'));
+       }}
+-      className={`app-shell phase-two immersive ${panels.active ? 'tool-panel-open' : ''} ${chatDocked ? 'chat-docked' : ''} ${exploration.mode !== 'assembled' ? 'exploration-mode' : ''} ${phoneActions ? 'phone-actions-open' : ''} ${busy || modelingBusy > 0 ? 'is-processing' : ''} ${presentation ? 'presentation-mode' : ''} theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
++      className={`app-shell phase-two immersive ${phoneLayout ? 'phone-workspace' : ''} ${panels.active ? 'tool-panel-open' : ''} ${chatDocked ? 'chat-docked' : ''} ${exploration.mode !== 'assembled' ? 'exploration-mode' : ''} ${phoneActions ? 'phone-actions-open' : ''} ${busy || modelingBusy > 0 ? 'is-processing' : ''} ${presentation ? 'presentation-mode' : ''} theme-${appearance.theme} ${inspectorOpen ? '' : 'inspector-collapsed'} ${objectsOpen ? 'objects-open' : ''}`}
+     >
+       {panoramaOpen && (
+         <Suspense
+@@ -3675,59 +3679,109 @@ export default function App({
+                     )}
+                   </section>
+                 )}
+-                <div
+-                  className="orb-dock"
+-                  aria-label="Atelier voice companion"
+-                  data-ai-enabled={aiEnabled}
+-                >
+-                  {voiceActive && (
+-                    <button
+-                      className="voice-mute"
+-                      aria-label={
+-                        voiceMuted ? 'Unmute microphone' : 'Mute microphone'
+-                      }
+-                      onClick={() => {
+-                        const muted = !voiceMuted;
+-                        setVoiceMuted(muted);
+-                        voice.current?.setMuted(muted);
+-                      }}
+-                    >
+-                      {voiceMuted ? <MicOff size={18} /> : <Mic size={18} />}
+-                    </button>
+-                  )}
+-                  <OrbControl
+-                    onVoice={() =>
+-                      connectionState.voiceConfigured
+-                        ? void toggleVoice()
+-                        : setSettingsOpen(true)
++              </>
++            )}
++            {(chatDocked || phoneLayout) && (
++              <div
++                className="orb-dock"
++                aria-label="Atelier voice companion"
++                data-ai-enabled={aiEnabled}
++              >
++                {voiceActive && chatDocked && (
++                  <button
++                    className="voice-mute"
++                    aria-label={
++                      voiceMuted ? 'Unmute microphone' : 'Mute microphone'
+                     }
+-                    onOpen={revealConversation}
+-                    active={voiceActive}
++                    onClick={() => {
++                      const muted = !voiceMuted;
++                      setVoiceMuted(muted);
++                      voice.current?.setMuted(muted);
++                    }}
+                   >
+-                    <AudioOrb
+-                      levels={voiceLevels}
+-                      state={
+-                        busy
+-                          ? 'thinking'
+-                          : voiceStatus === 'Speaking'
+-                            ? 'speaking'
+-                            : voiceActive
+-                              ? 'listening'
+-                              : 'idle'
+-                      }
+-                    />
+-                  </OrbControl>
+-                  <span className="orb-dock-status" role="status">
+-                    {busy
+-                      ? 'Thinking…'
+-                      : voiceStatus === 'Speaking'
+-                        ? 'Speaking'
+-                        : voiceActive
+-                          ? voiceStatus
+-                          : 'Atelier'}
+-                  </span>
+-                </div>
+-              </>
++                    {voiceMuted ? <MicOff size={18} /> : <Mic size={18} />}
++                  </button>
++                )}
++                <OrbControl
++                  onVoice={() =>
++                    connectionState.voiceConfigured
++                      ? void toggleVoice()
++                      : setSettingsOpen(true)
++                  }
++                  onOpen={revealConversation}
++                  active={voiceActive}
++                >
++                  <AudioOrb
++                    levels={voiceLevels}
++                    state={
++                      busy
++                        ? 'thinking'
++                        : voiceStatus === 'Speaking'
++                          ? 'speaking'
++                          : voiceActive
++                            ? 'listening'
++                            : 'idle'
++                    }
++                  />
++                </OrbControl>
++                <span className="orb-dock-status" role="status">
++                  {busy
++                    ? 'Thinking…'
++                    : voiceStatus === 'Speaking'
++                      ? 'Speaking'
++                      : voiceActive
++                        ? voiceStatus
++                        : 'Atelier'}
++                </span>
++              </div>
++            )}
++
++            {phoneLayout && !arActive && !presentation && (
++              <PhoneDock
++                active={
++                  toolsOpen
++                    ? 'tools'
++                    : objectsOpen
++                      ? 'objects'
++                      : panels.active === 'model'
++                        ? 'create'
++                        : !chatDocked && !panels.active
++                          ? 'chat'
++                          : null
++                }
++                onObjects={() => {
++                  setChatDocked(true);
++                  setPhoneActions(false);
++                  setToolsOpen(false);
++                  if (panels.active) panels.setters[panels.active](false);
++                  setObjectsOpen(!objectsOpen);
++                }}
++                onCreate={() => {
++                  setChatDocked(true);
++                  setPhoneActions(false);
++                  setToolsOpen(false);
++                  setObjectsOpen(false);
++                  setModelAction('solid');
++                  panels.setters.model(panels.active !== 'model');
++                }}
++                onConversation={() => {
++                  if (
++                    !chatDocked &&
++                    !panels.active &&
++                    !objectsOpen &&
++                    !toolsOpen
++                  )
++                    setChatDocked(true);
++                  else revealConversation();
++                }}
++                onTools={() => {
++                  setChatDocked(true);
++                  setPhoneActions(false);
++                  setObjectsOpen(false);
++                  if (panels.active) panels.setters[panels.active](false);
++                  setToolsOpen(!toolsOpen);
++                }}
++              />
+             )}
+ 
+             <div
+diff --git a/src/conversation/AudioOrb.tsx b/src/conversation/AudioOrb.tsx
+index 5eb298c..791269e 100644
+--- a/src/conversation/AudioOrb.tsx
++++ b/src/conversation/AudioOrb.tsx
+@@ -4,8 +4,8 @@ export type AudioLevels = { input: number; output: number };
+  * the separate thinking motion communicates a request, not invented speech. */
+ const contours = [
+   'M50 10 C73 9 90 27 90 50 C91 73 72 89 50 90 C28 91 10 72 10 50 C9 29 29 11 50 10 Z',
+-  'M47 9 C68 7 89 31 92 49 C95 69 71 89 51 92 C29 95 13 69 10 51 C7 31 26 13 47 9 Z',
+-  'M53 11 C77 10 87 27 87 47 C89 69 78 91 53 89 C31 86 7 75 10 53 C13 29 29 14 53 11 Z',
++  'M46 8 C70 5 89 29 92 48 C96 70 72 91 51 92 C29 95 12 70 9 51 C6 30 25 12 46 8 Z',
++  'M54 11 C78 9 89 26 88 47 C90 70 78 92 53 90 C30 87 6 75 10 53 C13 29 30 14 54 11 Z',
+   'M49 10 C71 14 93 28 89 51 C85 73 75 86 49 89 C24 91 11 72 11 49 C11 25 27 6 49 10 Z',
+ ];
+ export default function AudioOrb({
+@@ -41,8 +41,8 @@ export default function AudioOrb({
+       element.current?.style.setProperty('--orb-energy', String(energy));
+       // Deform the entire glass surface and its highlights together. Silence
+       // has no speech motion; the slower idle contour remains independent.
+-      const flex = Math.sin(phase) * energy * 0.13;
+-      const tilt = Math.sin(phase * 0.63) * energy * 10;
++      const flex = Math.sin(phase) * energy * 0.18;
++      const tilt = Math.sin(phase * 0.63) * energy * 14;
+       response.current?.setAttribute(
+         'transform',
+         `translate(50 50) rotate(${tilt}) scale(${1 + flex} ${1 - flex * 0.72}) translate(-50 -50)`,
+@@ -84,41 +84,62 @@ export default function AudioOrb({
+     >
+       <svg ref={shape} className="orb-core" viewBox="0 0 100 100">
+         <defs>
+-          <radialGradient id={gradient} cx="32%" cy="26%" r="78%">
+-            <stop offset="0" stopColor="#fafafa" />
+-            <stop offset=".3" stopColor="#c8c8c8" stopOpacity=".76" />
+-            <stop offset=".68" stopColor="#454545" stopOpacity=".68" />
+-            <stop offset=".86" stopColor="#999999" stopOpacity=".82" />
+-            <stop offset="1" stopColor="#eeeeee" />
++          <radialGradient id={gradient} cx="32%" cy="24%" r="81%">
++            <stop offset="0" stopColor="#ffffff" stopOpacity=".9" />
++            <stop offset=".26" stopColor="#ddd" stopOpacity=".78" />
++            <stop offset=".54" stopColor="#7a7a7a" stopOpacity=".75" />
++            <stop offset=".76" stopColor="#303030" stopOpacity=".85" />
++            <stop offset=".91" stopColor="#969696" stopOpacity=".75" />
++            <stop offset="1" stopColor="#fafafa" stopOpacity=".9" />
+           </radialGradient>
+           <radialGradient id={`${gradient}-shine`}>
+             <stop offset="0" stopColor="white" stopOpacity="1" />
+             <stop offset=".5" stopColor="white" stopOpacity=".65" />
+             <stop offset="1" stopColor="white" stopOpacity="0" />
+           </radialGradient>
+-          <radialGradient id={`${gradient}-gloss`} cx="36%" cy="30%" r="70%">
++          <radialGradient id={`${gradient}-gloss`} cx="33%" cy="25%" r="73%">
+             <stop offset="0" stopColor="white" stopOpacity="0" />
+             <stop offset=".48" stopColor="white" stopOpacity=".02" />
+-            <stop offset=".75" stopColor="white" stopOpacity=".3" />
+-            <stop offset=".9" stopColor="white" stopOpacity=".12" />
++            <stop offset=".75" stopColor="white" stopOpacity=".48" />
++            <stop offset=".9" stopColor="white" stopOpacity=".2" />
+             <stop offset="1" stopColor="white" stopOpacity="0" />
+           </radialGradient>
++          <linearGradient
++            id={`${gradient}-reflection`}
++            x1="0"
++            y1="0"
++            x2=".8"
++            y2="1"
++          >
++            <stop offset="0" stopColor="white" stopOpacity=".95" />
++            <stop offset=".5" stopColor="white" stopOpacity=".4" />
++            <stop offset="1" stopColor="white" stopOpacity="0" />
++          </linearGradient>
++          <radialGradient id={`${gradient}-depth`} cx="64%" cy="66%" r="58%">
++            <stop offset="0" stopColor="#000" stopOpacity=".2" />
++            <stop offset=".65" stopColor="#000" stopOpacity=".04" />
++            <stop offset="1" stopColor="#fff" stopOpacity=".18" />
++          </radialGradient>
+         </defs>
+         <defs>
+           <path id={`${gradient}-surface`} d={contours[0]}>
+             <animate
+               attributeName="d"
+               values={[...contours, contours[0]].join(';')}
+-              dur={state === 'thinking' ? '10s' : '14s'}
++              dur={state === 'thinking' ? '7s' : '10s'}
+               repeatCount="indefinite"
+               calcMode="spline"
+               keyTimes="0;.25;.5;.75;1"
+               keySplines=".42 0 .58 1;.42 0 .58 1;.42 0 .58 1;.42 0 .58 1"
+             />
+           </path>
++          <clipPath id={`${gradient}-clip`}>
++            <use href={`#${gradient}-surface`} />
++          </clipPath>
+         </defs>
+         <g ref={response} className="orb-response">
+           <use href={`#${gradient}-surface`} fill={`url(#${gradient})`} />
++          <use href={`#${gradient}-surface`} fill={`url(#${gradient}-depth)`} />
+           <use
+             className="orb-gloss"
+             href={`#${gradient}-surface`}
+@@ -128,17 +149,36 @@ export default function AudioOrb({
+             href={`#${gradient}-surface`}
+             fill="none"
+             stroke="white"
+-            strokeOpacity=".35"
++            strokeOpacity=".5"
+             strokeWidth=".45"
+           />
+-          <ellipse
+-            cx="33"
+-            cy="25"
+-            rx="15"
+-            ry="5"
+-            transform="rotate(-32 33 25)"
+-            fill={`url(#${gradient}-shine)`}
+-          />
++          <g clipPath={`url(#${gradient}-clip)`}>
++            <g className="orb-reflections">
++              <path
++                d="M18 42 C17 25 33 13 49 15 C35 17 25 29 24 43 C22 47 20 46 18 42Z"
++                fill={`url(#${gradient}-reflection)`}
++              />
++              <path
++                d="M33 78 C52 91 79 74 82 52 C85 72 67 88 51 88 C43 86 37 83 33 78Z"
++                fill={`url(#${gradient}-reflection)`}
++                opacity=".72"
++              />
++              <ellipse
++                cx="35"
++                cy="23"
++                rx="16"
++                ry="6"
++                transform="rotate(-30 35 23)"
++                fill={`url(#${gradient}-shine)`}
++              />
++              <path
++                d="M77 28 C87 42 85 59 77 69"
++                fill="none"
++                stroke={`url(#${gradient}-reflection)`}
++                strokeWidth=".7"
++              />
++            </g>
++          </g>
+         </g>
+       </svg>
+     </span>
+diff --git a/src/conversation/orb.css b/src/conversation/orb.css
+index 27be5e3..8a52caf 100644
+--- a/src/conversation/orb.css
++++ b/src/conversation/orb.css
+@@ -6,7 +6,7 @@
+   height: 58px;
+   isolation: isolate;
+   /* The wrapper is only a hit area: no enclosing sphere, rim or glass shell. */
+-  transform: scale(calc(1 + var(--orb-energy) * 0.3));
++  transform: scale(calc(1 + var(--orb-energy) * 0.34));
+ }
+ .orb-large {
+   width: 164px;
+@@ -19,27 +19,27 @@
+   height: 100%;
+   overflow: visible;
+   pointer-events: none;
+-  filter: drop-shadow(0 3px 5px #0000001a);
+-  animation: orb-flow 14s ease-in-out infinite;
++  filter: drop-shadow(0 5px 5px #00000021);
++  animation: orb-flow 10s ease-in-out infinite;
+ }
+ .audio-orb[data-state='thinking'] .orb-core {
+-  animation-duration: 10s;
++  animation-duration: 7s;
+ }
+ /* A nearly circular surface gently yields without tumbling or broad wobble.
+    Idle motion is separate from the measured audio response. */
+ @keyframes orb-flow {
+   0%,
+   100% {
+-    transform: translate(0, 0) rotate(-3deg) scale(1, 0.985);
++    transform: translate(0, 0) rotate(-5deg) scale(1, 0.98);
+   }
+   25% {
+-    transform: translate(0.8%, -1%) rotate(1.5deg) scale(0.985, 1.015);
++    transform: translate(1.5%, -2%) rotate(3deg) scale(0.975, 1.025);
+   }
+   50% {
+-    transform: translate(-0.8%, 1%) rotate(3deg) scale(1.015, 0.985);
++    transform: translate(-1.5%, 2%) rotate(5deg) scale(1.025, 0.98);
+   }
+   75% {
+-    transform: translate(0.8%, 0) rotate(-1.5deg) scale(0.985, 1);
++    transform: translate(1.5%, 0) rotate(-3deg) scale(0.98, 1);
+   }
+ }
+ .orb-dock {
+@@ -193,10 +193,36 @@
+ }
+ .orb-gloss {
+   transform-origin: 50px 50px;
+-  animation: orb-gloss-pulse 14s ease-in-out infinite;
++  animation: orb-gloss-pulse 10s ease-in-out infinite;
+ }
+ .audio-orb[data-state='thinking'] .orb-gloss {
+-  animation-duration: 10s;
++  animation-duration: 7s;
++}
++.orb-reflections {
++  transform-origin: 50px 50px;
++  animation: orb-light 10s ease-in-out infinite;
++}
++.audio-orb[data-state='thinking'] .orb-reflections {
++  animation-duration: 7s;
++}
++@keyframes orb-light {
++  0%,
++  100% {
++    transform: rotate(-5deg) translate(-1px, 0);
++    opacity: 0.75;
++  }
++  25% {
++    transform: rotate(4deg) translate(1px, -1px);
++    opacity: 0.95;
++  }
++  50% {
++    transform: rotate(9deg) translate(2px, 1px);
++    opacity: 0.82;
++  }
++  75% {
++    transform: rotate(1deg) translate(-1px, 2px);
++    opacity: 1;
++  }
+ }
+ @keyframes orb-gloss-pulse {
+   0%,
+diff --git a/src/main.tsx b/src/main.tsx
+index ebe48cf..be3657c 100644
+--- a/src/main.tsx
++++ b/src/main.tsx
+@@ -8,6 +8,7 @@ import './styles.css';
+ import './conversation/orb.css';
+ import './projects/start.css';
+ import './studio/interface.css';
++import './studio/phone.css';
+ ReactDOM.createRoot(document.getElementById('root')!).render(
+   <React.StrictMode>
+     <WorkspaceHost />
+diff --git a/src/studio/PhoneDock.tsx b/src/studio/PhoneDock.tsx
+new file mode 100644
+index 0000000..3cf2be0
+--- /dev/null
++++ b/src/studio/PhoneDock.tsx
+@@ -0,0 +1,56 @@
++import { Layers, MessageCircle, Plus, Settings2 } from 'lucide-react';
++
++/** The same workspace actions, placed within a thumb's reach. The live voice
++ * orb occupies the center; there is no second microphone or conversation. */
++export default function PhoneDock({
++  active,
++  onObjects,
++  onCreate,
++  onConversation,
++  onTools,
++}: {
++  active: 'objects' | 'create' | 'chat' | 'tools' | null;
++  onObjects: () => void;
++  onCreate: () => void;
++  onConversation: () => void;
++  onTools: () => void;
++}) {
++  return (
++    <nav className="phone-workspace-dock" aria-label="Workspace actions">
++      <button
++        aria-label={active === 'objects' ? 'Hide objects' : 'Show objects'}
++        aria-pressed={active === 'objects'}
++        onClick={onObjects}
++      >
++        <Layers size={20} />
++        <span>Objects</span>
++      </button>
++      <button
++        aria-label="Create a 3D shape"
++        aria-pressed={active === 'create'}
++        onClick={onCreate}
++      >
++        <Plus size={23} />
++        <span>Create</span>
++      </button>
++      <span className="phone-orb-space" aria-hidden="true" />
++      <button
++        aria-label={active === 'chat' ? 'Hide chat' : 'Open chat'}
++        aria-pressed={active === 'chat'}
++        onClick={onConversation}
++      >
++        <MessageCircle size={20} />
++        <span>Chat</span>
++      </button>
++      <button
++        className="compact-tools-toggle"
++        aria-label="Design tools"
++        aria-expanded={active === 'tools'}
++        onClick={onTools}
++      >
++        <Settings2 size={20} />
++        <span>Tools</span>
++      </button>
++    </nav>
++  );
++}
+diff --git a/src/studio/phone.css b/src/studio/phone.css
+new file mode 100644
+index 0000000..e50cc69
+--- /dev/null
++++ b/src/studio/phone.css
+@@ -0,0 +1,515 @@
++/* Touch workspace chrome. No model, camera or project state depends on these layouts. */
++.phone-workspace-dock {
++  display: none;
++}
++.immersive.phone-workspace {
++  --phone-dock-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
++  --phone-sheet-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
++  min-height: 0;
++  height: 100dvh;
++  overscroll-behavior: none;
++}
++.immersive.phone-workspace .app-header {
++  height: calc(58px + env(safe-area-inset-top, 0px));
++  min-height: calc(58px + env(safe-area-inset-top, 0px));
++  padding: env(safe-area-inset-top, 0px) max(16px, env(safe-area-inset-right)) 0
++    max(12px, env(safe-area-inset-left));
++  gap: 10px;
++  background: var(--chrome);
++}
++.phone-workspace
++  .app-header
++  > :is(.scene-toggle, .primary-create, .compact-tools-toggle) {
++  display: none;
++}
++.phone-workspace .app-header .brand {
++  width: 44px;
++  flex: 0 0 44px;
++  min-height: 44px;
++  justify-content: center;
++}
++.phone-workspace .app-header > .project-switcher {
++  flex: 1;
++  min-width: 0;
++  max-width: none;
++  width: auto;
++  margin: 0 96px 0 0;
++  padding: 8px 0;
++  border: 0;
++  font-size: 16px;
++  font-weight: 500;
++  color: var(--ui-text);
++  text-align: left;
++}
++.phone-workspace .project-switcher svg {
++  display: none;
++}
++.phone-workspace .app-header > .explore-launcher {
++  min-width: 44px;
++  min-height: 44px;
++  padding: 12px;
++}
++.phone-workspace .explore-launcher span {
++  display: none;
++}
++.phone-workspace .phone-workspace-dock {
++  position: fixed;
++  z-index: 35;
++  bottom: var(--phone-dock-bottom);
++  left: max(12px, env(safe-area-inset-left));
++  right: max(12px, env(safe-area-inset-right));
++  display: grid;
++  grid-template-columns: 1fr 1fr 80px 1fr 1fr;
++  max-width: 480px;
++  margin-inline: auto;
++  align-items: center;
++  min-height: 70px;
++  padding: 5px 8px;
++  border: 1px solid var(--line);
++  border-radius: 28px;
++  background: color-mix(in srgb, var(--panel) 92%, transparent);
++  -webkit-backdrop-filter: blur(20px) saturate(140%);
++  backdrop-filter: blur(20px) saturate(140%);
++  box-shadow:
++    0 8px 32px #00000014,
++    inset 0 1px #ffffff40;
++  color: var(--ui-text);
++}
++.phone-workspace-dock button {
++  display: flex;
++  flex-direction: column;
++  align-items: center;
++  justify-content: center;
++  gap: 5px;
++  min-width: 44px;
++  min-height: 56px;
++  border-radius: 20px;
++  padding: 5px 0;
++  color: var(--muted);
++  font-size: 10px;
++  font-weight: 500;
++  touch-action: manipulation;
++}
++.phone-workspace-dock button:is([aria-pressed='true'], [aria-expanded='true']) {
++  background: var(--control-selected);
++  color: var(--ui-text);
++}
++.immersive .phone-workspace-dock .compact-tools-toggle span {
++  display: inline;
++}
++.phone-workspace .orb-dock {
++  position: fixed;
++  z-index: 36;
++  bottom: calc(var(--phone-dock-bottom) - 3px);
++  width: 80px;
++  height: 80px;
++}
++.phone-workspace .orb-dock .orb-open {
++  width: 80px;
++  height: 80px;
++}
++.phone-workspace .orb-dock .audio-orb {
++  width: 64px;
++  height: 64px;
++}
++.phone-workspace .orb-dock .voice-mute {
++  position: absolute;
++  bottom: 88px;
++  left: 18px;
++  width: 44px;
++  height: 44px;
++  background: var(--panel);
++  border: 1px solid var(--line);
++  box-shadow: var(--ui-shadow);
++}
++.phone-workspace .orb-question {
++  position: fixed;
++  bottom: calc(
++    var(--phone-sheet-bottom) + 48px + var(--phone-keyboard-lift, 0px)
++  );
++  max-height: calc(var(--phone-visible-height, 100dvh) - 210px);
++  overflow-y: auto;
++}
++.phone-workspace .orb-question :is(input, button) {
++  font-size: 16px;
++  min-height: 44px;
++}
++.phone-workspace .quick-theme {
++  display: none;
++} /* Theme remains in Appearance and Tools. */
++.phone-workspace .viewport-bar {
++  top: 12px;
++  right: max(14px, env(safe-area-inset-right));
++}
++.phone-workspace .viewport-bar .view-button {
++  min-height: 44px;
++  font-size: 13px;
++}
++.phone-workspace .studio-launcher {
++  top: 12px;
++  right: calc(max(14px, env(safe-area-inset-right)) + 132px);
++  width: 44px;
++  height: 44px;
++}
++.phone-workspace .studio-launcher span {
++  display: none;
++}
++.phone-workspace .tool-palette {
++  left: max(12px, env(safe-area-inset-left));
++  top: 12px;
++  border-radius: 23px;
++  padding: 4px;
++  border: 1px solid var(--line);
++}
++.phone-workspace .tool-palette > button {
++  width: 44px;
++  height: 44px;
++}
++.phone-workspace .selection-chip {
++  left: calc(max(12px, env(safe-area-inset-left)) + 60px);
++  top: 70px;
++}
++.phone-workspace .north-compass {
++  top: 142px;
++}
++.immersive.phone-workspace .status-bar {
++  display: flex;
++  /* Header is layer 50. The fixed history controls must be above its hit area. */
++  z-index: 60;
++  bottom: var(--phone-sheet-bottom);
++  padding: 0 16px;
++}
++.phone-workspace .history-actions {
++  position: fixed;
++  top: calc(7px + env(safe-area-inset-top, 0px));
++  right: calc(50px + max(16px, env(safe-area-inset-right)));
++  z-index: 45;
++  gap: 0;
++}
++.phone-workspace .history-actions button {
++  width: 44px;
++  height: 44px;
++  border: 0;
++  background: transparent;
++  box-shadow: none;
++}
++.phone-workspace:not(.chat-docked) .status-bar > span,
++.phone-workspace:is(.tool-panel-open, .objects-open, .phone-actions-open)
++  .status-bar
++  > span,
++.phone-workspace:has(.header-actions.phone-tools-open) .status-bar > span {
++  display: none;
++}
++
++/* A single conversation surface; the input remains visible while history scrolls. */
++.immersive.phone-workspace .modeling-area > .conversation-area {
++  position: fixed;
++  z-index: 30;
++  left: max(12px, env(safe-area-inset-left));
++  right: max(12px, env(safe-area-inset-right));
++  bottom: calc(var(--phone-sheet-bottom) + var(--phone-keyboard-lift, 0px));
++  transform: none;
++  width: auto;
++  max-height: min(56dvh, calc(var(--phone-visible-height, 100dvh) - 200px));
++  display: flex;
++  flex-direction: column;
++  gap: 0;
++  padding: 10px 8px 4px;
++  border: 1px solid var(--line);
++  border-radius: 28px;
++  background: var(--panel);
++  color: var(--ui-text);
++  box-shadow: var(--ui-shadow);
++}
++.phone-workspace .conversation-heading {
++  margin: 0;
++  padding: 0 2px;
++  flex-shrink: 0;
++}
++.phone-workspace .conversation-heading button {
++  min-height: 44px;
++}
++.phone-workspace .conversation-heading .minimize-conversation {
++  order: 4;
++  background: var(--field);
++}
++.phone-workspace .conversation-language {
++  margin-left: auto;
++}
++.phone-workspace .conversation-language select {
++  font-size: 16px;
++  min-height: 44px;
++  max-width: 94px;
++  padding: 6px;
++}
++.phone-workspace .conversation-welcome {
++  margin: 8px 12px 4px;
++}
++.phone-workspace .conversation-welcome strong {
++  font-size: 18px;
++  font-weight: 500;
++}
++.phone-workspace .conversation-welcome p {
++  display: none;
++}
++.phone-workspace :is(.conversation-log, .conversation-latest) {
++  min-height: 0;
++  max-height: 26dvh;
++  flex: 1 1 auto;
++  border: 0;
++  border-radius: 0;
++  box-shadow: none;
++  margin: 4px 0 0;
++  padding: 10px 12px;
++  background: transparent;
++  overscroll-behavior: contain;
++}
++.phone-workspace .chat-message p {
++  font-size: 14px;
++  line-height: 1.5;
++}
++.phone-workspace .conversation-area form.conversation-composer {
++  flex: 0 0 auto;
++  border: 0;
++  border-top: 1px solid var(--line);
++  border-radius: 0;
++  background: transparent;
++  padding: 10px 6px 4px;
++  box-shadow: none;
++}
++.phone-workspace .conversation-area .conversation-composer textarea {
++  font-size: 16px;
++  min-height: 44px;
++  max-height: 64px;
++}
++.phone-workspace .composer-context {
++  display: none;
++}
++.phone-workspace .conversation-area .composer-actions {
++  gap: 8px;
++}
++.phone-workspace .conversation-area .composer-actions .attach-reference {
++  margin-right: auto;
++}
++.phone-workspace .command-feedback:empty {
++  display: none;
++}
++
++/* Consistent phone sheets stay above the dock; closing one exposes the same live model. */
++.immersive.phone-workspace
++  :is(
++    .section-panel,
++    .studio-panel,
++    .inspector-panel:not([hidden]),
++    .objects-panel,
++    .phone-object-actions
++  ):not(.ar-panel),
++.immersive.phone-workspace .header-actions.phone-tools-open {
++  position: fixed !important;
++  top: auto !important;
++  bottom: calc(
++    var(--phone-sheet-bottom) + var(--phone-keyboard-lift, 0px)
++  ) !important;
++  left: max(12px, env(safe-area-inset-left)) !important;
++  right: max(12px, env(safe-area-inset-right)) !important;
++  width: auto !important;
++  max-width: none;
++  height: auto;
++  max-height: min(
++    60dvh,
++    calc(var(--phone-visible-height, 100dvh) - 190px)
++  ) !important;
++  border: 1px solid var(--line);
++  border-radius: 28px;
++  overflow-y: auto;
++  overscroll-behavior: contain;
++  -webkit-overflow-scrolling: touch;
++  padding: 18px;
++  box-shadow: var(--ui-shadow);
++}
++.phone-workspace
++  :is(.studio-panel, .section-panel, .objects-panel, .header-actions)
++  :is(button, select) {
++  min-height: 44px;
++}
++.phone-workspace
++  :is(.studio-panel, .section-panel, .objects-panel, .header-actions)
++  input:not([type='checkbox']):not([type='range']) {
++  font-size: 16px;
++  min-height: 44px;
++}
++.phone-workspace.presentation-mode
++  :is(.phone-workspace-dock, .orb-dock, .status-bar) {
++  display: none;
++}
++
++/* The visual viewport moves with the iOS keyboard; geometry and saved cameras do not. */
++html[data-phone-keyboard]
++  .phone-workspace
++  :is(.phone-workspace-dock, .orb-dock, .status-bar, .tool-palette) {
++  display: none;
++}
++html[data-phone-keyboard] .phone-workspace {
++  --phone-sheet-bottom: 8px;
++}
++html[data-phone-keyboard] .phone-workspace .modeling-area > .conversation-area {
++  max-height: calc(var(--phone-visible-height, 100dvh) - 80px);
++}
++html[data-phone-keyboard] .phone-workspace .conversation-welcome {
++  display: none;
++}
++/* A typed clarification must not hide the only way to mute/end live voice. */
++html[data-phone-keyboard] .phone-workspace.chat-docked:has(.voice-mute) {
++  --phone-sheet-bottom: 64px;
++}
++html[data-phone-keyboard]
++  .phone-workspace.chat-docked
++  .orb-dock:has(.voice-mute) {
++  display: flex;
++  bottom: calc(6px + var(--phone-keyboard-lift, 0px));
++  height: 52px;
++}
++html[data-phone-keyboard] .phone-workspace.chat-docked .orb-dock .orb-open {
++  height: 52px;
++}
++html[data-phone-keyboard] .phone-workspace.chat-docked .orb-dock .audio-orb {
++  width: 44px;
++  height: 44px;
++}
++html[data-phone-keyboard] .phone-workspace.chat-docked .orb-dock .voice-mute {
++  left: -36px;
++  bottom: 4px;
++}
++
++@media (max-width: 600px) {
++  .project-start {
++    padding: calc(16px + env(safe-area-inset-top))
++      max(24px, env(safe-area-inset-right))
++      max(32px, env(safe-area-inset-bottom))
++      max(24px, env(safe-area-inset-left));
++    background: radial-gradient(ellipse at 50% 35%, #ffffff, #f4f5f7 80%);
++  }
++  .project-start[data-step='connect'] .start-intro {
++    margin-top: clamp(50px, 11dvh, 140px);
++  }
++  .project-start[data-step='connect'] .orb-large {
++    width: 210px;
++    height: 210px;
++    margin-bottom: 34px;
++  }
++  .project-start .start-intro h1 {
++    font-size: 32px;
++    font-weight: 500;
++    letter-spacing: -0.05em;
++  }
++  .project-start[data-step='projects'] .start-intro {
++    margin-top: 20px;
++  }
++  .project-start[data-step='projects'] .orb-large {
++    width: 74px;
++    height: 74px;
++    margin-bottom: 10px;
++  }
++  .project-start[data-step='projects'] h1 {
++    text-align: left;
++    margin-bottom: 22px;
++  }
++  .project-start .start-enter {
++    min-width: 180px;
++    min-height: 52px;
++    font-size: 16px;
++  }
++  .project-start .start-connection summary {
++    font-size: 14px;
++    border-radius: 24px;
++    background: #ffffffc9;
++    border: 1px solid #e8e9ed;
++    padding: 0 16px;
++  }
++  .project-start .start-new-project {
++    padding: 8px;
++    background: white;
++    border: 1px solid #e5e7ea;
++    border-radius: 22px;
++  }
++  .project-start .start-new-project input {
++    border: 0;
++    padding: 8px;
++    font-size: 16px;
++  }
++  .project-start .start-new-project button {
++    font-size: 13px;
++    padding: 10px 12px;
++    background: #f2f3f5;
++    border: 0;
++    border-radius: 16px;
++  }
++  .project-start .start-projects {
++    gap: 0;
++    border-radius: 22px;
++    background: white;
++    overflow: hidden;
++    border: 1px solid #e5e7ea;
++  }
++  .project-start .start-projects button {
++    border: 0;
++    border-radius: 0;
++    min-height: 76px;
++    padding: 16px;
++    font-size: 15px;
++  }
++  .project-start .start-projects button + button {
++    border-top: 1px solid #eeeff1;
++  }
++  .project-start .start-preference {
++    justify-content: flex-start;
++    font-size: 12px;
++    min-height: 44px;
++  }
++  .project-start input[type='checkbox'] {
++    width: 20px;
++    height: 20px;
++    accent-color: #34383e;
++  }
++  .project-start :is(input:not([type='checkbox']), .start-connection input) {
++    font-size: 16px;
++  }
++  .projects-dialog {
++    position: fixed;
++    inset: auto 12px max(12px, env(safe-area-inset-bottom));
++    margin: 0;
++    width: auto;
++    max-height: calc(100dvh - 80px - env(safe-area-inset-top));
++    padding: 22px;
++    border-radius: 28px;
++    overscroll-behavior: contain;
++  }
++  .projects-dialog :is(button, input) {
++    min-height: 44px;
++  }
++  .projects-dialog input {
++    font-size: 16px;
++  }
++}
++@media (max-height: 500px) {
++  .phone-workspace .phone-workspace-dock {
++    min-height: 58px;
++    padding-block: 2px;
++  }
++  .phone-workspace-dock button {
++    min-height: 48px;
++    gap: 2px;
++  }
++  .phone-workspace .orb-dock {
++    bottom: calc(var(--phone-dock-bottom) - 9px);
++  }
++  .immersive.phone-workspace {
++    --phone-sheet-bottom: calc(74px + env(safe-area-inset-bottom));
++  }
++  .phone-workspace .conversation-welcome {
++    display: none;
++  }
++  .immersive.phone-workspace .modeling-area > .conversation-area {
++    max-height: calc(var(--phone-visible-height, 100dvh) - 145px);
++  }
++}
+diff --git a/src/studio/usePhoneViewport.ts b/src/studio/usePhoneViewport.ts
+new file mode 100644
+index 0000000..5ce12a6
+--- /dev/null
++++ b/src/studio/usePhoneViewport.ts
+@@ -0,0 +1,50 @@
++import { useEffect } from 'react';
++
++/** Lift phone controls above Safari's keyboard without resizing/remounting the
++ * modeling workspace. Pinch zoom must keep its normal browser behavior. */
++export function usePhoneViewport(enabled: boolean) {
++  useEffect(() => {
++    if (!enabled) return;
++    const root = document.documentElement;
++    const viewport = window.visualViewport;
++    let frame = 0;
++    const update = () => {
++      cancelAnimationFrame(frame);
++      frame = requestAnimationFrame(() => {
++        const editing = document.activeElement?.matches(
++          'input:not([type="range"]):not([type="checkbox"]), textarea, [contenteditable="true"]',
++        );
++        const lift =
++          viewport && Math.abs(viewport.scale - 1) < 0.01 && editing
++            ? Math.max(0, innerHeight - viewport.height - viewport.offsetTop)
++            : 0;
++        root.style.setProperty('--phone-keyboard-lift', `${lift}px`);
++        root.style.setProperty(
++          '--phone-visible-height',
++          `${viewport?.height ?? innerHeight}px`,
++        );
++        root.toggleAttribute(
++          'data-phone-keyboard',
++          !!editing && (lift > 100 || innerHeight < 500),
++        );
++      });
++    };
++    update();
++    viewport?.addEventListener('resize', update);
++    viewport?.addEventListener('scroll', update);
++    window.addEventListener('resize', update);
++    document.addEventListener('focusin', update);
++    document.addEventListener('focusout', update);
++    return () => {
++      cancelAnimationFrame(frame);
++      viewport?.removeEventListener('resize', update);
++      viewport?.removeEventListener('scroll', update);
++      window.removeEventListener('resize', update);
++      document.removeEventListener('focusin', update);
++      document.removeEventListener('focusout', update);
++      root.style.removeProperty('--phone-keyboard-lift');
++      root.style.removeProperty('--phone-visible-height');
++      root.removeAttribute('data-phone-keyboard');
++    };
++  }, [enabled]);
++}
+diff --git a/tests/interface-refinement.spec.ts b/tests/interface-refinement.spec.ts
+index 062841d..bee6a99 100644
+--- a/tests/interface-refinement.spec.ts
++++ b/tests/interface-refinement.spec.ts
+@@ -37,8 +37,11 @@ test('calm desktop and phone surfaces retain draft, theme, geometry and reachabl
+   await page.screenshot({ path: 'test-results/refined-desktop-night.png' });
+   await page.setViewportSize({ width: 390, height: 844 });
+   await input.fill('');
++  // Phone appearance lives in its sheet; the duplicate floating theme button is removed.
++  await page.getByRole('button', { name: 'Appearance', exact: true }).click();
++  await page.getByRole('button', { name: 'Day', exact: true }).click();
+   await page
+-    .getByRole('button', { name: 'Switch to Day', exact: true })
++    .getByRole('button', { name: 'Close studio settings', exact: true })
+     .click();
+   await page.screenshot({ path: 'test-results/refined-phone-composer.png' });
+   await page.getByRole('button', { name: 'Minimize conversation' }).click();
+diff --git a/tests/orb-conversation.spec.ts b/tests/orb-conversation.spec.ts
+index 040112f..c9611f7 100644
+--- a/tests/orb-conversation.spec.ts
++++ b/tests/orb-conversation.spec.ts
+@@ -271,6 +271,27 @@ test('orb keeps voice modeling and follow-up edits in the minimized workspace (o
+   ).toContainText('open to the sky');
+   await expect(page.getByLabel('Answer Atelier')).toBeVisible();
+   await expect(dock).toBeVisible();
++  // Typing a clarification must leave mute/end available above an iOS-style keyboard.
++  await page.getByLabel('Answer Atelier').focus();
++  await page.evaluate(() => {
++    Object.defineProperty(visualViewport, 'height', {
++      configurable: true,
++      get: () => 430,
++    });
++    visualViewport!.dispatchEvent(new Event('resize'));
++  });
++  await expect(page.locator('html')).toHaveAttribute('data-phone-keyboard', '');
++  await expect(
++    dock.getByRole('button', { name: 'Mute microphone' }),
++  ).toBeVisible();
++  const voiceBounds = (await dock.boundingBox())!;
++  expect(voiceBounds.y + voiceBounds.height).toBeLessThanOrEqual(430);
++  await page.evaluate(() => {
++    delete (visualViewport as any).height;
++    (document.activeElement as HTMLElement)?.blur();
++    visualViewport!.dispatchEvent(new Event('resize'));
++  });
++  await expect(page.locator('html')).not.toHaveAttribute('data-phone-keyboard');
+   await expect(
+     page.getByRole('textbox', { name: 'Message Atelier' }),
+   ).not.toBeVisible();
+diff --git a/tests/phone-workspace.spec.ts b/tests/phone-workspace.spec.ts
+new file mode 100644
+index 0000000..508f642
+--- /dev/null
++++ b/tests/phone-workspace.spec.ts
+@@ -0,0 +1,200 @@
++import { test, expect, type Page } from '@playwright/test';
++
++test.use({
++  viewport: { width: 390, height: 844 },
++  isMobile: true,
++  hasTouch: true,
++});
++const saved = (page: Page) =>
++  page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
++async function ready(page: Page) {
++  await page.emulateMedia({ reducedMotion: 'reduce' });
++  await page.goto('/');
++  await expect(page.getByTestId('viewport')).toHaveAttribute(
++    'data-rendered',
++    'true',
++  );
++}
++
++test('phone dock creates editable solids, switches sheets, retains drafts and survives rotation, reload and Undo/Redo', async ({
++  page,
++}) => {
++  test.setTimeout(120000);
++  await ready(page);
++  const starting = await saved(page);
++  const message = page.getByRole('textbox', { name: 'Message Atelier' });
++  await message.fill('Keep this unsent design idea');
++  const dock = page.getByRole('navigation', { name: 'Workspace actions' });
++  await dock.getByRole('button', { name: 'Hide chat', exact: true }).tap();
++  await dock
++    .getByRole('button', { name: 'Create a 3D shape', exact: true })
++    .tap();
++  const create = page.getByRole('region', {
++    name: 'Create and transform',
++    exact: true,
++  });
++  await expect(create).toBeVisible();
++  const d = (await dock.boundingBox())!,
++    sheet = (await create.boundingBox())!;
++  expect(sheet.y + sheet.height).toBeLessThan(d.y);
++  await create.getByRole('button', { name: 'Cylinder', exact: true }).tap();
++  await create.getByLabel('Solid width').fill('1.2');
++  await create.getByLabel('Solid height').fill('2.4');
++  await create
++    .getByRole('button', { name: 'Create 3D shape', exact: true })
++    .tap();
++  await expect
++    .poll(async () => (await saved(page)).project.volumes.length)
++    .toBe(starting.project.volumes.length + 1);
++  const edited = await saved(page);
++  expect(edited.project.volumes.at(-1).dimensions).toEqual({
++    width: 1.2,
++    depth: 1.2,
++    height: 2.4,
++  });
++  for (const original of starting.project.volumes)
++    expect(
++      edited.project.volumes.find((v: any) => v.id === original.id),
++    ).toEqual(original);
++  await dock.getByRole('button', { name: 'Show objects', exact: true }).tap();
++  await expect(create).toBeHidden();
++  await expect(
++    page.getByRole('heading', { name: /Scene objects/ }),
++  ).toBeVisible();
++  await dock.getByRole('button', { name: 'Open chat', exact: true }).tap();
++  await expect(message).toHaveValue('Keep this unsent design idea');
++  await dock.getByRole('button', { name: 'Hide chat', exact: true }).tap();
++  await dock.getByRole('button', { name: 'Design tools', exact: true }).tap();
++  await expect(
++    page.getByRole('region', { name: 'Design tools menu' }),
++  ).toBeVisible();
++  await page.getByRole('button', { name: 'Close tools', exact: true }).tap();
++  for (const size of [
++    { width: 844, height: 390 },
++    { width: 320, height: 568 },
++    { width: 390, height: 844 },
++  ]) {
++    await page.setViewportSize(size);
++    await expect(dock).toBeVisible();
++    const bounds = (await dock.boundingBox())!;
++    expect(bounds.x).toBeGreaterThanOrEqual(0);
++    expect(bounds.x + bounds.width).toBeLessThanOrEqual(size.width);
++    expect(bounds.y + bounds.height).toBeLessThanOrEqual(size.height);
++    for (const button of await dock.getByRole('button').all()) {
++      const r = (await button.boundingBox())!;
++      expect(r.width).toBeGreaterThanOrEqual(44);
++      expect(r.height).toBeGreaterThanOrEqual(44);
++    }
++    expect((await saved(page)).project.volumes).toEqual(edited.project.volumes);
++  }
++  await page.reload();
++  await expect(page.getByTestId('viewport')).toHaveAttribute(
++    'data-rendered',
++    'true',
++  );
++  expect((await saved(page)).project.volumes).toEqual(edited.project.volumes);
++  await page
++    .getByRole('button', { name: 'Minimize conversation', exact: true })
++    .tap();
++  await page.getByRole('button', { name: 'Undo', exact: true }).tap();
++  await expect
++    .poll(async () => (await saved(page)).project.volumes)
++    .toEqual(starting.project.volumes);
++  await page.getByRole('button', { name: 'Redo', exact: true }).tap();
++  await expect
++    .poll(async () => (await saved(page)).project.volumes)
++    .toEqual(edited.project.volumes);
++  await page.screenshot({ path: 'test-results/iphone-dock.png' });
++});
++
++test('Safari-style keyboard viewport keeps the composer visible without changing geometry or capture state', async ({
++  page,
++}) => {
++  test.setTimeout(90000);
++  await ready(page);
++  const original = await saved(page);
++  const message = page.getByRole('textbox', { name: 'Message Atelier' });
++  await message.fill('An idea kept while the keyboard changes');
++  // Synthetic visual-viewport metrics, not a physical iPhone keyboard test.
++  await page.evaluate(() => {
++    Object.defineProperty(visualViewport, 'height', {
++      configurable: true,
++      get: () => 430,
++    });
++    visualViewport!.dispatchEvent(new Event('resize'));
++  });
++  await expect(page.locator('html')).toHaveAttribute('data-phone-keyboard', '');
++  await expect(
++    page.getByRole('navigation', { name: 'Workspace actions' }),
++  ).toBeHidden();
++  const composer = page.locator('.conversation-composer');
++  const r = (await composer.boundingBox())!;
++  expect(r.y).toBeGreaterThanOrEqual(0);
++  expect(r.y + r.height).toBeLessThanOrEqual(430);
++  expect((await saved(page)).project).toEqual(original.project);
++  await page.screenshot({ path: 'test-results/iphone-keyboard-metrics.png' });
++  await page.evaluate(() => {
++    Object.defineProperty(visualViewport, 'scale', {
++      configurable: true,
++      get: () => 1.5,
++    });
++    visualViewport!.dispatchEvent(new Event('resize'));
++  });
++  await expect(page.locator('html')).not.toHaveAttribute('data-phone-keyboard');
++  expect(
++    await page
++      .locator('html')
++      .evaluate((el) => el.style.getPropertyValue('--phone-keyboard-lift')),
++  ).toBe('0px');
++  await page.evaluate(() => {
++    delete (visualViewport as any).height;
++    delete (visualViewport as any).scale;
++    (document.activeElement as HTMLElement)?.blur();
++    visualViewport!.dispatchEvent(new Event('resize'));
++  });
++  await expect(
++    page.getByRole('navigation', { name: 'Workspace actions' }),
++  ).toBeVisible();
++  await expect(message).toHaveValue('An idea kept while the keyboard changes');
++  expect((await saved(page)).project).toEqual(original.project);
++  expect((await saved(page)).past).toEqual(original.past);
++});
++
++test('phone entrance and idle glass reflections animate with a still reduced-motion alternative', async ({
++  page,
++}) => {
++  test.setTimeout(60000);
++  await page.addInitScript(() =>
++    localStorage.removeItem('atelier.start-direct'),
++  );
++  await page.emulateMedia({ reducedMotion: 'no-preference' });
++  await page.goto('/');
++  const orb = page.locator('.orb-large');
++  await expect(orb).toBeVisible();
++  const light = () =>
++    orb
++      .locator('.orb-reflections')
++      .evaluate((el) => getComputedStyle(el).transform);
++  const initial = await light();
++  await expect.poll(light).not.toBe(initial);
++  await expect(orb).toHaveAttribute('data-state', 'idle');
++  await page.screenshot({ path: 'test-results/iphone-welcome.png' });
++  await page.emulateMedia({ reducedMotion: 'reduce' });
++  await expect.poll(light).toBe('none');
++  await expect
++    .poll(() =>
++      orb
++        .locator('svg.orb-core')
++        .evaluate((el) => (el as SVGSVGElement).animationsPaused()),
++    )
++    .toBe(true);
++  await page
++    .getByRole('button', { name: 'Continue without AI', exact: true })
++    .tap();
++  await page.screenshot({ path: 'test-results/iphone-projects.png' });
++  expect(
++    await page.evaluate(
++      () => document.documentElement.scrollWidth <= innerWidth,
++    ),
++  ).toBe(true);
++});

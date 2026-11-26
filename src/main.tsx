@@ -8,6 +8,7 @@ import './styles.css';
 import './conversation/orb.css';
 import './projects/start.css';
 import './studio/interface.css';
+import './studio/phone.css';
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <WorkspaceHost />
