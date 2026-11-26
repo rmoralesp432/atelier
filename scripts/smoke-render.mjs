@@ -1,7 +1,10 @@
 /** Public deployment smoke test. Fresh browser storage; no API generation calls. */
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync, mkdirSync, writeFileSync } from 'node:fs';
-import { chromium, expect } from '@playwright/test';
+import { chromium, expect as playwrightExpect } from '@playwright/test';
+// Standalone scripts do not inherit playwright.config.ts. Cold WASM and
+// production asset loading need a bounded readiness wait, with exact assertions.
+const expect = playwrightExpect.configure({ timeout: 30000 });
 
 const origin =
   process.env.ATELIER_SMOKE_ORIGIN || 'https://atelier-emxi.onrender.com';
