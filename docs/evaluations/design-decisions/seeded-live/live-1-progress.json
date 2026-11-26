@@ -1,0 +1,161 @@
+{
+  "label": "Seeded recall diagnostic: fresh GPT-6.1-sol; frozen browser application; independent kernel measurements; initial capture excluded",
+  "appCommit": "deb730317cafe2e0b251a788693934196660140c",
+  "status": "FRESH_SEEDED_DIAGNOSTIC_COMPLETED",
+  "turns": [
+    {
+      "turn": 1,
+      "status": "PASS",
+      "committed": true,
+      "objects": 12,
+      "elapsedMs": 63677,
+      "decision": [
+        {
+          "topic": "Scanning rig dimensions and usable loading space",
+          "id": "70db6f56-f975-420f-b5e7-3b4781cfe63e",
+          "revision": 2,
+          "quote": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged.",
+          "origin": {
+            "id": "cbf38aa6-500a-415f-a1b7-c4cffe897132",
+            "text": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged."
+          }
+        }
+      ],
+      "recall": {
+        "originalInstructionInRecentHistory": false,
+        "potentialAssistantReminders": [],
+        "recentHistory": [
+          {
+            "role": "user",
+            "content": "Make the storage cube 50 cm tall, keeping its base on the floor."
+          },
+          {
+            "role": "assistant",
+            "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.5; expected equal 0.5 ± 0.001 m."
+          },
+          {
+            "role": "user",
+            "content": "Make that storage cube 55 cm wide."
+          },
+          {
+            "role": "assistant",
+            "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 0.55; expected equal 0.55 ± 0.001 m."
+          },
+          {
+            "role": "user",
+            "content": "Make the storage cube 45 cm deep."
+          },
+          {
+            "role": "assistant",
+            "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\ndepth: depth (each, world solids): 0.45000000000000007; expected equal 0.45 ± 0.001 m."
+          },
+          {
+            "role": "user",
+            "content": "Move the storage cube 20 cm farther left."
+          },
+          {
+            "role": "assistant",
+            "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nx: x (each, world solids): -1.866; expected equal -1.8655996608010175 ± 0.001 m.\nz: z (each, world solids): 1.166; expected equal 1.165999788000636 ± 0.001 m."
+          },
+          {
+            "role": "user",
+            "content": "Add a separate round sample puck, 12 cm in diameter and 3 cm thick, beside the storage cube."
+          },
+          {
+            "role": "assistant",
+            "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight · Sample puck: height (each, world solids): 0.03; expected equal 0.03 ± 0.001 m.\ndiameter · Sample puck: True cylinder diameter: 0.12000003799405823; expected 0.12 ± 0.001 m across 1 objects. Diameter is intrinsic, independent of world orientation."
+          },
+          {
+            "role": "user",
+            "content": "Make that sample puck 5 cm thick, with its base still on the floor."
+          },
+          {
+            "role": "assistant",
+            "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.05; expected equal 0.05 ± 0.001 m."
+          },
+          {
+            "role": "user",
+            "content": "Make the sample puck 16 cm in diameter."
+          },
+          {
+            "role": "assistant",
+            "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 0.16000000000000014; expected equal 0.16 ± 0.001 m."
+          },
+          {
+            "role": "user",
+            "content": "Move the sample puck 15 cm forward."
+          },
+          {
+            "role": "assistant",
+            "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nx: x (each, world solids): -1.9449999999999998; expected equal -1.9454998410004771 ± 0.001 m.\nz: z (each, world solids): 0.339; expected equal 0.3388002543992368 ± 0.001 m."
+          },
+          {
+            "role": "user",
+            "content": "Make the storage cube 60 cm tall, leaving its footprint and position unchanged."
+          },
+          {
+            "role": "assistant",
+            "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.6; expected equal 0.6 ± 0.001 m."
+          },
+          {
+            "role": "user",
+            "content": "Make the sample puck 4 cm thick, keeping its base on the floor."
+          },
+          {
+            "role": "assistant",
+            "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.04; expected equal 0.04 ± 0.001 m."
+          }
+        ],
+        "decisionInOriginalNotes": [
+          {
+            "topic": "Scanning rig dimensions and usable loading space",
+            "text": "Maintain the circular 0.70 m turntable at top elevation 0.24 m, with the centred overhead panel underside at 0.56 m: exactly 0.32 m unobstructed vertical loading clearance. Preserve that usable loading volume in subsequent rig development. Keep rig parts independently editable. Storage cube is 0.40 m per side, placed 2 m centre-to-centre to current-view left.",
+            "source": "user",
+            "decision": {
+              "id": "70db6f56-f975-420f-b5e7-3b4781cfe63e",
+              "revision": 1,
+              "quote": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+              "origin": {
+                "id": "3f41ec6f-0223-4542-af00-86e23f48a41a",
+                "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+              }
+            }
+          }
+        ],
+        "source": "Requires human semantic review; pre-edit geometry itself also reveals the gap"
+      },
+      "wrong": []
+    },
+    {
+      "turn": 2,
+      "status": "PASS",
+      "committed": true,
+      "objects": 12,
+      "elapsedMs": 54452,
+      "decision": [
+        {
+          "topic": "Scanning rig dimensions and usable loading space",
+          "id": "70db6f56-f975-420f-b5e7-3b4781cfe63e",
+          "revision": 3,
+          "quote": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+          "origin": {
+            "id": "4448e578-8770-4166-babe-dbaf9d2d84ef",
+            "text": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone."
+          }
+        }
+      ],
+      "wrong": []
+    }
+  ],
+  "costs": {
+    "calls": 5,
+    "ceilingUSD": 2,
+    "accountedUSD": 0.27265249999999996,
+    "estimatedUSD": 0.218122,
+    "unknownReservations": [],
+    "inputTokens": 87736,
+    "outputTokens": 4265,
+    "reviewerMs": 34485,
+    "stopReason": null
+  }
+}

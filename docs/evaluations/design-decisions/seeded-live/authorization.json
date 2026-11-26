@@ -1,0 +1,9 @@
+{
+  "authorized": true,
+  "authorizedAt": "2026-11-26T22:36:55.544Z",
+  "scope": "One published two-turn seeded recall diagnostic on frozen deb7303; fresh executor and reviewer, no reminders or scripted criteria. Separate iPhone deployment authorization.",
+  "ceilingUSD": 2,
+  "maximumPaidCalls": 20,
+  "pricing": "Accepted secondary registry estimate, unchanged at preflight",
+  "noAutoRecharge": true
+}

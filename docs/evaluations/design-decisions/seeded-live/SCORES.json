@@ -1,0 +1,205 @@
+{
+  "classification": "MIXED: correct saved edits and source-citing reviewer; executor recall source inconclusive; premature active-source replacement observed",
+  "application": "deb730317cafe2e0b251a788693934196660140c",
+  "fixtureCommit": "ca6fc5b51bfab8b4fa3ec19f24cb339b4322ce51",
+  "harnessCommit": "cfac4b1",
+  "paidCalls": 5,
+  "costs": {
+    "calls": 5,
+    "ceilingUSD": 2,
+    "accountedUSD": 0.27265249999999996,
+    "estimatedUSD": 0.218122,
+    "unknownReservations": [],
+    "inputTokens": 87736,
+    "outputTokens": 4265,
+    "reviewerMs": 34485,
+    "stopReason": null
+  },
+  "frozenFilesUnchangedAfterTrial": true,
+  "freshCaptureThroughInitialCommit": "NOT_TESTED",
+  "turns": [
+    {
+      "turn": 1,
+      "prompt": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged.",
+      "agentRecall": "CONSISTENT_WITH_STORED_DECISION; SOURCE_INCONCLUSIVE",
+      "storedSourceDelivered": true,
+      "originalAbsentFromRecentHistory": true,
+      "recentAssistantReminder": false,
+      "reviewerCitation": "Exact source=decision wording including bulky-sample reason",
+      "actualGeometry": "CORRECT",
+      "browserSaved": true,
+      "hostStatus": "unverified",
+      "hostCanCommit": true,
+      "qualitativeLimits": [
+        "The sample-loading space must remain unobstructed and usable; the vertical-gap check alone does not certify its full usable volume.",
+        "The raised panel must remain supported by the freestanding two-post frame and crossbeam; geometric clearance alone does not certify structural support."
+      ],
+      "changed": [
+        {
+          "id": "c0523436-3587-4694-b944-10fee7fb31be",
+          "name": "Turntable pedestal"
+        },
+        {
+          "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "name": "Circular turntable"
+        },
+        {
+          "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "name": "Frame left post"
+        },
+        {
+          "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "name": "Frame right post"
+        },
+        {
+          "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+          "name": "Frame crossbeam"
+        },
+        {
+          "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+          "name": "Overhead rectangular light panel"
+        },
+        {
+          "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+          "name": "Light panel left hanger"
+        },
+        {
+          "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+          "name": "Light panel right hanger"
+        }
+      ],
+      "preserved": [
+        {
+          "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+          "name": "Frame left foot"
+        },
+        {
+          "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+          "name": "Frame right foot"
+        },
+        {
+          "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+          "name": "Separate storage cube"
+        },
+        {
+          "id": "e5f1622c-4e9e-48d0-90f8-df90bcbf7069",
+          "name": "Sample puck"
+        }
+      ],
+      "componentIdentitiesPreserved": true,
+      "decision": [
+        {
+          "topic": "Scanning rig dimensions and usable loading space",
+          "id": "70db6f56-f975-420f-b5e7-3b4781cfe63e",
+          "revision": 2,
+          "quote": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged.",
+          "origin": {
+            "id": "cbf38aa6-500a-415f-a1b7-c4cffe897132",
+            "text": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged."
+          }
+        }
+      ],
+      "history": {
+        "reload": true,
+        "undo": true,
+        "reloadWhileUndone": true,
+        "redo": true,
+        "decisionVersionsRestored": true,
+        "oneAtomicUndo": true
+      },
+      "negativeControl": "BLOCKED_MEASURED",
+      "elapsedMs": 63677
+    },
+    {
+      "turn": 2,
+      "prompt": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+      "agentRecall": "EXPLICIT_REVISION_HONORED; NOT_A_NO_REMINDER_RECALL_TEST",
+      "storedSourceDelivered": true,
+      "originalAbsentFromRecentHistory": true,
+      "recentAssistantReminder": true,
+      "reviewerCitation": "Current request source; obsolete 32 cm not enforced",
+      "actualGeometry": "CORRECT",
+      "browserSaved": true,
+      "hostStatus": "unverified",
+      "hostCanCommit": true,
+      "qualitativeLimits": [
+        "The vertical clearance check does not certify practical sample-loading usability or structural adequacy of the adjusted overhead assembly."
+      ],
+      "changed": [
+        {
+          "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+          "name": "Overhead rectangular light panel"
+        },
+        {
+          "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+          "name": "Light panel left hanger"
+        },
+        {
+          "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+          "name": "Light panel right hanger"
+        }
+      ],
+      "preserved": [
+        {
+          "id": "c0523436-3587-4694-b944-10fee7fb31be",
+          "name": "Turntable pedestal"
+        },
+        {
+          "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "name": "Circular turntable"
+        },
+        {
+          "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+          "name": "Frame left foot"
+        },
+        {
+          "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+          "name": "Frame right foot"
+        },
+        {
+          "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "name": "Frame left post"
+        },
+        {
+          "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "name": "Frame right post"
+        },
+        {
+          "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+          "name": "Frame crossbeam"
+        },
+        {
+          "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+          "name": "Separate storage cube"
+        },
+        {
+          "id": "e5f1622c-4e9e-48d0-90f8-df90bcbf7069",
+          "name": "Sample puck"
+        }
+      ],
+      "componentIdentitiesPreserved": true,
+      "decision": [
+        {
+          "topic": "Scanning rig dimensions and usable loading space",
+          "id": "70db6f56-f975-420f-b5e7-3b4781cfe63e",
+          "revision": 3,
+          "quote": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+          "origin": {
+            "id": "4448e578-8770-4166-babe-dbaf9d2d84ef",
+            "text": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone."
+          }
+        }
+      ],
+      "history": {
+        "reload": true,
+        "undo": true,
+        "reloadWhileUndone": true,
+        "redo": true,
+        "decisionVersionsRestored": true,
+        "oneAtomicUndo": true
+      },
+      "negativeControl": "BLOCKED_MEASURED",
+      "elapsedMs": 54452
+    }
+  ]
+}
