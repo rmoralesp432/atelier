@@ -1,0 +1,491 @@
+{
+  "modeling": true,
+  "editable": [],
+  "checks": [
+    {
+      "source": "request",
+      "evidence": "Use a circular turntable 70 cm across with its top 24 cm above the floor",
+      "requirement": {
+        "id": "check-1",
+        "label": "count · Circular turntable",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Circular turntable"
+        },
+        "metric": "count",
+        "aggregation": "sum",
+        "comparison": "equal",
+        "value": 1,
+        "tolerance": 0,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Use a circular turntable 70 cm across with its top 24 cm above the floor",
+      "requirement": {
+        "id": "check-2",
+        "label": "diameter · Circular turntable",
+        "kind": "diameter",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Circular turntable"
+        },
+        "shape": "cylinder",
+        "value": 0.7,
+        "tolerance": 0.001
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Use a circular turntable 70 cm across with its top 24 cm above the floor",
+      "requirement": {
+        "id": "check-3",
+        "label": "top · Circular turntable",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Circular turntable"
+        },
+        "metric": "top",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.24,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "an overhead rectangular light panel centered over it",
+      "requirement": {
+        "id": "check-4",
+        "label": "count · Overhead rectangular light panel",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Overhead rectangular light panel"
+        },
+        "metric": "count",
+        "aggregation": "sum",
+        "comparison": "equal",
+        "value": 1,
+        "tolerance": 0,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "an overhead rectangular light panel centered over it",
+      "requirement": {
+        "id": "check-5",
+        "label": "shape · Overhead rectangular light panel",
+        "kind": "shape",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Overhead rectangular light panel"
+        },
+        "shape": "box"
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "an overhead rectangular light panel centered over it",
+      "requirement": {
+        "id": "check-6",
+        "label": "offset",
+        "kind": "offset",
+        "first": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Circular turntable"
+        },
+        "second": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Overhead rectangular light panel"
+        },
+        "axis": "x",
+        "firstAnchor": "center",
+        "secondAnchor": "center",
+        "value": 0,
+        "tolerance": 0.001
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "an overhead rectangular light panel centered over it",
+      "requirement": {
+        "id": "check-7",
+        "label": "offset",
+        "kind": "offset",
+        "first": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Circular turntable"
+        },
+        "second": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Overhead rectangular light panel"
+        },
+        "axis": "z",
+        "firstAnchor": "center",
+        "secondAnchor": "center",
+        "value": 0,
+        "tolerance": 0.001
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "supported by a freestanding frame with two posts and a crossbeam",
+      "requirement": {
+        "id": "check-8",
+        "label": "count · post",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": "column",
+          "level": null,
+          "nameContains": "post"
+        },
+        "metric": "count",
+        "aggregation": "sum",
+        "comparison": "equal",
+        "value": 2,
+        "tolerance": 0,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "supported by a freestanding frame with two posts and a crossbeam",
+      "requirement": {
+        "id": "check-9",
+        "label": "count · crossbeam",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "crossbeam"
+        },
+        "metric": "count",
+        "aggregation": "sum",
+        "comparison": "equal",
+        "value": 1,
+        "tolerance": 0,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "supported by a freestanding frame with two posts and a crossbeam",
+      "requirement": {
+        "id": "check-10",
+        "label": "relationship",
+        "kind": "relationship",
+        "first": {
+          "refs": [
+            "$new"
+          ],
+          "role": "column",
+          "level": null,
+          "nameContains": "post"
+        },
+        "second": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "crossbeam"
+        },
+        "relation": "touching",
+        "quantifier": "each",
+        "distance": 0,
+        "tolerance": 0.002
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted.",
+      "requirement": {
+        "id": "check-11",
+        "label": "offset",
+        "kind": "offset",
+        "first": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Circular turntable"
+        },
+        "second": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Overhead rectangular light panel"
+        },
+        "axis": "y",
+        "firstAnchor": "max",
+        "secondAnchor": "min",
+        "value": 0.32,
+        "tolerance": 0.001
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Keep that sample-loading space usable as we develop the rig.",
+      "requirement": {
+        "id": "check-12",
+        "label": "unavailable",
+        "kind": "unavailable",
+        "required": true,
+        "reason": "An unobstructed sample-loading volume above the circular turntable, extending to the panel underside with an accessible insertion path, requires a relative circular clearance-volume test not expressible by the available fixed world-box region predicate."
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Add a separate 40 cm storage cube two meters to the left.",
+      "requirement": {
+        "id": "check-13",
+        "label": "count · Separate storage cube",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Separate storage cube"
+        },
+        "metric": "count",
+        "aggregation": "sum",
+        "comparison": "equal",
+        "value": 1,
+        "tolerance": 0,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Add a separate 40 cm storage cube two meters to the left.",
+      "requirement": {
+        "id": "check-14",
+        "label": "shape · Separate storage cube",
+        "kind": "shape",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Separate storage cube"
+        },
+        "shape": "box"
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Add a separate 40 cm storage cube two meters to the left.",
+      "requirement": {
+        "id": "check-15",
+        "label": "width · Separate storage cube",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Separate storage cube"
+        },
+        "metric": "width",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.4,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Add a separate 40 cm storage cube two meters to the left.",
+      "requirement": {
+        "id": "check-16",
+        "label": "height · Separate storage cube",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Separate storage cube"
+        },
+        "metric": "height",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.4,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Add a separate 40 cm storage cube two meters to the left.",
+      "requirement": {
+        "id": "check-17",
+        "label": "depth · Separate storage cube",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Separate storage cube"
+        },
+        "metric": "depth",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.4,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Add a separate 40 cm storage cube two meters to the left.",
+      "requirement": {
+        "id": "check-18",
+        "label": "offset",
+        "kind": "offset",
+        "first": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Circular turntable"
+        },
+        "second": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Separate storage cube"
+        },
+        "axis": "x",
+        "firstAnchor": "center",
+        "secondAnchor": "center",
+        "value": -2,
+        "tolerance": 0.001
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Add a separate 40 cm storage cube two meters to the left.",
+      "requirement": {
+        "id": "check-19",
+        "label": "relationship",
+        "kind": "relationship",
+        "first": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Separate storage cube"
+        },
+        "second": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": "Circular turntable"
+        },
+        "relation": "disjoint",
+        "quantifier": "all",
+        "distance": 0,
+        "tolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Keep the parts separate and choose sensible dimensions for the frame.",
+      "requirement": {
+        "id": "check-20",
+        "label": "editable",
+        "kind": "editable",
+        "selector": {
+          "refs": [
+            "$new"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        }
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "Create a small editable tabletop scanning rig.",
+      "requirement": {
+        "id": "check-21",
+        "label": "unavailable",
+        "kind": "unavailable",
+        "required": false,
+        "reason": "Freestanding stability and physical support of the overhead light cannot be certified from geometric contact alone."
+      }
+    }
+  ],
+  "qualitativeLimits": [
+    "Interpret two meters to the left as a world-X center-to-center displacement from the turntable; the request does not specify edge spacing or a different directional datum.",
+    "Frame dimensions should be sensible for a small tabletop scanning rig without obstructing sample insertion.",
+    "Separate editable objects do not establish fabrication feasibility, structural strength, or real lighting performance."
+  ]
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "attempt": "recall-1",
+    "stage": "intervening turn 8",
+    "kind": "scripted fixture operation error",
+    "detail": "Two resize rules targeted the same puck in one edit set. Engine rejected the overlap atomically; original project stayed intact. Split into two existing edit_components operations in one request.",
+    "applicationChanged": false
+  },
+  {
+    "attempt": "recall-2",
+    "stage": "revision report assertion, after browser save",
+    "kind": "post-processing assertion error",
+    "detail": "Compact criterion transport renumbers evaluator labels to check-N IDs. The assertion looked for a literal clearance ID. Resolve the check by its Y-offset relationship instead. Reused the separately exported validated pre-recall fixture; failure remains recorded.",
+    "applicationChanged": false
+  },
+  {
+    "attempt": "scanner-1",
+    "stage": "additional synthetic rotated-frame controls",
+    "kind": "offline frame fixture refinement",
+    "detail": "Synthetic right/forward bases were rotated, but the optional pose was initially inherited from the original camera. scanner-2 makes the pose consistent with each basis. The actual saved-trace frame audit and browser cases were already consistent.",
+    "applicationChanged": false
+  }
+]

@@ -1,0 +1,672 @@
+{
+  "label": "Offline saved/scripted browser replay; not fresh AI",
+  "paidCalls": 0,
+  "browserErrors": [],
+  "status": "PASS",
+  "committed": true,
+  "measurements": {
+    "facts": [
+      {
+        "name": "Turntable diameter X",
+        "status": "verified",
+        "expected": 0.7,
+        "actual": 0.7
+      },
+      {
+        "name": "Turntable diameter Z",
+        "status": "verified",
+        "expected": 0.7,
+        "actual": 0.7
+      },
+      {
+        "name": "Turntable top",
+        "status": "verified",
+        "expected": 0.24,
+        "actual": 0.24000000000000002
+      },
+      {
+        "name": "Sample-loading clearance",
+        "status": "verified",
+        "expected": 0.32,
+        "actual": 0.32000000000000006
+      },
+      {
+        "name": "Light underside",
+        "status": "verified",
+        "expected": 0.56,
+        "actual": 0.56
+      },
+      {
+        "name": "Light centered X",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Light centered Z",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Circular occupied turntable solid",
+        "status": "verified",
+        "expected": "Circular cylindrical platform, allowing tessellation; alternative cutout construction requires visual assessment",
+        "actual": {
+          "volume": 0.015369087603675103
+        }
+      },
+      {
+        "name": "Storage cube first horizontal side (rotation invariant)",
+        "status": "verified",
+        "expected": 0.4,
+        "actual": 0.3999999999999999
+      },
+      {
+        "name": "Storage cube second horizontal side (rotation invariant)",
+        "status": "verified",
+        "expected": 0.4,
+        "actual": 0.40000000000000013
+      },
+      {
+        "name": "Storage cube height",
+        "status": "verified",
+        "expected": 0.4,
+        "actual": 0.4
+      },
+      {
+        "name": "Storage cube remains grounded",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Storage separation",
+        "status": "verified",
+        "expected": 2,
+        "actual": 2.0000039999959998
+      },
+      {
+        "name": "Storage lies to the left",
+        "status": "verified"
+      },
+      {
+        "name": "Turntable pedestal: editable",
+        "status": "verified"
+      },
+      {
+        "name": "Turntable pedestal: occupied solid",
+        "status": "verified"
+      },
+      {
+        "name": "Circular turntable: editable",
+        "status": "verified"
+      },
+      {
+        "name": "Circular turntable: occupied solid",
+        "status": "verified"
+      },
+      {
+        "name": "Frame left foot: editable",
+        "status": "verified"
+      },
+      {
+        "name": "Frame left foot: occupied solid",
+        "status": "verified"
+      },
+      {
+        "name": "Frame right foot: editable",
+        "status": "verified"
+      },
+      {
+        "name": "Frame right foot: occupied solid",
+        "status": "verified"
+      },
+      {
+        "name": "Frame left post: editable",
+        "status": "verified"
+      },
+      {
+        "name": "Frame left post: occupied solid",
+        "status": "verified"
+      },
+      {
+        "name": "Frame right post: editable",
+        "status": "verified"
+      },
+      {
+        "name": "Frame right post: occupied solid",
+        "status": "verified"
+      },
+      {
+        "name": "Frame crossbeam: editable",
+        "status": "verified"
+      },
+      {
+        "name": "Frame crossbeam: occupied solid",
+        "status": "verified"
+      },
+      {
+        "name": "Overhead rectangular light panel: editable",
+        "status": "verified"
+      },
+      {
+        "name": "Overhead rectangular light panel: occupied solid",
+        "status": "verified"
+      },
+      {
+        "name": "Light panel left hanger: editable",
+        "status": "verified"
+      },
+      {
+        "name": "Light panel left hanger: occupied solid",
+        "status": "verified"
+      },
+      {
+        "name": "Light panel right hanger: editable",
+        "status": "verified"
+      },
+      {
+        "name": "Light panel right hanger: occupied solid",
+        "status": "verified"
+      },
+      {
+        "name": "Separate storage cube: editable",
+        "status": "verified"
+      },
+      {
+        "name": "Separate storage cube: occupied solid",
+        "status": "verified"
+      },
+      {
+        "name": "Light frame has a connected path to its base",
+        "status": "verified",
+        "expected": "At least one actual solid contact path to Y=0",
+        "actual": {
+          "grounded": [
+            "b64998f6-a089-42db-9ddd-4fba5d12747e",
+            "d46cf8d9-c973-47da-a917-e6eb9291f093"
+          ],
+          "edges": [
+            [
+              "b64998f6-a089-42db-9ddd-4fba5d12747e",
+              "c983f3c2-4963-4d28-b586-8041ce3b095c",
+              0
+            ],
+            [
+              "d46cf8d9-c973-47da-a917-e6eb9291f093",
+              "5138dc20-e3e7-442d-827a-9dca6b160478",
+              0
+            ],
+            [
+              "c983f3c2-4963-4d28-b586-8041ce3b095c",
+              "eac577e6-a9e1-4ea5-ac0f-b0c5e76c0d05",
+              0
+            ],
+            [
+              "5138dc20-e3e7-442d-827a-9dca6b160478",
+              "eac577e6-a9e1-4ea5-ac0f-b0c5e76c0d05",
+              0
+            ],
+            [
+              "eac577e6-a9e1-4ea5-ac0f-b0c5e76c0d05",
+              "5a2406bb-67db-4b5f-850b-49c70b6dcaf8",
+              0
+            ],
+            [
+              "eac577e6-a9e1-4ea5-ac0f-b0c5e76c0d05",
+              "4e7911ae-9e61-4533-b451-06ab8db58c11",
+              0
+            ],
+            [
+              "e9a44442-7ed5-424e-8777-a475b9fef4ec",
+              "5a2406bb-67db-4b5f-850b-49c70b6dcaf8",
+              0
+            ],
+            [
+              "e9a44442-7ed5-424e-8777-a475b9fef4ec",
+              "4e7911ae-9e61-4533-b451-06ab8db58c11",
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "name": "Two supporting posts",
+        "status": "verified",
+        "actual": [
+          "c983f3c2-4963-4d28-b586-8041ce3b095c",
+          "5138dc20-e3e7-442d-827a-9dca6b160478"
+        ],
+        "expected": "Two independent upright supports; multipart/nonrectilinear alternatives require visual review"
+      },
+      {
+        "name": "Turntable supported by pedestal",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      }
+    ],
+    "solids": [
+      {
+        "orientedPlanSize": [
+          0.3196145549477787,
+          0.2,
+          0.3196145549477787
+        ],
+        "id": "80bbb712-6b6c-4bb2-8ce2-ffa62dc04cb2",
+        "name": "Turntable pedestal",
+        "groupId": "6e829243-c930-4011-82fe-1a2add6079f4",
+        "bounds": {
+          "min": [
+            -0.16,
+            0,
+            -0.16
+          ],
+          "max": [
+            0.16,
+            0.2,
+            0.16
+          ]
+        },
+        "size": [
+          0.32,
+          0.2,
+          0.32
+        ],
+        "center": [
+          0,
+          0.1,
+          0
+        ],
+        "volume": 0.01605912827159521,
+        "triangleVolume": 0.016059128628137225,
+        "triangles": 252,
+        "editable": true
+      },
+      {
+        "orientedPlanSize": [
+          0.6991568247171808,
+          0.04000000000000001,
+          0.6991568247171808
+        ],
+        "id": "ecc7ec69-34e7-4591-b0c8-bbc57c7fb5fe",
+        "name": "Circular turntable",
+        "groupId": "6e829243-c930-4011-82fe-1a2add6079f4",
+        "bounds": {
+          "min": [
+            -0.35,
+            0.2,
+            -0.35
+          ],
+          "max": [
+            0.35,
+            0.24000000000000002,
+            0.35
+          ]
+        },
+        "size": [
+          0.7,
+          0.04000000000000001,
+          0.7
+        ],
+        "center": [
+          0,
+          0.22000000000000003,
+          0
+        ],
+        "volume": 0.015369087603675103,
+        "triangleVolume": 0.01536908426044597,
+        "triangles": 252,
+        "editable": true
+      },
+      {
+        "orientedPlanSize": [
+          0.66,
+          0.025,
+          0.12
+        ],
+        "id": "b64998f6-a089-42db-9ddd-4fba5d12747e",
+        "name": "Frame left foot",
+        "groupId": "6e829243-c930-4011-82fe-1a2add6079f4",
+        "bounds": {
+          "min": [
+            -0.53,
+            0,
+            -0.33
+          ],
+          "max": [
+            -0.41000000000000003,
+            0.025,
+            0.33
+          ]
+        },
+        "size": [
+          0.12,
+          0.025,
+          0.66
+        ],
+        "center": [
+          -0.47000000000000003,
+          0.0125,
+          0
+        ],
+        "volume": 0.00198,
+        "triangleVolume": 0.00197999969512222,
+        "triangles": 12,
+        "editable": true
+      },
+      {
+        "orientedPlanSize": [
+          0.66,
+          0.025,
+          0.12000000000000005
+        ],
+        "id": "d46cf8d9-c973-47da-a917-e6eb9291f093",
+        "name": "Frame right foot",
+        "groupId": "6e829243-c930-4011-82fe-1a2add6079f4",
+        "bounds": {
+          "min": [
+            0.41,
+            0,
+            -0.33
+          ],
+          "max": [
+            0.53,
+            0.025,
+            0.33
+          ]
+        },
+        "size": [
+          0.12000000000000005,
+          0.025,
+          0.66
+        ],
+        "center": [
+          0.47,
+          0.0125,
+          0
+        ],
+        "volume": 0.001980000000000001,
+        "triangleVolume": 0.0019799996951222207,
+        "triangles": 12,
+        "editable": true
+      },
+      {
+        "orientedPlanSize": [
+          0.03999999999999998,
+          0.595,
+          0.04
+        ],
+        "id": "c983f3c2-4963-4d28-b586-8041ce3b095c",
+        "name": "Frame left post",
+        "groupId": "6e829243-c930-4011-82fe-1a2add6079f4",
+        "bounds": {
+          "min": [
+            -0.49,
+            0.025,
+            -0.02
+          ],
+          "max": [
+            -0.45,
+            0.62,
+            0.02
+          ]
+        },
+        "size": [
+          0.03999999999999998,
+          0.595,
+          0.04
+        ],
+        "center": [
+          -0.47,
+          0.3225,
+          0
+        ],
+        "volume": 0.0009519999999999995,
+        "triangleVolume": 0.0009520004964470791,
+        "triangles": 12,
+        "editable": true
+      },
+      {
+        "orientedPlanSize": [
+          0.03999999999999998,
+          0.595,
+          0.04
+        ],
+        "id": "5138dc20-e3e7-442d-827a-9dca6b160478",
+        "name": "Frame right post",
+        "groupId": "6e829243-c930-4011-82fe-1a2add6079f4",
+        "bounds": {
+          "min": [
+            0.44999999999999996,
+            0.025,
+            -0.02
+          ],
+          "max": [
+            0.48999999999999994,
+            0.62,
+            0.02
+          ]
+        },
+        "size": [
+          0.03999999999999998,
+          0.595,
+          0.04
+        ],
+        "center": [
+          0.47,
+          0.3225,
+          0
+        ],
+        "volume": 0.0009519999999999999,
+        "triangleVolume": 0.0009520004964470785,
+        "triangles": 12,
+        "editable": true
+      },
+      {
+        "orientedPlanSize": [
+          0.98,
+          0.040000000000000036,
+          0.04
+        ],
+        "id": "eac577e6-a9e1-4ea5-ac0f-b0c5e76c0d05",
+        "name": "Frame crossbeam",
+        "groupId": "6e829243-c930-4011-82fe-1a2add6079f4",
+        "bounds": {
+          "min": [
+            -0.49,
+            0.62,
+            -0.02
+          ],
+          "max": [
+            0.49,
+            0.66,
+            0.02
+          ]
+        },
+        "size": [
+          0.98,
+          0.040000000000000036,
+          0.04
+        ],
+        "center": [
+          0,
+          0.64,
+          0
+        ],
+        "volume": 0.0015680000000000004,
+        "triangleVolume": 0.0015680008366107908,
+        "triangles": 12,
+        "editable": true
+      },
+      {
+        "orientedPlanSize": [
+          0.8,
+          0.040000000000000036,
+          0.74
+        ],
+        "id": "e9a44442-7ed5-424e-8777-a475b9fef4ec",
+        "name": "Overhead rectangular light panel",
+        "groupId": "6e829243-c930-4011-82fe-1a2add6079f4",
+        "bounds": {
+          "min": [
+            -0.4,
+            0.56,
+            -0.37
+          ],
+          "max": [
+            0.4,
+            0.6000000000000001,
+            0.37
+          ]
+        },
+        "size": [
+          0.8,
+          0.040000000000000036,
+          0.74
+        ],
+        "center": [
+          0,
+          0.5800000000000001,
+          0
+        ],
+        "volume": 0.02368,
+        "triangleVolume": 0.02368001336097753,
+        "triangles": 12,
+        "editable": true
+      },
+      {
+        "orientedPlanSize": [
+          0.025,
+          0.020000000000000018,
+          0.024999999999999994
+        ],
+        "id": "5a2406bb-67db-4b5f-850b-49c70b6dcaf8",
+        "name": "Light panel left hanger",
+        "groupId": "6e829243-c930-4011-82fe-1a2add6079f4",
+        "bounds": {
+          "min": [
+            -0.2625,
+            0.6,
+            -0.0125
+          ],
+          "max": [
+            -0.23750000000000002,
+            0.62,
+            0.0125
+          ]
+        },
+        "size": [
+          0.024999999999999994,
+          0.020000000000000018,
+          0.025
+        ],
+        "center": [
+          -0.25,
+          0.61,
+          0
+        ],
+        "volume": 1.2500000000000012e-05,
+        "triangleVolume": 1.2499983794991303e-05,
+        "triangles": 12,
+        "editable": true
+      },
+      {
+        "orientedPlanSize": [
+          0.025,
+          0.020000000000000018,
+          0.025000000000000022
+        ],
+        "id": "4e7911ae-9e61-4533-b451-06ab8db58c11",
+        "name": "Light panel right hanger",
+        "groupId": "6e829243-c930-4011-82fe-1a2add6079f4",
+        "bounds": {
+          "min": [
+            0.2375,
+            0.6,
+            -0.0125
+          ],
+          "max": [
+            0.2625,
+            0.62,
+            0.0125
+          ]
+        },
+        "size": [
+          0.025000000000000022,
+          0.020000000000000018,
+          0.025
+        ],
+        "center": [
+          0.25,
+          0.61,
+          0
+        ],
+        "volume": 1.2500000000000016e-05,
+        "triangleVolume": 1.2499983794991164e-05,
+        "triangles": 12,
+        "editable": true
+      },
+      {
+        "orientedPlanSize": [
+          0.3999999999999999,
+          0.4,
+          0.40000000000000013
+        ],
+        "id": "45b2fc91-1bbb-4463-b18e-0a5cbd7abbfa",
+        "name": "Separate storage cube",
+        "bounds": {
+          "min": [
+            -1.896,
+            0,
+            0.8600000000000001
+          ],
+          "max": [
+            -1.496,
+            0.4,
+            1.2600000000000002
+          ]
+        },
+        "size": [
+          0.3999999999999999,
+          0.4,
+          0.40000000000000013
+        ],
+        "center": [
+          -1.696,
+          0.2,
+          1.06
+        ],
+        "volume": 0.064,
+        "triangleVolume": 0.06399999332427986,
+        "triangles": 12,
+        "editable": true
+      }
+    ],
+    "binding": {
+      "turntable": "ecc7ec69-34e7-4591-b0c8-bbc57c7fb5fe",
+      "light": "e9a44442-7ed5-424e-8777-a475b9fef4ec",
+      "cube": "45b2fc91-1bbb-4463-b18e-0a5cbd7abbfa",
+      "frame": [
+        "b64998f6-a089-42db-9ddd-4fba5d12747e",
+        "d46cf8d9-c973-47da-a917-e6eb9291f093",
+        "c983f3c2-4963-4d28-b586-8041ce3b095c",
+        "5138dc20-e3e7-442d-827a-9dca6b160478",
+        "eac577e6-a9e1-4ea5-ac0f-b0c5e76c0d05",
+        "e9a44442-7ed5-424e-8777-a475b9fef4ec",
+        "5a2406bb-67db-4b5f-850b-49c70b6dcaf8",
+        "4e7911ae-9e61-4533-b451-06ab8db58c11"
+      ]
+    },
+    "correct": true,
+    "fullyMeasured": true
+  },
+  "history": {
+    "undo": true,
+    "redo": true,
+    "reloadWhileUndone": true,
+    "oneAtomicEntry": true,
+    "notesAndGeometryRestored": true
+  }
+}

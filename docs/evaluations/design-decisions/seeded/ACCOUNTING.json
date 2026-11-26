@@ -1,0 +1,7 @@
+{
+  "paidCalls": 0,
+  "spentUSD": 0,
+  "liveModelsUsed": false,
+  "status": "OFFLINE_ONLY",
+  "futurePaidCallsRequireSeparateApproval": true
+}

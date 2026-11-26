@@ -1,0 +1,49 @@
+{
+  "allFourCapturedInputsIdentical": true,
+  "compactTransportRetainsCamera": true,
+  "frame": {
+    "pose": {
+      "position": {
+        "x": 22.526336347336205,
+        "y": 17.768435443135346,
+        "z": 36.04213815573792
+      },
+      "target": {
+        "x": 0,
+        "y": 2,
+        "z": 0
+      },
+      "projection": "perspective",
+      "zoom": 1,
+      "fov": 40
+    },
+    "right": {
+      "x": 0.8479983040050879,
+      "y": 0,
+      "z": -0.5299989400031802
+    },
+    "forward": {
+      "x": -0.5299989400031802,
+      "y": 0,
+      "z": -0.8479983040050879
+    },
+    "visible": []
+  },
+  "requestedLeftDistanceM": 2,
+  "formula": "delta = -distance * request_start.camera.right",
+  "expected": {
+    "x": -1.6959966080101758,
+    "y": 0,
+    "z": 1.0599978800063603
+  },
+  "actualInitialCube": {
+    "x": -1.696,
+    "y": 0,
+    "z": 1.06
+  },
+  "savedReviewer": {
+    "axis": "x",
+    "value": -2
+  },
+  "conclusion": "Transport is consistent; saved reviewer used world-X semantics despite receiving the same request-start frame."
+}

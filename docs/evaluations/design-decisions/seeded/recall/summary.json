@@ -1,0 +1,1115 @@
+{
+  "label": "SEEDED recall-and-revision diagnostic: offline preparation only; responses and criteria scripted",
+  "application": "deb730317cafe2e0b251a788693934196660140c",
+  "paidCalls": 0,
+  "status": "OFFLINE_READY",
+  "turns": [
+    {
+      "turn": 12,
+      "label": "recall",
+      "scripted": true,
+      "recallReasoning": "NOT_TESTED_FRESH_AI",
+      "reviewerSelection": "SCRIPTED_NOT_INDEPENDENT_AI",
+      "reviewerCitation": [
+        {
+          "source": "decision",
+          "evidence": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "requirement": {
+            "id": "check-3",
+            "label": "offset",
+            "kind": "offset",
+            "first": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "second": {
+              "refs": [
+                "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "axis": "y",
+            "firstAnchor": "max",
+            "secondAnchor": "min",
+            "value": 0.32,
+            "tolerance": 0.001
+          }
+        },
+        {
+          "source": "decision",
+          "evidence": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "requirement": {
+            "id": "check-6",
+            "label": "region",
+            "kind": "region",
+            "selector": {
+              "refs": [
+                "$all"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "center": {
+              "x": 0,
+              "y": 0.51,
+              "z": 0
+            },
+            "size": {
+              "x": 0.7,
+              "y": 0.32,
+              "z": 0.7
+            },
+            "rotation": 0,
+            "occupancy": "empty",
+            "tolerance": 0.001
+          }
+        }
+      ],
+      "geometryCorrect": true,
+      "committed": true,
+      "changedIds": [
+        {
+          "id": "c0523436-3587-4694-b944-10fee7fb31be",
+          "name": "Turntable pedestal"
+        },
+        {
+          "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "name": "Circular turntable"
+        },
+        {
+          "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "name": "Frame left post"
+        },
+        {
+          "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "name": "Frame right post"
+        },
+        {
+          "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+          "name": "Frame crossbeam"
+        },
+        {
+          "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+          "name": "Overhead rectangular light panel"
+        },
+        {
+          "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+          "name": "Light panel left hanger"
+        },
+        {
+          "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+          "name": "Light panel right hanger"
+        }
+      ],
+      "preservedIds": [
+        {
+          "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+          "name": "Frame left foot"
+        },
+        {
+          "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+          "name": "Frame right foot"
+        },
+        {
+          "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+          "name": "Separate storage cube"
+        },
+        {
+          "id": "e5f1622c-4e9e-48d0-90f8-df90bcbf7069",
+          "name": "Sample puck"
+        }
+      ],
+      "allIdsPreserved": true,
+      "history": {
+        "undo": true,
+        "redo": true,
+        "reloadWhileUndone": true,
+        "oneAtomicEntry": true,
+        "notesAndGeometryRestored": true
+      },
+      "reload": {
+        "project": true,
+        "notes": true,
+        "history": true,
+        "conversation": true,
+        "indexedDBOnly": true
+      }
+    },
+    {
+      "turn": 13,
+      "label": "revision",
+      "scripted": true,
+      "recallReasoning": "NOT_TESTED_FRESH_AI",
+      "reviewerSelection": "SCRIPTED_NOT_INDEPENDENT_AI",
+      "reviewerCitation": [
+        {
+          "source": "request",
+          "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+          "requirement": {
+            "id": "check-3",
+            "label": "offset",
+            "kind": "offset",
+            "first": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "second": {
+              "refs": [
+                "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "axis": "y",
+            "firstAnchor": "max",
+            "secondAnchor": "min",
+            "value": 0.18,
+            "tolerance": 0.001
+          }
+        }
+      ],
+      "geometryCorrect": true,
+      "committed": true,
+      "changedIds": [
+        {
+          "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "name": "Frame left post"
+        },
+        {
+          "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "name": "Frame right post"
+        },
+        {
+          "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+          "name": "Frame crossbeam"
+        },
+        {
+          "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+          "name": "Overhead rectangular light panel"
+        },
+        {
+          "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+          "name": "Light panel left hanger"
+        },
+        {
+          "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+          "name": "Light panel right hanger"
+        }
+      ],
+      "preservedIds": [
+        {
+          "id": "c0523436-3587-4694-b944-10fee7fb31be",
+          "name": "Turntable pedestal"
+        },
+        {
+          "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "name": "Circular turntable"
+        },
+        {
+          "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+          "name": "Frame left foot"
+        },
+        {
+          "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+          "name": "Frame right foot"
+        },
+        {
+          "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+          "name": "Separate storage cube"
+        },
+        {
+          "id": "e5f1622c-4e9e-48d0-90f8-df90bcbf7069",
+          "name": "Sample puck"
+        }
+      ],
+      "allIdsPreserved": true,
+      "history": {
+        "undo": true,
+        "redo": true,
+        "reloadWhileUndone": true,
+        "oneAtomicEntry": true,
+        "notesAndGeometryRestored": true
+      },
+      "reload": {
+        "project": true,
+        "notes": true,
+        "history": true,
+        "conversation": true,
+        "indexedDBOnly": true
+      }
+    }
+  ],
+  "negativeControls": [
+    {
+      "step": 12,
+      "status": "BLOCKED_MEASURED",
+      "saved": false,
+      "originalProjectNotesAndHistoryIntact": true,
+      "reload": true
+    },
+    {
+      "step": 13,
+      "status": "BLOCKED_MEASURED",
+      "saved": false,
+      "originalProjectNotesAndHistoryIntact": true,
+      "reload": true
+    }
+  ],
+  "reusedValidatedFixture": {
+    "source": ".cloud/seeded-decision/recall-2",
+    "label": "Reuse successful intervening browser edits; retain failed post-processing attempt separately",
+    "measurements": {
+      "facts": [
+        {
+          "name": "Turntable diameter X",
+          "status": "verified",
+          "expected": 0.7,
+          "actual": 0.7
+        },
+        {
+          "name": "Turntable diameter Z",
+          "status": "verified",
+          "expected": 0.7,
+          "actual": 0.7
+        },
+        {
+          "name": "Turntable top",
+          "status": "verified",
+          "expected": 0.24,
+          "actual": 0.24000000000000002
+        },
+        {
+          "name": "Sample-loading clearance",
+          "status": "verified",
+          "expected": 0.32,
+          "actual": 0.32000000000000006
+        },
+        {
+          "name": "Light underside",
+          "status": "verified",
+          "expected": 0.56,
+          "actual": 0.56
+        },
+        {
+          "name": "Light centered X",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Light centered Z",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Circular occupied turntable solid",
+          "status": "verified",
+          "expected": "Circular cylindrical platform, allowing tessellation; alternative cutout construction requires visual assessment",
+          "actual": {
+            "volume": 0.015369087603675103
+          }
+        },
+        {
+          "name": "Storage cube first horizontal side (rotation invariant)",
+          "status": "verified",
+          "expected": 0.45,
+          "actual": 0.45000000000000007
+        },
+        {
+          "name": "Storage cube second horizontal side (rotation invariant)",
+          "status": "verified",
+          "expected": 0.55,
+          "actual": 0.55
+        },
+        {
+          "name": "Storage cube height",
+          "status": "verified",
+          "expected": 0.6,
+          "actual": 0.6
+        },
+        {
+          "name": "Storage cube remains grounded",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Puck diameter X",
+          "status": "verified",
+          "expected": 0.16,
+          "actual": 0.15999999999999992
+        },
+        {
+          "name": "Puck diameter Z",
+          "status": "verified",
+          "expected": 0.16,
+          "actual": 0.16000000000000003
+        },
+        {
+          "name": "Puck thickness",
+          "status": "verified",
+          "expected": 0.04,
+          "actual": 0.04
+        },
+        {
+          "name": "Puck grounded",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Turntable pedestal: identity retained",
+          "status": "verified"
+        },
+        {
+          "name": "Circular turntable: identity retained",
+          "status": "verified"
+        },
+        {
+          "name": "Frame left foot: identity retained",
+          "status": "verified"
+        },
+        {
+          "name": "Frame right foot: identity retained",
+          "status": "verified"
+        },
+        {
+          "name": "Frame left post: identity retained",
+          "status": "verified"
+        },
+        {
+          "name": "Frame right post: identity retained",
+          "status": "verified"
+        },
+        {
+          "name": "Frame crossbeam: identity retained",
+          "status": "verified"
+        },
+        {
+          "name": "Overhead rectangular light panel: identity retained",
+          "status": "verified"
+        },
+        {
+          "name": "Light panel left hanger: identity retained",
+          "status": "verified"
+        },
+        {
+          "name": "Light panel right hanger: identity retained",
+          "status": "verified"
+        },
+        {
+          "name": "Separate storage cube: identity retained",
+          "status": "verified"
+        },
+        {
+          "name": "Sample puck: identity retained",
+          "status": "verified"
+        },
+        {
+          "name": "Turntable pedestal: unrelated data preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Circular turntable: unrelated data preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Frame left foot: unrelated data preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Frame right foot: unrelated data preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Frame left post: unrelated data preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Frame right post: unrelated data preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Frame crossbeam: unrelated data preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Overhead rectangular light panel: unrelated data preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Light panel left hanger: unrelated data preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Light panel right hanger: unrelated data preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Separate storage cube: unrelated data preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Turntable pedestal: editable",
+          "status": "verified"
+        },
+        {
+          "name": "Turntable pedestal: occupied solid",
+          "status": "verified"
+        },
+        {
+          "name": "Circular turntable: editable",
+          "status": "verified"
+        },
+        {
+          "name": "Circular turntable: occupied solid",
+          "status": "verified"
+        },
+        {
+          "name": "Frame left foot: editable",
+          "status": "verified"
+        },
+        {
+          "name": "Frame left foot: occupied solid",
+          "status": "verified"
+        },
+        {
+          "name": "Frame right foot: editable",
+          "status": "verified"
+        },
+        {
+          "name": "Frame right foot: occupied solid",
+          "status": "verified"
+        },
+        {
+          "name": "Frame left post: editable",
+          "status": "verified"
+        },
+        {
+          "name": "Frame left post: occupied solid",
+          "status": "verified"
+        },
+        {
+          "name": "Frame right post: editable",
+          "status": "verified"
+        },
+        {
+          "name": "Frame right post: occupied solid",
+          "status": "verified"
+        },
+        {
+          "name": "Frame crossbeam: editable",
+          "status": "verified"
+        },
+        {
+          "name": "Frame crossbeam: occupied solid",
+          "status": "verified"
+        },
+        {
+          "name": "Overhead rectangular light panel: editable",
+          "status": "verified"
+        },
+        {
+          "name": "Overhead rectangular light panel: occupied solid",
+          "status": "verified"
+        },
+        {
+          "name": "Light panel left hanger: editable",
+          "status": "verified"
+        },
+        {
+          "name": "Light panel left hanger: occupied solid",
+          "status": "verified"
+        },
+        {
+          "name": "Light panel right hanger: editable",
+          "status": "verified"
+        },
+        {
+          "name": "Light panel right hanger: occupied solid",
+          "status": "verified"
+        },
+        {
+          "name": "Separate storage cube: editable",
+          "status": "verified"
+        },
+        {
+          "name": "Separate storage cube: occupied solid",
+          "status": "verified"
+        },
+        {
+          "name": "Sample puck: editable",
+          "status": "verified"
+        },
+        {
+          "name": "Sample puck: occupied solid",
+          "status": "verified"
+        },
+        {
+          "name": "Light frame has a connected path to its base",
+          "status": "verified",
+          "expected": "At least one actual solid contact path to Y=0",
+          "actual": {
+            "grounded": [
+              "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+              "5b390056-2000-4cc0-a092-d7279bc0d79a"
+            ],
+            "edges": [
+              [
+                "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+                "96c402f0-c489-4d1c-ab42-c4760a968aff",
+                0
+              ],
+              [
+                "5b390056-2000-4cc0-a092-d7279bc0d79a",
+                "1a131580-9b52-42db-bb27-93d2b88543bd",
+                0
+              ],
+              [
+                "96c402f0-c489-4d1c-ab42-c4760a968aff",
+                "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+                0
+              ],
+              [
+                "1a131580-9b52-42db-bb27-93d2b88543bd",
+                "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+                0
+              ],
+              [
+                "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+                "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+                0
+              ],
+              [
+                "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+                "1685c0ea-db59-4898-92bb-b807cc051849",
+                0
+              ],
+              [
+                "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+                "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+                0
+              ],
+              [
+                "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+                "1685c0ea-db59-4898-92bb-b807cc051849",
+                0
+              ]
+            ]
+          }
+        },
+        {
+          "name": "Two supporting posts",
+          "status": "verified",
+          "actual": [
+            "96c402f0-c489-4d1c-ab42-c4760a968aff",
+            "1a131580-9b52-42db-bb27-93d2b88543bd"
+          ],
+          "expected": "Two independent upright supports; multipart/nonrectilinear alternatives require visual review"
+        },
+        {
+          "name": "Turntable supported by pedestal",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        }
+      ],
+      "solids": [
+        {
+          "orientedPlanSize": [
+            0.3196145549477787,
+            0.2,
+            0.3196145549477787
+          ],
+          "id": "c0523436-3587-4694-b944-10fee7fb31be",
+          "name": "Turntable pedestal",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "bounds": {
+            "min": [
+              -0.16,
+              0,
+              -0.16
+            ],
+            "max": [
+              0.16,
+              0.2,
+              0.16
+            ]
+          },
+          "size": [
+            0.32,
+            0.2,
+            0.32
+          ],
+          "center": [
+            0,
+            0.1,
+            0
+          ],
+          "volume": 0.01605912827159521,
+          "triangleVolume": 0.016059128628137225,
+          "triangles": 252,
+          "editable": true
+        },
+        {
+          "orientedPlanSize": [
+            0.6991568247171808,
+            0.04000000000000001,
+            0.6991568247171808
+          ],
+          "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "name": "Circular turntable",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "bounds": {
+            "min": [
+              -0.35,
+              0.2,
+              -0.35
+            ],
+            "max": [
+              0.35,
+              0.24000000000000002,
+              0.35
+            ]
+          },
+          "size": [
+            0.7,
+            0.04000000000000001,
+            0.7
+          ],
+          "center": [
+            0,
+            0.22000000000000003,
+            0
+          ],
+          "volume": 0.015369087603675103,
+          "triangleVolume": 0.01536908426044597,
+          "triangles": 252,
+          "editable": true
+        },
+        {
+          "orientedPlanSize": [
+            0.66,
+            0.025,
+            0.12
+          ],
+          "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+          "name": "Frame left foot",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "bounds": {
+            "min": [
+              -0.53,
+              0,
+              -0.33
+            ],
+            "max": [
+              -0.41000000000000003,
+              0.025,
+              0.33
+            ]
+          },
+          "size": [
+            0.12,
+            0.025,
+            0.66
+          ],
+          "center": [
+            -0.47000000000000003,
+            0.0125,
+            0
+          ],
+          "volume": 0.00198,
+          "triangleVolume": 0.00197999969512222,
+          "triangles": 12,
+          "editable": true
+        },
+        {
+          "orientedPlanSize": [
+            0.66,
+            0.025,
+            0.12000000000000005
+          ],
+          "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+          "name": "Frame right foot",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "bounds": {
+            "min": [
+              0.41,
+              0,
+              -0.33
+            ],
+            "max": [
+              0.53,
+              0.025,
+              0.33
+            ]
+          },
+          "size": [
+            0.12000000000000005,
+            0.025,
+            0.66
+          ],
+          "center": [
+            0.47,
+            0.0125,
+            0
+          ],
+          "volume": 0.001980000000000001,
+          "triangleVolume": 0.0019799996951222207,
+          "triangles": 12,
+          "editable": true
+        },
+        {
+          "orientedPlanSize": [
+            0.03999999999999998,
+            0.595,
+            0.04
+          ],
+          "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "name": "Frame left post",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "bounds": {
+            "min": [
+              -0.49,
+              0.025,
+              -0.02
+            ],
+            "max": [
+              -0.45,
+              0.62,
+              0.02
+            ]
+          },
+          "size": [
+            0.03999999999999998,
+            0.595,
+            0.04
+          ],
+          "center": [
+            -0.47,
+            0.3225,
+            0
+          ],
+          "volume": 0.0009519999999999995,
+          "triangleVolume": 0.0009520004964470791,
+          "triangles": 12,
+          "editable": true
+        },
+        {
+          "orientedPlanSize": [
+            0.03999999999999998,
+            0.595,
+            0.04
+          ],
+          "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "name": "Frame right post",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "bounds": {
+            "min": [
+              0.44999999999999996,
+              0.025,
+              -0.02
+            ],
+            "max": [
+              0.48999999999999994,
+              0.62,
+              0.02
+            ]
+          },
+          "size": [
+            0.03999999999999998,
+            0.595,
+            0.04
+          ],
+          "center": [
+            0.47,
+            0.3225,
+            0
+          ],
+          "volume": 0.0009519999999999999,
+          "triangleVolume": 0.0009520004964470785,
+          "triangles": 12,
+          "editable": true
+        },
+        {
+          "orientedPlanSize": [
+            0.98,
+            0.040000000000000036,
+            0.04
+          ],
+          "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+          "name": "Frame crossbeam",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "bounds": {
+            "min": [
+              -0.49,
+              0.62,
+              -0.02
+            ],
+            "max": [
+              0.49,
+              0.66,
+              0.02
+            ]
+          },
+          "size": [
+            0.98,
+            0.040000000000000036,
+            0.04
+          ],
+          "center": [
+            0,
+            0.64,
+            0
+          ],
+          "volume": 0.0015680000000000004,
+          "triangleVolume": 0.0015680008366107908,
+          "triangles": 12,
+          "editable": true
+        },
+        {
+          "orientedPlanSize": [
+            0.8,
+            0.040000000000000036,
+            0.74
+          ],
+          "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+          "name": "Overhead rectangular light panel",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "bounds": {
+            "min": [
+              -0.4,
+              0.56,
+              -0.37
+            ],
+            "max": [
+              0.4,
+              0.6000000000000001,
+              0.37
+            ]
+          },
+          "size": [
+            0.8,
+            0.040000000000000036,
+            0.74
+          ],
+          "center": [
+            0,
+            0.5800000000000001,
+            0
+          ],
+          "volume": 0.02368,
+          "triangleVolume": 0.02368001336097753,
+          "triangles": 12,
+          "editable": true
+        },
+        {
+          "orientedPlanSize": [
+            0.025,
+            0.020000000000000018,
+            0.024999999999999994
+          ],
+          "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+          "name": "Light panel left hanger",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "bounds": {
+            "min": [
+              -0.2625,
+              0.6,
+              -0.0125
+            ],
+            "max": [
+              -0.23750000000000002,
+              0.62,
+              0.0125
+            ]
+          },
+          "size": [
+            0.024999999999999994,
+            0.020000000000000018,
+            0.025
+          ],
+          "center": [
+            -0.25,
+            0.61,
+            0
+          ],
+          "volume": 0.000012500000000000012,
+          "triangleVolume": 0.000012499983794991303,
+          "triangles": 12,
+          "editable": true
+        },
+        {
+          "orientedPlanSize": [
+            0.025,
+            0.020000000000000018,
+            0.025000000000000022
+          ],
+          "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+          "name": "Light panel right hanger",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "bounds": {
+            "min": [
+              0.2375,
+              0.6,
+              -0.0125
+            ],
+            "max": [
+              0.2625,
+              0.62,
+              0.0125
+            ]
+          },
+          "size": [
+            0.025000000000000022,
+            0.020000000000000018,
+            0.025
+          ],
+          "center": [
+            0.25,
+            0.61,
+            0
+          ],
+          "volume": 0.000012500000000000016,
+          "triangleVolume": 0.000012499983794991164,
+          "triangles": 12,
+          "editable": true
+        },
+        {
+          "orientedPlanSize": [
+            0.55,
+            0.6,
+            0.45000000000000007
+          ],
+          "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+          "name": "Separate storage cube",
+          "bounds": {
+            "min": [
+              -2.141,
+              0,
+              0.941
+            ],
+            "max": [
+              -1.591,
+              0.6,
+              1.391
+            ]
+          },
+          "size": [
+            0.55,
+            0.6,
+            0.45000000000000007
+          ],
+          "center": [
+            -1.866,
+            0.3,
+            1.166
+          ],
+          "volume": 0.14850000000000005,
+          "triangleVolume": 0.14850004094839436,
+          "triangles": 12,
+          "editable": true
+        },
+        {
+          "orientedPlanSize": [
+            0.15980733657785828,
+            0.04,
+            0.15980733657785806
+          ],
+          "id": "e5f1622c-4e9e-48d0-90f8-df90bcbf7069",
+          "name": "Sample puck",
+          "groupId": "4cd048e6-8c34-45a7-82f8-d0794c215cd6",
+          "bounds": {
+            "min": [
+              -2.025,
+              0,
+              0.259
+            ],
+            "max": [
+              -1.865,
+              0.04,
+              0.41900000000000004
+            ]
+          },
+          "size": [
+            0.15999999999999992,
+            0.04,
+            0.16000000000000003
+          ],
+          "center": [
+            -1.9449999999999998,
+            0.02,
+            0.339
+          ],
+          "volume": 0.0008029564135797606,
+          "triangleVolume": 0.0008029564542395058,
+          "triangles": 252,
+          "editable": true
+        }
+      ],
+      "binding": {
+        "turntable": "01c67141-8920-4e69-b5d6-64549f9637ee",
+        "light": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+        "cube": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+        "puck": "e5f1622c-4e9e-48d0-90f8-df90bcbf7069",
+        "frame": [
+          "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+          "5b390056-2000-4cc0-a092-d7279bc0d79a",
+          "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+          "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+          "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+          "1685c0ea-db59-4898-92bb-b807cc051849"
+        ]
+      },
+      "correct": true,
+      "fullyMeasured": true
+    }
+  },
+  "seed": {
+    "source": "Validated reconstruction of rejected saved proposal; source-linked user quote retained; provisional creation history intentionally removed",
+    "objects": 12,
+    "decision": {
+      "id": "70db6f56-f975-420f-b5e7-3b4781cfe63e",
+      "revision": 1,
+      "quote": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+      "origin": {
+        "id": "3f41ec6f-0223-4542-af00-86e23f48a41a",
+        "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+      }
+    },
+    "fullHistoryCount": 22,
+    "recentCount": 20,
+    "originalUserRetainedInFullHistory": true,
+    "originalAbsentFromActualRecentWindow": true,
+    "recentAssistantSemanticReminders": [],
+    "reload": {
+      "project": true,
+      "notes": true,
+      "history": true,
+      "conversation": true,
+      "indexedDBOnly": true
+    }
+  },
+  "freshScores": {
+    "recall": "NOT_RUN",
+    "reviewerCitation": "NOT_RUN",
+    "geometry": "NOT_RUN",
+    "browserSave": "NOT_RUN",
+    "capture": "EXCLUDED_SEEDED_FIXTURE"
+  }
+}

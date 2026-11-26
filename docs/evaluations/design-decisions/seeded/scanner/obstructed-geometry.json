@@ -1,0 +1,339 @@
+{
+  "name": "obstructed",
+  "report": {
+    "modeling": true,
+    "passed": false,
+    "status": "incorrect",
+    "canCommit": false,
+    "checks": [
+      {
+        "id": "preserved-scope",
+        "label": "Unrelated existing geometry",
+        "met": true,
+        "outcome": "verified",
+        "observed": "0 existing objects outside the requested edit scope are unchanged.",
+        "ids": []
+      },
+      {
+        "id": "check-1",
+        "label": "count · Circular turntable",
+        "met": true,
+        "outcome": "verified",
+        "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+        "ids": [
+          "01c67141-8920-4e69-b5d6-64549f9637ee"
+        ]
+      },
+      {
+        "id": "check-2",
+        "label": "diameter · Circular turntable",
+        "met": true,
+        "outcome": "verified",
+        "observed": "True cylinder diameter: 0.7000000297824376; expected 0.7 ± 0.001 m across 1 objects. Diameter is intrinsic, independent of world orientation.",
+        "ids": [
+          "01c67141-8920-4e69-b5d6-64549f9637ee"
+        ]
+      },
+      {
+        "id": "check-3",
+        "label": "top · Circular turntable",
+        "met": true,
+        "outcome": "verified",
+        "observed": "top (each, world solids): 0.24000000000000002; expected equal 0.24 ± 0.001 m.",
+        "ids": [
+          "01c67141-8920-4e69-b5d6-64549f9637ee"
+        ]
+      },
+      {
+        "id": "check-4",
+        "label": "count · Overhead rectangular light panel",
+        "met": true,
+        "outcome": "verified",
+        "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+        "ids": [
+          "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+        ]
+      },
+      {
+        "id": "check-5",
+        "label": "shape · Overhead rectangular light panel",
+        "met": true,
+        "outcome": "verified",
+        "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+        "ids": [
+          "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+        ]
+      },
+      {
+        "id": "check-6",
+        "label": "offset",
+        "met": true,
+        "outcome": "verified",
+        "observed": "Measured world-bounds x offset (center of d878c4e2-2852-4c6a-ba0a-d128676cd810 minus center of 01c67141-8920-4e69-b5d6-64549f9637ee): 0 m; expected 0 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+        "ids": [
+          "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+        ]
+      },
+      {
+        "id": "check-7",
+        "label": "offset",
+        "met": true,
+        "outcome": "verified",
+        "observed": "Measured world-bounds z offset (center of d878c4e2-2852-4c6a-ba0a-d128676cd810 minus center of 01c67141-8920-4e69-b5d6-64549f9637ee): 0 m; expected 0 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+        "ids": [
+          "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+        ]
+      },
+      {
+        "id": "check-8",
+        "label": "count · post",
+        "met": true,
+        "outcome": "verified",
+        "observed": "count (sum): 2; expected equal 2, tolerance 0. 2 element(s).",
+        "ids": [
+          "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "1a131580-9b52-42db-bb27-93d2b88543bd"
+        ]
+      },
+      {
+        "id": "check-9",
+        "label": "count · crossbeam",
+        "met": true,
+        "outcome": "verified",
+        "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+        "ids": [
+          "d3c1565b-a5a0-4e82-b0b3-06308c911feb"
+        ]
+      },
+      {
+        "id": "check-10",
+        "label": "relationship",
+        "met": true,
+        "outcome": "verified",
+        "observed": "touching: 2/2 distinct solid pairs satisfy each; tolerance 0.002 m.",
+        "ids": [
+          "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "d3c1565b-a5a0-4e82-b0b3-06308c911feb"
+        ]
+      },
+      {
+        "id": "check-11",
+        "label": "offset",
+        "met": true,
+        "outcome": "verified",
+        "observed": "Measured world-bounds y offset (min of d878c4e2-2852-4c6a-ba0a-d128676cd810 minus max of 01c67141-8920-4e69-b5d6-64549f9637ee): 0.32000000000000006 m; expected 0.32 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+        "ids": [
+          "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+        ]
+      },
+      {
+        "id": "check-12",
+        "label": "Conservative loading envelope (no path claim)",
+        "met": false,
+        "outcome": "incorrect",
+        "observed": "Region empty: 0.0007679999999999909 m³ inconsistent material; selected 12 objects.",
+        "ids": [
+          "c0523436-3587-4694-b944-10fee7fb31be",
+          "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+          "5b390056-2000-4cc0-a092-d7279bc0d79a",
+          "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+          "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+          "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+          "1685c0ea-db59-4898-92bb-b807cc051849",
+          "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+          "0ff904b0-7710-4c5b-9a9e-2113ff5c8780"
+        ]
+      },
+      {
+        "id": "check-13",
+        "label": "count · Separate storage cube",
+        "met": true,
+        "outcome": "verified",
+        "observed": "count (sum): 1; expected equal 1, tolerance 0. 1 element(s).",
+        "ids": [
+          "7f5d476e-dac6-416a-a3af-e6f66a989d10"
+        ]
+      },
+      {
+        "id": "check-14",
+        "label": "shape · Separate storage cube",
+        "met": true,
+        "outcome": "verified",
+        "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+        "ids": [
+          "7f5d476e-dac6-416a-a3af-e6f66a989d10"
+        ]
+      },
+      {
+        "id": "check-15",
+        "label": "width · Separate storage cube",
+        "met": true,
+        "outcome": "verified",
+        "observed": "width (each, world solids): 0.3999999999999999; expected equal 0.4 ± 0.001 m.",
+        "ids": [
+          "7f5d476e-dac6-416a-a3af-e6f66a989d10"
+        ]
+      },
+      {
+        "id": "check-16",
+        "label": "height · Separate storage cube",
+        "met": true,
+        "outcome": "verified",
+        "observed": "height (each, world solids): 0.4; expected equal 0.4 ± 0.001 m.",
+        "ids": [
+          "7f5d476e-dac6-416a-a3af-e6f66a989d10"
+        ]
+      },
+      {
+        "id": "check-17",
+        "label": "depth · Separate storage cube",
+        "met": true,
+        "outcome": "verified",
+        "observed": "depth (each, world solids): 0.40000000000000013; expected equal 0.4 ± 0.001 m.",
+        "ids": [
+          "7f5d476e-dac6-416a-a3af-e6f66a989d10"
+        ]
+      },
+      {
+        "id": "check-18",
+        "label": "offset",
+        "met": true,
+        "outcome": "verified",
+        "observed": "Measured world-bounds x offset (center of 7f5d476e-dac6-416a-a3af-e6f66a989d10 minus center of 01c67141-8920-4e69-b5d6-64549f9637ee): -1.696 m; expected -1.6959966080101758 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+        "ids": [
+          "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "7f5d476e-dac6-416a-a3af-e6f66a989d10"
+        ]
+      },
+      {
+        "id": "check-19",
+        "label": "relationship",
+        "met": true,
+        "outcome": "verified",
+        "observed": "disjoint: 1/1 distinct solid pairs satisfy all; tolerance 0 m.",
+        "ids": [
+          "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+          "01c67141-8920-4e69-b5d6-64549f9637ee"
+        ]
+      },
+      {
+        "id": "check-20",
+        "label": "editable",
+        "met": true,
+        "outcome": "verified",
+        "observed": "12 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+        "ids": [
+          "c0523436-3587-4694-b944-10fee7fb31be",
+          "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+          "5b390056-2000-4cc0-a092-d7279bc0d79a",
+          "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+          "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+          "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+          "1685c0ea-db59-4898-92bb-b807cc051849",
+          "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+          "0ff904b0-7710-4c5b-9a9e-2113ff5c8780"
+        ]
+      },
+      {
+        "id": "check-21",
+        "label": "unavailable",
+        "met": false,
+        "outcome": "unverified",
+        "observed": "Unverified: Freestanding stability and physical support of the overhead light cannot be certified from geometric contact alone.",
+        "ids": []
+      },
+      {
+        "id": "check-left-z",
+        "label": "offset",
+        "met": true,
+        "outcome": "verified",
+        "observed": "Measured world-bounds z offset (center of 7f5d476e-dac6-416a-a3af-e6f66a989d10 minus center of 01c67141-8920-4e69-b5d6-64549f9637ee): 1.06 m; expected 1.0599978800063603 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+        "ids": [
+          "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "7f5d476e-dac6-416a-a3af-e6f66a989d10"
+        ]
+      }
+    ],
+    "qualitativeLimits": [
+      "Frame dimensions should be sensible for a small tabletop scanning rig without obstructing sample insertion.",
+      "Separate editable objects do not establish fabrication feasibility, structural strength, or real lighting performance.",
+      "Offline diagnostic: a 0.70 × 0.32 × 0.70 m world box encloses the requested circular loading volume. No insertion path or structural certification is asserted."
+    ]
+  },
+  "circle": {
+    "label": "Independent circular occupancy diagnostic, not an application predicate",
+    "rows": [
+      {
+        "id": "c0523436-3587-4694-b944-10fee7fb31be",
+        "name": "Turntable pedestal",
+        "occupiedM3": 0
+      },
+      {
+        "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+        "name": "Circular turntable",
+        "occupiedM3": 2.168404344971009e-19
+      },
+      {
+        "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+        "name": "Frame left foot",
+        "occupiedM3": 0
+      },
+      {
+        "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+        "name": "Frame right foot",
+        "occupiedM3": 0
+      },
+      {
+        "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+        "name": "Frame left post",
+        "occupiedM3": 0
+      },
+      {
+        "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+        "name": "Frame right post",
+        "occupiedM3": 0
+      },
+      {
+        "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+        "name": "Frame crossbeam",
+        "occupiedM3": 0
+      },
+      {
+        "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+        "name": "Overhead rectangular light panel",
+        "occupiedM3": 0
+      },
+      {
+        "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+        "name": "Light panel left hanger",
+        "occupiedM3": 0
+      },
+      {
+        "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+        "name": "Light panel right hanger",
+        "occupiedM3": 0
+      },
+      {
+        "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+        "name": "Separate storage cube",
+        "occupiedM3": 0
+      },
+      {
+        "id": "0ff904b0-7710-4c5b-9a9e-2113ff5c8780",
+        "name": "Offline obstruction",
+        "occupiedM3": 0.0007679999999999999
+      }
+    ],
+    "occupiedM3": 0.0007680000000000001
+  }
+}

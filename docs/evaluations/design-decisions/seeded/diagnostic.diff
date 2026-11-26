@@ -1,0 +1,1604 @@
+diff --git a/docs/evaluations/design-decisions/seeded/FRESH-AI-PROTOCOL.md b/docs/evaluations/design-decisions/seeded/FRESH-AI-PROTOCOL.md
+new file mode 100644
+index 0000000..096c1a2
+--- /dev/null
++++ b/docs/evaluations/design-decisions/seeded/FRESH-AI-PROTOCOL.md
+@@ -0,0 +1,74 @@
++# Proposed seeded recall-and-revision diagnostic
++
++**Prepared offline; paid execution is not authorized.** Application: frozen `deb730317cafe2e0b251a788693934196660140c`. Keep PR #25, the iPhone branch and the preserved failed creation trial separate.
++
++This diagnostic asks whether fresh AI can use an already stored user decision during connected edits. It deliberately excludes fresh capture through a successful initial creation commit. A successful seeded result must never be reported as completing that separate milestone.
++
++## Fixed starting project
++
++Use [seeded-recall-start.atelier.json](fixture/seeded-recall-start.atelier.json), with its full conversation, geometry, notes, component identities and saved history. It contains twelve editable solids: the ten-part scanning rig, an evolved storage cube and a separate sample puck. The rig is reconstructed from the preserved rejected proposal; its provisional creation history was removed. The initial decision was not freshly committed by an AI in this preparation.
++
++The user-source link is genuine: decision `70db6f56-f975-420f-b5e7-3b4781cfe63e`, revision 1, cites source message `3f41ec6f-0223-4542-af00-86e23f48a41a`. Its exact quotation includes:
++
++> Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.
++
++The complete original quote and note are retained, rather than sanitized to simplify the test. Initial dimensions and placement mentioned in an old note must not become permanent constraints against later explicit instructions.
++
++Ten real browser turns with **scripted** side-object edits produced the fixture's intervening history. The full saved conversation has 22 messages; the application's natural recent-message window contains the final 20. The original source message remains in full history but is absent from both roles' recent payloads. No recent assistant message repeats the loading-space decision or reason. No history was manually trimmed to achieve this.
++
++Open the fixture in an isolated browser project running `deb7303`, let it save, then reload using persisted project state. Check the fixture hashes, decision quotation/source, component IDs, original wording's absence from actual outgoing recent history, and note availability to both roles. Preserve all historical messages. Do not insert a preparatory question asking the agent to summarize or remember the decision.
++
++## Two fresh user turns
++
++1. **After reload:** “Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged.”
++2. **After the first edit commits:** “We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.”
++
++Supply no tool names, note IDs, existing dimensions, criteria, affected-part list, evaluator calculations or clearance reminder in turn 1. Let the agent choose inspection, construction and connected scope. Let the independent reviewer choose its own checks. **Do not inject the scripted criteria from the offline rehearsal.** The scanner-envelope findings remain separate diagnostic evidence, not a replacement reviewer response.
++
++Use the normal browser request → provisional geometry → independent checks → final commit flow. Capture actual provider inputs, outputs, explicit inspection calls, starting-scene facts, reviewer citations, measured results, final exports, screenshots and saved history. Do not request hidden chain-of-thought; use observable actions, supplied context and the agent's ordinary explanation.
++
++If turn 1 fails, preserve the attempt and mark the dependent revision not reached. A correct but uncommitted proposal is not a successful edit. No hidden fixture replacement, criterion correction by the evaluator, reminder, extra fresh retry or second trial is allowed by this proposed protocol.
++
++## Separate scores
++
++| Dimension              | Evidence / classification                                                                                                                                                                                                                                                                                                                                              |
++| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
++| Context delivery       | Exact active decision and source available to executor and reviewer after reload; original absent from their actual recent histories. Report this separately from reasoning.                                                                                                                                                                                           |
++| Agent recall           | Did the agent apply the earlier continuing clearance without a reminder? Record explicit reference to the reason/decision, any inspection tool used, and whether it merely received scene facts. Geometry alone also reveals the initial gap, so a correct result without attributable note use is **behavior consistent with intent; source of recall inconclusive**. |
++| Reminder contamination | If a recent assistant message semantically repeats the original decision, source-of-recall score is inconclusive. Do not delete the message or retry until it disappears.                                                                                                                                                                                              |
++| Reviewer citation      | Did it independently cite an active `source=decision` quotation for turn 1, choose the appropriate spatial relationship and use the correct anchors/sign? On revision, does it use the current request rather than enforce the obsolete 32 cm value? Separate citation correctness from geometric verdict.                                                             |
++| Expected values        | Values derive from the original request/decision or pre-edit geometry, never the candidate. Preserve calculation traces, units and frame. Report malformed or unsupported checks separately.                                                                                                                                                                           |
++| Actual geometry        | Independently inspect occupied solids, gap, elevations, horizontal alignment, support continuity, identity and editability. A correct label or valid tool response is not geometric proof.                                                                                                                                                                             |
++| Browser save           | Check persisted geometry/notes/context, actual reload, one-request Undo, reload while undone and Redo. Unverified save block, measured rejection, transaction conflict and successful save are different outcomes.                                                                                                                                                     |
++| Explicit revision      | Correct 18 cm geometry; same active decision ID adopts the new source wording/revision; the old decision does not remain a parallel constraint. Undo/Redo restores matching decision and geometry versions.                                                                                                                                                            |
++| Preservation           | All original component identities remain; cube and puck retain their entire pre-edit data. Record every changed and preserved component; avoid demanding the rehearsal's exact operation list.                                                                                                                                                                         |
++
++Use the [fixture role bindings](fixture/role-bindings.json) to associate original identities with physical roles. Names only help establish that initial mapping; they do not prove geometry. A harmless rename must not invalidate physical measurements or identity preservation. If role correspondence becomes ambiguous, record unverified rather than inventing a match. Alternative coherent editable support constructions are acceptable.
++
++## Independent measurements
++
++World frame: metres, Y up. Existing linear tolerance: **1 mm**. Round-solid comparison retains the existing **2% tessellation volume allowance**. Do not relax tolerances to obtain a save.
++
++| Stage          |        Turntable top |      Panel underside |               Clear vertical gap |
++| -------------- | -------------------: | -------------------: | -------------------------------: |
++| Validated seed |               0.24 m |               0.56 m |                           0.32 m |
++| Raised         | 0.24 + 0.11 = 0.35 m | 0.35 + 0.32 = 0.67 m | 0.32 m from stored user decision |
++| Revised        |     unchanged 0.35 m | 0.35 + 0.18 = 0.53 m |      0.18 m from current request |
++
++Diameter remains 0.70 m; original X/Z centers remain unchanged. Evaluate connected supports with actual-solid contacts and grounded continuity. No structural strength or real load certification is claimed. Record the clearance envelope definition explicitly; **do not invent an insertion path**. A conservative square region passing can prove the enclosed circular space empty, but square-corner occupancy alone cannot establish circular obstruction.
++
++After a correct fresh proposal commits, use its captured criteria unchanged for an offline wrong-result control: leave the frame at its prior height while raising the turntable, or retain the obsolete 32 cm gap while updating the decision to 18 cm. Measure the wrong solids independently, and distinguish a measured geometry rejection from a save prevented only by unresolved verification. If no usable correct proposal/criteria exist, mark that control not reached. Do not use scripted successful edits as fresh successes.
++
++## Proposed authorization and cost controls
++
++Request a separate **US$2 aggregate conservative accounting ceiling and maximum 20 paid calls** for this one two-turn seeded trial, including executor, reviewer, inspection continuations, repairs, diagnostics and unknown-usage reservations. No second trial or automatic extra credits/recharge. No paid calls have been made under this proposal.
++
++Intended model/settings: `gpt-6.1-sol`, Responses API, standard/default tier, executor high reasoning, reviewer low, 6,000 maximum output tokens. Confirm model access and pricing before execution. Reuse the existing pre-call reservation ledger and zero SDK automatic retries. Stop before either cap would be exceeded; preserve unknown-usage calls as reservations.
++
++Pricing basis is the documented November 26 secondary registry estimate already preserved in the [previous preflight](../live/preflight/documented-pricing.json): US$2/M input and US$10/M output at the observed context lengths; conservative reservation US$4/M input and US$15/M maximum output, plus 25%, without cached-input discounts. It is not an account-verified invoice rate. Recheck for material changes before any paid call. Current balance and auto-recharge status are not inferred from the old November 24 credits; no billing settings will be changed. Stop if reliable reservations cannot be maintained.
++
++Track all token usage, model IDs, API latency, reviewer time and actual dollar charges if available. Actual charges and estimated accounting remain separate. Preserve partial outcomes and failures. Do not alter application behavior, merge, deploy or turn the independent guard off for this evaluation.
++
++## Result format
++
++Publish distinct columns for **context delivered, agent recall, reviewer citation/relationship, measured geometry, browser commit, revision persistence and negative controls**, with costs and limitations. Name the result **seeded recall diagnostic**. Fresh capture through an initially successful AI commit remains untested regardless of its outcome.
+diff --git a/scripts/seeded-decision-diagnostic/browser.ts b/scripts/seeded-decision-diagnostic/browser.ts
+new file mode 100644
+index 0000000..a70c2d1
+--- /dev/null
++++ b/scripts/seeded-decision-diagnostic/browser.ts
+@@ -0,0 +1,320 @@
++/** Normal production-build browser with offline-only providers. */
++import assert from 'node:assert/strict';
++import { mkdirSync, existsSync, writeFileSync } from 'node:fs';
++import { join, resolve } from 'node:path';
++import express from 'express';
++import { chromium, expect } from '@playwright/test';
++import { createApi } from '../../server/app';
++import { readCompletionCriteria } from '../../server/completion';
++import { compactCompletionCriteria } from '../../server/completionWire';
++import { completionRequestSchema } from '../../server/provider';
++import { TaskBlockedError } from '../../src/intelligence/planFailure';
++import {
++  parseSession,
++  serializeSession,
++  type Session,
++} from '../../src/intelligence/engine';
++import { equalData } from '../../src/projects/equalData';
++import { projectFile } from '../../src/projects/transfer';
++import { modelingActive } from '../release-evaluation/browser-state';
++
++export const save = (p: string, data: unknown) =>
++  writeFileSync(p, JSON.stringify(data, null, 2));
++export const state = (s: Session) => ({
++  project: s.project,
++  past: s.past,
++  future: s.future,
++  context: s.context,
++});
++export async function openBrowser(
++  folder: string,
++  initial: Session,
++  messages: any[],
++  plan: (input: any, event: number) => any,
++  criteria: (input: any) => any,
++) {
++  assert(!existsSync(join(folder, 'result.json')), 'Do not replace evidence');
++  mkdirSync(folder, { recursive: true });
++  const result: any = {
++    label: 'Offline saved/scripted browser replay; not fresh AI',
++    paidCalls: 0,
++    events: [],
++    browserErrors: [],
++    status: 'RUNNING',
++  };
++  let turn = 'opening';
++  const publish = () => save(join(folder, 'result.json'), result);
++  publish();
++  const app = createApi({
++    agent: true,
++    voice: async () => {
++      throw Error('Voice excluded');
++    },
++    plan: async (input) => {
++      const e: any = { kind: 'executor', turn, input };
++      result.events.push(e);
++      publish();
++      try {
++        e.response = await plan(
++          input,
++          result.events.filter(
++            (x: any) => x.kind === 'executor' && x.turn === turn,
++          ).length - 1,
++        );
++        return e.response;
++      } catch (error) {
++        e.error = String(error);
++        throw error;
++      } finally {
++        publish();
++      }
++    },
++    completionCriteria: async (input) => {
++      const e: any = { kind: 'reviewer', turn, input };
++      result.events.push(e);
++      publish();
++      try {
++        const prescribed = criteria(input);
++        const client: any = {
++          responses: {
++            create: async (request: any) => {
++              e.offlineWireRequest = request;
++              return {
++                status: 'completed',
++                output_text: JSON.stringify(
++                  compactCompletionCriteria(prescribed),
++                ),
++              };
++            },
++          },
++        };
++        e.response = await readCompletionCriteria(
++          client,
++          completionRequestSchema.parse(input),
++          {
++            model: 'OFFLINE-NO-API',
++            textApi: 'responses',
++            maxOutputTokens: 6000,
++          },
++        );
++        return e.response;
++      } catch (error) {
++        e.error = String(error);
++        throw error;
++      } finally {
++        publish();
++      }
++    },
++  });
++  app.use(express.static(resolve('dist')));
++  const server = app.listen(0, '127.0.0.1');
++  await new Promise<void>((r) => server.on('listening', r));
++  const origin = `http://127.0.0.1:${(server.address() as any).port}`;
++  const browser = await chromium.launch({
++    executablePath: '/usr/bin/chromium',
++    args: [
++      '--no-sandbox',
++      '--use-angle=swiftshader',
++      '--enable-unsafe-swiftshader',
++    ],
++  });
++  const context = await browser.newContext({
++    viewport: { width: 1440, height: 1000 },
++    reducedMotion: 'reduce',
++    storageState: {
++      cookies: [],
++      origins: [
++        {
++          origin,
++          localStorage: [
++            { name: 'atelier.start-direct', value: 'true' },
++            { name: 'atelier.session.v2', value: serializeSession(initial) },
++            {
++              name: 'atelier.conversation.v2',
++              value: JSON.stringify(messages),
++            },
++          ],
++        },
++      ],
++    },
++  });
++  await context.route('**/*', (r) =>
++    new URL(r.request().url()).origin === origin ? r.continue() : r.abort(),
++  );
++  const page = await context.newPage();
++  page.setDefaultTimeout(30000);
++  page.on('pageerror', (error) => {
++    result.browserErrors.push(String(error));
++    publish();
++  });
++  const saved = async () =>
++    parseSession(
++      await page.evaluate(() => localStorage.getItem('atelier.session.v2')!),
++    );
++  const chat = () =>
++    page.evaluate(() =>
++      JSON.parse(localStorage.getItem('atelier.conversation.v2') ?? '[]'),
++    );
++  const durable = async (s: Session) => {
++    await expect
++      .poll(
++        async () => {
++          const records = await page.evaluate(
++            () =>
++              new Promise<any[]>((res, rej) => {
++                const q = indexedDB.open('atelier-projects', 1);
++                q.onerror = () => rej(q.error);
++                q.onsuccess = () => {
++                  const db = q.result,
++                    r = db
++                      .transaction('projects', 'readonly')
++                      .objectStore('projects')
++                      .getAll();
++                  r.onerror = () => rej(r.error);
++                  r.onsuccess = () => {
++                    db.close();
++                    res(r.result);
++                  };
++                };
++              }),
++          );
++          return records.some((r) =>
++            equalData(state(parseSession(r.session)), state(s)),
++          );
++        },
++        { timeout: 30000 },
++      )
++      .toBe(true);
++  };
++  const reload = async (s: Session, clear = true) => {
++    const prior = await chat();
++    await durable(s);
++    if (clear)
++      await page.evaluate(() => {
++        localStorage.removeItem('atelier.session.v2');
++        localStorage.removeItem('atelier.conversation.v2');
++        localStorage.removeItem('atelier.project.checkpoint');
++      });
++    await page.reload();
++    await expect(page.getByTestId('viewport')).toBeVisible({ timeout: 45000 });
++    await expect
++      .poll(async () => equalData(state(await saved()), state(s)), {
++        timeout: 30000,
++      })
++      .toBe(true);
++    assert.deepEqual(await chat(), prior);
++    return {
++      project: true,
++      notes: true,
++      history: true,
++      conversation: true,
++      indexedDBOnly: clear,
++    };
++  };
++  const history = async (before: Session, after: Session, label: string) => {
++    await reload(after);
++    await page.getByRole('button', { name: 'Undo', exact: true }).click();
++    await expect
++      .poll(async () => equalData((await saved()).project, before.project), {
++        timeout: 30000,
++      })
++      .toBe(true);
++    const undone = await saved();
++    save(join(folder, `${label}-undone.json`), undone);
++    await reload(undone);
++    await page.getByRole('button', { name: 'Redo', exact: true }).click();
++    await expect
++      .poll(async () => equalData(state(await saved()), state(after)), {
++        timeout: 30000,
++      })
++      .toBe(true);
++    assert.equal(after.past.length, before.past.length + 1);
++    return {
++      undo: true,
++      redo: true,
++      reloadWhileUndone: true,
++      oneAtomicEntry: true,
++      notesAndGeometryRestored: true,
++    };
++  };
++  const send = async (label: string, prompt: string) => {
++    turn = label;
++    const before = await saved(),
++      prior = await chat();
++    save(join(folder, `${label}-before.json`), before);
++    save(join(folder, `${label}-history-before.json`), prior);
++    const input = page.getByRole('textbox', { name: 'Message Atelier' });
++    if (!(await input.isVisible()))
++      await page
++        .getByRole('button', { name: 'Voice orb', exact: true })
++        .dblclick();
++    await input.fill(prompt);
++    await page
++      .getByRole('button', { name: 'Send message', exact: true })
++      .click();
++    await expect
++      .poll(
++        async () =>
++          !(await modelingActive(page)) &&
++          (await chat()).length >= prior.length + 2,
++        { timeout: 120000 },
++      )
++      .toBe(true);
++    const after = await saved();
++    await durable(after);
++    save(join(folder, `${label}-after.json`), after);
++    save(join(folder, `${label}-history-after.json`), await chat());
++    await page.screenshot({ path: join(folder, `${label}.png`) });
++    return {
++      before,
++      after,
++      committed: !equalData(state(before), state(after)),
++    };
++  };
++  const exportProject = async (label: string) => {
++    const s = await saved(),
++      messages = await chat();
++    await durable(s);
++    const f = projectFile({ session: serializeSession(s), messages }, label);
++    save(join(folder, `${label}.atelier.json`), JSON.parse(await f.text()));
++    await context.storageState({
++      path: join(folder, `${label}-browser-state.json`),
++    });
++    return { session: s, messages };
++  };
++  const close = async () => {
++    publish();
++    await browser.close();
++    server.closeAllConnections();
++    await new Promise<void>((r) => server.close(() => r()));
++  };
++  try {
++    await page.goto(origin);
++    await expect(page.getByTestId('viewport')).toBeVisible({ timeout: 45000 });
++    assert(equalData(state(await saved()), state(initial)));
++  } catch (error) {
++    result.status = 'OPEN_FAILED';
++    result.error = String(error);
++    await close();
++    throw error;
++  }
++  return {
++    result,
++    page,
++    context,
++    saved,
++    chat,
++    send,
++    reload,
++    history,
++    exportProject,
++    publish,
++    close,
++  };
++}
++export function stopOnFeedback(input: any) {
++  if (input.validationFeedback)
++    throw new TaskBlockedError(
++      'Offline control ends after measured host feedback. No scripted repair or paid call.',
++    );
++}
+diff --git a/scripts/seeded-decision-diagnostic/calibrate.ts b/scripts/seeded-decision-diagnostic/calibrate.ts
+new file mode 100644
+index 0000000..1c8197f
+--- /dev/null
++++ b/scripts/seeded-decision-diagnostic/calibrate.ts
+@@ -0,0 +1,64 @@
++import assert from 'node:assert/strict';
++import { writeFileSync } from 'node:fs';
++import { applyPlan } from '../../src/intelligence/engine';
++import { verifyCompletion } from '../../src/intelligence/completion';
++import {
++  validateSeed,
++  startFrame,
++  prompts,
++  sidePlan,
++  sideCriteria,
++  connectedPlan,
++  connectedCriteria,
++  inspectSolids,
++} from './case';
++const result: any = {
++  label: 'Offline numerical and scripted-operation calibration only',
++  paidCalls: 0,
++  turns: [],
++};
++let s = (await validateSeed()).session;
++try {
++  for (let turn = 2; turn <= 13; turn++) {
++    const before = s,
++      plan = turn < 12 ? sidePlan(turn, s) : connectedPlan(turn as 12 | 13, s),
++      checks =
++        turn < 12
++          ? sideCriteria(turn, s, startFrame)
++          : connectedCriteria(turn as 12 | 13, s);
++    s = (
++      await applyPlan(s, plan, startFrame, true, {
++        id: `offline-calibration-${turn}`,
++        text: prompts[turn - 1],
++      })
++    ).session;
++    const host = await verifyCompletion(checks, before, s),
++      measurements = await inspectSolids(turn, before, s, startFrame);
++    result.turns.push({ turn, host, measurements });
++    assert(
++      host.canCommit && measurements.fullyMeasured,
++      `Calibration turn ${turn}`,
++    );
++  }
++  result.status = 'PASS';
++} catch (error) {
++  result.status = 'FAIL';
++  result.error = String(error);
++  process.exitCode = 1;
++}
++writeFileSync(
++  process.argv[2] ?? '.cloud/seeded-decision/calibration.json',
++  JSON.stringify(result, null, 2),
++);
++console.log(
++  JSON.stringify({
++    status: result.status,
++    error: result.error,
++    turns: result.turns.map((t: any) => ({
++      turn: t.turn,
++      canCommit: t.host.canCommit,
++      correct: t.measurements.fullyMeasured,
++    })),
++    paidCalls: 0,
++  }),
++);
+diff --git a/scripts/seeded-decision-diagnostic/case.ts b/scripts/seeded-decision-diagnostic/case.ts
+new file mode 100644
+index 0000000..cf77d47
+--- /dev/null
++++ b/scripts/seeded-decision-diagnostic/case.ts
+@@ -0,0 +1,480 @@
++/** Evaluation fixtures only. Neither these criteria nor these recipes are
++ * imported by ATELIER. All provider responses in this preparation are saved or
++ * scripted; there is no SDK or paid execution path. */
++import assert from 'node:assert/strict';
++import { readFileSync } from 'node:fs';
++import { newSession, type Session } from '../../src/intelligence/engine';
++import { defaultCamera } from '../../src/intelligence/context';
++import { verifyCompletion } from '../../src/intelligence/completion';
++import { selector, criteria } from '../../tests/fixtures/completion';
++import { prompts, originalQuote } from '../design-decision-live/config';
++import { oracle, inventory } from '../design-decision-live/geometry';
++import { cloneSolid, vertical, mapSolid } from '../phase3-evaluation/geometry';
++export { prompts, originalQuote, inventory };
++export const frozen = 'deb730317cafe2e0b251a788693934196660140c';
++export const source = 'docs/evaluations/design-decisions/live/live-1';
++export const read = (p: string) => JSON.parse(readFileSync(p, 'utf8'));
++export const trace = read(`${source}/results.json`).turns[0];
++export const startFrame = trace.events[0].input.scene.camera;
++export const savedCriteria = trace.events[2].response;
++export const savedBuild = trace.events[0].response;
++export const savedFinish = trace.events[1].response;
++export const empty = () => newSession({ volumes: [], selectedId: null });
++export const object = (s: Session, name: string) => {
++  const vs = s.project.volumes.filter((v) => v.name === name);
++  assert.equal(vs.length, 1, `Unique fixture identity for ${name}`);
++  return vs[0];
++};
++export const bindings = (s: Session) => ({
++  turntable: object(s, 'Circular turntable').id,
++  light: object(s, 'Overhead rectangular light panel').id,
++  cube: object(s, 'Separate storage cube').id,
++  ...(s.project.volumes.some((v) => v.name === 'Sample puck')
++    ? { puck: object(s, 'Sample puck').id }
++    : {}),
++  frame: s.project.volumes
++    .filter(
++      (v) =>
++        v.name.startsWith('Frame ') ||
++        v.name.startsWith('Light panel ') ||
++        v.name === 'Overhead rectangular light panel',
++    )
++    .map((v) => v.id),
++});
++export const asPlan = (
++  operations: any[],
++  message = 'Offline scripted diagnostic response.',
++) => ({
++  intent: 'apply',
++  message,
++  operations,
++  planning: { stage: message, assumptions: [], next: null },
++});
++export const shape = (
++  name: string,
++  w: number,
++  h: number,
++  d: number,
++  x: number,
++  y: number,
++  z: number,
++  kind = 'box',
++) => ({
++  type: 'assembly',
++  name: `${name} assembly`,
++  origin: { x: 0, y: 0, z: 0 },
++  rotation: 0,
++  elements: [
++    {
++      key: 'part',
++      name,
++      shape: kind,
++      dimensions: { width: w, height: h, depth: d },
++      position: { x, y, z },
++      rotation: 0,
++      role: 'element',
++      level: null,
++      material: 'solid',
++      color: '#bfc4c7',
++      host: null,
++      repeat: null,
++    },
++  ],
++});
++export const obstruction = shape(
++  'Offline obstruction',
++  0.08,
++  0.12,
++  0.08,
++  0,
++  0.3,
++  0,
++);
++export const corner = shape(
++  'Offline corner occupancy',
++  0.02,
++  0.1,
++  0.02,
++  0.32,
++  0.3,
++  0.32,
++);
++
++// This is a sufficient enclosing box, NOT an insertion path and NOT an exact
++// circular-volume classifier. Passing proves the circle is empty; a failure
++// outside the circle alone cannot prove the user's circular space is blocked.
++export const envelope = (top: number, gap: number, diameter = 0.7) => ({
++  id: 'check-12',
++  label: 'Conservative loading envelope (no path claim)',
++  kind: 'region',
++  selector: selector(['$all']),
++  center: { x: 0, y: top + gap / 2, z: 0 },
++  size: { x: diameter, y: gap, z: diameter },
++  rotation: 0,
++  occupancy: 'empty',
++  tolerance: 0.001,
++});
++export function scannerCriteria(frame = startFrame) {
++  const c = structuredClone(savedCriteria);
++  c.checks.find((x: any) => x.requirement.id === 'check-12').requirement =
++    envelope(0.24, 0.32);
++  const left = c.checks.find((x: any) => x.requirement.id === 'check-18');
++  left.requirement.value = -2 * frame.right.x;
++  c.checks.push({
++    ...structuredClone(left),
++    requirement: {
++      ...left.requirement,
++      id: 'check-left-z',
++      axis: 'z',
++      value: -2 * frame.right.z,
++    },
++  });
++  c.qualitativeLimits = c.qualitativeLimits.filter(
++    (x: string) => !x.startsWith('Interpret two meters'),
++  );
++  c.qualitativeLimits.push(
++    'Offline diagnostic: a 0.70 × 0.32 × 0.70 m world box encloses the requested circular loading volume. No insertion path or structural certification is asserted.',
++  );
++  return c;
++}
++export function seed() {
++  const provisional: Session = read(
++    `${source}/offline-forensics/first-proposal.session.json`,
++  );
++  // Fixture injection is explicit. Discard provisional operation history rather
++  // than pretending it represents a successful browser creation commit.
++  const s = newSession(structuredClone(provisional.project));
++  s.context = structuredClone(provisional.context);
++  return s;
++}
++export function seedMessages(s: Session) {
++  const d = s.project.design!.notes![0].decision!;
++  return [
++    { role: 'user', content: d.origin.text, id: d.origin.id },
++    {
++      role: 'assistant',
++      content:
++        'Offline seeded diagnostic: this validated starting model was reconstructed from the preserved rejected proposal. This is not a successful fresh-AI creation commit.',
++    },
++  ];
++}
++const resize = (id: string, axis: string, value: number, mode = 'set') => ({
++  targets: [id],
++  where: [],
++  translation: null,
++  resize: { axis, mode, value, anchor: axis === 'height' ? 0 : 0.5 },
++});
++const translate = (targets: string[], dy: number) => ({
++  targets,
++  where: [],
++  translation: { x: 0, y: dy, z: 0 },
++  resize: null,
++});
++export function sidePlan(turn: number, s: Session) {
++  const b = bindings(s),
++    c = object(s, 'Separate storage cube');
++  if ([2, 3, 4, 10].includes(turn))
++    return asPlan([
++      {
++        type: 'edit_components',
++        edits: [
++          resize(
++            b.cube,
++            turn === 3 ? 'width' : turn === 4 ? 'depth' : 'height',
++            turn === 2 ? 0.5 : turn === 3 ? 0.55 : turn === 4 ? 0.45 : 0.6,
++          ),
++        ],
++      },
++    ]);
++  if (turn === 5)
++    return asPlan([
++      { type: 'move', targets: [b.cube], direction: 'left', distance: 0.2 },
++    ]);
++  if (turn === 6)
++    return asPlan([
++      shape(
++        'Sample puck',
++        0.12,
++        0.03,
++        0.12,
++        c.position.x,
++        0,
++        c.position.z - 0.7,
++        'cylinder',
++      ),
++    ]);
++  if (turn === 9)
++    return asPlan([
++      { type: 'move', targets: [b.puck], direction: 'forward', distance: 0.15 },
++    ]);
++  assert(b.puck);
++  if (turn === 8)
++    return asPlan([
++      { type: 'edit_components', edits: [resize(b.puck, 'width', 0.16)] },
++      { type: 'edit_components', edits: [resize(b.puck, 'depth', 0.16)] },
++    ]);
++  return asPlan([
++    {
++      type: 'edit_components',
++      edits: [resize(b.puck, 'height', turn === 7 ? 0.05 : 0.04)],
++    },
++  ]);
++}
++export function connectedPlan(turn: 12 | 13, s: Session, wrong = false) {
++  const b = bindings(s),
++    dy = turn === 12 ? 0.11 : -0.14;
++  const edits: any[] = [];
++  if (turn === 12) {
++    edits.push(translate([b.turntable], dy));
++    edits.push(resize(object(s, 'Turntable pedestal').id, 'height', dy, 'add'));
++  }
++  if (!wrong) {
++    edits.push(
++      translate(
++        [
++          b.light,
++          ...[
++            'Frame crossbeam',
++            'Light panel left hanger',
++            'Light panel right hanger',
++          ].map((n) => object(s, n).id),
++        ],
++        dy,
++      ),
++    );
++    for (const name of ['Frame left post', 'Frame right post'])
++      edits.push(resize(object(s, name).id, 'height', dy, 'add'));
++  }
++  const ops: any[] = edits.length ? [{ type: 'edit_components', edits }] : [];
++  if (turn === 13)
++    ops.push({
++      type: 'design_note',
++      topic: s.project.design!.notes![0].topic,
++      text: 'The user now wants exactly 18 cm of sample-loading clearance for flatter samples.',
++      source: 'user',
++      capture: {
++        quote: prompts[12],
++        revises: s.project.design!.notes![0].decision!.id,
++      },
++    });
++  return asPlan(ops);
++}
++const measured = (
++  id: string,
++  selection: any,
++  metric: string,
++  value: number,
++) => ({
++  id,
++  label: id,
++  kind: 'measure',
++  selector: selection,
++  metric,
++  aggregation: 'each',
++  comparison: 'equal',
++  value,
++  tolerance: 0.001,
++  relativeTolerance: 0,
++});
++export function sideCriteria(turn: number, s: Session, frame = defaultCamera) {
++  const b = bindings(s),
++    req: any[] = [],
++    named = selector(['$new'], 'Sample puck');
++  let allowed: string[] = [];
++  if ([2, 3, 4, 10].includes(turn)) {
++    allowed = [b.cube];
++    req.push(
++      measured(
++        'side-dimension',
++        selector(allowed),
++        turn === 3 ? 'width' : turn === 4 ? 'depth' : 'height',
++        turn === 2 ? 0.5 : turn === 3 ? 0.55 : turn === 4 ? 0.45 : 0.6,
++      ),
++    );
++  } else if ([5, 9].includes(turn)) {
++    const id = turn === 5 ? b.cube : b.puck!,
++      v = s.project.volumes.find((o) => o.id === id)!;
++    allowed = [id];
++    const basis = turn === 5 ? frame.right : frame.forward,
++      distance = turn === 5 ? -0.2 : 0.15;
++    for (const axis of ['x', 'z'] as const)
++      req.push(
++        measured(
++          'side-' + axis,
++          selector([id]),
++          axis,
++          v.position[axis] + distance * basis[axis],
++        ),
++      );
++  } else if (turn === 6)
++    req.push(measured('puck-height', named, 'height', 0.03), {
++      id: 'puck-round',
++      label: 'puck-round',
++      kind: 'diameter',
++      selector: named,
++      shape: 'cylinder',
++      value: 0.12,
++      tolerance: 0.001,
++    });
++  else {
++    allowed = [b.puck!];
++    req.push(
++      measured(
++        'puck-height-or-width',
++        selector(allowed),
++        turn === 8 ? 'width' : 'height',
++        turn === 7 ? 0.05 : turn === 8 ? 0.16 : 0.04,
++      ),
++    );
++  }
++  return criteria(req, allowed, prompts[turn - 1]);
++}
++export function connectedCriteria(turn: 12 | 13, s: Session) {
++  const b = bindings(s),
++    top = 0.35,
++    gap = turn === 12 ? 0.32 : 0.18;
++  const sel = (id: string) => selector([id]);
++  const allowed =
++    turn === 13
++      ? b.frame
++      : s.project.volumes
++          .filter((v) => ![b.cube, b.puck].includes(v.id))
++          .map((v) => v.id);
++  const req: any[] = [
++    measured('turntable-top', sel(b.turntable), 'top', top),
++    {
++      id: 'diameter',
++      label: 'diameter',
++      kind: 'diameter',
++      selector: sel(b.turntable),
++      shape: 'cylinder',
++      value: 0.7,
++      tolerance: 0.001,
++    },
++    {
++      id: 'clearance',
++      label: 'clearance',
++      kind: 'offset',
++      first: sel(b.turntable),
++      second: sel(b.light),
++      axis: 'y',
++      firstAnchor: 'max',
++      secondAnchor: 'min',
++      value: gap,
++      tolerance: 0.001,
++    },
++    ...(['x', 'z'] as const).map((axis) => ({
++      id: 'alignment-' + axis,
++      label: 'alignment-' + axis,
++      kind: 'offset',
++      first: sel(b.turntable),
++      second: sel(b.light),
++      axis,
++      firstAnchor: 'center',
++      secondAnchor: 'center',
++      value: 0,
++      tolerance: 0.001,
++    })),
++    envelope(top, gap),
++    {
++      id: 'editable',
++      label: 'editable',
++      kind: 'editable',
++      selector: selector(['$all']),
++    },
++  ];
++  // Preserve horizontal position independently from the pre-edit model.
++  const v = object(s, 'Circular turntable');
++  req.push(
++    measured('preserve-x', sel(b.turntable), 'x', v.position.x),
++    measured('preserve-z', sel(b.turntable), 'z', v.position.z),
++  );
++  const c = criteria(req, allowed, prompts[turn - 1]);
++  c.checks[0].calculation = {
++    frame: 'world_xyz_y_up',
++    nodes:
++      turn === 12
++        ? [
++            { kind: 'original', objectId: b.turntable, metric: 'top' },
++            {
++              kind: 'quantity',
++              value: 11,
++              unit: 'cm',
++              source: 'request',
++              evidence: 'Raise the turntable surface by 11 cm.',
++            },
++            { kind: 'operation', op: 'add', args: [0, 1] },
++          ]
++        : [{ kind: 'original', objectId: b.turntable, metric: 'top' }],
++    output: { kind: 'value', node: turn === 12 ? 2 : 0 },
++  };
++  for (const check of c.checks)
++    if (
++      ['clearance', 'check-12'].includes(check.requirement.id) &&
++      turn === 12
++    ) {
++      check.source = 'decision';
++      check.evidence = originalQuote;
++    }
++  return c;
++}
++export async function inspectSolids(
++  turn: number,
++  before: Session,
++  after: Session,
++  frame = startFrame,
++) {
++  const m = await oracle(turn, before, after, bindings(after), frame);
++  const pedestal = await cloneSolid(object(after, 'Turntable pedestal')),
++    platter = await cloneSolid(object(after, 'Circular turntable'));
++  try {
++    const gap = pedestal.minGap(platter, 0.02);
++    m.facts.push({
++      name: 'Turntable supported by pedestal',
++      status: gap <= 0.001 ? 'verified' : 'incorrect',
++      expected: 0,
++      actual: gap,
++    });
++  } finally {
++    pedestal.delete();
++    platter.delete();
++  }
++  m.correct = !m.facts.some((f) => f.status === 'incorrect');
++  m.fullyMeasured = m.facts.every((f) => f.status === 'verified');
++  return m;
++}
++export async function circularOccupancy(s: Session, top = 0.24, gap = 0.32) {
++  const probe = mapSolid(vertical(gap, 0.35), (q) => q.translate([0, top, 0]));
++  const rows: any[] = [];
++  try {
++    for (const v of s.project.volumes) {
++      const q = await cloneSolid(v);
++      try {
++        const hit = q.intersect(probe);
++        try {
++          rows.push({ id: v.id, name: v.name, occupiedM3: hit.volume() });
++        } finally {
++          hit.delete();
++        }
++      } finally {
++        q.delete();
++      }
++    }
++  } finally {
++    probe.delete();
++  }
++  return {
++    label:
++      'Independent circular occupancy diagnostic, not an application predicate',
++    rows,
++    occupiedM3: rows.reduce((n, r) => n + r.occupiedM3, 0),
++  };
++}
++export async function validateSeed() {
++  const s = seed(),
++    c = scannerCriteria();
++  const report = await verifyCompletion(c, empty(), s);
++  const measurements = await inspectSolids(1, empty(), s);
++  assert(report.canCommit && measurements.fullyMeasured);
++  return { session: s, criteria: c, report, measurements };
++}
+diff --git a/scripts/seeded-decision-diagnostic/scanner.ts b/scripts/seeded-decision-diagnostic/scanner.ts
+new file mode 100644
+index 0000000..e89ec55
+--- /dev/null
++++ b/scripts/seeded-decision-diagnostic/scanner.ts
+@@ -0,0 +1,289 @@
++import assert from 'node:assert/strict';
++import { mkdirSync, existsSync } from 'node:fs';
++import { join, resolve } from 'node:path';
++import { applyPlan } from '../../src/intelligence/engine';
++import { verifyCompletion } from '../../src/intelligence/completion';
++import { sceneContext } from '../../src/intelligence/context';
++import { compactScene } from '../../server/agent';
++import { equalData } from '../../src/projects/equalData';
++import { openBrowser, save, state, stopOnFeedback } from './browser';
++import {
++  trace,
++  seed,
++  empty,
++  startFrame,
++  savedBuild,
++  savedFinish,
++  savedCriteria,
++  scannerCriteria,
++  obstruction,
++  corner,
++  circularOccupancy,
++  inspectSolids,
++  prompts,
++  asPlan,
++  object,
++} from './case';
++
++const folder = resolve(process.argv[2] ?? '.cloud/seeded-decision/scanner-1');
++assert(!existsSync(join(folder, 'summary.json')), 'Preserve every attempt');
++mkdirSync(folder, { recursive: true });
++const result: any = {
++  label:
++    'Offline scanner replay; manual diagnostic criteria, no fresh AI or application changes',
++  paidCalls: 0,
++  cases: [],
++  status: 'RUNNING',
++};
++const publish = () => save(join(folder, 'summary.json'), result);
++publish();
++const original = seed();
++const frames = trace.events.map((e: any) => ({
++  kind: e.kind,
++  frame: e.input.scene.camera,
++  compactFrame: compactScene(e.input.scene).camera,
++}));
++assert(
++  frames.every(
++    (x: any) =>
++      equalData(x.frame, startFrame) && equalData(x.compactFrame, startFrame),
++  ),
++);
++const cube = object(original, 'Separate storage cube');
++result.requestStartFrame = {
++  allFourCapturedInputsIdentical: true,
++  compactTransportRetainsCamera: true,
++  frame: startFrame,
++  requestedLeftDistanceM: 2,
++  formula: 'delta = -distance * request_start.camera.right',
++  expected: { x: -2 * startFrame.right.x, y: 0, z: -2 * startFrame.right.z },
++  actualInitialCube: cube.position,
++  savedReviewer: { axis: 'x', value: -2 },
++  conclusion:
++    'Transport is consistent; saved reviewer used world-X semantics despite receiving the same request-start frame.',
++};
++save(join(folder, 'frame-audit.json'), result.requestStartFrame);
++save(join(folder, 'original-criteria.json'), savedCriteria);
++save(join(folder, 'diagnostic-criteria.json'), scannerCriteria());
++save(join(folder, 'criterion-provenance.json'), {
++  label: 'Evaluator-authored diagnostic, not a corrected fresh reviewer answer',
++  changed: [
++    'check-12 unavailable → existing region(empty)',
++    'check-18 world-X -2 → -2 * request-start right.x',
++    'added Z counterpart -2 * request-start right.z',
++  ],
++  retained:
++    '32 cm signed Y gap, all other checks, 1 mm tolerances, unsupported physical stability caveat and normal save guard',
++  sourceValues: {
++    diameter: {
++      value: 70,
++      unit: 'cm',
++      quote: 'circular turntable 70 cm across',
++    },
++    top: { value: 24, unit: 'cm', quote: 'its top 24 cm above the floor' },
++    gap: {
++      value: 32,
++      unit: 'cm',
++      quote:
++        'Leave exactly 32 cm clear between the turntable top and the underside of the light panel',
++    },
++    left: { value: 2, unit: 'm', quote: 'two meters to the left' },
++  },
++  calculation:
++    'metres: diameter=70/100; top=24/100; gap=32/100; box center Y=top+gap/2=0.40; full size=(0.70,0.32,0.70); X/Z offsets=-2*captured right components',
++  frame:
++    'world XYZ, Y up; request-start camera basis for left, fixed for entire request',
++  limitations:
++    'Box encloses the turntable footprint and proves sufficient empty space only when it passes. No approach/insertion path is specified. Circle-exterior corner occupancy needs separate assessment; do not treat it as evidence of circular-space obstruction.',
++});
++try {
++  // Retain the original verdict without changing any check.
++  result.originalHost = await verifyCompletion(
++    savedCriteria,
++    empty(),
++    original,
++  );
++  assert(!result.originalHost.canCommit);
++  // Measured kernel test of a genuinely obstructed circle, plus a corner-only
++  // control that exposes the square envelope's limitation explicitly.
++  for (const [name, extra] of [
++    ['valid', null],
++    ['obstructed', obstruction],
++    ['corner-only', corner],
++  ] as const) {
++    const candidate = extra
++      ? (await applyPlan(original, asPlan([extra]), startFrame, true)).session
++      : original;
++    const report = await verifyCompletion(
++        scannerCriteria(),
++        empty(),
++        candidate,
++      ),
++      circle = await circularOccupancy(candidate);
++    const entry = { name, report, circle };
++    result.cases.push(entry);
++    save(join(folder, `${name}-geometry.json`), entry);
++    if (name === 'valid') {
++      assert(report.canCommit);
++      assert(circle.occupiedM3 < 1e-9);
++    } else if (name === 'obstructed') {
++      assert(!report.canCommit);
++      assert(circle.occupiedM3 > 1e-6);
++    } else {
++      assert(!report.canCommit);
++      assert(circle.occupiedM3 < 1e-9);
++    }
++  }
++  // The saved world-X correction is not a camera-left displacement. Check it
++  // under the same consistent frame criteria without reinterpreting the request.
++  const world = (
++    await applyPlan(
++      original,
++      asPlan([{ type: 'position', targets: [cube.id], x: -2, y: 0, z: 0 }]),
++      startFrame,
++      true,
++    )
++  ).session;
++  result.worldXVariant = await verifyCompletion(
++    scannerCriteria(),
++    empty(),
++    world,
++  );
++  assert(!result.worldXVariant.canCommit);
++  // Independent rotated request frames demonstrate the same vector contract.
++  result.rotatedFrames = [];
++  for (const angle of [31, 123]) {
++    const a = (angle * Math.PI) / 180,
++      frame = {
++        ...startFrame,
++        pose: {
++          ...startFrame.pose,
++          position: {
++            x:
++              -Math.sin(a) *
++              Math.hypot(
++                startFrame.pose.position.x,
++                startFrame.pose.position.z,
++              ),
++            y: startFrame.pose.position.y,
++            z:
++              Math.cos(a) *
++              Math.hypot(
++                startFrame.pose.position.x,
++                startFrame.pose.position.z,
++              ),
++          },
++        },
++        right: { x: Math.cos(a), y: 0, z: Math.sin(a) },
++        forward: { x: Math.sin(a), y: 0, z: -Math.cos(a) },
++      };
++    const s = (
++      await applyPlan(
++        empty(),
++        savedBuild,
++        frame,
++        true,
++        trace.events[1].input.scene.design.notes[0].decision.origin,
++      )
++    ).session;
++    const r = await verifyCompletion(scannerCriteria(frame), empty(), s);
++    assert(r.canCommit);
++    result.rotatedFrames.push({
++      angle,
++      frame,
++      expected: { x: -2 * frame.right.x, z: -2 * frame.right.z },
++      actual: object(s, 'Separate storage cube').position,
++      canCommit: r.canCommit,
++    });
++  }
++  // Normal browser, real transaction and save guard. The saved build operations
++  // remain unchanged except the deliberately injected obstructing solid.
++  for (const name of ['valid', 'obstructed'] as const) {
++    const local = join(folder, `browser-${name}`);
++    let capturedFrame: any;
++    const h = await openBrowser(
++      local,
++      empty(),
++      [],
++      (input, event) => {
++        stopOnFeedback(input);
++        capturedFrame ??= input.scene.camera;
++        assert(equalData(input.scene.camera, capturedFrame));
++        if (event === 0) {
++          const p = structuredClone(savedBuild);
++          if (name === 'obstructed') p.operations.push(obstruction);
++          return p;
++        }
++        return savedFinish;
++      },
++      (input) => {
++        assert(equalData(input.scene.camera, capturedFrame));
++        return scannerCriteria(capturedFrame);
++      },
++    );
++    try {
++      const t = await h.send(name, prompts[0]);
++      h.result.committed = t.committed;
++      if (name === 'valid') {
++        assert(t.committed);
++        h.result.measurements = await inspectSolids(
++          1,
++          t.before,
++          t.after,
++          capturedFrame,
++        );
++        assert(h.result.measurements.fullyMeasured);
++        h.result.history = await h.history(t.before, t.after, name);
++        await h.exportProject('validated-scanner-offline');
++      } else {
++        assert(!t.committed);
++        assert(equalData(state(t.before), state(t.after)));
++        const feedback = h.result.events.find(
++          (e: any) => e.input.validationFeedback,
++        )?.input.validationFeedback;
++        h.result.feedback = feedback;
++        assert(
++          feedback?.verification?.checks.some(
++            (c: any) => c.id === 'check-12' && c.outcome === 'incorrect',
++          ),
++        );
++        h.result.blockType = 'MEASURED_GEOMETRY_REJECTION';
++        h.result.reload = await h.reload(t.after);
++      }
++      h.result.status = 'PASS';
++      result.cases.push({
++        name: `browser-${name}`,
++        committed: t.committed,
++        status: 'PASS',
++        blockType: h.result.blockType,
++      });
++    } catch (error) {
++      h.result.status = 'FAIL';
++      h.result.error = String(error);
++      throw error;
++    } finally {
++      await h.close();
++      publish();
++    }
++  }
++  result.status = 'PASS';
++} catch (error) {
++  result.status = 'FAIL';
++  result.error = String(error);
++  process.exitCode = 1;
++} finally {
++  publish();
++  console.log(
++    JSON.stringify({
++      status: result.status,
++      cases: result.cases.map((c: any) => ({
++        name: c.name,
++        status: c.status,
++        canCommit: c.report?.canCommit,
++        committed: c.committed,
++      })),
++      error: result.error,
++      paidCalls: 0,
++    }),
++  );
++}
+diff --git a/scripts/seeded-decision-diagnostic/seeded.ts b/scripts/seeded-decision-diagnostic/seeded.ts
+new file mode 100644
+index 0000000..92b7cb4
+--- /dev/null
++++ b/scripts/seeded-decision-diagnostic/seeded.ts
+@@ -0,0 +1,341 @@
++import assert from 'node:assert/strict';
++import { existsSync, mkdirSync } from 'node:fs';
++import { join, resolve } from 'node:path';
++import { applyPlan } from '../../src/intelligence/engine';
++import { equalData } from '../../src/projects/equalData';
++import { conversationHistory } from '../../src/intelligence/client';
++import { decisionCitation } from '../../src/design/decisions';
++import { openBrowser, save, state, stopOnFeedback } from './browser';
++import {
++  validateSeed,
++  seedMessages,
++  sidePlan,
++  sideCriteria,
++  connectedPlan,
++  connectedCriteria,
++  inspectSolids,
++  prompts,
++  originalQuote,
++  frozen,
++  read,
++  bindings,
++} from './case';
++
++const folder = resolve(process.argv[2] ?? '.cloud/seeded-decision/recall-1');
++assert(!existsSync(join(folder, 'summary.json')), 'Preserve every attempt');
++mkdirSync(folder, { recursive: true });
++const result: any = {
++  label:
++    'SEEDED recall-and-revision diagnostic: offline preparation only; responses and criteria scripted',
++  application: frozen,
++  paidCalls: 0,
++  status: 'RUNNING',
++  turns: [],
++  negativeControls: [],
++};
++const publish = () => save(join(folder, 'summary.json'), result);
++publish();
++let turn = 2,
++  before: any;
++const prepared = process.argv[3];
++const gapCheck = (c: any) =>
++  c.requirement.kind === 'offset' && c.requirement.axis === 'y';
++try {
++  const validated = await validateSeed();
++  save(join(folder, 'seed-validation.json'), validated);
++  before = prepared
++    ? read(join(prepared, 'seeded-start-session.json'))
++    : validated.session;
++  const initialMessages = prepared
++    ? read(join(prepared, 'seeded-start-history.json'))
++    : seedMessages(before);
++  if (prepared) {
++    const measurements = await inspectSolids(11, before, before);
++    assert(measurements.fullyMeasured);
++    result.reusedValidatedFixture = {
++      source: prepared,
++      label:
++        'Reuse successful intervening browser edits; retain failed post-processing attempt separately',
++      measurements,
++    };
++  }
++  const h = await openBrowser(
++    join(folder, 'browser'),
++    before,
++    initialMessages,
++    (input) => {
++      stopOnFeedback(input);
++      return turn < 12
++        ? sidePlan(turn, before)
++        : connectedPlan(turn as 12 | 13, before);
++    },
++    (input) =>
++      turn < 12
++        ? sideCriteria(turn, before, input.scene.camera)
++        : connectedCriteria(turn as 12 | 13, before),
++  );
++  let fixture: any, raised: any, firstCriteria: any, revisionCriteria: any;
++  try {
++    // Genuine ordinary browser turns age the source out. No trimming, rewriting
++    // or deletion of conversation to manufacture a recall opportunity.
++    for (turn = 2; !prepared && turn <= 11; turn++) {
++      before = await h.saved();
++      const t = await h.send(`intervening-${turn}`, prompts[turn - 1]);
++      assert(t.committed);
++      const frame = h.result.events.find(
++        (e: any) => e.turn === `intervening-${turn}` && e.kind === 'executor',
++      ).input.scene.camera;
++      const m = await inspectSolids(turn, before, t.after, frame);
++      assert(m.fullyMeasured);
++      result.turns.push({
++        turn,
++        kind: 'scripted intervening work',
++        committed: true,
++        geometryCorrect: true,
++      });
++      publish();
++    }
++    before = await h.saved();
++    const fullHistory = await h.chat(),
++      recent = conversationHistory(fullHistory);
++    assert.equal(fullHistory.length, 22);
++    assert.equal(recent.length, 20);
++    assert(
++      fullHistory.some(
++        (m: any) => m.role === 'user' && m.content === prompts[0],
++      ),
++    );
++    assert(
++      !recent.some(
++        (m: any) =>
++          m.content.includes('bulky samples') ||
++          m.content.includes(originalQuote),
++      ),
++    );
++    assert(
++      !recent.some((m: any) =>
++        /32\s*(?:cm|centimet)|0\.32|sample.loading|clearance|bulky samples/i.test(
++          m.content,
++        ),
++      ),
++    );
++    const decision = before.project.design!.notes![0].decision;
++    assert(decision?.quote.includes(originalQuote));
++    result.seed = {
++      source:
++        'Validated reconstruction of rejected saved proposal; source-linked user quote retained; provisional creation history intentionally removed',
++      objects: before.project.volumes.length,
++      decision,
++      fullHistoryCount: fullHistory.length,
++      recentCount: recent.length,
++      originalUserRetainedInFullHistory: true,
++      originalAbsentFromActualRecentWindow: true,
++      recentAssistantSemanticReminders: [],
++      reload: await h.reload(before),
++    };
++    fixture = await h.exportProject('seeded-recall-start');
++    save(join(folder, 'seeded-start-session.json'), fixture.session);
++    save(join(folder, 'seeded-start-history.json'), fixture.messages);
++    save(join(folder, 'role-bindings.json'), bindings(fixture.session));
++    save(join(folder, 'recent-window.json'), recent);
++    await h.page.screenshot({ path: join(folder, 'seeded-start.png') });
++    publish();
++    for (turn = 12; turn <= 13; turn++) {
++      before = await h.saved();
++      const label = turn === 12 ? 'recall' : 'revision';
++      const t = await h.send(label, prompts[turn - 1]);
++      assert(t.committed);
++      const ev = h.result.events.filter((e: any) => e.turn === label),
++        exec = ev.find((e: any) => e.kind === 'executor'),
++        review = ev.find((e: any) => e.kind === 'reviewer');
++      assert(exec && review);
++      assert.deepEqual(exec.input.scene.camera, review.input.scene.camera);
++      const originalDecision = before.project.design!.notes![0].decision!;
++      assert.equal(
++        exec.input.scene.design.notes[0].decision.id,
++        originalDecision.id,
++      );
++      assert.equal(
++        review.input.scene.design.notes[0].decision.id,
++        originalDecision.id,
++      );
++      if (turn === 12) {
++        assert.equal(exec.input.history.length, 20);
++        assert.equal(review.input.history.length, 20);
++        for (const event of [exec, review])
++          assert(
++            !event.input.history.some((m: any) =>
++              /32\s*(?:cm|centimet)|0\.32|sample.loading|clearance|bulky samples/i.test(
++                m.content,
++              ),
++            ),
++          );
++        assert(
++          review.response.checks.some(
++            (c: any) => c.source === 'decision' && c.evidence === originalQuote,
++          ),
++        );
++        firstCriteria = review.response;
++        raised = { session: t.after, messages: await h.chat() };
++      } else {
++        revisionCriteria = review.response;
++        const d = t.after.project.design!.notes![0].decision!;
++        assert.equal(d.id, originalDecision.id);
++        assert.equal(d.revision, originalDecision.revision + 1);
++        assert.equal(d.quote, prompts[12]);
++        assert(review.response.checks.find(gapCheck).source === 'request');
++        assert.throws(() =>
++          decisionCitation(t.after.project.design!.notes!, originalQuote),
++        );
++        assert.equal(
++          decisionCitation(t.after.project.design!.notes!, prompts[12]).id,
++          d.id,
++        );
++      }
++      const m = await inspectSolids(
++        turn,
++        t.before,
++        t.after,
++        exec.input.scene.camera,
++      );
++      assert(m.fullyMeasured);
++      save(join(folder, `${label}-measurements.json`), m);
++      save(join(folder, `${label}-criteria.json`), review.response);
++      const r = {
++        turn,
++        label,
++        scripted: true,
++        recallReasoning: 'NOT_TESTED_FRESH_AI',
++        reviewerSelection: 'SCRIPTED_NOT_INDEPENDENT_AI',
++        reviewerCitation: review.response.checks.filter(
++          (c: any) => c.source === 'decision' || gapCheck(c),
++        ),
++        geometryCorrect: true,
++        committed: true,
++        changedIds: t.before.project.volumes
++          .filter(
++            (v: any) =>
++              !equalData(
++                v,
++                t.after.project.volumes.find((n: any) => n.id === v.id),
++              ),
++          )
++          .map((v: any) => ({ id: v.id, name: v.name })),
++        preservedIds: t.before.project.volumes
++          .filter((v: any) =>
++            equalData(
++              v,
++              t.after.project.volumes.find((n: any) => n.id === v.id),
++            ),
++          )
++          .map((v: any) => ({ id: v.id, name: v.name })),
++        allIdsPreserved: t.before.project.volumes.every((v: any) =>
++          t.after.project.volumes.some((n: any) => n.id === v.id),
++        ),
++        history: await h.history(t.before, t.after, label),
++        reload: await h.reload(t.after),
++      };
++      result.turns.push(r);
++      await h.exportProject(`seeded-${label}-offline`);
++      publish();
++    }
++    h.result.status = 'PASS';
++  } catch (error) {
++    h.result.status = 'FAIL';
++    h.result.error = String(error);
++    throw error;
++  } finally {
++    await h.close();
++  }
++  for (const step of [12, 13] as const) {
++    const start = step === 12 ? fixture : raised,
++      c = step === 12 ? firstCriteria : revisionCriteria;
++    const label =
++      step === 12 ? 'wrong-raised-table-only' : 'wrong-obsolete-clearance';
++    const wrong = connectedPlan(step, start.session, true),
++      k = await openBrowser(
++        join(folder, label),
++        start.session,
++        start.messages,
++        (input) => {
++          stopOnFeedback(input);
++          return wrong;
++        },
++        () => c,
++      );
++    try {
++      const t = await k.send(label, prompts[step - 1]);
++      assert(!t.committed);
++      assert(equalData(state(t.after), state(t.before)));
++      const feedback = k.result.events.find(
++        (e: any) => e.input.validationFeedback,
++      )?.input.validationFeedback;
++      assert(
++        feedback?.verification?.checks.some(
++          (x: any) =>
++            x.id === c.checks.find(gapCheck).requirement.id &&
++            x.outcome === 'incorrect',
++        ),
++      );
++      k.result.feedback = feedback;
++      k.result.originalIntact = true;
++      k.result.reload = await k.reload(t.after);
++      // Evaluate actual wrong solids independently from the unchanged scene.
++      const origin = {
++        id: 'offline-negative-request',
++        text: prompts[step - 1],
++      };
++      const candidate = (
++        await applyPlan(start.session, wrong, undefined, true, origin)
++      ).session;
++      k.result.independentWrongGeometry = await inspectSolids(
++        step,
++        start.session,
++        candidate,
++      );
++      assert(!k.result.independentWrongGeometry.correct);
++      k.result.status = 'BLOCKED_MEASURED';
++      result.negativeControls.push({
++        step,
++        status: 'BLOCKED_MEASURED',
++        saved: false,
++        originalProjectNotesAndHistoryIntact: true,
++        reload: true,
++      });
++    } catch (error) {
++      k.result.status = 'FAIL';
++      k.result.error = String(error);
++      throw error;
++    } finally {
++      await k.close();
++      publish();
++    }
++  }
++  result.status = 'OFFLINE_READY';
++  result.freshScores = {
++    recall: 'NOT_RUN',
++    reviewerCitation: 'NOT_RUN',
++    geometry: 'NOT_RUN',
++    browserSave: 'NOT_RUN',
++    capture: 'EXCLUDED_SEEDED_FIXTURE',
++  };
++} catch (error) {
++  result.status = 'FAIL';
++  result.error = String(error);
++  process.exitCode = 1;
++} finally {
++  publish();
++  console.log(
++    JSON.stringify({
++      status: result.status,
++      turns: result.turns.map((t: any) => ({
++        turn: t.turn,
++        committed: t.committed,
++        geometryCorrect: t.geometryCorrect,
++      })),
++      controls: result.negativeControls,
++      error: result.error,
++      paidCalls: 0,
++    }),
++  );
++}

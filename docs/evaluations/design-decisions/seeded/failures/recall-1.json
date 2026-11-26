@@ -1,0 +1,46 @@
+{
+  "label": "SEEDED recall-and-revision diagnostic: offline preparation only; responses and criteria scripted",
+  "application": "deb730317cafe2e0b251a788693934196660140c",
+  "paidCalls": 0,
+  "status": "FAIL",
+  "turns": [
+    {
+      "turn": 2,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 3,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 4,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 5,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 6,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 7,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    }
+  ],
+  "negativeControls": [],
+  "error": "AssertionError [ERR_ASSERTION]: false == true"
+}

@@ -1,0 +1,233 @@
+{
+  "label": "SEEDED recall-and-revision diagnostic: offline preparation only; responses and criteria scripted",
+  "application": "deb730317cafe2e0b251a788693934196660140c",
+  "paidCalls": 0,
+  "status": "FAIL",
+  "turns": [
+    {
+      "turn": 2,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 3,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 4,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 5,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 6,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 7,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 8,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 9,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 10,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 11,
+      "kind": "scripted intervening work",
+      "committed": true,
+      "geometryCorrect": true
+    },
+    {
+      "turn": 12,
+      "label": "recall",
+      "scripted": true,
+      "recallReasoning": "NOT_TESTED_FRESH_AI",
+      "reviewerSelection": "SCRIPTED_NOT_INDEPENDENT_AI",
+      "reviewerCitation": [
+        {
+          "source": "decision",
+          "evidence": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "requirement": {
+            "id": "check-3",
+            "label": "offset",
+            "kind": "offset",
+            "first": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "second": {
+              "refs": [
+                "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "axis": "y",
+            "firstAnchor": "max",
+            "secondAnchor": "min",
+            "value": 0.32,
+            "tolerance": 0.001
+          }
+        },
+        {
+          "source": "decision",
+          "evidence": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "requirement": {
+            "id": "check-6",
+            "label": "region",
+            "kind": "region",
+            "selector": {
+              "refs": [
+                "$all"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "center": {
+              "x": 0,
+              "y": 0.51,
+              "z": 0
+            },
+            "size": {
+              "x": 0.7,
+              "y": 0.32,
+              "z": 0.7
+            },
+            "rotation": 0,
+            "occupancy": "empty",
+            "tolerance": 0.001
+          }
+        }
+      ],
+      "geometryCorrect": true,
+      "committed": true,
+      "changedIds": [
+        {
+          "id": "c0523436-3587-4694-b944-10fee7fb31be",
+          "name": "Turntable pedestal"
+        },
+        {
+          "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "name": "Circular turntable"
+        },
+        {
+          "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "name": "Frame left post"
+        },
+        {
+          "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "name": "Frame right post"
+        },
+        {
+          "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+          "name": "Frame crossbeam"
+        },
+        {
+          "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+          "name": "Overhead rectangular light panel"
+        },
+        {
+          "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+          "name": "Light panel left hanger"
+        },
+        {
+          "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+          "name": "Light panel right hanger"
+        }
+      ],
+      "preservedIds": [
+        {
+          "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+          "name": "Frame left foot"
+        },
+        {
+          "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+          "name": "Frame right foot"
+        },
+        {
+          "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+          "name": "Separate storage cube"
+        },
+        {
+          "id": "e5f1622c-4e9e-48d0-90f8-df90bcbf7069",
+          "name": "Sample puck"
+        }
+      ],
+      "allIdsPreserved": true,
+      "history": {
+        "undo": true,
+        "redo": true,
+        "reloadWhileUndone": true,
+        "oneAtomicEntry": true,
+        "notesAndGeometryRestored": true
+      },
+      "reload": {
+        "project": true,
+        "notes": true,
+        "history": true,
+        "conversation": true,
+        "indexedDBOnly": true
+      }
+    }
+  ],
+  "negativeControls": [],
+  "seed": {
+    "source": "Validated reconstruction of rejected saved proposal; source-linked user quote retained; provisional creation history intentionally removed",
+    "objects": 12,
+    "decision": {
+      "id": "70db6f56-f975-420f-b5e7-3b4781cfe63e",
+      "revision": 1,
+      "quote": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+      "origin": {
+        "id": "3f41ec6f-0223-4542-af00-86e23f48a41a",
+        "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+      }
+    },
+    "fullHistoryCount": 22,
+    "recentCount": 20,
+    "originalUserRetainedInFullHistory": true,
+    "originalAbsentFromActualRecentWindow": true,
+    "recentAssistantSemanticReminders": [],
+    "reload": {
+      "project": true,
+      "notes": true,
+      "history": true,
+      "conversation": true,
+      "indexedDBOnly": true
+    }
+  },
+  "error": "TypeError: Cannot read properties of undefined (reading 'source')"
+}

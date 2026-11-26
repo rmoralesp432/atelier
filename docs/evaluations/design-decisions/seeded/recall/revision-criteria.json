@@ -1,0 +1,256 @@
+{
+  "modeling": true,
+  "editable": [
+    "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+    "5b390056-2000-4cc0-a092-d7279bc0d79a",
+    "96c402f0-c489-4d1c-ab42-c4760a968aff",
+    "1a131580-9b52-42db-bb27-93d2b88543bd",
+    "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+    "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+    "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+    "1685c0ea-db59-4898-92bb-b807cc051849"
+  ],
+  "checks": [
+    {
+      "source": "request",
+      "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+      "calculation": {
+        "frame": "world_xyz_y_up",
+        "nodes": [
+          {
+            "kind": "original",
+            "objectId": "01c67141-8920-4e69-b5d6-64549f9637ee",
+            "metric": "top"
+          }
+        ],
+        "output": {
+          "kind": "value",
+          "node": 0
+        }
+      },
+      "requirement": {
+        "id": "check-1",
+        "label": "top",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "01c67141-8920-4e69-b5d6-64549f9637ee"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "metric": "top",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0.35,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+      "requirement": {
+        "id": "check-2",
+        "label": "diameter",
+        "kind": "diameter",
+        "selector": {
+          "refs": [
+            "01c67141-8920-4e69-b5d6-64549f9637ee"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "shape": "cylinder",
+        "value": 0.7,
+        "tolerance": 0.001
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+      "requirement": {
+        "id": "check-3",
+        "label": "offset",
+        "kind": "offset",
+        "first": {
+          "refs": [
+            "01c67141-8920-4e69-b5d6-64549f9637ee"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "second": {
+          "refs": [
+            "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "axis": "y",
+        "firstAnchor": "max",
+        "secondAnchor": "min",
+        "value": 0.18,
+        "tolerance": 0.001
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+      "requirement": {
+        "id": "check-4",
+        "label": "offset",
+        "kind": "offset",
+        "first": {
+          "refs": [
+            "01c67141-8920-4e69-b5d6-64549f9637ee"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "second": {
+          "refs": [
+            "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "axis": "x",
+        "firstAnchor": "center",
+        "secondAnchor": "center",
+        "value": 0,
+        "tolerance": 0.001
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+      "requirement": {
+        "id": "check-5",
+        "label": "offset",
+        "kind": "offset",
+        "first": {
+          "refs": [
+            "01c67141-8920-4e69-b5d6-64549f9637ee"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "second": {
+          "refs": [
+            "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "axis": "z",
+        "firstAnchor": "center",
+        "secondAnchor": "center",
+        "value": 0,
+        "tolerance": 0.001
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+      "requirement": {
+        "id": "check-6",
+        "label": "region",
+        "kind": "region",
+        "selector": {
+          "refs": [
+            "$all"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "center": {
+          "x": 0,
+          "y": 0.43999999999999995,
+          "z": 0
+        },
+        "size": {
+          "x": 0.7,
+          "y": 0.18,
+          "z": 0.7
+        },
+        "rotation": 0,
+        "occupancy": "empty",
+        "tolerance": 0.001
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+      "requirement": {
+        "id": "check-7",
+        "label": "editable",
+        "kind": "editable",
+        "selector": {
+          "refs": [
+            "$all"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        }
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+      "requirement": {
+        "id": "check-8",
+        "label": "x",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "01c67141-8920-4e69-b5d6-64549f9637ee"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "metric": "x",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    },
+    {
+      "source": "request",
+      "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+      "requirement": {
+        "id": "check-9",
+        "label": "z",
+        "kind": "measure",
+        "selector": {
+          "refs": [
+            "01c67141-8920-4e69-b5d6-64549f9637ee"
+          ],
+          "role": null,
+          "level": null,
+          "nameContains": null
+        },
+        "metric": "z",
+        "aggregation": "each",
+        "comparison": "equal",
+        "value": 0,
+        "tolerance": 0.001,
+        "relativeTolerance": 0
+      }
+    }
+  ],
+  "qualitativeLimits": []
+}

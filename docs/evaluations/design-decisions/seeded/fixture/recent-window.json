@@ -1,0 +1,82 @@
+[
+  {
+    "role": "user",
+    "content": "Make the storage cube 50 cm tall, keeping its base on the floor."
+  },
+  {
+    "role": "assistant",
+    "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.5; expected equal 0.5 ± 0.001 m."
+  },
+  {
+    "role": "user",
+    "content": "Make that storage cube 55 cm wide."
+  },
+  {
+    "role": "assistant",
+    "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 0.55; expected equal 0.55 ± 0.001 m."
+  },
+  {
+    "role": "user",
+    "content": "Make the storage cube 45 cm deep."
+  },
+  {
+    "role": "assistant",
+    "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\ndepth: depth (each, world solids): 0.45000000000000007; expected equal 0.45 ± 0.001 m."
+  },
+  {
+    "role": "user",
+    "content": "Move the storage cube 20 cm farther left."
+  },
+  {
+    "role": "assistant",
+    "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nx: x (each, world solids): -1.866; expected equal -1.8655996608010175 ± 0.001 m.\nz: z (each, world solids): 1.166; expected equal 1.165999788000636 ± 0.001 m."
+  },
+  {
+    "role": "user",
+    "content": "Add a separate round sample puck, 12 cm in diameter and 3 cm thick, beside the storage cube."
+  },
+  {
+    "role": "assistant",
+    "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight · Sample puck: height (each, world solids): 0.03; expected equal 0.03 ± 0.001 m.\ndiameter · Sample puck: True cylinder diameter: 0.12000003799405823; expected 0.12 ± 0.001 m across 1 objects. Diameter is intrinsic, independent of world orientation."
+  },
+  {
+    "role": "user",
+    "content": "Make that sample puck 5 cm thick, with its base still on the floor."
+  },
+  {
+    "role": "assistant",
+    "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.05; expected equal 0.05 ± 0.001 m."
+  },
+  {
+    "role": "user",
+    "content": "Make the sample puck 16 cm in diameter."
+  },
+  {
+    "role": "assistant",
+    "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 0.16000000000000014; expected equal 0.16 ± 0.001 m."
+  },
+  {
+    "role": "user",
+    "content": "Move the sample puck 15 cm forward."
+  },
+  {
+    "role": "assistant",
+    "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nx: x (each, world solids): -1.9449999999999998; expected equal -1.9454998410004771 ± 0.001 m.\nz: z (each, world solids): 0.339; expected equal 0.3388002543992368 ± 0.001 m."
+  },
+  {
+    "role": "user",
+    "content": "Make the storage cube 60 cm tall, leaving its footprint and position unchanged."
+  },
+  {
+    "role": "assistant",
+    "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.6; expected equal 0.6 ± 0.001 m."
+  },
+  {
+    "role": "user",
+    "content": "Make the sample puck 4 cm thick, keeping its base on the floor."
+  },
+  {
+    "role": "assistant",
+    "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.04; expected equal 0.04 ± 0.001 m."
+  }
+]

@@ -1,0 +1,1448 @@
+[
+  {
+    "turn": "recall",
+    "role": "executor",
+    "label": "Scripted offline response, actual browser payload",
+    "history": [
+      {
+        "role": "user",
+        "content": "Make the storage cube 50 cm tall, keeping its base on the floor."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.5; expected equal 0.5 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make that storage cube 55 cm wide."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 0.55; expected equal 0.55 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the storage cube 45 cm deep."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\ndepth: depth (each, world solids): 0.45000000000000007; expected equal 0.45 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Move the storage cube 20 cm farther left."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nx: x (each, world solids): -1.866; expected equal -1.8655996608010175 \u00b1 0.001 m.\nz: z (each, world solids): 1.166; expected equal 1.165999788000636 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Add a separate round sample puck, 12 cm in diameter and 3 cm thick, beside the storage cube."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight \u00b7 Sample puck: height (each, world solids): 0.03; expected equal 0.03 \u00b1 0.001 m.\ndiameter \u00b7 Sample puck: True cylinder diameter: 0.12000003799405823; expected 0.12 \u00b1 0.001 m across 1 objects. Diameter is intrinsic, independent of world orientation."
+      },
+      {
+        "role": "user",
+        "content": "Make that sample puck 5 cm thick, with its base still on the floor."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.05; expected equal 0.05 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the sample puck 16 cm in diameter."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 0.16000000000000014; expected equal 0.16 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Move the sample puck 15 cm forward."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nx: x (each, world solids): -1.9449999999999998; expected equal -1.9454998410004771 \u00b1 0.001 m.\nz: z (each, world solids): 0.339; expected equal 0.3388002543992368 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the storage cube 60 cm tall, leaving its footprint and position unchanged."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.6; expected equal 0.6 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the sample puck 4 cm thick, keeping its base on the floor."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.04; expected equal 0.04 \u00b1 0.001 m."
+      }
+    ],
+    "notes": [
+      {
+        "topic": "Scanning rig dimensions and usable loading space",
+        "text": "Maintain the circular 0.70 m turntable at top elevation 0.24 m, with the centred overhead panel underside at 0.56 m: exactly 0.32 m unobstructed vertical loading clearance. Preserve that usable loading volume in subsequent rig development. Keep rig parts independently editable. Storage cube is 0.40 m per side, placed 2 m centre-to-centre to current-view left.",
+        "source": "user",
+        "decision": {
+          "id": "70db6f56-f975-420f-b5e7-3b4781cfe63e",
+          "revision": 1,
+          "quote": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+          "origin": {
+            "id": "3f41ec6f-0223-4542-af00-86e23f48a41a",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      }
+    ],
+    "camera": {
+      "pose": {
+        "position": {
+          "x": 2.2028922207388284,
+          "y": 2.435874556625695,
+          "z": 5.323927553658962
+        },
+        "target": {
+          "x": -0.8055000036507846,
+          "y": 0.3299999995529652,
+          "z": 0.5104999946355819
+        },
+        "projection": "perspective",
+        "zoom": 1,
+        "fov": 40
+      },
+      "right": {
+        "x": 0.8479983040050879,
+        "y": 0,
+        "z": -0.5299989400031802
+      },
+      "forward": {
+        "x": -0.5299989400031802,
+        "y": 0,
+        "z": -0.8479983040050879
+      },
+      "visible": [
+        {
+          "id": "c0523436-3587-4694-b944-10fee7fb31be",
+          "x": 0.2750031503104566,
+          "y": -0.09556151773160079
+        },
+        {
+          "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "x": 0.27688546136105463,
+          "y": -0.045526479357766506
+        },
+        {
+          "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+          "x": 0.15346991645815072,
+          "y": -0.08964496107138097
+        },
+        {
+          "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+          "x": 0.4032786393505099,
+          "y": -0.17689470064770532
+        },
+        {
+          "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "x": 0.15609829515132284,
+          "y": 0.03565085219689533
+        },
+        {
+          "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "x": 0.41073878014690735,
+          "y": -0.043172601558198756
+        },
+        {
+          "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+          "x": 0.28368145109394816,
+          "y": 0.1351225196296589
+        },
+        {
+          "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+          "x": 0.28269024186054487,
+          "y": 0.10877448750496078
+        },
+        {
+          "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+          "x": 0.21573574038631987,
+          "y": 0.14024052452947458
+        },
+        {
+          "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+          "x": 0.35350457203824065,
+          "y": 0.10283095884656804
+        },
+        {
+          "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+          "x": -0.3636313656989498,
+          "y": -0.011753749629484845
+        },
+        {
+          "id": "e5f1622c-4e9e-48d0-90f8-df90bcbf7069",
+          "x": -0.22579062890601861,
+          "y": -0.012002483072901285
+        }
+      ]
+    },
+    "response": {
+      "intent": "apply",
+      "message": "Offline scripted diagnostic response.",
+      "operations": [
+        {
+          "type": "edit_components",
+          "edits": [
+            {
+              "targets": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "where": [],
+              "translation": {
+                "x": 0,
+                "y": 0.11,
+                "z": 0
+              },
+              "resize": null
+            },
+            {
+              "targets": [
+                "c0523436-3587-4694-b944-10fee7fb31be"
+              ],
+              "where": [],
+              "translation": null,
+              "resize": {
+                "axis": "height",
+                "mode": "add",
+                "value": 0.11,
+                "anchor": 0
+              }
+            },
+            {
+              "targets": [
+                "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+                "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+                "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+                "1685c0ea-db59-4898-92bb-b807cc051849"
+              ],
+              "where": [],
+              "translation": {
+                "x": 0,
+                "y": 0.11,
+                "z": 0
+              },
+              "resize": null
+            },
+            {
+              "targets": [
+                "96c402f0-c489-4d1c-ab42-c4760a968aff"
+              ],
+              "where": [],
+              "translation": null,
+              "resize": {
+                "axis": "height",
+                "mode": "add",
+                "value": 0.11,
+                "anchor": 0
+              }
+            },
+            {
+              "targets": [
+                "1a131580-9b52-42db-bb27-93d2b88543bd"
+              ],
+              "where": [],
+              "translation": null,
+              "resize": {
+                "axis": "height",
+                "mode": "add",
+                "value": 0.11,
+                "anchor": 0
+              }
+            }
+          ]
+        }
+      ],
+      "planning": {
+        "stage": "Offline scripted diagnostic response.",
+        "assumptions": [],
+        "next": null
+      }
+    }
+  },
+  {
+    "turn": "recall",
+    "role": "reviewer",
+    "label": "Scripted offline response, actual browser payload",
+    "history": [
+      {
+        "role": "user",
+        "content": "Make the storage cube 50 cm tall, keeping its base on the floor."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.5; expected equal 0.5 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make that storage cube 55 cm wide."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 0.55; expected equal 0.55 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the storage cube 45 cm deep."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\ndepth: depth (each, world solids): 0.45000000000000007; expected equal 0.45 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Move the storage cube 20 cm farther left."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nx: x (each, world solids): -1.866; expected equal -1.8655996608010175 \u00b1 0.001 m.\nz: z (each, world solids): 1.166; expected equal 1.165999788000636 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Add a separate round sample puck, 12 cm in diameter and 3 cm thick, beside the storage cube."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight \u00b7 Sample puck: height (each, world solids): 0.03; expected equal 0.03 \u00b1 0.001 m.\ndiameter \u00b7 Sample puck: True cylinder diameter: 0.12000003799405823; expected 0.12 \u00b1 0.001 m across 1 objects. Diameter is intrinsic, independent of world orientation."
+      },
+      {
+        "role": "user",
+        "content": "Make that sample puck 5 cm thick, with its base still on the floor."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.05; expected equal 0.05 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the sample puck 16 cm in diameter."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 0.16000000000000014; expected equal 0.16 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Move the sample puck 15 cm forward."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nx: x (each, world solids): -1.9449999999999998; expected equal -1.9454998410004771 \u00b1 0.001 m.\nz: z (each, world solids): 0.339; expected equal 0.3388002543992368 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the storage cube 60 cm tall, leaving its footprint and position unchanged."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.6; expected equal 0.6 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the sample puck 4 cm thick, keeping its base on the floor."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.04; expected equal 0.04 \u00b1 0.001 m."
+      }
+    ],
+    "notes": [
+      {
+        "topic": "Scanning rig dimensions and usable loading space",
+        "text": "Maintain the circular 0.70 m turntable at top elevation 0.24 m, with the centred overhead panel underside at 0.56 m: exactly 0.32 m unobstructed vertical loading clearance. Preserve that usable loading volume in subsequent rig development. Keep rig parts independently editable. Storage cube is 0.40 m per side, placed 2 m centre-to-centre to current-view left.",
+        "source": "user",
+        "decision": {
+          "id": "70db6f56-f975-420f-b5e7-3b4781cfe63e",
+          "revision": 1,
+          "quote": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+          "origin": {
+            "id": "3f41ec6f-0223-4542-af00-86e23f48a41a",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      }
+    ],
+    "camera": {
+      "pose": {
+        "position": {
+          "x": 2.2028922207388284,
+          "y": 2.435874556625695,
+          "z": 5.323927553658962
+        },
+        "target": {
+          "x": -0.8055000036507846,
+          "y": 0.3299999995529652,
+          "z": 0.5104999946355819
+        },
+        "projection": "perspective",
+        "zoom": 1,
+        "fov": 40
+      },
+      "right": {
+        "x": 0.8479983040050879,
+        "y": 0,
+        "z": -0.5299989400031802
+      },
+      "forward": {
+        "x": -0.5299989400031802,
+        "y": 0,
+        "z": -0.8479983040050879
+      },
+      "visible": [
+        {
+          "id": "c0523436-3587-4694-b944-10fee7fb31be",
+          "x": 0.2750031503104566,
+          "y": -0.09556151773160079
+        },
+        {
+          "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "x": 0.27688546136105463,
+          "y": -0.045526479357766506
+        },
+        {
+          "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+          "x": 0.15346991645815072,
+          "y": -0.08964496107138097
+        },
+        {
+          "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+          "x": 0.4032786393505099,
+          "y": -0.17689470064770532
+        },
+        {
+          "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "x": 0.15609829515132284,
+          "y": 0.03565085219689533
+        },
+        {
+          "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "x": 0.41073878014690735,
+          "y": -0.043172601558198756
+        },
+        {
+          "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+          "x": 0.28368145109394816,
+          "y": 0.1351225196296589
+        },
+        {
+          "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+          "x": 0.28269024186054487,
+          "y": 0.10877448750496078
+        },
+        {
+          "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+          "x": 0.21573574038631987,
+          "y": 0.14024052452947458
+        },
+        {
+          "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+          "x": 0.35350457203824065,
+          "y": 0.10283095884656804
+        },
+        {
+          "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+          "x": -0.3636313656989498,
+          "y": -0.011753749629484845
+        },
+        {
+          "id": "e5f1622c-4e9e-48d0-90f8-df90bcbf7069",
+          "x": -0.22579062890601861,
+          "y": -0.012002483072901285
+        }
+      ]
+    },
+    "response": {
+      "modeling": true,
+      "editable": [
+        "c0523436-3587-4694-b944-10fee7fb31be",
+        "01c67141-8920-4e69-b5d6-64549f9637ee",
+        "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+        "5b390056-2000-4cc0-a092-d7279bc0d79a",
+        "96c402f0-c489-4d1c-ab42-c4760a968aff",
+        "1a131580-9b52-42db-bb27-93d2b88543bd",
+        "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+        "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+        "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+        "1685c0ea-db59-4898-92bb-b807cc051849"
+      ],
+      "checks": [
+        {
+          "source": "request",
+          "evidence": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged.",
+          "calculation": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "01c67141-8920-4e69-b5d6-64549f9637ee",
+                "metric": "top"
+              },
+              {
+                "kind": "quantity",
+                "value": 11,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Raise the turntable surface by 11 cm."
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  0,
+                  1
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 2
+            }
+          },
+          "requirement": {
+            "id": "check-1",
+            "label": "top",
+            "kind": "measure",
+            "selector": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "metric": "top",
+            "aggregation": "each",
+            "comparison": "equal",
+            "value": 0.35,
+            "tolerance": 0.001,
+            "relativeTolerance": 0
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged.",
+          "requirement": {
+            "id": "check-2",
+            "label": "diameter",
+            "kind": "diameter",
+            "selector": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "shape": "cylinder",
+            "value": 0.7,
+            "tolerance": 0.001
+          }
+        },
+        {
+          "source": "decision",
+          "evidence": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "requirement": {
+            "id": "check-3",
+            "label": "offset",
+            "kind": "offset",
+            "first": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "second": {
+              "refs": [
+                "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "axis": "y",
+            "firstAnchor": "max",
+            "secondAnchor": "min",
+            "value": 0.32,
+            "tolerance": 0.001
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged.",
+          "requirement": {
+            "id": "check-4",
+            "label": "offset",
+            "kind": "offset",
+            "first": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "second": {
+              "refs": [
+                "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "axis": "x",
+            "firstAnchor": "center",
+            "secondAnchor": "center",
+            "value": 0,
+            "tolerance": 0.001
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged.",
+          "requirement": {
+            "id": "check-5",
+            "label": "offset",
+            "kind": "offset",
+            "first": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "second": {
+              "refs": [
+                "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "axis": "z",
+            "firstAnchor": "center",
+            "secondAnchor": "center",
+            "value": 0,
+            "tolerance": 0.001
+          }
+        },
+        {
+          "source": "decision",
+          "evidence": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "requirement": {
+            "id": "check-6",
+            "label": "region",
+            "kind": "region",
+            "selector": {
+              "refs": [
+                "$all"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "center": {
+              "x": 0,
+              "y": 0.51,
+              "z": 0
+            },
+            "size": {
+              "x": 0.7,
+              "y": 0.32,
+              "z": 0.7
+            },
+            "rotation": 0,
+            "occupancy": "empty",
+            "tolerance": 0.001
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged.",
+          "requirement": {
+            "id": "check-7",
+            "label": "editable",
+            "kind": "editable",
+            "selector": {
+              "refs": [
+                "$all"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            }
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged.",
+          "requirement": {
+            "id": "check-8",
+            "label": "x",
+            "kind": "measure",
+            "selector": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "metric": "x",
+            "aggregation": "each",
+            "comparison": "equal",
+            "value": 0,
+            "tolerance": 0.001,
+            "relativeTolerance": 0
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged.",
+          "requirement": {
+            "id": "check-9",
+            "label": "z",
+            "kind": "measure",
+            "selector": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "metric": "z",
+            "aggregation": "each",
+            "comparison": "equal",
+            "value": 0,
+            "tolerance": 0.001,
+            "relativeTolerance": 0
+          }
+        }
+      ],
+      "qualitativeLimits": []
+    }
+  },
+  {
+    "turn": "revision",
+    "role": "executor",
+    "label": "Scripted offline response, actual browser payload",
+    "history": [
+      {
+        "role": "user",
+        "content": "Make that storage cube 55 cm wide."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 0.55; expected equal 0.55 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the storage cube 45 cm deep."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\ndepth: depth (each, world solids): 0.45000000000000007; expected equal 0.45 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Move the storage cube 20 cm farther left."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nx: x (each, world solids): -1.866; expected equal -1.8655996608010175 \u00b1 0.001 m.\nz: z (each, world solids): 1.166; expected equal 1.165999788000636 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Add a separate round sample puck, 12 cm in diameter and 3 cm thick, beside the storage cube."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight \u00b7 Sample puck: height (each, world solids): 0.03; expected equal 0.03 \u00b1 0.001 m.\ndiameter \u00b7 Sample puck: True cylinder diameter: 0.12000003799405823; expected 0.12 \u00b1 0.001 m across 1 objects. Diameter is intrinsic, independent of world orientation."
+      },
+      {
+        "role": "user",
+        "content": "Make that sample puck 5 cm thick, with its base still on the floor."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.05; expected equal 0.05 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the sample puck 16 cm in diameter."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 0.16000000000000014; expected equal 0.16 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Move the sample puck 15 cm forward."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nx: x (each, world solids): -1.9449999999999998; expected equal -1.9454998410004771 \u00b1 0.001 m.\nz: z (each, world solids): 0.339; expected equal 0.3388002543992368 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the storage cube 60 cm tall, leaving its footprint and position unchanged."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.6; expected equal 0.6 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the sample puck 4 cm thick, keeping its base on the floor."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.04; expected equal 0.04 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ntop: top (each, world solids): 0.35; expected equal 0.35000000000000003 \u00b1 0.001 m.\ndiameter: True cylinder diameter: 0.7000000297824376; expected 0.7 \u00b1 0.001 m across 1 objects. Diameter is intrinsic, independent of world orientation.\noffset: Measured world-bounds y offset (min of d878c4e2-2852-4c6a-ba0a-d128676cd810 minus max of 01c67141-8920-4e69-b5d6-64549f9637ee): 0.32000000000000006 m; expected 0.32 \u00b1 0.001 m. This is an axis/bounds che\noffset: Measured world-bounds x offset (center of d878c4e2-2852-4c6a-ba0a-d128676cd810 minus center of 01c67141-8920-4e69-b5d6-64549f9637ee): 0 m; expected 0 \u00b1 0.001 m. This is an axis/bounds check, not proof o\noffset: Measured world-bounds z offset (center of d878c4e2-2852-4c6a-ba0a-d128676cd810 minus center of 01c67141-8920-4e69-b5d6-64549f9637ee): 0 m; expected 0 \u00b1 0.001 m. This is an axis/bounds check, not proof o"
+      }
+    ],
+    "notes": [
+      {
+        "topic": "Scanning rig dimensions and usable loading space",
+        "text": "Maintain the circular 0.70 m turntable at top elevation 0.24 m, with the centred overhead panel underside at 0.56 m: exactly 0.32 m unobstructed vertical loading clearance. Preserve that usable loading volume in subsequent rig development. Keep rig parts independently editable. Storage cube is 0.40 m per side, placed 2 m centre-to-centre to current-view left.",
+        "source": "user",
+        "decision": {
+          "id": "70db6f56-f975-420f-b5e7-3b4781cfe63e",
+          "revision": 1,
+          "quote": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+          "origin": {
+            "id": "3f41ec6f-0223-4542-af00-86e23f48a41a",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      }
+    ],
+    "camera": {
+      "pose": {
+        "position": {
+          "x": 2.2028922207388284,
+          "y": 2.435874556625695,
+          "z": 5.323927553658962
+        },
+        "target": {
+          "x": -0.8055000036507846,
+          "y": 0.3299999995529652,
+          "z": 0.5104999946355819
+        },
+        "projection": "perspective",
+        "zoom": 1,
+        "fov": 40
+      },
+      "right": {
+        "x": 0.8479983040050879,
+        "y": 0,
+        "z": -0.5299989400031802
+      },
+      "forward": {
+        "x": -0.5299989400031802,
+        "y": 0,
+        "z": -0.8479983040050879
+      },
+      "visible": [
+        {
+          "id": "c0523436-3587-4694-b944-10fee7fb31be",
+          "x": 0.27586268944230147,
+          "y": -0.07271350149538557
+        },
+        {
+          "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "x": 0.27863369228899393,
+          "y": 0.0009444806559760388
+        },
+        {
+          "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+          "x": 0.15346991645815072,
+          "y": -0.08964496107138097
+        },
+        {
+          "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+          "x": 0.4032786393505099,
+          "y": -0.17689470064770532
+        },
+        {
+          "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "x": 0.15657405224210652,
+          "y": 0.058330373896999
+        },
+        {
+          "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "x": 0.4120912762510433,
+          "y": -0.018929276533720264
+        },
+        {
+          "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+          "x": 0.28551683822371793,
+          "y": 0.18391024014997
+        },
+        {
+          "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+          "x": 0.2845127841720331,
+          "y": 0.157220770846003
+        },
+        {
+          "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+          "x": 0.2171004510579965,
+          "y": 0.1879744262974704
+        },
+        {
+          "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+          "x": 0.35583657848713607,
+          "y": 0.15236282973886275
+        },
+        {
+          "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+          "x": -0.3636313656989498,
+          "y": -0.011753749629484845
+        },
+        {
+          "id": "e5f1622c-4e9e-48d0-90f8-df90bcbf7069",
+          "x": -0.22579062890601861,
+          "y": -0.012002483072901285
+        }
+      ]
+    },
+    "response": {
+      "intent": "apply",
+      "message": "Offline scripted diagnostic response.",
+      "operations": [
+        {
+          "type": "edit_components",
+          "edits": [
+            {
+              "targets": [
+                "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+                "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+                "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+                "1685c0ea-db59-4898-92bb-b807cc051849"
+              ],
+              "where": [],
+              "translation": {
+                "x": 0,
+                "y": -0.14,
+                "z": 0
+              },
+              "resize": null
+            },
+            {
+              "targets": [
+                "96c402f0-c489-4d1c-ab42-c4760a968aff"
+              ],
+              "where": [],
+              "translation": null,
+              "resize": {
+                "axis": "height",
+                "mode": "add",
+                "value": -0.14,
+                "anchor": 0
+              }
+            },
+            {
+              "targets": [
+                "1a131580-9b52-42db-bb27-93d2b88543bd"
+              ],
+              "where": [],
+              "translation": null,
+              "resize": {
+                "axis": "height",
+                "mode": "add",
+                "value": -0.14,
+                "anchor": 0
+              }
+            }
+          ]
+        },
+        {
+          "type": "design_note",
+          "topic": "Scanning rig dimensions and usable loading space",
+          "text": "The user now wants exactly 18 cm of sample-loading clearance for flatter samples.",
+          "source": "user",
+          "capture": {
+            "quote": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+            "revises": "70db6f56-f975-420f-b5e7-3b4781cfe63e"
+          }
+        }
+      ],
+      "planning": {
+        "stage": "Offline scripted diagnostic response.",
+        "assumptions": [],
+        "next": null
+      }
+    }
+  },
+  {
+    "turn": "revision",
+    "role": "reviewer",
+    "label": "Scripted offline response, actual browser payload",
+    "history": [
+      {
+        "role": "user",
+        "content": "Make that storage cube 55 cm wide."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 0.55; expected equal 0.55 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the storage cube 45 cm deep."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\ndepth: depth (each, world solids): 0.45000000000000007; expected equal 0.45 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Move the storage cube 20 cm farther left."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 10 existing objects outside the requested edit scope are unchanged.\nx: x (each, world solids): -1.866; expected equal -1.8655996608010175 \u00b1 0.001 m.\nz: z (each, world solids): 1.166; expected equal 1.165999788000636 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Add a separate round sample puck, 12 cm in diameter and 3 cm thick, beside the storage cube."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight \u00b7 Sample puck: height (each, world solids): 0.03; expected equal 0.03 \u00b1 0.001 m.\ndiameter \u00b7 Sample puck: True cylinder diameter: 0.12000003799405823; expected 0.12 \u00b1 0.001 m across 1 objects. Diameter is intrinsic, independent of world orientation."
+      },
+      {
+        "role": "user",
+        "content": "Make that sample puck 5 cm thick, with its base still on the floor."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.05; expected equal 0.05 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the sample puck 16 cm in diameter."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 0.16000000000000014; expected equal 0.16 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Move the sample puck 15 cm forward."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nx: x (each, world solids): -1.9449999999999998; expected equal -1.9454998410004771 \u00b1 0.001 m.\nz: z (each, world solids): 0.339; expected equal 0.3388002543992368 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the storage cube 60 cm tall, leaving its footprint and position unchanged."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.6; expected equal 0.6 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Make the sample puck 4 cm thick, keeping its base on the floor."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 11 existing objects outside the requested edit scope are unchanged.\nheight: height (each, world solids): 0.04; expected equal 0.04 \u00b1 0.001 m."
+      },
+      {
+        "role": "user",
+        "content": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged."
+      },
+      {
+        "role": "assistant",
+        "content": "Completed; measurable checks passed.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ntop: top (each, world solids): 0.35; expected equal 0.35000000000000003 \u00b1 0.001 m.\ndiameter: True cylinder diameter: 0.7000000297824376; expected 0.7 \u00b1 0.001 m across 1 objects. Diameter is intrinsic, independent of world orientation.\noffset: Measured world-bounds y offset (min of d878c4e2-2852-4c6a-ba0a-d128676cd810 minus max of 01c67141-8920-4e69-b5d6-64549f9637ee): 0.32000000000000006 m; expected 0.32 \u00b1 0.001 m. This is an axis/bounds che\noffset: Measured world-bounds x offset (center of d878c4e2-2852-4c6a-ba0a-d128676cd810 minus center of 01c67141-8920-4e69-b5d6-64549f9637ee): 0 m; expected 0 \u00b1 0.001 m. This is an axis/bounds check, not proof o\noffset: Measured world-bounds z offset (center of d878c4e2-2852-4c6a-ba0a-d128676cd810 minus center of 01c67141-8920-4e69-b5d6-64549f9637ee): 0 m; expected 0 \u00b1 0.001 m. This is an axis/bounds check, not proof o"
+      }
+    ],
+    "notes": [
+      {
+        "topic": "Scanning rig dimensions and usable loading space",
+        "text": "Maintain the circular 0.70 m turntable at top elevation 0.24 m, with the centred overhead panel underside at 0.56 m: exactly 0.32 m unobstructed vertical loading clearance. Preserve that usable loading volume in subsequent rig development. Keep rig parts independently editable. Storage cube is 0.40 m per side, placed 2 m centre-to-centre to current-view left.",
+        "source": "user",
+        "decision": {
+          "id": "70db6f56-f975-420f-b5e7-3b4781cfe63e",
+          "revision": 1,
+          "quote": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+          "origin": {
+            "id": "3f41ec6f-0223-4542-af00-86e23f48a41a",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      }
+    ],
+    "camera": {
+      "pose": {
+        "position": {
+          "x": 2.2028922207388284,
+          "y": 2.435874556625695,
+          "z": 5.323927553658962
+        },
+        "target": {
+          "x": -0.8055000036507846,
+          "y": 0.3299999995529652,
+          "z": 0.5104999946355819
+        },
+        "projection": "perspective",
+        "zoom": 1,
+        "fov": 40
+      },
+      "right": {
+        "x": 0.8479983040050879,
+        "y": 0,
+        "z": -0.5299989400031802
+      },
+      "forward": {
+        "x": -0.5299989400031802,
+        "y": 0,
+        "z": -0.8479983040050879
+      },
+      "visible": [
+        {
+          "id": "c0523436-3587-4694-b944-10fee7fb31be",
+          "x": 0.27586268944230147,
+          "y": -0.07271350149538557
+        },
+        {
+          "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "x": 0.27863369228899393,
+          "y": 0.0009444806559760388
+        },
+        {
+          "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+          "x": 0.15346991645815072,
+          "y": -0.08964496107138097
+        },
+        {
+          "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+          "x": 0.4032786393505099,
+          "y": -0.17689470064770532
+        },
+        {
+          "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "x": 0.15657405224210652,
+          "y": 0.058330373896999
+        },
+        {
+          "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "x": 0.4120912762510433,
+          "y": -0.018929276533720264
+        },
+        {
+          "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+          "x": 0.28551683822371793,
+          "y": 0.18391024014997
+        },
+        {
+          "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+          "x": 0.2845127841720331,
+          "y": 0.157220770846003
+        },
+        {
+          "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+          "x": 0.2171004510579965,
+          "y": 0.1879744262974704
+        },
+        {
+          "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+          "x": 0.35583657848713607,
+          "y": 0.15236282973886275
+        },
+        {
+          "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+          "x": -0.3636313656989498,
+          "y": -0.011753749629484845
+        },
+        {
+          "id": "e5f1622c-4e9e-48d0-90f8-df90bcbf7069",
+          "x": -0.22579062890601861,
+          "y": -0.012002483072901285
+        }
+      ]
+    },
+    "response": {
+      "modeling": true,
+      "editable": [
+        "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+        "5b390056-2000-4cc0-a092-d7279bc0d79a",
+        "96c402f0-c489-4d1c-ab42-c4760a968aff",
+        "1a131580-9b52-42db-bb27-93d2b88543bd",
+        "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+        "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+        "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+        "1685c0ea-db59-4898-92bb-b807cc051849"
+      ],
+      "checks": [
+        {
+          "source": "request",
+          "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+          "calculation": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "01c67141-8920-4e69-b5d6-64549f9637ee",
+                "metric": "top"
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 0
+            }
+          },
+          "requirement": {
+            "id": "check-1",
+            "label": "top",
+            "kind": "measure",
+            "selector": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "metric": "top",
+            "aggregation": "each",
+            "comparison": "equal",
+            "value": 0.35,
+            "tolerance": 0.001,
+            "relativeTolerance": 0
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+          "requirement": {
+            "id": "check-2",
+            "label": "diameter",
+            "kind": "diameter",
+            "selector": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "shape": "cylinder",
+            "value": 0.7,
+            "tolerance": 0.001
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+          "requirement": {
+            "id": "check-3",
+            "label": "offset",
+            "kind": "offset",
+            "first": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "second": {
+              "refs": [
+                "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "axis": "y",
+            "firstAnchor": "max",
+            "secondAnchor": "min",
+            "value": 0.18,
+            "tolerance": 0.001
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+          "requirement": {
+            "id": "check-4",
+            "label": "offset",
+            "kind": "offset",
+            "first": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "second": {
+              "refs": [
+                "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "axis": "x",
+            "firstAnchor": "center",
+            "secondAnchor": "center",
+            "value": 0,
+            "tolerance": 0.001
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+          "requirement": {
+            "id": "check-5",
+            "label": "offset",
+            "kind": "offset",
+            "first": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "second": {
+              "refs": [
+                "d878c4e2-2852-4c6a-ba0a-d128676cd810"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "axis": "z",
+            "firstAnchor": "center",
+            "secondAnchor": "center",
+            "value": 0,
+            "tolerance": 0.001
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+          "requirement": {
+            "id": "check-6",
+            "label": "region",
+            "kind": "region",
+            "selector": {
+              "refs": [
+                "$all"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "center": {
+              "x": 0,
+              "y": 0.43999999999999995,
+              "z": 0
+            },
+            "size": {
+              "x": 0.7,
+              "y": 0.18,
+              "z": 0.7
+            },
+            "rotation": 0,
+            "occupancy": "empty",
+            "tolerance": 0.001
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+          "requirement": {
+            "id": "check-7",
+            "label": "editable",
+            "kind": "editable",
+            "selector": {
+              "refs": [
+                "$all"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            }
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+          "requirement": {
+            "id": "check-8",
+            "label": "x",
+            "kind": "measure",
+            "selector": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "metric": "x",
+            "aggregation": "each",
+            "comparison": "equal",
+            "value": 0,
+            "tolerance": 0.001,
+            "relativeTolerance": 0
+          }
+        },
+        {
+          "source": "request",
+          "evidence": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+          "requirement": {
+            "id": "check-9",
+            "label": "z",
+            "kind": "measure",
+            "selector": {
+              "refs": [
+                "01c67141-8920-4e69-b5d6-64549f9637ee"
+              ],
+              "role": null,
+              "level": null,
+              "nameContains": null
+            },
+            "metric": "z",
+            "aggregation": "each",
+            "comparison": "equal",
+            "value": 0,
+            "tolerance": 0.001,
+            "relativeTolerance": 0
+          }
+        }
+      ],
+      "qualitativeLimits": []
+    }
+  }
+]

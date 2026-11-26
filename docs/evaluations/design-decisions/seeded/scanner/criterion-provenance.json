@@ -1,0 +1,42 @@
+{
+  "label": "Evaluator-authored diagnostic, not a corrected fresh reviewer answer",
+  "changed": [
+    "check-12 unavailable \u2192 existing region(empty)",
+    "check-18 world-X -2 \u2192 -2 * request-start right.x",
+    "added Z counterpart -2 * request-start right.z"
+  ],
+  "retained": "32 cm signed Y gap, all other checks, 1 mm tolerances, unsupported physical stability caveat and normal save guard",
+  "sourceValues": {
+    "diameter": {
+      "value": 70,
+      "unit": "cm",
+      "quote": "circular turntable 70 cm across"
+    },
+    "top": {
+      "value": 24,
+      "unit": "cm",
+      "quote": "its top 24 cm above the floor"
+    },
+    "gap": {
+      "value": 32,
+      "unit": "cm",
+      "quote": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel"
+    },
+    "left": {
+      "value": 2,
+      "unit": "m",
+      "quote": "two meters to the left"
+    }
+  },
+  "calculation": "metres: diameter=70/100; top=24/100; gap=32/100; box center Y=top+gap/2=0.40; full size=(0.70,0.32,0.70); X/Z offsets=-2*captured right components",
+  "frame": "world XYZ, Y up; request-start camera basis for left, fixed for entire request",
+  "limitations": "Box encloses the turntable footprint and proves sufficient empty space only when it passes. No approach/insertion path is specified. Circle-exterior corner occupancy needs separate assessment; do not treat it as evidence of circular-space obstruction.",
+  "fixtureDatum": {
+    "worldXZ": [
+      0,
+      0
+    ],
+    "source": "Declared datum of this saved fixture; independently confirmed against its turntable solid. Not a user-specified location.",
+    "scope": "Fixed-envelope diagnostic only. A new object at an arbitrary location requires a correctly anchored query; for seeded edits use independently available original coordinates and verify preservation."
+  }
+}
