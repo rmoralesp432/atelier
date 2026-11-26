@@ -125,7 +125,7 @@ export const completionCriteriaSchema = z
       .array(
         z
           .object({
-            source: z.enum(['request', 'history', 'reference']),
+            source: z.enum(['request', 'history', 'reference', 'decision']),
             evidence: z.string().min(1).max(400),
             calculation: calculationSchema.optional(),
             requirement: z.union([

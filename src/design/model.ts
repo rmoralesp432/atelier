@@ -1,6 +1,8 @@
 import { MAX_SCENE_OBJECTS } from '../limits';
 import { explosionOffsets } from './explosion';
 import { z } from 'zod';
+import { designNoteSchema, type DesignNote } from './decisions';
+export type { DesignNote } from './decisions';
 import type { Volume, ObjectGroup, Project } from '../model';
 import {
   savedViewSchema,
@@ -12,11 +14,6 @@ export type DesignOption = {
   name: string;
   volumes: Volume[];
   groups: ObjectGroup[];
-};
-export type DesignNote = {
-  topic: string;
-  text: string;
-  source: 'user' | 'drawing' | 'assumption';
 };
 export type DesignLibrary = {
   views: SavedView[];
@@ -30,18 +27,7 @@ export function validateDesign(
   const data = z
     .object({
       views: z.array(savedViewSchema).max(30),
-      notes: z
-        .array(
-          z
-            .object({
-              topic: z.string().min(1).max(80),
-              text: z.string().min(1).max(1500),
-              source: z.enum(['user', 'drawing', 'assumption']),
-            })
-            .strict(),
-        )
-        .max(40)
-        .optional(),
+      notes: z.array(designNoteSchema).max(40).optional(),
       options: z
         .array(
           z
@@ -72,6 +58,11 @@ export function validateDesign(
     new Set(data.options.map((v) => v.name)).size !== data.options.length
   )
     throw new Error('View and alternative names must be unique.');
+  const decisions = (data.notes ?? []).flatMap((n) =>
+    n.decision ? [n.decision.id] : [],
+  );
+  if (new Set(decisions).size !== decisions.length)
+    throw new Error('Active design decision identities must be unique.');
   for (const option of data.options) {
     const ids = new Set<string>();
     for (const v of option.volumes) {

@@ -7,6 +7,7 @@ import type { SavedProject, WorkspaceSnapshot } from './library';
 const messages = z
   .array(
     z.object({
+      id: z.string().min(1).max(100).optional(),
       role: z.enum(['user', 'assistant']),
       content: z.string().max(100_000),
       summary: z.string().max(100_000).optional(),

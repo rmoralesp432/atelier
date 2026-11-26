@@ -1,6 +1,7 @@
 import { MAX_SCENE_OBJECTS } from '../limits';
 import { z } from 'zod';
 import { componentRoles } from '../design/schema';
+import { decisionCaptureSchema } from '../design/decisions';
 
 const coordinate = z.number().min(-1000).max(1000);
 const vector = z
@@ -105,6 +106,12 @@ export const architecturalOperations = [
       topic: z.string().min(1).max(80),
       text: z.string().min(1).max(1500),
       source: z.enum(['user', 'drawing', 'assumption']),
+      capture: decisionCaptureSchema
+        .nullable()
+        .optional()
+        .describe(
+          'For a continuing user decision, quote the current user instruction verbatim and set revises to the active decision ID when explicitly revised. Null keeps an ordinary note/assumption. The host supplies provenance; do not invent it.',
+        ),
     })
     .strict(),
 ] as const;

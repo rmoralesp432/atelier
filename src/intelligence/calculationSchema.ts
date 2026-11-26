@@ -18,7 +18,7 @@ export const calculationSchema = z
               kind: z.literal('quantity'),
               value: finite,
               unit,
-              source: z.enum(['request', 'history']),
+              source: z.enum(['request', 'history', 'decision']),
               evidence: z.string().min(1).max(400),
             })
             .strict(),

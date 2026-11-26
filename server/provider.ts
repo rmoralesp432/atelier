@@ -22,6 +22,7 @@ import { ARCHITECTURAL_PROMPT } from '../src/intelligence/architecturalPrompt';
 import { REASONING_PROMPT } from '../src/intelligence/reasoningPrompt';
 import { componentSchema, poseSchema } from '../src/design/schema';
 import OpenAI from 'openai';
+import { designNoteSchema } from '../src/design/decisions';
 import { z } from 'zod';
 import {
   parsePlan,
@@ -132,18 +133,7 @@ const baseRequestSchema = z
           .optional(),
         design: z
           .object({
-            notes: z
-              .array(
-                z
-                  .object({
-                    topic: z.string().max(80),
-                    text: z.string().max(1500),
-                    source: z.enum(['user', 'drawing', 'assumption']),
-                  })
-                  .strict(),
-              )
-              .max(40)
-              .optional(),
+            notes: z.array(designNoteSchema).max(40).optional(),
             views: z
               .array(
                 z.object({ name: z.string().max(80), targets: refs }).strict(),

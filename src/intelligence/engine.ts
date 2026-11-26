@@ -7,6 +7,7 @@ import { solarPosition } from '../studio/solar';
 import { solarDay, shadowOnLevelGround } from '../studio/solarAnalysis';
 import { constructAssembly, remapCopiedHosts } from './assembly';
 import { editComponents } from './componentEdits';
+import { updateDesignNotes, type DecisionOrigin } from '../design/decisions';
 import {
   profileVolume,
   anchoredDimensions,
@@ -240,6 +241,7 @@ export async function applyPlan(
   raw: unknown,
   camera: CameraContext = defaultCamera,
   confirmed = false,
+  decisionOrigin?: DecisionOrigin,
 ): Promise<{
   session: Session;
   message: string;
@@ -255,6 +257,7 @@ export async function applyPlan(
       (op, index) => {
         current = op ? { type: op.type, index } : undefined;
       },
+      decisionOrigin,
     );
   } catch (error) {
     if (!current) throw error;
@@ -270,6 +273,7 @@ async function applyTransaction(
   camera: CameraContext,
   confirmed: boolean,
   operationStarted: (op: Operation | null, index: number) => void,
+  decisionOrigin?: DecisionOrigin,
 ): Promise<{
   session: Session;
   message: string;
@@ -736,14 +740,7 @@ async function applyTransaction(
       );
     } else if (op.type === 'design_note') {
       const design = s.project.design ?? { views: [], options: [] };
-      const notes = [
-        ...(design.notes ?? []).filter((n) => n.topic !== op.topic),
-        { topic: op.topic, text: op.text, source: op.source },
-      ];
-      if (notes.length > 40)
-        throw new Error(
-          'Design memory has 40 topics. Update an existing topic instead.',
-        );
+      const notes = updateDesignNotes(design.notes ?? [], op, decisionOrigin);
       s.project.design = { ...design, notes };
       reports.push(
         `Recorded ${op.source} design note: ${op.topic}. ${op.text}`,

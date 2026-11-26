@@ -222,6 +222,9 @@ function loadMessages(): Message[] {
           .map((m) => ({
             role: m.role,
             content: m.content,
+            ...(typeof m.id === 'string' && m.id.length <= 100
+              ? { id: m.id }
+              : {}),
             ...(typeof m.summary === 'string' ? { summary: m.summary } : {}),
             ...(m.outcome === 'failed' ? { outcome: 'failed' as const } : {}),
             ...(Array.isArray(m.images)
@@ -1039,12 +1042,14 @@ export default function App({
     summary?: string,
     images?: string[],
     outcome?: 'failed',
+    id?: string,
   ) =>
     setMessages((m) => [
       ...m.slice(-79),
       {
         role,
         content,
+        ...(id ? { id } : {}),
         ...(summary ? { summary } : {}),
         ...(images?.length ? { images } : {}),
         ...(outcome ? { outcome } : {}),
@@ -1274,7 +1279,8 @@ export default function App({
     const abort = new AbortController();
     planningAbort.current = abort;
     setReferenceImages([]);
-    remember('user', text, undefined, images);
+    const decisionOrigin = { id: crypto.randomUUID(), text };
+    remember('user', text, undefined, images, undefined, decisionOrigin.id);
     let observation: SceneObservation | undefined;
     let observedRevision = -1;
     const original = captureTransaction(snapshot());
@@ -1350,6 +1356,7 @@ export default function App({
         abort.signal,
         {
           agent: connectionState.agentConfigured === true,
+          decisionOrigin,
           verifyCompletion: verifyRequestCompletion,
         },
       );

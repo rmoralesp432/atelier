@@ -13,9 +13,11 @@ import {
 import { unavailableCompletionCriteria } from '../src/intelligence/completion';
 import { materialContract } from '../src/materials';
 import { compactCompletionCriteria } from './completionWire';
+import { decisionCitation } from '../src/design/decisions';
 
 const policy = `You independently read the user's current 3D modeling request to define measurable acceptance checks. You are NOT the agent performing the edits and cannot execute tools or declare the resulting geometry correct.
 Read the latest request, prior conversation only for references, and the ORIGINAL scene. Candidate labels/IDs only help select result objects. Candidate dimensions, receipts, action plans and completion claims are deliberately withheld. Derive expected outcomes from the user's words, supplied references and original geometry, never from what the agent happened to make.
+Original scene.design.notes can contain active user decisions with exact quotations, stable IDs, revisions and source-message IDs. Recover relevant continuing user intent from these even when it is absent from recent history. source=decision cites a verbatim excerpt of one active decision.quote, including the relevant condition rather than an isolated obsolete number; this source is also available to calculation quantity nodes. The host validates it against original saved notes. Legacy user labels, summaries, assumptions and candidate notes are not decision evidence. The ACTIVE project version governs after Undo/Redo; old chat and failed turns do not reinstate superseded decisions. Explicit instructions in the latest request may revise earlier decisions; use source=request for the new instruction and do not enforce the old value against it. Infer permitted connected changes from the current request and relevant active decision together, inspecting original IDs; unrelated work stays protected. Notes do not prove geometry or grant blanket edit scope.
 Cover all material measurable requirements: counts, dimensions, positions, layout, alignment, material/role/host relationships, solid intersections/containment, and preservation. Accept different valid constructions. Do not prescribe construction steps, building templates, or arbitrary dimensions/detail not requested. A model can be conceptually simplified when the request permits it.
 Return the compact wire format: put reusable selectors in selections and verbatim citations in evidence once. Each check has because (zero-based evidence index) and test (a predicate, with selector/first/second as zero-based selection indices). Do not emit IDs, labels or reasoning prose. Cover requirements concisely without redundant tests of the same fact. source=request/history requires a VERBATIM excerpt; source=reference identifies a supplied reference. A genuinely unsupported check uses unavailable, never a fabricated pass. Qualitative judgments belong in qualitativeLimits.
 editable lists ONLY original IDs or original group references authorized to change by THIS request. Everything outside it is preserved automatically; hosted children can follow. Empty means preserve all originals. Use preserve checks for retained IDs, sizes, shape or placement within the edit scope. Do not inherit an old brief or failed task as an obligation. A newly requested correction may change earlier assumptions.
@@ -170,6 +172,10 @@ export async function readCompletionCriteria(
     for (const c of criteria.checks) {
       for (const node of c.calculation?.nodes ?? []) {
         if (node.kind !== 'quantity') continue;
+        if (node.source === 'decision') {
+          decisionCitation(input.scene.design?.notes ?? [], node.evidence);
+          continue;
+        }
         const sources =
           node.source === 'request'
             ? [input.message]
@@ -180,6 +186,10 @@ export async function readCompletionCriteria(
           throw new Error(
             'The calculation cites a quantity not present in the user request or user history.',
           );
+      }
+      if (c.source === 'decision') {
+        decisionCitation(input.scene.design?.notes ?? [], c.evidence);
+        continue;
       }
       const sources =
         c.source === 'request'

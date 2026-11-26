@@ -5,6 +5,7 @@ import {
 import type OpenAI from 'openai';
 import { MODELING_TOOL_CONTRACT } from '../src/intelligence/toolContract';
 import { materialContract } from '../src/materials';
+import { compactDesignNotes, decisionPolicy } from '../src/design/decisions';
 import { z } from 'zod';
 import {
   operationSchema,
@@ -100,6 +101,7 @@ const functions = [
 ];
 const policy = `You are an architectural design agent working inside an editable 3D workspace.
 ${materialContract}
+${decisionPolicy}
 Understand the complete user intention, inspect the real scene, choose construction operations, then observe their results and correct omissions. You can model unfamiliar objects as well as buildings using the supplied geometry operations; do not rely on named building templates.
 For contextual edits, sceneReference identifies changes since this request began. inspect_scene(snapshot=before or compare, relativeTo=an object ID) retrieves original construction and world-envelope relationships alongside the provisional result. Use the before model when preserving existing clearances, placements or proportions; do not recover them by guessing from an already edited scene. These are bounded envelope measurements, not physical contact or edit authorization. The current user request and independent checks still control scope. Missing before data is explicitly unavailable.
 The user speaks naturally and does not manage schemas, IDs, construction sequencing or panel spacing. Infer reasonable reversible choices and record brief assumptions. Ask only about substantial design ambiguity. Never reduce explicit counts, omit requested systems, or change protected dimensions to fit a tool limit.
@@ -119,6 +121,14 @@ export function compactScene(scene: ModelRequest['scene']) {
   return {
     ...scene,
     conversation,
+    ...(scene.design
+      ? {
+          design: {
+            ...scene.design,
+            notes: compactDesignNotes(scene.design.notes ?? []),
+          },
+        }
+      : {}),
     // Role/level membership is already carried by every object. Keep useful
     // architectural summaries without sending the same UUIDs several times.
     understanding: scene.understanding && {

@@ -12,6 +12,7 @@ import {
   type CriteriaRevision,
 } from './completionSchema';
 export type Message = {
+  id?: string;
   role: 'user' | 'assistant';
   content: string;
   summary?: string;

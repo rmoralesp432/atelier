@@ -15,6 +15,7 @@ import { bindBrief, checkEditScope, assessBrief } from './designBrief';
 import type { DesignBrief, BriefAssessment } from './designBriefSchema';
 import { completionFeedback, completionSummary } from './completion';
 import type { CompletionReport } from './completionSchema';
+import type { DecisionOrigin } from '../design/decisions';
 
 export type ValidationFeedback = {
   error: string;
@@ -147,6 +148,7 @@ export async function stagedPlan(
   signal?: AbortSignal,
   options: {
     agent?: boolean;
+    decisionOrigin?: DecisionOrigin;
     verifyCompletion?: (candidate: Session) => Promise<CompletionReport>;
   } = {},
 ): Promise<CheckedResult> {
@@ -414,7 +416,13 @@ export async function stagedPlan(
           throw new Error(
             'Keep the agreed Undo/Redo prefix while correcting this request.',
           );
-        const result = await applyPlan(session, plan, camera, true);
+        const result = await applyPlan(
+          session,
+          plan,
+          camera,
+          true,
+          options.decisionOrigin,
+        );
         if (brief) checkEditScope(brief, scopeOriginal, result.session);
         checkAbort();
         const stageOperations = (

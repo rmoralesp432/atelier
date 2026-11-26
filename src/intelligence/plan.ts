@@ -573,10 +573,12 @@ export const planJsonSchema = z.toJSONSchema(planSchema, {
       jsonSchema.anyOf = jsonSchema.anyOf.filter(
         (branch: any) => branch.properties?.type?.const !== 'building',
       );
-    // New provider calls include the nullable designation; old saved/manual
-    // material operations may omit it. Null preserves existing metadata.
+    // New provider calls include nullable metadata; old saved/manual
+    // operations may omit it. Keep the provider's strict output contract.
     if (
-      (jsonSchema.properties?.type as { const?: string })?.const === 'material'
+      ['material', 'design_note'].includes(
+        (jsonSchema.properties?.type as { const?: string })?.const ?? '',
+      )
     )
       jsonSchema.required = Object.keys(jsonSchema.properties!);
   },

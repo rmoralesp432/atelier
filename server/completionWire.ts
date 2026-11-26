@@ -32,7 +32,7 @@ export const completionWireSchema = z
       .array(
         z
           .object({
-            source: z.enum(['request', 'history', 'reference']),
+            source: z.enum(['request', 'history', 'reference', 'decision']),
             text: z.string().min(1).max(400),
           })
           .strict(),
