@@ -43,6 +43,10 @@ test('calm desktop and phone surfaces retain draft, theme, geometry and reachabl
   await page
     .getByRole('button', { name: 'Close studio settings', exact: true })
     .click();
+  await page
+    .getByRole('navigation', { name: 'Workspace actions' })
+    .getByRole('button', { name: 'Open chat', exact: true })
+    .click();
   await page.screenshot({ path: 'test-results/refined-phone-composer.png' });
   await page.getByRole('button', { name: 'Minimize conversation' }).click();
   await expect(input).toBeHidden();
