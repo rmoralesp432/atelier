@@ -1,0 +1,15 @@
+{
+  "name": "model",
+  "url": "https://api.openai.com/v1/models/gpt-6.1-sol",
+  "checkedAt": "2026-11-26T21:17:05.016Z",
+  "paidGeneration": false,
+  "status": 200,
+  "responseDate": "Thu, 26 Nov 2026 21:17:05 GMT",
+  "model": {
+    "id": "gpt-6.1-sol",
+    "object": "model",
+    "created": 1790552874,
+    "owned_by": "system",
+    "shutdown_date": null
+  }
+}

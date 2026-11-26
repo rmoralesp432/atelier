@@ -1,0 +1,11 @@
+{
+  "name": "billing",
+  "url": "https://api.openai.com/v1/dashboard/billing/subscription",
+  "checkedAt": "2026-11-26T21:17:05.031Z",
+  "paidGeneration": false,
+  "status": 403,
+  "responseDate": "Thu, 26 Nov 2026 21:17:05 GMT",
+  "error": {
+    "nonJson": false
+  }
+}

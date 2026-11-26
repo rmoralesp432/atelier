@@ -1,0 +1,9 @@
+{
+  "name": "official-pricing",
+  "url": "https://openai.com/api/pricing/",
+  "checkedAt": "2026-11-26T21:17:05.032Z",
+  "paidGeneration": false,
+  "error": {
+    "message": "TypeError: fetch failed"
+  }
+}

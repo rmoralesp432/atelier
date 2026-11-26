@@ -1,0 +1,76 @@
+{
+  "paidCalls": 0,
+  "results": [
+    {
+      "turn": 1,
+      "checks": 28,
+      "correct": true
+    },
+    {
+      "turn": 2,
+      "checks": 37,
+      "correct": true
+    },
+    {
+      "turn": 3,
+      "checks": 37,
+      "correct": true
+    },
+    {
+      "turn": 4,
+      "checks": 37,
+      "correct": true
+    },
+    {
+      "turn": 5,
+      "checks": 40,
+      "correct": true
+    },
+    {
+      "turn": 6,
+      "checks": 44,
+      "correct": true
+    },
+    {
+      "turn": 7,
+      "checks": 45,
+      "correct": true
+    },
+    {
+      "turn": 8,
+      "checks": 45,
+      "correct": true
+    },
+    {
+      "turn": 9,
+      "checks": 48,
+      "correct": true
+    },
+    {
+      "turn": 10,
+      "checks": 45,
+      "correct": true
+    },
+    {
+      "turn": 11,
+      "checks": 45,
+      "correct": true
+    },
+    {
+      "turn": 12,
+      "checks": 43,
+      "correct": true
+    },
+    {
+      "turn": 13,
+      "checks": 42,
+      "correct": true
+    },
+    {
+      "turn": 14,
+      "checks": 43,
+      "correct": true
+    }
+  ],
+  "wrongPanelBlocked": true
+}

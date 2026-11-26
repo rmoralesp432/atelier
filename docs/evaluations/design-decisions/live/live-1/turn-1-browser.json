@@ -1,0 +1,50 @@
+{
+  "cookies": [],
+  "origins": [
+    {
+      "origin": "http://127.0.0.1:42873",
+      "localStorage": [
+        {
+          "name": "atelier.ui.objects",
+          "value": "false"
+        },
+        {
+          "name": "atelier.workspace-recovery:e44beca2-ef45-4914-9bb4-221ae343eee5:camera",
+          "value": "{\"position\":{\"x\":2.049444598617392,\"y\":2.2427112200976054,\"z\":4.816911360350827},\"target\":{\"x\":-0.6830000021606684,\"y\":0.3299999995529653,\"z\":0.4449999991059304},\"projection\":\"perspective\",\"zoom\":1,\"fov\":40}"
+        },
+        {
+          "name": "atelier.appearance",
+          "value": "{\"theme\":\"day\",\"mode\":\"studio\",\"lineColor\":\"#d9e4e4\",\"surfaceColor\":\"#22282c\"}"
+        },
+        {
+          "name": "atelier.start-direct",
+          "value": "true"
+        },
+        {
+          "name": "atelier.conversation-language",
+          "value": "en"
+        },
+        {
+          "name": "atelier.workspace-recovery:current:camera",
+          "value": "{\"position\":{\"x\":22.526336347336205,\"y\":17.768435443135346,\"z\":36.04213815573792},\"target\":{\"x\":0,\"y\":2,\"z\":0},\"projection\":\"perspective\",\"zoom\":1,\"fov\":40}"
+        },
+        {
+          "name": "atelier.ui.details",
+          "value": "false"
+        },
+        {
+          "name": "atelier.session.v2",
+          "value": "{\"version\":2,\"project\":{\"volumes\":[],\"selectedId\":null},\"past\":[],\"future\":[],\"context\":{\"focusIds\":[],\"lastCreatedIds\":[],\"lastOperands\":[],\"lastOperation\":null}}"
+        },
+        {
+          "name": "atelier.conversation.v2",
+          "value": "[{\"role\":\"user\",\"content\":\"Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.\",\"id\":\"3f41ec6f-0223-4542-af00-86e23f48a41a\"},{\"role\":\"assistant\",\"content\":\"The proposed changes have not been saved because verification is incomplete: unavailable: Unverified: An unobstructed sample-loading volume above the circular turntable, extending to the panel underside with an accessible insertion path, requires a relative circular clearance-volume test not expressible by the available fixed world-box region predicate. unavailable: Unverified: Freestanding stability and physical support of the overhead light cannot be certified from geometric contact alone. Your saved project is unchanged.\",\"outcome\":\"failed\"}]"
+        },
+        {
+          "name": "atelier.project.checkpoint",
+          "value": "{\"id\":\"e44beca2-ef45-4914-9bb4-221ae343eee5\",\"updatedAt\":1795729110593}"
+        }
+      ]
+    }
+  ]
+}

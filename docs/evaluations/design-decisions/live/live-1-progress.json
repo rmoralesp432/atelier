@@ -1,0 +1,27 @@
+{
+  "label": "Fresh GPT-6.1-sol; unmodified browser application; independent kernel measurements",
+  "appCommit": "deb730317cafe2e0b251a788693934196660140c",
+  "status": "INCOMPLETE",
+  "stopReason": "Turn 1: NOT_COMMITTED",
+  "turns": [
+    {
+      "turn": 1,
+      "status": "NOT_COMMITTED",
+      "committed": false,
+      "objects": 0,
+      "elapsedMs": 74450,
+      "decision": []
+    }
+  ],
+  "costs": {
+    "calls": 4,
+    "ceilingUSD": 5,
+    "accountedUSD": 0.199035,
+    "estimatedUSD": 0.159228,
+    "unknownReservations": [],
+    "inputTokens": 59339,
+    "outputTokens": 4055,
+    "reviewerMs": 24985,
+    "stopReason": null
+  }
+}

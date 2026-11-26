@@ -1,0 +1,15 @@
+{
+  "label": "Offline controlled perturbations; captured criteria unchanged; no fresh AI",
+  "controls": [
+    {
+      "turn": 12,
+      "status": "NOT_REACHED",
+      "reason": "No independently correct committed proposal"
+    },
+    {
+      "turn": 13,
+      "status": "NOT_REACHED",
+      "reason": "No independently correct committed proposal"
+    }
+  ]
+}

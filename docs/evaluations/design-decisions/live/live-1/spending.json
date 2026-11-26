@@ -1,0 +1,11 @@
+{
+  "calls": 4,
+  "ceilingUSD": 5,
+  "accountedUSD": 0.199035,
+  "estimatedUSD": 0.159228,
+  "unknownReservations": [],
+  "inputTokens": 59339,
+  "outputTokens": 4055,
+  "reviewerMs": 24985,
+  "stopReason": null
+}

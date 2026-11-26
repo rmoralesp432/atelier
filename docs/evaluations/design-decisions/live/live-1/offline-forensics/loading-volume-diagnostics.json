@@ -1,0 +1,126 @@
+[
+  {
+    "name": "Requested circular loading volume",
+    "source": "Request: diameter 0.70 m, top 0.24 m, clear height 0.32 m; Y-up world frame; 1 mm boundary inset",
+    "intersections": [
+      {
+        "id": "c0523436-3587-4694-b944-10fee7fb31be",
+        "name": "Turntable pedestal",
+        "intersectionM3": 0
+      },
+      {
+        "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+        "name": "Circular turntable",
+        "intersectionM3": 0
+      },
+      {
+        "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+        "name": "Frame left foot",
+        "intersectionM3": 0
+      },
+      {
+        "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+        "name": "Frame right foot",
+        "intersectionM3": 0
+      },
+      {
+        "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+        "name": "Frame left post",
+        "intersectionM3": 0
+      },
+      {
+        "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+        "name": "Frame right post",
+        "intersectionM3": 0
+      },
+      {
+        "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+        "name": "Frame crossbeam",
+        "intersectionM3": 0
+      },
+      {
+        "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+        "name": "Overhead rectangular light panel",
+        "intersectionM3": 0
+      },
+      {
+        "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+        "name": "Light panel left hanger",
+        "intersectionM3": 0
+      },
+      {
+        "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+        "name": "Light panel right hanger",
+        "intersectionM3": 0
+      },
+      {
+        "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+        "name": "Separate storage cube",
+        "intersectionM3": 0
+      }
+    ],
+    "clear": true
+  },
+  {
+    "name": "One front rectangular insertion envelope",
+    "source": "Diagnostic corridor X +/-0.349 m, Y 0.241..0.559 m, Z -1..0.35 m; front approach chosen for offline analysis only",
+    "intersections": [
+      {
+        "id": "c0523436-3587-4694-b944-10fee7fb31be",
+        "name": "Turntable pedestal",
+        "intersectionM3": 0
+      },
+      {
+        "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+        "name": "Circular turntable",
+        "intersectionM3": 0
+      },
+      {
+        "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+        "name": "Frame left foot",
+        "intersectionM3": 0
+      },
+      {
+        "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+        "name": "Frame right foot",
+        "intersectionM3": 0
+      },
+      {
+        "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+        "name": "Frame left post",
+        "intersectionM3": 0
+      },
+      {
+        "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+        "name": "Frame right post",
+        "intersectionM3": 0
+      },
+      {
+        "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+        "name": "Frame crossbeam",
+        "intersectionM3": 0
+      },
+      {
+        "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+        "name": "Overhead rectangular light panel",
+        "intersectionM3": 0
+      },
+      {
+        "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+        "name": "Light panel left hanger",
+        "intersectionM3": 0
+      },
+      {
+        "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+        "name": "Light panel right hanger",
+        "intersectionM3": 0
+      },
+      {
+        "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+        "name": "Separate storage cube",
+        "intersectionM3": 0
+      }
+    ],
+    "clear": true
+  }
+]

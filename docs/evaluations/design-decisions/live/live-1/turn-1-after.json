@@ -1,0 +1,14 @@
+{
+  "project": {
+    "volumes": [],
+    "selectedId": null
+  },
+  "past": [],
+  "future": [],
+  "context": {
+    "focusIds": [],
+    "lastCreatedIds": [],
+    "lastOperands": [],
+    "lastOperation": null
+  }
+}

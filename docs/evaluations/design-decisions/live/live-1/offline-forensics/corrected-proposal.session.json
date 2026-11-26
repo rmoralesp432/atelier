@@ -1,0 +1,689 @@
+{
+  "project": {
+    "volumes": [
+      {
+        "id": "c0523436-3587-4694-b944-10fee7fb31be",
+        "name": "Turntable pedestal",
+        "dimensions": {
+          "width": 0.32,
+          "depth": 0.32,
+          "height": 0.2
+        },
+        "position": {
+          "x": 0,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "material": "solid",
+        "color": "#454E58",
+        "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+        "component": {
+          "role": "element",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+        "name": "Circular turntable",
+        "dimensions": {
+          "width": 0.7,
+          "depth": 0.7,
+          "height": 0.04
+        },
+        "position": {
+          "x": 0,
+          "y": 0.2,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "cylinder"
+        },
+        "material": "solid",
+        "color": "#B9C0C7",
+        "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+        "component": {
+          "role": "element",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+        "name": "Frame left foot",
+        "dimensions": {
+          "width": 0.12,
+          "depth": 0.66,
+          "height": 0.025
+        },
+        "position": {
+          "x": -0.47,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "material": "solid",
+        "color": "#38414B",
+        "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+        "component": {
+          "role": "element",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+        "name": "Frame right foot",
+        "dimensions": {
+          "width": 0.12,
+          "depth": 0.66,
+          "height": 0.025
+        },
+        "position": {
+          "x": 0.47,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "material": "solid",
+        "color": "#38414B",
+        "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+        "component": {
+          "role": "element",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+        "name": "Frame left post",
+        "dimensions": {
+          "width": 0.04,
+          "depth": 0.04,
+          "height": 0.595
+        },
+        "position": {
+          "x": -0.47,
+          "y": 0.025,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "material": "frame",
+        "color": "#697887",
+        "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+        "component": {
+          "role": "column",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+        "name": "Frame right post",
+        "dimensions": {
+          "width": 0.04,
+          "depth": 0.04,
+          "height": 0.595
+        },
+        "position": {
+          "x": 0.47,
+          "y": 0.025,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "material": "frame",
+        "color": "#697887",
+        "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+        "component": {
+          "role": "column",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+        "name": "Frame crossbeam",
+        "dimensions": {
+          "width": 0.98,
+          "depth": 0.04,
+          "height": 0.04
+        },
+        "position": {
+          "x": 0,
+          "y": 0.62,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "material": "frame",
+        "color": "#697887",
+        "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+        "component": {
+          "role": "beam",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+        "name": "Overhead rectangular light panel",
+        "dimensions": {
+          "width": 0.8,
+          "depth": 0.74,
+          "height": 0.04
+        },
+        "position": {
+          "x": 0,
+          "y": 0.56,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "material": "solid",
+        "color": "#FFF6DA",
+        "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+        "component": {
+          "role": "panel",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+        "name": "Light panel left hanger",
+        "dimensions": {
+          "width": 0.025,
+          "depth": 0.025,
+          "height": 0.02
+        },
+        "position": {
+          "x": -0.25,
+          "y": 0.6,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "material": "frame",
+        "color": "#697887",
+        "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+        "component": {
+          "role": "element",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+        "name": "Light panel right hanger",
+        "dimensions": {
+          "width": 0.025,
+          "depth": 0.025,
+          "height": 0.02
+        },
+        "position": {
+          "x": 0.25,
+          "y": 0.6,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "material": "frame",
+        "color": "#697887",
+        "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+        "component": {
+          "role": "element",
+          "level": null,
+          "hostId": null,
+          "motion": "none",
+          "travel": 1
+        }
+      },
+      {
+        "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+        "name": "Separate storage cube",
+        "dimensions": {
+          "width": 0.4,
+          "depth": 0.4,
+          "height": 0.4
+        },
+        "position": {
+          "x": -2,
+          "y": 0,
+          "z": 0
+        },
+        "rotation": 0,
+        "geometry": {
+          "kind": "box"
+        },
+        "color": "#B4916B"
+      }
+    ],
+    "selectedId": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+    "groups": [
+      {
+        "id": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+        "name": "Tabletop scanning rig",
+        "visible": true,
+        "locked": false
+      }
+    ],
+    "selectedIds": [
+      "7f5d476e-dac6-416a-a3af-e6f66a989d10"
+    ],
+    "design": {
+      "views": [],
+      "options": [],
+      "notes": [
+        {
+          "topic": "Scanning rig dimensions and usable loading space",
+          "text": "Maintain the circular 0.70 m turntable at top elevation 0.24 m and the centered overhead panel underside at 0.56 m, leaving exactly 0.32 m clear. Preserve usable sample-loading space during subsequent development. Keep parts independently editable. The separate storage cube is 0.40 m per side; its center is 2 m to world-X left of the turntable, on the same Z centerline.",
+          "source": "user",
+          "decision": {
+            "id": "70db6f56-f975-420f-b5e7-3b4781cfe63e",
+            "revision": 1,
+            "quote": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+            "origin": {
+              "id": "3f41ec6f-0223-4542-af00-86e23f48a41a",
+              "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+            }
+          }
+        }
+      ]
+    }
+  },
+  "past": [
+    {
+      "volumes": [],
+      "selectedId": null
+    },
+    {
+      "volumes": [
+        {
+          "id": "c0523436-3587-4694-b944-10fee7fb31be",
+          "name": "Turntable pedestal",
+          "dimensions": {
+            "width": 0.32,
+            "depth": 0.32,
+            "height": 0.2
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "cylinder"
+          },
+          "material": "solid",
+          "color": "#454E58",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+          "name": "Circular turntable",
+          "dimensions": {
+            "width": 0.7,
+            "depth": 0.7,
+            "height": 0.04
+          },
+          "position": {
+            "x": 0,
+            "y": 0.2,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "cylinder"
+          },
+          "material": "solid",
+          "color": "#B9C0C7",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+          "name": "Frame left foot",
+          "dimensions": {
+            "width": 0.12,
+            "depth": 0.66,
+            "height": 0.025
+          },
+          "position": {
+            "x": -0.47,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          },
+          "material": "solid",
+          "color": "#38414B",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+          "name": "Frame right foot",
+          "dimensions": {
+            "width": 0.12,
+            "depth": 0.66,
+            "height": 0.025
+          },
+          "position": {
+            "x": 0.47,
+            "y": 0,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          },
+          "material": "solid",
+          "color": "#38414B",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+          "name": "Frame left post",
+          "dimensions": {
+            "width": 0.04,
+            "depth": 0.04,
+            "height": 0.595
+          },
+          "position": {
+            "x": -0.47,
+            "y": 0.025,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          },
+          "material": "frame",
+          "color": "#697887",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "component": {
+            "role": "column",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+          "name": "Frame right post",
+          "dimensions": {
+            "width": 0.04,
+            "depth": 0.04,
+            "height": 0.595
+          },
+          "position": {
+            "x": 0.47,
+            "y": 0.025,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          },
+          "material": "frame",
+          "color": "#697887",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "component": {
+            "role": "column",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+          "name": "Frame crossbeam",
+          "dimensions": {
+            "width": 0.98,
+            "depth": 0.04,
+            "height": 0.04
+          },
+          "position": {
+            "x": 0,
+            "y": 0.62,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          },
+          "material": "frame",
+          "color": "#697887",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "component": {
+            "role": "beam",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+          "name": "Overhead rectangular light panel",
+          "dimensions": {
+            "width": 0.8,
+            "depth": 0.74,
+            "height": 0.04
+          },
+          "position": {
+            "x": 0,
+            "y": 0.56,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          },
+          "material": "solid",
+          "color": "#FFF6DA",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "component": {
+            "role": "panel",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+          "name": "Light panel left hanger",
+          "dimensions": {
+            "width": 0.025,
+            "depth": 0.025,
+            "height": 0.02
+          },
+          "position": {
+            "x": -0.25,
+            "y": 0.6,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          },
+          "material": "frame",
+          "color": "#697887",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+          "name": "Light panel right hanger",
+          "dimensions": {
+            "width": 0.025,
+            "depth": 0.025,
+            "height": 0.02
+          },
+          "position": {
+            "x": 0.25,
+            "y": 0.6,
+            "z": 0
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          },
+          "material": "frame",
+          "color": "#697887",
+          "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "component": {
+            "role": "element",
+            "level": null,
+            "hostId": null,
+            "motion": "none",
+            "travel": 1
+          }
+        },
+        {
+          "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+          "name": "Separate storage cube",
+          "dimensions": {
+            "width": 0.4,
+            "depth": 0.4,
+            "height": 0.4
+          },
+          "position": {
+            "x": -1.696,
+            "y": 0,
+            "z": 1.06
+          },
+          "rotation": 0,
+          "geometry": {
+            "kind": "box"
+          },
+          "color": "#B4916B"
+        }
+      ],
+      "selectedId": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+      "groups": [
+        {
+          "id": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+          "name": "Tabletop scanning rig",
+          "visible": true,
+          "locked": false
+        }
+      ],
+      "selectedIds": [
+        "7f5d476e-dac6-416a-a3af-e6f66a989d10"
+      ],
+      "design": {
+        "views": [],
+        "options": [],
+        "notes": [
+          {
+            "topic": "Scanning rig dimensions and usable loading space",
+            "text": "Maintain the circular 0.70 m turntable at top elevation 0.24 m, with the centred overhead panel underside at 0.56 m: exactly 0.32 m unobstructed vertical loading clearance. Preserve that usable loading volume in subsequent rig development. Keep rig parts independently editable. Storage cube is 0.40 m per side, placed 2 m centre-to-centre to current-view left.",
+            "source": "user",
+            "decision": {
+              "id": "70db6f56-f975-420f-b5e7-3b4781cfe63e",
+              "revision": 1,
+              "quote": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+              "origin": {
+                "id": "3f41ec6f-0223-4542-af00-86e23f48a41a",
+                "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "future": [],
+  "context": {
+    "focusIds": [
+      "7f5d476e-dac6-416a-a3af-e6f66a989d10"
+    ],
+    "lastCreatedIds": [
+      "7f5d476e-dac6-416a-a3af-e6f66a989d10"
+    ],
+    "lastOperands": [],
+    "lastOperation": "design_note"
+  }
+}

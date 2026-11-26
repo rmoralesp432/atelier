@@ -1,0 +1,111 @@
+{
+  "application": "deb730317cafe2e0b251a788693934196660140c",
+  "status": "INCOMPLETE",
+  "freshRuns": 1,
+  "primaryUserTurnsExecuted": 1,
+  "primaryUserTurnsNotReached": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14
+  ],
+  "decisionCapture": {
+    "agent": true,
+    "hostProvenanceAttachedProvisionally": true,
+    "saved": false,
+    "quote": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+    "sourceTurn": "3f41ec6f-0223-4542-af00-86e23f48a41a"
+  },
+  "recallWithoutRecentReminder": "NOT_REACHED",
+  "explicitUserRevision": "NOT_REACHED",
+  "sourceOfRecall": "NOT_TESTED",
+  "reviewer": {
+    "sources": {
+      "request": 21,
+      "decision": 0
+    },
+    "directGapExpectedM": 0.32,
+    "expectedSource": "Verbatim current user request, not candidate geometry",
+    "direction": "panel minimum Y minus turntable maximum Y",
+    "mandatoryUnverified": [
+      "check-12"
+    ],
+    "nonblockingUnverified": [
+      "check-21"
+    ]
+  },
+  "solids": {
+    "evidence": "Offline replay matched the recorded live inspector object, group, design, and conversation data exactly before applying the recorded correction",
+    "objects": 11,
+    "editable": 11,
+    "independentFactsPassed": 38,
+    "independentFactsTotal": 38,
+    "hostSupportedChecksPassed": 19,
+    "hostProtectionChecksPassed": 1,
+    "hostIncorrectAfterCorrection": 0,
+    "hostCanCommit": false
+  },
+  "browser": {
+    "savedObjects": 0,
+    "savedNotes": 0,
+    "savedUndoEntries": 0,
+    "originalProjectPreserved": true,
+    "reload": {
+      "project": true,
+      "notes": true,
+      "history": true,
+      "conversation": true,
+      "context": true,
+      "indexedDBOnly": true
+    },
+    "geometryUndoRedo": "NOT_REACHED"
+  },
+  "negativeControls": [
+    {
+      "turn": 12,
+      "status": "NOT_REACHED",
+      "reason": "No independently correct committed proposal"
+    },
+    {
+      "turn": 13,
+      "status": "NOT_REACHED",
+      "reason": "No independently correct committed proposal"
+    }
+  ],
+  "inspection": {
+    "explicitInspectToolCalls": 0,
+    "sceneFactsAndTwoRenderedViewsProvided": true,
+    "providerFunctions": [
+      "execute_step",
+      "finish_task",
+      "execute_step"
+    ]
+  },
+  "costs": {
+    "calls": 4,
+    "ceilingUSD": 5,
+    "accountedUSD": 0.199035,
+    "estimatedUSD": 0.159228,
+    "unknownReservations": [],
+    "inputTokens": 59339,
+    "outputTokens": 4055,
+    "reviewerMs": 24985,
+    "stopReason": null
+  },
+  "elapsedMs": 74450,
+  "limitations": [
+    "Single diagnostic trial; not a comparative reliability score.",
+    "No evidence yet that fresh AI recalls a decision after recent-history aging or honors a later revision.",
+    "Pricing is a documented estimate; billing balance and recharge state were not verified and remained under user supervision.",
+    "Offline diagnostic solids are not a live saved project."
+  ]
+}

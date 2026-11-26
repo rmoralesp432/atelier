@@ -1,0 +1,397 @@
+[
+  {
+    "orientedPlanSize": [
+      0.3196145549477787,
+      0.2,
+      0.3196145549477787
+    ],
+    "id": "c0523436-3587-4694-b944-10fee7fb31be",
+    "name": "Turntable pedestal",
+    "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+    "bounds": {
+      "min": [
+        -0.16,
+        0,
+        -0.16
+      ],
+      "max": [
+        0.16,
+        0.2,
+        0.16
+      ]
+    },
+    "size": [
+      0.32,
+      0.2,
+      0.32
+    ],
+    "center": [
+      0,
+      0.1,
+      0
+    ],
+    "volume": 0.01605912827159521,
+    "triangleVolume": 0.016059128628137225,
+    "triangles": 252,
+    "editable": true
+  },
+  {
+    "orientedPlanSize": [
+      0.6991568247171808,
+      0.04000000000000001,
+      0.6991568247171808
+    ],
+    "id": "01c67141-8920-4e69-b5d6-64549f9637ee",
+    "name": "Circular turntable",
+    "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+    "bounds": {
+      "min": [
+        -0.35,
+        0.2,
+        -0.35
+      ],
+      "max": [
+        0.35,
+        0.24000000000000002,
+        0.35
+      ]
+    },
+    "size": [
+      0.7,
+      0.04000000000000001,
+      0.7
+    ],
+    "center": [
+      0,
+      0.22000000000000003,
+      0
+    ],
+    "volume": 0.015369087603675103,
+    "triangleVolume": 0.01536908426044597,
+    "triangles": 252,
+    "editable": true
+  },
+  {
+    "orientedPlanSize": [
+      0.66,
+      0.025,
+      0.12
+    ],
+    "id": "a21d6485-42de-48b9-af8d-e5cd9495c8df",
+    "name": "Frame left foot",
+    "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+    "bounds": {
+      "min": [
+        -0.53,
+        0,
+        -0.33
+      ],
+      "max": [
+        -0.41000000000000003,
+        0.025,
+        0.33
+      ]
+    },
+    "size": [
+      0.12,
+      0.025,
+      0.66
+    ],
+    "center": [
+      -0.47000000000000003,
+      0.0125,
+      0
+    ],
+    "volume": 0.00198,
+    "triangleVolume": 0.00197999969512222,
+    "triangles": 12,
+    "editable": true
+  },
+  {
+    "orientedPlanSize": [
+      0.66,
+      0.025,
+      0.12000000000000005
+    ],
+    "id": "5b390056-2000-4cc0-a092-d7279bc0d79a",
+    "name": "Frame right foot",
+    "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+    "bounds": {
+      "min": [
+        0.41,
+        0,
+        -0.33
+      ],
+      "max": [
+        0.53,
+        0.025,
+        0.33
+      ]
+    },
+    "size": [
+      0.12000000000000005,
+      0.025,
+      0.66
+    ],
+    "center": [
+      0.47,
+      0.0125,
+      0
+    ],
+    "volume": 0.001980000000000001,
+    "triangleVolume": 0.0019799996951222207,
+    "triangles": 12,
+    "editable": true
+  },
+  {
+    "orientedPlanSize": [
+      0.03999999999999998,
+      0.595,
+      0.04
+    ],
+    "id": "96c402f0-c489-4d1c-ab42-c4760a968aff",
+    "name": "Frame left post",
+    "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+    "bounds": {
+      "min": [
+        -0.49,
+        0.025,
+        -0.02
+      ],
+      "max": [
+        -0.45,
+        0.62,
+        0.02
+      ]
+    },
+    "size": [
+      0.03999999999999998,
+      0.595,
+      0.04
+    ],
+    "center": [
+      -0.47,
+      0.3225,
+      0
+    ],
+    "volume": 0.0009519999999999995,
+    "triangleVolume": 0.0009520004964470791,
+    "triangles": 12,
+    "editable": true
+  },
+  {
+    "orientedPlanSize": [
+      0.03999999999999998,
+      0.595,
+      0.04
+    ],
+    "id": "1a131580-9b52-42db-bb27-93d2b88543bd",
+    "name": "Frame right post",
+    "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+    "bounds": {
+      "min": [
+        0.44999999999999996,
+        0.025,
+        -0.02
+      ],
+      "max": [
+        0.48999999999999994,
+        0.62,
+        0.02
+      ]
+    },
+    "size": [
+      0.03999999999999998,
+      0.595,
+      0.04
+    ],
+    "center": [
+      0.47,
+      0.3225,
+      0
+    ],
+    "volume": 0.0009519999999999999,
+    "triangleVolume": 0.0009520004964470785,
+    "triangles": 12,
+    "editable": true
+  },
+  {
+    "orientedPlanSize": [
+      0.98,
+      0.040000000000000036,
+      0.04
+    ],
+    "id": "d3c1565b-a5a0-4e82-b0b3-06308c911feb",
+    "name": "Frame crossbeam",
+    "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+    "bounds": {
+      "min": [
+        -0.49,
+        0.62,
+        -0.02
+      ],
+      "max": [
+        0.49,
+        0.66,
+        0.02
+      ]
+    },
+    "size": [
+      0.98,
+      0.040000000000000036,
+      0.04
+    ],
+    "center": [
+      0,
+      0.64,
+      0
+    ],
+    "volume": 0.0015680000000000004,
+    "triangleVolume": 0.0015680008366107908,
+    "triangles": 12,
+    "editable": true
+  },
+  {
+    "orientedPlanSize": [
+      0.8,
+      0.040000000000000036,
+      0.74
+    ],
+    "id": "d878c4e2-2852-4c6a-ba0a-d128676cd810",
+    "name": "Overhead rectangular light panel",
+    "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+    "bounds": {
+      "min": [
+        -0.4,
+        0.56,
+        -0.37
+      ],
+      "max": [
+        0.4,
+        0.6000000000000001,
+        0.37
+      ]
+    },
+    "size": [
+      0.8,
+      0.040000000000000036,
+      0.74
+    ],
+    "center": [
+      0,
+      0.5800000000000001,
+      0
+    ],
+    "volume": 0.02368,
+    "triangleVolume": 0.02368001336097753,
+    "triangles": 12,
+    "editable": true
+  },
+  {
+    "orientedPlanSize": [
+      0.025,
+      0.020000000000000018,
+      0.024999999999999994
+    ],
+    "id": "81b8d462-06f6-4ea6-ae67-5142af67d1f3",
+    "name": "Light panel left hanger",
+    "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+    "bounds": {
+      "min": [
+        -0.2625,
+        0.6,
+        -0.0125
+      ],
+      "max": [
+        -0.23750000000000002,
+        0.62,
+        0.0125
+      ]
+    },
+    "size": [
+      0.024999999999999994,
+      0.020000000000000018,
+      0.025
+    ],
+    "center": [
+      -0.25,
+      0.61,
+      0
+    ],
+    "volume": 0.000012500000000000012,
+    "triangleVolume": 0.000012499983794991303,
+    "triangles": 12,
+    "editable": true
+  },
+  {
+    "orientedPlanSize": [
+      0.025,
+      0.020000000000000018,
+      0.025000000000000022
+    ],
+    "id": "1685c0ea-db59-4898-92bb-b807cc051849",
+    "name": "Light panel right hanger",
+    "groupId": "fc40c90b-bfab-45db-bc69-6bc2b10f0a46",
+    "bounds": {
+      "min": [
+        0.2375,
+        0.6,
+        -0.0125
+      ],
+      "max": [
+        0.2625,
+        0.62,
+        0.0125
+      ]
+    },
+    "size": [
+      0.025000000000000022,
+      0.020000000000000018,
+      0.025
+    ],
+    "center": [
+      0.25,
+      0.61,
+      0
+    ],
+    "volume": 0.000012500000000000016,
+    "triangleVolume": 0.000012499983794991164,
+    "triangles": 12,
+    "editable": true
+  },
+  {
+    "orientedPlanSize": [
+      0.3999999999999999,
+      0.4,
+      0.4
+    ],
+    "id": "7f5d476e-dac6-416a-a3af-e6f66a989d10",
+    "name": "Separate storage cube",
+    "bounds": {
+      "min": [
+        -2.2,
+        0,
+        -0.2
+      ],
+      "max": [
+        -1.8000000000000003,
+        0.4,
+        0.2
+      ]
+    },
+    "size": [
+      0.3999999999999999,
+      0.4,
+      0.4
+    ],
+    "center": [
+      -2,
+      0.2,
+      0
+    ],
+    "volume": 0.06399999999999999,
+    "triangleVolume": 0.06400001716613812,
+    "triangles": 12,
+    "editable": true
+  }
+]

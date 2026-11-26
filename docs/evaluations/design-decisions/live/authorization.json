@@ -1,0 +1,12 @@
+{
+  "recordedAt": "2026-11-26T21:25:50.075Z",
+  "application": "deb730317cafe2e0b251a788693934196660140c",
+  "authorized": true,
+  "ceilingUSD": 5,
+  "maximumPaidCalls": 60,
+  "scope": "Single 14-turn fresh-AI design-decision trial; no merge, deployment or application changes.",
+  "availableCreditUSD": null,
+  "billingVerification": "API returned 403; user explicitly took supervision of billing: dont wprry about billing i will supervise that, spend at will. Existing US$5 and 60-call limits retained.",
+  "autoRecharge": "Unverified, unchanged; under user supervision",
+  "prices": "Current documented registry estimate rechecked 2026-11-26; official page inaccessible; input 2/output 10 USD per million, reservation 4/15 plus 25 percent"
+}

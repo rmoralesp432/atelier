@@ -1,0 +1,320 @@
+{
+  "label": "Scripted calibration only; no fresh AI",
+  "appCommit": "deb730317cafe2e0b251a788693934196660140c",
+  "status": "OFFLINE_PASS",
+  "turns": [
+    {
+      "turn": 1,
+      "status": "PASS",
+      "committed": true,
+      "objects": 6,
+      "elapsedMs": 18876,
+      "decision": [
+        {
+          "topic": "Sample loading",
+          "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+          "revision": 1,
+          "quote": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "origin": {
+            "id": "4b915d63-ff21-49dc-a608-adb4c0aaeb7d",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      ],
+      "wrong": []
+    },
+    {
+      "turn": 2,
+      "status": "PASS",
+      "committed": true,
+      "objects": 6,
+      "elapsedMs": 4946,
+      "decision": [
+        {
+          "topic": "Sample loading",
+          "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+          "revision": 1,
+          "quote": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "origin": {
+            "id": "4b915d63-ff21-49dc-a608-adb4c0aaeb7d",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      ],
+      "wrong": []
+    },
+    {
+      "turn": 3,
+      "status": "PASS",
+      "committed": true,
+      "objects": 6,
+      "elapsedMs": 4609,
+      "decision": [
+        {
+          "topic": "Sample loading",
+          "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+          "revision": 1,
+          "quote": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "origin": {
+            "id": "4b915d63-ff21-49dc-a608-adb4c0aaeb7d",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      ],
+      "wrong": []
+    },
+    {
+      "turn": 4,
+      "status": "PASS",
+      "committed": true,
+      "objects": 6,
+      "elapsedMs": 4487,
+      "decision": [
+        {
+          "topic": "Sample loading",
+          "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+          "revision": 1,
+          "quote": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "origin": {
+            "id": "4b915d63-ff21-49dc-a608-adb4c0aaeb7d",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      ],
+      "wrong": []
+    },
+    {
+      "turn": 5,
+      "status": "PASS",
+      "committed": true,
+      "objects": 6,
+      "elapsedMs": 4740,
+      "decision": [
+        {
+          "topic": "Sample loading",
+          "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+          "revision": 1,
+          "quote": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "origin": {
+            "id": "4b915d63-ff21-49dc-a608-adb4c0aaeb7d",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      ],
+      "wrong": []
+    },
+    {
+      "turn": 6,
+      "status": "PASS",
+      "committed": true,
+      "objects": 7,
+      "elapsedMs": 5383,
+      "decision": [
+        {
+          "topic": "Sample loading",
+          "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+          "revision": 1,
+          "quote": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "origin": {
+            "id": "4b915d63-ff21-49dc-a608-adb4c0aaeb7d",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      ],
+      "wrong": []
+    },
+    {
+      "turn": 7,
+      "status": "PASS",
+      "committed": true,
+      "objects": 7,
+      "elapsedMs": 4161,
+      "decision": [
+        {
+          "topic": "Sample loading",
+          "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+          "revision": 1,
+          "quote": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "origin": {
+            "id": "4b915d63-ff21-49dc-a608-adb4c0aaeb7d",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      ],
+      "wrong": []
+    },
+    {
+      "turn": 8,
+      "status": "PASS",
+      "committed": true,
+      "objects": 7,
+      "elapsedMs": 4324,
+      "decision": [
+        {
+          "topic": "Sample loading",
+          "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+          "revision": 1,
+          "quote": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "origin": {
+            "id": "4b915d63-ff21-49dc-a608-adb4c0aaeb7d",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      ],
+      "wrong": []
+    },
+    {
+      "turn": 9,
+      "status": "PASS",
+      "committed": true,
+      "objects": 7,
+      "elapsedMs": 4767,
+      "decision": [
+        {
+          "topic": "Sample loading",
+          "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+          "revision": 1,
+          "quote": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "origin": {
+            "id": "4b915d63-ff21-49dc-a608-adb4c0aaeb7d",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      ],
+      "wrong": []
+    },
+    {
+      "turn": 10,
+      "status": "PASS",
+      "committed": true,
+      "objects": 7,
+      "elapsedMs": 4634,
+      "decision": [
+        {
+          "topic": "Sample loading",
+          "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+          "revision": 1,
+          "quote": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "origin": {
+            "id": "4b915d63-ff21-49dc-a608-adb4c0aaeb7d",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      ],
+      "wrong": []
+    },
+    {
+      "turn": 11,
+      "status": "PASS",
+      "committed": true,
+      "objects": 7,
+      "elapsedMs": 4719,
+      "decision": [
+        {
+          "topic": "Sample loading",
+          "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+          "revision": 1,
+          "quote": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "origin": {
+            "id": "4b915d63-ff21-49dc-a608-adb4c0aaeb7d",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      ],
+      "wrong": []
+    },
+    {
+      "turn": 12,
+      "status": "PASS",
+      "committed": true,
+      "objects": 7,
+      "elapsedMs": 22161,
+      "decision": [
+        {
+          "topic": "Sample loading",
+          "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+          "revision": 1,
+          "quote": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+          "origin": {
+            "id": "4b915d63-ff21-49dc-a608-adb4c0aaeb7d",
+            "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+          }
+        }
+      ],
+      "recall": {
+        "originalInstructionInRecentHistory": false,
+        "potentialAssistantReminders": [],
+        "recentHistory": [],
+        "decisionInOriginalNotes": [
+          {
+            "topic": "Sample loading",
+            "text": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+            "source": "user",
+            "decision": {
+              "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+              "revision": 1,
+              "quote": "Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig.",
+              "origin": {
+                "id": "4b915d63-ff21-49dc-a608-adb4c0aaeb7d",
+                "text": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame."
+              }
+            }
+          }
+        ],
+        "source": "Requires human semantic review; pre-edit geometry itself also reveals the gap"
+      },
+      "wrong": []
+    },
+    {
+      "turn": 13,
+      "status": "PASS",
+      "committed": true,
+      "objects": 7,
+      "elapsedMs": 20134,
+      "decision": [
+        {
+          "topic": "Sample loading",
+          "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+          "revision": 2,
+          "quote": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+          "origin": {
+            "id": "d3e4264b-ad0a-4214-9f0c-8f778d11d244",
+            "text": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone."
+          }
+        }
+      ],
+      "wrong": []
+    },
+    {
+      "turn": 14,
+      "status": "PASS",
+      "committed": true,
+      "objects": 7,
+      "elapsedMs": 22772,
+      "decision": [
+        {
+          "topic": "Sample loading",
+          "id": "96179e2e-d900-44e5-a107-8a95cf99507c",
+          "revision": 2,
+          "quote": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone.",
+          "origin": {
+            "id": "d3e4264b-ad0a-4214-9f0c-8f778d11d244",
+            "text": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone."
+          }
+        }
+      ],
+      "wrong": []
+    }
+  ],
+  "costs": {
+    "calls": 0,
+    "ceilingUSD": 5,
+    "accountedUSD": 0,
+    "estimatedUSD": 0,
+    "unknownReservations": [],
+    "inputTokens": 0,
+    "outputTokens": 0,
+    "reviewerMs": 0,
+    "stopReason": null
+  }
+}

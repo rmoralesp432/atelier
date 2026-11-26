@@ -1,0 +1,330 @@
+{
+  "label": "Scripted calibration only; no fresh AI",
+  "appCommit": "deb730317cafe2e0b251a788693934196660140c",
+  "batch": "offline-1",
+  "started": "2026-11-26T21:28:18.519Z",
+  "turns": [
+    {
+      "turn": 1,
+      "prompt": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+      "started": "2026-11-26T21:28:22.369Z",
+      "status": "NOT_COMMITTED",
+      "events": [
+        {
+          "kind": "reviewer",
+          "input": {
+            "message": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+            "history": [],
+            "scene": {
+              "understanding": {
+                "inventory": [],
+                "focus": {
+                  "ids": [],
+                  "bounds": null,
+                  "nearby": []
+                }
+              },
+              "site": null,
+              "design": {
+                "notes": [],
+                "views": [],
+                "alternatives": []
+              },
+              "units": "meters",
+              "north": "-Z",
+              "groups": [],
+              "mapBearing": null,
+              "selectedIds": [],
+              "conversation": {
+                "focusIds": [],
+                "lastCreatedIds": [],
+                "lastOperands": [],
+                "lastOperation": null
+              },
+              "camera": {
+                "pose": {
+                  "position": {
+                    "x": 22.526336347336205,
+                    "y": 17.768435443135346,
+                    "z": 36.04213815573792
+                  },
+                  "target": {
+                    "x": 0,
+                    "y": 2,
+                    "z": 0
+                  },
+                  "projection": "perspective",
+                  "zoom": 1,
+                  "fov": 40
+                },
+                "right": {
+                  "x": 0.8479983040050879,
+                  "y": 0,
+                  "z": -0.5299989400031802
+                },
+                "forward": {
+                  "x": -0.5299989400031802,
+                  "y": 0,
+                  "z": -0.8479983040050879
+                },
+                "visible": []
+              },
+              "objects": []
+            },
+            "images": [],
+            "candidate": [
+              {
+                "id": "a5c01eac-1e08-4d67-87f4-34b55df7e475",
+                "name": "Turntable",
+                "groupId": "e7360c93-d647-4e63-87c9-db55be5ad2f5",
+                "role": "element",
+                "level": null
+              },
+              {
+                "id": "6657d260-5e62-4f55-87cf-2ac34e2c5b14",
+                "name": "Light panel",
+                "groupId": "878e4734-d951-42dd-9ef3-80b31540b065",
+                "role": "element",
+                "level": null
+              },
+              {
+                "id": "19c793da-fa81-4fce-a408-838af059a43c",
+                "name": "Post left",
+                "groupId": "240b7d85-e3d2-4a7c-9ce9-1fcd519a3d80",
+                "role": "element",
+                "level": null
+              },
+              {
+                "id": "bf68e653-e751-4024-86b3-4067d887c269",
+                "name": "Post right",
+                "groupId": "27c6f948-d15a-4bb7-82dd-78503700a5d5",
+                "role": "element",
+                "level": null
+              },
+              {
+                "id": "f976db63-89b2-4db9-9913-6d0015f5d7ea",
+                "name": "Crossbeam",
+                "groupId": "853aadd2-c0a4-456d-81f7-1a6ecd88529e",
+                "role": "element",
+                "level": null
+              },
+              {
+                "id": "fc3dda0d-bc5f-4fdd-858f-dabebe1be415",
+                "name": "Storage cube",
+                "groupId": "4f529523-2d25-4d7d-bcab-42cfb1b415e9",
+                "role": "element",
+                "level": null
+              }
+            ]
+          },
+          "response": {
+            "modeling": true,
+            "editable": [],
+            "checks": [
+              {
+                "source": "request",
+                "evidence": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+                "requirement": {
+                  "kind": "measure",
+                  "id": "topTurntable",
+                  "label": "topTurntable",
+                  "selector": {
+                    "refs": [
+                      "$name:Turntable"
+                    ],
+                    "nameContains": null,
+                    "role": null,
+                    "level": null
+                  },
+                  "metric": "top",
+                  "aggregation": "each",
+                  "comparison": "equal",
+                  "value": 0.24,
+                  "tolerance": 0.001,
+                  "relativeTolerance": 0
+                }
+              },
+              {
+                "source": "request",
+                "evidence": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+                "requirement": {
+                  "kind": "offset",
+                  "id": "loading-clearance",
+                  "label": "Sample-loading clearance",
+                  "first": {
+                    "refs": [
+                      "$name:Turntable"
+                    ],
+                    "nameContains": null,
+                    "role": null,
+                    "level": null
+                  },
+                  "second": {
+                    "refs": [
+                      "$name:Light panel"
+                    ],
+                    "nameContains": null,
+                    "role": null,
+                    "level": null
+                  },
+                  "axis": "y",
+                  "firstAnchor": "max",
+                  "secondAnchor": "min",
+                  "value": 0.32,
+                  "tolerance": 0.001
+                }
+              }
+            ],
+            "qualitativeLimits": []
+          },
+          "scripted": true
+        }
+      ],
+      "committed": false,
+      "objects": 0,
+      "changedIds": [],
+      "preservedIds": [],
+      "notes": [],
+      "decision": [],
+      "reviewerCitations": [
+        {
+          "checks": [
+            {
+              "source": "request",
+              "evidence": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+              "requirement": {
+                "kind": "measure",
+                "id": "topTurntable",
+                "label": "topTurntable",
+                "selector": {
+                  "refs": [
+                    "$name:Turntable"
+                  ],
+                  "nameContains": null,
+                  "role": null,
+                  "level": null
+                },
+                "metric": "top",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0.24,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "source": "request",
+              "evidence": "Create a small editable tabletop scanning rig. Use a circular turntable 70 cm across with its top 24 cm above the floor, and an overhead rectangular light panel centered over it, supported by a freestanding frame with two posts and a crossbeam. Leave exactly 32 cm clear between the turntable top and the underside of the light panel so bulky samples can be inserted. Keep that sample-loading space usable as we develop the rig. Add a separate 40 cm storage cube two meters to the left. Keep the parts separate and choose sensible dimensions for the frame.",
+              "requirement": {
+                "kind": "offset",
+                "id": "loading-clearance",
+                "label": "Sample-loading clearance",
+                "first": {
+                  "refs": [
+                    "$name:Turntable"
+                  ],
+                  "nameContains": null,
+                  "role": null,
+                  "level": null
+                },
+                "second": {
+                  "refs": [
+                    "$name:Light panel"
+                  ],
+                  "nameContains": null,
+                  "role": null,
+                  "level": null
+                },
+                "axis": "y",
+                "firstAnchor": "max",
+                "secondAnchor": "min",
+                "value": 0.32,
+                "tolerance": 0.001
+              }
+            }
+          ],
+          "qualitativeLimits": [],
+          "editable": []
+        }
+      ],
+      "originalPreserved": true,
+      "reload": {
+        "project": true,
+        "notes": true,
+        "history": true,
+        "conversation": true,
+        "context": true,
+        "indexedDBOnly": true
+      },
+      "elapsedMs": 5528,
+      "costs": {
+        "calls": 0,
+        "ceilingUSD": 5,
+        "accountedUSD": 0,
+        "estimatedUSD": 0,
+        "unknownReservations": [],
+        "inputTokens": 0,
+        "outputTokens": 0,
+        "reviewerMs": 0,
+        "stopReason": null
+      }
+    }
+  ],
+  "status": "INCOMPLETE",
+  "stopReason": "Turn 1: NOT_COMMITTED",
+  "notReached": [
+    {
+      "turn": 2,
+      "prompt": "Make the storage cube 50 cm tall, keeping its base on the floor."
+    },
+    {
+      "turn": 3,
+      "prompt": "Make that storage cube 55 cm wide."
+    },
+    {
+      "turn": 4,
+      "prompt": "Make the storage cube 45 cm deep."
+    },
+    {
+      "turn": 5,
+      "prompt": "Move the storage cube 20 cm farther left."
+    },
+    {
+      "turn": 6,
+      "prompt": "Add a separate round sample puck, 12 cm in diameter and 3 cm thick, beside the storage cube."
+    },
+    {
+      "turn": 7,
+      "prompt": "Make that sample puck 5 cm thick, with its base still on the floor."
+    },
+    {
+      "turn": 8,
+      "prompt": "Make the sample puck 16 cm in diameter."
+    },
+    {
+      "turn": 9,
+      "prompt": "Move the sample puck 15 cm forward."
+    },
+    {
+      "turn": 10,
+      "prompt": "Make the storage cube 60 cm tall, leaving its footprint and position unchanged."
+    },
+    {
+      "turn": 11,
+      "prompt": "Make the sample puck 4 cm thick, keeping its base on the floor."
+    },
+    {
+      "turn": 12,
+      "prompt": "Raise the turntable surface by 11 cm. Keep its diameter and horizontal position unchanged."
+    },
+    {
+      "turn": 13,
+      "prompt": "We will only scan flatter samples now. Change the sample-loading clearance to exactly 18 cm instead of 32 cm. Keep the turntable where it is and leave the storage cube and sample puck alone."
+    },
+    {
+      "turn": 14,
+      "prompt": "Raise the turntable surface by another 7 cm, keeping its diameter and horizontal position unchanged."
+    }
+  ],
+  "finished": "2026-11-26T21:28:27.898Z"
+}

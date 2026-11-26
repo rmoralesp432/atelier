@@ -1,0 +1,14 @@
+[
+  {
+    "stage": "budget test discovery",
+    "result": "No tests found; repository config only includes src/**/*.test.ts; separate evaluation config added."
+  },
+  {
+    "stage": "geometry calibration before paid calls",
+    "result": "Zod rejected create_at dimensions below its 0.1 m limit; calibration now uses existing thin-part assembly tool. Application and trial prompts unchanged."
+  },
+  {
+    "stage": "offline browser attempt 1",
+    "result": "Scripted criteria used a 542-character complete request where evidence allows 400 characters; server correctly refused the malformed calibration. Shortened only the scripted quotation to a verbatim excerpt. Offline attempt 1 remains NOT_COMMITTED, no paid calls; rerun is offline-2."
+  }
+]
