@@ -1,0 +1,2076 @@
+diff --git a/scripts/design-decision-evaluation/browser.ts b/scripts/design-decision-evaluation/browser.ts
+new file mode 100644
+index 0000000..cc4ce3d
+--- /dev/null
++++ b/scripts/design-decision-evaluation/browser.ts
+@@ -0,0 +1,443 @@
++/** Offline normal-browser rehearsal. Every provider response is explicitly scripted. */
++import assert from 'node:assert/strict';
++import { mkdirSync, writeFileSync, existsSync } from 'node:fs';
++import { resolve, join } from 'node:path';
++import express from 'express';
++import { chromium, expect } from '@playwright/test';
++import {
++  parseSession,
++  serializeSession,
++  type Session,
++} from '../../src/intelligence/engine';
++import { verifyCompletion } from '../../src/intelligence/completion';
++import { requestSchema, completionRequestSchema } from '../../server/provider';
++import { readCompletionCriteria } from '../../server/completion';
++import { compactCompletionCriteria } from '../../server/completionWire';
++import { conversationHistory } from '../../src/intelligence/client';
++import { inspectScene } from '../../server/sceneInspection';
++import { equalData } from '../../src/projects/equalData';
++import { modelingActive } from '../release-evaluation/browser-state';
++import {
++  empty,
++  plan,
++  sequence,
++  stepOperations,
++  stepFacts,
++  stepCriteria,
++  decision,
++  revision,
++  label,
++} from './session';
++
++const folder = resolve(
++  process.argv[2] ?? 'docs/evaluations/design-decisions/offline-1',
++);
++assert(!existsSync(join(folder, 'result.json')), 'Never overwrite an attempt');
++mkdirSync(folder, { recursive: true });
++const result: any = {
++  label,
++  paidCalls: 0,
++  started: new Date().toISOString(),
++  turns: [],
++  negativeControls: [],
++  requests: [],
++  browserErrors: [],
++};
++const save = () =>
++  writeFileSync(join(folder, 'result.json'), JSON.stringify(result, null, 2));
++const app = express();
++app.use(express.static(resolve('dist')));
++const server = app.listen(0, '127.0.0.1');
++await new Promise<void>((r) => server.on('listening', r));
++const origin = `http://127.0.0.1:${(server.address() as any).port}`;
++const browser = await chromium.launch({
++  executablePath: '/usr/bin/chromium',
++  args: [
++    '--no-sandbox',
++    '--use-angle=swiftshader',
++    '--enable-unsafe-swiftshader',
++  ],
++});
++let step = 0,
++  negative = false,
++  served = false,
++  before = empty(),
++  negativeOps: any[] = [];
++const model = (s: Session) => ({
++  project: s.project,
++  past: s.past,
++  future: s.future,
++  context: s.context,
++});
++const saved = async (p: any) =>
++  parseSession(
++    await p.evaluate(() => localStorage.getItem('atelier.session.v2')!),
++  );
++const chat = async (p: any) =>
++  p.evaluate(() =>
++    JSON.parse(localStorage.getItem('atelier.conversation.v2') ?? '[]'),
++  );
++async function open(initial = empty(), messages: any[] = []) {
++  const context = await browser.newContext({
++    viewport: { width: 1440, height: 1000 },
++    storageState: {
++      cookies: [],
++      origins: [
++        {
++          origin,
++          localStorage: [
++            { name: 'atelier.start-direct', value: 'true' },
++            { name: 'atelier.session.v2', value: serializeSession(initial) },
++            {
++              name: 'atelier.conversation.v2',
++              value: JSON.stringify(messages),
++            },
++          ],
++        },
++      ],
++    },
++  });
++  await context.route('**/*', (r: any) =>
++    new URL(r.request().url()).origin === origin &&
++    !new URL(r.request().url()).pathname.startsWith('/api/')
++      ? r.continue()
++      : r.abort(),
++  );
++  const page = await context.newPage();
++  page.setDefaultTimeout(20000);
++  page.on('pageerror', (e: any) => {
++    result.browserErrors.push(String(e));
++    save();
++  });
++  await page.route('**/api/config', (r: any) =>
++    r.fulfill({
++      json: {
++        configured: true,
++        authenticated: true,
++        agentConfigured: true,
++        voiceConfigured: false,
++      },
++    }),
++  );
++  await page.route('**/api/plan', async (r: any) => {
++    const body = r.request().postDataJSON();
++    const record: any = { turn: step + 1, negative, kind: 'executor', body };
++    result.requests.push(record);
++    save();
++    if (negative && served)
++      return r.fulfill({
++        status: 422,
++        json: {
++          code: 'modeling_blocked',
++          error:
++            'Offline negative control: stop after the host reports the measured failure; no scripted repair.',
++        },
++      });
++    if (body.validationFeedback)
++      return r.fulfill({
++        status: 422,
++        json: {
++          code: 'modeling_blocked',
++          error:
++            'Offline rehearsal encountered unexpected host feedback; preserve this failure.',
++        },
++      });
++    record.inspectionProbe = {
++      label:
++        'Harness invocation of existing inspector, not an autonomous AI tool call',
++      result: inspectScene(requestSchema.parse(body), {
++        ids: [],
++        role: null,
++        snapshot: 'before',
++        relativeTo: step === 0 ? null : 'Tabletop',
++      }),
++    };
++    served = true;
++    record.scriptedResponse = plan(
++      negative ? negativeOps : stepOperations(step, before),
++    );
++    save();
++    await r.fulfill({ json: record.scriptedResponse });
++  });
++  await page.route('**/api/completion-criteria', async (r: any) => {
++    const body = r.request().postDataJSON();
++    const scripted = stepCriteria(step, before);
++    // Real request validation and independent-review citation parser; only the
++    // model's structured response is scripted. No network-capable SDK is used.
++    const sdk: any = {
++      responses: {
++        create: async () => ({
++          status: 'completed',
++          output_text: JSON.stringify(compactCompletionCriteria(scripted)),
++        }),
++      },
++    };
++    const response = await readCompletionCriteria(
++      sdk,
++      completionRequestSchema.parse(body),
++      { model: 'OFFLINE-NO-API', textApi: 'responses', maxOutputTokens: 6000 },
++    );
++    result.requests.push({
++      turn: step + 1,
++      negative,
++      kind: 'reviewer',
++      body,
++      scriptedResponse: response,
++    });
++    save();
++    await r.fulfill({ json: response });
++  });
++  await page.goto(origin);
++  await expect(page.getByTestId('viewport')).toBeVisible({ timeout: 45000 });
++  await expect
++    .poll(async () => equalData(model(await saved(page)), model(initial)), {
++      timeout: 20000,
++    })
++    .toBe(true);
++  return page;
++}
++async function send(page: any) {
++  const count = (await chat(page)).length;
++  await page
++    .getByRole('textbox', { name: 'Message Atelier' })
++    .fill(sequence[step].prompt);
++  await page.getByRole('button', { name: 'Send message', exact: true }).click();
++  await expect
++    .poll(
++      async () =>
++        (await chat(page)).length >= count + 2 && !(await modelingActive(page)),
++      { timeout: 90000 },
++    )
++    .toBe(true);
++}
++async function durable(page: any, expected: Session) {
++  const records = async () =>
++    page.evaluate(
++      () =>
++        new Promise<any[]>((resolve, reject) => {
++          const q = indexedDB.open('atelier-projects', 1);
++          q.onerror = () => reject(q.error);
++          q.onsuccess = () => {
++            const db = q.result;
++            const r = db
++              .transaction('projects', 'readonly')
++              .objectStore('projects')
++              .getAll();
++            r.onerror = () => reject(r.error);
++            r.onsuccess = () => {
++              db.close();
++              resolve(r.result);
++            };
++          };
++        }),
++    );
++  await expect
++    .poll(
++      async () => {
++        const r = await records();
++        return r.some((r: any) =>
++          equalData(model(parseSession(r.session)), model(expected)),
++        );
++      },
++      { timeout: 20000 },
++    )
++    .toBe(true);
++  return await records();
++}
++async function reload(page: any, expected: Session, clearCheckpoint = false) {
++  const history = await chat(page);
++  const stored = await durable(page, expected);
++  if (clearCheckpoint)
++    await page.evaluate(() => {
++      localStorage.removeItem('atelier.session.v2');
++      localStorage.removeItem('atelier.conversation.v2');
++      localStorage.removeItem('atelier.project.checkpoint');
++    });
++  await page.reload();
++  await expect(page.getByTestId('viewport')).toBeVisible();
++  await expect
++    .poll(async () => equalData(model(await saved(page)), model(expected)))
++    .toBe(true);
++  assert(equalData(history, await chat(page)));
++  return {
++    project: true,
++    history: true,
++    conversation: true,
++    context: true,
++    viaIndexedDB: clearCheckpoint,
++    storedProjectIds: stored.map((p: any) => p.id),
++  };
++}
++let page: any;
++try {
++  page = await open();
++  result.emptyProjectVerified =
++    (await saved(page)).project.volumes.length === 0;
++  for (step = 0; step < sequence.length; step++) {
++    before = await saved(page);
++    const messagesBefore = await chat(page);
++    const turn: any = {
++      turn: step + 1,
++      prompt: sequence[step].prompt,
++      originalSessionStep: sequence[step].base,
++      before,
++      messagesBefore,
++    };
++    result.turns.push(turn);
++    save();
++    if (sequence[step].base === 5 || sequence[step].base === 7)
++      turn.preEditReload = await reload(page, before, true);
++    served = false;
++    await send(page);
++    const after = await saved(page);
++    turn.after = after;
++    turn.messagesAfter = await chat(page);
++    turn.facts = await stepFacts(after, step, before);
++    turn.host = await verifyCompletion(
++      stepCriteria(step, before),
++      before,
++      after,
++    );
++    assert(
++      turn.facts.every((x: any) => x.passed),
++      JSON.stringify(turn.facts.filter((x: any) => !x.passed)),
++    );
++    assert(turn.host.canCommit);
++    assert.equal(after.past.length, before.past.length + 1);
++    turn.durable = await durable(page, after);
++    const active = after.project.design?.notes?.find(
++      (n) => n.decision,
++    )?.decision;
++    assert(active);
++    assert.equal(
++      active.quote,
++      sequence[step].base === 6 ||
++        sequence[step].base === 7 ||
++        step > sequence.findIndex((s) => s.base === 6)
++        ? revision
++        : decision,
++    );
++    const sourceMessage = turn.messagesAfter.find(
++      (m: any) => m.id === active.origin.id,
++    );
++    assert(
++      sourceMessage?.role === 'user' &&
++        sourceMessage.content === active.origin.text,
++    );
++    turn.provenance = {
++      id: active.id,
++      revision: active.revision,
++      quote: active.quote,
++      sourceMessageId: active.origin.id,
++    };
++    if (sequence[step].base === 5 || sequence[step].base === 7) {
++      const recent = conversationHistory(messagesBefore);
++      assert(
++        !recent.some((m) => m.content.includes(active.quote)),
++        'The decision must actually leave recent history.',
++      );
++      const transported = result.requests.filter(
++        (r: any) => r.turn === step + 1 && !r.negative,
++      );
++      assert(transported.some((r: any) => r.kind === 'executor'));
++      assert(transported.some((r: any) => r.kind === 'reviewer'));
++      for (const r of transported) {
++        assert(
++          !r.body.history.some((m: any) => m.content.includes(active.quote)),
++        );
++        assert(
++          r.body.scene.design.notes.some(
++            (n: any) => n.decision?.quote === active.quote,
++          ),
++        );
++      }
++      turn.recoversBeyondWindow = true;
++    }
++    turn.status = 'PASS';
++    save();
++    if ([0, 5, 6, 7].includes(sequence[step].base!))
++      await page.screenshot({ path: join(folder, `turn-${step + 1}.png`) });
++    if ([5, 6, 7].includes(sequence[step].base!)) {
++      turn.reload = await reload(page, after);
++      await page.getByRole('button', { name: 'Undo', exact: true }).click();
++      await expect
++        .poll(async () =>
++          equalData((await saved(page)).project, before.project),
++        )
++        .toBe(true);
++      const undone = await saved(page);
++      turn.undoDecision = undone.project.design?.notes;
++      await reload(page, undone, true);
++      await page.getByRole('button', { name: 'Redo', exact: true }).click();
++      await expect
++        .poll(async () => equalData(model(await saved(page)), model(after)))
++        .toBe(true);
++      turn.redoDecision = (await saved(page)).project.design?.notes;
++      turn.undoRedo = true;
++      save();
++    }
++  }
++  result.final = await saved(page);
++  result.finalMessages = await chat(page);
++  await page.context().close();
++  page = null;
++  // Same session's dependent controls, with no scripted repair or fresh reasoning.
++  for (const base of [5, 6]) {
++    const n = sequence.findIndex((s) => s.base === base);
++    step = n;
++    negative = true;
++    served = false;
++    before = result.turns[n].before;
++    negativeOps =
++      base === 5
++        ? stepOperations(n, before).slice(0, -1)
++        : stepOperations(n, before).filter(
++            (op: any) => op.type === 'design_note',
++          );
++    const control: any = {
++      turn: n + 1,
++      label:
++        base === 5
++          ? 'Panel left behind when table grows'
++          : 'Obsolete 30 cm gap retained after explicit 15 cm revision',
++    };
++    result.negativeControls.push(control);
++    save();
++    page = await open(before, result.turns[n].messagesBefore);
++    await send(page);
++    control.after = await saved(page);
++    control.originalIntact = equalData(model(before), model(control.after));
++    assert(control.originalIntact);
++    control.feedback = result.requests
++      .filter(
++        (r: any) => r.negative && r.turn === n + 1 && r.body.validationFeedback,
++      )
++      .at(-1)?.body.validationFeedback;
++    assert.equal(control.feedback?.verification?.status, 'incorrect');
++    control.reload = await reload(page, before, true);
++    control.status = 'BLOCKED_MEASURED';
++    save();
++    await page.context().close();
++    page = null;
++  }
++  result.status = 'PASS';
++} catch (e) {
++  result.status = 'FAILED';
++  result.error = String(e);
++  if (page) result.lastSaved = await saved(page).catch(() => null);
++  throw e;
++} finally {
++  if (page) await page.context().close();
++  await browser.close();
++  server.close();
++  result.finished = new Date().toISOString();
++  save();
++  console.log(
++    JSON.stringify({
++      status: result.status,
++      turns: result.turns.map((t: any) => ({ turn: t.turn, status: t.status })),
++      controls: result.negativeControls.map((c: any) => c.status),
++      error: result.error,
++    }),
++  );
++}
+diff --git a/scripts/design-decision-evaluation/export.ts b/scripts/design-decision-evaluation/export.ts
+new file mode 100644
+index 0000000..e1c2f42
+--- /dev/null
++++ b/scripts/design-decision-evaluation/export.ts
+@@ -0,0 +1,126 @@
++/** Offline export and viewport review of the actual saved rehearsal, never fresh AI. */
++import assert from 'node:assert/strict';
++import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
++import { resolve, join } from 'node:path';
++import express from 'express';
++import { chromium, expect } from '@playwright/test';
++import { projectFile, readProjectCopy } from '../../src/projects/transfer';
++import { parseSession, serializeSession } from '../../src/intelligence/engine';
++import { equalData } from '../../src/projects/equalData';
++
++const root = 'docs/evaluations/design-decisions';
++const replay = JSON.parse(
++  readFileSync(join(root, 'attempt-1/result.json'), 'utf8'),
++);
++const out = join(root, 'models');
++mkdirSync(out, { recursive: true });
++const app = express();
++app.use(express.static(resolve('dist')));
++const server = app.listen(0, '127.0.0.1');
++await new Promise<void>((r) => server.on('listening', r));
++const origin = `http://127.0.0.1:${(server.address() as any).port}`;
++const browser = await chromium.launch({
++  executablePath: '/usr/bin/chromium',
++  args: [
++    '--no-sandbox',
++    '--use-angle=swiftshader',
++    '--enable-unsafe-swiftshader',
++  ],
++});
++const records: any[] = [];
++try {
++  for (const turn of [1, 12, 13, 24]) {
++    const saved = replay.turns[turn - 1];
++    assert.equal(saved.status, 'PASS');
++    const file = projectFile(
++      { session: serializeSession(saved.after), messages: saved.messagesAfter },
++      `Decision-continuity-turn-${turn}`,
++    );
++    const text = await file.text();
++    const copy = readProjectCopy(text);
++    const restored = parseSession(copy.session);
++    for (const key of ['project', 'past', 'future', 'context'] as const)
++      assert(equalData(restored[key], saved.after[key]), key);
++    assert(equalData(copy.messages, saved.messagesAfter));
++    writeFileSync(join(out, file.name), text);
++    const context = await browser.newContext({
++      viewport: { width: 1440, height: 1000 },
++      reducedMotion: 'reduce',
++      storageState: {
++        cookies: [],
++        origins: [
++          {
++            origin,
++            localStorage: [
++              { name: 'atelier.start-direct', value: 'true' },
++              { name: 'atelier.session.v2', value: copy.session },
++              {
++                name: 'atelier.conversation.v2',
++                value: JSON.stringify(copy.messages),
++              },
++            ],
++          },
++        ],
++      },
++    });
++    await context.route('**/*', (r) =>
++      new URL(r.request().url()).origin === origin &&
++      !new URL(r.request().url()).pathname.startsWith('/api/')
++        ? r.continue()
++        : r.abort(),
++    );
++    const page = await context.newPage();
++    await page.route('**/api/config', (r) =>
++      r.fulfill({
++        json: {
++          configured: false,
++          authenticated: false,
++          voiceConfigured: false,
++        },
++      }),
++    );
++    await page.goto(origin);
++    await expect(page.getByTestId('viewport')).toBeVisible({ timeout: 45000 });
++    const minimize = page.getByRole('button', {
++      name: 'Minimize conversation',
++      exact: true,
++    });
++    if (await minimize.isVisible()) await minimize.click();
++    await page.keyboard.press('Escape');
++    await page.getByRole('button', { name: 'Frame all', exact: true }).click();
++    await page.waitForTimeout(1400);
++    await page.screenshot({ path: join(out, `turn-${turn}-framed.png`) });
++    const current = parseSession(
++      await page.evaluate(() => localStorage.getItem('atelier.session.v2')!),
++    );
++    for (const key of ['volumes', 'groups', 'design'] as const)
++      assert(equalData(current.project[key], saved.after.project[key]), key);
++    assert(equalData(current.past, saved.after.past));
++    records.push({
++      turn,
++      export: file.name,
++      objects: current.project.volumes.length,
++      undoEntries: current.past.length,
++      exactProjectHistoryAndConversationRoundTrip: true,
++      framedViewportPreservedGeometryAndHistory: true,
++    });
++    await context.close();
++  }
++} finally {
++  await browser.close();
++  server.closeAllConnections();
++  await new Promise<void>((r) => server.close(() => r()));
++}
++writeFileSync(
++  join(out, 'export-validation.json'),
++  JSON.stringify(
++    {
++      label: 'Offline views of committed scripted results; camera framing only',
++      paidCalls: 0,
++      records,
++    },
++    null,
++    2,
++  ),
++);
++console.log(JSON.stringify(records, null, 2));
+diff --git a/scripts/design-decision-evaluation/session.ts b/scripts/design-decision-evaluation/session.ts
+new file mode 100644
+index 0000000..e850eef
+--- /dev/null
++++ b/scripts/design-decision-evaluation/session.ts
+@@ -0,0 +1,519 @@
++/** Offline calibration only. No provider or paid-call path. Never imported by ATELIER. */
++import assert from 'node:assert/strict';
++import {
++  applyPlan,
++  newSession,
++  type Session,
++} from '../../src/intelligence/engine';
++import { solidStats } from '../../src/geometry/kernel';
++import { equalData } from '../../src/projects/equalData';
++import type { Plan, Operation } from '../../src/intelligence/plan';
++import type { CompletionCriteria } from '../../src/intelligence/completionSchema';
++
++export const decision =
++  'Leave exactly 30 cm clear between the back edge of the tabletop and the display panel so I can reach the cables. Keep that access space usable as we develop the station.';
++export const revision =
++  'The cables will now be reached from the side, so change the access gap to exactly 15 cm instead of 30 cm. Move only the display panel and its supports; leave the table and side pieces alone.';
++export const prompts = [
++  `Make an editable sample-review station: a simple table 1.8 m wide and 80 cm deep, with its working surface 75 cm above the floor, and a freestanding display panel centered behind it. Add a low sample plinth off to the left. ${decision} Keep the table, supports, panel and plinth as separate editable pieces. Choose reasonable dimensions for the unspecified parts.`,
++  'Make the sample plinth 80 cm wide and 60 cm high. Leave the station alone.',
++  'Add a simple round stool to the left of the table, clear of the plinth, 42 cm in diameter and 45 cm high.',
++  'Widen the tabletop to 2.1 m about its center and keep the legs sensibly under its corners. Leave the other objects alone.',
++  'Move the plinth and stool 50 cm farther left. Leave everything else where it is.',
++  'Make the table 1.2 m deep by extending its back. Keep the front edge and working height where they are.',
++  revision,
++  'Make the table 1.4 m deep, again extending the back while keeping the front edge and working height fixed.',
++];
++export const label =
++  'Scripted executor AND reviewer, actual browser/geometry/persistence; no fresh AI and no claim of autonomous recall.';
++const part = (
++  name: string,
++  w: number,
++  h: number,
++  d: number,
++  x: number,
++  y: number,
++  z: number,
++  shape = 'box',
++) => ({
++  key: name.replaceAll(' ', '-'),
++  name,
++  shape,
++  dimensions: { width: w, height: h, depth: d },
++  position: { x, y, z },
++  rotation: 0,
++  role: 'element',
++  level: null,
++  material: 'solid',
++  color: '#bfc4c7',
++  host: null,
++  repeat: null,
++});
++const assembly = (name: string, elements: any[]) => ({
++  type: 'assembly',
++  name,
++  origin: { x: 0, y: 0, z: 0 },
++  rotation: 0,
++  elements,
++});
++const edit = (
++  targets: string[],
++  translation: any = null,
++  resize: any = null,
++) => ({
++  type: 'edit_components',
++  edits: [{ targets, where: [], translation, resize }],
++});
++const move = (targets: string[], x = 0, z = 0) => edit(targets, { x, y: 0, z });
++const resize = (target: string, axis: string, value: number, anchor: number) =>
++  edit([target], null, { axis, mode: 'set', value, anchor });
++const note = (text: string) => ({
++  type: 'design_note',
++  topic: 'Cable access',
++  text,
++  source: 'user',
++});
++export const panelNames = [
++  'Display panel',
++  'Panel foot left',
++  'Panel foot right',
++  'Panel post left',
++  'Panel post right',
++];
++export const legNames = [
++  'Leg front left',
++  'Leg front right',
++  'Leg back left',
++  'Leg back right',
++];
++export const operations: any[][] = [
++  [
++    assembly('Review table', [
++      part('Tabletop', 1.8, 0.04, 0.8, 0, 0.71, 0),
++      ...legNames.map((n, i) =>
++        part(
++          n,
++          0.07,
++          0.71,
++          0.07,
++          i % 2 ? 0.825 : -0.825,
++          0,
++          i < 2 ? -0.325 : 0.325,
++        ),
++      ),
++    ]),
++    assembly('Display assembly', [
++      part('Display panel', 1.8, 1.4, 0.04, 0, 0.15, 0.72),
++      part('Panel foot left', 0.3, 0.05, 0.35, -0.65, 0, 0.72),
++      part('Panel foot right', 0.3, 0.05, 0.35, 0.65, 0, 0.72),
++      part('Panel post left', 0.05, 0.1, 0.05, -0.65, 0.05, 0.72),
++      part('Panel post right', 0.05, 0.1, 0.05, 0.65, 0.05, 0.72),
++    ]),
++    assembly('Side pieces', [part('Sample plinth', 0.6, 0.4, 0.6, -3, 0, 0.3)]),
++    note(decision),
++    {
++      type: 'design_note',
++      topic: 'Initial construction assumptions',
++      text: 'Assumed a 40 mm tabletop, four square legs and a 1.8 m wide display panel. These are reversible choices, not user requirements.',
++      source: 'assumption',
++    },
++  ],
++  [
++    resize('Sample plinth', 'width', 0.8, 0.5),
++    resize('Sample plinth', 'height', 0.6, 0),
++  ],
++  [
++    assembly('Stool', [
++      part('Round stool', 0.42, 0.45, 0.42, -1.8, 0, -0.7, 'cylinder'),
++    ]),
++  ],
++  [
++    resize('Tabletop', 'width', 2.1, 0.5),
++    move(['Leg front left', 'Leg back left'], -0.15),
++    move(['Leg front right', 'Leg back right'], 0.15),
++  ],
++  [move(['Sample plinth', 'Round stool'], -0.5)],
++  [
++    resize('Tabletop', 'depth', 1.2, 0),
++    move(['Leg back left', 'Leg back right'], 0, 0.4),
++    move(panelNames, 0, 0.4),
++  ],
++  [move(panelNames, 0, -0.15), note(revision)],
++  [
++    resize('Tabletop', 'depth', 1.4, 0),
++    move(['Leg back left', 'Leg back right'], 0, 0.2),
++    move(panelNames, 0, 0.2),
++  ],
++];
++export const changedNames = [
++  [],
++  ['Sample plinth'],
++  [],
++  ['Tabletop', ...legNames],
++  ['Sample plinth', 'Round stool'],
++  ['Tabletop', 'Leg back left', 'Leg back right', ...panelNames],
++  panelNames,
++  ['Tabletop', 'Leg back left', 'Leg back right', ...panelNames],
++];
++export const plan = (
++  ops: any[],
++  message = 'Offline calibration: execute the stated design step.',
++): Plan => ({
++  intent: 'apply',
++  message,
++  operations: ops as Operation[],
++  brief: null,
++  planning: { stage: message, assumptions: [], next: null },
++});
++export const empty = () =>
++  newSession({ volumes: [], selectedId: null, groups: [] });
++export const selector = (refs: string[]) => ({
++  refs,
++  role: null,
++  level: null,
++  nameContains: null,
++});
++const v = (s: Session, name: string) => {
++  const a = s.project.volumes.filter((v) => v.name === name);
++  assert.equal(a.length, 1, name);
++  return a[0];
++};
++
++export async function facts(s: Session, turn: number, before?: Session) {
++  const out: any[] = [];
++  const check = (
++    label: string,
++    ok: boolean,
++    expected?: unknown,
++    actual?: unknown,
++  ) => out.push({ label, passed: ok, expected, actual });
++  const near = (label: string, a: number, e: number, tol = 0.001) =>
++    check(label, Math.abs(a - e) <= tol, e, a);
++  const top = v(s, 'Tabletop'),
++    panel = v(s, 'Display panel');
++  const ts = await solidStats(top),
++    ps = await solidStats(panel);
++  const width = turn >= 3 ? 2.1 : 1.8,
++    depth = turn >= 7 ? 1.4 : turn >= 5 ? 1.2 : 0.8;
++  const gap = turn >= 6 ? 0.15 : 0.3;
++  near('Table width', ts.bounds.max[0] - ts.bounds.min[0], width);
++  near('Table depth', ts.bounds.max[2] - ts.bounds.min[2], depth);
++  near('Working height', ts.bounds.max[1], 0.75);
++  near('Fixed front edge', ts.bounds.min[2], -0.4);
++  near('Clear cable access', ps.bounds.min[2] - ts.bounds.max[2], gap);
++  near(
++    'Panel centered laterally',
++    (ps.bounds.min[0] + ps.bounds.max[0]) / 2,
++    0,
++  );
++  check(
++    'Exact fixture roster',
++    s.project.volumes.length === (turn >= 2 ? 12 : 11),
++    turn >= 2 ? 12 : 11,
++    s.project.volumes.length,
++  );
++  const px = turn >= 4 ? -3.5 : -3,
++    pl = v(s, 'Sample plinth');
++  near('Plinth X', pl.position.x, px);
++  near('Plinth width', pl.dimensions.width, turn >= 1 ? 0.8 : 0.6);
++  near('Plinth height', pl.dimensions.height, turn >= 1 ? 0.6 : 0.4);
++  if (turn >= 2) {
++    const st = v(s, 'Round stool');
++    const stats = await solidStats(st);
++    near('Stool X', st.position.x, turn >= 4 ? -2.3 : -1.8);
++    near('Stool height', stats.bounds.max[1], 0.45);
++    near('Stool diameter', stats.bounds.max[0] - stats.bounds.min[0], 0.42);
++    near(
++      'Stool occupied volume',
++      stats.volume,
++      Math.PI * 0.21 * 0.21 * 0.45,
++      Math.PI * 0.21 * 0.21 * 0.45 * 0.02,
++    );
++  }
++  for (const [i, name] of legNames.entries()) {
++    const leg = v(s, name);
++    near(name + ' X', leg.position.x, (i % 2 ? 1 : -1) * (width / 2 - 0.075));
++    near(name + ' Z', leg.position.z, i < 2 ? -0.325 : depth - 0.475);
++    near(name + ' support top', leg.position.y + leg.dimensions.height, 0.71);
++  }
++  for (const name of panelNames) {
++    const p = v(s, name);
++    near(name + ' common Z', p.position.z, depth - 0.4 + gap + 0.02);
++  }
++  for (const object of s.project.volumes) {
++    const g = await solidStats(object);
++    check(object.name + ' occupied solid', g.volume > 0);
++    check(
++      object.name + ' editable identity',
++      typeof object.id === 'string' &&
++        !s.project.groups?.find((g) => g.id === object.groupId)?.locked,
++    );
++  }
++  const cable = s.project.design?.notes?.find(
++    (n) => n.topic === 'Cable access',
++  );
++  check(
++    'Active user decision retained',
++    cable?.source === 'user' &&
++      cable.text === (turn >= 6 ? revision : decision),
++    turn >= 6 ? revision : decision,
++    cable,
++  );
++  check(
++    'Assumption remains labeled',
++    s.project.design?.notes?.find(
++      (n) => n.topic === 'Initial construction assumptions',
++    )?.source === 'assumption',
++  );
++  if (before) {
++    for (const old of before.project.volumes) {
++      const now = s.project.volumes.find((q) => q.id === old.id);
++      check(old.name + ' retains identity', !!now);
++      if (!changedNames[turn].includes(old.name))
++        check(old.name + ' unrelated unchanged', equalData(old, now));
++    }
++    check(
++      'Existing groups retained',
++      before.project.groups?.every((g) =>
++        s.project.groups?.some((n) => equalData(n, g)),
++      ) ?? true,
++    );
++  }
++  return out;
++}
++
++/** Scripted host checks calibrate the browser only; they are never supplied in future live prompts. */
++export function criteria(turn: number, original: Session): CompletionCriteria {
++  const checks: any[] = [];
++  const add = (
++    r: any,
++    source = 'request',
++    evidence = prompts[turn].slice(0, 300),
++  ) =>
++    checks.push({
++      source,
++      evidence,
++      requirement: { id: 'check-' + checks.length, label: r.kind, ...r },
++    });
++  const measure = (name: string, metric: string, value: number) =>
++    add({
++      kind: 'measure',
++      selector: selector(['$name:' + name]),
++      metric,
++      aggregation: 'each',
++      comparison: 'equal',
++      value,
++      tolerance: 0.001,
++      relativeTolerance: 0,
++    });
++  if (turn === 0) {
++    measure('Tabletop', 'width', 1.8);
++    measure('Tabletop', 'depth', 0.8);
++    measure('Tabletop', 'top', 0.75);
++    add({ kind: 'editable', selector: selector(['$new']) });
++  }
++  if (turn === 1) {
++    measure('Sample plinth', 'width', 0.8);
++    measure('Sample plinth', 'height', 0.6);
++  }
++  if (turn === 2) {
++    measure('Round stool', 'height', 0.45);
++    add({
++      kind: 'diameter',
++      selector: selector(['$name:Round stool']),
++      shape: 'cylinder',
++      value: 0.42,
++      tolerance: 0.001,
++    });
++  }
++  if (turn === 3) measure('Tabletop', 'width', 2.1);
++  if (turn === 4) {
++    measure('Sample plinth', 'x', -3.5);
++    measure('Round stool', 'x', -2.3);
++  }
++  if (turn === 5 || turn === 7) {
++    measure('Tabletop', 'depth', turn === 5 ? 1.2 : 1.4);
++    measure('Tabletop', 'top', 0.75);
++  }
++  if ([0, 5, 6, 7].includes(turn))
++    add(
++      {
++        kind: 'offset',
++        first: selector(['$name:Tabletop']),
++        second: selector(['$name:Display panel']),
++        axis: 'z',
++        firstAnchor: 'max',
++        secondAnchor: 'min',
++        value: turn >= 6 ? 0.15 : 0.3,
++        tolerance: 0.001,
++      },
++      turn === 0 || turn === 6 ? 'request' : 'decision',
++      turn >= 6 ? revision : decision,
++    );
++  return {
++    modeling: true,
++    editable: original.project.volumes
++      .filter((v) => changedNames[turn].includes(v.name))
++      .map((v) => v.id),
++    checks,
++    qualitativeLimits: [],
++  };
++}
++
++export async function referenceSession() {
++  let s = empty();
++  const records: any[] = [];
++  for (let i = 0; i < prompts.length; i++) {
++    const before = structuredClone(s);
++    s = (
++      await applyPlan(s, plan(capturedOperations(i, s)), undefined, true, {
++        id: 'offline-turn-' + i,
++        text: prompts[i],
++      })
++    ).session;
++    const f = await facts(s, i, before);
++    assert(
++      f.every((x) => x.passed),
++      JSON.stringify(f.filter((x) => !x.passed)),
++    );
++    records.push({
++      turn: i + 1,
++      prompt: prompts[i],
++      before,
++      after: structuredClone(s),
++      facts: f,
++    });
++  }
++  return records;
++}
++
++/** Host captures are submitted as model operation arguments. Expected geometry
++ * and scripted responses are evaluation-only, never application templates. */
++export function capturedOperations(turn: number, original: Session): any[] {
++  return operations[turn].map((op) =>
++    op.type === 'design_note' && op.source === 'user'
++      ? {
++          ...op,
++          capture: {
++            quote: op.text,
++            revises:
++              turn === 6
++                ? original.project.design?.notes?.find(
++                    (n) => n.topic === 'Cable access',
++                  )?.decision?.id
++                : null,
++          },
++        }
++      : op,
++  );
++}
++export type Step = {
++  base?: number;
++  prompt: string;
++  filler?: {
++    name: string;
++    metric: 'height' | 'width' | 'depth' | 'x';
++    value: number;
++  };
++};
++const editStep = (
++  name: string,
++  metric: 'height' | 'width' | 'depth',
++  value: number,
++): Step => ({
++  prompt: `Make the ${name.toLowerCase()} ${value} meters ${metric === 'height' ? 'high' : metric === 'width' ? 'wide' : 'deep'}. Keep everything else unchanged.`,
++  filler: { name, metric, value },
++});
++const base = (n: number): Step => ({ base: n, prompt: prompts[n] });
++export const sequence: Step[] = [
++  ...[0, 1, 2, 3, 4].map(base),
++  editStep('Round stool', 'height', 0.48),
++  editStep('Round stool', 'height', 0.45),
++  editStep('Sample plinth', 'depth', 0.7),
++  editStep('Sample plinth', 'depth', 0.6),
++  editStep('Sample plinth', 'width', 0.85),
++  editStep('Sample plinth', 'width', 0.8),
++  base(5),
++  base(6),
++  editStep('Sample plinth', 'width', 0.82),
++  editStep('Sample plinth', 'width', 0.8),
++  editStep('Sample plinth', 'depth', 0.72),
++  editStep('Sample plinth', 'depth', 0.6),
++  editStep('Round stool', 'height', 0.5),
++  editStep('Round stool', 'height', 0.45),
++  editStep('Sample plinth', 'height', 0.65),
++  editStep('Sample plinth', 'height', 0.6),
++  editStep('Round stool', 'height', 0.47),
++  editStep('Round stool', 'height', 0.45),
++  base(7),
++];
++export function stepOperations(step: number, original: Session) {
++  const current = sequence[step];
++  if (current.base !== undefined)
++    return capturedOperations(current.base, original);
++  const f = current.filler!;
++  return [resize(f.name, f.metric, f.value, f.metric === 'height' ? 0 : 0.5)];
++}
++export function stepCriteria(
++  step: number,
++  original: Session,
++): CompletionCriteria {
++  const current = sequence[step];
++  if (current.base !== undefined) return criteria(current.base, original);
++  const f = current.filler!;
++  return {
++    modeling: true,
++    editable: [v(original, f.name).id],
++    qualitativeLimits: [],
++    checks: [
++      {
++        source: 'request',
++        evidence: current.prompt,
++        requirement: {
++          id: 'filler-dimension',
++          label: 'Intervening dimension',
++          kind: 'measure',
++          selector: selector([v(original, f.name).id]),
++          metric: f.metric,
++          aggregation: 'each',
++          comparison: 'equal',
++          value: f.value,
++          tolerance: 0.001,
++          relativeTolerance: 0,
++        },
++      },
++    ],
++  };
++}
++export async function stepFacts(s: Session, step: number, before: Session) {
++  const current = sequence[step];
++  if (current.base !== undefined) return facts(s, current.base, before);
++  const f = current.filler!,
++    part = v(s, f.name),
++    stat = await solidStats(part);
++  const axis = f.metric === 'height' ? 1 : f.metric === 'width' ? 0 : 2;
++  const value = stat.bounds.max[axis] - stat.bounds.min[axis];
++  return [
++    {
++      label: 'Intervening solid dimension',
++      passed: Math.abs(value - f.value) <= 0.001,
++      expected: f.value,
++      actual: value,
++    },
++    {
++      label: 'Unrelated components preserved',
++      passed: before.project.volumes
++        .filter((o) => o.name !== f.name)
++        .every((o) =>
++          equalData(
++            o,
++            s.project.volumes.find((n) => n.id === o.id),
++          ),
++        ),
++    },
++    {
++      label: 'Decisions unchanged',
++      passed: equalData(before.project.design, s.project.design),
++    },
++  ];
++}
+diff --git a/server/agent.ts b/server/agent.ts
+index 0194317..be79d21 100644
+--- a/server/agent.ts
++++ b/server/agent.ts
+@@ -5,6 +5,7 @@ import {
+ import type OpenAI from 'openai';
+ import { MODELING_TOOL_CONTRACT } from '../src/intelligence/toolContract';
+ import { materialContract } from '../src/materials';
++import { compactDesignNotes, decisionPolicy } from '../src/design/decisions';
+ import { z } from 'zod';
+ import {
+   operationSchema,
+@@ -100,6 +101,7 @@ const functions = [
+ ];
+ const policy = `You are an architectural design agent working inside an editable 3D workspace.
+ ${materialContract}
++${decisionPolicy}
+ Understand the complete user intention, inspect the real scene, choose construction operations, then observe their results and correct omissions. You can model unfamiliar objects as well as buildings using the supplied geometry operations; do not rely on named building templates.
+ For contextual edits, sceneReference identifies changes since this request began. inspect_scene(snapshot=before or compare, relativeTo=an object ID) retrieves original construction and world-envelope relationships alongside the provisional result. Use the before model when preserving existing clearances, placements or proportions; do not recover them by guessing from an already edited scene. These are bounded envelope measurements, not physical contact or edit authorization. The current user request and independent checks still control scope. Missing before data is explicitly unavailable.
+ The user speaks naturally and does not manage schemas, IDs, construction sequencing or panel spacing. Infer reasonable reversible choices and record brief assumptions. Ask only about substantial design ambiguity. Never reduce explicit counts, omit requested systems, or change protected dimensions to fit a tool limit.
+@@ -119,6 +121,14 @@ export function compactScene(scene: ModelRequest['scene']) {
+   return {
+     ...scene,
+     conversation,
++    ...(scene.design
++      ? {
++          design: {
++            ...scene.design,
++            notes: compactDesignNotes(scene.design.notes ?? []),
++          },
++        }
++      : {}),
+     // Role/level membership is already carried by every object. Keep useful
+     // architectural summaries without sending the same UUIDs several times.
+     understanding: scene.understanding && {
+diff --git a/server/completion.ts b/server/completion.ts
+index ee94abf..e164636 100644
+--- a/server/completion.ts
++++ b/server/completion.ts
+@@ -13,9 +13,11 @@ import {
+ import { unavailableCompletionCriteria } from '../src/intelligence/completion';
+ import { materialContract } from '../src/materials';
+ import { compactCompletionCriteria } from './completionWire';
++import { decisionCitation } from '../src/design/decisions';
+ 
+ const policy = `You independently read the user's current 3D modeling request to define measurable acceptance checks. You are NOT the agent performing the edits and cannot execute tools or declare the resulting geometry correct.
+ Read the latest request, prior conversation only for references, and the ORIGINAL scene. Candidate labels/IDs only help select result objects. Candidate dimensions, receipts, action plans and completion claims are deliberately withheld. Derive expected outcomes from the user's words, supplied references and original geometry, never from what the agent happened to make.
++Original scene.design.notes can contain active user decisions with exact quotations, stable IDs, revisions and source-message IDs. Recover relevant continuing user intent from these even when it is absent from recent history. source=decision cites a verbatim excerpt of one active decision.quote, including the relevant condition rather than an isolated obsolete number; this source is also available to calculation quantity nodes. The host validates it against original saved notes. Legacy user labels, summaries, assumptions and candidate notes are not decision evidence. The ACTIVE project version governs after Undo/Redo; old chat and failed turns do not reinstate superseded decisions. Explicit instructions in the latest request may revise earlier decisions; use source=request for the new instruction and do not enforce the old value against it. Infer permitted connected changes from the current request and relevant active decision together, inspecting original IDs; unrelated work stays protected. Notes do not prove geometry or grant blanket edit scope.
+ Cover all material measurable requirements: counts, dimensions, positions, layout, alignment, material/role/host relationships, solid intersections/containment, and preservation. Accept different valid constructions. Do not prescribe construction steps, building templates, or arbitrary dimensions/detail not requested. A model can be conceptually simplified when the request permits it.
+ Return the compact wire format: put reusable selectors in selections and verbatim citations in evidence once. Each check has because (zero-based evidence index) and test (a predicate, with selector/first/second as zero-based selection indices). Do not emit IDs, labels or reasoning prose. Cover requirements concisely without redundant tests of the same fact. source=request/history requires a VERBATIM excerpt; source=reference identifies a supplied reference. A genuinely unsupported check uses unavailable, never a fabricated pass. Qualitative judgments belong in qualitativeLimits.
+ editable lists ONLY original IDs or original group references authorized to change by THIS request. Everything outside it is preserved automatically; hosted children can follow. Empty means preserve all originals. Use preserve checks for retained IDs, sizes, shape or placement within the edit scope. Do not inherit an old brief or failed task as an obligation. A newly requested correction may change earlier assumptions.
+@@ -170,6 +172,10 @@ export async function readCompletionCriteria(
+     for (const c of criteria.checks) {
+       for (const node of c.calculation?.nodes ?? []) {
+         if (node.kind !== 'quantity') continue;
++        if (node.source === 'decision') {
++          decisionCitation(input.scene.design?.notes ?? [], node.evidence);
++          continue;
++        }
+         const sources =
+           node.source === 'request'
+             ? [input.message]
+@@ -181,6 +187,10 @@ export async function readCompletionCriteria(
+             'The calculation cites a quantity not present in the user request or user history.',
+           );
+       }
++      if (c.source === 'decision') {
++        decisionCitation(input.scene.design?.notes ?? [], c.evidence);
++        continue;
++      }
+       const sources =
+         c.source === 'request'
+           ? [input.message]
+diff --git a/server/completionWire.ts b/server/completionWire.ts
+index 904b330..b1dc422 100644
+--- a/server/completionWire.ts
++++ b/server/completionWire.ts
+@@ -32,7 +32,7 @@ export const completionWireSchema = z
+       .array(
+         z
+           .object({
+-            source: z.enum(['request', 'history', 'reference']),
++            source: z.enum(['request', 'history', 'reference', 'decision']),
+             text: z.string().min(1).max(400),
+           })
+           .strict(),
+diff --git a/server/provider.ts b/server/provider.ts
+index 0324b2b..4ea7d86 100644
+--- a/server/provider.ts
++++ b/server/provider.ts
+@@ -22,6 +22,7 @@ import { ARCHITECTURAL_PROMPT } from '../src/intelligence/architecturalPrompt';
+ import { REASONING_PROMPT } from '../src/intelligence/reasoningPrompt';
+ import { componentSchema, poseSchema } from '../src/design/schema';
+ import OpenAI from 'openai';
++import { designNoteSchema } from '../src/design/decisions';
+ import { z } from 'zod';
+ import {
+   parsePlan,
+@@ -132,18 +133,7 @@ const baseRequestSchema = z
+           .optional(),
+         design: z
+           .object({
+-            notes: z
+-              .array(
+-                z
+-                  .object({
+-                    topic: z.string().max(80),
+-                    text: z.string().max(1500),
+-                    source: z.enum(['user', 'drawing', 'assumption']),
+-                  })
+-                  .strict(),
+-              )
+-              .max(40)
+-              .optional(),
++            notes: z.array(designNoteSchema).max(40).optional(),
+             views: z
+               .array(
+                 z.object({ name: z.string().max(80), targets: refs }).strict(),
+diff --git a/src/App.tsx b/src/App.tsx
+index 5d7a53f..e880546 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -222,6 +222,9 @@ function loadMessages(): Message[] {
+           .map((m) => ({
+             role: m.role,
+             content: m.content,
++            ...(typeof m.id === 'string' && m.id.length <= 100
++              ? { id: m.id }
++              : {}),
+             ...(typeof m.summary === 'string' ? { summary: m.summary } : {}),
+             ...(m.outcome === 'failed' ? { outcome: 'failed' as const } : {}),
+             ...(Array.isArray(m.images)
+@@ -1039,12 +1042,14 @@ export default function App({
+     summary?: string,
+     images?: string[],
+     outcome?: 'failed',
++    id?: string,
+   ) =>
+     setMessages((m) => [
+       ...m.slice(-79),
+       {
+         role,
+         content,
++        ...(id ? { id } : {}),
+         ...(summary ? { summary } : {}),
+         ...(images?.length ? { images } : {}),
+         ...(outcome ? { outcome } : {}),
+@@ -1274,7 +1279,8 @@ export default function App({
+     const abort = new AbortController();
+     planningAbort.current = abort;
+     setReferenceImages([]);
+-    remember('user', text, undefined, images);
++    const decisionOrigin = { id: crypto.randomUUID(), text };
++    remember('user', text, undefined, images, undefined, decisionOrigin.id);
+     let observation: SceneObservation | undefined;
+     let observedRevision = -1;
+     const original = captureTransaction(snapshot());
+@@ -1350,6 +1356,7 @@ export default function App({
+         abort.signal,
+         {
+           agent: connectionState.agentConfigured === true,
++          decisionOrigin,
+           verifyCompletion: verifyRequestCompletion,
+         },
+       );
+diff --git a/src/design/decisions.test.ts b/src/design/decisions.test.ts
+new file mode 100644
+index 0000000..d014fdf
+--- /dev/null
++++ b/src/design/decisions.test.ts
+@@ -0,0 +1,365 @@
++import { expect, it } from 'vitest';
++import {
++  updateDesignNotes,
++  decisionCitation,
++  compactDesignNotes,
++} from './decisions';
++import { validateDesign } from './model';
++import { validateVolume } from '../model';
++import {
++  applyPlan,
++  directPlan,
++  newSession,
++  parseSession,
++  serializeSession,
++} from '../intelligence/engine';
++import { defaultCamera, sceneContext } from '../intelligence/context';
++import { conversationHistory } from '../intelligence/client';
++import { compactScene, agentPlan } from '../../server/agent';
++import { readCompletionCriteria } from '../../server/completion';
++import { compactCompletionCriteria } from '../../server/completionWire';
++import { completionRequestSchema, requestSchema } from '../../server/provider';
++import { criteria, measure, selector } from '../../tests/fixtures/completion';
++import { verifyCompletion } from '../intelligence/completion';
++
++const quote =
++  'Keep a 25 cm gap beside the spindle so the guard can be serviced.';
++const origin = {
++  id: 'user-turn-original',
++  text: `Build the machine. ${quote}`,
++};
++const note = (text = quote, revises: string | null = null) => ({
++  type: 'design_note' as const,
++  topic: 'Service access',
++  text,
++  source: 'user' as const,
++  capture: { quote: text, revises },
++});
++const empty = () => newSession({ volumes: [], selectedId: null });
++
++it('records original user wording only with host source evidence, keeping assumptions and legacy notes distinct', () => {
++  const notes = updateDesignNotes([], note(), origin);
++  expect(notes[0].decision).toMatchObject({ quote, revision: 1, origin });
++  expect(decisionCitation(notes, quote)).toEqual(notes[0].decision);
++  expect(() => updateDesignNotes([], note())).toThrow(/exact quotation/);
++  expect(() => updateDesignNotes([], note('Use a 90 cm gap.'), origin)).toThrow(
++    /exact quotation/,
++  );
++  expect(() =>
++    updateDesignNotes([], { ...note(), source: 'assumption' }, origin),
++  ).toThrow(/Assumptions/);
++  for (const source of ['assumption', 'drawing', 'user'] as const)
++    expect(() =>
++      decisionCitation([{ topic: 'Legacy', text: quote, source }], quote),
++    ).toThrow(/legacy/);
++  const compact = compactDesignNotes(notes)[0];
++  expect(compact.decision).toMatchObject({ quote, sourceMessageId: origin.id });
++  expect(compact.decision).not.toHaveProperty('origin');
++});
++
++it('revises a decision by stable identity even when renamed, without retaining an obsolete active constraint', () => {
++  const notes = updateDesignNotes([], note(), origin),
++    id = notes[0].decision!.id;
++  const revisedQuote =
++    'Access is now from the other side; replace that gap with 12 cm.';
++  const revision = { id: 'user-turn-revision', text: revisedQuote };
++  const updated = updateDesignNotes(
++    notes,
++    { ...note(revisedQuote, id), topic: 'Guard clearance' },
++    revision,
++  );
++  expect(updated).toHaveLength(1);
++  expect(updated[0].decision).toMatchObject({
++    id,
++    revision: 2,
++    quote: revisedQuote,
++    origin: revision,
++  });
++  expect(notes[0].decision!.quote).toBe(quote);
++  expect(() => decisionCitation(updated, quote)).toThrow();
++  expect(decisionCitation(updated, revisedQuote).id).toBe(id);
++  expect(
++    updateDesignNotes(
++      updated,
++      { ...note(revisedQuote, id), topic: 'Guard clearance' },
++      revision,
++    )[0].decision!.revision,
++  ).toBe(2);
++  expect(() =>
++    updateDesignNotes(notes, {
++      ...note(),
++      capture: null,
++      source: 'assumption',
++    }),
++  ).toThrow(/Revise/);
++  expect(() =>
++    updateDesignNotes(notes, note(revisedQuote, 'missing'), revision),
++  ).toThrow(/not active/);
++  expect(() =>
++    validateDesign(
++      {
++        views: [],
++        options: [],
++        notes: [notes[0], { ...notes[0], topic: 'Duplicate' }],
++      },
++      validateVolume,
++    ),
++  ).toThrow(/identities/);
++});
++
++it('persists provenance, atomically rejects invented decisions, and restores both decision versions through reload/Undo/Redo', async () => {
++  const original = empty();
++  const first = (
++    await applyPlan(original, directPlan(note()), defaultCamera, true, origin)
++  ).session;
++  const id = first.project.design!.notes![0].decision!.id;
++  const revisedQuote =
++    'Use 12 cm clearance instead; the guard opens sideways now.';
++  const revised = (
++    await applyPlan(
++      first,
++      directPlan(note(revisedQuote, id)),
++      defaultCamera,
++      true,
++      { id: 'revision', text: revisedQuote },
++    )
++  ).session;
++  const loaded = parseSession(serializeSession(revised));
++  expect(loaded).toEqual(revised);
++  const undo = (await applyPlan(loaded, directPlan({ type: 'undo', count: 1 })))
++    .session;
++  expect(undo.project).toEqual(first.project);
++  const redo = (
++    await applyPlan(
++      parseSession(serializeSession(undo)),
++      directPlan({ type: 'redo', count: 1 }),
++    )
++  ).session;
++  expect(redo.project).toEqual(revised.project);
++  const bytes = serializeSession(revised);
++  await expect(
++    applyPlan(
++      revised,
++      {
++        intent: 'apply',
++        message: 'Must remain atomic',
++        operations: [
++          {
++            type: 'create_at',
++            name: 'Uncommitted part',
++            shape: 'box',
++            width: 1,
++            height: 1,
++            depth: 1,
++            x: 0,
++            y: 0,
++            z: 0,
++            rotation: 0,
++          },
++          note('A fabricated instruction.', id),
++        ],
++      },
++      defaultCamera,
++      true,
++      origin,
++    ),
++  ).rejects.toThrow(/exact quotation/);
++  expect(serializeSession(revised)).toBe(bytes);
++});
++
++it('both AI roles recover the same decision after history truncation and reviewer citations measure real rotated solids', async () => {
++  const initial = (
++    await applyPlan(
++      empty(),
++      {
++        intent: 'apply',
++        message: 'Machine',
++        operations: [
++          {
++            type: 'create_at',
++            shape: 'cylinder',
++            name: 'Spindle',
++            width: 0.6,
++            depth: 0.6,
++            height: 1.1,
++            x: 0,
++            y: 0,
++            z: 0,
++            rotation: 37,
++          },
++          {
++            type: 'create_at',
++            shape: 'box',
++            name: 'Guard',
++            width: 0.2,
++            depth: 1,
++            height: 1.4,
++            x: 0.65,
++            y: 0,
++            z: 0,
++            rotation: 0,
++          },
++          {
++            type: 'create_at',
++            shape: 'sphere',
++            name: 'Unrelated knob',
++            width: 0.4,
++            depth: 0.4,
++            height: 0.4,
++            x: 4,
++            y: 0,
++            z: 2,
++            rotation: 0,
++          },
++          note(),
++        ],
++      },
++      defaultCamera,
++      true,
++      origin,
++    )
++  ).session;
++  const history = conversationHistory([
++    { role: 'user', content: origin.text },
++    ...Array.from({ length: 24 }, (_, i) => ({
++      role: i % 2 ? ('assistant' as const) : ('user' as const),
++      content: 'Other work ' + i,
++    })),
++  ]);
++  expect(history).toHaveLength(20);
++  expect(JSON.stringify(history)).not.toContain(quote);
++  const scene = sceneContext(
++    parseSession(serializeSession(initial)).project,
++    initial.context,
++    defaultCamera,
++  );
++  const spindle = initial.project.volumes[0],
++    guard = initial.project.volumes[1];
++  const prompt =
++    'Move the spindle 40 cm to the right, keeping the assembly usable.';
++  const correct = (
++    await applyPlan(
++      initial,
++      directPlan({
++        type: 'move',
++        targets: [spindle.id, guard.id],
++        direction: 'east',
++        distance: 0.4,
++      }),
++    )
++  ).session;
++  const wrong = (
++    await applyPlan(
++      initial,
++      directPlan({
++        type: 'move',
++        targets: [spindle.id],
++        direction: 'east',
++        distance: 0.4,
++      }),
++    )
++  ).session;
++  const checks = criteria(
++    [
++      {
++        id: 'service-gap',
++        label: 'Service access',
++        kind: 'offset',
++        first: selector([spindle.id]),
++        second: selector([guard.id]),
++        axis: 'x',
++        firstAnchor: 'max',
++        secondAnchor: 'min',
++        value: 0,
++        tolerance: 0.001,
++      },
++    ],
++    [spindle.id, guard.id],
++    quote,
++  );
++  checks.checks[0].source = 'decision';
++  checks.checks[0].calculation = {
++    frame: 'world_xyz_y_up',
++    nodes: [
++      {
++        kind: 'quantity',
++        value: 25,
++        unit: 'cm',
++        source: 'decision',
++        evidence: quote,
++      },
++    ],
++    output: { kind: 'value', node: 0 },
++  };
++  const payloads: any[] = [];
++  const sdk: any = {
++    responses: {
++      create: async (body: any) => {
++        payloads.push(body);
++        if (body.tools)
++          return {
++            status: 'completed',
++            output: [
++              {
++                type: 'function_call',
++                name: 'ask_user',
++                call_id: 'offline',
++                arguments: JSON.stringify({
++                  message: 'Offline transport probe only.',
++                }),
++              },
++            ],
++          };
++        return {
++          status: 'completed',
++          output_text: JSON.stringify(compactCompletionCriteria(checks)),
++        };
++      },
++    },
++  };
++  const settings = {
++    model: 'offline-no-api',
++    textApi: 'responses' as const,
++    maxOutputTokens: 3000,
++  };
++  await agentPlan(
++    sdk,
++    requestSchema.parse({ message: prompt, history, scene }),
++    settings,
++  );
++  const accepted = await readCompletionCriteria(
++    sdk,
++    completionRequestSchema.parse({
++      message: prompt,
++      history,
++      scene,
++      candidate: [],
++    }),
++    settings,
++  );
++  const executorPayload = JSON.parse(payloads[0].input.at(-1).content[0].text);
++  const reviewerPayload = JSON.parse(payloads[1].input[0].content[0].text);
++  expect(executorPayload.scene.design.notes).toEqual(
++    reviewerPayload.original.design.notes,
++  );
++  expect(compactScene(scene).design!.notes![0].decision!.quote).toBe(quote);
++  expect((await verifyCompletion(accepted, initial, correct)).canCommit).toBe(
++    true,
++  );
++  const rejected = await verifyCompletion(accepted, initial, wrong);
++  expect(rejected.status).toBe('incorrect');
++  expect(rejected.canCommit).toBe(false);
++  expect(correct.project.volumes[2]).toEqual(initial.project.volumes[2]);
++  expect(correct.project.volumes.map((v) => v.id)).toEqual(
++    initial.project.volumes.map((v) => v.id),
++  );
++  const fabricatedScene = structuredClone(scene);
++  delete fabricatedScene.design!.notes![0].decision;
++  await expect(
++    readCompletionCriteria(
++      sdk,
++      { message: prompt, history, scene: fabricatedScene, candidate: [] },
++      settings,
++    ),
++  ).rejects.toThrow();
++});
+diff --git a/src/design/decisions.ts b/src/design/decisions.ts
+new file mode 100644
+index 0000000..025c91b
+--- /dev/null
++++ b/src/design/decisions.ts
+@@ -0,0 +1,139 @@
++import { z } from 'zod';
++
++export const decisionOriginSchema = z
++  .object({
++    id: z.string().min(1).max(100),
++    text: z.string().min(1).max(4000),
++  })
++  .strict();
++export type DecisionOrigin = z.infer<typeof decisionOriginSchema>;
++export const designNoteSchema = z
++  .object({
++    topic: z.string().min(1).max(80),
++    text: z.string().min(1).max(1500),
++    source: z.enum(['user', 'drawing', 'assumption']),
++    decision: z
++      .object({
++        id: z.string().min(1).max(100),
++        revision: z.number().int().min(1).max(1000000),
++        quote: z.string().min(1).max(1500),
++        origin: decisionOriginSchema,
++      })
++      .strict()
++      .optional(),
++  })
++  .strict()
++  .refine(
++    (n) =>
++      !n.decision ||
++      (n.source === 'user' &&
++        n.decision.origin.text.includes(n.decision.quote)),
++    'A user decision must retain its exact original wording and source request.',
++  );
++export type DesignNote = z.infer<typeof designNoteSchema>;
++
++/** The model supplies a quotation and the ID to revise, never provenance. */
++export const decisionCaptureSchema = z
++  .object({
++    quote: z.string().min(1).max(1500),
++    revises: z.string().min(1).max(100).nullable(),
++  })
++  .strict();
++
++export function updateDesignNotes(
++  notes: DesignNote[],
++  update: Pick<DesignNote, 'topic' | 'text' | 'source'> & {
++    capture?: z.infer<typeof decisionCaptureSchema> | null;
++  },
++  origin?: DecisionOrigin,
++): DesignNote[] {
++  const topic = (s: string) => s.trim().toLocaleLowerCase();
++  const existing = notes.find((n) => topic(n.topic) === topic(update.topic));
++  const capture = update.capture;
++  const replaced = capture?.revises
++    ? notes.find((n) => n.decision?.id === capture.revises)
++    : undefined;
++  if (capture?.revises && !replaced)
++    throw new Error(
++      'The decision to revise is not active in this project. Inspect the current notes.',
++    );
++  if (existing?.decision && existing !== replaced)
++    throw new Error(
++      'Revise the existing user decision by its ID and quote the new user instruction; do not overwrite it as an assumption.',
++    );
++  if (replaced && existing && existing !== replaced)
++    throw new Error('The revised decision topic belongs to a different note.');
++  let decision: DesignNote['decision'];
++  if (capture) {
++    if (
++      update.source !== 'user' ||
++      !origin ||
++      !decisionOriginSchema.safeParse(origin).success ||
++      !origin.text.includes(capture.quote)
++    )
++      throw new Error(
++        'A recorded user decision needs an exact quotation from the current user instruction. Assumptions cannot become user decisions.',
++      );
++    // A retried stage must not manufacture another revision of the same turn.
++    const same =
++      replaced?.decision?.origin.id === origin.id &&
++      replaced.decision.quote === capture.quote;
++    decision = {
++      id: replaced?.decision?.id ?? crypto.randomUUID(),
++      revision: (replaced?.decision?.revision ?? 0) + (same ? 0 : 1),
++      quote: capture.quote,
++      origin: { ...origin },
++    };
++  }
++  const note = designNoteSchema.parse({
++    topic: update.topic,
++    text: update.text,
++    source: update.source,
++    ...(decision ? { decision } : {}),
++  });
++  const result = [
++    ...notes.filter((n) => n !== existing && n !== replaced),
++    note,
++  ];
++  if (result.length > 40)
++    throw new Error(
++      'Design memory has 40 topics. Update an existing topic instead.',
++    );
++  return result;
++}
++
++/** Same active project decisions for both AI roles. Full source turns stay in
++ * saved notes/history for audit, without duplicating them in every AI prompt. */
++export function compactDesignNotes(notes: DesignNote[]) {
++  return notes.map((n) => ({
++    topic: n.topic,
++    text: n.text,
++    source: n.source,
++    ...(n.decision
++      ? {
++          decision: {
++            id: n.decision.id,
++            revision: n.decision.revision,
++            quote: n.decision.quote,
++            sourceMessageId: n.decision.origin.id,
++          },
++        }
++      : {}),
++  }));
++}
++
++export function decisionCitation(notes: DesignNote[], excerpt: string) {
++  const matches = notes.filter(
++    (n) =>
++      designNoteSchema.safeParse(n).success &&
++      n.source === 'user' &&
++      n.decision?.quote.includes(excerpt),
++  );
++  if (!excerpt.trim() || matches.length !== 1)
++    throw new Error(
++      'The criterion must cite an unambiguous active user decision, not an assumption, legacy note or superseded wording.',
++    );
++  return matches[0].decision!;
++}
++
++export const decisionPolicy = `Active project design notes may contain a decision with a stable ID, revision, exact user quote and source-message ID. These preserve user-stated intent after recent messages expire. Consult relevant active decisions during later edits and inspect the actual starting geometry to determine affected parts. The active project version governs after Undo/Redo; older or failed conversation is not a second active constraint. A new explicit user instruction can revise a decision. Capture important continuing user choices and their reasons in the existing design_note operation with capture.quote copied EXACTLY from the current user request, including the relevant condition/reason, and capture.revises=null for a new decision or the active decision ID for a revision (even when renaming its topic). Capture and geometry commit atomically. Never record inferred proximity, construction assumptions or assistant suggestions as user decisions. Notes without decision provenance remain ordinary context, not independently citable user evidence. Do not create permanent geometric constraints or automatic edit permission from a note; infer relevance and preserve unrelated work. Ask only when a consequential ambiguity cannot reasonably be resolved.`;
+diff --git a/src/design/model.ts b/src/design/model.ts
+index 061281b..1348123 100644
+--- a/src/design/model.ts
++++ b/src/design/model.ts
+@@ -1,6 +1,8 @@
+ import { MAX_SCENE_OBJECTS } from '../limits';
+ import { explosionOffsets } from './explosion';
+ import { z } from 'zod';
++import { designNoteSchema, type DesignNote } from './decisions';
++export type { DesignNote } from './decisions';
+ import type { Volume, ObjectGroup, Project } from '../model';
+ import {
+   savedViewSchema,
+@@ -13,11 +15,6 @@ export type DesignOption = {
+   volumes: Volume[];
+   groups: ObjectGroup[];
+ };
+-export type DesignNote = {
+-  topic: string;
+-  text: string;
+-  source: 'user' | 'drawing' | 'assumption';
+-};
+ export type DesignLibrary = {
+   views: SavedView[];
+   options: DesignOption[];
+@@ -30,18 +27,7 @@ export function validateDesign(
+   const data = z
+     .object({
+       views: z.array(savedViewSchema).max(30),
+-      notes: z
+-        .array(
+-          z
+-            .object({
+-              topic: z.string().min(1).max(80),
+-              text: z.string().min(1).max(1500),
+-              source: z.enum(['user', 'drawing', 'assumption']),
+-            })
+-            .strict(),
+-        )
+-        .max(40)
+-        .optional(),
++      notes: z.array(designNoteSchema).max(40).optional(),
+       options: z
+         .array(
+           z
+@@ -72,6 +58,11 @@ export function validateDesign(
+     new Set(data.options.map((v) => v.name)).size !== data.options.length
+   )
+     throw new Error('View and alternative names must be unique.');
++  const decisions = (data.notes ?? []).flatMap((n) =>
++    n.decision ? [n.decision.id] : [],
++  );
++  if (new Set(decisions).size !== decisions.length)
++    throw new Error('Active design decision identities must be unique.');
+   for (const option of data.options) {
+     const ids = new Set<string>();
+     for (const v of option.volumes) {
+diff --git a/src/intelligence/architectureSchema.ts b/src/intelligence/architectureSchema.ts
+index eb001b4..aa21144 100644
+--- a/src/intelligence/architectureSchema.ts
++++ b/src/intelligence/architectureSchema.ts
+@@ -1,6 +1,7 @@
+ import { MAX_SCENE_OBJECTS } from '../limits';
+ import { z } from 'zod';
+ import { componentRoles } from '../design/schema';
++import { decisionCaptureSchema } from '../design/decisions';
+ 
+ const coordinate = z.number().min(-1000).max(1000);
+ const vector = z
+@@ -105,6 +106,12 @@ export const architecturalOperations = [
+       topic: z.string().min(1).max(80),
+       text: z.string().min(1).max(1500),
+       source: z.enum(['user', 'drawing', 'assumption']),
++      capture: decisionCaptureSchema
++        .nullable()
++        .optional()
++        .describe(
++          'For a continuing user decision, quote the current user instruction verbatim and set revises to the active decision ID when explicitly revised. Null keeps an ordinary note/assumption. The host supplies provenance; do not invent it.',
++        ),
+     })
+     .strict(),
+ ] as const;
+diff --git a/src/intelligence/calculationSchema.ts b/src/intelligence/calculationSchema.ts
+index 83aaaca..a25a01f 100644
+--- a/src/intelligence/calculationSchema.ts
++++ b/src/intelligence/calculationSchema.ts
+@@ -18,7 +18,7 @@ export const calculationSchema = z
+               kind: z.literal('quantity'),
+               value: finite,
+               unit,
+-              source: z.enum(['request', 'history']),
++              source: z.enum(['request', 'history', 'decision']),
+               evidence: z.string().min(1).max(400),
+             })
+             .strict(),
+diff --git a/src/intelligence/checkedPlanner.ts b/src/intelligence/checkedPlanner.ts
+index 97a2711..c88684b 100644
+--- a/src/intelligence/checkedPlanner.ts
++++ b/src/intelligence/checkedPlanner.ts
+@@ -15,6 +15,7 @@ import { bindBrief, checkEditScope, assessBrief } from './designBrief';
+ import type { DesignBrief, BriefAssessment } from './designBriefSchema';
+ import { completionFeedback, completionSummary } from './completion';
+ import type { CompletionReport } from './completionSchema';
++import type { DecisionOrigin } from '../design/decisions';
+ 
+ export type ValidationFeedback = {
+   error: string;
+@@ -147,6 +148,7 @@ export async function stagedPlan(
+   signal?: AbortSignal,
+   options: {
+     agent?: boolean;
++    decisionOrigin?: DecisionOrigin;
+     verifyCompletion?: (candidate: Session) => Promise<CompletionReport>;
+   } = {},
+ ): Promise<CheckedResult> {
+@@ -414,7 +416,13 @@ export async function stagedPlan(
+           throw new Error(
+             'Keep the agreed Undo/Redo prefix while correcting this request.',
+           );
+-        const result = await applyPlan(session, plan, camera, true);
++        const result = await applyPlan(
++          session,
++          plan,
++          camera,
++          true,
++          options.decisionOrigin,
++        );
+         if (brief) checkEditScope(brief, scopeOriginal, result.session);
+         checkAbort();
+         const stageOperations = (
+diff --git a/src/intelligence/client.ts b/src/intelligence/client.ts
+index fa6cf3a..631d25e 100644
+--- a/src/intelligence/client.ts
++++ b/src/intelligence/client.ts
+@@ -12,6 +12,7 @@ import {
+   type CriteriaRevision,
+ } from './completionSchema';
+ export type Message = {
++  id?: string;
+   role: 'user' | 'assistant';
+   content: string;
+   summary?: string;
+diff --git a/src/intelligence/completionSchema.ts b/src/intelligence/completionSchema.ts
+index 54300d2..8b073da 100644
+--- a/src/intelligence/completionSchema.ts
++++ b/src/intelligence/completionSchema.ts
+@@ -125,7 +125,7 @@ export const completionCriteriaSchema = z
+       .array(
+         z
+           .object({
+-            source: z.enum(['request', 'history', 'reference']),
++            source: z.enum(['request', 'history', 'reference', 'decision']),
+             evidence: z.string().min(1).max(400),
+             calculation: calculationSchema.optional(),
+             requirement: z.union([
+diff --git a/src/intelligence/engine.ts b/src/intelligence/engine.ts
+index 3d647ff..31f129c 100644
+--- a/src/intelligence/engine.ts
++++ b/src/intelligence/engine.ts
+@@ -7,6 +7,7 @@ import { solarPosition } from '../studio/solar';
+ import { solarDay, shadowOnLevelGround } from '../studio/solarAnalysis';
+ import { constructAssembly, remapCopiedHosts } from './assembly';
+ import { editComponents } from './componentEdits';
++import { updateDesignNotes, type DecisionOrigin } from '../design/decisions';
+ import {
+   profileVolume,
+   anchoredDimensions,
+@@ -240,6 +241,7 @@ export async function applyPlan(
+   raw: unknown,
+   camera: CameraContext = defaultCamera,
+   confirmed = false,
++  decisionOrigin?: DecisionOrigin,
+ ): Promise<{
+   session: Session;
+   message: string;
+@@ -255,6 +257,7 @@ export async function applyPlan(
+       (op, index) => {
+         current = op ? { type: op.type, index } : undefined;
+       },
++      decisionOrigin,
+     );
+   } catch (error) {
+     if (!current) throw error;
+@@ -270,6 +273,7 @@ async function applyTransaction(
+   camera: CameraContext,
+   confirmed: boolean,
+   operationStarted: (op: Operation | null, index: number) => void,
++  decisionOrigin?: DecisionOrigin,
+ ): Promise<{
+   session: Session;
+   message: string;
+@@ -736,14 +740,7 @@ async function applyTransaction(
+       );
+     } else if (op.type === 'design_note') {
+       const design = s.project.design ?? { views: [], options: [] };
+-      const notes = [
+-        ...(design.notes ?? []).filter((n) => n.topic !== op.topic),
+-        { topic: op.topic, text: op.text, source: op.source },
+-      ];
+-      if (notes.length > 40)
+-        throw new Error(
+-          'Design memory has 40 topics. Update an existing topic instead.',
+-        );
++      const notes = updateDesignNotes(design.notes ?? [], op, decisionOrigin);
+       s.project.design = { ...design, notes };
+       reports.push(
+         `Recorded ${op.source} design note: ${op.topic}. ${op.text}`,
+diff --git a/src/intelligence/plan.ts b/src/intelligence/plan.ts
+index c34d7f9..ce4fb67 100644
+--- a/src/intelligence/plan.ts
++++ b/src/intelligence/plan.ts
+@@ -573,10 +573,12 @@ export const planJsonSchema = z.toJSONSchema(planSchema, {
+       jsonSchema.anyOf = jsonSchema.anyOf.filter(
+         (branch: any) => branch.properties?.type?.const !== 'building',
+       );
+-    // New provider calls include the nullable designation; old saved/manual
+-    // material operations may omit it. Null preserves existing metadata.
++    // New provider calls include nullable metadata; old saved/manual
++    // operations may omit it. Keep the provider's strict output contract.
+     if (
+-      (jsonSchema.properties?.type as { const?: string })?.const === 'material'
++      ['material', 'design_note'].includes(
++        (jsonSchema.properties?.type as { const?: string })?.const ?? '',
++      )
+     )
+       jsonSchema.required = Object.keys(jsonSchema.properties!);
+   },
+diff --git a/src/projects/transfer.ts b/src/projects/transfer.ts
+index da27669..75071a5 100644
+--- a/src/projects/transfer.ts
++++ b/src/projects/transfer.ts
+@@ -7,6 +7,7 @@ import type { SavedProject, WorkspaceSnapshot } from './library';
+ const messages = z
+   .array(
+     z.object({
++      id: z.string().min(1).max(100).optional(),
+       role: z.enum(['user', 'assistant']),
+       content: z.string().max(100_000),
+       summary: z.string().max(100_000).optional(),
+diff --git a/tests/design-decisions.spec.ts b/tests/design-decisions.spec.ts
+new file mode 100644
+index 0000000..64accc3
+--- /dev/null
++++ b/tests/design-decisions.spec.ts
+@@ -0,0 +1,44 @@
++import { test, expect } from '@playwright/test';
++import { execFile } from 'node:child_process';
++import { promisify } from 'node:util';
++import { readFile, writeFile } from 'node:fs/promises';
++
++// Reusable production-build regression. The replay starts an isolated local
++// browser/project and mocks both AI responses; no network SDK or paid calls.
++test('user decisions outlast recent messages and revisions survive atomic saves, reload and Undo/Redo', async ({}, testInfo) => {
++  test.setTimeout(600000);
++  const output = testInfo.outputPath('decision-replay');
++  const result = await promisify(execFile)(
++    process.execPath,
++    [
++      '--import',
++      'tsx',
++      'scripts/design-decision-evaluation/browser.ts',
++      output,
++    ],
++    { env: { ...process.env, ATELIER_OPENAI_API_KEY: '' }, timeout: 570000 },
++  ).catch(async (error) => {
++    await writeFile(
++      testInfo.outputPath('replay-error.txt'),
++      `${error.stdout ?? ''}\n${error.stderr ?? ''}\n${error}`,
++    );
++    throw error;
++  });
++  await writeFile(
++    testInfo.outputPath('replay.log'),
++    result.stdout + result.stderr,
++  );
++  const evidence = JSON.parse(await readFile(`${output}/result.json`, 'utf8'));
++  expect(evidence.status).toBe('PASS');
++  expect(evidence.paidCalls).toBe(0);
++  expect(evidence.turns).toHaveLength(24);
++  expect(evidence.turns.every((t: any) => t.status === 'PASS')).toBe(true);
++  expect(
++    evidence.turns.filter((t: any) => t.recoversBeyondWindow),
++  ).toHaveLength(2);
++  expect(evidence.turns.filter((t: any) => t.undoRedo)).toHaveLength(3);
++  expect(evidence.negativeControls.map((c: any) => c.status)).toEqual([
++    'BLOCKED_MEASURED',
++    'BLOCKED_MEASURED',
++  ]);
++});

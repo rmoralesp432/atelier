@@ -1,0 +1,549 @@
+diff --git a/server/agent.ts b/server/agent.ts
+index 0194317..be79d21 100644
+--- a/server/agent.ts
++++ b/server/agent.ts
+@@ -5,6 +5,7 @@ import {
+ import type OpenAI from 'openai';
+ import { MODELING_TOOL_CONTRACT } from '../src/intelligence/toolContract';
+ import { materialContract } from '../src/materials';
++import { compactDesignNotes, decisionPolicy } from '../src/design/decisions';
+ import { z } from 'zod';
+ import {
+   operationSchema,
+@@ -100,6 +101,7 @@ const functions = [
+ ];
+ const policy = `You are an architectural design agent working inside an editable 3D workspace.
+ ${materialContract}
++${decisionPolicy}
+ Understand the complete user intention, inspect the real scene, choose construction operations, then observe their results and correct omissions. You can model unfamiliar objects as well as buildings using the supplied geometry operations; do not rely on named building templates.
+ For contextual edits, sceneReference identifies changes since this request began. inspect_scene(snapshot=before or compare, relativeTo=an object ID) retrieves original construction and world-envelope relationships alongside the provisional result. Use the before model when preserving existing clearances, placements or proportions; do not recover them by guessing from an already edited scene. These are bounded envelope measurements, not physical contact or edit authorization. The current user request and independent checks still control scope. Missing before data is explicitly unavailable.
+ The user speaks naturally and does not manage schemas, IDs, construction sequencing or panel spacing. Infer reasonable reversible choices and record brief assumptions. Ask only about substantial design ambiguity. Never reduce explicit counts, omit requested systems, or change protected dimensions to fit a tool limit.
+@@ -119,6 +121,14 @@ export function compactScene(scene: ModelRequest['scene']) {
+   return {
+     ...scene,
+     conversation,
++    ...(scene.design
++      ? {
++          design: {
++            ...scene.design,
++            notes: compactDesignNotes(scene.design.notes ?? []),
++          },
++        }
++      : {}),
+     // Role/level membership is already carried by every object. Keep useful
+     // architectural summaries without sending the same UUIDs several times.
+     understanding: scene.understanding && {
+diff --git a/server/completion.ts b/server/completion.ts
+index ee94abf..e164636 100644
+--- a/server/completion.ts
++++ b/server/completion.ts
+@@ -13,9 +13,11 @@ import {
+ import { unavailableCompletionCriteria } from '../src/intelligence/completion';
+ import { materialContract } from '../src/materials';
+ import { compactCompletionCriteria } from './completionWire';
++import { decisionCitation } from '../src/design/decisions';
+ 
+ const policy = `You independently read the user's current 3D modeling request to define measurable acceptance checks. You are NOT the agent performing the edits and cannot execute tools or declare the resulting geometry correct.
+ Read the latest request, prior conversation only for references, and the ORIGINAL scene. Candidate labels/IDs only help select result objects. Candidate dimensions, receipts, action plans and completion claims are deliberately withheld. Derive expected outcomes from the user's words, supplied references and original geometry, never from what the agent happened to make.
++Original scene.design.notes can contain active user decisions with exact quotations, stable IDs, revisions and source-message IDs. Recover relevant continuing user intent from these even when it is absent from recent history. source=decision cites a verbatim excerpt of one active decision.quote, including the relevant condition rather than an isolated obsolete number; this source is also available to calculation quantity nodes. The host validates it against original saved notes. Legacy user labels, summaries, assumptions and candidate notes are not decision evidence. The ACTIVE project version governs after Undo/Redo; old chat and failed turns do not reinstate superseded decisions. Explicit instructions in the latest request may revise earlier decisions; use source=request for the new instruction and do not enforce the old value against it. Infer permitted connected changes from the current request and relevant active decision together, inspecting original IDs; unrelated work stays protected. Notes do not prove geometry or grant blanket edit scope.
+ Cover all material measurable requirements: counts, dimensions, positions, layout, alignment, material/role/host relationships, solid intersections/containment, and preservation. Accept different valid constructions. Do not prescribe construction steps, building templates, or arbitrary dimensions/detail not requested. A model can be conceptually simplified when the request permits it.
+ Return the compact wire format: put reusable selectors in selections and verbatim citations in evidence once. Each check has because (zero-based evidence index) and test (a predicate, with selector/first/second as zero-based selection indices). Do not emit IDs, labels or reasoning prose. Cover requirements concisely without redundant tests of the same fact. source=request/history requires a VERBATIM excerpt; source=reference identifies a supplied reference. A genuinely unsupported check uses unavailable, never a fabricated pass. Qualitative judgments belong in qualitativeLimits.
+ editable lists ONLY original IDs or original group references authorized to change by THIS request. Everything outside it is preserved automatically; hosted children can follow. Empty means preserve all originals. Use preserve checks for retained IDs, sizes, shape or placement within the edit scope. Do not inherit an old brief or failed task as an obligation. A newly requested correction may change earlier assumptions.
+@@ -170,6 +172,10 @@ export async function readCompletionCriteria(
+     for (const c of criteria.checks) {
+       for (const node of c.calculation?.nodes ?? []) {
+         if (node.kind !== 'quantity') continue;
++        if (node.source === 'decision') {
++          decisionCitation(input.scene.design?.notes ?? [], node.evidence);
++          continue;
++        }
+         const sources =
+           node.source === 'request'
+             ? [input.message]
+@@ -181,6 +187,10 @@ export async function readCompletionCriteria(
+             'The calculation cites a quantity not present in the user request or user history.',
+           );
+       }
++      if (c.source === 'decision') {
++        decisionCitation(input.scene.design?.notes ?? [], c.evidence);
++        continue;
++      }
+       const sources =
+         c.source === 'request'
+           ? [input.message]
+diff --git a/server/completionWire.ts b/server/completionWire.ts
+index 904b330..b1dc422 100644
+--- a/server/completionWire.ts
++++ b/server/completionWire.ts
+@@ -32,7 +32,7 @@ export const completionWireSchema = z
+       .array(
+         z
+           .object({
+-            source: z.enum(['request', 'history', 'reference']),
++            source: z.enum(['request', 'history', 'reference', 'decision']),
+             text: z.string().min(1).max(400),
+           })
+           .strict(),
+diff --git a/server/provider.ts b/server/provider.ts
+index 0324b2b..4ea7d86 100644
+--- a/server/provider.ts
++++ b/server/provider.ts
+@@ -22,6 +22,7 @@ import { ARCHITECTURAL_PROMPT } from '../src/intelligence/architecturalPrompt';
+ import { REASONING_PROMPT } from '../src/intelligence/reasoningPrompt';
+ import { componentSchema, poseSchema } from '../src/design/schema';
+ import OpenAI from 'openai';
++import { designNoteSchema } from '../src/design/decisions';
+ import { z } from 'zod';
+ import {
+   parsePlan,
+@@ -132,18 +133,7 @@ const baseRequestSchema = z
+           .optional(),
+         design: z
+           .object({
+-            notes: z
+-              .array(
+-                z
+-                  .object({
+-                    topic: z.string().max(80),
+-                    text: z.string().max(1500),
+-                    source: z.enum(['user', 'drawing', 'assumption']),
+-                  })
+-                  .strict(),
+-              )
+-              .max(40)
+-              .optional(),
++            notes: z.array(designNoteSchema).max(40).optional(),
+             views: z
+               .array(
+                 z.object({ name: z.string().max(80), targets: refs }).strict(),
+diff --git a/src/App.tsx b/src/App.tsx
+index 5d7a53f..e880546 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -222,6 +222,9 @@ function loadMessages(): Message[] {
+           .map((m) => ({
+             role: m.role,
+             content: m.content,
++            ...(typeof m.id === 'string' && m.id.length <= 100
++              ? { id: m.id }
++              : {}),
+             ...(typeof m.summary === 'string' ? { summary: m.summary } : {}),
+             ...(m.outcome === 'failed' ? { outcome: 'failed' as const } : {}),
+             ...(Array.isArray(m.images)
+@@ -1039,12 +1042,14 @@ export default function App({
+     summary?: string,
+     images?: string[],
+     outcome?: 'failed',
++    id?: string,
+   ) =>
+     setMessages((m) => [
+       ...m.slice(-79),
+       {
+         role,
+         content,
++        ...(id ? { id } : {}),
+         ...(summary ? { summary } : {}),
+         ...(images?.length ? { images } : {}),
+         ...(outcome ? { outcome } : {}),
+@@ -1274,7 +1279,8 @@ export default function App({
+     const abort = new AbortController();
+     planningAbort.current = abort;
+     setReferenceImages([]);
+-    remember('user', text, undefined, images);
++    const decisionOrigin = { id: crypto.randomUUID(), text };
++    remember('user', text, undefined, images, undefined, decisionOrigin.id);
+     let observation: SceneObservation | undefined;
+     let observedRevision = -1;
+     const original = captureTransaction(snapshot());
+@@ -1350,6 +1356,7 @@ export default function App({
+         abort.signal,
+         {
+           agent: connectionState.agentConfigured === true,
++          decisionOrigin,
+           verifyCompletion: verifyRequestCompletion,
+         },
+       );
+diff --git a/src/design/decisions.ts b/src/design/decisions.ts
+new file mode 100644
+index 0000000..025c91b
+--- /dev/null
++++ b/src/design/decisions.ts
+@@ -0,0 +1,139 @@
++import { z } from 'zod';
++
++export const decisionOriginSchema = z
++  .object({
++    id: z.string().min(1).max(100),
++    text: z.string().min(1).max(4000),
++  })
++  .strict();
++export type DecisionOrigin = z.infer<typeof decisionOriginSchema>;
++export const designNoteSchema = z
++  .object({
++    topic: z.string().min(1).max(80),
++    text: z.string().min(1).max(1500),
++    source: z.enum(['user', 'drawing', 'assumption']),
++    decision: z
++      .object({
++        id: z.string().min(1).max(100),
++        revision: z.number().int().min(1).max(1000000),
++        quote: z.string().min(1).max(1500),
++        origin: decisionOriginSchema,
++      })
++      .strict()
++      .optional(),
++  })
++  .strict()
++  .refine(
++    (n) =>
++      !n.decision ||
++      (n.source === 'user' &&
++        n.decision.origin.text.includes(n.decision.quote)),
++    'A user decision must retain its exact original wording and source request.',
++  );
++export type DesignNote = z.infer<typeof designNoteSchema>;
++
++/** The model supplies a quotation and the ID to revise, never provenance. */
++export const decisionCaptureSchema = z
++  .object({
++    quote: z.string().min(1).max(1500),
++    revises: z.string().min(1).max(100).nullable(),
++  })
++  .strict();
++
++export function updateDesignNotes(
++  notes: DesignNote[],
++  update: Pick<DesignNote, 'topic' | 'text' | 'source'> & {
++    capture?: z.infer<typeof decisionCaptureSchema> | null;
++  },
++  origin?: DecisionOrigin,
++): DesignNote[] {
++  const topic = (s: string) => s.trim().toLocaleLowerCase();
++  const existing = notes.find((n) => topic(n.topic) === topic(update.topic));
++  const capture = update.capture;
++  const replaced = capture?.revises
++    ? notes.find((n) => n.decision?.id === capture.revises)
++    : undefined;
++  if (capture?.revises && !replaced)
++    throw new Error(
++      'The decision to revise is not active in this project. Inspect the current notes.',
++    );
++  if (existing?.decision && existing !== replaced)
++    throw new Error(
++      'Revise the existing user decision by its ID and quote the new user instruction; do not overwrite it as an assumption.',
++    );
++  if (replaced && existing && existing !== replaced)
++    throw new Error('The revised decision topic belongs to a different note.');
++  let decision: DesignNote['decision'];
++  if (capture) {
++    if (
++      update.source !== 'user' ||
++      !origin ||
++      !decisionOriginSchema.safeParse(origin).success ||
++      !origin.text.includes(capture.quote)
++    )
++      throw new Error(
++        'A recorded user decision needs an exact quotation from the current user instruction. Assumptions cannot become user decisions.',
++      );
++    // A retried stage must not manufacture another revision of the same turn.
++    const same =
++      replaced?.decision?.origin.id === origin.id &&
++      replaced.decision.quote === capture.quote;
++    decision = {
++      id: replaced?.decision?.id ?? crypto.randomUUID(),
++      revision: (replaced?.decision?.revision ?? 0) + (same ? 0 : 1),
++      quote: capture.quote,
++      origin: { ...origin },
++    };
++  }
++  const note = designNoteSchema.parse({
++    topic: update.topic,
++    text: update.text,
++    source: update.source,
++    ...(decision ? { decision } : {}),
++  });
++  const result = [
++    ...notes.filter((n) => n !== existing && n !== replaced),
++    note,
++  ];
++  if (result.length > 40)
++    throw new Error(
++      'Design memory has 40 topics. Update an existing topic instead.',
++    );
++  return result;
++}
++
++/** Same active project decisions for both AI roles. Full source turns stay in
++ * saved notes/history for audit, without duplicating them in every AI prompt. */
++export function compactDesignNotes(notes: DesignNote[]) {
++  return notes.map((n) => ({
++    topic: n.topic,
++    text: n.text,
++    source: n.source,
++    ...(n.decision
++      ? {
++          decision: {
++            id: n.decision.id,
++            revision: n.decision.revision,
++            quote: n.decision.quote,
++            sourceMessageId: n.decision.origin.id,
++          },
++        }
++      : {}),
++  }));
++}
++
++export function decisionCitation(notes: DesignNote[], excerpt: string) {
++  const matches = notes.filter(
++    (n) =>
++      designNoteSchema.safeParse(n).success &&
++      n.source === 'user' &&
++      n.decision?.quote.includes(excerpt),
++  );
++  if (!excerpt.trim() || matches.length !== 1)
++    throw new Error(
++      'The criterion must cite an unambiguous active user decision, not an assumption, legacy note or superseded wording.',
++    );
++  return matches[0].decision!;
++}
++
++export const decisionPolicy = `Active project design notes may contain a decision with a stable ID, revision, exact user quote and source-message ID. These preserve user-stated intent after recent messages expire. Consult relevant active decisions during later edits and inspect the actual starting geometry to determine affected parts. The active project version governs after Undo/Redo; older or failed conversation is not a second active constraint. A new explicit user instruction can revise a decision. Capture important continuing user choices and their reasons in the existing design_note operation with capture.quote copied EXACTLY from the current user request, including the relevant condition/reason, and capture.revises=null for a new decision or the active decision ID for a revision (even when renaming its topic). Capture and geometry commit atomically. Never record inferred proximity, construction assumptions or assistant suggestions as user decisions. Notes without decision provenance remain ordinary context, not independently citable user evidence. Do not create permanent geometric constraints or automatic edit permission from a note; infer relevance and preserve unrelated work. Ask only when a consequential ambiguity cannot reasonably be resolved.`;
+diff --git a/src/design/model.ts b/src/design/model.ts
+index 061281b..1348123 100644
+--- a/src/design/model.ts
++++ b/src/design/model.ts
+@@ -1,6 +1,8 @@
+ import { MAX_SCENE_OBJECTS } from '../limits';
+ import { explosionOffsets } from './explosion';
+ import { z } from 'zod';
++import { designNoteSchema, type DesignNote } from './decisions';
++export type { DesignNote } from './decisions';
+ import type { Volume, ObjectGroup, Project } from '../model';
+ import {
+   savedViewSchema,
+@@ -13,11 +15,6 @@ export type DesignOption = {
+   volumes: Volume[];
+   groups: ObjectGroup[];
+ };
+-export type DesignNote = {
+-  topic: string;
+-  text: string;
+-  source: 'user' | 'drawing' | 'assumption';
+-};
+ export type DesignLibrary = {
+   views: SavedView[];
+   options: DesignOption[];
+@@ -30,18 +27,7 @@ export function validateDesign(
+   const data = z
+     .object({
+       views: z.array(savedViewSchema).max(30),
+-      notes: z
+-        .array(
+-          z
+-            .object({
+-              topic: z.string().min(1).max(80),
+-              text: z.string().min(1).max(1500),
+-              source: z.enum(['user', 'drawing', 'assumption']),
+-            })
+-            .strict(),
+-        )
+-        .max(40)
+-        .optional(),
++      notes: z.array(designNoteSchema).max(40).optional(),
+       options: z
+         .array(
+           z
+@@ -72,6 +58,11 @@ export function validateDesign(
+     new Set(data.options.map((v) => v.name)).size !== data.options.length
+   )
+     throw new Error('View and alternative names must be unique.');
++  const decisions = (data.notes ?? []).flatMap((n) =>
++    n.decision ? [n.decision.id] : [],
++  );
++  if (new Set(decisions).size !== decisions.length)
++    throw new Error('Active design decision identities must be unique.');
+   for (const option of data.options) {
+     const ids = new Set<string>();
+     for (const v of option.volumes) {
+diff --git a/src/intelligence/architectureSchema.ts b/src/intelligence/architectureSchema.ts
+index eb001b4..aa21144 100644
+--- a/src/intelligence/architectureSchema.ts
++++ b/src/intelligence/architectureSchema.ts
+@@ -1,6 +1,7 @@
+ import { MAX_SCENE_OBJECTS } from '../limits';
+ import { z } from 'zod';
+ import { componentRoles } from '../design/schema';
++import { decisionCaptureSchema } from '../design/decisions';
+ 
+ const coordinate = z.number().min(-1000).max(1000);
+ const vector = z
+@@ -105,6 +106,12 @@ export const architecturalOperations = [
+       topic: z.string().min(1).max(80),
+       text: z.string().min(1).max(1500),
+       source: z.enum(['user', 'drawing', 'assumption']),
++      capture: decisionCaptureSchema
++        .nullable()
++        .optional()
++        .describe(
++          'For a continuing user decision, quote the current user instruction verbatim and set revises to the active decision ID when explicitly revised. Null keeps an ordinary note/assumption. The host supplies provenance; do not invent it.',
++        ),
+     })
+     .strict(),
+ ] as const;
+diff --git a/src/intelligence/calculationSchema.ts b/src/intelligence/calculationSchema.ts
+index 83aaaca..a25a01f 100644
+--- a/src/intelligence/calculationSchema.ts
++++ b/src/intelligence/calculationSchema.ts
+@@ -18,7 +18,7 @@ export const calculationSchema = z
+               kind: z.literal('quantity'),
+               value: finite,
+               unit,
+-              source: z.enum(['request', 'history']),
++              source: z.enum(['request', 'history', 'decision']),
+               evidence: z.string().min(1).max(400),
+             })
+             .strict(),
+diff --git a/src/intelligence/checkedPlanner.ts b/src/intelligence/checkedPlanner.ts
+index 97a2711..c88684b 100644
+--- a/src/intelligence/checkedPlanner.ts
++++ b/src/intelligence/checkedPlanner.ts
+@@ -15,6 +15,7 @@ import { bindBrief, checkEditScope, assessBrief } from './designBrief';
+ import type { DesignBrief, BriefAssessment } from './designBriefSchema';
+ import { completionFeedback, completionSummary } from './completion';
+ import type { CompletionReport } from './completionSchema';
++import type { DecisionOrigin } from '../design/decisions';
+ 
+ export type ValidationFeedback = {
+   error: string;
+@@ -147,6 +148,7 @@ export async function stagedPlan(
+   signal?: AbortSignal,
+   options: {
+     agent?: boolean;
++    decisionOrigin?: DecisionOrigin;
+     verifyCompletion?: (candidate: Session) => Promise<CompletionReport>;
+   } = {},
+ ): Promise<CheckedResult> {
+@@ -414,7 +416,13 @@ export async function stagedPlan(
+           throw new Error(
+             'Keep the agreed Undo/Redo prefix while correcting this request.',
+           );
+-        const result = await applyPlan(session, plan, camera, true);
++        const result = await applyPlan(
++          session,
++          plan,
++          camera,
++          true,
++          options.decisionOrigin,
++        );
+         if (brief) checkEditScope(brief, scopeOriginal, result.session);
+         checkAbort();
+         const stageOperations = (
+diff --git a/src/intelligence/client.ts b/src/intelligence/client.ts
+index fa6cf3a..631d25e 100644
+--- a/src/intelligence/client.ts
++++ b/src/intelligence/client.ts
+@@ -12,6 +12,7 @@ import {
+   type CriteriaRevision,
+ } from './completionSchema';
+ export type Message = {
++  id?: string;
+   role: 'user' | 'assistant';
+   content: string;
+   summary?: string;
+diff --git a/src/intelligence/completionSchema.ts b/src/intelligence/completionSchema.ts
+index 54300d2..8b073da 100644
+--- a/src/intelligence/completionSchema.ts
++++ b/src/intelligence/completionSchema.ts
+@@ -125,7 +125,7 @@ export const completionCriteriaSchema = z
+       .array(
+         z
+           .object({
+-            source: z.enum(['request', 'history', 'reference']),
++            source: z.enum(['request', 'history', 'reference', 'decision']),
+             evidence: z.string().min(1).max(400),
+             calculation: calculationSchema.optional(),
+             requirement: z.union([
+diff --git a/src/intelligence/engine.ts b/src/intelligence/engine.ts
+index 3d647ff..31f129c 100644
+--- a/src/intelligence/engine.ts
++++ b/src/intelligence/engine.ts
+@@ -7,6 +7,7 @@ import { solarPosition } from '../studio/solar';
+ import { solarDay, shadowOnLevelGround } from '../studio/solarAnalysis';
+ import { constructAssembly, remapCopiedHosts } from './assembly';
+ import { editComponents } from './componentEdits';
++import { updateDesignNotes, type DecisionOrigin } from '../design/decisions';
+ import {
+   profileVolume,
+   anchoredDimensions,
+@@ -240,6 +241,7 @@ export async function applyPlan(
+   raw: unknown,
+   camera: CameraContext = defaultCamera,
+   confirmed = false,
++  decisionOrigin?: DecisionOrigin,
+ ): Promise<{
+   session: Session;
+   message: string;
+@@ -255,6 +257,7 @@ export async function applyPlan(
+       (op, index) => {
+         current = op ? { type: op.type, index } : undefined;
+       },
++      decisionOrigin,
+     );
+   } catch (error) {
+     if (!current) throw error;
+@@ -270,6 +273,7 @@ async function applyTransaction(
+   camera: CameraContext,
+   confirmed: boolean,
+   operationStarted: (op: Operation | null, index: number) => void,
++  decisionOrigin?: DecisionOrigin,
+ ): Promise<{
+   session: Session;
+   message: string;
+@@ -736,14 +740,7 @@ async function applyTransaction(
+       );
+     } else if (op.type === 'design_note') {
+       const design = s.project.design ?? { views: [], options: [] };
+-      const notes = [
+-        ...(design.notes ?? []).filter((n) => n.topic !== op.topic),
+-        { topic: op.topic, text: op.text, source: op.source },
+-      ];
+-      if (notes.length > 40)
+-        throw new Error(
+-          'Design memory has 40 topics. Update an existing topic instead.',
+-        );
++      const notes = updateDesignNotes(design.notes ?? [], op, decisionOrigin);
+       s.project.design = { ...design, notes };
+       reports.push(
+         `Recorded ${op.source} design note: ${op.topic}. ${op.text}`,
+diff --git a/src/intelligence/plan.ts b/src/intelligence/plan.ts
+index c34d7f9..ce4fb67 100644
+--- a/src/intelligence/plan.ts
++++ b/src/intelligence/plan.ts
+@@ -573,10 +573,12 @@ export const planJsonSchema = z.toJSONSchema(planSchema, {
+       jsonSchema.anyOf = jsonSchema.anyOf.filter(
+         (branch: any) => branch.properties?.type?.const !== 'building',
+       );
+-    // New provider calls include the nullable designation; old saved/manual
+-    // material operations may omit it. Null preserves existing metadata.
++    // New provider calls include nullable metadata; old saved/manual
++    // operations may omit it. Keep the provider's strict output contract.
+     if (
+-      (jsonSchema.properties?.type as { const?: string })?.const === 'material'
++      ['material', 'design_note'].includes(
++        (jsonSchema.properties?.type as { const?: string })?.const ?? '',
++      )
+     )
+       jsonSchema.required = Object.keys(jsonSchema.properties!);
+   },
+diff --git a/src/projects/transfer.ts b/src/projects/transfer.ts
+index da27669..75071a5 100644
+--- a/src/projects/transfer.ts
++++ b/src/projects/transfer.ts
+@@ -7,6 +7,7 @@ import type { SavedProject, WorkspaceSnapshot } from './library';
+ const messages = z
+   .array(
+     z.object({
++      id: z.string().min(1).max(100).optional(),
+       role: z.enum(['user', 'assistant']),
+       content: z.string().max(100_000),
+       summary: z.string().max(100_000).optional(),
