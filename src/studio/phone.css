@@ -338,6 +338,19 @@
   font-size: 16px;
   min-height: 44px;
 }
+.phone-workspace .walk-placement-bar {
+  bottom: var(--phone-sheet-bottom);
+}
+
+/* AR setup remains independently scrollable, with its actions above the orb.
+ * Its compact floor-preview height and the full-screen AR overlay stay intact. */
+.immersive.phone-workspace .section-panel.ar-panel {
+  top: auto !important;
+  bottom: calc(
+    var(--phone-sheet-bottom) + var(--phone-keyboard-lift, 0px)
+  ) !important;
+  max-height: calc(var(--phone-visible-height, 100dvh) - 190px);
+}
 .phone-workspace.presentation-mode
   :is(.phone-workspace-dock, .orb-dock, .status-bar) {
   display: none;

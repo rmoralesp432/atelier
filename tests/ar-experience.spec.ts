@@ -334,6 +334,10 @@ for (const theme of ['night', 'day'] as const)
     await overlay.getByRole('button', { name: 'Exit AR', exact: true }).click();
     await expect(overlay).toBeHidden();
     await page.getByRole('button', { name: 'Close AR', exact: true }).click();
+    await page
+      .getByRole('navigation', { name: 'Workspace actions' })
+      .getByRole('button', { name: 'Open chat', exact: true })
+      .click();
     await expect(
       page.getByRole('textbox', { name: 'Message Atelier' }),
     ).toHaveValue('A draft to continue later');

@@ -323,5 +323,11 @@ test('phone tools remain reachable and the placement instruction stays clear of 
   ).toBeVisible();
   await page.screenshot({ path: 'test-results/atelier-placement-phone.png' });
   await page.getByRole('button', { name: 'Cancel', exact: true }).click();
+  // The phone dock keeps chat minimized while using tools; it remains directly
+  // accessible after leaving placement mode.
+  await page
+    .getByRole('navigation', { name: 'Workspace actions' })
+    .getByRole('button', { name: 'Open chat', exact: true })
+    .click();
   await expect(page.locator('.conversation-area')).toBeVisible();
 });

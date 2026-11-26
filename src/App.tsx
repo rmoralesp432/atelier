@@ -605,8 +605,27 @@ export default function App({
   }, [panels.active]);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [chatExpanded, setChatExpanded] = useState(true);
-  const [chatDocked, setChatDocked] = useState(false);
+  const [chatDocked, setChatDocked] = useState(
+    () => phoneLayout && (objectsOpen || !!panels.active),
+  );
   const [phoneActions, setPhoneActions] = useState(false);
+  // Restored panels and desktop-to-phone transitions must obey the same
+  // single-sheet behavior as the phone dock, without obscuring object actions.
+  useEffect(() => {
+    if (
+      !arActive &&
+      phoneLayout &&
+      (objectsOpen || panels.active || toolsOpen || phoneActions)
+    )
+      setChatDocked(true);
+  }, [
+    arActive,
+    phoneLayout,
+    objectsOpen,
+    panels.active,
+    toolsOpen,
+    phoneActions,
+  ]);
   const revealConversation = () => {
     setChatDocked(false);
     setPhoneActions(false);
@@ -2828,6 +2847,10 @@ export default function App({
                 project={project}
                 onActive={setARSessionActive}
                 onConversationHost={setARConversationHost}
+                onConversationOpen={() => {
+                  setChatDocked(false);
+                  setChatExpanded(true);
+                }}
                 onCamera={(c) => {
                   camera.current = c;
                 }}

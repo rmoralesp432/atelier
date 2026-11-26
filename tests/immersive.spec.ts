@@ -6,7 +6,7 @@ test('opens a full-size scene, adds shapes without AI, and reuses meshes on sele
   page,
 }) => {
   // This covers a desktop workflow plus a viewport resize and mobile panels.
-  // Software WebGL CI runners need more total time; assertions keep 5s limits.
+  // Software WebGL CI runners need more total time; keep the same assertions.
   test.setTimeout(60000);
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
@@ -56,9 +56,13 @@ test('opens a full-size scene, adds shapes without AI, and reuses meshes on sele
   await page.waitForTimeout(700);
   await page.screenshot({ path: 'test-results/atelier-immersive.png' });
   await page.setViewportSize({ width: 390, height: 844 });
-  await page.getByRole('button', { name: 'Show objects' }).click();
+  // Wait for the responsive phone controls before resolving a button that
+  // exists in the desktop header too. The old header becomes hidden on resize.
+  const dock = page.getByRole('navigation', { name: 'Workspace actions' });
+  await expect(dock).toBeVisible();
+  await dock.getByRole('button', { name: 'Show objects' }).click();
   await expect(page.locator('.objects-panel')).toBeVisible();
-  await page.getByRole('button', { name: 'Hide objects' }).click();
+  await dock.getByRole('button', { name: 'Hide objects' }).click();
   await page.getByRole('button', { name: 'Design tools', exact: true }).click();
   await openTool(page, 'Expand inspector');
   await expect(page.locator('.inspector-panel')).toBeVisible();
@@ -74,6 +78,9 @@ test('opens a full-size scene, adds shapes without AI, and reuses meshes on sele
     expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(390);
   }
   await page.getByRole('button', { name: 'Design tools', exact: true }).click();
+  // Phone tools intentionally minimize the conversation; reopen it through
+  // the dock before checking the composer stays inside the viewport.
+  await dock.getByRole('button', { name: 'Open chat', exact: true }).click();
   const send = (await page
     .getByRole('button', { name: 'Send message' })
     .boundingBox())!;
