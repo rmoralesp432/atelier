@@ -1,7 +1,7 @@
 name: Render production smoke
 on:
   push:
-    branches: [feat/phase2-conversational-modeling]
+    branches: [eval/iphone-release-evidence]
 permissions:
   contents: read
 jobs:
@@ -10,6 +10,8 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
@@ -17,10 +19,10 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npx playwright install --with-deps chromium
-      - run: node scripts/smoke-render.mjs
+      - run: node scripts/iphone-release-smoke.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: render-production-smoke
-          path: test-results/render-smoke/
+          path: test-results/
           retention-days: 14
