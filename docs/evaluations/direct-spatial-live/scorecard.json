@@ -1,0 +1,4470 @@
+{
+  "generated": "2026-11-26T16:40:15.810Z",
+  "method": "Post-run analysis of preserved evidence; no new AI calls or application changes",
+  "pricingBasis": "User-approved secondary estimates, default tier, no assumed cache discount; not an invoice",
+  "frozenApplicationHashesVerified": true,
+  "peakPrecallAccountingUSD": 1.3590725,
+  "spending": {
+    "calls": 12,
+    "estimatedUSD": 0.545874,
+    "accountedUSD": 0.6823425,
+    "unknownReservations": [],
+    "inputTokens": 224752,
+    "outputTokens": 9637,
+    "reviewerMs": 107582,
+    "executorMs": 62240
+  },
+  "runs": [
+    {
+      "id": "A-baseline",
+      "commit": "05277619f6fa337cdb1bfb0825654cbe5259ed2d",
+      "prompt": "Raise the canopy by 28 cm, keeping the pendants where they are. Adjust their existing suspensions so the connections are maintained. Keep the same pieces and leave the two objects beside it alone.",
+      "fixtureSHA256": "2070d2c6f66cbea3ca21837ac3521fd36e3c693ccf489249a3e85c3a62382a61",
+      "status": "PASS",
+      "inspection": [
+        {
+          "callId": "a55ee9e0-89d7-4b17-90f2-a41334d700b6",
+          "ids": [
+            "$group:Kinetic assembly"
+          ],
+          "role": null,
+          "snapshot": "before",
+          "relativeTo": "28b7ff6f6b1132a87d2dc3e67f500aa8"
+        }
+      ],
+      "proposalCorrect": true,
+      "savedGeometryCorrect": true,
+      "committed": true,
+      "externalChecks": 101,
+      "externalFailures": [],
+      "changed": [
+        {
+          "id": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+          "name": "Canopy"
+        },
+        {
+          "id": "78f6b2fb012359fdbef60b5de175c0a7",
+          "name": "Suspension 1"
+        },
+        {
+          "id": "da2deb8601b80c5b66ffcbc42e074ec7",
+          "name": "Suspension 2"
+        },
+        {
+          "id": "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+          "name": "Suspension 3"
+        },
+        {
+          "id": "9d021a45f5213b4ccf54c9f8f9d374a3",
+          "name": "Suspension 4"
+        },
+        {
+          "id": "48bfc1478b4f39ff211a0bf5e3a5433f",
+          "name": "Suspension 5"
+        },
+        {
+          "id": "813b25c8514885d3d0fd4bc9d4d35646",
+          "name": "Suspension 6"
+        },
+        {
+          "id": "312175416b82e5b52f40474d0c7b68a7",
+          "name": "Suspension 7"
+        },
+        {
+          "id": "d5ceb6c39934b731c7555a2b9b3ff64a",
+          "name": "Suspension 8"
+        }
+      ],
+      "preserved": [
+        {
+          "id": "05938e7b3e6b27ac5e85582f6f5761cf",
+          "name": "Sample A"
+        },
+        {
+          "id": "c160875ae82f3777dfbde2053d9f62d2",
+          "name": "Sample B"
+        },
+        {
+          "id": "b703cd279768eece582c57bb00c50800",
+          "name": "Pendant 1"
+        },
+        {
+          "id": "9decbe62a5245349add4a932609a02a2",
+          "name": "Pendant 2"
+        },
+        {
+          "id": "c6523defb92806dec6e5c7437cd37748",
+          "name": "Pendant 3"
+        },
+        {
+          "id": "de347d9a22650217e6543330d9f0da7b",
+          "name": "Pendant 4"
+        },
+        {
+          "id": "bfa7ed55c0e3f5b2ff0b24a56ec261a4",
+          "name": "Pendant 5"
+        },
+        {
+          "id": "d11dfcf6a85851418ba04f437235fefe",
+          "name": "Pendant 6"
+        },
+        {
+          "id": "1f953125a6cfdc2a37700ef3d96fa07f",
+          "name": "Pendant 7"
+        },
+        {
+          "id": "925abc5d0377d897501d882b2ca7e8f0",
+          "name": "Pendant 8"
+        }
+      ],
+      "reviewer": [
+        {
+          "elapsedMs": 18817,
+          "requirements": [
+            {
+              "kind": "measure",
+              "id": "check-1",
+              "source": "request",
+              "evidence": "Raise the canopy by 28 cm, keeping the pendants where they are.",
+              "calculation": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                    "metric": "y"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 28,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Raise the canopy by 28 cm, keeping the pendants where they are."
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      1
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 2
+                }
+              },
+              "requirement": {
+                "id": "check-1",
+                "label": "base",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "28b7ff6f6b1132a87d2dc3e67f500aa8"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "base",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "preserve",
+              "id": "check-2",
+              "source": "request",
+              "evidence": "Raise the canopy by 28 cm, keeping the pendants where they are.",
+              "requirement": {
+                "id": "check-2",
+                "label": "preserve",
+                "kind": "preserve",
+                "selector": {
+                  "refs": [
+                    "28b7ff6f6b1132a87d2dc3e67f500aa8"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "properties": [
+                  "dimensions",
+                  "x",
+                  "z",
+                  "rotation",
+                  "geometry",
+                  "name",
+                  "material",
+                  "materialSpec",
+                  "color",
+                  "groupId",
+                  "component",
+                  "visible"
+                ]
+              }
+            },
+            {
+              "kind": "preserve",
+              "id": "check-3",
+              "source": "request",
+              "evidence": "Raise the canopy by 28 cm, keeping the pendants where they are.",
+              "requirement": {
+                "id": "check-3",
+                "label": "preserve · Pendant",
+                "kind": "preserve",
+                "selector": {
+                  "refs": [
+                    "$original"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": "Pendant"
+                },
+                "properties": [
+                  "all"
+                ]
+              }
+            },
+            {
+              "kind": "preserve",
+              "id": "check-4",
+              "source": "request",
+              "evidence": "Adjust their existing suspensions so the connections are maintained.",
+              "requirement": {
+                "id": "check-4",
+                "label": "preserve · Suspension",
+                "kind": "preserve",
+                "selector": {
+                  "refs": [
+                    "$original"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": "Suspension"
+                },
+                "properties": [
+                  "identity",
+                  "name",
+                  "x",
+                  "y",
+                  "z",
+                  "width",
+                  "depth",
+                  "rotation",
+                  "material",
+                  "materialSpec",
+                  "color",
+                  "groupId",
+                  "component",
+                  "visible"
+                ]
+              }
+            },
+            {
+              "kind": "relationship",
+              "id": "check-5",
+              "source": "request",
+              "evidence": "Adjust their existing suspensions so the connections are maintained.",
+              "requirement": {
+                "id": "check-5",
+                "label": "relationship",
+                "kind": "relationship",
+                "first": {
+                  "refs": [
+                    "$original"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": "Suspension"
+                },
+                "second": {
+                  "refs": [
+                    "28b7ff6f6b1132a87d2dc3e67f500aa8"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "relation": "touching",
+                "quantifier": "each",
+                "distance": 0,
+                "tolerance": 0.001
+              }
+            },
+            {
+              "kind": "relationship",
+              "id": "check-6",
+              "source": "request",
+              "evidence": "Adjust their existing suspensions so the connections are maintained.",
+              "requirement": {
+                "id": "check-6",
+                "label": "relationship",
+                "kind": "relationship",
+                "first": {
+                  "refs": [
+                    "$original"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": "Suspension"
+                },
+                "second": {
+                  "refs": [
+                    "$original"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": "Pendant"
+                },
+                "relation": "touching",
+                "quantifier": "each",
+                "distance": 0,
+                "tolerance": 0.001
+              }
+            },
+            {
+              "kind": "preserve",
+              "id": "check-7",
+              "source": "request",
+              "evidence": "Keep the same pieces and leave the two objects beside it alone.",
+              "requirement": {
+                "id": "check-7",
+                "label": "preserve",
+                "kind": "preserve",
+                "selector": {
+                  "refs": [
+                    "$original"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "properties": [
+                  "identity"
+                ]
+              }
+            },
+            {
+              "kind": "measure",
+              "id": "check-8",
+              "source": "request",
+              "evidence": "Keep the same pieces and leave the two objects beside it alone.",
+              "requirement": {
+                "id": "check-8",
+                "label": "count",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "$new"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "count",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "preserve",
+              "id": "check-9",
+              "source": "request",
+              "evidence": "Keep the same pieces and leave the two objects beside it alone.",
+              "requirement": {
+                "id": "check-9",
+                "label": "preserve",
+                "kind": "preserve",
+                "selector": {
+                  "refs": [
+                    "05938e7b3e6b27ac5e85582f6f5761cf",
+                    "c160875ae82f3777dfbde2053d9f62d2"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "properties": [
+                  "all"
+                ]
+              }
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      ],
+      "host": {
+        "modeling": true,
+        "passed": true,
+        "status": "verified",
+        "canCommit": true,
+        "checks": [
+          {
+            "id": "preserved-scope",
+            "label": "Unrelated existing geometry",
+            "met": true,
+            "outcome": "verified",
+            "observed": "10 existing objects outside the requested edit scope are unchanged.",
+            "ids": []
+          },
+          {
+            "id": "check-1",
+            "label": "base",
+            "met": true,
+            "outcome": "verified",
+            "observed": "base (each, world solids): 3.03; expected equal 3.0300000000000002 ± 0.001 m.",
+            "ids": [
+              "28b7ff6f6b1132a87d2dc3e67f500aa8"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                    "metric": "y"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 28,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Raise the canopy by 28 cm, keeping the pendants where they are."
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      1
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 2
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    2.75
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.28
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": 3.0300000000000002
+            }
+          },
+          {
+            "id": "check-2",
+            "label": "preserve",
+            "met": true,
+            "outcome": "verified",
+            "observed": "1 original identities retain dimensions, x, z, rotation, geometry, name, material, materialSpec, color, groupId, component, visible.",
+            "ids": [
+              "28b7ff6f6b1132a87d2dc3e67f500aa8"
+            ]
+          },
+          {
+            "id": "check-3",
+            "label": "preserve · Pendant",
+            "met": true,
+            "outcome": "verified",
+            "observed": "8 original identities retain all.",
+            "ids": [
+              "b703cd279768eece582c57bb00c50800",
+              "9decbe62a5245349add4a932609a02a2",
+              "c6523defb92806dec6e5c7437cd37748",
+              "de347d9a22650217e6543330d9f0da7b",
+              "bfa7ed55c0e3f5b2ff0b24a56ec261a4",
+              "d11dfcf6a85851418ba04f437235fefe",
+              "1f953125a6cfdc2a37700ef3d96fa07f",
+              "925abc5d0377d897501d882b2ca7e8f0"
+            ]
+          },
+          {
+            "id": "check-4",
+            "label": "preserve · Suspension",
+            "met": true,
+            "outcome": "verified",
+            "observed": "8 original identities retain identity, name, x, y, z, width, depth, rotation, material, materialSpec, color, groupId, component, visible.",
+            "ids": [
+              "78f6b2fb012359fdbef60b5de175c0a7",
+              "da2deb8601b80c5b66ffcbc42e074ec7",
+              "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+              "9d021a45f5213b4ccf54c9f8f9d374a3",
+              "48bfc1478b4f39ff211a0bf5e3a5433f",
+              "813b25c8514885d3d0fd4bc9d4d35646",
+              "312175416b82e5b52f40474d0c7b68a7",
+              "d5ceb6c39934b731c7555a2b9b3ff64a"
+            ]
+          },
+          {
+            "id": "check-5",
+            "label": "relationship",
+            "met": true,
+            "outcome": "verified",
+            "observed": "touching: 8/8 distinct solid pairs satisfy each; tolerance 0.001 m.",
+            "ids": [
+              "78f6b2fb012359fdbef60b5de175c0a7",
+              "da2deb8601b80c5b66ffcbc42e074ec7",
+              "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+              "9d021a45f5213b4ccf54c9f8f9d374a3",
+              "48bfc1478b4f39ff211a0bf5e3a5433f",
+              "813b25c8514885d3d0fd4bc9d4d35646",
+              "312175416b82e5b52f40474d0c7b68a7",
+              "d5ceb6c39934b731c7555a2b9b3ff64a",
+              "28b7ff6f6b1132a87d2dc3e67f500aa8"
+            ]
+          },
+          {
+            "id": "check-6",
+            "label": "relationship",
+            "met": true,
+            "outcome": "verified",
+            "observed": "touching: 8/64 distinct solid pairs satisfy each; tolerance 0.001 m.",
+            "ids": [
+              "78f6b2fb012359fdbef60b5de175c0a7",
+              "da2deb8601b80c5b66ffcbc42e074ec7",
+              "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+              "9d021a45f5213b4ccf54c9f8f9d374a3",
+              "48bfc1478b4f39ff211a0bf5e3a5433f",
+              "813b25c8514885d3d0fd4bc9d4d35646",
+              "312175416b82e5b52f40474d0c7b68a7",
+              "d5ceb6c39934b731c7555a2b9b3ff64a",
+              "b703cd279768eece582c57bb00c50800",
+              "9decbe62a5245349add4a932609a02a2",
+              "c6523defb92806dec6e5c7437cd37748",
+              "de347d9a22650217e6543330d9f0da7b",
+              "bfa7ed55c0e3f5b2ff0b24a56ec261a4",
+              "d11dfcf6a85851418ba04f437235fefe",
+              "1f953125a6cfdc2a37700ef3d96fa07f",
+              "925abc5d0377d897501d882b2ca7e8f0"
+            ]
+          },
+          {
+            "id": "check-7",
+            "label": "preserve",
+            "met": true,
+            "outcome": "verified",
+            "observed": "19 original identities retain identity.",
+            "ids": [
+              "05938e7b3e6b27ac5e85582f6f5761cf",
+              "c160875ae82f3777dfbde2053d9f62d2",
+              "28b7ff6f6b1132a87d2dc3e67f500aa8",
+              "b703cd279768eece582c57bb00c50800",
+              "78f6b2fb012359fdbef60b5de175c0a7",
+              "9decbe62a5245349add4a932609a02a2",
+              "da2deb8601b80c5b66ffcbc42e074ec7",
+              "c6523defb92806dec6e5c7437cd37748",
+              "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+              "de347d9a22650217e6543330d9f0da7b",
+              "9d021a45f5213b4ccf54c9f8f9d374a3",
+              "bfa7ed55c0e3f5b2ff0b24a56ec261a4",
+              "48bfc1478b4f39ff211a0bf5e3a5433f",
+              "d11dfcf6a85851418ba04f437235fefe",
+              "813b25c8514885d3d0fd4bc9d4d35646",
+              "1f953125a6cfdc2a37700ef3d96fa07f"
+            ]
+          },
+          {
+            "id": "check-8",
+            "label": "count",
+            "met": true,
+            "outcome": "verified",
+            "observed": "count (each): 0; expected equal 0, tolerance 0. 0 element(s).",
+            "ids": []
+          },
+          {
+            "id": "check-9",
+            "label": "preserve",
+            "met": true,
+            "outcome": "verified",
+            "observed": "2 original identities retain all.",
+            "ids": [
+              "05938e7b3e6b27ac5e85582f6f5761cf",
+              "c160875ae82f3777dfbde2053d9f62d2"
+            ]
+          }
+        ],
+        "qualitativeLimits": []
+      },
+      "transaction": {
+        "reload": true,
+        "undo": true,
+        "reloadWhileUndone": true,
+        "redo": true,
+        "atomic": true,
+        "conversation": true
+      },
+      "negative": {
+        "status": "BLOCKED_MEASURED",
+        "externalFailures": [
+          {
+            "name": "Requested occupied solid e9c39bfbc3d4388c9f3b8c12f1d84a57",
+            "status": "incorrect",
+            "expected": {
+              "bounds": {
+                "min": [
+                  0.191,
+                  0.97,
+                  -0.859
+                ],
+                "max": [
+                  0.20900000000000002,
+                  3.03,
+                  -0.841
+                ]
+              },
+              "volume": 0.000523364481132495
+            },
+            "actual": {
+              "bounds": {
+                "min": [
+                  0.191,
+                  0.97,
+                  -0.859
+                ],
+                "max": [
+                  0.20900000000000002,
+                  3.0149999999999997,
+                  -0.841
+                ]
+              },
+              "volume": 0.0005195535747164823
+            }
+          },
+          {
+            "name": "Upper connection e9c39bfbc3d4388c9f3b8c12f1d84a57",
+            "status": "incorrect",
+            "expected": 0,
+            "actual": 0.015000000000000124
+          },
+          {
+            "name": "Upper surface contact e9c39bfbc3d4388c9f3b8c12f1d84a57",
+            "status": "incorrect"
+          }
+        ],
+        "measuredFailures": [
+          {
+            "id": "check-5",
+            "label": "relationship",
+            "met": false,
+            "outcome": "incorrect",
+            "observed": "touching: 7/8 distinct solid pairs satisfy each; tolerance 0.001 m.",
+            "ids": [
+              "78f6b2fb012359fdbef60b5de175c0a7",
+              "da2deb8601b80c5b66ffcbc42e074ec7",
+              "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+              "9d021a45f5213b4ccf54c9f8f9d374a3",
+              "48bfc1478b4f39ff211a0bf5e3a5433f",
+              "813b25c8514885d3d0fd4bc9d4d35646",
+              "312175416b82e5b52f40474d0c7b68a7",
+              "d5ceb6c39934b731c7555a2b9b3ff64a",
+              "28b7ff6f6b1132a87d2dc3e67f500aa8"
+            ]
+          }
+        ],
+        "browserFeedbackStatus": "incorrect",
+        "committed": false,
+        "originalPreserved": true,
+        "reload": true
+      },
+      "cost": {
+        "calls": 3,
+        "estimatedUSD": 0.13962,
+        "accountedUSD": 0.174525,
+        "unknownReservations": [],
+        "inputTokens": 59710,
+        "outputTokens": 2020,
+        "reviewerMs": 18759,
+        "executorMs": 18859
+      },
+      "totalTrialWallMs": 72328,
+      "browserErrors": []
+    },
+    {
+      "id": "A-treatment",
+      "commit": "711a8cff9eb54a4c5254e5c20187b7b2614020da",
+      "prompt": "Raise the canopy by 28 cm, keeping the pendants where they are. Adjust their existing suspensions so the connections are maintained. Keep the same pieces and leave the two objects beside it alone.",
+      "fixtureSHA256": "2070d2c6f66cbea3ca21837ac3521fd36e3c693ccf489249a3e85c3a62382a61",
+      "status": "PASS",
+      "inspection": [
+        {
+          "callId": "98fefeee-f334-4bd5-825f-5490c6df148e",
+          "ids": [
+            "$group:Kinetic assembly",
+            "$group:Unrelated samples"
+          ],
+          "role": null,
+          "snapshot": "before",
+          "relativeTo": "28b7ff6f6b1132a87d2dc3e67f500aa8"
+        }
+      ],
+      "proposalCorrect": true,
+      "savedGeometryCorrect": true,
+      "committed": true,
+      "externalChecks": 101,
+      "externalFailures": [],
+      "changed": [
+        {
+          "id": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+          "name": "Canopy"
+        },
+        {
+          "id": "78f6b2fb012359fdbef60b5de175c0a7",
+          "name": "Suspension 1"
+        },
+        {
+          "id": "da2deb8601b80c5b66ffcbc42e074ec7",
+          "name": "Suspension 2"
+        },
+        {
+          "id": "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+          "name": "Suspension 3"
+        },
+        {
+          "id": "9d021a45f5213b4ccf54c9f8f9d374a3",
+          "name": "Suspension 4"
+        },
+        {
+          "id": "48bfc1478b4f39ff211a0bf5e3a5433f",
+          "name": "Suspension 5"
+        },
+        {
+          "id": "813b25c8514885d3d0fd4bc9d4d35646",
+          "name": "Suspension 6"
+        },
+        {
+          "id": "312175416b82e5b52f40474d0c7b68a7",
+          "name": "Suspension 7"
+        },
+        {
+          "id": "d5ceb6c39934b731c7555a2b9b3ff64a",
+          "name": "Suspension 8"
+        }
+      ],
+      "preserved": [
+        {
+          "id": "05938e7b3e6b27ac5e85582f6f5761cf",
+          "name": "Sample A"
+        },
+        {
+          "id": "c160875ae82f3777dfbde2053d9f62d2",
+          "name": "Sample B"
+        },
+        {
+          "id": "b703cd279768eece582c57bb00c50800",
+          "name": "Pendant 1"
+        },
+        {
+          "id": "9decbe62a5245349add4a932609a02a2",
+          "name": "Pendant 2"
+        },
+        {
+          "id": "c6523defb92806dec6e5c7437cd37748",
+          "name": "Pendant 3"
+        },
+        {
+          "id": "de347d9a22650217e6543330d9f0da7b",
+          "name": "Pendant 4"
+        },
+        {
+          "id": "bfa7ed55c0e3f5b2ff0b24a56ec261a4",
+          "name": "Pendant 5"
+        },
+        {
+          "id": "d11dfcf6a85851418ba04f437235fefe",
+          "name": "Pendant 6"
+        },
+        {
+          "id": "1f953125a6cfdc2a37700ef3d96fa07f",
+          "name": "Pendant 7"
+        },
+        {
+          "id": "925abc5d0377d897501d882b2ca7e8f0",
+          "name": "Pendant 8"
+        }
+      ],
+      "reviewer": [
+        {
+          "elapsedMs": 15286,
+          "requirements": [
+            {
+              "kind": "measure",
+              "id": "check-1",
+              "source": "request",
+              "evidence": "Raise the canopy by 28 cm, keeping the pendants where they are.",
+              "calculation": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                    "metric": "y"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 28,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Raise the canopy by 28 cm, keeping the pendants where they are."
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      1
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 2
+                }
+              },
+              "requirement": {
+                "id": "check-1",
+                "label": "base",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "28b7ff6f6b1132a87d2dc3e67f500aa8"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "base",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "preserve",
+              "id": "check-2",
+              "source": "request",
+              "evidence": "Raise the canopy by 28 cm, keeping the pendants where they are.",
+              "requirement": {
+                "id": "check-2",
+                "label": "preserve",
+                "kind": "preserve",
+                "selector": {
+                  "refs": [
+                    "28b7ff6f6b1132a87d2dc3e67f500aa8"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "properties": [
+                  "identity",
+                  "geometry",
+                  "dimensions",
+                  "x",
+                  "z",
+                  "rotation",
+                  "name",
+                  "material",
+                  "materialSpec",
+                  "color",
+                  "groupId",
+                  "visible",
+                  "component"
+                ]
+              }
+            },
+            {
+              "kind": "preserve",
+              "id": "check-3",
+              "source": "request",
+              "evidence": "Raise the canopy by 28 cm, keeping the pendants where they are.",
+              "requirement": {
+                "id": "check-3",
+                "label": "preserve · Pendant",
+                "kind": "preserve",
+                "selector": {
+                  "refs": [
+                    "$original"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": "Pendant"
+                },
+                "properties": [
+                  "all"
+                ]
+              }
+            },
+            {
+              "kind": "preserve",
+              "id": "check-4",
+              "source": "request",
+              "evidence": "Keep the same pieces and leave the two objects beside it alone.",
+              "requirement": {
+                "id": "check-4",
+                "label": "preserve · Suspension",
+                "kind": "preserve",
+                "selector": {
+                  "refs": [
+                    "$original"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": "Suspension"
+                },
+                "properties": [
+                  "identity",
+                  "name",
+                  "width",
+                  "depth",
+                  "x",
+                  "z",
+                  "rotation",
+                  "material",
+                  "materialSpec",
+                  "color",
+                  "groupId",
+                  "visible",
+                  "component"
+                ]
+              }
+            },
+            {
+              "kind": "measure",
+              "id": "check-5",
+              "source": "request",
+              "evidence": "Keep the same pieces and leave the two objects beside it alone.",
+              "requirement": {
+                "id": "check-5",
+                "label": "count",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "$new"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "count",
+                "aggregation": "sum",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "preserve_offsets",
+              "id": "check-6",
+              "source": "request",
+              "evidence": "Adjust their existing suspensions so the connections are maintained.",
+              "requirement": {
+                "id": "check-6",
+                "label": "preserve offsets",
+                "kind": "preserve_offsets",
+                "first": {
+                  "refs": [
+                    "$original"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": "Suspension"
+                },
+                "second": {
+                  "refs": [
+                    "$original"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": "Pendant"
+                },
+                "axis": "y",
+                "firstAnchor": "min",
+                "secondAnchor": "max",
+                "tolerance": 0.001
+              }
+            },
+            {
+              "kind": "preserve_offsets",
+              "id": "check-7",
+              "source": "request",
+              "evidence": "Adjust their existing suspensions so the connections are maintained.",
+              "requirement": {
+                "id": "check-7",
+                "label": "preserve offsets",
+                "kind": "preserve_offsets",
+                "first": {
+                  "refs": [
+                    "$original"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": "Suspension"
+                },
+                "second": {
+                  "refs": [
+                    "28b7ff6f6b1132a87d2dc3e67f500aa8"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "axis": "y",
+                "firstAnchor": "max",
+                "secondAnchor": "min",
+                "tolerance": 0.001
+              }
+            },
+            {
+              "kind": "relationship",
+              "id": "check-8",
+              "source": "request",
+              "evidence": "Adjust their existing suspensions so the connections are maintained.",
+              "requirement": {
+                "id": "check-8",
+                "label": "relationship",
+                "kind": "relationship",
+                "first": {
+                  "refs": [
+                    "$original"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": "Suspension"
+                },
+                "second": {
+                  "refs": [
+                    "$original"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": "Pendant"
+                },
+                "relation": "touching",
+                "quantifier": "each",
+                "distance": 0,
+                "tolerance": 0.001
+              }
+            },
+            {
+              "kind": "relationship",
+              "id": "check-9",
+              "source": "request",
+              "evidence": "Adjust their existing suspensions so the connections are maintained.",
+              "requirement": {
+                "id": "check-9",
+                "label": "relationship",
+                "kind": "relationship",
+                "first": {
+                  "refs": [
+                    "$original"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": "Suspension"
+                },
+                "second": {
+                  "refs": [
+                    "28b7ff6f6b1132a87d2dc3e67f500aa8"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "relation": "touching",
+                "quantifier": "each",
+                "distance": 0,
+                "tolerance": 0.001
+              }
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      ],
+      "host": {
+        "modeling": true,
+        "passed": true,
+        "status": "verified",
+        "canCommit": true,
+        "checks": [
+          {
+            "id": "preserved-scope",
+            "label": "Unrelated existing geometry",
+            "met": true,
+            "outcome": "verified",
+            "observed": "10 existing objects outside the requested edit scope are unchanged.",
+            "ids": []
+          },
+          {
+            "id": "check-1",
+            "label": "base",
+            "met": true,
+            "outcome": "verified",
+            "observed": "base (each, world solids): 3.03; expected equal 3.0300000000000002 ± 0.001 m.",
+            "ids": [
+              "28b7ff6f6b1132a87d2dc3e67f500aa8"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                    "metric": "y"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 28,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Raise the canopy by 28 cm, keeping the pendants where they are."
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      1
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 2
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    2.75
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.28
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": 3.0300000000000002
+            }
+          },
+          {
+            "id": "check-2",
+            "label": "preserve",
+            "met": true,
+            "outcome": "verified",
+            "observed": "1 original identities retain identity, geometry, dimensions, x, z, rotation, name, material, materialSpec, color, groupId, visible, component.",
+            "ids": [
+              "28b7ff6f6b1132a87d2dc3e67f500aa8"
+            ]
+          },
+          {
+            "id": "check-3",
+            "label": "preserve · Pendant",
+            "met": true,
+            "outcome": "verified",
+            "observed": "8 original identities retain all.",
+            "ids": [
+              "b703cd279768eece582c57bb00c50800",
+              "9decbe62a5245349add4a932609a02a2",
+              "c6523defb92806dec6e5c7437cd37748",
+              "de347d9a22650217e6543330d9f0da7b",
+              "bfa7ed55c0e3f5b2ff0b24a56ec261a4",
+              "d11dfcf6a85851418ba04f437235fefe",
+              "1f953125a6cfdc2a37700ef3d96fa07f",
+              "925abc5d0377d897501d882b2ca7e8f0"
+            ]
+          },
+          {
+            "id": "check-4",
+            "label": "preserve · Suspension",
+            "met": true,
+            "outcome": "verified",
+            "observed": "8 original identities retain identity, name, width, depth, x, z, rotation, material, materialSpec, color, groupId, visible, component.",
+            "ids": [
+              "78f6b2fb012359fdbef60b5de175c0a7",
+              "da2deb8601b80c5b66ffcbc42e074ec7",
+              "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+              "9d021a45f5213b4ccf54c9f8f9d374a3",
+              "48bfc1478b4f39ff211a0bf5e3a5433f",
+              "813b25c8514885d3d0fd4bc9d4d35646",
+              "312175416b82e5b52f40474d0c7b68a7",
+              "d5ceb6c39934b731c7555a2b9b3ff64a"
+            ]
+          },
+          {
+            "id": "check-5",
+            "label": "count",
+            "met": true,
+            "outcome": "verified",
+            "observed": "count (sum): 0; expected equal 0, tolerance 0. 0 element(s).",
+            "ids": []
+          },
+          {
+            "id": "check-6",
+            "label": "preserve offsets",
+            "met": true,
+            "outcome": "verified",
+            "observed": "8 original identity pairs; 0 changed/missing. Preserve world y max(second) - min(first), tolerance 0.001 m. 78f6b2fb012359fdbef60b5de175c0a7 → b703cd279768eece582c57bb00c50800: original 1.05 - 1.05 = 0 m; now 0 m; da2deb8601b80c5b66ffcbc42e074ec7 → 9decbe62a5245349add4a932609a02a2: original 1.2899999999999998 - 1.2899999999999998 = 0 m; now 0 m; e9c39bfbc3d4388c9f3b8c12f1d84a57 → c6523defb92806dec6e5c7437cd37748: original 0.97 - 0.97 = 0 m; now 0 m. Bounds offsets do not establish surface contact.",
+            "ids": [
+              "78f6b2fb012359fdbef60b5de175c0a7",
+              "b703cd279768eece582c57bb00c50800",
+              "da2deb8601b80c5b66ffcbc42e074ec7",
+              "9decbe62a5245349add4a932609a02a2",
+              "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+              "c6523defb92806dec6e5c7437cd37748",
+              "9d021a45f5213b4ccf54c9f8f9d374a3",
+              "de347d9a22650217e6543330d9f0da7b",
+              "48bfc1478b4f39ff211a0bf5e3a5433f",
+              "bfa7ed55c0e3f5b2ff0b24a56ec261a4",
+              "813b25c8514885d3d0fd4bc9d4d35646",
+              "d11dfcf6a85851418ba04f437235fefe",
+              "312175416b82e5b52f40474d0c7b68a7",
+              "1f953125a6cfdc2a37700ef3d96fa07f",
+              "d5ceb6c39934b731c7555a2b9b3ff64a",
+              "925abc5d0377d897501d882b2ca7e8f0"
+            ],
+            "offsets": {
+              "source": "original",
+              "frame": "world_xyz_y_up",
+              "unit": "m",
+              "axis": "y",
+              "firstAnchor": "min",
+              "secondAnchor": "max",
+              "formula": "second - first",
+              "binding": "nearest_original_anchor_points",
+              "pairs": 8,
+              "maxError": 0,
+              "samples": [
+                {
+                  "first": "78f6b2fb012359fdbef60b5de175c0a7",
+                  "second": "b703cd279768eece582c57bb00c50800",
+                  "originalFirst": 1.05,
+                  "originalSecond": 1.05,
+                  "expected": 0,
+                  "measured": 0
+                },
+                {
+                  "first": "da2deb8601b80c5b66ffcbc42e074ec7",
+                  "second": "9decbe62a5245349add4a932609a02a2",
+                  "originalFirst": 1.2899999999999998,
+                  "originalSecond": 1.2899999999999998,
+                  "expected": 0,
+                  "measured": 0
+                },
+                {
+                  "first": "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+                  "second": "c6523defb92806dec6e5c7437cd37748",
+                  "originalFirst": 0.97,
+                  "originalSecond": 0.97,
+                  "expected": 0,
+                  "measured": 0
+                },
+                {
+                  "first": "9d021a45f5213b4ccf54c9f8f9d374a3",
+                  "second": "de347d9a22650217e6543330d9f0da7b",
+                  "originalFirst": 1.45,
+                  "originalSecond": 1.45,
+                  "expected": 0,
+                  "measured": 0
+                },
+                {
+                  "first": "48bfc1478b4f39ff211a0bf5e3a5433f",
+                  "second": "bfa7ed55c0e3f5b2ff0b24a56ec261a4",
+                  "originalFirst": 1.19,
+                  "originalSecond": 1.19,
+                  "expected": 0,
+                  "measured": 0
+                },
+                {
+                  "first": "813b25c8514885d3d0fd4bc9d4d35646",
+                  "second": "d11dfcf6a85851418ba04f437235fefe",
+                  "originalFirst": 0.9700000000000001,
+                  "originalSecond": 0.9700000000000001,
+                  "expected": 0,
+                  "measured": 0
+                },
+                {
+                  "first": "312175416b82e5b52f40474d0c7b68a7",
+                  "second": "1f953125a6cfdc2a37700ef3d96fa07f",
+                  "originalFirst": 1.32,
+                  "originalSecond": 1.32,
+                  "expected": 0,
+                  "measured": 0
+                },
+                {
+                  "first": "d5ceb6c39934b731c7555a2b9b3ff64a",
+                  "second": "925abc5d0377d897501d882b2ca7e8f0",
+                  "originalFirst": 1.115,
+                  "originalSecond": 1.115,
+                  "expected": 0,
+                  "measured": 0
+                }
+              ]
+            }
+          },
+          {
+            "id": "check-7",
+            "label": "preserve offsets",
+            "met": true,
+            "outcome": "verified",
+            "observed": "8 original identity pairs; 0 changed/missing. Preserve world y min(second) - max(first), tolerance 0.001 m. 78f6b2fb012359fdbef60b5de175c0a7 → 28b7ff6f6b1132a87d2dc3e67f500aa8: original 2.75 - 2.75 = 0 m; now -4.440892098500626e-16 m; da2deb8601b80c5b66ffcbc42e074ec7 → 28b7ff6f6b1132a87d2dc3e67f500aa8: original 2.75 - 2.75 = 0 m; now 0 m; e9c39bfbc3d4388c9f3b8c12f1d84a57 → 28b7ff6f6b1132a87d2dc3e67f500aa8: original 2.75 - 2.75 = 0 m; now -4.440892098500626e-16 m. Bounds offsets do not establish surface contact.",
+            "ids": [
+              "78f6b2fb012359fdbef60b5de175c0a7",
+              "28b7ff6f6b1132a87d2dc3e67f500aa8",
+              "da2deb8601b80c5b66ffcbc42e074ec7",
+              "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+              "9d021a45f5213b4ccf54c9f8f9d374a3",
+              "48bfc1478b4f39ff211a0bf5e3a5433f",
+              "813b25c8514885d3d0fd4bc9d4d35646",
+              "312175416b82e5b52f40474d0c7b68a7",
+              "d5ceb6c39934b731c7555a2b9b3ff64a"
+            ],
+            "offsets": {
+              "source": "original",
+              "frame": "world_xyz_y_up",
+              "unit": "m",
+              "axis": "y",
+              "firstAnchor": "max",
+              "secondAnchor": "min",
+              "formula": "second - first",
+              "binding": "nearest_original_anchor_points",
+              "pairs": 8,
+              "maxError": 4.440892098500626e-16,
+              "samples": [
+                {
+                  "first": "78f6b2fb012359fdbef60b5de175c0a7",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": -4.440892098500626e-16
+                },
+                {
+                  "first": "da2deb8601b80c5b66ffcbc42e074ec7",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": 0
+                },
+                {
+                  "first": "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": -4.440892098500626e-16
+                },
+                {
+                  "first": "9d021a45f5213b4ccf54c9f8f9d374a3",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": -4.440892098500626e-16
+                },
+                {
+                  "first": "48bfc1478b4f39ff211a0bf5e3a5433f",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": -4.440892098500626e-16
+                },
+                {
+                  "first": "813b25c8514885d3d0fd4bc9d4d35646",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": -4.440892098500626e-16
+                },
+                {
+                  "first": "312175416b82e5b52f40474d0c7b68a7",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": -4.440892098500626e-16
+                },
+                {
+                  "first": "d5ceb6c39934b731c7555a2b9b3ff64a",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": -4.440892098500626e-16
+                }
+              ]
+            }
+          },
+          {
+            "id": "check-8",
+            "label": "relationship",
+            "met": true,
+            "outcome": "verified",
+            "observed": "touching: 8/64 distinct solid pairs satisfy each; tolerance 0.001 m.",
+            "ids": [
+              "78f6b2fb012359fdbef60b5de175c0a7",
+              "da2deb8601b80c5b66ffcbc42e074ec7",
+              "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+              "9d021a45f5213b4ccf54c9f8f9d374a3",
+              "48bfc1478b4f39ff211a0bf5e3a5433f",
+              "813b25c8514885d3d0fd4bc9d4d35646",
+              "312175416b82e5b52f40474d0c7b68a7",
+              "d5ceb6c39934b731c7555a2b9b3ff64a",
+              "b703cd279768eece582c57bb00c50800",
+              "9decbe62a5245349add4a932609a02a2",
+              "c6523defb92806dec6e5c7437cd37748",
+              "de347d9a22650217e6543330d9f0da7b",
+              "bfa7ed55c0e3f5b2ff0b24a56ec261a4",
+              "d11dfcf6a85851418ba04f437235fefe",
+              "1f953125a6cfdc2a37700ef3d96fa07f",
+              "925abc5d0377d897501d882b2ca7e8f0"
+            ]
+          },
+          {
+            "id": "check-9",
+            "label": "relationship",
+            "met": true,
+            "outcome": "verified",
+            "observed": "touching: 8/8 distinct solid pairs satisfy each; tolerance 0.001 m.",
+            "ids": [
+              "78f6b2fb012359fdbef60b5de175c0a7",
+              "da2deb8601b80c5b66ffcbc42e074ec7",
+              "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+              "9d021a45f5213b4ccf54c9f8f9d374a3",
+              "48bfc1478b4f39ff211a0bf5e3a5433f",
+              "813b25c8514885d3d0fd4bc9d4d35646",
+              "312175416b82e5b52f40474d0c7b68a7",
+              "d5ceb6c39934b731c7555a2b9b3ff64a",
+              "28b7ff6f6b1132a87d2dc3e67f500aa8"
+            ]
+          }
+        ],
+        "qualitativeLimits": []
+      },
+      "transaction": {
+        "reload": true,
+        "undo": true,
+        "reloadWhileUndone": true,
+        "redo": true,
+        "atomic": true,
+        "conversation": true
+      },
+      "negative": {
+        "status": "BLOCKED_MEASURED",
+        "externalFailures": [
+          {
+            "name": "Requested occupied solid e9c39bfbc3d4388c9f3b8c12f1d84a57",
+            "status": "incorrect",
+            "expected": {
+              "bounds": {
+                "min": [
+                  0.191,
+                  0.97,
+                  -0.859
+                ],
+                "max": [
+                  0.20900000000000002,
+                  3.03,
+                  -0.841
+                ]
+              },
+              "volume": 0.000523364481132495
+            },
+            "actual": {
+              "bounds": {
+                "min": [
+                  0.191,
+                  0.97,
+                  -0.859
+                ],
+                "max": [
+                  0.20900000000000002,
+                  3.0149999999999997,
+                  -0.841
+                ]
+              },
+              "volume": 0.0005195535747164823
+            }
+          },
+          {
+            "name": "Upper connection e9c39bfbc3d4388c9f3b8c12f1d84a57",
+            "status": "incorrect",
+            "expected": 0,
+            "actual": 0.015000000000000124
+          },
+          {
+            "name": "Upper surface contact e9c39bfbc3d4388c9f3b8c12f1d84a57",
+            "status": "incorrect"
+          }
+        ],
+        "measuredFailures": [
+          {
+            "id": "check-7",
+            "label": "preserve offsets",
+            "met": false,
+            "outcome": "incorrect",
+            "observed": "8 original identity pairs; 1 changed/missing. Preserve world y min(second) - max(first), tolerance 0.001 m. e9c39bfbc3d4388c9f3b8c12f1d84a57 → 28b7ff6f6b1132a87d2dc3e67f500aa8: original 2.75 - 2.75 = 0 m; now 0.015000000000000124 m; 78f6b2fb012359fdbef60b5de175c0a7 → 28b7ff6f6b1132a87d2dc3e67f500aa8: original 2.75 - 2.75 = 0 m; now -4.440892098500626e-16 m; da2deb8601b80c5b66ffcbc42e074ec7 → 28b7ff6f6b1132a87d2dc3e67f500aa8: original 2.75 - 2.75 = 0 m; now 0 m. Bounds offsets do not establish surface contact.",
+            "ids": [
+              "78f6b2fb012359fdbef60b5de175c0a7",
+              "28b7ff6f6b1132a87d2dc3e67f500aa8",
+              "da2deb8601b80c5b66ffcbc42e074ec7",
+              "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+              "9d021a45f5213b4ccf54c9f8f9d374a3",
+              "48bfc1478b4f39ff211a0bf5e3a5433f",
+              "813b25c8514885d3d0fd4bc9d4d35646",
+              "312175416b82e5b52f40474d0c7b68a7",
+              "d5ceb6c39934b731c7555a2b9b3ff64a"
+            ],
+            "offsets": {
+              "source": "original",
+              "frame": "world_xyz_y_up",
+              "unit": "m",
+              "axis": "y",
+              "firstAnchor": "max",
+              "secondAnchor": "min",
+              "formula": "second - first",
+              "binding": "nearest_original_anchor_points",
+              "pairs": 8,
+              "maxError": 0.015000000000000124,
+              "samples": [
+                {
+                  "first": "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": 0.015000000000000124
+                },
+                {
+                  "first": "78f6b2fb012359fdbef60b5de175c0a7",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": -4.440892098500626e-16
+                },
+                {
+                  "first": "da2deb8601b80c5b66ffcbc42e074ec7",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": 0
+                },
+                {
+                  "first": "9d021a45f5213b4ccf54c9f8f9d374a3",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": -4.440892098500626e-16
+                },
+                {
+                  "first": "48bfc1478b4f39ff211a0bf5e3a5433f",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": -4.440892098500626e-16
+                },
+                {
+                  "first": "813b25c8514885d3d0fd4bc9d4d35646",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": -4.440892098500626e-16
+                },
+                {
+                  "first": "312175416b82e5b52f40474d0c7b68a7",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": -4.440892098500626e-16
+                },
+                {
+                  "first": "d5ceb6c39934b731c7555a2b9b3ff64a",
+                  "second": "28b7ff6f6b1132a87d2dc3e67f500aa8",
+                  "originalFirst": 2.75,
+                  "originalSecond": 2.75,
+                  "expected": 0,
+                  "measured": -4.440892098500626e-16
+                }
+              ]
+            }
+          },
+          {
+            "id": "check-9",
+            "label": "relationship",
+            "met": false,
+            "outcome": "incorrect",
+            "observed": "touching: 7/8 distinct solid pairs satisfy each; tolerance 0.001 m.",
+            "ids": [
+              "78f6b2fb012359fdbef60b5de175c0a7",
+              "da2deb8601b80c5b66ffcbc42e074ec7",
+              "e9c39bfbc3d4388c9f3b8c12f1d84a57",
+              "9d021a45f5213b4ccf54c9f8f9d374a3",
+              "48bfc1478b4f39ff211a0bf5e3a5433f",
+              "813b25c8514885d3d0fd4bc9d4d35646",
+              "312175416b82e5b52f40474d0c7b68a7",
+              "d5ceb6c39934b731c7555a2b9b3ff64a",
+              "28b7ff6f6b1132a87d2dc3e67f500aa8"
+            ]
+          }
+        ],
+        "browserFeedbackStatus": "incorrect",
+        "committed": false,
+        "originalPreserved": true,
+        "reload": true
+      },
+      "cost": {
+        "calls": 3,
+        "estimatedUSD": 0.140226,
+        "accountedUSD": 0.1752825,
+        "unknownReservations": [],
+        "inputTokens": 61108,
+        "outputTokens": 1801,
+        "reviewerMs": 15206,
+        "executorMs": 17252
+      },
+      "totalTrialWallMs": 67397,
+      "browserErrors": []
+    },
+    {
+      "id": "B-treatment",
+      "commit": "711a8cff9eb54a4c5254e5c20187b7b2614020da",
+      "prompt": "Open the gap between the yokes by 46 cm, equally on both sides. Take their shields and adjustment knobs with them, keeping the existing offsets. Keep the base and the two sample objects where they are.",
+      "fixtureSHA256": "e80ea3640a11e9e218c9ff308533f00353b3fc3c1e1fa1703e6edf7b011921e1",
+      "status": "PASS",
+      "inspection": [
+        {
+          "callId": "9a3281cf-7fae-4754-8831-c40825aab600",
+          "ids": [
+            "$group:Adjustable jig",
+            "$group:Unrelated samples"
+          ],
+          "role": null,
+          "snapshot": "before",
+          "relativeTo": "51c06a1af0a1437347123518a540acad"
+        }
+      ],
+      "proposalCorrect": true,
+      "savedGeometryCorrect": true,
+      "committed": true,
+      "externalChecks": 54,
+      "externalFailures": [],
+      "changed": [
+        {
+          "id": "51c06a1af0a1437347123518a540acad",
+          "name": "Yoke 1"
+        },
+        {
+          "id": "16afe24f1c764cea24ece8795b8d71b8",
+          "name": "Shield 1"
+        },
+        {
+          "id": "2aa3717482b33aa740390a2615bfea4b",
+          "name": "Adjustment knob 1"
+        },
+        {
+          "id": "01f8cfa85ca48bc11d07c8e52a2f31f2",
+          "name": "Adjustment knob 2"
+        },
+        {
+          "id": "58ae86b4a563a405ef9dc5fab4d6d0d8",
+          "name": "Adjustment knob 3"
+        },
+        {
+          "id": "4f9f6ff80e33a07790a7ff7ee74573e3",
+          "name": "Yoke 2"
+        },
+        {
+          "id": "004f13862429ce3ee97a0f58828d2a1d",
+          "name": "Shield 2"
+        },
+        {
+          "id": "107054a4b04ae605a3805b52de048587",
+          "name": "Adjustment knob 4"
+        },
+        {
+          "id": "0b5c720ce97a3596ce80511c316702ff",
+          "name": "Adjustment knob 5"
+        },
+        {
+          "id": "700d999110939ab5c36bb9ecddb41899",
+          "name": "Adjustment knob 6"
+        }
+      ],
+      "preserved": [
+        {
+          "id": "05938e7b3e6b27ac5e85582f6f5761cf",
+          "name": "Sample A"
+        },
+        {
+          "id": "c160875ae82f3777dfbde2053d9f62d2",
+          "name": "Sample B"
+        },
+        {
+          "id": "bc7cb08a285bdad94c9eac702202a560",
+          "name": "Fixed base"
+        }
+      ],
+      "reviewer": [
+        {
+          "elapsedMs": 28285,
+          "requirements": [
+            {
+              "kind": "measure",
+              "id": "check-1",
+              "source": "request",
+              "evidence": "Open the gap between the yokes by 46 cm, equally on both sides.",
+              "calculation": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "51c06a1af0a1437347123518a540acad",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "requirement": {
+                "id": "check-1",
+                "label": "x",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "51c06a1af0a1437347123518a540acad"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "x",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "measure",
+              "id": "check-2",
+              "source": "request",
+              "evidence": "Open the gap between the yokes by 46 cm, equally on both sides.",
+              "calculation": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "requirement": {
+                "id": "check-2",
+                "label": "x",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "4f9f6ff80e33a07790a7ff7ee74573e3"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "x",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "preserve",
+              "id": "check-3",
+              "source": "request",
+              "evidence": "Open the gap between the yokes by 46 cm, equally on both sides.",
+              "requirement": {
+                "id": "check-3",
+                "label": "preserve",
+                "kind": "preserve",
+                "selector": {
+                  "refs": [
+                    "51c06a1af0a1437347123518a540acad",
+                    "16afe24f1c764cea24ece8795b8d71b8",
+                    "2aa3717482b33aa740390a2615bfea4b",
+                    "01f8cfa85ca48bc11d07c8e52a2f31f2",
+                    "58ae86b4a563a405ef9dc5fab4d6d0d8",
+                    "4f9f6ff80e33a07790a7ff7ee74573e3",
+                    "004f13862429ce3ee97a0f58828d2a1d",
+                    "107054a4b04ae605a3805b52de048587",
+                    "0b5c720ce97a3596ce80511c316702ff",
+                    "700d999110939ab5c36bb9ecddb41899"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "properties": [
+                  "identity",
+                  "geometry",
+                  "dimensions",
+                  "rotation",
+                  "y",
+                  "z",
+                  "name",
+                  "component",
+                  "material",
+                  "materialSpec",
+                  "color",
+                  "groupId",
+                  "visible"
+                ]
+              }
+            },
+            {
+              "kind": "preserve_offsets",
+              "id": "check-4",
+              "source": "request",
+              "evidence": "Take their shields and adjustment knobs with them, keeping the existing offsets.",
+              "requirement": {
+                "id": "check-4",
+                "label": "preserve offsets",
+                "kind": "preserve_offsets",
+                "first": {
+                  "refs": [
+                    "16afe24f1c764cea24ece8795b8d71b8",
+                    "2aa3717482b33aa740390a2615bfea4b",
+                    "01f8cfa85ca48bc11d07c8e52a2f31f2",
+                    "58ae86b4a563a405ef9dc5fab4d6d0d8",
+                    "004f13862429ce3ee97a0f58828d2a1d",
+                    "107054a4b04ae605a3805b52de048587",
+                    "0b5c720ce97a3596ce80511c316702ff",
+                    "700d999110939ab5c36bb9ecddb41899"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "second": {
+                  "refs": [
+                    "51c06a1af0a1437347123518a540acad",
+                    "4f9f6ff80e33a07790a7ff7ee74573e3"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "axis": "x",
+                "firstAnchor": "center",
+                "secondAnchor": "center",
+                "tolerance": 0.001
+              }
+            },
+            {
+              "kind": "preserve_offsets",
+              "id": "check-5",
+              "source": "request",
+              "evidence": "Take their shields and adjustment knobs with them, keeping the existing offsets.",
+              "requirement": {
+                "id": "check-5",
+                "label": "preserve offsets",
+                "kind": "preserve_offsets",
+                "first": {
+                  "refs": [
+                    "16afe24f1c764cea24ece8795b8d71b8",
+                    "2aa3717482b33aa740390a2615bfea4b",
+                    "01f8cfa85ca48bc11d07c8e52a2f31f2",
+                    "58ae86b4a563a405ef9dc5fab4d6d0d8",
+                    "004f13862429ce3ee97a0f58828d2a1d",
+                    "107054a4b04ae605a3805b52de048587",
+                    "0b5c720ce97a3596ce80511c316702ff",
+                    "700d999110939ab5c36bb9ecddb41899"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "second": {
+                  "refs": [
+                    "51c06a1af0a1437347123518a540acad",
+                    "4f9f6ff80e33a07790a7ff7ee74573e3"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "axis": "y",
+                "firstAnchor": "center",
+                "secondAnchor": "center",
+                "tolerance": 0.001
+              }
+            },
+            {
+              "kind": "preserve_offsets",
+              "id": "check-6",
+              "source": "request",
+              "evidence": "Take their shields and adjustment knobs with them, keeping the existing offsets.",
+              "requirement": {
+                "id": "check-6",
+                "label": "preserve offsets",
+                "kind": "preserve_offsets",
+                "first": {
+                  "refs": [
+                    "16afe24f1c764cea24ece8795b8d71b8",
+                    "2aa3717482b33aa740390a2615bfea4b",
+                    "01f8cfa85ca48bc11d07c8e52a2f31f2",
+                    "58ae86b4a563a405ef9dc5fab4d6d0d8",
+                    "004f13862429ce3ee97a0f58828d2a1d",
+                    "107054a4b04ae605a3805b52de048587",
+                    "0b5c720ce97a3596ce80511c316702ff",
+                    "700d999110939ab5c36bb9ecddb41899"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "second": {
+                  "refs": [
+                    "51c06a1af0a1437347123518a540acad",
+                    "4f9f6ff80e33a07790a7ff7ee74573e3"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "axis": "z",
+                "firstAnchor": "center",
+                "secondAnchor": "center",
+                "tolerance": 0.001
+              }
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      ],
+      "host": {
+        "modeling": true,
+        "passed": true,
+        "status": "verified",
+        "canCommit": true,
+        "checks": [
+          {
+            "id": "preserved-scope",
+            "label": "Unrelated existing geometry",
+            "met": true,
+            "outcome": "verified",
+            "observed": "3 existing objects outside the requested edit scope are unchanged.",
+            "ids": []
+          },
+          {
+            "id": "check-1",
+            "label": "x",
+            "met": true,
+            "outcome": "verified",
+            "observed": "x (each, world solids): -0.9500000000000001; expected equal -0.95 ± 0.001 m.",
+            "ids": [
+              "51c06a1af0a1437347123518a540acad"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "51c06a1af0a1437347123518a540acad",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    -0.72
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.46
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": -0.95
+            }
+          },
+          {
+            "id": "check-2",
+            "label": "x",
+            "met": true,
+            "outcome": "verified",
+            "observed": "x (each, world solids): 0.95; expected equal 0.95 ± 0.001 m.",
+            "ids": [
+              "4f9f6ff80e33a07790a7ff7ee74573e3"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    0.72
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.46
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": 0.95
+            }
+          },
+          {
+            "id": "check-3",
+            "label": "preserve",
+            "met": true,
+            "outcome": "verified",
+            "observed": "10 original identities retain identity, geometry, dimensions, rotation, y, z, name, component, material, materialSpec, color, groupId, visible.",
+            "ids": [
+              "51c06a1af0a1437347123518a540acad",
+              "16afe24f1c764cea24ece8795b8d71b8",
+              "2aa3717482b33aa740390a2615bfea4b",
+              "01f8cfa85ca48bc11d07c8e52a2f31f2",
+              "58ae86b4a563a405ef9dc5fab4d6d0d8",
+              "4f9f6ff80e33a07790a7ff7ee74573e3",
+              "004f13862429ce3ee97a0f58828d2a1d",
+              "107054a4b04ae605a3805b52de048587",
+              "0b5c720ce97a3596ce80511c316702ff",
+              "700d999110939ab5c36bb9ecddb41899"
+            ]
+          },
+          {
+            "id": "check-4",
+            "label": "preserve offsets",
+            "met": true,
+            "outcome": "verified",
+            "observed": "8 original identity pairs; 0 changed/missing. Preserve world x center(second) - center(first), tolerance 0.001 m. 16afe24f1c764cea24ece8795b8d71b8 → 51c06a1af0a1437347123518a540acad: original -0.72 - -1.209999977350235 = 0.48999997735023504 m; now 0.4899999773502349 m; 2aa3717482b33aa740390a2615bfea4b → 51c06a1af0a1437347123518a540acad: original -0.72 - -0.82 = 0.09999999999999998 m; now 0.09999999999999998 m; 01f8cfa85ca48bc11d07c8e52a2f31f2 → 51c06a1af0a1437347123518a540acad: original -0.72 - -0.84 = 0.12 m; now 0.12 m. Bounds offsets do not establish surface contact.",
+            "ids": [
+              "16afe24f1c764cea24ece8795b8d71b8",
+              "51c06a1af0a1437347123518a540acad",
+              "2aa3717482b33aa740390a2615bfea4b",
+              "01f8cfa85ca48bc11d07c8e52a2f31f2",
+              "58ae86b4a563a405ef9dc5fab4d6d0d8",
+              "004f13862429ce3ee97a0f58828d2a1d",
+              "4f9f6ff80e33a07790a7ff7ee74573e3",
+              "107054a4b04ae605a3805b52de048587",
+              "0b5c720ce97a3596ce80511c316702ff",
+              "700d999110939ab5c36bb9ecddb41899"
+            ],
+            "offsets": {
+              "source": "original",
+              "frame": "world_xyz_y_up",
+              "unit": "m",
+              "axis": "x",
+              "firstAnchor": "center",
+              "secondAnchor": "center",
+              "formula": "second - first",
+              "binding": "nearest_original_anchor_points",
+              "pairs": 8,
+              "maxError": 1.1102230246251565e-16,
+              "samples": [
+                {
+                  "first": "16afe24f1c764cea24ece8795b8d71b8",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": -1.209999977350235,
+                  "originalSecond": -0.72,
+                  "expected": 0.48999997735023504,
+                  "measured": 0.4899999773502349
+                },
+                {
+                  "first": "2aa3717482b33aa740390a2615bfea4b",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": -0.82,
+                  "originalSecond": -0.72,
+                  "expected": 0.09999999999999998,
+                  "measured": 0.09999999999999998
+                },
+                {
+                  "first": "01f8cfa85ca48bc11d07c8e52a2f31f2",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": -0.84,
+                  "originalSecond": -0.72,
+                  "expected": 0.12,
+                  "measured": 0.12
+                },
+                {
+                  "first": "58ae86b4a563a405ef9dc5fab4d6d0d8",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": -0.86,
+                  "originalSecond": -0.72,
+                  "expected": 0.14,
+                  "measured": 0.14
+                },
+                {
+                  "first": "004f13862429ce3ee97a0f58828d2a1d",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": 1.209999977350235,
+                  "originalSecond": 0.72,
+                  "expected": -0.48999997735023504,
+                  "measured": -0.48999997735023504
+                },
+                {
+                  "first": "107054a4b04ae605a3805b52de048587",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": 0.82,
+                  "originalSecond": 0.72,
+                  "expected": -0.09999999999999998,
+                  "measured": -0.10000000000000009
+                },
+                {
+                  "first": "0b5c720ce97a3596ce80511c316702ff",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": 0.84,
+                  "originalSecond": 0.72,
+                  "expected": -0.12,
+                  "measured": -0.1200000000000001
+                },
+                {
+                  "first": "700d999110939ab5c36bb9ecddb41899",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": 0.86,
+                  "originalSecond": 0.72,
+                  "expected": -0.14,
+                  "measured": -0.14000000000000012
+                }
+              ]
+            }
+          },
+          {
+            "id": "check-5",
+            "label": "preserve offsets",
+            "met": true,
+            "outcome": "verified",
+            "observed": "8 original identity pairs; 0 changed/missing. Preserve world y center(second) - center(first), tolerance 0.001 m. 16afe24f1c764cea24ece8795b8d71b8 → 51c06a1af0a1437347123518a540acad: original 0.5800000000000001 - 0.6300000005960464 = -0.05000000059604637 m; now -0.05000000059604637 m; 2aa3717482b33aa740390a2615bfea4b → 51c06a1af0a1437347123518a540acad: original 0.5800000000000001 - 0.395 = 0.18500000000000005 m; now 0.18500000000000005 m; 01f8cfa85ca48bc11d07c8e52a2f31f2 → 51c06a1af0a1437347123518a540acad: original 0.5800000000000001 - 0.675 = -0.09499999999999997 m; now -0.09499999999999997 m. Bounds offsets do not establish surface contact.",
+            "ids": [
+              "16afe24f1c764cea24ece8795b8d71b8",
+              "51c06a1af0a1437347123518a540acad",
+              "2aa3717482b33aa740390a2615bfea4b",
+              "01f8cfa85ca48bc11d07c8e52a2f31f2",
+              "58ae86b4a563a405ef9dc5fab4d6d0d8",
+              "004f13862429ce3ee97a0f58828d2a1d",
+              "4f9f6ff80e33a07790a7ff7ee74573e3",
+              "107054a4b04ae605a3805b52de048587",
+              "0b5c720ce97a3596ce80511c316702ff",
+              "700d999110939ab5c36bb9ecddb41899"
+            ],
+            "offsets": {
+              "source": "original",
+              "frame": "world_xyz_y_up",
+              "unit": "m",
+              "axis": "y",
+              "firstAnchor": "center",
+              "secondAnchor": "center",
+              "formula": "second - first",
+              "binding": "nearest_original_anchor_points",
+              "pairs": 8,
+              "maxError": 0,
+              "samples": [
+                {
+                  "first": "16afe24f1c764cea24ece8795b8d71b8",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": 0.6300000005960464,
+                  "originalSecond": 0.5800000000000001,
+                  "expected": -0.05000000059604637,
+                  "measured": -0.05000000059604637
+                },
+                {
+                  "first": "2aa3717482b33aa740390a2615bfea4b",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": 0.395,
+                  "originalSecond": 0.5800000000000001,
+                  "expected": 0.18500000000000005,
+                  "measured": 0.18500000000000005
+                },
+                {
+                  "first": "01f8cfa85ca48bc11d07c8e52a2f31f2",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": 0.675,
+                  "originalSecond": 0.5800000000000001,
+                  "expected": -0.09499999999999997,
+                  "measured": -0.09499999999999997
+                },
+                {
+                  "first": "58ae86b4a563a405ef9dc5fab4d6d0d8",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": 0.925,
+                  "originalSecond": 0.5800000000000001,
+                  "expected": -0.345,
+                  "measured": -0.345
+                },
+                {
+                  "first": "004f13862429ce3ee97a0f58828d2a1d",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": 0.6300000005960464,
+                  "originalSecond": 0.5800000000000001,
+                  "expected": -0.05000000059604637,
+                  "measured": -0.05000000059604637
+                },
+                {
+                  "first": "107054a4b04ae605a3805b52de048587",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": 0.395,
+                  "originalSecond": 0.5800000000000001,
+                  "expected": 0.18500000000000005,
+                  "measured": 0.18500000000000005
+                },
+                {
+                  "first": "0b5c720ce97a3596ce80511c316702ff",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": 0.675,
+                  "originalSecond": 0.5800000000000001,
+                  "expected": -0.09499999999999997,
+                  "measured": -0.09499999999999997
+                },
+                {
+                  "first": "700d999110939ab5c36bb9ecddb41899",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": 0.925,
+                  "originalSecond": 0.5800000000000001,
+                  "expected": -0.345,
+                  "measured": -0.345
+                }
+              ]
+            }
+          },
+          {
+            "id": "check-6",
+            "label": "preserve offsets",
+            "met": true,
+            "outcome": "verified",
+            "observed": "8 original identity pairs; 0 changed/missing. Preserve world z center(second) - center(first), tolerance 0.001 m. 16afe24f1c764cea24ece8795b8d71b8 → 51c06a1af0a1437347123518a540acad: original 0 - 0.044999999999999984 = -0.044999999999999984 m; now -0.044999999999999984 m; 2aa3717482b33aa740390a2615bfea4b → 51c06a1af0a1437347123518a540acad: original 0 - -0.21000000000000002 = 0.21000000000000002 m; now 0.21000000000000002 m; 01f8cfa85ca48bc11d07c8e52a2f31f2 → 51c06a1af0a1437347123518a540acad: original 0 - 0.13 = -0.13 m; now -0.13 m. Bounds offsets do not establish surface contact.",
+            "ids": [
+              "16afe24f1c764cea24ece8795b8d71b8",
+              "51c06a1af0a1437347123518a540acad",
+              "2aa3717482b33aa740390a2615bfea4b",
+              "01f8cfa85ca48bc11d07c8e52a2f31f2",
+              "58ae86b4a563a405ef9dc5fab4d6d0d8",
+              "004f13862429ce3ee97a0f58828d2a1d",
+              "4f9f6ff80e33a07790a7ff7ee74573e3",
+              "107054a4b04ae605a3805b52de048587",
+              "0b5c720ce97a3596ce80511c316702ff",
+              "700d999110939ab5c36bb9ecddb41899"
+            ],
+            "offsets": {
+              "source": "original",
+              "frame": "world_xyz_y_up",
+              "unit": "m",
+              "axis": "z",
+              "firstAnchor": "center",
+              "secondAnchor": "center",
+              "formula": "second - first",
+              "binding": "nearest_original_anchor_points",
+              "pairs": 8,
+              "maxError": 0,
+              "samples": [
+                {
+                  "first": "16afe24f1c764cea24ece8795b8d71b8",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": 0.044999999999999984,
+                  "originalSecond": 0,
+                  "expected": -0.044999999999999984,
+                  "measured": -0.044999999999999984
+                },
+                {
+                  "first": "2aa3717482b33aa740390a2615bfea4b",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": -0.21000000000000002,
+                  "originalSecond": 0,
+                  "expected": 0.21000000000000002,
+                  "measured": 0.21000000000000002
+                },
+                {
+                  "first": "01f8cfa85ca48bc11d07c8e52a2f31f2",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": 0.13,
+                  "originalSecond": 0,
+                  "expected": -0.13,
+                  "measured": -0.13
+                },
+                {
+                  "first": "58ae86b4a563a405ef9dc5fab4d6d0d8",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": -0.08000000000000002,
+                  "originalSecond": 0,
+                  "expected": 0.08000000000000002,
+                  "measured": 0.08000000000000002
+                },
+                {
+                  "first": "004f13862429ce3ee97a0f58828d2a1d",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": 0.044999999999999984,
+                  "originalSecond": 0,
+                  "expected": -0.044999999999999984,
+                  "measured": -0.044999999999999984
+                },
+                {
+                  "first": "107054a4b04ae605a3805b52de048587",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": -0.21000000000000002,
+                  "originalSecond": 0,
+                  "expected": 0.21000000000000002,
+                  "measured": 0.21000000000000002
+                },
+                {
+                  "first": "0b5c720ce97a3596ce80511c316702ff",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": 0.13,
+                  "originalSecond": 0,
+                  "expected": -0.13,
+                  "measured": -0.13
+                },
+                {
+                  "first": "700d999110939ab5c36bb9ecddb41899",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": -0.08000000000000002,
+                  "originalSecond": 0,
+                  "expected": 0.08000000000000002,
+                  "measured": 0.08000000000000002
+                }
+              ]
+            }
+          }
+        ],
+        "qualitativeLimits": []
+      },
+      "transaction": {
+        "reload": true,
+        "undo": true,
+        "reloadWhileUndone": true,
+        "redo": true,
+        "atomic": true,
+        "conversation": true
+      },
+      "negative": {
+        "status": "BLOCKED_MEASURED",
+        "externalFailures": [
+          {
+            "name": "Requested occupied solid 01f8cfa85ca48bc11d07c8e52a2f31f2",
+            "status": "incorrect",
+            "expected": {
+              "bounds": {
+                "min": [
+                  -1.14,
+                  0.62,
+                  0.07
+                ],
+                "max": [
+                  -1,
+                  0.7300000000000001,
+                  0.19
+                ]
+              },
+              "volume": 0.0009579248105381342
+            },
+            "actual": {
+              "bounds": {
+                "min": [
+                  -1.1600000000000001,
+                  0.62,
+                  0.07
+                ],
+                "max": [
+                  -1.02,
+                  0.7300000000000001,
+                  0.19
+                ]
+              },
+              "volume": 0.0009579248105381345
+            }
+          },
+          {
+            "name": "Original paired XYZ offset 01f8cfa85ca48bc11d07c8e52a2f31f2",
+            "status": "incorrect",
+            "expected": [
+              -0.12,
+              0.09499999999999997,
+              0.13
+            ],
+            "actual": [
+              -0.14,
+              0.09499999999999997,
+              0.13
+            ]
+          }
+        ],
+        "measuredFailures": [
+          {
+            "id": "check-4",
+            "label": "preserve offsets",
+            "met": false,
+            "outcome": "incorrect",
+            "observed": "8 original identity pairs; 1 changed/missing. Preserve world x center(second) - center(first), tolerance 0.001 m. 01f8cfa85ca48bc11d07c8e52a2f31f2 → 51c06a1af0a1437347123518a540acad: original -0.72 - -0.84 = 0.12 m; now 0.14 m; 16afe24f1c764cea24ece8795b8d71b8 → 51c06a1af0a1437347123518a540acad: original -0.72 - -1.209999977350235 = 0.48999997735023504 m; now 0.4899999773502349 m; 2aa3717482b33aa740390a2615bfea4b → 51c06a1af0a1437347123518a540acad: original -0.72 - -0.82 = 0.09999999999999998 m; now 0.09999999999999998 m. Bounds offsets do not establish surface contact.",
+            "ids": [
+              "16afe24f1c764cea24ece8795b8d71b8",
+              "51c06a1af0a1437347123518a540acad",
+              "2aa3717482b33aa740390a2615bfea4b",
+              "01f8cfa85ca48bc11d07c8e52a2f31f2",
+              "58ae86b4a563a405ef9dc5fab4d6d0d8",
+              "004f13862429ce3ee97a0f58828d2a1d",
+              "4f9f6ff80e33a07790a7ff7ee74573e3",
+              "107054a4b04ae605a3805b52de048587",
+              "0b5c720ce97a3596ce80511c316702ff",
+              "700d999110939ab5c36bb9ecddb41899"
+            ],
+            "offsets": {
+              "source": "original",
+              "frame": "world_xyz_y_up",
+              "unit": "m",
+              "axis": "x",
+              "firstAnchor": "center",
+              "secondAnchor": "center",
+              "formula": "second - first",
+              "binding": "nearest_original_anchor_points",
+              "pairs": 8,
+              "maxError": 0.020000000000000018,
+              "samples": [
+                {
+                  "first": "01f8cfa85ca48bc11d07c8e52a2f31f2",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": -0.84,
+                  "originalSecond": -0.72,
+                  "expected": 0.12,
+                  "measured": 0.14
+                },
+                {
+                  "first": "16afe24f1c764cea24ece8795b8d71b8",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": -1.209999977350235,
+                  "originalSecond": -0.72,
+                  "expected": 0.48999997735023504,
+                  "measured": 0.4899999773502349
+                },
+                {
+                  "first": "2aa3717482b33aa740390a2615bfea4b",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": -0.82,
+                  "originalSecond": -0.72,
+                  "expected": 0.09999999999999998,
+                  "measured": 0.09999999999999998
+                },
+                {
+                  "first": "58ae86b4a563a405ef9dc5fab4d6d0d8",
+                  "second": "51c06a1af0a1437347123518a540acad",
+                  "originalFirst": -0.86,
+                  "originalSecond": -0.72,
+                  "expected": 0.14,
+                  "measured": 0.14
+                },
+                {
+                  "first": "004f13862429ce3ee97a0f58828d2a1d",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": 1.209999977350235,
+                  "originalSecond": 0.72,
+                  "expected": -0.48999997735023504,
+                  "measured": -0.48999997735023504
+                },
+                {
+                  "first": "107054a4b04ae605a3805b52de048587",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": 0.82,
+                  "originalSecond": 0.72,
+                  "expected": -0.09999999999999998,
+                  "measured": -0.10000000000000009
+                },
+                {
+                  "first": "0b5c720ce97a3596ce80511c316702ff",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": 0.84,
+                  "originalSecond": 0.72,
+                  "expected": -0.12,
+                  "measured": -0.1200000000000001
+                },
+                {
+                  "first": "700d999110939ab5c36bb9ecddb41899",
+                  "second": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                  "originalFirst": 0.86,
+                  "originalSecond": 0.72,
+                  "expected": -0.14,
+                  "measured": -0.14000000000000012
+                }
+              ]
+            }
+          }
+        ],
+        "browserFeedbackStatus": "incorrect",
+        "committed": false,
+        "originalPreserved": true,
+        "reload": true
+      },
+      "cost": {
+        "calls": 3,
+        "estimatedUSD": 0.128124,
+        "accountedUSD": 0.160155,
+        "unknownReservations": [],
+        "inputTokens": 52132,
+        "outputTokens": 2386,
+        "reviewerMs": 28230,
+        "executorMs": 13995
+      },
+      "totalTrialWallMs": 74850,
+      "browserErrors": []
+    },
+    {
+      "id": "B-baseline",
+      "commit": "05277619f6fa337cdb1bfb0825654cbe5259ed2d",
+      "prompt": "Open the gap between the yokes by 46 cm, equally on both sides. Take their shields and adjustment knobs with them, keeping the existing offsets. Keep the base and the two sample objects where they are.",
+      "fixtureSHA256": "e80ea3640a11e9e218c9ff308533f00353b3fc3c1e1fa1703e6edf7b011921e1",
+      "status": "PASS",
+      "inspection": [
+        {
+          "callId": "2e28cf87-6f03-4dbb-a4f0-5e104e29cdd0",
+          "ids": [],
+          "role": null,
+          "snapshot": "before",
+          "relativeTo": "51c06a1af0a1437347123518a540acad"
+        }
+      ],
+      "proposalCorrect": true,
+      "savedGeometryCorrect": true,
+      "committed": true,
+      "externalChecks": 54,
+      "externalFailures": [],
+      "changed": [
+        {
+          "id": "51c06a1af0a1437347123518a540acad",
+          "name": "Yoke 1"
+        },
+        {
+          "id": "16afe24f1c764cea24ece8795b8d71b8",
+          "name": "Shield 1"
+        },
+        {
+          "id": "2aa3717482b33aa740390a2615bfea4b",
+          "name": "Adjustment knob 1"
+        },
+        {
+          "id": "01f8cfa85ca48bc11d07c8e52a2f31f2",
+          "name": "Adjustment knob 2"
+        },
+        {
+          "id": "58ae86b4a563a405ef9dc5fab4d6d0d8",
+          "name": "Adjustment knob 3"
+        },
+        {
+          "id": "4f9f6ff80e33a07790a7ff7ee74573e3",
+          "name": "Yoke 2"
+        },
+        {
+          "id": "004f13862429ce3ee97a0f58828d2a1d",
+          "name": "Shield 2"
+        },
+        {
+          "id": "107054a4b04ae605a3805b52de048587",
+          "name": "Adjustment knob 4"
+        },
+        {
+          "id": "0b5c720ce97a3596ce80511c316702ff",
+          "name": "Adjustment knob 5"
+        },
+        {
+          "id": "700d999110939ab5c36bb9ecddb41899",
+          "name": "Adjustment knob 6"
+        }
+      ],
+      "preserved": [
+        {
+          "id": "05938e7b3e6b27ac5e85582f6f5761cf",
+          "name": "Sample A"
+        },
+        {
+          "id": "c160875ae82f3777dfbde2053d9f62d2",
+          "name": "Sample B"
+        },
+        {
+          "id": "bc7cb08a285bdad94c9eac702202a560",
+          "name": "Fixed base"
+        }
+      ],
+      "reviewer": [
+        {
+          "elapsedMs": 45423,
+          "requirements": [
+            {
+              "kind": "measure",
+              "id": "check-1",
+              "source": "request",
+              "evidence": "Open the gap between the yokes by 46 cm, equally on both sides.",
+              "calculation": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "51c06a1af0a1437347123518a540acad",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "requirement": {
+                "id": "check-1",
+                "label": "x",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "51c06a1af0a1437347123518a540acad"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "x",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "measure",
+              "id": "check-2",
+              "source": "request",
+              "evidence": "Open the gap between the yokes by 46 cm, equally on both sides.",
+              "calculation": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "requirement": {
+                "id": "check-2",
+                "label": "x",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "4f9f6ff80e33a07790a7ff7ee74573e3"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "x",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "measure",
+              "id": "check-3",
+              "source": "request",
+              "evidence": "Take their shields and adjustment knobs with them, keeping the existing offsets.",
+              "calculation": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "16afe24f1c764cea24ece8795b8d71b8",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "requirement": {
+                "id": "check-3",
+                "label": "x",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "16afe24f1c764cea24ece8795b8d71b8"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "x",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "measure",
+              "id": "check-4",
+              "source": "request",
+              "evidence": "Take their shields and adjustment knobs with them, keeping the existing offsets.",
+              "calculation": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "2aa3717482b33aa740390a2615bfea4b",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "requirement": {
+                "id": "check-4",
+                "label": "x",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "2aa3717482b33aa740390a2615bfea4b"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "x",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "measure",
+              "id": "check-5",
+              "source": "request",
+              "evidence": "Take their shields and adjustment knobs with them, keeping the existing offsets.",
+              "calculation": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "01f8cfa85ca48bc11d07c8e52a2f31f2",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "requirement": {
+                "id": "check-5",
+                "label": "x",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "01f8cfa85ca48bc11d07c8e52a2f31f2"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "x",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "measure",
+              "id": "check-6",
+              "source": "request",
+              "evidence": "Take their shields and adjustment knobs with them, keeping the existing offsets.",
+              "calculation": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "58ae86b4a563a405ef9dc5fab4d6d0d8",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "requirement": {
+                "id": "check-6",
+                "label": "x",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "58ae86b4a563a405ef9dc5fab4d6d0d8"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "x",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "measure",
+              "id": "check-7",
+              "source": "request",
+              "evidence": "Take their shields and adjustment knobs with them, keeping the existing offsets.",
+              "calculation": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "004f13862429ce3ee97a0f58828d2a1d",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "requirement": {
+                "id": "check-7",
+                "label": "x",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "004f13862429ce3ee97a0f58828d2a1d"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "x",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "measure",
+              "id": "check-8",
+              "source": "request",
+              "evidence": "Take their shields and adjustment knobs with them, keeping the existing offsets.",
+              "calculation": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "107054a4b04ae605a3805b52de048587",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "requirement": {
+                "id": "check-8",
+                "label": "x",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "107054a4b04ae605a3805b52de048587"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "x",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "measure",
+              "id": "check-9",
+              "source": "request",
+              "evidence": "Take their shields and adjustment knobs with them, keeping the existing offsets.",
+              "calculation": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "0b5c720ce97a3596ce80511c316702ff",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "requirement": {
+                "id": "check-9",
+                "label": "x",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "0b5c720ce97a3596ce80511c316702ff"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "x",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "measure",
+              "id": "check-10",
+              "source": "request",
+              "evidence": "Take their shields and adjustment knobs with them, keeping the existing offsets.",
+              "calculation": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "700d999110939ab5c36bb9ecddb41899",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "requirement": {
+                "id": "check-10",
+                "label": "x",
+                "kind": "measure",
+                "selector": {
+                  "refs": [
+                    "700d999110939ab5c36bb9ecddb41899"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "metric": "x",
+                "aggregation": "each",
+                "comparison": "equal",
+                "value": 0,
+                "tolerance": 0.001,
+                "relativeTolerance": 0
+              }
+            },
+            {
+              "kind": "preserve",
+              "id": "check-11",
+              "source": "request",
+              "evidence": "Take their shields and adjustment knobs with them, keeping the existing offsets.",
+              "requirement": {
+                "id": "check-11",
+                "label": "preserve",
+                "kind": "preserve",
+                "selector": {
+                  "refs": [
+                    "51c06a1af0a1437347123518a540acad",
+                    "16afe24f1c764cea24ece8795b8d71b8",
+                    "2aa3717482b33aa740390a2615bfea4b",
+                    "01f8cfa85ca48bc11d07c8e52a2f31f2",
+                    "58ae86b4a563a405ef9dc5fab4d6d0d8",
+                    "4f9f6ff80e33a07790a7ff7ee74573e3",
+                    "004f13862429ce3ee97a0f58828d2a1d",
+                    "107054a4b04ae605a3805b52de048587",
+                    "0b5c720ce97a3596ce80511c316702ff",
+                    "700d999110939ab5c36bb9ecddb41899"
+                  ],
+                  "role": null,
+                  "level": null,
+                  "nameContains": null
+                },
+                "properties": [
+                  "identity",
+                  "geometry",
+                  "dimensions",
+                  "rotation",
+                  "y",
+                  "z",
+                  "name",
+                  "component",
+                  "material",
+                  "materialSpec",
+                  "color",
+                  "groupId",
+                  "visible"
+                ]
+              }
+            }
+          ],
+          "qualitativeLimits": []
+        }
+      ],
+      "host": {
+        "modeling": true,
+        "passed": true,
+        "status": "verified",
+        "canCommit": true,
+        "checks": [
+          {
+            "id": "preserved-scope",
+            "label": "Unrelated existing geometry",
+            "met": true,
+            "outcome": "verified",
+            "observed": "3 existing objects outside the requested edit scope are unchanged.",
+            "ids": []
+          },
+          {
+            "id": "check-1",
+            "label": "x",
+            "met": true,
+            "outcome": "verified",
+            "observed": "x (each, world solids): -0.9500000000000001; expected equal -0.95 ± 0.001 m.",
+            "ids": [
+              "51c06a1af0a1437347123518a540acad"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "51c06a1af0a1437347123518a540acad",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    -0.72
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.46
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": -0.95
+            }
+          },
+          {
+            "id": "check-2",
+            "label": "x",
+            "met": true,
+            "outcome": "verified",
+            "observed": "x (each, world solids): 0.95; expected equal 0.95 ± 0.001 m.",
+            "ids": [
+              "4f9f6ff80e33a07790a7ff7ee74573e3"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    0.72
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.46
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": 0.95
+            }
+          },
+          {
+            "id": "check-3",
+            "label": "x",
+            "met": true,
+            "outcome": "verified",
+            "observed": "x (each, world solids): -1.439999977350235; expected equal -1.439999977350235 ± 0.001 m.",
+            "ids": [
+              "16afe24f1c764cea24ece8795b8d71b8"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "16afe24f1c764cea24ece8795b8d71b8",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    -1.209999977350235
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.46
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": -1.439999977350235
+            }
+          },
+          {
+            "id": "check-4",
+            "label": "x",
+            "met": true,
+            "outcome": "verified",
+            "observed": "x (each, world solids): -1.05; expected equal -1.05 ± 0.001 m.",
+            "ids": [
+              "2aa3717482b33aa740390a2615bfea4b"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "2aa3717482b33aa740390a2615bfea4b",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    -0.82
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.46
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": -1.05
+            }
+          },
+          {
+            "id": "check-5",
+            "label": "x",
+            "met": true,
+            "outcome": "verified",
+            "observed": "x (each, world solids): -1.07; expected equal -1.07 ± 0.001 m.",
+            "ids": [
+              "01f8cfa85ca48bc11d07c8e52a2f31f2"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "01f8cfa85ca48bc11d07c8e52a2f31f2",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    -0.84
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.46
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": -1.07
+            }
+          },
+          {
+            "id": "check-6",
+            "label": "x",
+            "met": true,
+            "outcome": "verified",
+            "observed": "x (each, world solids): -1.09; expected equal -1.09 ± 0.001 m.",
+            "ids": [
+              "58ae86b4a563a405ef9dc5fab4d6d0d8"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "58ae86b4a563a405ef9dc5fab4d6d0d8",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    -0.86
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.46
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": -1.09
+            }
+          },
+          {
+            "id": "check-7",
+            "label": "x",
+            "met": true,
+            "outcome": "verified",
+            "observed": "x (each, world solids): 1.439999977350235; expected equal 1.439999977350235 ± 0.001 m.",
+            "ids": [
+              "004f13862429ce3ee97a0f58828d2a1d"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "004f13862429ce3ee97a0f58828d2a1d",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    1.209999977350235
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.46
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": 1.439999977350235
+            }
+          },
+          {
+            "id": "check-8",
+            "label": "x",
+            "met": true,
+            "outcome": "verified",
+            "observed": "x (each, world solids): 1.05; expected equal 1.05 ± 0.001 m.",
+            "ids": [
+              "107054a4b04ae605a3805b52de048587"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "107054a4b04ae605a3805b52de048587",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    0.82
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.46
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": 1.05
+            }
+          },
+          {
+            "id": "check-9",
+            "label": "x",
+            "met": true,
+            "outcome": "verified",
+            "observed": "x (each, world solids): 1.07; expected equal 1.07 ± 0.001 m.",
+            "ids": [
+              "0b5c720ce97a3596ce80511c316702ff"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "0b5c720ce97a3596ce80511c316702ff",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    0.84
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.46
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": 1.07
+            }
+          },
+          {
+            "id": "check-10",
+            "label": "x",
+            "met": true,
+            "outcome": "verified",
+            "observed": "x (each, world solids): 1.09; expected equal 1.09 ± 0.001 m.",
+            "ids": [
+              "700d999110939ab5c36bb9ecddb41899"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "700d999110939ab5c36bb9ecddb41899",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "add",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    0.86
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.46
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": 1.09
+            }
+          },
+          {
+            "id": "check-11",
+            "label": "preserve",
+            "met": true,
+            "outcome": "verified",
+            "observed": "10 original identities retain identity, geometry, dimensions, rotation, y, z, name, component, material, materialSpec, color, groupId, visible.",
+            "ids": [
+              "51c06a1af0a1437347123518a540acad",
+              "16afe24f1c764cea24ece8795b8d71b8",
+              "2aa3717482b33aa740390a2615bfea4b",
+              "01f8cfa85ca48bc11d07c8e52a2f31f2",
+              "58ae86b4a563a405ef9dc5fab4d6d0d8",
+              "4f9f6ff80e33a07790a7ff7ee74573e3",
+              "004f13862429ce3ee97a0f58828d2a1d",
+              "107054a4b04ae605a3805b52de048587",
+              "0b5c720ce97a3596ce80511c316702ff",
+              "700d999110939ab5c36bb9ecddb41899"
+            ]
+          }
+        ],
+        "qualitativeLimits": []
+      },
+      "transaction": {
+        "reload": true,
+        "undo": true,
+        "reloadWhileUndone": true,
+        "redo": true,
+        "atomic": true,
+        "conversation": true
+      },
+      "negative": {
+        "status": "BLOCKED_MEASURED",
+        "externalFailures": [
+          {
+            "name": "Requested occupied solid 01f8cfa85ca48bc11d07c8e52a2f31f2",
+            "status": "incorrect",
+            "expected": {
+              "bounds": {
+                "min": [
+                  -1.14,
+                  0.62,
+                  0.07
+                ],
+                "max": [
+                  -1,
+                  0.7300000000000001,
+                  0.19
+                ]
+              },
+              "volume": 0.0009579248105381342
+            },
+            "actual": {
+              "bounds": {
+                "min": [
+                  -1.1600000000000001,
+                  0.62,
+                  0.07
+                ],
+                "max": [
+                  -1.02,
+                  0.7300000000000001,
+                  0.19
+                ]
+              },
+              "volume": 0.0009579248105381345
+            }
+          },
+          {
+            "name": "Original paired XYZ offset 01f8cfa85ca48bc11d07c8e52a2f31f2",
+            "status": "incorrect",
+            "expected": [
+              -0.12,
+              0.09499999999999997,
+              0.13
+            ],
+            "actual": [
+              -0.14,
+              0.09499999999999997,
+              0.13
+            ]
+          }
+        ],
+        "measuredFailures": [
+          {
+            "id": "check-5",
+            "label": "x",
+            "met": false,
+            "outcome": "incorrect",
+            "observed": "x (each, world solids): -1.09; expected equal -1.07 ± 0.001 m.",
+            "ids": [
+              "01f8cfa85ca48bc11d07c8e52a2f31f2"
+            ],
+            "calculation": {
+              "definition": {
+                "frame": "world_xyz_y_up",
+                "nodes": [
+                  {
+                    "kind": "original",
+                    "objectId": "01f8cfa85ca48bc11d07c8e52a2f31f2",
+                    "metric": "x"
+                  },
+                  {
+                    "kind": "quantity",
+                    "value": 46,
+                    "unit": "cm",
+                    "source": "request",
+                    "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+                  },
+                  {
+                    "kind": "constant",
+                    "value": 2
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "divide",
+                    "args": [
+                      1,
+                      2
+                    ]
+                  },
+                  {
+                    "kind": "operation",
+                    "op": "subtract",
+                    "args": [
+                      0,
+                      3
+                    ]
+                  }
+                ],
+                "output": {
+                  "kind": "value",
+                  "node": 4
+                }
+              },
+              "sources": [
+                {
+                  "node": 0,
+                  "unit": "m",
+                  "values": [
+                    -0.84
+                  ]
+                },
+                {
+                  "node": 1,
+                  "unit": "m",
+                  "values": [
+                    0.46
+                  ]
+                },
+                {
+                  "node": 2,
+                  "unit": "scalar",
+                  "values": [
+                    2
+                  ]
+                }
+              ],
+              "expectedUnit": "m",
+              "expected": -1.07
+            }
+          }
+        ],
+        "browserFeedbackStatus": "incorrect",
+        "committed": false,
+        "originalPreserved": true,
+        "reload": true
+      },
+      "cost": {
+        "calls": 3,
+        "estimatedUSD": 0.137904,
+        "accountedUSD": 0.17238,
+        "unknownReservations": [],
+        "inputTokens": 51802,
+        "outputTokens": 3430,
+        "reviewerMs": 45387,
+        "executorMs": 12134
+      },
+      "totalTrialWallMs": 91961,
+      "browserErrors": []
+    }
+  ]
+}

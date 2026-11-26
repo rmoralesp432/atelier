@@ -1,0 +1,10 @@
+{
+  "calls": 12,
+  "estimatedUSD": 0.545874,
+  "accountedUSD": 0.6823425,
+  "unknownReservations": [],
+  "inputTokens": 224752,
+  "outputTokens": 9637,
+  "reviewerMs": 107582,
+  "executorMs": 62240
+}

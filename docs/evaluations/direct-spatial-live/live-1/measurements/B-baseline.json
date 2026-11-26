@@ -1,0 +1,3704 @@
+{
+  "checks": [
+    {
+      "name": "Original ID roster",
+      "status": "verified"
+    },
+    {
+      "name": "Groups preserved",
+      "status": "verified"
+    },
+    {
+      "name": "Editable 05938e7b3e6b27ac5e85582f6f5761cf",
+      "status": "verified"
+    },
+    {
+      "name": "Preserve fixed 05938e7b3e6b27ac5e85582f6f5761cf",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 05938e7b3e6b27ac5e85582f6f5761cf",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 05938e7b3e6b27ac5e85582f6f5761cf",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -2.74,
+            0,
+            -1.525
+          ],
+          "max": [
+            -2.46,
+            0.42,
+            -1.275
+          ]
+        },
+        "volume": 0.02940000000000003
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -2.74,
+            0,
+            -1.525
+          ],
+          "max": [
+            -2.46,
+            0.42,
+            -1.275
+          ]
+        },
+        "volume": 0.02940000000000003
+      }
+    },
+    {
+      "name": "Editable c160875ae82f3777dfbde2053d9f62d2",
+      "status": "verified"
+    },
+    {
+      "name": "Preserve fixed c160875ae82f3777dfbde2053d9f62d2",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid c160875ae82f3777dfbde2053d9f62d2",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid c160875ae82f3777dfbde2053d9f62d2",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            2.44,
+            0,
+            1.1400000000000001
+          ],
+          "max": [
+            2.7600000000000002,
+            0.32,
+            1.46
+          ]
+        },
+        "volume": 0.016985541229282246
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            2.44,
+            0,
+            1.1400000000000001
+          ],
+          "max": [
+            2.7600000000000002,
+            0.32,
+            1.46
+          ]
+        },
+        "volume": 0.016985541229282246
+      }
+    },
+    {
+      "name": "Editable bc7cb08a285bdad94c9eac702202a560",
+      "status": "verified"
+    },
+    {
+      "name": "Preserve fixed bc7cb08a285bdad94c9eac702202a560",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid bc7cb08a285bdad94c9eac702202a560",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid bc7cb08a285bdad94c9eac702202a560",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.8,
+            0,
+            -0.8
+          ],
+          "max": [
+            1.8,
+            0.12,
+            0.8
+          ]
+        },
+        "volume": 0.6912
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.8,
+            0,
+            -0.8
+          ],
+          "max": [
+            1.8,
+            0.12,
+            0.8
+          ]
+        },
+        "volume": 0.6912
+      }
+    },
+    {
+      "name": "Editable 51c06a1af0a1437347123518a540acad",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 51c06a1af0a1437347123518a540acad",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 51c06a1af0a1437347123518a540acad",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.04,
+            0.12,
+            -0.4
+          ],
+          "max": [
+            -0.8599999999999999,
+            1.04,
+            0.4
+          ]
+        },
+        "volume": 0.1324800000000001
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.04,
+            0.12,
+            -0.4
+          ],
+          "max": [
+            -0.8600000000000001,
+            1.04,
+            0.4
+          ]
+        },
+        "volume": 0.13247999999999993
+      }
+    },
+    {
+      "name": "Editable 16afe24f1c764cea24ece8795b8d71b8",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 16afe24f1c764cea24ece8795b8d71b8",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 16afe24f1c764cea24ece8795b8d71b8",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.629999977350235,
+            0.28000000119209295,
+            -0.335
+          ],
+          "max": [
+            -1.249999977350235,
+            0.98,
+            0.425
+          ]
+        },
+        "volume": 0.05308730865388512
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.629999977350235,
+            0.28000000119209295,
+            -0.335
+          ],
+          "max": [
+            -1.249999977350235,
+            0.98,
+            0.425
+          ]
+        },
+        "volume": 0.05308730865388512
+      }
+    },
+    {
+      "name": "Editable 2aa3717482b33aa740390a2615bfea4b",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 2aa3717482b33aa740390a2615bfea4b",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 2aa3717482b33aa740390a2615bfea4b",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.1199999999999999,
+            0.34,
+            -0.27
+          ],
+          "max": [
+            -0.98,
+            0.45,
+            -0.15
+          ]
+        },
+        "volume": 0.0009579248105381344
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.12,
+            0.34,
+            -0.27
+          ],
+          "max": [
+            -0.98,
+            0.45,
+            -0.15
+          ]
+        },
+        "volume": 0.0009579248105381343
+      }
+    },
+    {
+      "name": "Editable 01f8cfa85ca48bc11d07c8e52a2f31f2",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 01f8cfa85ca48bc11d07c8e52a2f31f2",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 01f8cfa85ca48bc11d07c8e52a2f31f2",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.14,
+            0.62,
+            0.07
+          ],
+          "max": [
+            -1,
+            0.7300000000000001,
+            0.19
+          ]
+        },
+        "volume": 0.0009579248105381342
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.1400000000000001,
+            0.62,
+            0.07
+          ],
+          "max": [
+            -1,
+            0.7300000000000001,
+            0.19
+          ]
+        },
+        "volume": 0.0009579248105381345
+      }
+    },
+    {
+      "name": "Editable 58ae86b4a563a405ef9dc5fab4d6d0d8",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 58ae86b4a563a405ef9dc5fab4d6d0d8",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 58ae86b4a563a405ef9dc5fab4d6d0d8",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.16,
+            0.87,
+            -0.14
+          ],
+          "max": [
+            -1.02,
+            0.9800000000000001,
+            -0.020000000000000004
+          ]
+        },
+        "volume": 0.0009579248105381341
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.1600000000000001,
+            0.87,
+            -0.14
+          ],
+          "max": [
+            -1.02,
+            0.9800000000000001,
+            -0.020000000000000004
+          ]
+        },
+        "volume": 0.0009579248105381344
+      }
+    },
+    {
+      "name": "Editable 4f9f6ff80e33a07790a7ff7ee74573e3",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 4f9f6ff80e33a07790a7ff7ee74573e3",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 4f9f6ff80e33a07790a7ff7ee74573e3",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            0.86,
+            0.12,
+            -0.4
+          ],
+          "max": [
+            1.04,
+            1.04,
+            0.4
+          ]
+        },
+        "volume": 0.13248000000000001
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            0.86,
+            0.12,
+            -0.4
+          ],
+          "max": [
+            1.04,
+            1.04,
+            0.4
+          ]
+        },
+        "volume": 0.13248000000000001
+      }
+    },
+    {
+      "name": "Editable 004f13862429ce3ee97a0f58828d2a1d",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 004f13862429ce3ee97a0f58828d2a1d",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 004f13862429ce3ee97a0f58828d2a1d",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            1.249999977350235,
+            0.28000000119209295,
+            -0.335
+          ],
+          "max": [
+            1.629999977350235,
+            0.98,
+            0.425
+          ]
+        },
+        "volume": 0.05308730865388512
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            1.249999977350235,
+            0.28000000119209295,
+            -0.335
+          ],
+          "max": [
+            1.629999977350235,
+            0.98,
+            0.425
+          ]
+        },
+        "volume": 0.05308730865388512
+      }
+    },
+    {
+      "name": "Editable 107054a4b04ae605a3805b52de048587",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 107054a4b04ae605a3805b52de048587",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 107054a4b04ae605a3805b52de048587",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            0.98,
+            0.34,
+            -0.27
+          ],
+          "max": [
+            1.1199999999999999,
+            0.45,
+            -0.15
+          ]
+        },
+        "volume": 0.0009579248105381344
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            0.98,
+            0.34,
+            -0.27
+          ],
+          "max": [
+            1.12,
+            0.45,
+            -0.15
+          ]
+        },
+        "volume": 0.0009579248105381344
+      }
+    },
+    {
+      "name": "Editable 0b5c720ce97a3596ce80511c316702ff",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 0b5c720ce97a3596ce80511c316702ff",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 0b5c720ce97a3596ce80511c316702ff",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            1,
+            0.62,
+            0.07
+          ],
+          "max": [
+            1.14,
+            0.7300000000000001,
+            0.19
+          ]
+        },
+        "volume": 0.0009579248105381342
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            1,
+            0.62,
+            0.07
+          ],
+          "max": [
+            1.1400000000000001,
+            0.7300000000000001,
+            0.19
+          ]
+        },
+        "volume": 0.0009579248105381345
+      }
+    },
+    {
+      "name": "Editable 700d999110939ab5c36bb9ecddb41899",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 700d999110939ab5c36bb9ecddb41899",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 700d999110939ab5c36bb9ecddb41899",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            1.02,
+            0.87,
+            -0.14
+          ],
+          "max": [
+            1.16,
+            0.9800000000000001,
+            -0.020000000000000004
+          ]
+        },
+        "volume": 0.0009579248105381341
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            1.02,
+            0.87,
+            -0.14
+          ],
+          "max": [
+            1.1600000000000001,
+            0.9800000000000001,
+            -0.020000000000000004
+          ]
+        },
+        "volume": 0.0009579248105381345
+      }
+    },
+    {
+      "name": "Original paired XYZ offset 16afe24f1c764cea24ece8795b8d71b8",
+      "status": "verified",
+      "expected": [
+        -0.48999997735023504,
+        0.05000000059604637,
+        0.044999999999999984
+      ],
+      "actual": [
+        -0.4899999773502349,
+        0.05000000059604637,
+        0.044999999999999984
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 2aa3717482b33aa740390a2615bfea4b",
+      "status": "verified",
+      "expected": [
+        -0.09999999999999998,
+        -0.18500000000000005,
+        -0.21000000000000002
+      ],
+      "actual": [
+        -0.09999999999999998,
+        -0.18500000000000005,
+        -0.21000000000000002
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 01f8cfa85ca48bc11d07c8e52a2f31f2",
+      "status": "verified",
+      "expected": [
+        -0.12,
+        0.09499999999999997,
+        0.13
+      ],
+      "actual": [
+        -0.12,
+        0.09499999999999997,
+        0.13
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 58ae86b4a563a405ef9dc5fab4d6d0d8",
+      "status": "verified",
+      "expected": [
+        -0.14,
+        0.345,
+        -0.08000000000000002
+      ],
+      "actual": [
+        -0.14,
+        0.345,
+        -0.08000000000000002
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 004f13862429ce3ee97a0f58828d2a1d",
+      "status": "verified",
+      "expected": [
+        0.48999997735023504,
+        0.05000000059604637,
+        0.044999999999999984
+      ],
+      "actual": [
+        0.48999997735023504,
+        0.05000000059604637,
+        0.044999999999999984
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 107054a4b04ae605a3805b52de048587",
+      "status": "verified",
+      "expected": [
+        0.09999999999999998,
+        -0.18500000000000005,
+        -0.21000000000000002
+      ],
+      "actual": [
+        0.10000000000000009,
+        -0.18500000000000005,
+        -0.21000000000000002
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 0b5c720ce97a3596ce80511c316702ff",
+      "status": "verified",
+      "expected": [
+        0.12,
+        0.09499999999999997,
+        0.13
+      ],
+      "actual": [
+        0.1200000000000001,
+        0.09499999999999997,
+        0.13
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 700d999110939ab5c36bb9ecddb41899",
+      "status": "verified",
+      "expected": [
+        0.14,
+        0.345,
+        -0.08000000000000002
+      ],
+      "actual": [
+        0.14000000000000012,
+        0.345,
+        -0.08000000000000002
+      ]
+    },
+    {
+      "name": "Requested yoke opening",
+      "status": "verified",
+      "expected": 1.7199999999999998,
+      "actual": 1.7200000000000002
+    },
+    {
+      "name": "Symmetric opening midpoint",
+      "status": "verified"
+    }
+  ],
+  "proposalChecks": [
+    {
+      "name": "Original ID roster",
+      "status": "verified"
+    },
+    {
+      "name": "Groups preserved",
+      "status": "verified"
+    },
+    {
+      "name": "Editable 05938e7b3e6b27ac5e85582f6f5761cf",
+      "status": "verified"
+    },
+    {
+      "name": "Preserve fixed 05938e7b3e6b27ac5e85582f6f5761cf",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 05938e7b3e6b27ac5e85582f6f5761cf",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 05938e7b3e6b27ac5e85582f6f5761cf",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -2.74,
+            0,
+            -1.525
+          ],
+          "max": [
+            -2.46,
+            0.42,
+            -1.275
+          ]
+        },
+        "volume": 0.02940000000000003
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -2.74,
+            0,
+            -1.525
+          ],
+          "max": [
+            -2.46,
+            0.42,
+            -1.275
+          ]
+        },
+        "volume": 0.02940000000000003
+      }
+    },
+    {
+      "name": "Editable c160875ae82f3777dfbde2053d9f62d2",
+      "status": "verified"
+    },
+    {
+      "name": "Preserve fixed c160875ae82f3777dfbde2053d9f62d2",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid c160875ae82f3777dfbde2053d9f62d2",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid c160875ae82f3777dfbde2053d9f62d2",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            2.44,
+            0,
+            1.1400000000000001
+          ],
+          "max": [
+            2.7600000000000002,
+            0.32,
+            1.46
+          ]
+        },
+        "volume": 0.016985541229282246
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            2.44,
+            0,
+            1.1400000000000001
+          ],
+          "max": [
+            2.7600000000000002,
+            0.32,
+            1.46
+          ]
+        },
+        "volume": 0.016985541229282246
+      }
+    },
+    {
+      "name": "Editable bc7cb08a285bdad94c9eac702202a560",
+      "status": "verified"
+    },
+    {
+      "name": "Preserve fixed bc7cb08a285bdad94c9eac702202a560",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid bc7cb08a285bdad94c9eac702202a560",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid bc7cb08a285bdad94c9eac702202a560",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.8,
+            0,
+            -0.8
+          ],
+          "max": [
+            1.8,
+            0.12,
+            0.8
+          ]
+        },
+        "volume": 0.6912
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.8,
+            0,
+            -0.8
+          ],
+          "max": [
+            1.8,
+            0.12,
+            0.8
+          ]
+        },
+        "volume": 0.6912
+      }
+    },
+    {
+      "name": "Editable 51c06a1af0a1437347123518a540acad",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 51c06a1af0a1437347123518a540acad",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 51c06a1af0a1437347123518a540acad",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.04,
+            0.12,
+            -0.4
+          ],
+          "max": [
+            -0.8599999999999999,
+            1.04,
+            0.4
+          ]
+        },
+        "volume": 0.1324800000000001
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.04,
+            0.12,
+            -0.4
+          ],
+          "max": [
+            -0.8600000000000001,
+            1.04,
+            0.4
+          ]
+        },
+        "volume": 0.13247999999999993
+      }
+    },
+    {
+      "name": "Editable 16afe24f1c764cea24ece8795b8d71b8",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 16afe24f1c764cea24ece8795b8d71b8",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 16afe24f1c764cea24ece8795b8d71b8",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.629999977350235,
+            0.28000000119209295,
+            -0.335
+          ],
+          "max": [
+            -1.249999977350235,
+            0.98,
+            0.425
+          ]
+        },
+        "volume": 0.05308730865388512
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.629999977350235,
+            0.28000000119209295,
+            -0.335
+          ],
+          "max": [
+            -1.249999977350235,
+            0.98,
+            0.425
+          ]
+        },
+        "volume": 0.05308730865388512
+      }
+    },
+    {
+      "name": "Editable 2aa3717482b33aa740390a2615bfea4b",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 2aa3717482b33aa740390a2615bfea4b",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 2aa3717482b33aa740390a2615bfea4b",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.1199999999999999,
+            0.34,
+            -0.27
+          ],
+          "max": [
+            -0.98,
+            0.45,
+            -0.15
+          ]
+        },
+        "volume": 0.0009579248105381344
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.12,
+            0.34,
+            -0.27
+          ],
+          "max": [
+            -0.98,
+            0.45,
+            -0.15
+          ]
+        },
+        "volume": 0.0009579248105381343
+      }
+    },
+    {
+      "name": "Editable 01f8cfa85ca48bc11d07c8e52a2f31f2",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 01f8cfa85ca48bc11d07c8e52a2f31f2",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 01f8cfa85ca48bc11d07c8e52a2f31f2",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.14,
+            0.62,
+            0.07
+          ],
+          "max": [
+            -1,
+            0.7300000000000001,
+            0.19
+          ]
+        },
+        "volume": 0.0009579248105381342
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.1400000000000001,
+            0.62,
+            0.07
+          ],
+          "max": [
+            -1,
+            0.7300000000000001,
+            0.19
+          ]
+        },
+        "volume": 0.0009579248105381345
+      }
+    },
+    {
+      "name": "Editable 58ae86b4a563a405ef9dc5fab4d6d0d8",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 58ae86b4a563a405ef9dc5fab4d6d0d8",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 58ae86b4a563a405ef9dc5fab4d6d0d8",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.16,
+            0.87,
+            -0.14
+          ],
+          "max": [
+            -1.02,
+            0.9800000000000001,
+            -0.020000000000000004
+          ]
+        },
+        "volume": 0.0009579248105381341
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.1600000000000001,
+            0.87,
+            -0.14
+          ],
+          "max": [
+            -1.02,
+            0.9800000000000001,
+            -0.020000000000000004
+          ]
+        },
+        "volume": 0.0009579248105381344
+      }
+    },
+    {
+      "name": "Editable 4f9f6ff80e33a07790a7ff7ee74573e3",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 4f9f6ff80e33a07790a7ff7ee74573e3",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 4f9f6ff80e33a07790a7ff7ee74573e3",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            0.86,
+            0.12,
+            -0.4
+          ],
+          "max": [
+            1.04,
+            1.04,
+            0.4
+          ]
+        },
+        "volume": 0.13248000000000001
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            0.86,
+            0.12,
+            -0.4
+          ],
+          "max": [
+            1.04,
+            1.04,
+            0.4
+          ]
+        },
+        "volume": 0.13248000000000001
+      }
+    },
+    {
+      "name": "Editable 004f13862429ce3ee97a0f58828d2a1d",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 004f13862429ce3ee97a0f58828d2a1d",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 004f13862429ce3ee97a0f58828d2a1d",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            1.249999977350235,
+            0.28000000119209295,
+            -0.335
+          ],
+          "max": [
+            1.629999977350235,
+            0.98,
+            0.425
+          ]
+        },
+        "volume": 0.05308730865388512
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            1.249999977350235,
+            0.28000000119209295,
+            -0.335
+          ],
+          "max": [
+            1.629999977350235,
+            0.98,
+            0.425
+          ]
+        },
+        "volume": 0.05308730865388512
+      }
+    },
+    {
+      "name": "Editable 107054a4b04ae605a3805b52de048587",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 107054a4b04ae605a3805b52de048587",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 107054a4b04ae605a3805b52de048587",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            0.98,
+            0.34,
+            -0.27
+          ],
+          "max": [
+            1.1199999999999999,
+            0.45,
+            -0.15
+          ]
+        },
+        "volume": 0.0009579248105381344
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            0.98,
+            0.34,
+            -0.27
+          ],
+          "max": [
+            1.12,
+            0.45,
+            -0.15
+          ]
+        },
+        "volume": 0.0009579248105381344
+      }
+    },
+    {
+      "name": "Editable 0b5c720ce97a3596ce80511c316702ff",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 0b5c720ce97a3596ce80511c316702ff",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 0b5c720ce97a3596ce80511c316702ff",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            1,
+            0.62,
+            0.07
+          ],
+          "max": [
+            1.14,
+            0.7300000000000001,
+            0.19
+          ]
+        },
+        "volume": 0.0009579248105381342
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            1,
+            0.62,
+            0.07
+          ],
+          "max": [
+            1.1400000000000001,
+            0.7300000000000001,
+            0.19
+          ]
+        },
+        "volume": 0.0009579248105381345
+      }
+    },
+    {
+      "name": "Editable 700d999110939ab5c36bb9ecddb41899",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 700d999110939ab5c36bb9ecddb41899",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 700d999110939ab5c36bb9ecddb41899",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            1.02,
+            0.87,
+            -0.14
+          ],
+          "max": [
+            1.16,
+            0.9800000000000001,
+            -0.020000000000000004
+          ]
+        },
+        "volume": 0.0009579248105381341
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            1.02,
+            0.87,
+            -0.14
+          ],
+          "max": [
+            1.1600000000000001,
+            0.9800000000000001,
+            -0.020000000000000004
+          ]
+        },
+        "volume": 0.0009579248105381345
+      }
+    },
+    {
+      "name": "Original paired XYZ offset 16afe24f1c764cea24ece8795b8d71b8",
+      "status": "verified",
+      "expected": [
+        -0.48999997735023504,
+        0.05000000059604637,
+        0.044999999999999984
+      ],
+      "actual": [
+        -0.4899999773502349,
+        0.05000000059604637,
+        0.044999999999999984
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 2aa3717482b33aa740390a2615bfea4b",
+      "status": "verified",
+      "expected": [
+        -0.09999999999999998,
+        -0.18500000000000005,
+        -0.21000000000000002
+      ],
+      "actual": [
+        -0.09999999999999998,
+        -0.18500000000000005,
+        -0.21000000000000002
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 01f8cfa85ca48bc11d07c8e52a2f31f2",
+      "status": "verified",
+      "expected": [
+        -0.12,
+        0.09499999999999997,
+        0.13
+      ],
+      "actual": [
+        -0.12,
+        0.09499999999999997,
+        0.13
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 58ae86b4a563a405ef9dc5fab4d6d0d8",
+      "status": "verified",
+      "expected": [
+        -0.14,
+        0.345,
+        -0.08000000000000002
+      ],
+      "actual": [
+        -0.14,
+        0.345,
+        -0.08000000000000002
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 004f13862429ce3ee97a0f58828d2a1d",
+      "status": "verified",
+      "expected": [
+        0.48999997735023504,
+        0.05000000059604637,
+        0.044999999999999984
+      ],
+      "actual": [
+        0.48999997735023504,
+        0.05000000059604637,
+        0.044999999999999984
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 107054a4b04ae605a3805b52de048587",
+      "status": "verified",
+      "expected": [
+        0.09999999999999998,
+        -0.18500000000000005,
+        -0.21000000000000002
+      ],
+      "actual": [
+        0.10000000000000009,
+        -0.18500000000000005,
+        -0.21000000000000002
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 0b5c720ce97a3596ce80511c316702ff",
+      "status": "verified",
+      "expected": [
+        0.12,
+        0.09499999999999997,
+        0.13
+      ],
+      "actual": [
+        0.1200000000000001,
+        0.09499999999999997,
+        0.13
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 700d999110939ab5c36bb9ecddb41899",
+      "status": "verified",
+      "expected": [
+        0.14,
+        0.345,
+        -0.08000000000000002
+      ],
+      "actual": [
+        0.14000000000000012,
+        0.345,
+        -0.08000000000000002
+      ]
+    },
+    {
+      "name": "Requested yoke opening",
+      "status": "verified",
+      "expected": 1.7199999999999998,
+      "actual": 1.7200000000000002
+    },
+    {
+      "name": "Symmetric opening midpoint",
+      "status": "verified"
+    }
+  ],
+  "negativeChecks": [
+    {
+      "name": "Original ID roster",
+      "status": "verified"
+    },
+    {
+      "name": "Groups preserved",
+      "status": "verified"
+    },
+    {
+      "name": "Editable 05938e7b3e6b27ac5e85582f6f5761cf",
+      "status": "verified"
+    },
+    {
+      "name": "Preserve fixed 05938e7b3e6b27ac5e85582f6f5761cf",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 05938e7b3e6b27ac5e85582f6f5761cf",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 05938e7b3e6b27ac5e85582f6f5761cf",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -2.74,
+            0,
+            -1.525
+          ],
+          "max": [
+            -2.46,
+            0.42,
+            -1.275
+          ]
+        },
+        "volume": 0.02940000000000003
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -2.74,
+            0,
+            -1.525
+          ],
+          "max": [
+            -2.46,
+            0.42,
+            -1.275
+          ]
+        },
+        "volume": 0.02940000000000003
+      }
+    },
+    {
+      "name": "Editable c160875ae82f3777dfbde2053d9f62d2",
+      "status": "verified"
+    },
+    {
+      "name": "Preserve fixed c160875ae82f3777dfbde2053d9f62d2",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid c160875ae82f3777dfbde2053d9f62d2",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid c160875ae82f3777dfbde2053d9f62d2",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            2.44,
+            0,
+            1.1400000000000001
+          ],
+          "max": [
+            2.7600000000000002,
+            0.32,
+            1.46
+          ]
+        },
+        "volume": 0.016985541229282246
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            2.44,
+            0,
+            1.1400000000000001
+          ],
+          "max": [
+            2.7600000000000002,
+            0.32,
+            1.46
+          ]
+        },
+        "volume": 0.016985541229282246
+      }
+    },
+    {
+      "name": "Editable bc7cb08a285bdad94c9eac702202a560",
+      "status": "verified"
+    },
+    {
+      "name": "Preserve fixed bc7cb08a285bdad94c9eac702202a560",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid bc7cb08a285bdad94c9eac702202a560",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid bc7cb08a285bdad94c9eac702202a560",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.8,
+            0,
+            -0.8
+          ],
+          "max": [
+            1.8,
+            0.12,
+            0.8
+          ]
+        },
+        "volume": 0.6912
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.8,
+            0,
+            -0.8
+          ],
+          "max": [
+            1.8,
+            0.12,
+            0.8
+          ]
+        },
+        "volume": 0.6912
+      }
+    },
+    {
+      "name": "Editable 51c06a1af0a1437347123518a540acad",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 51c06a1af0a1437347123518a540acad",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 51c06a1af0a1437347123518a540acad",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.04,
+            0.12,
+            -0.4
+          ],
+          "max": [
+            -0.8599999999999999,
+            1.04,
+            0.4
+          ]
+        },
+        "volume": 0.1324800000000001
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.04,
+            0.12,
+            -0.4
+          ],
+          "max": [
+            -0.8600000000000001,
+            1.04,
+            0.4
+          ]
+        },
+        "volume": 0.13247999999999993
+      }
+    },
+    {
+      "name": "Editable 16afe24f1c764cea24ece8795b8d71b8",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 16afe24f1c764cea24ece8795b8d71b8",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 16afe24f1c764cea24ece8795b8d71b8",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.629999977350235,
+            0.28000000119209295,
+            -0.335
+          ],
+          "max": [
+            -1.249999977350235,
+            0.98,
+            0.425
+          ]
+        },
+        "volume": 0.05308730865388512
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.629999977350235,
+            0.28000000119209295,
+            -0.335
+          ],
+          "max": [
+            -1.249999977350235,
+            0.98,
+            0.425
+          ]
+        },
+        "volume": 0.05308730865388512
+      }
+    },
+    {
+      "name": "Editable 2aa3717482b33aa740390a2615bfea4b",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 2aa3717482b33aa740390a2615bfea4b",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 2aa3717482b33aa740390a2615bfea4b",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.1199999999999999,
+            0.34,
+            -0.27
+          ],
+          "max": [
+            -0.98,
+            0.45,
+            -0.15
+          ]
+        },
+        "volume": 0.0009579248105381344
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.12,
+            0.34,
+            -0.27
+          ],
+          "max": [
+            -0.98,
+            0.45,
+            -0.15
+          ]
+        },
+        "volume": 0.0009579248105381343
+      }
+    },
+    {
+      "name": "Editable 01f8cfa85ca48bc11d07c8e52a2f31f2",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 01f8cfa85ca48bc11d07c8e52a2f31f2",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 01f8cfa85ca48bc11d07c8e52a2f31f2",
+      "status": "incorrect",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.14,
+            0.62,
+            0.07
+          ],
+          "max": [
+            -1,
+            0.7300000000000001,
+            0.19
+          ]
+        },
+        "volume": 0.0009579248105381342
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.1600000000000001,
+            0.62,
+            0.07
+          ],
+          "max": [
+            -1.02,
+            0.7300000000000001,
+            0.19
+          ]
+        },
+        "volume": 0.0009579248105381345
+      }
+    },
+    {
+      "name": "Editable 58ae86b4a563a405ef9dc5fab4d6d0d8",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 58ae86b4a563a405ef9dc5fab4d6d0d8",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 58ae86b4a563a405ef9dc5fab4d6d0d8",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -1.16,
+            0.87,
+            -0.14
+          ],
+          "max": [
+            -1.02,
+            0.9800000000000001,
+            -0.020000000000000004
+          ]
+        },
+        "volume": 0.0009579248105381341
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -1.1600000000000001,
+            0.87,
+            -0.14
+          ],
+          "max": [
+            -1.02,
+            0.9800000000000001,
+            -0.020000000000000004
+          ]
+        },
+        "volume": 0.0009579248105381344
+      }
+    },
+    {
+      "name": "Editable 4f9f6ff80e33a07790a7ff7ee74573e3",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 4f9f6ff80e33a07790a7ff7ee74573e3",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 4f9f6ff80e33a07790a7ff7ee74573e3",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            0.86,
+            0.12,
+            -0.4
+          ],
+          "max": [
+            1.04,
+            1.04,
+            0.4
+          ]
+        },
+        "volume": 0.13248000000000001
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            0.86,
+            0.12,
+            -0.4
+          ],
+          "max": [
+            1.04,
+            1.04,
+            0.4
+          ]
+        },
+        "volume": 0.13248000000000001
+      }
+    },
+    {
+      "name": "Editable 004f13862429ce3ee97a0f58828d2a1d",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 004f13862429ce3ee97a0f58828d2a1d",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 004f13862429ce3ee97a0f58828d2a1d",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            1.249999977350235,
+            0.28000000119209295,
+            -0.335
+          ],
+          "max": [
+            1.629999977350235,
+            0.98,
+            0.425
+          ]
+        },
+        "volume": 0.05308730865388512
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            1.249999977350235,
+            0.28000000119209295,
+            -0.335
+          ],
+          "max": [
+            1.629999977350235,
+            0.98,
+            0.425
+          ]
+        },
+        "volume": 0.05308730865388512
+      }
+    },
+    {
+      "name": "Editable 107054a4b04ae605a3805b52de048587",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 107054a4b04ae605a3805b52de048587",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 107054a4b04ae605a3805b52de048587",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            0.98,
+            0.34,
+            -0.27
+          ],
+          "max": [
+            1.1199999999999999,
+            0.45,
+            -0.15
+          ]
+        },
+        "volume": 0.0009579248105381344
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            0.98,
+            0.34,
+            -0.27
+          ],
+          "max": [
+            1.12,
+            0.45,
+            -0.15
+          ]
+        },
+        "volume": 0.0009579248105381344
+      }
+    },
+    {
+      "name": "Editable 0b5c720ce97a3596ce80511c316702ff",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 0b5c720ce97a3596ce80511c316702ff",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 0b5c720ce97a3596ce80511c316702ff",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            1,
+            0.62,
+            0.07
+          ],
+          "max": [
+            1.14,
+            0.7300000000000001,
+            0.19
+          ]
+        },
+        "volume": 0.0009579248105381342
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            1,
+            0.62,
+            0.07
+          ],
+          "max": [
+            1.1400000000000001,
+            0.7300000000000001,
+            0.19
+          ]
+        },
+        "volume": 0.0009579248105381345
+      }
+    },
+    {
+      "name": "Editable 700d999110939ab5c36bb9ecddb41899",
+      "status": "verified"
+    },
+    {
+      "name": "Closed solid 700d999110939ab5c36bb9ecddb41899",
+      "status": "verified"
+    },
+    {
+      "name": "Requested occupied solid 700d999110939ab5c36bb9ecddb41899",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            1.02,
+            0.87,
+            -0.14
+          ],
+          "max": [
+            1.16,
+            0.9800000000000001,
+            -0.020000000000000004
+          ]
+        },
+        "volume": 0.0009579248105381341
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            1.02,
+            0.87,
+            -0.14
+          ],
+          "max": [
+            1.1600000000000001,
+            0.9800000000000001,
+            -0.020000000000000004
+          ]
+        },
+        "volume": 0.0009579248105381345
+      }
+    },
+    {
+      "name": "Original paired XYZ offset 16afe24f1c764cea24ece8795b8d71b8",
+      "status": "verified",
+      "expected": [
+        -0.48999997735023504,
+        0.05000000059604637,
+        0.044999999999999984
+      ],
+      "actual": [
+        -0.4899999773502349,
+        0.05000000059604637,
+        0.044999999999999984
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 2aa3717482b33aa740390a2615bfea4b",
+      "status": "verified",
+      "expected": [
+        -0.09999999999999998,
+        -0.18500000000000005,
+        -0.21000000000000002
+      ],
+      "actual": [
+        -0.09999999999999998,
+        -0.18500000000000005,
+        -0.21000000000000002
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 01f8cfa85ca48bc11d07c8e52a2f31f2",
+      "status": "incorrect",
+      "expected": [
+        -0.12,
+        0.09499999999999997,
+        0.13
+      ],
+      "actual": [
+        -0.14,
+        0.09499999999999997,
+        0.13
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 58ae86b4a563a405ef9dc5fab4d6d0d8",
+      "status": "verified",
+      "expected": [
+        -0.14,
+        0.345,
+        -0.08000000000000002
+      ],
+      "actual": [
+        -0.14,
+        0.345,
+        -0.08000000000000002
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 004f13862429ce3ee97a0f58828d2a1d",
+      "status": "verified",
+      "expected": [
+        0.48999997735023504,
+        0.05000000059604637,
+        0.044999999999999984
+      ],
+      "actual": [
+        0.48999997735023504,
+        0.05000000059604637,
+        0.044999999999999984
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 107054a4b04ae605a3805b52de048587",
+      "status": "verified",
+      "expected": [
+        0.09999999999999998,
+        -0.18500000000000005,
+        -0.21000000000000002
+      ],
+      "actual": [
+        0.10000000000000009,
+        -0.18500000000000005,
+        -0.21000000000000002
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 0b5c720ce97a3596ce80511c316702ff",
+      "status": "verified",
+      "expected": [
+        0.12,
+        0.09499999999999997,
+        0.13
+      ],
+      "actual": [
+        0.1200000000000001,
+        0.09499999999999997,
+        0.13
+      ]
+    },
+    {
+      "name": "Original paired XYZ offset 700d999110939ab5c36bb9ecddb41899",
+      "status": "verified",
+      "expected": [
+        0.14,
+        0.345,
+        -0.08000000000000002
+      ],
+      "actual": [
+        0.14000000000000012,
+        0.345,
+        -0.08000000000000002
+      ]
+    },
+    {
+      "name": "Requested yoke opening",
+      "status": "verified",
+      "expected": 1.7199999999999998,
+      "actual": 1.7200000000000002
+    },
+    {
+      "name": "Symmetric opening midpoint",
+      "status": "verified"
+    }
+  ],
+  "reviewerChecks": {
+    "modeling": true,
+    "passed": true,
+    "status": "verified",
+    "canCommit": true,
+    "checks": [
+      {
+        "id": "preserved-scope",
+        "label": "Unrelated existing geometry",
+        "met": true,
+        "outcome": "verified",
+        "observed": "3 existing objects outside the requested edit scope are unchanged.",
+        "ids": []
+      },
+      {
+        "id": "check-1",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): -0.9500000000000001; expected equal -0.95 ± 0.001 m.",
+        "ids": [
+          "51c06a1af0a1437347123518a540acad"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "51c06a1af0a1437347123518a540acad",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                -0.72
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": -0.95
+        }
+      },
+      {
+        "id": "check-2",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): 0.95; expected equal 0.95 ± 0.001 m.",
+        "ids": [
+          "4f9f6ff80e33a07790a7ff7ee74573e3"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                0.72
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": 0.95
+        }
+      },
+      {
+        "id": "check-3",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): -1.439999977350235; expected equal -1.439999977350235 ± 0.001 m.",
+        "ids": [
+          "16afe24f1c764cea24ece8795b8d71b8"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "16afe24f1c764cea24ece8795b8d71b8",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                -1.209999977350235
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": -1.439999977350235
+        }
+      },
+      {
+        "id": "check-4",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): -1.05; expected equal -1.05 ± 0.001 m.",
+        "ids": [
+          "2aa3717482b33aa740390a2615bfea4b"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "2aa3717482b33aa740390a2615bfea4b",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                -0.82
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": -1.05
+        }
+      },
+      {
+        "id": "check-5",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): -1.07; expected equal -1.07 ± 0.001 m.",
+        "ids": [
+          "01f8cfa85ca48bc11d07c8e52a2f31f2"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "01f8cfa85ca48bc11d07c8e52a2f31f2",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                -0.84
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": -1.07
+        }
+      },
+      {
+        "id": "check-6",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): -1.09; expected equal -1.09 ± 0.001 m.",
+        "ids": [
+          "58ae86b4a563a405ef9dc5fab4d6d0d8"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "58ae86b4a563a405ef9dc5fab4d6d0d8",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                -0.86
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": -1.09
+        }
+      },
+      {
+        "id": "check-7",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): 1.439999977350235; expected equal 1.439999977350235 ± 0.001 m.",
+        "ids": [
+          "004f13862429ce3ee97a0f58828d2a1d"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "004f13862429ce3ee97a0f58828d2a1d",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                1.209999977350235
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": 1.439999977350235
+        }
+      },
+      {
+        "id": "check-8",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): 1.05; expected equal 1.05 ± 0.001 m.",
+        "ids": [
+          "107054a4b04ae605a3805b52de048587"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "107054a4b04ae605a3805b52de048587",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                0.82
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": 1.05
+        }
+      },
+      {
+        "id": "check-9",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): 1.07; expected equal 1.07 ± 0.001 m.",
+        "ids": [
+          "0b5c720ce97a3596ce80511c316702ff"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "0b5c720ce97a3596ce80511c316702ff",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                0.84
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": 1.07
+        }
+      },
+      {
+        "id": "check-10",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): 1.09; expected equal 1.09 ± 0.001 m.",
+        "ids": [
+          "700d999110939ab5c36bb9ecddb41899"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "700d999110939ab5c36bb9ecddb41899",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                0.86
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": 1.09
+        }
+      },
+      {
+        "id": "check-11",
+        "label": "preserve",
+        "met": true,
+        "outcome": "verified",
+        "observed": "10 original identities retain identity, geometry, dimensions, rotation, y, z, name, component, material, materialSpec, color, groupId, visible.",
+        "ids": [
+          "51c06a1af0a1437347123518a540acad",
+          "16afe24f1c764cea24ece8795b8d71b8",
+          "2aa3717482b33aa740390a2615bfea4b",
+          "01f8cfa85ca48bc11d07c8e52a2f31f2",
+          "58ae86b4a563a405ef9dc5fab4d6d0d8",
+          "4f9f6ff80e33a07790a7ff7ee74573e3",
+          "004f13862429ce3ee97a0f58828d2a1d",
+          "107054a4b04ae605a3805b52de048587",
+          "0b5c720ce97a3596ce80511c316702ff",
+          "700d999110939ab5c36bb9ecddb41899"
+        ]
+      }
+    ],
+    "qualitativeLimits": []
+  },
+  "negativeReviewerChecks": {
+    "modeling": true,
+    "passed": false,
+    "status": "incorrect",
+    "canCommit": false,
+    "checks": [
+      {
+        "id": "preserved-scope",
+        "label": "Unrelated existing geometry",
+        "met": true,
+        "outcome": "verified",
+        "observed": "3 existing objects outside the requested edit scope are unchanged.",
+        "ids": []
+      },
+      {
+        "id": "check-1",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): -0.9500000000000001; expected equal -0.95 ± 0.001 m.",
+        "ids": [
+          "51c06a1af0a1437347123518a540acad"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "51c06a1af0a1437347123518a540acad",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                -0.72
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": -0.95
+        }
+      },
+      {
+        "id": "check-2",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): 0.95; expected equal 0.95 ± 0.001 m.",
+        "ids": [
+          "4f9f6ff80e33a07790a7ff7ee74573e3"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "4f9f6ff80e33a07790a7ff7ee74573e3",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                0.72
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": 0.95
+        }
+      },
+      {
+        "id": "check-3",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): -1.439999977350235; expected equal -1.439999977350235 ± 0.001 m.",
+        "ids": [
+          "16afe24f1c764cea24ece8795b8d71b8"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "16afe24f1c764cea24ece8795b8d71b8",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                -1.209999977350235
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": -1.439999977350235
+        }
+      },
+      {
+        "id": "check-4",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): -1.05; expected equal -1.05 ± 0.001 m.",
+        "ids": [
+          "2aa3717482b33aa740390a2615bfea4b"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "2aa3717482b33aa740390a2615bfea4b",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                -0.82
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": -1.05
+        }
+      },
+      {
+        "id": "check-5",
+        "label": "x",
+        "met": false,
+        "outcome": "incorrect",
+        "observed": "x (each, world solids): -1.09; expected equal -1.07 ± 0.001 m.",
+        "ids": [
+          "01f8cfa85ca48bc11d07c8e52a2f31f2"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "01f8cfa85ca48bc11d07c8e52a2f31f2",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                -0.84
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": -1.07
+        }
+      },
+      {
+        "id": "check-6",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): -1.09; expected equal -1.09 ± 0.001 m.",
+        "ids": [
+          "58ae86b4a563a405ef9dc5fab4d6d0d8"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "58ae86b4a563a405ef9dc5fab4d6d0d8",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "subtract",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                -0.86
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": -1.09
+        }
+      },
+      {
+        "id": "check-7",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): 1.439999977350235; expected equal 1.439999977350235 ± 0.001 m.",
+        "ids": [
+          "004f13862429ce3ee97a0f58828d2a1d"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "004f13862429ce3ee97a0f58828d2a1d",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                1.209999977350235
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": 1.439999977350235
+        }
+      },
+      {
+        "id": "check-8",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): 1.05; expected equal 1.05 ± 0.001 m.",
+        "ids": [
+          "107054a4b04ae605a3805b52de048587"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "107054a4b04ae605a3805b52de048587",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                0.82
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": 1.05
+        }
+      },
+      {
+        "id": "check-9",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): 1.07; expected equal 1.07 ± 0.001 m.",
+        "ids": [
+          "0b5c720ce97a3596ce80511c316702ff"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "0b5c720ce97a3596ce80511c316702ff",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                0.84
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": 1.07
+        }
+      },
+      {
+        "id": "check-10",
+        "label": "x",
+        "met": true,
+        "outcome": "verified",
+        "observed": "x (each, world solids): 1.09; expected equal 1.09 ± 0.001 m.",
+        "ids": [
+          "700d999110939ab5c36bb9ecddb41899"
+        ],
+        "calculation": {
+          "definition": {
+            "frame": "world_xyz_y_up",
+            "nodes": [
+              {
+                "kind": "original",
+                "objectId": "700d999110939ab5c36bb9ecddb41899",
+                "metric": "x"
+              },
+              {
+                "kind": "quantity",
+                "value": 46,
+                "unit": "cm",
+                "source": "request",
+                "evidence": "Open the gap between the yokes by 46 cm, equally on both sides."
+              },
+              {
+                "kind": "constant",
+                "value": 2
+              },
+              {
+                "kind": "operation",
+                "op": "divide",
+                "args": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "kind": "operation",
+                "op": "add",
+                "args": [
+                  0,
+                  3
+                ]
+              }
+            ],
+            "output": {
+              "kind": "value",
+              "node": 4
+            }
+          },
+          "sources": [
+            {
+              "node": 0,
+              "unit": "m",
+              "values": [
+                0.86
+              ]
+            },
+            {
+              "node": 1,
+              "unit": "m",
+              "values": [
+                0.46
+              ]
+            },
+            {
+              "node": 2,
+              "unit": "scalar",
+              "values": [
+                2
+              ]
+            }
+          ],
+          "expectedUnit": "m",
+          "expected": 1.09
+        }
+      },
+      {
+        "id": "check-11",
+        "label": "preserve",
+        "met": true,
+        "outcome": "verified",
+        "observed": "10 original identities retain identity, geometry, dimensions, rotation, y, z, name, component, material, materialSpec, color, groupId, visible.",
+        "ids": [
+          "51c06a1af0a1437347123518a540acad",
+          "16afe24f1c764cea24ece8795b8d71b8",
+          "2aa3717482b33aa740390a2615bfea4b",
+          "01f8cfa85ca48bc11d07c8e52a2f31f2",
+          "58ae86b4a563a405ef9dc5fab4d6d0d8",
+          "4f9f6ff80e33a07790a7ff7ee74573e3",
+          "004f13862429ce3ee97a0f58828d2a1d",
+          "107054a4b04ae605a3805b52de048587",
+          "0b5c720ce97a3596ce80511c316702ff",
+          "700d999110939ab5c36bb9ecddb41899"
+        ]
+      }
+    ],
+    "qualitativeLimits": []
+  }
+}
