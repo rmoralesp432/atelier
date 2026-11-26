@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-11-26T18:22:36.132Z",
+  "source": "Read-only Render API and GitHub branch lookup",
+  "service": "srv-db7vilu89jmc73dh9d40",
+  "url": "https://atelier-emxi.onrender.com/",
+  "branch": "feat/phase2-conversational-modeling",
+  "autoDeploy": "no",
+  "deploys": [
+    {
+      "id": "dep-dbvig9l9fdbs73bbeo20",
+      "status": "live",
+      "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+      "finishedAt": "2026-11-19T16:49:38.840617Z"
+    },
+    {
+      "id": "dep-dbvho3h5efls73drdt90",
+      "status": "deactivated",
+      "commit": "aa9dd6126f3372774c1cee03558ef4dcb87afd27",
+      "finishedAt": "2026-11-19T15:57:47.972496Z"
+    },
+    {
+      "id": "dep-dbvfejd9el5s73bnu1m0",
+      "status": "deactivated",
+      "commit": "acf5ed9ccdb298d2853d139ce5cdf0fc35e24c36",
+      "finishedAt": "2026-11-19T13:20:58.617795Z"
+    }
+  ],
+  "nonSecretModelSettings": [
+    {
+      "key": "ATELIER_TEXT_API",
+      "value": "responses"
+    },
+    {
+      "key": "ATELIER_AGENT_MODEL",
+      "value": "gpt-6.1-sol"
+    },
+    {
+      "key": "ATELIER_AGENT_MODE",
+      "value": "true"
+    }
+  ],
+  "candidate": "711a8cff9eb54a4c5254e5c20187b7b2614020da"
+}

@@ -1,0 +1,36 @@
+[WebServer] (node:24678) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] .env not found. Continuing without it.
+[WebServer] (node:24691) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 19 tests using 1 worker
+
+(node:24712) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 tests/agent-execution.spec.ts:5:1 › opens the retained live-generated chair as editable geometry and frames its actual scale (17.5s)
+  ✓   2 tests/agent-execution.spec.ts:43:1 › agent keeps provisional arrays private, recovers invalid arguments, verifies, then supports follow-up edits (offline provider) (20.7s)
+  ✓   3 tests/agent-execution.spec.ts:242:1 › shows provisional geometry while working and restores the saved design on Stop (15.1s)
+  ✓   4 tests/agent-execution.spec.ts:314:1 › agent camera and solar actions drive the real workspace and report playback state on follow-up (14.0s)
+  ✓   5 tests/completion-verification.spec.ts:55:1 › independent completion rejects a valid but incomplete model, repairs the same geometry and commits with one Undo (offline providers) (20.7s)
+  ✓   6 tests/completion-verification.spec.ts:172:1 › a failed request followed by reload does not poison an unrelated new modeling instruction (offline providers) (21.3s)
+  ✓   7 tests/completion-verification.spec.ts:256:1 › unsupported qualitative verification permits safe additions with honest messaging, one Undo, and a later independently checked edit (19.6s)
+  ✓   8 tests/direct-spatial-replay.spec.ts:34:3 › offline normal-workspace replay: shelf (26.8s)
+  ✓   9 tests/direct-spatial-replay.spec.ts:34:3 › offline normal-workspace replay: shelf-displaced (18.6s)
+  ✓  10 tests/direct-spatial-replay.spec.ts:34:3 › offline normal-workspace replay: shelf-original-criteria (16.0s)
+  ✓  11 tests/direct-spatial-replay.spec.ts:34:3 › offline normal-workspace replay: conveyor (31.3s)
+  ✓  12 tests/direct-spatial-replay.spec.ts:34:3 › offline normal-workspace replay: conveyor-displaced (21.9s)
+  ✓  13 tests/direct-spatial-replay.spec.ts:34:3 › offline normal-workspace replay: conveyor-original-criteria (17.9s)
+  ✓  14 tests/direct-spatial-replay.spec.ts:34:3 › offline normal-workspace replay: sculpture (1.2m)
+  ✓  15 tests/verification-reliability.spec.ts:22:3 › saved real-AI group replay through browser commits and storage (23.2s)
+  ✓  16 tests/verification-reliability.spec.ts:22:3 › saved real-AI reflection replay through browser commits and storage (21.4s)
+  ✓  17 tests/verification-reliability.spec.ts:22:3 › saved real-AI displaced replay through browser commits and storage (15.0s)
+  ✓  18 tests/verification-reliability.spec.ts:22:3 › saved real-AI unresolved replay through browser commits and storage (11.8s)
+  ✓  19 tests/verification-reliability.spec.ts:22:3 › saved real-AI zero replay through browser commits and storage (21.5s)
+
+  19 passed (7.2m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

@@ -1,0 +1,42 @@
+[
+  {
+    "turn": 1,
+    "export": "Design-intent-turn-1.atelier.json",
+    "objects": 11,
+    "undoEntries": 1,
+    "exactProjectHistoryAndConversationRoundTrip": true,
+    "framedViewportPreservedGeometryAndHistory": true
+  },
+  {
+    "turn": 5,
+    "export": "Design-intent-turn-5.atelier.json",
+    "objects": 12,
+    "undoEntries": 5,
+    "exactProjectHistoryAndConversationRoundTrip": true,
+    "framedViewportPreservedGeometryAndHistory": true
+  },
+  {
+    "turn": 6,
+    "export": "Design-intent-turn-6.atelier.json",
+    "objects": 12,
+    "undoEntries": 6,
+    "exactProjectHistoryAndConversationRoundTrip": true,
+    "framedViewportPreservedGeometryAndHistory": true
+  },
+  {
+    "turn": 7,
+    "export": "Design-intent-turn-7.atelier.json",
+    "objects": 12,
+    "undoEntries": 7,
+    "exactProjectHistoryAndConversationRoundTrip": true,
+    "framedViewportPreservedGeometryAndHistory": true
+  },
+  {
+    "turn": 8,
+    "export": "Design-intent-turn-8.atelier.json",
+    "objects": 12,
+    "undoEntries": 8,
+    "exactProjectHistoryAndConversationRoundTrip": true,
+    "framedViewportPreservedGeometryAndHistory": true
+  }
+]
