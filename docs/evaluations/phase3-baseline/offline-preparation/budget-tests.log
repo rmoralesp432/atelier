@@ -1,0 +1,14 @@
+✔ no authorization, insufficient headroom, and pending charges all stop before network (6.955874ms)
+✔ reserves before sending, forces default tier, records actual usage and separate budget margin (26.721029ms)
+✔ unknown provider usage retains the reservation and blocks another request (1.373624ms)
+✔ token, image, endpoint and per-turn limits cannot silently enlarge the budget (1.777975ms)
+✔ large serialized scenes reserve long-context rates without confusing bytes with actual tokens (61.38299ms)
+✔ message transport escaping is decoded, while schema overhead and UTF-8 bytes stay reserved (12.336287ms)
+ℹ tests 6
+ℹ suites 0
+ℹ pass 6
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 392.066433

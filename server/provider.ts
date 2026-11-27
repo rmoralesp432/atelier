@@ -50,7 +50,7 @@ const imageList = z
       .regex(/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$/),
   )
   .max(6);
-export const requestSchema = z
+const baseRequestSchema = z
   .object({
     language: z
       .enum(['en', 'es', 'fr', 'de', 'it', 'pt', 'ja', 'zh', 'ar', 'ko', 'ru'])
@@ -324,6 +324,17 @@ export const requestSchema = z
       .strict(),
   })
   .strict();
+export const requestSchema = baseRequestSchema.extend({
+  sceneReference: z
+    .object({
+      source: z.literal('request_start'),
+      ids: refs,
+      replacements: baseRequestSchema.shape.scene.shape.objects,
+      groups: baseRequestSchema.shape.scene.shape.groups,
+    })
+    .strict()
+    .optional(),
+});
 export type ModelRequest = z.infer<typeof requestSchema>;
 export const completionRequestSchema = requestSchema
   .pick({ message: true, history: true, scene: true, images: true })

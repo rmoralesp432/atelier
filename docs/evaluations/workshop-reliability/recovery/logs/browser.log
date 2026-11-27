@@ -1,0 +1,16 @@
+[WebServer] .env not found. Continuing without it.
+[WebServer] (node:72885) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:72907) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/verification-reliability.spec.ts:22:3 › saved real-AI group replay through browser commits and storage (25.7s)
+  ✓  2 tests/verification-reliability.spec.ts:22:3 › saved real-AI reflection replay through browser commits and storage (22.9s)
+  ✓  3 tests/verification-reliability.spec.ts:22:3 › saved real-AI displaced replay through browser commits and storage (14.6s)
+  ✓  4 tests/verification-reliability.spec.ts:22:3 › saved real-AI unresolved replay through browser commits and storage (11.2s)
+  ✓  5 tests/verification-reliability.spec.ts:22:3 › saved real-AI zero replay through browser commits and storage (20.4s)
+
+  5 passed (1.7m)
+::notice title=🎭 Playwright Run Summary::  5 passed (1.7m)

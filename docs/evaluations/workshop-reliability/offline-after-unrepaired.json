@@ -1,0 +1,543 @@
+[
+  {
+    "name": "group",
+    "wrong": false,
+    "provenance": {
+      "case": "workshop-2-workshop-W3-create",
+      "sourceCommit": "32c500c",
+      "savedFreshAI": true,
+      "idRemapping": true,
+      "browserCommitClaim": false
+    },
+    "report": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 5; expected equal 5, tolerance 0. 5 element(s).",
+          "ids": [
+            "a8d95dbd-ed95-4114-887c-258df0df19f2",
+            "4f016426-b0d7-475b-bd78-93ecb46de73b",
+            "653ebc31-ebe9-4b0f-88e7-a8940e2f1773",
+            "e5b9f3ca-5745-4a7a-b85a-e78addd8f62f",
+            "1d1b6513-17bc-466f-916a-36b027711470"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "editable",
+          "met": true,
+          "outcome": "verified",
+          "observed": "5 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "a8d95dbd-ed95-4114-887c-258df0df19f2",
+            "4f016426-b0d7-475b-bd78-93ecb46de73b",
+            "653ebc31-ebe9-4b0f-88e7-a8940e2f1773",
+            "e5b9f3ca-5745-4a7a-b85a-e78addd8f62f",
+            "1d1b6513-17bc-466f-916a-36b027711470"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "group",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Group 3d6ca6af-1c80-41d6-b13e-663888cfefd1: 5 members; 5/5 requested objects belong to it.",
+          "ids": [
+            "a8d95dbd-ed95-4114-887c-258df0df19f2",
+            "4f016426-b0d7-475b-bd78-93ecb46de73b",
+            "653ebc31-ebe9-4b0f-88e7-a8940e2f1773",
+            "e5b9f3ca-5745-4a7a-b85a-e78addd8f62f",
+            "1d1b6513-17bc-466f-916a-36b027711470"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "count · Hollow roller",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": [
+            "a8d95dbd-ed95-4114-887c-258df0df19f2"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "width · Hollow roller",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 1; expected equal 1 ± 0.001 m.",
+          "ids": [
+            "a8d95dbd-ed95-4114-887c-258df0df19f2"
+          ]
+        },
+        {
+          "id": "check-6",
+          "label": "depth · Hollow roller",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 0.5; expected equal 0.5 ± 0.001 m.",
+          "ids": [
+            "a8d95dbd-ed95-4114-887c-258df0df19f2"
+          ]
+        },
+        {
+          "id": "check-7",
+          "label": "height · Hollow roller",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.5; expected equal 0.5 ± 0.001 m.",
+          "ids": [
+            "a8d95dbd-ed95-4114-887c-258df0df19f2"
+          ]
+        },
+        {
+          "id": "check-8",
+          "label": "positions · Hollow roller",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": [
+            "a8d95dbd-ed95-4114-887c-258df0df19f2"
+          ]
+        },
+        {
+          "id": "check-9",
+          "label": "volume · Hollow roller",
+          "met": true,
+          "outcome": "verified",
+          "observed": "volume (each): 0.181; expected equal 0.1809557368, tolerance 0.0036191147359999998. 1 element(s).",
+          "ids": [
+            "a8d95dbd-ed95-4114-887c-258df0df19f2"
+          ]
+        },
+        {
+          "id": "check-10",
+          "label": "unavailable",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Unverified: Exact circular annular geometry and a coaxial 14 cm through-bore cannot be verified by the available hollow-shape or circular-void predicates; envelope and net volume are checked separately.",
+          "ids": []
+        },
+        {
+          "id": "check-11",
+          "label": "count · Central shaft",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": [
+            "4f016426-b0d7-475b-bd78-93ecb46de73b"
+          ]
+        },
+        {
+          "id": "check-12",
+          "label": "diameter · Central shaft",
+          "met": true,
+          "outcome": "verified",
+          "observed": "True cylinder diameter: 0.10000007895888828; expected 0.1 ± 0.001 m across 1 objects. Diameter is intrinsic, independent of world orientation.",
+          "ids": [
+            "4f016426-b0d7-475b-bd78-93ecb46de73b"
+          ]
+        },
+        {
+          "id": "check-13",
+          "label": "width · Central shaft",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 1.8; expected equal 1.8 ± 0.001 m.",
+          "ids": [
+            "4f016426-b0d7-475b-bd78-93ecb46de73b"
+          ]
+        },
+        {
+          "id": "check-14",
+          "label": "height · Central shaft",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.10000000000000009; expected equal 0.1 ± 0.001 m.",
+          "ids": [
+            "4f016426-b0d7-475b-bd78-93ecb46de73b"
+          ]
+        },
+        {
+          "id": "check-15",
+          "label": "positions · Central shaft",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": [
+            "4f016426-b0d7-475b-bd78-93ecb46de73b"
+          ]
+        },
+        {
+          "id": "check-16",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "disjoint: 1/1 distinct solid pairs satisfy all; tolerance 0.001 m.",
+          "ids": [
+            "4f016426-b0d7-475b-bd78-93ecb46de73b",
+            "a8d95dbd-ed95-4114-887c-258df0df19f2"
+          ]
+        },
+        {
+          "id": "check-17",
+          "label": "count · bearing block",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 2; expected equal 2, tolerance 0. 2 element(s).",
+          "ids": [
+            "e5b9f3ca-5745-4a7a-b85a-e78addd8f62f",
+            "1d1b6513-17bc-466f-916a-36b027711470"
+          ]
+        },
+        {
+          "id": "check-18",
+          "label": "positions · bearing block",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2/2 required world base-center positions occupied; 2 objects, tolerance 0.001 m.",
+          "ids": [
+            "e5b9f3ca-5745-4a7a-b85a-e78addd8f62f",
+            "1d1b6513-17bc-466f-916a-36b027711470"
+          ]
+        },
+        {
+          "id": "check-19",
+          "label": "width · bearing block",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 0.12, 0.12; expected equal 0.12 ± 0.001 m.",
+          "ids": [
+            "e5b9f3ca-5745-4a7a-b85a-e78addd8f62f",
+            "1d1b6513-17bc-466f-916a-36b027711470"
+          ]
+        },
+        {
+          "id": "check-20",
+          "label": "depth · bearing block",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 0.42, 0.42; expected equal 0.42 ± 0.001 m.",
+          "ids": [
+            "e5b9f3ca-5745-4a7a-b85a-e78addd8f62f",
+            "1d1b6513-17bc-466f-916a-36b027711470"
+          ]
+        },
+        {
+          "id": "check-21",
+          "label": "height · bearing block",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 1, 1; expected equal 1 ± 0.001 m.",
+          "ids": [
+            "e5b9f3ca-5745-4a7a-b85a-e78addd8f62f",
+            "1d1b6513-17bc-466f-916a-36b027711470"
+          ]
+        },
+        {
+          "id": "check-22",
+          "label": "volume · bearing block",
+          "met": true,
+          "outcome": "verified",
+          "observed": "volume (each): 0.049, 0.049; expected equal 0.0485527435, tolerance 0.00097105487. 2 element(s).",
+          "ids": [
+            "e5b9f3ca-5745-4a7a-b85a-e78addd8f62f",
+            "1d1b6513-17bc-466f-916a-36b027711470"
+          ]
+        },
+        {
+          "id": "check-23",
+          "label": "unavailable",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Unverified: Exact 14 cm circular through-holes along X centered at y=0.8 and z=0 in both bearing blocks require a circular-void classifier not available here.",
+          "ids": []
+        },
+        {
+          "id": "check-24",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "disjoint: 2/2 distinct solid pairs satisfy all; tolerance 0.001 m.",
+          "ids": [
+            "4f016426-b0d7-475b-bd78-93ecb46de73b",
+            "e5b9f3ca-5745-4a7a-b85a-e78addd8f62f",
+            "1d1b6513-17bc-466f-916a-36b027711470"
+          ]
+        },
+        {
+          "id": "check-25",
+          "label": "count · Base plate",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": [
+            "653ebc31-ebe9-4b0f-88e7-a8940e2f1773"
+          ]
+        },
+        {
+          "id": "check-26",
+          "label": "shape · Base plate",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Evaluated solid shape box: 1/1 match occupied geometry, independent of recipe type.",
+          "ids": [
+            "653ebc31-ebe9-4b0f-88e7-a8940e2f1773"
+          ]
+        },
+        {
+          "id": "check-27",
+          "label": "width · Base plate",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 1.8; expected equal 1.8 ± 0.001 m.",
+          "ids": [
+            "653ebc31-ebe9-4b0f-88e7-a8940e2f1773"
+          ]
+        },
+        {
+          "id": "check-28",
+          "label": "depth · Base plate",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 0.7; expected equal 0.7 ± 0.001 m.",
+          "ids": [
+            "653ebc31-ebe9-4b0f-88e7-a8940e2f1773"
+          ]
+        },
+        {
+          "id": "check-29",
+          "label": "height · Base plate",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.12; expected equal 0.12 ± 0.001 m.",
+          "ids": [
+            "653ebc31-ebe9-4b0f-88e7-a8940e2f1773"
+          ]
+        },
+        {
+          "id": "check-30",
+          "label": "positions · Base plate",
+          "met": true,
+          "outcome": "verified",
+          "observed": "1/1 required world base-center positions occupied; 1 objects, tolerance 0.001 m.",
+          "ids": [
+            "653ebc31-ebe9-4b0f-88e7-a8940e2f1773"
+          ]
+        },
+        {
+          "id": "check-31",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 2/2 distinct solid pairs satisfy each; tolerance 0.001 m.",
+          "ids": [
+            "e5b9f3ca-5745-4a7a-b85a-e78addd8f62f",
+            "1d1b6513-17bc-466f-916a-36b027711470",
+            "653ebc31-ebe9-4b0f-88e7-a8940e2f1773"
+          ]
+        }
+      ],
+      "qualitativeLimits": []
+    }
+  },
+  {
+    "name": "reflection",
+    "wrong": false,
+    "provenance": {
+      "case": "verifier-repeat-verifier-D-H2-create",
+      "sourceCommit": "32c500c",
+      "savedFreshAI": true,
+      "idRemapping": false,
+      "browserCommitClaim": false
+    },
+    "report": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": false,
+      "criterionIssues": [
+        {
+          "checkId": "check-1",
+          "code": "invalid_calculation",
+          "detail": "Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources.",
+          "related": []
+        },
+        {
+          "checkId": "check-2",
+          "code": "invalid_calculation",
+          "detail": "Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources.",
+          "related": []
+        },
+        {
+          "checkId": "check-3",
+          "code": "invalid_calculation",
+          "detail": "Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources.",
+          "related": []
+        }
+      ],
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "positions",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Invalid verification criterion: Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources. Observation (not a verdict): Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources.",
+          "ids": []
+        },
+        {
+          "id": "check-2",
+          "label": "positions",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Invalid verification criterion: Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources. Observation (not a verdict): Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources.",
+          "ids": []
+        },
+        {
+          "id": "check-3",
+          "label": "positions",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Invalid verification criterion: Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources. Observation (not a verdict): Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources.",
+          "ids": []
+        },
+        {
+          "id": "check-4",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "3 original identities retain identity, dimensions, geometry, rotation, y.",
+          "ids": [
+            "display-0",
+            "display-1",
+            "display-2"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (sum): 0; expected equal 0, tolerance 0. 0 element(s).",
+          "ids": []
+        }
+      ],
+      "qualitativeLimits": []
+    }
+  },
+  {
+    "name": "reflection",
+    "wrong": true,
+    "provenance": {
+      "case": "verifier-repeat-verifier-D-H2-create",
+      "sourceCommit": "32c500c",
+      "savedFreshAI": true,
+      "idRemapping": false,
+      "browserCommitClaim": false
+    },
+    "report": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": false,
+      "criterionIssues": [
+        {
+          "checkId": "check-1",
+          "code": "invalid_calculation",
+          "detail": "Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources.",
+          "related": []
+        },
+        {
+          "checkId": "check-2",
+          "code": "invalid_calculation",
+          "detail": "Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources.",
+          "related": []
+        },
+        {
+          "checkId": "check-3",
+          "code": "invalid_calculation",
+          "detail": "Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources.",
+          "related": []
+        }
+      ],
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "positions",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Invalid verification criterion: Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources. Observation (not a verdict): Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources.",
+          "ids": []
+        },
+        {
+          "id": "check-2",
+          "label": "positions",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Invalid verification criterion: Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources. Observation (not a verdict): Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources.",
+          "ids": []
+        },
+        {
+          "id": "check-3",
+          "label": "positions",
+          "met": false,
+          "outcome": "unverified",
+          "observed": "Invalid verification criterion: Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources. Observation (not a verdict): Expected measurement could not be derived: Node 14: add requires 2 operands, received 3. Rewrite the calculation using valid nodes without changing its meaning or sources.",
+          "ids": []
+        },
+        {
+          "id": "check-4",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "3 original identities retain identity, dimensions, geometry, rotation, y.",
+          "ids": [
+            "display-0",
+            "display-1",
+            "display-2"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (sum): 0; expected equal 0, tolerance 0. 0 element(s).",
+          "ids": []
+        }
+      ],
+      "qualitativeLimits": []
+    }
+  }
+]

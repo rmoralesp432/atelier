@@ -1,0 +1,153 @@
+{
+  "at": "2026-11-23T20:50:14.496387+00:00",
+  "applicationChanged": false,
+  "merged": false,
+  "deployed": false,
+  "calls": 258,
+  "estimatedUSD": 9.422058,
+  "conservativeAccountedUSD": 11.777572,
+  "inputTokens": 3672419,
+  "outputTokens": 207722,
+  "unknownReservations": [],
+  "pricingBasis": "Estimated $2/M input and $10/M output, no cached-token discount. Secondary LiteLLM snapshot, not account invoice. Reservations use $4/$15 plus 25%. User authorized estimates. Auto-recharge not enabled or changed; its account setting cannot be independently read.",
+  "rawStatusCounts": {
+    "NOT_COMMITTED": 7,
+    "PASS": 52,
+    "COMMITTED_INCORRECT": 5,
+    "NEGATIVE_BLOCKED": 4,
+    "INTERRUPTED_OR_HARNESS_FAILURE": 4
+  },
+  "rawScoringCaution": "Raw flags include retained evaluator interruptions, Float32 volume false flags, a sensible height-label update and a 0.5 mm placement difference. Do not interpret all COMMITTED_INCORRECT rows as material false acceptance. See README and individual facts.",
+  "segments": {
+    "baseline-fill": {
+      "calls": 22,
+      "estimatedUSD": 0.842858
+    },
+    "console-resume": {
+      "calls": 8,
+      "estimatedUSD": 0.291498
+    },
+    "ramp-resume": {
+      "calls": 6,
+      "estimatedUSD": 0.211714
+    },
+    "reflection-repeat": {
+      "calls": 4,
+      "estimatedUSD": 0.13207
+    },
+    "roller-fixture": {
+      "calls": 6,
+      "estimatedUSD": 0.183514
+    },
+    "transfer-1": {
+      "calls": 42,
+      "estimatedUSD": 1.460112
+    },
+    "transfer-repeat": {
+      "calls": 38,
+      "estimatedUSD": 1.459894
+    },
+    "verifier-1": {
+      "calls": 10,
+      "estimatedUSD": 0.299856
+    },
+    "verifier-repeat": {
+      "calls": 18,
+      "estimatedUSD": 0.463264
+    },
+    "workshop-1": {
+      "calls": 10,
+      "estimatedUSD": 0.330894
+    },
+    "workshop-2": {
+      "calls": 31,
+      "estimatedUSD": 1.262998
+    },
+    "workshop-repeat": {
+      "calls": 63,
+      "estimatedUSD": 2.483386
+    }
+  },
+  "versions": {
+    "baseline": {
+      "calls": 120,
+      "estimatedUSD": 4.262154,
+      "reviewerLatency": {
+        "n": 37,
+        "medianSeconds": 15.01,
+        "maxSeconds": 91.99
+      },
+      "executorLatency": {
+        "n": 83,
+        "medianSeconds": 12.94,
+        "maxSeconds": 30.75
+      },
+      "completedTurnLatency": {
+        "n": 34,
+        "medianSeconds": 61.87,
+        "maxSeconds": 148.25
+      },
+      "committedRows": 31,
+      "committedHostUnverifiedRows": 18,
+      "unverifiedPersistenceRows": [
+        "workshop-1-baseline-W1-create",
+        "workshop-1-baseline-W1-diagnostic-edit"
+      ],
+      "persistenceFailures": [],
+      "inspectionCalls": 15,
+      "zeroMatchInspectionCalls": 0
+    },
+    "workshop": {
+      "calls": 122,
+      "estimatedUSD": 4.687454,
+      "reviewerLatency": {
+        "n": 26,
+        "medianSeconds": 19.16,
+        "maxSeconds": 91.91
+      },
+      "executorLatency": {
+        "n": 96,
+        "medianSeconds": 6.08,
+        "maxSeconds": 27.53
+      },
+      "completedTurnLatency": {
+        "n": 25,
+        "medianSeconds": 68.18,
+        "maxSeconds": 134.8
+      },
+      "committedRows": 22,
+      "committedHostUnverifiedRows": 18,
+      "unverifiedPersistenceRows": [
+        "workshop-1-workshop-W1-create"
+      ],
+      "persistenceFailures": [],
+      "inspectionCalls": 38,
+      "zeroMatchInspectionCalls": 2
+    },
+    "verifier": {
+      "calls": 16,
+      "estimatedUSD": 0.47245,
+      "reviewerLatency": {
+        "n": 9,
+        "medianSeconds": 17.81,
+        "maxSeconds": 27.51
+      },
+      "executorLatency": {
+        "n": 7,
+        "medianSeconds": 21.15,
+        "maxSeconds": 25.59
+      },
+      "completedTurnLatency": {
+        "n": 9,
+        "medianSeconds": 56.56,
+        "maxSeconds": 78.32
+      },
+      "committedRows": 7,
+      "committedHostUnverifiedRows": 1,
+      "unverifiedPersistenceRows": [],
+      "persistenceFailures": [],
+      "inspectionCalls": 0,
+      "zeroMatchInspectionCalls": 0
+    }
+  }
+}

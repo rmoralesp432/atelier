@@ -1,0 +1,164 @@
+
+ RUN  v5.0.4 /workspace/atelier-reliability
+
+ ❯ src/intelligence/completionCalculations.test.ts (19 tests | 12 failed) 1371ms
+   × invalid forward/cyclic reference is unverified, never a fabricated pass or fallback to literal targets 9ms
+   × invalid division by zero is unverified, never a fabricated pass or fallback to literal targets 1ms
+   × invalid incompatible sums is unverified, never a fabricated pass or fallback to literal targets 1ms
+   × invalid unitless trigonometry is unverified, never a fabricated pass or fallback to literal targets 1ms
+   × invalid candidate-only source is unverified, never a fabricated pass or fallback to literal targets 1ms
+   × invalid wrong measurement units is unverified, never a fabricated pass or fallback to literal targets 1ms
+   × invalid missing output is unverified, never a fabricated pass or fallback to literal targets 1ms
+   × invalid oversized range is unverified, never a fabricated pass or fallback to literal targets 1ms
+   × invalid zero range is unverified, never a fabricated pass or fallback to literal targets 1ms
+   × invalid bad arity is unverified, never a fabricated pass or fallback to literal targets 1ms
+   × invalid nonfinite calculation is unverified, never a fabricated pass or fallback to literal targets 3ms
+   × bounds total work, rejects incompatible arrays, and honors cancellation without changing tolerance or scope 2ms
+ ❯ src/intelligence/completionProvider.test.ts (12 tests | 2 failed) 264ms
+   × carries independent calculations and audit traces through the strict responses boundary without candidate dimensions 16ms
+   × carries independent calculations and audit traces through the strict chat_completions boundary without candidate dimensions 14ms
+ ❯ src/intelligence/criteriaAudit.test.ts (15 tests | 2 failed) 102ms
+   × reproduces the reported reversed elevation and unsupported material without treating either as bad geometry 51ms
+   × an unavailable correction is bounded and never sends correct geometry into a repair loop 3ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 16 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/intelligence/completionCalculations.test.ts > invalid forward/cyclic reference is unverified, never a fabricated pass or fallback to literal targets
+ FAIL  src/intelligence/completionCalculations.test.ts > invalid division by zero is unverified, never a fabricated pass or fallback to literal targets
+ FAIL  src/intelligence/completionCalculations.test.ts > invalid incompatible sums is unverified, never a fabricated pass or fallback to literal targets
+ FAIL  src/intelligence/completionCalculations.test.ts > invalid unitless trigonometry is unverified, never a fabricated pass or fallback to literal targets
+ FAIL  src/intelligence/completionCalculations.test.ts > invalid candidate-only source is unverified, never a fabricated pass or fallback to literal targets
+ FAIL  src/intelligence/completionCalculations.test.ts > invalid wrong measurement units is unverified, never a fabricated pass or fallback to literal targets
+ FAIL  src/intelligence/completionCalculations.test.ts > invalid missing output is unverified, never a fabricated pass or fallback to literal targets
+ FAIL  src/intelligence/completionCalculations.test.ts > invalid oversized range is unverified, never a fabricated pass or fallback to literal targets
+ FAIL  src/intelligence/completionCalculations.test.ts > invalid zero range is unverified, never a fabricated pass or fallback to literal targets
+ FAIL  src/intelligence/completionCalculations.test.ts > invalid bad arity is unverified, never a fabricated pass or fallback to literal targets
+ FAIL  src/intelligence/completionCalculations.test.ts > invalid nonfinite calculation is unverified, never a fabricated pass or fallback to literal targets
+AssertionError: expected { modeling: true, passed: false, …(5) } to match object { status: 'unverified', …(2) }
+(4 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "canCommit": true,
++   "canCommit": false,
+    "passed": false,
+    "status": "unverified",
+  }
+
+ ❯ src/intelligence/completionCalculations.test.ts:379:20
+    377|       });
+    378|     const report = await verifyCompletion(c, original, candidate);
+    379|     expect(report).toMatchObject({
+       |                    ^
+    380|       status: 'unverified',
+    381|       passed: false,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/16]⎯
+
+ FAIL  src/intelligence/completionCalculations.test.ts > bounds total work, rejects incompatible arrays, and honors cancellation without changing tolerance or scope
+AssertionError: expected 'measure' to be 'unavailable' // Object.is equality
+
+Expected: "unavailable"
+Received: "measure"
+
+ ❯ src/intelligence/completionCalculations.test.ts:406:5
+    404|     (await compileCalculations(mismatch, empty())).criteria.checks[0]
+    405|       .requirement.kind,
+    406|   ).toBe('unavailable');
+       |     ^
+    407|   const large = calculation(),
+    408|     zero = large.quantity(0, 'm', 'origin'),
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/16]⎯
+
+ FAIL  src/intelligence/completionProvider.test.ts > carries independent calculations and audit traces through the strict responses boundary without candidate dimensions
+ FAIL  src/intelligence/completionProvider.test.ts > carries independent calculations and audit traces through the strict chat_completions boundary without candidate dimensions
+AssertionError: expected [ 'kind', 'reason' ] to deeply equal [ 'kind', 'reason', 'required' ]
+
+- Expected
++ Received
+
+  [
+    "kind",
+    "reason",
+-   "required",
+  ]
+
+ ❯ inspect src/intelligence/completionProvider.test.ts:212:43
+    210|       if (node.type === 'object') {
+    211|         expect(node.additionalProperties).toBe(false);
+    212|         expect([...node.required].sort()).toEqual(
+       |                                           ^
+    213|           Object.keys(node.properties).sort(),
+    214|         );
+ ❯ src/intelligence/completionProvider.test.ts:217:30
+ ❯ inspect src/intelligence/completionProvider.test.ts:216:27
+ ❯ src/intelligence/completionProvider.test.ts:217:49
+ ❯ inspect src/intelligence/completionProvider.test.ts:216:27
+ ❯ src/intelligence/completionProvider.test.ts:217:49
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/16]⎯
+
+ FAIL  src/intelligence/criteriaAudit.test.ts > reproduces the reported reversed elevation and unsupported material without treating either as bad geometry
+AssertionError: expected { modeling: true, passed: false, …(5) } to match object { status: 'unverified', …(2) }
+(4 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "canCommit": true,
++   "canCommit": false,
+    "passed": false,
+    "status": "unverified",
+  }
+
+ ❯ src/intelligence/criteriaAudit.test.ts:39:18
+     37|   const { original, candidate, criteria: c } = await reportedCriteriaI…
+     38|   const report = await verifyCompletion(c, original, candidate);
+     39|   expect(report).toMatchObject({
+       |                  ^
+     40|     status: 'unverified',
+     41|     passed: false,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/16]⎯
+
+ FAIL  src/intelligence/criteriaAudit.test.ts > an unavailable correction is bounded and never sends correct geometry into a repair loop
+AssertionError: expected { modeling: true, passed: false, …(5) } to match object { status: 'unverified', …(1) }
+(5 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "canCommit": true,
++   "canCommit": false,
+    "status": "unverified",
+  }
+
+ ❯ src/intelligence/criteriaAudit.test.ts:321:35
+    319|     .mockRejectedValueOnce(new Error('Review interrupted'));
+    320|   const verify = completionVerifier(original, 'request', read);
+    321|   expect(await verify(candidate)).toMatchObject({
+       |                                   ^
+    322|     status: 'unverified',
+    323|     canCommit: true,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/16]⎯
+
+
+ Test Files  3 failed | 2 passed (5)
+      Tests  16 failed | 44 passed (60)
+   Start at  21:32:46
+   Duration  4.86s (tests 51%, import 35%, transform 14%, worker 1%)
+
+    Isolate  5 workers spawned · ~119ms startup each (spawn + environment, per file)
+             at least ~478ms faster with isolate: false — reuses workers across files instead of one per file
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

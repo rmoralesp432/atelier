@@ -1,0 +1,81 @@
+
+Running 3 tests using 1 worker
+
+(node:65877) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/completion-verification.spec.ts:256:1 › unsupported qualitative verification permits safe additions with honest messaging, one Undo, and a later independently checked edit (38.6s)
+  ✘  2 tests/verification-reliability.spec.ts:21:3 › saved real-AI displaced replay through browser commits and storage (547ms)
+(node:66100) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 tests/verification-reliability.spec.ts:21:3 › saved real-AI unresolved replay through browser commits and storage (1.2s)
+
+
+  1) tests/verification-reliability.spec.ts:21:3 › saved real-AI displaced replay through browser commits and storage 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4173/
+    Call log:
+      - navigating to "http://127.0.0.1:4173/", waiting until "load"
+
+
+      137 |       });
+      138 |     });
+    > 139 |     await page.goto(baseURL!);
+          |                ^
+      140 |     await expect(page.getByTestId('viewport')).toHaveAttribute(
+      141 |       'data-model-objects',
+      142 |       String(f.before.project.volumes.length),
+        at /workspace/atelier-reliability/tests/verification-reliability.spec.ts:139:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/verification-reliability-s-d51d7-browser-commits-and-storage/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/verification-reliability-s-d51d7-browser-commits-and-storage/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/verification-reliability-s-d51d7-browser-commits-and-storage/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/verification-reliability-s-d51d7-browser-commits-and-storage/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/verification-reliability.spec.ts:21:3 › saved real-AI unresolved replay through browser commits and storage 
+
+    Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:4173/
+    Call log:
+      - navigating to "http://127.0.0.1:4173/", waiting until "load"
+
+
+      137 |       });
+      138 |     });
+    > 139 |     await page.goto(baseURL!);
+          |                ^
+      140 |     await expect(page.getByTestId('viewport')).toHaveAttribute(
+      141 |       'data-model-objects',
+      142 |       String(f.before.project.volumes.length),
+        at /workspace/atelier-reliability/tests/verification-reliability.spec.ts:139:16
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/verification-reliability-s-8ba51-browser-commits-and-storage/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/verification-reliability-s-8ba51-browser-commits-and-storage/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/verification-reliability-s-8ba51-browser-commits-and-storage/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/verification-reliability-s-8ba51-browser-commits-and-storage/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    tests/verification-reliability.spec.ts:21:3 › saved real-AI displaced replay through browser commits and storage 
+    tests/verification-reliability.spec.ts:21:3 › saved real-AI unresolved replay through browser commits and storage 
+  1 passed (44.3s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

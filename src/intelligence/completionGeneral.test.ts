@@ -338,6 +338,10 @@ it('checks editability and exact group membership for different components, incl
     volumes: [neighbor, a, b],
     groups: [otherGroup, ...session.project.groups!],
   });
+  expect((await verifyCompletion(c, original, withNeighbor)).canCommit).toBe(
+    false,
+  );
+  (c.checks[1].requirement as any).name = session.project.groups![0].id;
   expect((await verifyCompletion(c, original, withNeighbor)).status).toBe(
     'verified',
   );
@@ -424,7 +428,7 @@ it('repairs only measured errors, then commits unknown qualities once with hones
   ).toEqual(after.project);
 });
 
-it('an unavailable reader permits only safe additions and never authorizes an unknown edit scope', async () => {
+it('an unavailable reader holds additions and edits until request requirements can be checked', async () => {
   const original = newSession({
     volumes: [piece('keep', 0, 0, 0)],
     selectedId: null,
@@ -439,7 +443,7 @@ it('an unavailable reader permits only safe additions and never authorizes an un
   });
   const safe = await verifyCompletion(c, original, addition);
   expect(safe.status).toBe('unverified');
-  expect(safe.canCommit).toBe(true);
+  expect(safe.canCommit).toBe(false);
   addition.project.volumes = structuredClone(addition.project.volumes);
   addition.project.volumes[0].position.x = 9;
   const unsafe = await verifyCompletion(c, original, addition);
@@ -455,7 +459,13 @@ it('compact independent interpretation preserves predicate semantics with less r
     const content = (v: CompletionCriteria) =>
       v.checks.map((c) => {
         const { id: _id, label: _label, ...r } = c.requirement;
-        return { ...c, requirement: r };
+        return {
+          ...c,
+          requirement:
+            r.kind === 'unavailable'
+              ? { ...r, required: r.required ?? false }
+              : r,
+        };
       });
     expect(content(roundtrip)).toEqual(content(c));
     expect(JSON.stringify(wire).length).toBeLessThan(

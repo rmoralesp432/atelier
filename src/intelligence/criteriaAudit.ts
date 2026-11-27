@@ -1,3 +1,4 @@
+import { equivalentCalculation } from './calculationEquivalence';
 import { equalData } from '../projects/equalData';
 import { renderMaterials } from '../materials';
 import { componentRoles } from '../design/schema';
@@ -309,6 +310,22 @@ export function acceptCriteriaRevision(
       throw new Error(
         'Criterion correction changed an independently valid requirement or its evidence.',
       );
+    if (!equalData(old.calculation, fresh.calculation)) {
+      if (
+        issues.some(
+          (issue) =>
+            issue.checkId === a.id && issue.code === 'invalid_calculation',
+        ) &&
+        old.calculation &&
+        fresh.calculation &&
+        equalData(a, b) &&
+        equivalentCalculation(old.calculation, fresh.calculation)
+      )
+        continue;
+      throw Error(
+        'Calculation correction must preserve the original expression, sources, units and predicate.',
+      );
+    }
     if (
       a.kind === 'property' &&
       b.kind === 'property' &&

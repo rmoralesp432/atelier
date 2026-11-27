@@ -1,0 +1,5434 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "id": "L1",
+      "source": "Actual saved baseline creation; diagnostic starting model",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Preserve unrelated reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Preserve unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Preserve unrelated group campaign-markers",
+          "status": "verified"
+        },
+        {
+          "name": "Expected component count",
+          "status": "verified",
+          "expected": 31,
+          "actual": 31
+        },
+        {
+          "name": "Independent unlocked identities",
+          "status": "verified"
+        },
+        {
+          "name": "Assembly grouping",
+          "status": "verified"
+        },
+        {
+          "name": "Closed occupied solid 8c55f6ef-fda2-43ae-8806-169a0e2c590e",
+          "status": "verified",
+          "expected": 0.029600000000000046,
+          "actual": 0.02959997259378344
+        },
+        {
+          "name": "Closed occupied solid 271a3a79-ed87-4dfa-bdd7-692d61a579f4",
+          "status": "verified",
+          "expected": 0.029600000000000046,
+          "actual": 0.02959997259378369
+        },
+        {
+          "name": "Closed occupied solid 9e88b994-af90-487b-bee6-76503a41962c",
+          "status": "verified",
+          "expected": 0.029600000000000046,
+          "actual": 0.029599972593783594
+        },
+        {
+          "name": "Closed occupied solid 14b2fd9f-b2a1-45fd-b40c-a30d6a32783d",
+          "status": "verified",
+          "expected": 0.0296,
+          "actual": 0.029600000160932536
+        },
+        {
+          "name": "Closed occupied solid 093ec8f7-feea-4c00-8d29-1dc8585e8a3f",
+          "status": "verified",
+          "expected": 0.029600000000000046,
+          "actual": 0.029599972593783566
+        },
+        {
+          "name": "Closed occupied solid 4f1d4796-717d-4a01-85be-e5278db73916",
+          "status": "verified",
+          "expected": 0.029600000000000046,
+          "actual": 0.02959997259378358
+        },
+        {
+          "name": "Closed occupied solid 3767902c-81e0-4cbb-9740-b461033a9a48",
+          "status": "verified",
+          "expected": 0.029600000000000046,
+          "actual": 0.02959997259378344
+        },
+        {
+          "name": "Closed occupied solid c639a7d7-e3c8-436c-b240-3b2498d026d4",
+          "status": "verified",
+          "expected": 0.010780000000000003,
+          "actual": 0.010780000461041777
+        },
+        {
+          "name": "Closed occupied solid accff160-66bb-4478-ae72-dc5b7c9257ac",
+          "status": "verified",
+          "expected": 0.010780000000000001,
+          "actual": 0.010779999626576834
+        },
+        {
+          "name": "Closed occupied solid 285af823-c544-4343-afa4-f8b8a1d3ae9d",
+          "status": "verified",
+          "expected": 0.010780000000000001,
+          "actual": 0.010779999365806535
+        },
+        {
+          "name": "Closed occupied solid 4a76421a-72f9-4d6d-9697-ba8c54983851",
+          "status": "verified",
+          "expected": 0.010780000000000003,
+          "actual": 0.010779999365806535
+        },
+        {
+          "name": "Closed occupied solid d0595a7b-f661-420f-9137-58e601f25578",
+          "status": "verified",
+          "expected": 0.010780000000000001,
+          "actual": 0.010779999626576836
+        },
+        {
+          "name": "Closed occupied solid 05f29162-41f5-42a4-b5f7-1bf531f077af",
+          "status": "verified",
+          "expected": 0.01078,
+          "actual": 0.010780000461041776
+        },
+        {
+          "name": "Closed occupied solid 176c00e2-ac32-4868-9d42-d325b18e39a7",
+          "status": "verified",
+          "expected": 0.010780000000000008,
+          "actual": 0.010779991281925177
+        },
+        {
+          "name": "Closed occupied solid 7c13c254-9414-46e1-a1f2-9ef07c62a249",
+          "status": "verified",
+          "expected": 0.010780000000000008,
+          "actual": 0.010779990447460929
+        },
+        {
+          "name": "Closed occupied solid 833043b8-df73-4652-941a-c5eae04e972e",
+          "status": "verified",
+          "expected": 0.01078000000000001,
+          "actual": 0.010779990186690845
+        },
+        {
+          "name": "Closed occupied solid 012addc9-c6f5-4d3b-94e7-00b94a361a7c",
+          "status": "verified",
+          "expected": 0.010780000000000012,
+          "actual": 0.01077999018669084
+        },
+        {
+          "name": "Closed occupied solid d3625888-6b90-4631-9138-e17aaa339f19",
+          "status": "verified",
+          "expected": 0.010780000000000012,
+          "actual": 0.010779990447460919
+        },
+        {
+          "name": "Closed occupied solid 303074ea-d6e8-40c6-be2d-d36d6ec3f397",
+          "status": "verified",
+          "expected": 0.010780000000000014,
+          "actual": 0.010779991281925146
+        },
+        {
+          "name": "Closed occupied solid 792528e0-0cc7-47a4-9d8c-88c618dabb43",
+          "status": "verified",
+          "expected": 0.01077999999999996,
+          "actual": 0.010779991281925125
+        },
+        {
+          "name": "Closed occupied solid 233fcad4-c152-4746-bb38-12c824bb35f2",
+          "status": "verified",
+          "expected": 0.01077999999999996,
+          "actual": 0.010779990447460943
+        },
+        {
+          "name": "Closed occupied solid 35041032-ac5b-465f-810d-75fc7e122ee8",
+          "status": "verified",
+          "expected": 0.01077999999999996,
+          "actual": 0.010779990186690845
+        },
+        {
+          "name": "Closed occupied solid 797efa1c-da49-4c5a-90b8-197ab8814bfd",
+          "status": "verified",
+          "expected": 0.01077999999999996,
+          "actual": 0.010779990186690831
+        },
+        {
+          "name": "Closed occupied solid 6da0feff-9319-4a2b-adb5-a389b247018a",
+          "status": "verified",
+          "expected": 0.01077999999999996,
+          "actual": 0.010779990447460915
+        },
+        {
+          "name": "Closed occupied solid 8f9df1a6-c629-4367-89f6-6bf38bea5dd0",
+          "status": "verified",
+          "expected": 0.010779999999999974,
+          "actual": 0.010779991281925121
+        },
+        {
+          "name": "Closed occupied solid 35d7ceab-b864-4853-a31f-b75d16bd8d55",
+          "status": "verified",
+          "expected": 0.010779999999999988,
+          "actual": 0.010779991281925156
+        },
+        {
+          "name": "Closed occupied solid ef46dbf1-17e1-4733-b0a5-35a8f9b92977",
+          "status": "verified",
+          "expected": 0.01077999999999998,
+          "actual": 0.01077999044746091
+        },
+        {
+          "name": "Closed occupied solid 7e82a885-7a86-407f-a441-f5150e00f238",
+          "status": "verified",
+          "expected": 0.010779999999999988,
+          "actual": 0.010779990186690859
+        },
+        {
+          "name": "Closed occupied solid 8c786d6c-da50-4a92-afa4-4d18efe7ba71",
+          "status": "verified",
+          "expected": 0.010779999999999994,
+          "actual": 0.010779990186690845
+        },
+        {
+          "name": "Closed occupied solid 7492d1a1-ac9b-4aea-a24f-28664b628d6d",
+          "status": "verified",
+          "expected": 0.010779999999999988,
+          "actual": 0.010779990447460908
+        },
+        {
+          "name": "Closed occupied solid a7d08457-0061-46ed-8e7e-41bfea50c870",
+          "status": "verified",
+          "expected": 0.010779999999999967,
+          "actual": 0.01077999128192517
+        },
+        {
+          "name": "Expected occupied component 1",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.45,
+                0,
+                -0.2
+              ],
+              "max": [
+                -2.41,
+                1.85,
+                0.2
+              ]
+            },
+            "volume": 0.029600000000000046
+          },
+          "actual": {
+            "id": "8c55f6ef-fda2-43ae-8806-169a0e2c590e",
+            "bounds": {
+              "min": [
+                -2.45,
+                0,
+                -0.2
+              ],
+              "max": [
+                -2.41,
+                1.85,
+                0.2
+              ]
+            },
+            "volume": 0.029600000000000046
+          }
+        },
+        {
+          "name": "Expected occupied component 2",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.6400000000000001,
+                0,
+                -0.2
+              ],
+              "max": [
+                -1.6,
+                1.85,
+                0.2
+              ]
+            },
+            "volume": 0.029600000000000046
+          },
+          "actual": {
+            "id": "271a3a79-ed87-4dfa-bdd7-692d61a579f4",
+            "bounds": {
+              "min": [
+                -1.6400000000000001,
+                0,
+                -0.2
+              ],
+              "max": [
+                -1.6,
+                1.85,
+                0.2
+              ]
+            },
+            "volume": 0.029600000000000046
+          }
+        },
+        {
+          "name": "Expected occupied component 3",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.8300000000000001,
+                0,
+                -0.2
+              ],
+              "max": [
+                -0.79,
+                1.85,
+                0.2
+              ]
+            },
+            "volume": 0.029600000000000046
+          },
+          "actual": {
+            "id": "9e88b994-af90-487b-bee6-76503a41962c",
+            "bounds": {
+              "min": [
+                -0.8300000000000001,
+                0,
+                -0.2
+              ],
+              "max": [
+                -0.79,
+                1.85,
+                0.2
+              ]
+            },
+            "volume": 0.029600000000000046
+          }
+        },
+        {
+          "name": "Expected occupied component 4",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.02,
+                0,
+                -0.2
+              ],
+              "max": [
+                0.02,
+                1.85,
+                0.2
+              ]
+            },
+            "volume": 0.0296
+          },
+          "actual": {
+            "id": "14b2fd9f-b2a1-45fd-b40c-a30d6a32783d",
+            "bounds": {
+              "min": [
+                -0.02,
+                0,
+                -0.2
+              ],
+              "max": [
+                0.02,
+                1.85,
+                0.2
+              ]
+            },
+            "volume": 0.0296
+          }
+        },
+        {
+          "name": "Expected occupied component 5",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.79,
+                0,
+                -0.2
+              ],
+              "max": [
+                0.8300000000000001,
+                1.85,
+                0.2
+              ]
+            },
+            "volume": 0.029600000000000046
+          },
+          "actual": {
+            "id": "093ec8f7-feea-4c00-8d29-1dc8585e8a3f",
+            "bounds": {
+              "min": [
+                0.79,
+                0,
+                -0.2
+              ],
+              "max": [
+                0.8300000000000001,
+                1.85,
+                0.2
+              ]
+            },
+            "volume": 0.029600000000000046
+          }
+        },
+        {
+          "name": "Expected occupied component 6",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.6000000000000005,
+                0,
+                -0.2
+              ],
+              "max": [
+                1.6400000000000006,
+                1.85,
+                0.2
+              ]
+            },
+            "volume": 0.029600000000000046
+          },
+          "actual": {
+            "id": "4f1d4796-717d-4a01-85be-e5278db73916",
+            "bounds": {
+              "min": [
+                1.6000000000000005,
+                0,
+                -0.2
+              ],
+              "max": [
+                1.6400000000000006,
+                1.85,
+                0.2
+              ]
+            },
+            "volume": 0.029600000000000046
+          }
+        },
+        {
+          "name": "Expected occupied component 7",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                2.41,
+                0,
+                -0.2
+              ],
+              "max": [
+                2.45,
+                1.85,
+                0.2
+              ]
+            },
+            "volume": 0.029600000000000046
+          },
+          "actual": {
+            "id": "3767902c-81e0-4cbb-9740-b461033a9a48",
+            "bounds": {
+              "min": [
+                2.41,
+                0,
+                -0.2
+              ],
+              "max": [
+                2.45,
+                1.85,
+                0.2
+              ]
+            },
+            "volume": 0.029600000000000046
+          }
+        },
+        {
+          "name": "Expected occupied component 8",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.41,
+                0.215,
+                -0.2
+              ],
+              "max": [
+                -1.6400000000000001,
+                0.25,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000003
+          },
+          "actual": {
+            "id": "c639a7d7-e3c8-436c-b240-3b2498d026d4",
+            "bounds": {
+              "min": [
+                -2.41,
+                0.215,
+                -0.2
+              ],
+              "max": [
+                -1.6400000000000001,
+                0.25,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000003
+          }
+        },
+        {
+          "name": "Expected occupied component 9",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.41,
+                0.6649999999999999,
+                -0.2
+              ],
+              "max": [
+                -1.6400000000000001,
+                0.7,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000008
+          },
+          "actual": {
+            "id": "176c00e2-ac32-4868-9d42-d325b18e39a7",
+            "bounds": {
+              "min": [
+                -2.41,
+                0.665,
+                -0.2
+              ],
+              "max": [
+                -1.6400000000000001,
+                0.7000000000000001,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000008
+          }
+        },
+        {
+          "name": "Expected occupied component 10",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.41,
+                1.115,
+                -0.2
+              ],
+              "max": [
+                -1.6400000000000001,
+                1.15,
+                0.2
+              ]
+            },
+            "volume": 0.01077999999999996
+          },
+          "actual": {
+            "id": "792528e0-0cc7-47a4-9d8c-88c618dabb43",
+            "bounds": {
+              "min": [
+                -2.41,
+                1.115,
+                -0.2
+              ],
+              "max": [
+                -1.6400000000000001,
+                1.15,
+                0.2
+              ]
+            },
+            "volume": 0.01077999999999996
+          }
+        },
+        {
+          "name": "Expected occupied component 11",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.41,
+                1.5650000000000002,
+                -0.2
+              ],
+              "max": [
+                -1.6400000000000001,
+                1.6,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999988
+          },
+          "actual": {
+            "id": "35d7ceab-b864-4853-a31f-b75d16bd8d55",
+            "bounds": {
+              "min": [
+                -2.41,
+                1.5650000000000002,
+                -0.2
+              ],
+              "max": [
+                -1.6400000000000001,
+                1.6,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999988
+          }
+        },
+        {
+          "name": "Expected occupied component 12",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.6000000000000003,
+                0.215,
+                -0.2
+              ],
+              "max": [
+                -0.8300000000000003,
+                0.25,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000001
+          },
+          "actual": {
+            "id": "accff160-66bb-4478-ae72-dc5b7c9257ac",
+            "bounds": {
+              "min": [
+                -1.5999999999999999,
+                0.215,
+                -0.2
+              ],
+              "max": [
+                -0.8299999999999998,
+                0.25,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000001
+          }
+        },
+        {
+          "name": "Expected occupied component 13",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.6000000000000003,
+                0.6649999999999999,
+                -0.2
+              ],
+              "max": [
+                -0.8300000000000003,
+                0.7,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000012
+          },
+          "actual": {
+            "id": "7c13c254-9414-46e1-a1f2-9ef07c62a249",
+            "bounds": {
+              "min": [
+                -1.5999999999999999,
+                0.665,
+                -0.2
+              ],
+              "max": [
+                -0.8299999999999998,
+                0.7000000000000001,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000008
+          }
+        },
+        {
+          "name": "Expected occupied component 14",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.6000000000000003,
+                1.115,
+                -0.2
+              ],
+              "max": [
+                -0.8300000000000003,
+                1.15,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999961
+          },
+          "actual": {
+            "id": "233fcad4-c152-4746-bb38-12c824bb35f2",
+            "bounds": {
+              "min": [
+                -1.5999999999999999,
+                1.115,
+                -0.2
+              ],
+              "max": [
+                -0.8299999999999998,
+                1.15,
+                0.2
+              ]
+            },
+            "volume": 0.01077999999999996
+          }
+        },
+        {
+          "name": "Expected occupied component 15",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.6000000000000003,
+                1.5650000000000002,
+                -0.2
+              ],
+              "max": [
+                -0.8300000000000003,
+                1.6,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999982
+          },
+          "actual": {
+            "id": "ef46dbf1-17e1-4733-b0a5-35a8f9b92977",
+            "bounds": {
+              "min": [
+                -1.5999999999999999,
+                1.5650000000000002,
+                -0.2
+              ],
+              "max": [
+                -0.8299999999999998,
+                1.6,
+                0.2
+              ]
+            },
+            "volume": 0.01077999999999998
+          }
+        },
+        {
+          "name": "Expected occupied component 16",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.7900000000000003,
+                0.215,
+                -0.2
+              ],
+              "max": [
+                -0.02000000000000024,
+                0.25,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000001
+          },
+          "actual": {
+            "id": "285af823-c544-4343-afa4-f8b8a1d3ae9d",
+            "bounds": {
+              "min": [
+                -0.7899999999999998,
+                0.215,
+                -0.2
+              ],
+              "max": [
+                -0.019999999999999796,
+                0.25,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000001
+          }
+        },
+        {
+          "name": "Expected occupied component 17",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.7900000000000003,
+                0.6649999999999999,
+                -0.2
+              ],
+              "max": [
+                -0.02000000000000024,
+                0.7,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000012
+          },
+          "actual": {
+            "id": "833043b8-df73-4652-941a-c5eae04e972e",
+            "bounds": {
+              "min": [
+                -0.7899999999999998,
+                0.665,
+                -0.2
+              ],
+              "max": [
+                -0.019999999999999796,
+                0.7000000000000001,
+                0.2
+              ]
+            },
+            "volume": 0.01078000000000001
+          }
+        },
+        {
+          "name": "Expected occupied component 18",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.7900000000000003,
+                1.115,
+                -0.2
+              ],
+              "max": [
+                -0.02000000000000024,
+                1.15,
+                0.2
+              ]
+            },
+            "volume": 0.01077999999999996
+          },
+          "actual": {
+            "id": "35041032-ac5b-465f-810d-75fc7e122ee8",
+            "bounds": {
+              "min": [
+                -0.7899999999999998,
+                1.115,
+                -0.2
+              ],
+              "max": [
+                -0.019999999999999796,
+                1.15,
+                0.2
+              ]
+            },
+            "volume": 0.01077999999999996
+          }
+        },
+        {
+          "name": "Expected occupied component 19",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.7900000000000003,
+                1.5650000000000002,
+                -0.2
+              ],
+              "max": [
+                -0.02000000000000024,
+                1.6,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999988
+          },
+          "actual": {
+            "id": "7e82a885-7a86-407f-a441-f5150e00f238",
+            "bounds": {
+              "min": [
+                -0.7899999999999998,
+                1.5650000000000002,
+                -0.2
+              ],
+              "max": [
+                -0.019999999999999796,
+                1.6,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999988
+          }
+        },
+        {
+          "name": "Expected occupied component 20",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.019999999999999796,
+                0.215,
+                -0.2
+              ],
+              "max": [
+                0.7899999999999998,
+                0.25,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000001
+          },
+          "actual": {
+            "id": "4a76421a-72f9-4d6d-9697-ba8c54983851",
+            "bounds": {
+              "min": [
+                0.02000000000000024,
+                0.215,
+                -0.2
+              ],
+              "max": [
+                0.7900000000000003,
+                0.25,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000003
+          }
+        },
+        {
+          "name": "Expected occupied component 21",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.019999999999999796,
+                0.6649999999999999,
+                -0.2
+              ],
+              "max": [
+                0.7899999999999998,
+                0.7,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000012
+          },
+          "actual": {
+            "id": "012addc9-c6f5-4d3b-94e7-00b94a361a7c",
+            "bounds": {
+              "min": [
+                0.02000000000000024,
+                0.665,
+                -0.2
+              ],
+              "max": [
+                0.7900000000000003,
+                0.7000000000000001,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000012
+          }
+        },
+        {
+          "name": "Expected occupied component 22",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.019999999999999796,
+                1.115,
+                -0.2
+              ],
+              "max": [
+                0.7899999999999998,
+                1.15,
+                0.2
+              ]
+            },
+            "volume": 0.01077999999999996
+          },
+          "actual": {
+            "id": "797efa1c-da49-4c5a-90b8-197ab8814bfd",
+            "bounds": {
+              "min": [
+                0.02000000000000024,
+                1.115,
+                -0.2
+              ],
+              "max": [
+                0.7900000000000003,
+                1.15,
+                0.2
+              ]
+            },
+            "volume": 0.01077999999999996
+          }
+        },
+        {
+          "name": "Expected occupied component 23",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.019999999999999796,
+                1.5650000000000002,
+                -0.2
+              ],
+              "max": [
+                0.7899999999999998,
+                1.6,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999994
+          },
+          "actual": {
+            "id": "8c786d6c-da50-4a92-afa4-4d18efe7ba71",
+            "bounds": {
+              "min": [
+                0.02000000000000024,
+                1.5650000000000002,
+                -0.2
+              ],
+              "max": [
+                0.7900000000000003,
+                1.6,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999994
+          }
+        },
+        {
+          "name": "Expected occupied component 24",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.8299999999999998,
+                0.215,
+                -0.2
+              ],
+              "max": [
+                1.5999999999999999,
+                0.25,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000001
+          },
+          "actual": {
+            "id": "d0595a7b-f661-420f-9137-58e601f25578",
+            "bounds": {
+              "min": [
+                0.8300000000000003,
+                0.215,
+                -0.2
+              ],
+              "max": [
+                1.6000000000000003,
+                0.25,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000001
+          }
+        },
+        {
+          "name": "Expected occupied component 25",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.8299999999999998,
+                0.6649999999999999,
+                -0.2
+              ],
+              "max": [
+                1.5999999999999999,
+                0.7,
+                0.2
+              ]
+            },
+            "volume": 0.01078000000000001
+          },
+          "actual": {
+            "id": "d3625888-6b90-4631-9138-e17aaa339f19",
+            "bounds": {
+              "min": [
+                0.8300000000000003,
+                0.665,
+                -0.2
+              ],
+              "max": [
+                1.6000000000000003,
+                0.7000000000000001,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000012
+          }
+        },
+        {
+          "name": "Expected occupied component 26",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.8299999999999998,
+                1.115,
+                -0.2
+              ],
+              "max": [
+                1.5999999999999999,
+                1.15,
+                0.2
+              ]
+            },
+            "volume": 0.01077999999999996
+          },
+          "actual": {
+            "id": "6da0feff-9319-4a2b-adb5-a389b247018a",
+            "bounds": {
+              "min": [
+                0.8300000000000003,
+                1.115,
+                -0.2
+              ],
+              "max": [
+                1.6000000000000003,
+                1.15,
+                0.2
+              ]
+            },
+            "volume": 0.01077999999999996
+          }
+        },
+        {
+          "name": "Expected occupied component 27",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.8299999999999998,
+                1.5650000000000002,
+                -0.2
+              ],
+              "max": [
+                1.5999999999999999,
+                1.6,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999988
+          },
+          "actual": {
+            "id": "7492d1a1-ac9b-4aea-a24f-28664b628d6d",
+            "bounds": {
+              "min": [
+                0.8300000000000003,
+                1.5650000000000002,
+                -0.2
+              ],
+              "max": [
+                1.6000000000000003,
+                1.6,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999988
+          }
+        },
+        {
+          "name": "Expected occupied component 28",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.6400000000000003,
+                0.215,
+                -0.2
+              ],
+              "max": [
+                2.41,
+                0.25,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999996
+          },
+          "actual": {
+            "id": "05f29162-41f5-42a4-b5f7-1bf531f077af",
+            "bounds": {
+              "min": [
+                1.6400000000000008,
+                0.215,
+                -0.2
+              ],
+              "max": [
+                2.410000000000001,
+                0.25,
+                0.2
+              ]
+            },
+            "volume": 0.01078
+          }
+        },
+        {
+          "name": "Expected occupied component 29",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.6400000000000003,
+                0.6649999999999999,
+                -0.2
+              ],
+              "max": [
+                2.41,
+                0.7,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000012
+          },
+          "actual": {
+            "id": "303074ea-d6e8-40c6-be2d-d36d6ec3f397",
+            "bounds": {
+              "min": [
+                1.6400000000000008,
+                0.665,
+                -0.2
+              ],
+              "max": [
+                2.410000000000001,
+                0.7000000000000001,
+                0.2
+              ]
+            },
+            "volume": 0.010780000000000014
+          }
+        },
+        {
+          "name": "Expected occupied component 30",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.6400000000000003,
+                1.115,
+                -0.2
+              ],
+              "max": [
+                2.41,
+                1.15,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999972
+          },
+          "actual": {
+            "id": "8f9df1a6-c629-4367-89f6-6bf38bea5dd0",
+            "bounds": {
+              "min": [
+                1.6400000000000008,
+                1.115,
+                -0.2
+              ],
+              "max": [
+                2.410000000000001,
+                1.15,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999974
+          }
+        },
+        {
+          "name": "Expected occupied component 31",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.6400000000000003,
+                1.5650000000000002,
+                -0.2
+              ],
+              "max": [
+                2.41,
+                1.6,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999993
+          },
+          "actual": {
+            "id": "a7d08457-0061-46ed-8e7e-41bfea50c870",
+            "bounds": {
+              "min": [
+                1.6400000000000008,
+                1.5650000000000002,
+                -0.2
+              ],
+              "max": [
+                2.410000000000001,
+                1.6,
+                0.2
+              ]
+            },
+            "volume": 0.010779999999999967
+          }
+        }
+      ]
+    },
+    {
+      "id": "L2",
+      "source": "Actual saved baseline creation; diagnostic starting model",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Preserve unrelated reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Preserve unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Preserve unrelated group campaign-markers",
+          "status": "verified"
+        },
+        {
+          "name": "Expected component count",
+          "status": "verified",
+          "expected": 34,
+          "actual": 34
+        },
+        {
+          "name": "Independent unlocked identities",
+          "status": "verified"
+        },
+        {
+          "name": "Assembly grouping",
+          "status": "verified"
+        },
+        {
+          "name": "Closed occupied solid 0803197a-9cdb-413e-b5cc-984170ba9544",
+          "status": "verified",
+          "expected": 0.01806651930554461,
+          "actual": 0.01806651658226127
+        },
+        {
+          "name": "Closed occupied solid 84c3949a-0d20-4787-94fd-a8d536704047",
+          "status": "verified",
+          "expected": 0.01806651930554461,
+          "actual": 0.018066517251095898
+        },
+        {
+          "name": "Closed occupied solid 46c22c5a-9471-4ffd-973d-c912dcc95569",
+          "status": "verified",
+          "expected": 0.018066519305544614,
+          "actual": 0.018066520359172843
+        },
+        {
+          "name": "Closed occupied solid 5c092e65-bbbc-41b6-95e1-157e86c7d910",
+          "status": "verified",
+          "expected": 0.018066519305544617,
+          "actual": 0.018066516855134145
+        },
+        {
+          "name": "Closed occupied solid a41fccc6-5569-4ee8-a8d0-a5119c84546f",
+          "status": "verified",
+          "expected": 0.018066519305544617,
+          "actual": 0.018066520471348872
+        },
+        {
+          "name": "Closed occupied solid 52fb1d4b-94f1-4bc7-ac07-8ed7e6b31833",
+          "status": "verified",
+          "expected": 0.018066519305544617,
+          "actual": 0.018066516855134274
+        },
+        {
+          "name": "Closed occupied solid fce72756-6187-4f2f-8d78-112f1e04c009",
+          "status": "verified",
+          "expected": 0.018066519305544614,
+          "actual": 0.01806652035917277
+        },
+        {
+          "name": "Closed occupied solid ae59e45b-5ef5-4d82-9588-aa2bc29cd4e7",
+          "status": "verified",
+          "expected": 0.01806651930554461,
+          "actual": 0.01806651846821821
+        },
+        {
+          "name": "Closed occupied solid acf2e95d-e91e-4cac-9c7d-ef41eac31e34",
+          "status": "verified",
+          "expected": 0.01806651930554461,
+          "actual": 0.01806651819326232
+        },
+        {
+          "name": "Closed occupied solid 3acfeb3b-a01d-4c81-aabd-20b64528862c",
+          "status": "verified",
+          "expected": 0.01806651930554461,
+          "actual": 0.018066518862924097
+        },
+        {
+          "name": "Closed occupied solid 1d46c7f3-18a8-49cb-b59f-ed7c9489d362",
+          "status": "verified",
+          "expected": 0.018066519305544614,
+          "actual": 0.018066518734996838
+        },
+        {
+          "name": "Closed occupied solid a79df5e1-d80a-4779-b4a8-dd625c1f7553",
+          "status": "verified",
+          "expected": 0.018066519305544614,
+          "actual": 0.018066518599786325
+        },
+        {
+          "name": "Closed occupied solid bb63d19c-52d7-47be-b775-78de7aa15262",
+          "status": "verified",
+          "expected": 0.01806651930554461,
+          "actual": 0.018066518599786304
+        },
+        {
+          "name": "Closed occupied solid 5076775b-fad0-4667-a295-0410a74f6cfd",
+          "status": "verified",
+          "expected": 0.018066519305544614,
+          "actual": 0.018066518734996855
+        },
+        {
+          "name": "Closed occupied solid 7e7aa4c1-67cf-45c3-931b-fa155d2bd88f",
+          "status": "verified",
+          "expected": 0.01806651930554461,
+          "actual": 0.018066518862924052
+        },
+        {
+          "name": "Closed occupied solid eb1d3be0-fd51-48fc-a24c-e7dbb9fe0c47",
+          "status": "verified",
+          "expected": 0.01806651930554461,
+          "actual": 0.018066518193262156
+        },
+        {
+          "name": "Closed occupied solid 8f56fd96-4787-44c7-b3d3-b9b115323fc0",
+          "status": "verified",
+          "expected": 0.01806651930554461,
+          "actual": 0.018066518468218214
+        },
+        {
+          "name": "Closed occupied solid a28912e0-316f-4aab-afa2-0f6066f83f27",
+          "status": "verified",
+          "expected": 0.018066519305544617,
+          "actual": 0.018066520359172767
+        },
+        {
+          "name": "Closed occupied solid fe27776d-3d17-460d-bd8e-1ebeb7572c06",
+          "status": "verified",
+          "expected": 0.018066519305544617,
+          "actual": 0.018066516855134253
+        },
+        {
+          "name": "Closed occupied solid 13b997f9-1a0e-4056-8b31-e042a17662a8",
+          "status": "verified",
+          "expected": 0.018066519305544614,
+          "actual": 0.01806652047134887
+        },
+        {
+          "name": "Closed occupied solid 229f0662-648c-47f9-a44e-32bb4d40a5bb",
+          "status": "verified",
+          "expected": 0.018066519305544617,
+          "actual": 0.018066516855134176
+        },
+        {
+          "name": "Closed occupied solid 9229c222-9862-4b78-879a-6999518742c8",
+          "status": "verified",
+          "expected": 0.01806651930554462,
+          "actual": 0.018066520359172715
+        },
+        {
+          "name": "Closed occupied solid dc539c57-d3d7-4e41-96af-cad8de572fa4",
+          "status": "verified",
+          "expected": 0.01806651930554461,
+          "actual": 0.01806651725109609
+        },
+        {
+          "name": "Closed occupied solid 6f31fc24-d8fb-4013-89e8-0c6e58d88800",
+          "status": "verified",
+          "expected": 0.018066519305544607,
+          "actual": 0.01806651658226116
+        },
+        {
+          "name": "Closed occupied solid 426ea4f5-01c0-412b-b33e-1de3bcf2a4ea",
+          "status": "verified",
+          "expected": 0.14560000000000003,
+          "actual": 0.14560001449584517
+        },
+        {
+          "name": "Closed occupied solid d98b8787-1ced-4960-8dce-f66018031aed",
+          "status": "verified",
+          "expected": 0.14560000000000015,
+          "actual": 0.1456000144958452
+        },
+        {
+          "name": "Closed occupied solid da89453d-ebfd-4ded-8678-af827151e1e6",
+          "status": "verified",
+          "expected": 0.004160000000000004,
+          "actual": 0.00416000895977128
+        },
+        {
+          "name": "Closed occupied solid 6a5b1982-ea36-4b9c-8a6c-992900e92f84",
+          "status": "verified",
+          "expected": 0.0041600000000000005,
+          "actual": 0.0041599996614454645
+        },
+        {
+          "name": "Closed occupied solid ed0b3482-c199-450d-9fe1-eebd70dbf329",
+          "status": "verified",
+          "expected": 0.004159999999999999,
+          "actual": 0.004159999661445472
+        },
+        {
+          "name": "Closed occupied solid c86d1fdc-6292-4523-a264-b5d18a7702d4",
+          "status": "verified",
+          "expected": 0.004160000000000004,
+          "actual": 0.004160008959771259
+        },
+        {
+          "name": "Closed occupied solid c0eacaee-f72e-4153-96b5-eb05391b4a71",
+          "status": "verified",
+          "expected": 0.004160000000000004,
+          "actual": 0.00416000895977128
+        },
+        {
+          "name": "Closed occupied solid d69e5015-6e98-4d5f-8409-10e6920cb311",
+          "status": "verified",
+          "expected": 0.0041600000000000005,
+          "actual": 0.004159999661445463
+        },
+        {
+          "name": "Closed occupied solid a7cb3389-01da-445a-a228-a6946c528607",
+          "status": "verified",
+          "expected": 0.004159999999999999,
+          "actual": 0.004159999661445471
+        },
+        {
+          "name": "Closed occupied solid 5a709587-c472-4bb5-a986-a46d94b02aea",
+          "status": "verified",
+          "expected": 0.004160000000000004,
+          "actual": 0.004160008959771259
+        },
+        {
+          "name": "Expected occupied component 1",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.38,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                -2.2199999999999998,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059365
+          },
+          "actual": {
+            "id": "0803197a-9cdb-413e-b5cc-984170ba9544",
+            "bounds": {
+              "min": [
+                -2.38,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                -2.2199999999999998,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.01806651930554461
+          }
+        },
+        {
+          "name": "Expected occupied component 2",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.1799999999999997,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                -2.0199999999999996,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059365
+          },
+          "actual": {
+            "id": "84c3949a-0d20-4787-94fd-a8d536704047",
+            "bounds": {
+              "min": [
+                -2.1799999999999997,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                -2.0199999999999996,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.01806651930554461
+          }
+        },
+        {
+          "name": "Expected occupied component 3",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.98,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                -1.8199999999999998,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.01808830746405938
+          },
+          "actual": {
+            "id": "46c22c5a-9471-4ffd-973d-c912dcc95569",
+            "bounds": {
+              "min": [
+                -1.98,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                -1.8199999999999998,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.018066519305544614
+          }
+        },
+        {
+          "name": "Expected occupied component 4",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.7799999999999998,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                -1.6199999999999997,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.01808830746405938
+          },
+          "actual": {
+            "id": "5c092e65-bbbc-41b6-95e1-157e86c7d910",
+            "bounds": {
+              "min": [
+                -1.7799999999999998,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                -1.6199999999999997,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.018066519305544617
+          }
+        },
+        {
+          "name": "Expected occupied component 5",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.5799999999999998,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                -1.4199999999999997,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.01808830746405938
+          },
+          "actual": {
+            "id": "a41fccc6-5569-4ee8-a8d0-a5119c84546f",
+            "bounds": {
+              "min": [
+                -1.5799999999999998,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                -1.4199999999999997,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.018066519305544617
+          }
+        },
+        {
+          "name": "Expected occupied component 6",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.38,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                -1.2199999999999998,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059383
+          },
+          "actual": {
+            "id": "52fb1d4b-94f1-4bc7-ac07-8ed7e6b31833",
+            "bounds": {
+              "min": [
+                -1.38,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                -1.2199999999999998,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.018066519305544617
+          }
+        },
+        {
+          "name": "Expected occupied component 7",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.1799999999999997,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                -1.0199999999999996,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.01808830746405938
+          },
+          "actual": {
+            "id": "fce72756-6187-4f2f-8d78-112f1e04c009",
+            "bounds": {
+              "min": [
+                -1.1799999999999997,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                -1.0199999999999996,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.018066519305544614
+          }
+        },
+        {
+          "name": "Expected occupied component 8",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.9799999999999996,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                -0.8199999999999997,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059376
+          },
+          "actual": {
+            "id": "ae59e45b-5ef5-4d82-9588-aa2bc29cd4e7",
+            "bounds": {
+              "min": [
+                -0.9799999999999996,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                -0.8199999999999997,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.01806651930554461
+          }
+        },
+        {
+          "name": "Expected occupied component 9",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.7799999999999997,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                -0.6199999999999998,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059376
+          },
+          "actual": {
+            "id": "acf2e95d-e91e-4cac-9c7d-ef41eac31e34",
+            "bounds": {
+              "min": [
+                -0.7799999999999997,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                -0.6199999999999998,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.01806651930554461
+          }
+        },
+        {
+          "name": "Expected occupied component 10",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.5799999999999997,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                -0.41999999999999976,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059376
+          },
+          "actual": {
+            "id": "3acfeb3b-a01d-4c81-aabd-20b64528862c",
+            "bounds": {
+              "min": [
+                -0.5799999999999997,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                -0.41999999999999976,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.01806651930554461
+          }
+        },
+        {
+          "name": "Expected occupied component 11",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.37999999999999984,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                -0.2199999999999998,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059376
+          },
+          "actual": {
+            "id": "1d46c7f3-18a8-49cb-b59f-ed7c9489d362",
+            "bounds": {
+              "min": [
+                -0.37999999999999984,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                -0.2199999999999998,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.018066519305544614
+          }
+        },
+        {
+          "name": "Expected occupied component 12",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.17999999999999966,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                -0.019999999999999643,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059376
+          },
+          "actual": {
+            "id": "a79df5e1-d80a-4779-b4a8-dd625c1f7553",
+            "bounds": {
+              "min": [
+                -0.17999999999999966,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                -0.019999999999999643,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.018066519305544614
+          }
+        },
+        {
+          "name": "Expected occupied component 13",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.02000000000000053,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                0.18000000000000055,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059376
+          },
+          "actual": {
+            "id": "bb63d19c-52d7-47be-b775-78de7aa15262",
+            "bounds": {
+              "min": [
+                0.02000000000000053,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                0.18000000000000055,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.01806651930554461
+          }
+        },
+        {
+          "name": "Expected occupied component 14",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.22000000000000025,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                0.3800000000000003,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059376
+          },
+          "actual": {
+            "id": "5076775b-fad0-4667-a295-0410a74f6cfd",
+            "bounds": {
+              "min": [
+                0.22000000000000025,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                0.3800000000000003,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.018066519305544614
+          }
+        },
+        {
+          "name": "Expected occupied component 15",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.42000000000000043,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                0.5800000000000004,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059376
+          },
+          "actual": {
+            "id": "7e7aa4c1-67cf-45c3-931b-fa155d2bd88f",
+            "bounds": {
+              "min": [
+                0.42000000000000043,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                0.5800000000000004,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.01806651930554461
+          }
+        },
+        {
+          "name": "Expected occupied component 16",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.6200000000000002,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                0.7800000000000001,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059376
+          },
+          "actual": {
+            "id": "eb1d3be0-fd51-48fc-a24c-e7dbb9fe0c47",
+            "bounds": {
+              "min": [
+                0.6200000000000002,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                0.7800000000000001,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.01806651930554461
+          }
+        },
+        {
+          "name": "Expected occupied component 17",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.8200000000000004,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                0.9800000000000003,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059376
+          },
+          "actual": {
+            "id": "8f56fd96-4787-44c7-b3d3-b9b115323fc0",
+            "bounds": {
+              "min": [
+                0.8200000000000004,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                0.9800000000000003,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.01806651930554461
+          }
+        },
+        {
+          "name": "Expected occupied component 18",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.0200000000000005,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                1.1800000000000006,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.01808830746405938
+          },
+          "actual": {
+            "id": "a28912e0-316f-4aab-afa2-0f6066f83f27",
+            "bounds": {
+              "min": [
+                1.0200000000000005,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                1.1800000000000006,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.018066519305544617
+          }
+        },
+        {
+          "name": "Expected occupied component 19",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.2200000000000002,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                1.3800000000000003,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.01808830746405938
+          },
+          "actual": {
+            "id": "fe27776d-3d17-460d-bd8e-1ebeb7572c06",
+            "bounds": {
+              "min": [
+                1.2200000000000002,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                1.3800000000000003,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.018066519305544617
+          }
+        },
+        {
+          "name": "Expected occupied component 20",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.4200000000000004,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                1.5800000000000005,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059376
+          },
+          "actual": {
+            "id": "13b997f9-1a0e-4056-8b31-e042a17662a8",
+            "bounds": {
+              "min": [
+                1.4200000000000004,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                1.5800000000000005,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.018066519305544614
+          }
+        },
+        {
+          "name": "Expected occupied component 21",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.62,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                1.7800000000000002,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.01808830746405938
+          },
+          "actual": {
+            "id": "229f0662-648c-47f9-a44e-32bb4d40a5bb",
+            "bounds": {
+              "min": [
+                1.62,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                1.7800000000000002,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.018066519305544617
+          }
+        },
+        {
+          "name": "Expected occupied component 22",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.8200000000000003,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                1.9800000000000004,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059376
+          },
+          "actual": {
+            "id": "9229c222-9862-4b78-879a-6999518742c8",
+            "bounds": {
+              "min": [
+                1.8200000000000003,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                1.9800000000000004,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.01806651930554462
+          }
+        },
+        {
+          "name": "Expected occupied component 23",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                2.0200000000000005,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                2.1800000000000006,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059365
+          },
+          "actual": {
+            "id": "dc539c57-d3d7-4e41-96af-cad8de572fa4",
+            "bounds": {
+              "min": [
+                2.0200000000000005,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                2.1800000000000006,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.01806651930554461
+          }
+        },
+        {
+          "name": "Expected occupied component 24",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                2.2200000000000006,
+                0.77,
+                -0.45
+              ],
+              "max": [
+                2.380000000000001,
+                0.9299999999999999,
+                0.45
+              ]
+            },
+            "volume": 0.018088307464059365
+          },
+          "actual": {
+            "id": "6f31fc24-d8fb-4013-89e8-0c6e58d88800",
+            "bounds": {
+              "min": [
+                2.2200000000000006,
+                0.7700000000000001,
+                -0.45
+              ],
+              "max": [
+                2.380000000000001,
+                0.93,
+                0.45
+              ]
+            },
+            "volume": 0.018066519305544607
+          }
+        },
+        {
+          "name": "Expected occupied component 25",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.6,
+                0.65,
+                -0.5900000000000001
+              ],
+              "max": [
+                2.6,
+                0.8500000000000001,
+                -0.45000000000000007
+              ]
+            },
+            "volume": 0.14560000000000003
+          },
+          "actual": {
+            "id": "426ea4f5-01c0-412b-b33e-1de3bcf2a4ea",
+            "bounds": {
+              "min": [
+                -2.6,
+                0.65,
+                -0.5900000000000001
+              ],
+              "max": [
+                2.6,
+                0.8500000000000001,
+                -0.45000000000000007
+              ]
+            },
+            "volume": 0.14560000000000003
+          }
+        },
+        {
+          "name": "Expected occupied component 26",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.44,
+                0,
+                -0.56
+              ],
+              "max": [
+                -2.36,
+                0.65,
+                -0.48000000000000004
+              ]
+            },
+            "volume": 0.004160000000000004
+          },
+          "actual": {
+            "id": "da89453d-ebfd-4ded-8678-af827151e1e6",
+            "bounds": {
+              "min": [
+                -2.44,
+                0,
+                -0.56
+              ],
+              "max": [
+                -2.36,
+                0.65,
+                -0.48000000000000004
+              ]
+            },
+            "volume": 0.004160000000000004
+          }
+        },
+        {
+          "name": "Expected occupied component 27",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.8400000000000001,
+                0,
+                -0.56
+              ],
+              "max": [
+                -0.7600000000000001,
+                0.65,
+                -0.48000000000000004
+              ]
+            },
+            "volume": 0.0041600000000000005
+          },
+          "actual": {
+            "id": "6a5b1982-ea36-4b9c-8a6c-992900e92f84",
+            "bounds": {
+              "min": [
+                -0.8399999999999999,
+                0,
+                -0.56
+              ],
+              "max": [
+                -0.7599999999999999,
+                0.65,
+                -0.48000000000000004
+              ]
+            },
+            "volume": 0.0041600000000000005
+          }
+        },
+        {
+          "name": "Expected occupied component 28",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.76,
+                0,
+                -0.56
+              ],
+              "max": [
+                0.84,
+                0.65,
+                -0.48000000000000004
+              ]
+            },
+            "volume": 0.004160000000000002
+          },
+          "actual": {
+            "id": "ed0b3482-c199-450d-9fe1-eebd70dbf329",
+            "bounds": {
+              "min": [
+                0.7600000000000002,
+                0,
+                -0.56
+              ],
+              "max": [
+                0.8400000000000002,
+                0.65,
+                -0.48000000000000004
+              ]
+            },
+            "volume": 0.004159999999999999
+          }
+        },
+        {
+          "name": "Expected occupied component 29",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                2.36,
+                0,
+                -0.56
+              ],
+              "max": [
+                2.44,
+                0.65,
+                -0.48000000000000004
+              ]
+            },
+            "volume": 0.004160000000000004
+          },
+          "actual": {
+            "id": "c86d1fdc-6292-4523-a264-b5d18a7702d4",
+            "bounds": {
+              "min": [
+                2.3600000000000008,
+                0,
+                -0.56
+              ],
+              "max": [
+                2.440000000000001,
+                0.65,
+                -0.48000000000000004
+              ]
+            },
+            "volume": 0.004160000000000004
+          }
+        },
+        {
+          "name": "Expected occupied component 30",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.6,
+                0.65,
+                0.45
+              ],
+              "max": [
+                2.6,
+                0.8500000000000001,
+                0.5900000000000001
+              ]
+            },
+            "volume": 0.14560000000000015
+          },
+          "actual": {
+            "id": "d98b8787-1ced-4960-8dce-f66018031aed",
+            "bounds": {
+              "min": [
+                -2.6,
+                0.65,
+                0.45
+              ],
+              "max": [
+                2.6,
+                0.8500000000000001,
+                0.5900000000000001
+              ]
+            },
+            "volume": 0.14560000000000015
+          }
+        },
+        {
+          "name": "Expected occupied component 31",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.44,
+                0,
+                0.48000000000000004
+              ],
+              "max": [
+                -2.36,
+                0.65,
+                0.56
+              ]
+            },
+            "volume": 0.004160000000000004
+          },
+          "actual": {
+            "id": "c0eacaee-f72e-4153-96b5-eb05391b4a71",
+            "bounds": {
+              "min": [
+                -2.44,
+                0,
+                0.48000000000000004
+              ],
+              "max": [
+                -2.36,
+                0.65,
+                0.56
+              ]
+            },
+            "volume": 0.004160000000000004
+          }
+        },
+        {
+          "name": "Expected occupied component 32",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.8400000000000001,
+                0,
+                0.48000000000000004
+              ],
+              "max": [
+                -0.7600000000000001,
+                0.65,
+                0.56
+              ]
+            },
+            "volume": 0.0041600000000000005
+          },
+          "actual": {
+            "id": "d69e5015-6e98-4d5f-8409-10e6920cb311",
+            "bounds": {
+              "min": [
+                -0.8399999999999999,
+                0,
+                0.48000000000000004
+              ],
+              "max": [
+                -0.7599999999999999,
+                0.65,
+                0.56
+              ]
+            },
+            "volume": 0.0041600000000000005
+          }
+        },
+        {
+          "name": "Expected occupied component 33",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.76,
+                0,
+                0.48000000000000004
+              ],
+              "max": [
+                0.84,
+                0.65,
+                0.56
+              ]
+            },
+            "volume": 0.004160000000000002
+          },
+          "actual": {
+            "id": "a7cb3389-01da-445a-a228-a6946c528607",
+            "bounds": {
+              "min": [
+                0.7600000000000002,
+                0,
+                0.48000000000000004
+              ],
+              "max": [
+                0.8400000000000002,
+                0.65,
+                0.56
+              ]
+            },
+            "volume": 0.004159999999999999
+          }
+        },
+        {
+          "name": "Expected occupied component 34",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                2.36,
+                0,
+                0.48000000000000004
+              ],
+              "max": [
+                2.44,
+                0.65,
+                0.56
+              ]
+            },
+            "volume": 0.004160000000000004
+          },
+          "actual": {
+            "id": "5a709587-c472-4bb5-a986-a46d94b02aea",
+            "bounds": {
+              "min": [
+                2.3600000000000008,
+                0,
+                0.48000000000000004
+              ],
+              "max": [
+                2.440000000000001,
+                0.65,
+                0.56
+              ]
+            },
+            "volume": 0.004160000000000004
+          }
+        }
+      ]
+    },
+    {
+      "id": "L4",
+      "source": "Actual saved baseline creation; diagnostic starting model",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Preserve unrelated reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Preserve unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Preserve unrelated group campaign-markers",
+          "status": "verified"
+        },
+        {
+          "name": "Expected component count",
+          "status": "verified",
+          "expected": 65,
+          "actual": 65
+        },
+        {
+          "name": "Independent unlocked identities",
+          "status": "verified"
+        },
+        {
+          "name": "Assembly grouping",
+          "status": "verified"
+        },
+        {
+          "name": "Closed occupied solid d3347800-ea30-47d2-a7e1-0c2df343e273",
+          "status": "verified",
+          "expected": 0.9635476962957126,
+          "actual": 0.9635476843075386
+        },
+        {
+          "name": "Closed occupied solid bedccf32-2450-45d2-afe7-a1230c676ec2",
+          "status": "verified",
+          "expected": 0.0030230614150748903,
+          "actual": 0.003023061472853019
+        },
+        {
+          "name": "Closed occupied solid 7cfff4dd-4d96-4022-adec-abda0ba84f50",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923821806427655
+        },
+        {
+          "name": "Closed occupied solid e56cff1e-2e50-4265-9ad9-1dbc7f7f9a50",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.0030230613215853925
+        },
+        {
+          "name": "Closed occupied solid 050a67d5-03e6-443e-ad19-3bf90203baf2",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923822108808889
+        },
+        {
+          "name": "Closed occupied solid 37d62682-9e31-4b70-9926-871f334bad9a",
+          "status": "verified",
+          "expected": 0.0030230614150748903,
+          "actual": 0.0030230614664464345
+        },
+        {
+          "name": "Closed occupied solid 0e80ad5d-3463-4c77-a12b-e05f747046ca",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923822456950794
+        },
+        {
+          "name": "Closed occupied solid c2e719bc-4228-46cb-916c-f96e4f90705c",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.003023061715716885
+        },
+        {
+          "name": "Closed occupied solid 3d6c213a-9646-4427-b67b-4ae84a3f824a",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923820673096386
+        },
+        {
+          "name": "Closed occupied solid cb6da270-655b-4446-b565-574e659fa526",
+          "status": "verified",
+          "expected": 0.003023061415074891,
+          "actual": 0.003023061213201443
+        },
+        {
+          "name": "Closed occupied solid eaa54353-98a2-490d-afd9-d544d47dfe29",
+          "status": "verified",
+          "expected": 0.003923822161672966,
+          "actual": 0.003923823100212366
+        },
+        {
+          "name": "Closed occupied solid 12984f1f-eced-41d4-9b44-ef4aa6747e53",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.0030230614194745216
+        },
+        {
+          "name": "Closed occupied solid a4c65b7d-5724-44fd-a67d-eab0df9da622",
+          "status": "verified",
+          "expected": 0.00392382216167297,
+          "actual": 0.0039238230693482284
+        },
+        {
+          "name": "Closed occupied solid 211f372e-83bc-44d1-9c8b-ebf2eea1a1b8",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.0030230614664464067
+        },
+        {
+          "name": "Closed occupied solid 0bd37077-93cd-43a9-b6cb-e2d9f977fe8d",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923822456950809
+        },
+        {
+          "name": "Closed occupied solid a70c9ab0-3c3d-46b9-8224-62ba0d6138a4",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.0030230614194745264
+        },
+        {
+          "name": "Closed occupied solid 19422ee3-bce7-4755-99fb-a8c4e039c0ea",
+          "status": "verified",
+          "expected": 0.00392382216167297,
+          "actual": 0.003923823069348237
+        },
+        {
+          "name": "Closed occupied solid 0a76c605-e001-427b-a261-db3f2f0e5e0a",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.0030230614728530016
+        },
+        {
+          "name": "Closed occupied solid 911eec24-72f9-470e-a7aa-effe1d183524",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.0039238218064276435
+        },
+        {
+          "name": "Closed occupied solid 5938f4c7-9f51-426c-bb09-b6a3b18fd35a",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.0030230617157169038
+        },
+        {
+          "name": "Closed occupied solid ce12d309-1f4d-4bb0-8a44-dd230a1e71a8",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923820673096468
+        },
+        {
+          "name": "Closed occupied solid bf804ec7-bf06-4c6e-ab05-4628c006a546",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.00302306146644643
+        },
+        {
+          "name": "Closed occupied solid 3fe083bd-13a7-4e9c-ad74-fe7ee6cc5880",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923822456950785
+        },
+        {
+          "name": "Closed occupied solid 93c67bd5-b79e-477e-bc8b-3e0141bb634b",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.003023061715716897
+        },
+        {
+          "name": "Closed occupied solid 3343c2af-89ef-4111-8a66-dae878c4fe0e",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923820673096407
+        },
+        {
+          "name": "Closed occupied solid bb742016-3fa9-4dc6-b3fb-6d52d17dbac0",
+          "status": "verified",
+          "expected": 0.0030230614150748916,
+          "actual": 0.0030230612132014396
+        },
+        {
+          "name": "Closed occupied solid fde1ea09-ccd8-47be-b489-20340d686f1a",
+          "status": "verified",
+          "expected": 0.003923822161672966,
+          "actual": 0.00392382310021238
+        },
+        {
+          "name": "Closed occupied solid a21c3124-1de7-4384-ad38-0ace9476b299",
+          "status": "verified",
+          "expected": 0.0030230614150748903,
+          "actual": 0.00302306141947455
+        },
+        {
+          "name": "Closed occupied solid e82b62ef-abec-461d-949f-199436f06619",
+          "status": "verified",
+          "expected": 0.00392382216167297,
+          "actual": 0.003923823069348231
+        },
+        {
+          "name": "Closed occupied solid 37f114ae-4962-4992-97c0-0dbc6aaf11a7",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.0030230614664464397
+        },
+        {
+          "name": "Closed occupied solid 335673cb-acdd-4951-8b7c-1e9cbadfa38a",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.0039238224569508
+        },
+        {
+          "name": "Closed occupied solid 0c7f6bd9-493e-4398-a2c4-3fdd4fc3e1cf",
+          "status": "verified",
+          "expected": 0.0030230614150748903,
+          "actual": 0.0030230614194745264
+        },
+        {
+          "name": "Closed occupied solid 58e2c91a-a0ca-412e-87b5-544685041e4b",
+          "status": "verified",
+          "expected": 0.00392382216167297,
+          "actual": 0.003923823069348239
+        },
+        {
+          "name": "Closed occupied solid 21a66ce3-2503-4b12-8aa4-11f60810a869",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.0030230614728530532
+        },
+        {
+          "name": "Closed occupied solid ce946994-c2ec-4a5a-91bd-c31431dc2959",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923821806427646
+        },
+        {
+          "name": "Closed occupied solid 3e51257f-6ff5-4124-b6bd-5f232045c454",
+          "status": "verified",
+          "expected": 0.0030230614150748903,
+          "actual": 0.00302306171571691
+        },
+        {
+          "name": "Closed occupied solid 7e8fe71f-d362-4039-a2cf-53f10fbd6c4f",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923820673096437
+        },
+        {
+          "name": "Closed occupied solid b5444516-0787-40c6-be03-af0b25470a6f",
+          "status": "verified",
+          "expected": 0.0030230614150748903,
+          "actual": 0.003023061466446445
+        },
+        {
+          "name": "Closed occupied solid 1fa5bd4f-ec0a-4131-b021-7a745e834fd4",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.00392382245695079
+        },
+        {
+          "name": "Closed occupied solid c5b293c3-d3e5-4a62-ae1b-1a8dea99991d",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.003023061715716883
+        },
+        {
+          "name": "Closed occupied solid 9a17a80a-0948-4777-b2d9-f88bc8f1ba5a",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.0039238206730963805
+        },
+        {
+          "name": "Closed occupied solid c3ac1609-fe11-4576-9e49-23965c9695c7",
+          "status": "verified",
+          "expected": 0.0030230614150748916,
+          "actual": 0.003023061213201436
+        },
+        {
+          "name": "Closed occupied solid d3ced2c4-b973-42bf-918d-eb56b450707d",
+          "status": "verified",
+          "expected": 0.003923822161672966,
+          "actual": 0.0039238231002123765
+        },
+        {
+          "name": "Closed occupied solid e983338d-d3d3-4c4e-88a2-d4901e901815",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.0030230614194745255
+        },
+        {
+          "name": "Closed occupied solid 35a05836-52df-4eb3-a53a-2906841490c9",
+          "status": "verified",
+          "expected": 0.00392382216167297,
+          "actual": 0.0039238230693482605
+        },
+        {
+          "name": "Closed occupied solid 2f0c8fa0-a681-4dd2-bac0-06534a6741ba",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.003023061466446446
+        },
+        {
+          "name": "Closed occupied solid fee999de-f0d3-4065-9a65-4a788f6290db",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923822456950791
+        },
+        {
+          "name": "Closed occupied solid cd082905-2d1f-4250-aa97-ab920c2edaa4",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.0030230614194745346
+        },
+        {
+          "name": "Closed occupied solid 9fe3b09c-119f-48bf-b801-dce0bce7b519",
+          "status": "verified",
+          "expected": 0.00392382216167297,
+          "actual": 0.003923823069348245
+        },
+        {
+          "name": "Closed occupied solid f9b3909a-e8c3-413c-aaff-b7175b333444",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.003023061472853065
+        },
+        {
+          "name": "Closed occupied solid 08fb2522-4337-403b-8053-e15e0cb60ff5",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923821806427651
+        },
+        {
+          "name": "Closed occupied solid 76d2f322-ecfc-4542-bd40-0392b64938c1",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.003023061715716891
+        },
+        {
+          "name": "Closed occupied solid 1384b736-bff2-40a3-b906-ba0a7e9871ab",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923820673096442
+        },
+        {
+          "name": "Closed occupied solid 39e622c6-0945-433b-b6c4-762d3fdf252a",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.0030230614664464237
+        },
+        {
+          "name": "Closed occupied solid bc9d4d51-fa4e-44da-b108-0ad686a8fc14",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923822456950784
+        },
+        {
+          "name": "Closed occupied solid 5430ed7c-c5f6-43fe-9c53-34a6473fcc7b",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.003023061715716889
+        },
+        {
+          "name": "Closed occupied solid b3343cdd-493a-4466-b4b4-b06bdf9f214e",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923820673096413
+        },
+        {
+          "name": "Closed occupied solid 9c1de45c-f9c1-40a0-a92b-56d1c29daf5d",
+          "status": "verified",
+          "expected": 0.003023061415074891,
+          "actual": 0.003023061213201446
+        },
+        {
+          "name": "Closed occupied solid d441fbea-5bb1-4b5f-bc85-3719d156618b",
+          "status": "verified",
+          "expected": 0.003923822161672966,
+          "actual": 0.003923823100212397
+        },
+        {
+          "name": "Closed occupied solid f5d6ffef-be52-417d-8276-0a9c9a2fa306",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.0030230614194745463
+        },
+        {
+          "name": "Closed occupied solid 9261067f-3787-4c90-93da-7c6b94bc296a",
+          "status": "verified",
+          "expected": 0.00392382216167297,
+          "actual": 0.003923823069348219
+        },
+        {
+          "name": "Closed occupied solid 90063713-7ee4-44be-bf95-ba32c4420e37",
+          "status": "verified",
+          "expected": 0.0030230614150748903,
+          "actual": 0.0030230614664464263
+        },
+        {
+          "name": "Closed occupied solid 236c801f-7006-4e8e-867b-dd2efa6609c6",
+          "status": "verified",
+          "expected": 0.0039238221616729714,
+          "actual": 0.003923822456950803
+        },
+        {
+          "name": "Closed occupied solid e05ab800-532a-422e-b8c1-04d0d76d231a",
+          "status": "verified",
+          "expected": 0.0030230614150748908,
+          "actual": 0.0030230614194745775
+        },
+        {
+          "name": "Closed occupied solid 3d2fe5f5-572d-4c50-834d-371b38106350",
+          "status": "verified",
+          "expected": 0.00392382216167297,
+          "actual": 0.003923823069348232
+        },
+        {
+          "name": "Expected occupied component 1",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.6,
+                0,
+                -1.6
+              ],
+              "max": [
+                1.6,
+                0.12,
+                1.6
+              ]
+            },
+            "volume": 0.9647097314165002
+          },
+          "actual": {
+            "id": "d3347800-ea30-47d2-a7e1-0c2df343e273",
+            "bounds": {
+              "min": [
+                -1.6,
+                0,
+                -1.6
+              ],
+              "max": [
+                1.6,
+                0.12,
+                1.6
+              ]
+            },
+            "volume": 0.9635476962957126
+          }
+        },
+        {
+          "name": "Expected occupied component 2",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.26,
+                1.51,
+                -0.09
+              ],
+              "max": [
+                1.4400000000000002,
+                1.6900000000000002,
+                0.09
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "bedccf32-2450-45d2-afe7-a1230c676ec2",
+            "bounds": {
+              "min": [
+                1.26,
+                1.51,
+                -0.09
+              ],
+              "max": [
+                1.4400000000000002,
+                1.6900000000000002,
+                0.09
+              ]
+            },
+            "volume": 0.0030230614150748903
+          }
+        },
+        {
+          "name": "Expected occupied component 3",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.32,
+                0.12,
+                -0.03
+              ],
+              "max": [
+                1.3800000000000001,
+                1.5099999999999998,
+                0.03
+              ]
+            },
+            "volume": 0.003928554277350394
+          },
+          "actual": {
+            "id": "7cfff4dd-4d96-4022-adec-abda0ba84f50",
+            "bounds": {
+              "min": [
+                1.32,
+                0.12,
+                -0.03
+              ],
+              "max": [
+                1.3800000000000001,
+                1.5099999999999998,
+                0.03
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 4",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.234060128544361,
+                1.51,
+                0.17337193472177317
+              ],
+              "max": [
+                1.4140601285443613,
+                1.6900000000000002,
+                0.3533719347217732
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "e56cff1e-2e50-4265-9ad9-1dbc7f7f9a50",
+            "bounds": {
+              "min": [
+                1.2340601285443609,
+                1.51,
+                0.17337193472177323
+              ],
+              "max": [
+                1.414060128544361,
+                1.6900000000000002,
+                0.3533719347217732
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 5",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.2940601285443611,
+                0.12,
+                0.23337193472177317
+              ],
+              "max": [
+                1.3540601285443612,
+                1.5099999999999998,
+                0.29337193472177314
+              ]
+            },
+            "volume": 0.003928554277350396
+          },
+          "actual": {
+            "id": "050a67d5-03e6-443e-ad19-3bf90203baf2",
+            "bounds": {
+              "min": [
+                1.294060128544361,
+                0.12,
+                0.23337193472177323
+              ],
+              "max": [
+                1.354060128544361,
+                1.5099999999999998,
+                0.29337193472177325
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 6",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.157237368890237,
+                1.51,
+                0.42662263369287123
+              ],
+              "max": [
+                1.3372373688902373,
+                1.6900000000000002,
+                0.6066226336928712
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "90063713-7ee4-44be-bf95-ba32c4420e37",
+            "bounds": {
+              "min": [
+                1.157,
+                1.51,
+                0.42700000000000005
+              ],
+              "max": [
+                1.3370000000000002,
+                1.6900000000000002,
+                0.607
+              ]
+            },
+            "volume": 0.0030230614150748903
+          }
+        },
+        {
+          "name": "Expected occupied component 7",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.2172373688902371,
+                0.12,
+                0.4866226336928712
+              ],
+              "max": [
+                1.2772373688902372,
+                1.5099999999999998,
+                0.5466226336928712
+              ]
+            },
+            "volume": 0.003928554277350396
+          },
+          "actual": {
+            "id": "236c801f-7006-4e8e-867b-dd2efa6609c6",
+            "bounds": {
+              "min": [
+                1.217,
+                0.12,
+                0.487
+              ],
+              "max": [
+                1.2770000000000001,
+                1.5099999999999998,
+                0.547
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 8",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.0324839766084362,
+                1.51,
+                0.660019814576463
+              ],
+              "max": [
+                1.2124839766084363,
+                1.6900000000000002,
+                0.8400198145764629
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "e05ab800-532a-422e-b8c1-04d0d76d231a",
+            "bounds": {
+              "min": [
+                1.032,
+                1.51,
+                0.66
+              ],
+              "max": [
+                1.2120000000000002,
+                1.6900000000000002,
+                0.84
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 9",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.0924839766084362,
+                0.12,
+                0.7200198145764629
+              ],
+              "max": [
+                1.1524839766084363,
+                1.5099999999999998,
+                0.780019814576463
+              ]
+            },
+            "volume": 0.003928554277350395
+          },
+          "actual": {
+            "id": "3d2fe5f5-572d-4c50-834d-371b38106350",
+            "bounds": {
+              "min": [
+                1.092,
+                0.12,
+                0.72
+              ],
+              "max": [
+                1.1520000000000001,
+                1.5099999999999998,
+                0.78
+              ]
+            },
+            "volume": 0.00392382216167297
+          }
+        },
+        {
+          "name": "Expected occupied component 10",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.8645941546018393,
+                1.51,
+                0.8645941546018392
+              ],
+              "max": [
+                1.0445941546018394,
+                1.6900000000000002,
+                1.0445941546018391
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "9c1de45c-f9c1-40a0-a92b-56d1c29daf5d",
+            "bounds": {
+              "min": [
+                0.865,
+                1.51,
+                0.865
+              ],
+              "max": [
+                1.045,
+                1.6900000000000002,
+                1.045
+              ]
+            },
+            "volume": 0.003023061415074891
+          }
+        },
+        {
+          "name": "Expected occupied component 11",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.9245941546018392,
+                0.12,
+                0.9245941546018391
+              ],
+              "max": [
+                0.9845941546018393,
+                1.5099999999999998,
+                0.9845941546018392
+              ]
+            },
+            "volume": 0.003928554277350393
+          },
+          "actual": {
+            "id": "d441fbea-5bb1-4b5f-bc85-3719d156618b",
+            "bounds": {
+              "min": [
+                0.9249999999999999,
+                0.12,
+                0.9249999999999999
+              ],
+              "max": [
+                0.985,
+                1.5099999999999998,
+                0.985
+              ]
+            },
+            "volume": 0.003923822161672966
+          }
+        },
+        {
+          "name": "Expected occupied component 12",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.6600198145764632,
+                1.51,
+                1.0324839766084362
+              ],
+              "max": [
+                0.8400198145764631,
+                1.6900000000000002,
+                1.2124839766084363
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "f5d6ffef-be52-417d-8276-0a9c9a2fa306",
+            "bounds": {
+              "min": [
+                0.66,
+                1.51,
+                1.032
+              ],
+              "max": [
+                0.84,
+                1.6900000000000002,
+                1.2120000000000002
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 13",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.7200198145764631,
+                0.12,
+                1.0924839766084362
+              ],
+              "max": [
+                0.7800198145764632,
+                1.5099999999999998,
+                1.1524839766084363
+              ]
+            },
+            "volume": 0.003928554277350395
+          },
+          "actual": {
+            "id": "9261067f-3787-4c90-93da-7c6b94bc296a",
+            "bounds": {
+              "min": [
+                0.72,
+                0.12,
+                1.092
+              ],
+              "max": [
+                0.78,
+                1.5099999999999998,
+                1.1520000000000001
+              ]
+            },
+            "volume": 0.00392382216167297
+          }
+        },
+        {
+          "name": "Expected occupied component 14",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.42662263369287134,
+                1.51,
+                1.157237368890237
+              ],
+              "max": [
+                0.6066226336928713,
+                1.6900000000000002,
+                1.3372373688902373
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "39e622c6-0945-433b-b6c4-762d3fdf252a",
+            "bounds": {
+              "min": [
+                0.42700000000000005,
+                1.51,
+                1.157
+              ],
+              "max": [
+                0.607,
+                1.6900000000000002,
+                1.3370000000000002
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 15",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.4866226336928713,
+                0.12,
+                1.2172373688902371
+              ],
+              "max": [
+                0.5466226336928713,
+                1.5099999999999998,
+                1.2772373688902372
+              ]
+            },
+            "volume": 0.003928554277350397
+          },
+          "actual": {
+            "id": "bc9d4d51-fa4e-44da-b108-0ad686a8fc14",
+            "bounds": {
+              "min": [
+                0.487,
+                0.12,
+                1.217
+              ],
+              "max": [
+                0.547,
+                1.5099999999999998,
+                1.2770000000000001
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 16",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.17337193472177329,
+                1.51,
+                1.234060128544361
+              ],
+              "max": [
+                0.3533719347217733,
+                1.6900000000000002,
+                1.4140601285443613
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "5430ed7c-c5f6-43fe-9c53-34a6473fcc7b",
+            "bounds": {
+              "min": [
+                0.17300000000000001,
+                1.51,
+                1.234
+              ],
+              "max": [
+                0.353,
+                1.6900000000000002,
+                1.4140000000000001
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 17",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.23337193472177328,
+                0.12,
+                1.2940601285443611
+              ],
+              "max": [
+                0.29337193472177325,
+                1.5099999999999998,
+                1.3540601285443612
+              ]
+            },
+            "volume": 0.003928554277350396
+          },
+          "actual": {
+            "id": "b3343cdd-493a-4466-b4b4-b06bdf9f214e",
+            "bounds": {
+              "min": [
+                0.233,
+                0.12,
+                1.294
+              ],
+              "max": [
+                0.29300000000000004,
+                1.5099999999999998,
+                1.354
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 18",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.08999999999999991,
+                1.51,
+                1.26
+              ],
+              "max": [
+                0.09000000000000008,
+                1.6900000000000002,
+                1.4400000000000002
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "f9b3909a-e8c3-413c-aaff-b7175b333444",
+            "bounds": {
+              "min": [
+                -0.09,
+                1.51,
+                1.26
+              ],
+              "max": [
+                0.09,
+                1.6900000000000002,
+                1.4400000000000002
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 19",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.029999999999999916,
+                0.12,
+                1.32
+              ],
+              "max": [
+                0.030000000000000082,
+                1.5099999999999998,
+                1.3800000000000001
+              ]
+            },
+            "volume": 0.003928554277350395
+          },
+          "actual": {
+            "id": "08fb2522-4337-403b-8053-e15e0cb60ff5",
+            "bounds": {
+              "min": [
+                -0.03,
+                0.12,
+                1.32
+              ],
+              "max": [
+                0.03,
+                1.5099999999999998,
+                1.3800000000000001
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 20",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.3533719347217731,
+                1.51,
+                1.234060128544361
+              ],
+              "max": [
+                -0.17337193472177306,
+                1.6900000000000002,
+                1.4140601285443613
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "76d2f322-ecfc-4542-bd40-0392b64938c1",
+            "bounds": {
+              "min": [
+                -0.353,
+                1.51,
+                1.234
+              ],
+              "max": [
+                -0.17300000000000001,
+                1.6900000000000002,
+                1.4140000000000001
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 21",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.29337193472177303,
+                0.12,
+                1.2940601285443611
+              ],
+              "max": [
+                -0.23337193472177306,
+                1.5099999999999998,
+                1.3540601285443612
+              ]
+            },
+            "volume": 0.003928554277350396
+          },
+          "actual": {
+            "id": "1384b736-bff2-40a3-b906-ba0a7e9871ab",
+            "bounds": {
+              "min": [
+                -0.29300000000000004,
+                0.12,
+                1.294
+              ],
+              "max": [
+                -0.233,
+                1.5099999999999998,
+                1.354
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 22",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.6066226336928712,
+                1.51,
+                1.157237368890237
+              ],
+              "max": [
+                -0.42662263369287123,
+                1.6900000000000002,
+                1.3372373688902373
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "2f0c8fa0-a681-4dd2-bac0-06534a6741ba",
+            "bounds": {
+              "min": [
+                -0.607,
+                1.51,
+                1.157
+              ],
+              "max": [
+                -0.42700000000000005,
+                1.6900000000000002,
+                1.3370000000000002
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 23",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.5466226336928712,
+                0.12,
+                1.2172373688902371
+              ],
+              "max": [
+                -0.4866226336928712,
+                1.5099999999999998,
+                1.2772373688902372
+              ]
+            },
+            "volume": 0.003928554277350396
+          },
+          "actual": {
+            "id": "fee999de-f0d3-4065-9a65-4a788f6290db",
+            "bounds": {
+              "min": [
+                -0.547,
+                0.12,
+                1.217
+              ],
+              "max": [
+                -0.487,
+                1.5099999999999998,
+                1.2770000000000001
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 24",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.8400198145764627,
+                1.51,
+                1.0324839766084362
+              ],
+              "max": [
+                -0.6600198145764627,
+                1.6900000000000002,
+                1.2124839766084363
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "cd082905-2d1f-4250-aa97-ab920c2edaa4",
+            "bounds": {
+              "min": [
+                -0.84,
+                1.51,
+                1.032
+              ],
+              "max": [
+                -0.66,
+                1.6900000000000002,
+                1.2120000000000002
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 25",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.7800198145764627,
+                0.12,
+                1.0924839766084362
+              ],
+              "max": [
+                -0.7200198145764627,
+                1.5099999999999998,
+                1.1524839766084363
+              ]
+            },
+            "volume": 0.003928554277350397
+          },
+          "actual": {
+            "id": "9fe3b09c-119f-48bf-b801-dce0bce7b519",
+            "bounds": {
+              "min": [
+                -0.78,
+                0.12,
+                1.092
+              ],
+              "max": [
+                -0.72,
+                1.5099999999999998,
+                1.1520000000000001
+              ]
+            },
+            "volume": 0.00392382216167297
+          }
+        },
+        {
+          "name": "Expected occupied component 26",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.0445941546018391,
+                1.51,
+                0.8645941546018393
+              ],
+              "max": [
+                -0.8645941546018392,
+                1.6900000000000002,
+                1.0445941546018394
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "c3ac1609-fe11-4576-9e49-23965c9695c7",
+            "bounds": {
+              "min": [
+                -1.045,
+                1.51,
+                0.865
+              ],
+              "max": [
+                -0.865,
+                1.6900000000000002,
+                1.045
+              ]
+            },
+            "volume": 0.0030230614150748916
+          }
+        },
+        {
+          "name": "Expected occupied component 27",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.9845941546018392,
+                0.12,
+                0.9245941546018392
+              ],
+              "max": [
+                -0.9245941546018391,
+                1.5099999999999998,
+                0.9845941546018393
+              ]
+            },
+            "volume": 0.003928554277350393
+          },
+          "actual": {
+            "id": "d3ced2c4-b973-42bf-918d-eb56b450707d",
+            "bounds": {
+              "min": [
+                -0.985,
+                0.12,
+                0.9249999999999999
+              ],
+              "max": [
+                -0.9249999999999999,
+                1.5099999999999998,
+                0.985
+              ]
+            },
+            "volume": 0.003923822161672966
+          }
+        },
+        {
+          "name": "Expected occupied component 28",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.2124839766084363,
+                1.51,
+                0.660019814576463
+              ],
+              "max": [
+                -1.0324839766084362,
+                1.6900000000000002,
+                0.8400198145764629
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "e983338d-d3d3-4c4e-88a2-d4901e901815",
+            "bounds": {
+              "min": [
+                -1.2120000000000002,
+                1.51,
+                0.66
+              ],
+              "max": [
+                -1.032,
+                1.6900000000000002,
+                0.84
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 29",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.1524839766084363,
+                0.12,
+                0.7200198145764629
+              ],
+              "max": [
+                -1.0924839766084362,
+                1.5099999999999998,
+                0.780019814576463
+              ]
+            },
+            "volume": 0.003928554277350395
+          },
+          "actual": {
+            "id": "35a05836-52df-4eb3-a53a-2906841490c9",
+            "bounds": {
+              "min": [
+                -1.1520000000000001,
+                0.12,
+                0.72
+              ],
+              "max": [
+                -1.092,
+                1.5099999999999998,
+                0.78
+              ]
+            },
+            "volume": 0.00392382216167297
+          }
+        },
+        {
+          "name": "Expected occupied component 30",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.3372373688902373,
+                1.51,
+                0.42662263369287146
+              ],
+              "max": [
+                -1.157237368890237,
+                1.6900000000000002,
+                0.6066226336928714
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "b5444516-0787-40c6-be03-af0b25470a6f",
+            "bounds": {
+              "min": [
+                -1.3370000000000002,
+                1.51,
+                0.42700000000000005
+              ],
+              "max": [
+                -1.157,
+                1.6900000000000002,
+                0.607
+              ]
+            },
+            "volume": 0.0030230614150748903
+          }
+        },
+        {
+          "name": "Expected occupied component 31",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.2772373688902372,
+                0.12,
+                0.4866226336928714
+              ],
+              "max": [
+                -1.2172373688902371,
+                1.5099999999999998,
+                0.5466226336928715
+              ]
+            },
+            "volume": 0.003928554277350396
+          },
+          "actual": {
+            "id": "1fa5bd4f-ec0a-4131-b021-7a745e834fd4",
+            "bounds": {
+              "min": [
+                -1.2770000000000001,
+                0.12,
+                0.487
+              ],
+              "max": [
+                -1.217,
+                1.5099999999999998,
+                0.547
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 32",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.4140601285443613,
+                1.51,
+                0.17337193472177362
+              ],
+              "max": [
+                -1.234060128544361,
+                1.6900000000000002,
+                0.35337193472177364
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "c5b293c3-d3e5-4a62-ae1b-1a8dea99991d",
+            "bounds": {
+              "min": [
+                -1.4140000000000001,
+                1.51,
+                0.17300000000000001
+              ],
+              "max": [
+                -1.234,
+                1.6900000000000002,
+                0.353
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 33",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.3540601285443612,
+                0.12,
+                0.23337193472177362
+              ],
+              "max": [
+                -1.2940601285443611,
+                1.5099999999999998,
+                0.2933719347217736
+              ]
+            },
+            "volume": 0.003928554277350396
+          },
+          "actual": {
+            "id": "9a17a80a-0948-4777-b2d9-f88bc8f1ba5a",
+            "bounds": {
+              "min": [
+                -1.354,
+                0.12,
+                0.233
+              ],
+              "max": [
+                -1.294,
+                1.5099999999999998,
+                0.29300000000000004
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 34",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.4400000000000002,
+                1.51,
+                -0.08999999999999983
+              ],
+              "max": [
+                -1.26,
+                1.6900000000000002,
+                0.09000000000000016
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "21a66ce3-2503-4b12-8aa4-11f60810a869",
+            "bounds": {
+              "min": [
+                -1.4400000000000002,
+                1.51,
+                -0.09
+              ],
+              "max": [
+                -1.26,
+                1.6900000000000002,
+                0.09
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 35",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.3800000000000001,
+                0.12,
+                -0.029999999999999832
+              ],
+              "max": [
+                -1.32,
+                1.5099999999999998,
+                0.030000000000000165
+              ]
+            },
+            "volume": 0.003928554277350397
+          },
+          "actual": {
+            "id": "ce946994-c2ec-4a5a-91bd-c31431dc2959",
+            "bounds": {
+              "min": [
+                -1.3800000000000001,
+                0.12,
+                -0.03
+              ],
+              "max": [
+                -1.32,
+                1.5099999999999998,
+                0.03
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 36",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.4140601285443613,
+                1.51,
+                -0.3533719347217733
+              ],
+              "max": [
+                -1.234060128544361,
+                1.6900000000000002,
+                -0.17337193472177329
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "3e51257f-6ff5-4124-b6bd-5f232045c454",
+            "bounds": {
+              "min": [
+                -1.4140000000000001,
+                1.51,
+                -0.353
+              ],
+              "max": [
+                -1.234,
+                1.6900000000000002,
+                -0.17300000000000001
+              ]
+            },
+            "volume": 0.0030230614150748903
+          }
+        },
+        {
+          "name": "Expected occupied component 37",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.3540601285443612,
+                0.12,
+                -0.29337193472177325
+              ],
+              "max": [
+                -1.2940601285443611,
+                1.5099999999999998,
+                -0.23337193472177328
+              ]
+            },
+            "volume": 0.003928554277350396
+          },
+          "actual": {
+            "id": "7e8fe71f-d362-4039-a2cf-53f10fbd6c4f",
+            "bounds": {
+              "min": [
+                -1.354,
+                0.12,
+                -0.29300000000000004
+              ],
+              "max": [
+                -1.294,
+                1.5099999999999998,
+                -0.233
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 38",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.3372373688902375,
+                1.51,
+                -0.6066226336928711
+              ],
+              "max": [
+                -1.1572373688902373,
+                1.6900000000000002,
+                -0.4266226336928711
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "37f114ae-4962-4992-97c0-0dbc6aaf11a7",
+            "bounds": {
+              "min": [
+                -1.3370000000000002,
+                1.51,
+                -0.607
+              ],
+              "max": [
+                -1.157,
+                1.6900000000000002,
+                -0.42700000000000005
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 39",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.2772373688902374,
+                0.12,
+                -0.5466226336928711
+              ],
+              "max": [
+                -1.2172373688902374,
+                1.5099999999999998,
+                -0.48662263369287106
+              ]
+            },
+            "volume": 0.003928554277350398
+          },
+          "actual": {
+            "id": "335673cb-acdd-4951-8b7c-1e9cbadfa38a",
+            "bounds": {
+              "min": [
+                -1.2770000000000001,
+                0.12,
+                -0.547
+              ],
+              "max": [
+                -1.217,
+                1.5099999999999998,
+                -0.487
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 40",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.2124839766084365,
+                1.51,
+                -0.8400198145764627
+              ],
+              "max": [
+                -1.0324839766084364,
+                1.6900000000000002,
+                -0.6600198145764627
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "0c7f6bd9-493e-4398-a2c4-3fdd4fc3e1cf",
+            "bounds": {
+              "min": [
+                -1.2120000000000002,
+                1.51,
+                -0.84
+              ],
+              "max": [
+                -1.032,
+                1.6900000000000002,
+                -0.66
+              ]
+            },
+            "volume": 0.0030230614150748903
+          }
+        },
+        {
+          "name": "Expected occupied component 41",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.1524839766084365,
+                0.12,
+                -0.7800198145764627
+              ],
+              "max": [
+                -1.0924839766084364,
+                1.5099999999999998,
+                -0.7200198145764627
+              ]
+            },
+            "volume": 0.003928554277350398
+          },
+          "actual": {
+            "id": "58e2c91a-a0ca-412e-87b5-544685041e4b",
+            "bounds": {
+              "min": [
+                -1.1520000000000001,
+                0.12,
+                -0.78
+              ],
+              "max": [
+                -1.092,
+                1.5099999999999998,
+                -0.72
+              ]
+            },
+            "volume": 0.00392382216167297
+          }
+        },
+        {
+          "name": "Expected occupied component 42",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.0445941546018394,
+                1.51,
+                -1.0445941546018391
+              ],
+              "max": [
+                -0.8645941546018394,
+                1.6900000000000002,
+                -0.8645941546018392
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "bb742016-3fa9-4dc6-b3fb-6d52d17dbac0",
+            "bounds": {
+              "min": [
+                -1.045,
+                1.51,
+                -1.045
+              ],
+              "max": [
+                -0.865,
+                1.6900000000000002,
+                -0.865
+              ]
+            },
+            "volume": 0.0030230614150748916
+          }
+        },
+        {
+          "name": "Expected occupied component 43",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.9845941546018394,
+                0.12,
+                -0.9845941546018392
+              ],
+              "max": [
+                -0.9245941546018394,
+                1.5099999999999998,
+                -0.9245941546018391
+              ]
+            },
+            "volume": 0.003928554277350394
+          },
+          "actual": {
+            "id": "fde1ea09-ccd8-47be-b489-20340d686f1a",
+            "bounds": {
+              "min": [
+                -0.985,
+                0.12,
+                -0.985
+              ],
+              "max": [
+                -0.9249999999999999,
+                1.5099999999999998,
+                -0.9249999999999999
+              ]
+            },
+            "volume": 0.003923822161672966
+          }
+        },
+        {
+          "name": "Expected occupied component 44",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.8400198145764629,
+                1.51,
+                -1.2124839766084363
+              ],
+              "max": [
+                -0.660019814576463,
+                1.6900000000000002,
+                -1.0324839766084362
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "a21c3124-1de7-4384-ad38-0ace9476b299",
+            "bounds": {
+              "min": [
+                -0.84,
+                1.51,
+                -1.2120000000000002
+              ],
+              "max": [
+                -0.66,
+                1.6900000000000002,
+                -1.032
+              ]
+            },
+            "volume": 0.0030230614150748903
+          }
+        },
+        {
+          "name": "Expected occupied component 45",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.780019814576463,
+                0.12,
+                -1.1524839766084363
+              ],
+              "max": [
+                -0.7200198145764629,
+                1.5099999999999998,
+                -1.0924839766084362
+              ]
+            },
+            "volume": 0.003928554277350395
+          },
+          "actual": {
+            "id": "e82b62ef-abec-461d-949f-199436f06619",
+            "bounds": {
+              "min": [
+                -0.78,
+                0.12,
+                -1.1520000000000001
+              ],
+              "max": [
+                -0.72,
+                1.5099999999999998,
+                -1.092
+              ]
+            },
+            "volume": 0.00392382216167297
+          }
+        },
+        {
+          "name": "Expected occupied component 46",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.606622633692872,
+                1.51,
+                -1.337237368890237
+              ],
+              "max": [
+                -0.426622633692872,
+                1.6900000000000002,
+                -1.1572373688902369
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "bf804ec7-bf06-4c6e-ab05-4628c006a546",
+            "bounds": {
+              "min": [
+                -0.607,
+                1.51,
+                -1.3370000000000002
+              ],
+              "max": [
+                -0.42700000000000005,
+                1.6900000000000002,
+                -1.157
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 47",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.546622633692872,
+                0.12,
+                -1.277237368890237
+              ],
+              "max": [
+                -0.48662263369287195,
+                1.5099999999999998,
+                -1.217237368890237
+              ]
+            },
+            "volume": 0.0039285542773503995
+          },
+          "actual": {
+            "id": "3fe083bd-13a7-4e9c-ad74-fe7ee6cc5880",
+            "bounds": {
+              "min": [
+                -0.547,
+                0.12,
+                -1.2770000000000001
+              ],
+              "max": [
+                -0.487,
+                1.5099999999999998,
+                -1.217
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 48",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.35337193472177375,
+                1.51,
+                -1.414060128544361
+              ],
+              "max": [
+                -0.17337193472177373,
+                1.6900000000000002,
+                -1.2340601285443609
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "93c67bd5-b79e-477e-bc8b-3e0141bb634b",
+            "bounds": {
+              "min": [
+                -0.353,
+                1.51,
+                -1.4140000000000001
+              ],
+              "max": [
+                -0.17300000000000001,
+                1.6900000000000002,
+                -1.234
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 49",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.2933719347217737,
+                0.12,
+                -1.354060128544361
+              ],
+              "max": [
+                -0.23337193472177373,
+                1.5099999999999998,
+                -1.294060128544361
+              ]
+            },
+            "volume": 0.003928554277350398
+          },
+          "actual": {
+            "id": "3343c2af-89ef-4111-8a66-dae878c4fe0e",
+            "bounds": {
+              "min": [
+                -0.29300000000000004,
+                0.12,
+                -1.354
+              ],
+              "max": [
+                -0.233,
+                1.5099999999999998,
+                -1.294
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 50",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.09000000000000025,
+                1.51,
+                -1.4400000000000002
+              ],
+              "max": [
+                0.08999999999999975,
+                1.6900000000000002,
+                -1.26
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "0a76c605-e001-427b-a261-db3f2f0e5e0a",
+            "bounds": {
+              "min": [
+                -0.09,
+                1.51,
+                -1.4400000000000002
+              ],
+              "max": [
+                0.09,
+                1.6900000000000002,
+                -1.26
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 51",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.030000000000000245,
+                0.12,
+                -1.3800000000000001
+              ],
+              "max": [
+                0.029999999999999753,
+                1.5099999999999998,
+                -1.32
+              ]
+            },
+            "volume": 0.003928554277350397
+          },
+          "actual": {
+            "id": "911eec24-72f9-470e-a7aa-effe1d183524",
+            "bounds": {
+              "min": [
+                -0.03,
+                0.12,
+                -1.3800000000000001
+              ],
+              "max": [
+                0.03,
+                1.5099999999999998,
+                -1.32
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 52",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.17337193472177323,
+                1.51,
+                -1.4140601285443613
+              ],
+              "max": [
+                0.3533719347217732,
+                1.6900000000000002,
+                -1.234060128544361
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "5938f4c7-9f51-426c-bb09-b6a3b18fd35a",
+            "bounds": {
+              "min": [
+                0.17300000000000001,
+                1.51,
+                -1.4140000000000001
+              ],
+              "max": [
+                0.353,
+                1.6900000000000002,
+                -1.234
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 53",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.23337193472177323,
+                0.12,
+                -1.3540601285443612
+              ],
+              "max": [
+                0.29337193472177325,
+                1.5099999999999998,
+                -1.2940601285443611
+              ]
+            },
+            "volume": 0.003928554277350396
+          },
+          "actual": {
+            "id": "ce12d309-1f4d-4bb0-8a44-dd230a1e71a8",
+            "bounds": {
+              "min": [
+                0.233,
+                0.12,
+                -1.354
+              ],
+              "max": [
+                0.29300000000000004,
+                1.5099999999999998,
+                -1.294
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 54",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.42662263369287157,
+                1.51,
+                -1.337237368890237
+              ],
+              "max": [
+                0.6066226336928715,
+                1.6900000000000002,
+                -1.1572373688902369
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "211f372e-83bc-44d1-9c8b-ebf2eea1a1b8",
+            "bounds": {
+              "min": [
+                0.42700000000000005,
+                1.51,
+                -1.3370000000000002
+              ],
+              "max": [
+                0.607,
+                1.6900000000000002,
+                -1.157
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 55",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.4866226336928715,
+                0.12,
+                -1.277237368890237
+              ],
+              "max": [
+                0.5466226336928716,
+                1.5099999999999998,
+                -1.217237368890237
+              ]
+            },
+            "volume": 0.003928554277350398
+          },
+          "actual": {
+            "id": "0bd37077-93cd-43a9-b6cb-e2d9f977fe8d",
+            "bounds": {
+              "min": [
+                0.487,
+                0.12,
+                -1.2770000000000001
+              ],
+              "max": [
+                0.547,
+                1.5099999999999998,
+                -1.217
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 56",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.6600198145764625,
+                1.51,
+                -1.2124839766084365
+              ],
+              "max": [
+                0.8400198145764625,
+                1.6900000000000002,
+                -1.0324839766084364
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "a70c9ab0-3c3d-46b9-8224-62ba0d6138a4",
+            "bounds": {
+              "min": [
+                0.66,
+                1.51,
+                -1.2120000000000002
+              ],
+              "max": [
+                0.84,
+                1.6900000000000002,
+                -1.032
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 57",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.7200198145764625,
+                0.12,
+                -1.1524839766084365
+              ],
+              "max": [
+                0.7800198145764625,
+                1.5099999999999998,
+                -1.0924839766084364
+              ]
+            },
+            "volume": 0.003928554277350397
+          },
+          "actual": {
+            "id": "19422ee3-bce7-4755-99fb-a8c4e039c0ea",
+            "bounds": {
+              "min": [
+                0.72,
+                0.12,
+                -1.1520000000000001
+              ],
+              "max": [
+                0.78,
+                1.5099999999999998,
+                -1.092
+              ]
+            },
+            "volume": 0.00392382216167297
+          }
+        },
+        {
+          "name": "Expected occupied component 58",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.864594154601839,
+                1.51,
+                -1.0445941546018394
+              ],
+              "max": [
+                1.044594154601839,
+                1.6900000000000002,
+                -0.8645941546018394
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "cb6da270-655b-4446-b565-574e659fa526",
+            "bounds": {
+              "min": [
+                0.865,
+                1.51,
+                -1.045
+              ],
+              "max": [
+                1.045,
+                1.6900000000000002,
+                -0.865
+              ]
+            },
+            "volume": 0.003023061415074891
+          }
+        },
+        {
+          "name": "Expected occupied component 59",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.9245941546018389,
+                0.12,
+                -0.9845941546018394
+              ],
+              "max": [
+                0.984594154601839,
+                1.5099999999999998,
+                -0.9245941546018394
+              ]
+            },
+            "volume": 0.003928554277350395
+          },
+          "actual": {
+            "id": "eaa54353-98a2-490d-afd9-d544d47dfe29",
+            "bounds": {
+              "min": [
+                0.9249999999999999,
+                0.12,
+                -0.985
+              ],
+              "max": [
+                0.985,
+                1.5099999999999998,
+                -0.9249999999999999
+              ]
+            },
+            "volume": 0.003923822161672966
+          }
+        },
+        {
+          "name": "Expected occupied component 60",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.0324839766084362,
+                1.51,
+                -0.8400198145764629
+              ],
+              "max": [
+                1.2124839766084363,
+                1.6900000000000002,
+                -0.660019814576463
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "12984f1f-eced-41d4-9b44-ef4aa6747e53",
+            "bounds": {
+              "min": [
+                1.032,
+                1.51,
+                -0.84
+              ],
+              "max": [
+                1.2120000000000002,
+                1.6900000000000002,
+                -0.66
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 61",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.0924839766084362,
+                0.12,
+                -0.780019814576463
+              ],
+              "max": [
+                1.1524839766084363,
+                1.5099999999999998,
+                -0.7200198145764629
+              ]
+            },
+            "volume": 0.003928554277350395
+          },
+          "actual": {
+            "id": "a4c65b7d-5724-44fd-a67d-eab0df9da622",
+            "bounds": {
+              "min": [
+                1.092,
+                0.12,
+                -0.78
+              ],
+              "max": [
+                1.1520000000000001,
+                1.5099999999999998,
+                -0.72
+              ]
+            },
+            "volume": 0.00392382216167297
+          }
+        },
+        {
+          "name": "Expected occupied component 62",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.1572373688902369,
+                1.51,
+                -0.6066226336928721
+              ],
+              "max": [
+                1.337237368890237,
+                1.6900000000000002,
+                -0.4266226336928721
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "37d62682-9e31-4b70-9926-871f334bad9a",
+            "bounds": {
+              "min": [
+                1.157,
+                1.51,
+                -0.607
+              ],
+              "max": [
+                1.3370000000000002,
+                1.6900000000000002,
+                -0.42700000000000005
+              ]
+            },
+            "volume": 0.0030230614150748903
+          }
+        },
+        {
+          "name": "Expected occupied component 63",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.217237368890237,
+                0.12,
+                -0.5466226336928721
+              ],
+              "max": [
+                1.277237368890237,
+                1.5099999999999998,
+                -0.48662263369287206
+              ]
+            },
+            "volume": 0.003928554277350399
+          },
+          "actual": {
+            "id": "0e80ad5d-3463-4c77-a12b-e05f747046ca",
+            "bounds": {
+              "min": [
+                1.217,
+                0.12,
+                -0.547
+              ],
+              "max": [
+                1.2770000000000001,
+                1.5099999999999998,
+                -0.487
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        },
+        {
+          "name": "Expected occupied component 64",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.2340601285443609,
+                1.51,
+                -0.35337193472177375
+              ],
+              "max": [
+                1.414060128544361,
+                1.6900000000000002,
+                -0.17337193472177378
+              ]
+            },
+            "volume": 0.0030493051053721043
+          },
+          "actual": {
+            "id": "c2e719bc-4228-46cb-916c-f96e4f90705c",
+            "bounds": {
+              "min": [
+                1.234,
+                1.51,
+                -0.353
+              ],
+              "max": [
+                1.4140000000000001,
+                1.6900000000000002,
+                -0.17300000000000001
+              ]
+            },
+            "volume": 0.0030230614150748908
+          }
+        },
+        {
+          "name": "Expected occupied component 65",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.294060128544361,
+                0.12,
+                -0.2933719347217738
+              ],
+              "max": [
+                1.354060128544361,
+                1.5099999999999998,
+                -0.23337193472177378
+              ]
+            },
+            "volume": 0.003928554277350398
+          },
+          "actual": {
+            "id": "3d6c213a-9646-4427-b67b-4ae84a3f824a",
+            "bounds": {
+              "min": [
+                1.294,
+                0.12,
+                -0.29300000000000004
+              ],
+              "max": [
+                1.354,
+                1.5099999999999998,
+                -0.233
+              ]
+            },
+            "volume": 0.0039238221616729714
+          }
+        }
+      ]
+    }
+  ]
+}

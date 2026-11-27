@@ -1,0 +1,3354 @@
+{
+  "results": [
+    {
+      "name": "W5 correct creation",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Unrelated reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated group",
+          "status": "verified"
+        },
+        {
+          "name": "Five editable parts",
+          "status": "verified",
+          "expected": 5,
+          "actual": 5
+        },
+        {
+          "name": "Distinct identities",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-0",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-1",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-2",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-3",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-4",
+          "status": "verified"
+        },
+        {
+          "name": "Placement Workbench top 0",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Placement Workbench top 1",
+          "status": "verified",
+          "expected": 0.8499999946355818,
+          "actual": 0.8499999946355818
+        },
+        {
+          "name": "Placement Workbench top 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Workbench top",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.8068599999766509,
+                0.8199999928474426,
+                -0.6819828325625497
+              ],
+              "max": [
+                0.8068599999766509,
+                0.8799999964237212,
+                0.6819828325625497
+              ]
+            },
+            "volume": 0.06264000359032022,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.8068599999766509,
+                0.8199999928474426,
+                -0.6819828325625497
+              ],
+              "max": [
+                0.8068599999766509,
+                0.8799999964237212,
+                0.6819828325625497
+              ]
+            },
+            "volume": 0.06264000359032022
+          }
+        },
+        {
+          "name": "Placement Tapered leg 0",
+          "status": "verified",
+          "expected": -0.34783287442751837,
+          "actual": -0.34783287442751837
+        },
+        {
+          "name": "Placement Tapered leg 1",
+          "status": "verified",
+          "expected": 0.41,
+          "actual": 0.41
+        },
+        {
+          "name": "Placement Tapered leg 2",
+          "status": "verified",
+          "expected": -0.48899108144811493,
+          "actual": -0.48899108144811493
+        },
+        {
+          "name": "Occupied geometry Tapered leg",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.39783284169949595,
+                0,
+                -0.5389910338189402
+              ],
+              "max": [
+                -0.2978329071555408,
+                0.82,
+                -0.43899112907728965
+              ]
+            },
+            "volume": 0.004205950052415854,
+            "relativeTolerance": 0.02
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.39783284169949595,
+                0,
+                -0.5389910338189402
+              ],
+              "max": [
+                -0.2978329071555408,
+                0.82,
+                -0.43899112907728965
+              ]
+            },
+            "volume": 0.004205950052415854
+          }
+        },
+        {
+          "name": "Placement Tapered leg 0",
+          "status": "verified",
+          "expected": -0.5950511399535376,
+          "actual": -0.5950511399535376
+        },
+        {
+          "name": "Placement Tapered leg 1",
+          "status": "verified",
+          "expected": 0.41,
+          "actual": 0.41
+        },
+        {
+          "name": "Placement Tapered leg 2",
+          "status": "verified",
+          "expected": -0.07755079201225333,
+          "actual": -0.07755079201225333
+        },
+        {
+          "name": "Occupied geometry Tapered leg",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.6450511206365523,
+                0,
+                -0.12755076524469186
+              ],
+              "max": [
+                -0.5450511592705231,
+                0.82,
+                -0.027550818779814808
+              ]
+            },
+            "volume": 0.004205950153417559,
+            "relativeTolerance": 0.02
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.6450511206365523,
+                0,
+                -0.12755076524469186
+              ],
+              "max": [
+                -0.5450511592705231,
+                0.82,
+                -0.027550818779814808
+              ]
+            },
+            "volume": 0.004205950153417559
+          }
+        },
+        {
+          "name": "Placement Tapered leg 0",
+          "status": "verified",
+          "expected": 0.5950511399535376,
+          "actual": 0.5950511399535376
+        },
+        {
+          "name": "Placement Tapered leg 1",
+          "status": "verified",
+          "expected": 0.41,
+          "actual": 0.41
+        },
+        {
+          "name": "Placement Tapered leg 2",
+          "status": "verified",
+          "expected": 0.07755079201225333,
+          "actual": 0.07755079201225333
+        },
+        {
+          "name": "Occupied geometry Tapered leg",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.5450511592705231,
+                0,
+                0.027550818779814808
+              ],
+              "max": [
+                0.6450511206365523,
+                0.82,
+                0.12755076524469186
+              ]
+            },
+            "volume": 0.004205950153417559,
+            "relativeTolerance": 0.02
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.5450511592705231,
+                0,
+                0.027550818779814808
+              ],
+              "max": [
+                0.6450511206365523,
+                0.82,
+                0.12755076524469186
+              ]
+            },
+            "volume": 0.004205950153417559
+          }
+        },
+        {
+          "name": "Placement Tapered leg 0",
+          "status": "verified",
+          "expected": 0.34783287442751837,
+          "actual": 0.34783287442751837
+        },
+        {
+          "name": "Placement Tapered leg 1",
+          "status": "verified",
+          "expected": 0.41,
+          "actual": 0.41
+        },
+        {
+          "name": "Placement Tapered leg 2",
+          "status": "verified",
+          "expected": 0.48899108144811493,
+          "actual": 0.48899108144811493
+        },
+        {
+          "name": "Occupied geometry Tapered leg",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.2978329071555408,
+                0,
+                0.43899112907728965
+              ],
+              "max": [
+                0.39783284169949595,
+                0.82,
+                0.5389910338189402
+              ]
+            },
+            "volume": 0.004205950052415854,
+            "relativeTolerance": 0.02
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.2978329071555408,
+                0,
+                0.43899112907728965
+              ],
+              "max": [
+                0.39783284169949595,
+                0.82,
+                0.5389910338189402
+              ]
+            },
+            "volume": 0.004205950052415854
+          }
+        },
+        {
+          "name": "Grouped assembly",
+          "status": "verified"
+        }
+      ]
+    },
+    {
+      "name": "W5 connected edit",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Unrelated reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated group",
+          "status": "verified"
+        },
+        {
+          "name": "Five editable parts",
+          "status": "verified",
+          "expected": 5,
+          "actual": 5
+        },
+        {
+          "name": "Distinct identities",
+          "status": "verified"
+        },
+        {
+          "name": "Same identity roster",
+          "status": "verified"
+        },
+        {
+          "name": "Groups preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-0",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-1",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-2",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-3",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-4",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-0",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-1",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-2",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-3",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-4",
+          "status": "verified"
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-0",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.8068599999766509,
+                1.0499999928474426,
+                -0.6819828325625497
+              ],
+              "max": [
+                0.8068599999766509,
+                1.1099999964237213,
+                0.6819828325625497
+              ]
+            },
+            "volume": 0.0626400035903204,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.8068599999766509,
+                1.0499999523162853,
+                -0.6819828325625497
+              ],
+              "max": [
+                0.8068599999766509,
+                1.1100000143051147,
+                0.6819828325625497
+              ]
+            },
+            "volume": 0.06264006457302324
+          }
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-1",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.39783284169949595,
+                0,
+                -0.5389910338189402
+              ],
+              "max": [
+                -0.2978329071555408,
+                1.05,
+                -0.43899112907728965
+              ]
+            },
+            "volume": 0.0053856677500446915,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.39783284169949595,
+                0,
+                -0.5389910338189402
+              ],
+              "max": [
+                -0.2978329071555408,
+                1.049999937415123,
+                -0.43899112907728965
+              ]
+            },
+            "volume": 0.005385667429033879
+          }
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-2",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.6450511206365523,
+                0,
+                -0.12755076524469186
+              ],
+              "max": [
+                -0.5450511592705231,
+                1.05,
+                -0.027550818779814808
+              ]
+            },
+            "volume": 0.005385667879376146,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.6450511206365523,
+                0,
+                -0.12755076524469186
+              ],
+              "max": [
+                -0.5450511592705231,
+                1.049999937415123,
+                -0.027550818779814808
+              ]
+            },
+            "volume": 0.005385667558365321
+          }
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-3",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.5450511592705231,
+                0,
+                0.027550818779814808
+              ],
+              "max": [
+                0.6450511206365523,
+                1.05,
+                0.12755076524469186
+              ]
+            },
+            "volume": 0.005385667879376146,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.5450511592705231,
+                0,
+                0.027550818779814808
+              ],
+              "max": [
+                0.6450511206365523,
+                1.049999937415123,
+                0.12755076524469186
+              ]
+            },
+            "volume": 0.005385667558365321
+          }
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-4",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.2978329071555408,
+                0,
+                0.43899112907728965
+              ],
+              "max": [
+                0.39783284169949595,
+                1.05,
+                0.5389910338189402
+              ]
+            },
+            "volume": 0.0053856677500446915,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.2978329071555408,
+                0,
+                0.43899112907728965
+              ],
+              "max": [
+                0.39783284169949595,
+                1.049999937415123,
+                0.5389910338189402
+              ]
+            },
+            "volume": 0.005385667429033879
+          }
+        }
+      ]
+    },
+    {
+      "name": "W5 displaced part blocked",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Unrelated reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated group",
+          "status": "verified"
+        },
+        {
+          "name": "Five editable parts",
+          "status": "verified",
+          "expected": 5,
+          "actual": 5
+        },
+        {
+          "name": "Distinct identities",
+          "status": "verified"
+        },
+        {
+          "name": "Same identity roster",
+          "status": "verified"
+        },
+        {
+          "name": "Groups preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-0",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-1",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-2",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-3",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-4",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-0",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-1",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-2",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-3",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-4",
+          "status": "verified"
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-0",
+          "status": "incorrect",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.8068599999766509,
+                1.0499999928474426,
+                -0.6819828325625497
+              ],
+              "max": [
+                0.8068599999766509,
+                1.1099999964237213,
+                0.6819828325625497
+              ]
+            },
+            "volume": 0.0626400035903204,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.7568599999766509,
+                1.0499999523162853,
+                -0.6819828325625497
+              ],
+              "max": [
+                0.856859999976651,
+                1.1100000143051147,
+                0.6819828325625497
+              ]
+            },
+            "volume": 0.06264006457302325
+          }
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-1",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.39783284169949595,
+                0,
+                -0.5389910338189402
+              ],
+              "max": [
+                -0.2978329071555408,
+                1.05,
+                -0.43899112907728965
+              ]
+            },
+            "volume": 0.0053856677500446915,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.39783284169949595,
+                0,
+                -0.5389910338189402
+              ],
+              "max": [
+                -0.2978329071555408,
+                1.049999937415123,
+                -0.43899112907728965
+              ]
+            },
+            "volume": 0.005385667429033879
+          }
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-2",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.6450511206365523,
+                0,
+                -0.12755076524469186
+              ],
+              "max": [
+                -0.5450511592705231,
+                1.05,
+                -0.027550818779814808
+              ]
+            },
+            "volume": 0.005385667879376146,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.6450511206365523,
+                0,
+                -0.12755076524469186
+              ],
+              "max": [
+                -0.5450511592705231,
+                1.049999937415123,
+                -0.027550818779814808
+              ]
+            },
+            "volume": 0.005385667558365321
+          }
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-3",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.5450511592705231,
+                0,
+                0.027550818779814808
+              ],
+              "max": [
+                0.6450511206365523,
+                1.05,
+                0.12755076524469186
+              ]
+            },
+            "volume": 0.005385667879376146,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.5450511592705231,
+                0,
+                0.027550818779814808
+              ],
+              "max": [
+                0.6450511206365523,
+                1.049999937415123,
+                0.12755076524469186
+              ]
+            },
+            "volume": 0.005385667558365321
+          }
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-4",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.2978329071555408,
+                0,
+                0.43899112907728965
+              ],
+              "max": [
+                0.39783284169949595,
+                1.05,
+                0.5389910338189402
+              ]
+            },
+            "volume": 0.0053856677500446915,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.2978329071555408,
+                0,
+                0.43899112907728965
+              ],
+              "max": [
+                0.39783284169949595,
+                1.049999937415123,
+                0.5389910338189402
+              ]
+            },
+            "volume": 0.005385667429033879
+          }
+        }
+      ]
+    },
+    {
+      "name": "W5 unrelated change blocked",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Unrelated reference-block",
+          "status": "incorrect"
+        },
+        {
+          "name": "Unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated group",
+          "status": "verified"
+        },
+        {
+          "name": "Five editable parts",
+          "status": "verified",
+          "expected": 5,
+          "actual": 5
+        },
+        {
+          "name": "Distinct identities",
+          "status": "verified"
+        },
+        {
+          "name": "Same identity roster",
+          "status": "verified"
+        },
+        {
+          "name": "Groups preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-0",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-1",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-2",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-3",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W5-4",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-0",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-1",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-2",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-3",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-4",
+          "status": "verified"
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-0",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.8068599999766509,
+                1.0499999928474426,
+                -0.6819828325625497
+              ],
+              "max": [
+                0.8068599999766509,
+                1.1099999964237213,
+                0.6819828325625497
+              ]
+            },
+            "volume": 0.0626400035903204,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.8068599999766509,
+                1.0499999523162853,
+                -0.6819828325625497
+              ],
+              "max": [
+                0.8068599999766509,
+                1.1100000143051147,
+                0.6819828325625497
+              ]
+            },
+            "volume": 0.06264006457302324
+          }
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-1",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.39783284169949595,
+                0,
+                -0.5389910338189402
+              ],
+              "max": [
+                -0.2978329071555408,
+                1.05,
+                -0.43899112907728965
+              ]
+            },
+            "volume": 0.0053856677500446915,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.39783284169949595,
+                0,
+                -0.5389910338189402
+              ],
+              "max": [
+                -0.2978329071555408,
+                1.049999937415123,
+                -0.43899112907728965
+              ]
+            },
+            "volume": 0.005385667429033879
+          }
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-2",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.6450511206365523,
+                0,
+                -0.12755076524469186
+              ],
+              "max": [
+                -0.5450511592705231,
+                1.05,
+                -0.027550818779814808
+              ]
+            },
+            "volume": 0.005385667879376146,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.6450511206365523,
+                0,
+                -0.12755076524469186
+              ],
+              "max": [
+                -0.5450511592705231,
+                1.049999937415123,
+                -0.027550818779814808
+              ]
+            },
+            "volume": 0.005385667558365321
+          }
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-3",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.5450511592705231,
+                0,
+                0.027550818779814808
+              ],
+              "max": [
+                0.6450511206365523,
+                1.05,
+                0.12755076524469186
+              ]
+            },
+            "volume": 0.005385667879376146,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.5450511592705231,
+                0,
+                0.027550818779814808
+              ],
+              "max": [
+                0.6450511206365523,
+                1.049999937415123,
+                0.12755076524469186
+              ]
+            },
+            "volume": 0.005385667558365321
+          }
+        },
+        {
+          "name": "Expected occupied edit transfer-W5-4",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.2978329071555408,
+                0,
+                0.43899112907728965
+              ],
+              "max": [
+                0.39783284169949595,
+                1.05,
+                0.5389910338189402
+              ]
+            },
+            "volume": 0.0053856677500446915,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.2978329071555408,
+                0,
+                0.43899112907728965
+              ],
+              "max": [
+                0.39783284169949595,
+                1.049999937415123,
+                0.5389910338189402
+              ]
+            },
+            "volume": 0.005385667429033879
+          }
+        }
+      ]
+    },
+    {
+      "name": "W5 missing object blocked",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Unrelated reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated group",
+          "status": "verified"
+        },
+        {
+          "name": "Five editable parts",
+          "status": "incorrect",
+          "expected": 5,
+          "actual": 4
+        },
+        {
+          "name": "Distinct identities",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-0",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-1",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-2",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-3",
+          "status": "verified"
+        },
+        {
+          "name": "Placement Workbench top 0",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Placement Workbench top 1",
+          "status": "verified",
+          "expected": 0.8499999946355818,
+          "actual": 0.8499999946355818
+        },
+        {
+          "name": "Placement Workbench top 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Workbench top",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.8068599999766509,
+                0.8199999928474426,
+                -0.6819828325625497
+              ],
+              "max": [
+                0.8068599999766509,
+                0.8799999964237212,
+                0.6819828325625497
+              ]
+            },
+            "volume": 0.06264000359032022,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.8068599999766509,
+                0.8199999928474426,
+                -0.6819828325625497
+              ],
+              "max": [
+                0.8068599999766509,
+                0.8799999964237212,
+                0.6819828325625497
+              ]
+            },
+            "volume": 0.06264000359032022
+          }
+        },
+        {
+          "name": "Placement Tapered leg 0",
+          "status": "verified",
+          "expected": -0.34783287442751837,
+          "actual": -0.34783287442751837
+        },
+        {
+          "name": "Placement Tapered leg 1",
+          "status": "verified",
+          "expected": 0.41,
+          "actual": 0.41
+        },
+        {
+          "name": "Placement Tapered leg 2",
+          "status": "verified",
+          "expected": -0.48899108144811493,
+          "actual": -0.48899108144811493
+        },
+        {
+          "name": "Occupied geometry Tapered leg",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.39783284169949595,
+                0,
+                -0.5389910338189402
+              ],
+              "max": [
+                -0.2978329071555408,
+                0.82,
+                -0.43899112907728965
+              ]
+            },
+            "volume": 0.004205950052415854,
+            "relativeTolerance": 0.02
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.39783284169949595,
+                0,
+                -0.5389910338189402
+              ],
+              "max": [
+                -0.2978329071555408,
+                0.82,
+                -0.43899112907728965
+              ]
+            },
+            "volume": 0.004205950052415854
+          }
+        },
+        {
+          "name": "Placement Tapered leg 0",
+          "status": "verified",
+          "expected": -0.5950511399535376,
+          "actual": -0.5950511399535376
+        },
+        {
+          "name": "Placement Tapered leg 1",
+          "status": "verified",
+          "expected": 0.41,
+          "actual": 0.41
+        },
+        {
+          "name": "Placement Tapered leg 2",
+          "status": "verified",
+          "expected": -0.07755079201225333,
+          "actual": -0.07755079201225333
+        },
+        {
+          "name": "Occupied geometry Tapered leg",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.6450511206365523,
+                0,
+                -0.12755076524469186
+              ],
+              "max": [
+                -0.5450511592705231,
+                0.82,
+                -0.027550818779814808
+              ]
+            },
+            "volume": 0.004205950153417559,
+            "relativeTolerance": 0.02
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.6450511206365523,
+                0,
+                -0.12755076524469186
+              ],
+              "max": [
+                -0.5450511592705231,
+                0.82,
+                -0.027550818779814808
+              ]
+            },
+            "volume": 0.004205950153417559
+          }
+        },
+        {
+          "name": "Placement Tapered leg 0",
+          "status": "verified",
+          "expected": 0.5950511399535376,
+          "actual": 0.5950511399535376
+        },
+        {
+          "name": "Placement Tapered leg 1",
+          "status": "verified",
+          "expected": 0.41,
+          "actual": 0.41
+        },
+        {
+          "name": "Placement Tapered leg 2",
+          "status": "verified",
+          "expected": 0.07755079201225333,
+          "actual": 0.07755079201225333
+        },
+        {
+          "name": "Occupied geometry Tapered leg",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.5450511592705231,
+                0,
+                0.027550818779814808
+              ],
+              "max": [
+                0.6450511206365523,
+                0.82,
+                0.12755076524469186
+              ]
+            },
+            "volume": 0.004205950153417559,
+            "relativeTolerance": 0.02
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.5450511592705231,
+                0,
+                0.027550818779814808
+              ],
+              "max": [
+                0.6450511206365523,
+                0.82,
+                0.12755076524469186
+              ]
+            },
+            "volume": 0.004205950153417559
+          }
+        },
+        {
+          "name": "Required part Tapered leg",
+          "status": "incorrect"
+        },
+        {
+          "name": "Grouped assembly",
+          "status": "verified"
+        }
+      ]
+    },
+    {
+      "name": "W5 equivalent mesh accepted",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Unrelated reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated group",
+          "status": "verified"
+        },
+        {
+          "name": "Five editable parts",
+          "status": "verified",
+          "expected": 5,
+          "actual": 5
+        },
+        {
+          "name": "Distinct identities",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-0",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-1",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-2",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-3",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W5-4",
+          "status": "verified"
+        },
+        {
+          "name": "Placement Workbench top 0",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Placement Workbench top 1",
+          "status": "verified",
+          "expected": 0.8499999946355818,
+          "actual": 0.8499999946355818
+        },
+        {
+          "name": "Placement Workbench top 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Workbench top",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.8068599999766509,
+                0.8199999928474426,
+                -0.6819828325625497
+              ],
+              "max": [
+                0.8068599999766509,
+                0.8799999964237212,
+                0.6819828325625497
+              ]
+            },
+            "volume": 0.06264000359032022,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.8068599999766509,
+                0.8199999928474426,
+                -0.6819828325625497
+              ],
+              "max": [
+                0.8068599999766509,
+                0.8799999964237212,
+                0.6819828325625497
+              ]
+            },
+            "volume": 0.06264000359032022
+          }
+        },
+        {
+          "name": "Placement Tapered leg 0",
+          "status": "verified",
+          "expected": -0.34783287442751837,
+          "actual": -0.34783287442751837
+        },
+        {
+          "name": "Placement Tapered leg 1",
+          "status": "verified",
+          "expected": 0.41,
+          "actual": 0.41
+        },
+        {
+          "name": "Placement Tapered leg 2",
+          "status": "verified",
+          "expected": -0.48899108144811493,
+          "actual": -0.48899108144811493
+        },
+        {
+          "name": "Occupied geometry Tapered leg",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.39783284169949595,
+                0,
+                -0.5389910338189402
+              ],
+              "max": [
+                -0.2978329071555408,
+                0.82,
+                -0.43899112907728965
+              ]
+            },
+            "volume": 0.004205950052415854,
+            "relativeTolerance": 0.02
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.39783284169949595,
+                0,
+                -0.5389910338189402
+              ],
+              "max": [
+                -0.2978329071555408,
+                0.82,
+                -0.43899112907728965
+              ]
+            },
+            "volume": 0.004205950052415854
+          }
+        },
+        {
+          "name": "Placement Tapered leg 0",
+          "status": "verified",
+          "expected": -0.5950511399535376,
+          "actual": -0.5950511399535376
+        },
+        {
+          "name": "Placement Tapered leg 1",
+          "status": "verified",
+          "expected": 0.41,
+          "actual": 0.41
+        },
+        {
+          "name": "Placement Tapered leg 2",
+          "status": "verified",
+          "expected": -0.07755079201225333,
+          "actual": -0.07755079201225333
+        },
+        {
+          "name": "Occupied geometry Tapered leg",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.6450511206365523,
+                0,
+                -0.12755076524469186
+              ],
+              "max": [
+                -0.5450511592705231,
+                0.82,
+                -0.027550818779814808
+              ]
+            },
+            "volume": 0.004205950153417559,
+            "relativeTolerance": 0.02
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.6450511206365523,
+                0,
+                -0.12755076524469186
+              ],
+              "max": [
+                -0.5450511592705231,
+                0.82,
+                -0.027550818779814808
+              ]
+            },
+            "volume": 0.004205950153417559
+          }
+        },
+        {
+          "name": "Placement Tapered leg 0",
+          "status": "verified",
+          "expected": 0.5950511399535376,
+          "actual": 0.5950511399535376
+        },
+        {
+          "name": "Placement Tapered leg 1",
+          "status": "verified",
+          "expected": 0.41,
+          "actual": 0.41
+        },
+        {
+          "name": "Placement Tapered leg 2",
+          "status": "verified",
+          "expected": 0.07755079201225333,
+          "actual": 0.07755079201225333
+        },
+        {
+          "name": "Occupied geometry Tapered leg",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.5450511592705231,
+                0,
+                0.027550818779814808
+              ],
+              "max": [
+                0.6450511206365523,
+                0.82,
+                0.12755076524469186
+              ]
+            },
+            "volume": 0.004205950153417559,
+            "relativeTolerance": 0.02
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.5450511592705231,
+                0,
+                0.027550818779814808
+              ],
+              "max": [
+                0.6450511206365523,
+                0.82,
+                0.12755076524469186
+              ]
+            },
+            "volume": 0.004205950153417559
+          }
+        },
+        {
+          "name": "Placement Tapered leg 0",
+          "status": "verified",
+          "expected": 0.34783287442751837,
+          "actual": 0.34783287442751837
+        },
+        {
+          "name": "Placement Tapered leg 1",
+          "status": "verified",
+          "expected": 0.41,
+          "actual": 0.41
+        },
+        {
+          "name": "Placement Tapered leg 2",
+          "status": "verified",
+          "expected": 0.48899108144811493,
+          "actual": 0.48899108144811493
+        },
+        {
+          "name": "Occupied geometry Tapered leg",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.2978329071555408,
+                0,
+                0.43899112907728965
+              ],
+              "max": [
+                0.39783284169949595,
+                0.82,
+                0.5389910338189402
+              ]
+            },
+            "volume": 0.004205950052415854,
+            "relativeTolerance": 0.02
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.2978329071555408,
+                0,
+                0.43899112907728965
+              ],
+              "max": [
+                0.39783284169949595,
+                0.82,
+                0.5389910338189402
+              ]
+            },
+            "volume": 0.004205950052415854
+          }
+        },
+        {
+          "name": "Grouped assembly",
+          "status": "verified"
+        }
+      ]
+    },
+    {
+      "name": "W6 correct creation",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Unrelated reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated group",
+          "status": "verified"
+        },
+        {
+          "name": "Five editable parts",
+          "status": "verified",
+          "expected": 5,
+          "actual": 5
+        },
+        {
+          "name": "Distinct identities",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-0",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-1",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-2",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-3",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-4",
+          "status": "verified"
+        },
+        {
+          "name": "Placement Platform 0",
+          "status": "verified",
+          "expected": -2.0000000596046448,
+          "actual": -2.0000000596046448
+        },
+        {
+          "name": "Placement Platform 1",
+          "status": "verified",
+          "expected": 0.125,
+          "actual": 0.125
+        },
+        {
+          "name": "Placement Platform 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Platform",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.4000000953674316,
+                0,
+                -0.6
+              ],
+              "max": [
+                -1.600000023841858,
+                0.25,
+                0.6
+              ]
+            },
+            "volume": 0.2400000214576721,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -2.4000000953674316,
+                0,
+                -0.6
+              ],
+              "max": [
+                -1.600000023841858,
+                0.25,
+                0.6
+              ]
+            },
+            "volume": 0.2400000214576721
+          }
+        },
+        {
+          "name": "Placement Platform 0",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Placement Platform 1",
+          "status": "verified",
+          "expected": 0.275,
+          "actual": 0.275
+        },
+        {
+          "name": "Placement Platform 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Platform",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.4,
+                0,
+                -0.6
+              ],
+              "max": [
+                0.4,
+                0.55,
+                0.6
+              ]
+            },
+            "volume": 0.528,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.4,
+                0,
+                -0.6
+              ],
+              "max": [
+                0.4,
+                0.55,
+                0.6
+              ]
+            },
+            "volume": 0.528
+          }
+        },
+        {
+          "name": "Placement Platform 0",
+          "status": "verified",
+          "expected": 2.0000000596046448,
+          "actual": 2.0000000596046448
+        },
+        {
+          "name": "Placement Platform 1",
+          "status": "verified",
+          "expected": 0.425,
+          "actual": 0.425
+        },
+        {
+          "name": "Placement Platform 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Platform",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.600000023841858,
+                0,
+                -0.6
+              ],
+              "max": [
+                2.4000000953674316,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 0.816000072956085,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                1.600000023841858,
+                0,
+                -0.6
+              ],
+              "max": [
+                2.4000000953674316,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 0.816000072956085
+          }
+        },
+        {
+          "name": "Placement Left ramp 0",
+          "status": "verified",
+          "expected": -1,
+          "actual": -1
+        },
+        {
+          "name": "Placement Left ramp 1",
+          "status": "verified",
+          "expected": 0.275,
+          "actual": 0.275
+        },
+        {
+          "name": "Placement Left ramp 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Left ramp",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.6,
+                0,
+                -0.6
+              ],
+              "max": [
+                -0.3999999999999999,
+                0.55,
+                0.6
+              ]
+            },
+            "volume": 0.5760000053644181,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -1.6,
+                0,
+                -0.6
+              ],
+              "max": [
+                -0.3999999999999999,
+                0.55,
+                0.6
+              ]
+            },
+            "volume": 0.5760000053644181
+          }
+        },
+        {
+          "name": "Placement Right ramp 0",
+          "status": "verified",
+          "expected": 1,
+          "actual": 1
+        },
+        {
+          "name": "Placement Right ramp 1",
+          "status": "verified",
+          "expected": 0.425,
+          "actual": 0.425
+        },
+        {
+          "name": "Placement Right ramp 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Right ramp",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.3999999999999999,
+                0,
+                -0.6
+              ],
+              "max": [
+                1.6,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 1.0080000128746034,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.3999999999999999,
+                0,
+                -0.6
+              ],
+              "max": [
+                1.6,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 1.0080000128746034
+          }
+        },
+        {
+          "name": "Grouped assembly",
+          "status": "verified"
+        }
+      ]
+    },
+    {
+      "name": "W6 connected edit",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Unrelated reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated group",
+          "status": "verified"
+        },
+        {
+          "name": "Five editable parts",
+          "status": "verified",
+          "expected": 5,
+          "actual": 5
+        },
+        {
+          "name": "Distinct identities",
+          "status": "verified"
+        },
+        {
+          "name": "Same identity roster",
+          "status": "verified"
+        },
+        {
+          "name": "Groups preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-0",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-1",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-2",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-3",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-4",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-0",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-1",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-2",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-3",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-4",
+          "status": "verified"
+        },
+        {
+          "name": "Platform edit transfer-W6-0",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.4000000953674316,
+                0,
+                -0.6
+              ],
+              "max": [
+                -1.600000023841858,
+                0.25,
+                0.6
+              ]
+            },
+            "volume": 0.2400000214576721,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -2.4000000953674316,
+                0,
+                -0.6
+              ],
+              "max": [
+                -1.600000023841858,
+                0.25,
+                0.6
+              ]
+            },
+            "volume": 0.2400000214576721
+          }
+        },
+        {
+          "name": "Platform edit transfer-W6-1",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.4,
+                0,
+                -0.6
+              ],
+              "max": [
+                0.4,
+                0.73,
+                0.6
+              ]
+            },
+            "volume": 0.7008000000000001,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.4,
+                0,
+                -0.6
+              ],
+              "max": [
+                0.4,
+                0.73,
+                0.6
+              ]
+            },
+            "volume": 0.7008000000000001
+          }
+        },
+        {
+          "name": "Platform edit transfer-W6-2",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.600000023841858,
+                0,
+                -0.6
+              ],
+              "max": [
+                2.4000000953674316,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 0.816000072956085,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                1.600000023841858,
+                0,
+                -0.6
+              ],
+              "max": [
+                2.4000000953674316,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 0.816000072956085
+          }
+        },
+        {
+          "name": "Continuous ramp edit transfer-W6-3",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.6,
+                0,
+                -0.6
+              ],
+              "max": [
+                -0.3999999999999999,
+                0.7300000119209289,
+                0.6
+              ]
+            },
+            "volume": 0.7056000085830689,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -1.6,
+                0,
+                -0.6
+              ],
+              "max": [
+                -0.3999999999999999,
+                0.73,
+                0.6
+              ]
+            },
+            "volume": 0.7056000025749207
+          }
+        },
+        {
+          "name": "Continuous ramp edit transfer-W6-4",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.3999999999999999,
+                0,
+                -0.6
+              ],
+              "max": [
+                1.6,
+                0.8500000238418579,
+                0.6
+              ]
+            },
+            "volume": 1.1376000257492065,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.3999999999999999,
+                0,
+                -0.6
+              ],
+              "max": [
+                1.6,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 1.1376000051498414
+          }
+        }
+      ]
+    },
+    {
+      "name": "W6 displaced part blocked",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Unrelated reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated group",
+          "status": "verified"
+        },
+        {
+          "name": "Five editable parts",
+          "status": "verified",
+          "expected": 5,
+          "actual": 5
+        },
+        {
+          "name": "Distinct identities",
+          "status": "verified"
+        },
+        {
+          "name": "Same identity roster",
+          "status": "verified"
+        },
+        {
+          "name": "Groups preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-0",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-1",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-2",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-3",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-4",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-0",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-1",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-2",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-3",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-4",
+          "status": "verified"
+        },
+        {
+          "name": "Platform edit transfer-W6-0",
+          "status": "incorrect",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.4000000953674316,
+                0,
+                -0.6
+              ],
+              "max": [
+                -1.600000023841858,
+                0.25,
+                0.6
+              ]
+            },
+            "volume": 0.2400000214576721,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -2.350000095367432,
+                0,
+                -0.6
+              ],
+              "max": [
+                -1.5500000238418579,
+                0.25,
+                0.6
+              ]
+            },
+            "volume": 0.24000002145767216
+          }
+        },
+        {
+          "name": "Platform edit transfer-W6-1",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.4,
+                0,
+                -0.6
+              ],
+              "max": [
+                0.4,
+                0.73,
+                0.6
+              ]
+            },
+            "volume": 0.7008000000000001,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.4,
+                0,
+                -0.6
+              ],
+              "max": [
+                0.4,
+                0.73,
+                0.6
+              ]
+            },
+            "volume": 0.7008000000000001
+          }
+        },
+        {
+          "name": "Platform edit transfer-W6-2",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.600000023841858,
+                0,
+                -0.6
+              ],
+              "max": [
+                2.4000000953674316,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 0.816000072956085,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                1.600000023841858,
+                0,
+                -0.6
+              ],
+              "max": [
+                2.4000000953674316,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 0.816000072956085
+          }
+        },
+        {
+          "name": "Continuous ramp edit transfer-W6-3",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.6,
+                0,
+                -0.6
+              ],
+              "max": [
+                -0.3999999999999999,
+                0.7300000119209289,
+                0.6
+              ]
+            },
+            "volume": 0.7056000085830689,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -1.6,
+                0,
+                -0.6
+              ],
+              "max": [
+                -0.3999999999999999,
+                0.73,
+                0.6
+              ]
+            },
+            "volume": 0.7056000025749207
+          }
+        },
+        {
+          "name": "Continuous ramp edit transfer-W6-4",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.3999999999999999,
+                0,
+                -0.6
+              ],
+              "max": [
+                1.6,
+                0.8500000238418579,
+                0.6
+              ]
+            },
+            "volume": 1.1376000257492065,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.3999999999999999,
+                0,
+                -0.6
+              ],
+              "max": [
+                1.6,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 1.1376000051498414
+          }
+        }
+      ]
+    },
+    {
+      "name": "W6 unrelated change blocked",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Unrelated reference-block",
+          "status": "incorrect"
+        },
+        {
+          "name": "Unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated group",
+          "status": "verified"
+        },
+        {
+          "name": "Five editable parts",
+          "status": "verified",
+          "expected": 5,
+          "actual": 5
+        },
+        {
+          "name": "Distinct identities",
+          "status": "verified"
+        },
+        {
+          "name": "Same identity roster",
+          "status": "verified"
+        },
+        {
+          "name": "Groups preserved",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-0",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-1",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-2",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-3",
+          "status": "verified"
+        },
+        {
+          "name": "Component properties transfer-W6-4",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-0",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-1",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-2",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-3",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-4",
+          "status": "verified"
+        },
+        {
+          "name": "Platform edit transfer-W6-0",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.4000000953674316,
+                0,
+                -0.6
+              ],
+              "max": [
+                -1.600000023841858,
+                0.25,
+                0.6
+              ]
+            },
+            "volume": 0.2400000214576721,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -2.4000000953674316,
+                0,
+                -0.6
+              ],
+              "max": [
+                -1.600000023841858,
+                0.25,
+                0.6
+              ]
+            },
+            "volume": 0.2400000214576721
+          }
+        },
+        {
+          "name": "Platform edit transfer-W6-1",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.4,
+                0,
+                -0.6
+              ],
+              "max": [
+                0.4,
+                0.73,
+                0.6
+              ]
+            },
+            "volume": 0.7008000000000001,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.4,
+                0,
+                -0.6
+              ],
+              "max": [
+                0.4,
+                0.73,
+                0.6
+              ]
+            },
+            "volume": 0.7008000000000001
+          }
+        },
+        {
+          "name": "Platform edit transfer-W6-2",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.600000023841858,
+                0,
+                -0.6
+              ],
+              "max": [
+                2.4000000953674316,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 0.816000072956085,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                1.600000023841858,
+                0,
+                -0.6
+              ],
+              "max": [
+                2.4000000953674316,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 0.816000072956085
+          }
+        },
+        {
+          "name": "Continuous ramp edit transfer-W6-3",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.6,
+                0,
+                -0.6
+              ],
+              "max": [
+                -0.3999999999999999,
+                0.7300000119209289,
+                0.6
+              ]
+            },
+            "volume": 0.7056000085830689,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -1.6,
+                0,
+                -0.6
+              ],
+              "max": [
+                -0.3999999999999999,
+                0.73,
+                0.6
+              ]
+            },
+            "volume": 0.7056000025749207
+          }
+        },
+        {
+          "name": "Continuous ramp edit transfer-W6-4",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.3999999999999999,
+                0,
+                -0.6
+              ],
+              "max": [
+                1.6,
+                0.8500000238418579,
+                0.6
+              ]
+            },
+            "volume": 1.1376000257492065,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.3999999999999999,
+                0,
+                -0.6
+              ],
+              "max": [
+                1.6,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 1.1376000051498414
+          }
+        }
+      ]
+    },
+    {
+      "name": "W6 missing object blocked",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Unrelated reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated group",
+          "status": "verified"
+        },
+        {
+          "name": "Five editable parts",
+          "status": "incorrect",
+          "expected": 5,
+          "actual": 4
+        },
+        {
+          "name": "Distinct identities",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-0",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-1",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-2",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-3",
+          "status": "verified"
+        },
+        {
+          "name": "Placement Platform 0",
+          "status": "verified",
+          "expected": -2.0000000596046448,
+          "actual": -2.0000000596046448
+        },
+        {
+          "name": "Placement Platform 1",
+          "status": "verified",
+          "expected": 0.125,
+          "actual": 0.125
+        },
+        {
+          "name": "Placement Platform 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Platform",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.4000000953674316,
+                0,
+                -0.6
+              ],
+              "max": [
+                -1.600000023841858,
+                0.25,
+                0.6
+              ]
+            },
+            "volume": 0.2400000214576721,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -2.4000000953674316,
+                0,
+                -0.6
+              ],
+              "max": [
+                -1.600000023841858,
+                0.25,
+                0.6
+              ]
+            },
+            "volume": 0.2400000214576721
+          }
+        },
+        {
+          "name": "Placement Platform 0",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Placement Platform 1",
+          "status": "verified",
+          "expected": 0.275,
+          "actual": 0.275
+        },
+        {
+          "name": "Placement Platform 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Platform",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.4,
+                0,
+                -0.6
+              ],
+              "max": [
+                0.4,
+                0.55,
+                0.6
+              ]
+            },
+            "volume": 0.528,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.4,
+                0,
+                -0.6
+              ],
+              "max": [
+                0.4,
+                0.55,
+                0.6
+              ]
+            },
+            "volume": 0.528
+          }
+        },
+        {
+          "name": "Placement Platform 0",
+          "status": "verified",
+          "expected": 2.0000000596046448,
+          "actual": 2.0000000596046448
+        },
+        {
+          "name": "Placement Platform 1",
+          "status": "verified",
+          "expected": 0.425,
+          "actual": 0.425
+        },
+        {
+          "name": "Placement Platform 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Platform",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.600000023841858,
+                0,
+                -0.6
+              ],
+              "max": [
+                2.4000000953674316,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 0.816000072956085,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                1.600000023841858,
+                0,
+                -0.6
+              ],
+              "max": [
+                2.4000000953674316,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 0.816000072956085
+          }
+        },
+        {
+          "name": "Placement Left ramp 0",
+          "status": "verified",
+          "expected": -1,
+          "actual": -1
+        },
+        {
+          "name": "Placement Left ramp 1",
+          "status": "verified",
+          "expected": 0.275,
+          "actual": 0.275
+        },
+        {
+          "name": "Placement Left ramp 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Left ramp",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.6,
+                0,
+                -0.6
+              ],
+              "max": [
+                -0.3999999999999999,
+                0.55,
+                0.6
+              ]
+            },
+            "volume": 0.5760000053644181,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -1.6,
+                0,
+                -0.6
+              ],
+              "max": [
+                -0.3999999999999999,
+                0.55,
+                0.6
+              ]
+            },
+            "volume": 0.5760000053644181
+          }
+        },
+        {
+          "name": "Required part Right ramp",
+          "status": "incorrect"
+        },
+        {
+          "name": "Grouped assembly",
+          "status": "verified"
+        }
+      ]
+    },
+    {
+      "name": "W6 equivalent mesh accepted",
+      "passed": true,
+      "facts": [
+        {
+          "name": "Unrelated reference-block",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated reference-round",
+          "status": "verified"
+        },
+        {
+          "name": "Unrelated group",
+          "status": "verified"
+        },
+        {
+          "name": "Five editable parts",
+          "status": "verified",
+          "expected": 5,
+          "actual": 5
+        },
+        {
+          "name": "Distinct identities",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-0",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-1",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-2",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-3",
+          "status": "verified"
+        },
+        {
+          "name": "Closed solid transfer-W6-4",
+          "status": "verified"
+        },
+        {
+          "name": "Placement Platform 0",
+          "status": "verified",
+          "expected": -2.0000000596046448,
+          "actual": -2.0000000596046448
+        },
+        {
+          "name": "Placement Platform 1",
+          "status": "verified",
+          "expected": 0.125,
+          "actual": 0.125
+        },
+        {
+          "name": "Placement Platform 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Platform",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -2.4000000953674316,
+                0,
+                -0.6
+              ],
+              "max": [
+                -1.600000023841858,
+                0.25,
+                0.6
+              ]
+            },
+            "volume": 0.2400000214576721,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -2.4000000953674316,
+                0,
+                -0.6
+              ],
+              "max": [
+                -1.600000023841858,
+                0.25,
+                0.6
+              ]
+            },
+            "volume": 0.2400000214576721
+          }
+        },
+        {
+          "name": "Placement Platform 0",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Placement Platform 1",
+          "status": "verified",
+          "expected": 0.275,
+          "actual": 0.275
+        },
+        {
+          "name": "Placement Platform 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Platform",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -0.4,
+                0,
+                -0.6
+              ],
+              "max": [
+                0.4,
+                0.55,
+                0.6
+              ]
+            },
+            "volume": 0.528,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -0.4,
+                0,
+                -0.6
+              ],
+              "max": [
+                0.4,
+                0.55,
+                0.6
+              ]
+            },
+            "volume": 0.528
+          }
+        },
+        {
+          "name": "Placement Platform 0",
+          "status": "verified",
+          "expected": 2.0000000596046448,
+          "actual": 2.0000000596046448
+        },
+        {
+          "name": "Placement Platform 1",
+          "status": "verified",
+          "expected": 0.425,
+          "actual": 0.425
+        },
+        {
+          "name": "Placement Platform 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Platform",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                1.600000023841858,
+                0,
+                -0.6
+              ],
+              "max": [
+                2.4000000953674316,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 0.816000072956085,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                1.600000023841858,
+                0,
+                -0.6
+              ],
+              "max": [
+                2.4000000953674316,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 0.816000072956085
+          }
+        },
+        {
+          "name": "Placement Left ramp 0",
+          "status": "verified",
+          "expected": -1,
+          "actual": -1
+        },
+        {
+          "name": "Placement Left ramp 1",
+          "status": "verified",
+          "expected": 0.275,
+          "actual": 0.275
+        },
+        {
+          "name": "Placement Left ramp 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Left ramp",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                -1.6,
+                0,
+                -0.6
+              ],
+              "max": [
+                -0.3999999999999999,
+                0.55,
+                0.6
+              ]
+            },
+            "volume": 0.5760000053644181,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                -1.6,
+                0,
+                -0.6
+              ],
+              "max": [
+                -0.3999999999999999,
+                0.55,
+                0.6
+              ]
+            },
+            "volume": 0.5760000053644181
+          }
+        },
+        {
+          "name": "Placement Right ramp 0",
+          "status": "verified",
+          "expected": 1,
+          "actual": 1
+        },
+        {
+          "name": "Placement Right ramp 1",
+          "status": "verified",
+          "expected": 0.425,
+          "actual": 0.425
+        },
+        {
+          "name": "Placement Right ramp 2",
+          "status": "verified",
+          "expected": 0,
+          "actual": 0
+        },
+        {
+          "name": "Occupied geometry Right ramp",
+          "status": "verified",
+          "expected": {
+            "bounds": {
+              "min": [
+                0.3999999999999999,
+                0,
+                -0.6
+              ],
+              "max": [
+                1.6,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 1.0080000128746034,
+            "relativeTolerance": 0.001
+          },
+          "actual": {
+            "bounds": {
+              "min": [
+                0.3999999999999999,
+                0,
+                -0.6
+              ],
+              "max": [
+                1.6,
+                0.85,
+                0.6
+              ]
+            },
+            "volume": 1.0080000128746034
+          }
+        },
+        {
+          "name": "Grouped assembly",
+          "status": "verified"
+        }
+      ]
+    }
+  ]
+}

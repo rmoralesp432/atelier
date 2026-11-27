@@ -1,0 +1,1893 @@
+[
+  {
+    "case": "verifier-1-verifier-D-H1-create",
+    "check": "check-6",
+    "outcome": "verified",
+    "calculation": {
+      "definition": {
+        "frame": "world_xyz_y_up",
+        "nodes": [
+          {
+            "kind": "constant",
+            "value": 0
+          },
+          {
+            "kind": "constant",
+            "value": 1
+          },
+          {
+            "kind": "quantity",
+            "value": 6,
+            "unit": "scalar",
+            "source": "request",
+            "evidence": "Create six separate upright cylindrical samples, each 14 cm in diameter and 48 cm tall."
+          },
+          {
+            "kind": "operation",
+            "op": "range",
+            "args": [
+              0,
+              1,
+              2
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              2,
+              1
+            ]
+          },
+          {
+            "kind": "quantity",
+            "value": 120,
+            "unit": "deg",
+            "source": "request",
+            "evidence": "In plan, their centers follow a 120-degree circular arc of radius 1.7 m around X = -0.9 m, Z = 1.3 m."
+          },
+          {
+            "kind": "operation",
+            "op": "divide",
+            "args": [
+              5,
+              4
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              3,
+              6
+            ]
+          },
+          {
+            "kind": "quantity",
+            "value": 37,
+            "unit": "deg",
+            "source": "request",
+            "evidence": "The first center is at 37 degrees from +X toward +Z; proceed toward decreasing angles, including both ends of the arc, with equal angular spacing."
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              8,
+              7
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "cos",
+            "args": [
+              9
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "sin",
+            "args": [
+              9
+            ]
+          },
+          {
+            "kind": "quantity",
+            "value": 1.7,
+            "unit": "m",
+            "source": "request",
+            "evidence": "In plan, their centers follow a 120-degree circular arc of radius 1.7 m around X = -0.9 m, Z = 1.3 m."
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              12,
+              10
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              12,
+              11
+            ]
+          },
+          {
+            "kind": "quantity",
+            "value": -0.9,
+            "unit": "m",
+            "source": "request",
+            "evidence": "In plan, their centers follow a 120-degree circular arc of radius 1.7 m around X = -0.9 m, Z = 1.3 m."
+          },
+          {
+            "kind": "quantity",
+            "value": 1.3,
+            "unit": "m",
+            "source": "request",
+            "evidence": "In plan, their centers follow a 120-degree circular arc of radius 1.7 m around X = -0.9 m, Z = 1.3 m."
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              15,
+              13
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              16,
+              14
+            ]
+          },
+          {
+            "kind": "quantity",
+            "value": 0.6,
+            "unit": "m",
+            "source": "request",
+            "evidence": "The first base is at 0.6 m and each successive base is 11 cm higher."
+          },
+          {
+            "kind": "quantity",
+            "value": 11,
+            "unit": "cm",
+            "source": "request",
+            "evidence": "The first base is at 0.6 m and each successive base is 11 cm higher."
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              3,
+              20
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              19,
+              21
+            ]
+          }
+        ],
+        "output": {
+          "kind": "points",
+          "x": 17,
+          "y": 22,
+          "z": 18
+        }
+      },
+      "sources": [
+        {
+          "node": 0,
+          "unit": "scalar",
+          "values": [
+            0
+          ]
+        },
+        {
+          "node": 1,
+          "unit": "scalar",
+          "values": [
+            1
+          ]
+        },
+        {
+          "node": 2,
+          "unit": "scalar",
+          "values": [
+            6
+          ]
+        },
+        {
+          "node": 5,
+          "unit": "m^0 rad^1",
+          "values": [
+            2.0943951023931953
+          ]
+        },
+        {
+          "node": 8,
+          "unit": "m^0 rad^1",
+          "values": [
+            0.6457718232379019
+          ]
+        },
+        {
+          "node": 12,
+          "unit": "m",
+          "values": [
+            1.7
+          ]
+        },
+        {
+          "node": 15,
+          "unit": "m",
+          "values": [
+            -0.9
+          ]
+        },
+        {
+          "node": 16,
+          "unit": "m",
+          "values": [
+            1.3
+          ]
+        },
+        {
+          "node": 19,
+          "unit": "m",
+          "values": [
+            0.6
+          ]
+        },
+        {
+          "node": 20,
+          "unit": "m",
+          "values": [
+            0.11
+          ]
+        }
+      ],
+      "expectedUnit": "m",
+      "expected": [
+        {
+          "x": 0.45768036708039783,
+          "y": 0.6,
+          "z": 2.323085539358482
+        },
+        {
+          "x": 0.7564291101348998,
+          "y": 0.71,
+          "z": 1.6824167923845705
+        },
+        {
+          "x": 0.7687662118610287,
+          "y": 0.82,
+          "z": 0.975624707859874
+        },
+        {
+          "x": 0.49255847529128605,
+          "y": 0.9299999999999999,
+          "z": 0.3249200582032218
+        },
+        {
+          "x": -0.02443527265290757,
+          "y": 1.04,
+          "z": -0.15718441119359072
+        },
+        {
+          "x": -0.6928221162112489,
+          "y": 1.15,
+          "z": -0.3873284577902474
+        }
+      ]
+    }
+  },
+  {
+    "case": "verifier-1-verifier-D-H2-create",
+    "check": "check-1",
+    "outcome": "verified",
+    "calculation": {
+      "definition": {
+        "frame": "world_xyz_y_up",
+        "nodes": [
+          {
+            "kind": "quantity",
+            "value": 1.1,
+            "unit": "m",
+            "source": "request",
+            "evidence": "X = 1.1 m"
+          },
+          {
+            "kind": "quantity",
+            "value": -0.8,
+            "unit": "m",
+            "source": "request",
+            "evidence": "Z = -0.8 m"
+          },
+          {
+            "kind": "quantity",
+            "value": 34,
+            "unit": "deg",
+            "source": "request",
+            "evidence": "34 degrees from +X toward +Z"
+          },
+          {
+            "kind": "constant",
+            "value": 2
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              2,
+              3
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "cos",
+            "args": [
+              4
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "sin",
+            "args": [
+              4
+            ]
+          },
+          {
+            "kind": "original",
+            "objectId": "display-0",
+            "metric": "x"
+          },
+          {
+            "kind": "original",
+            "objectId": "display-0",
+            "metric": "z"
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              7,
+              0
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              8,
+              1
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              9,
+              5
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              10,
+              6
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              11,
+              12
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              0,
+              13
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              9,
+              6
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              10,
+              5
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              15,
+              16
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              1,
+              17
+            ]
+          },
+          {
+            "kind": "original",
+            "objectId": "display-0",
+            "metric": "y"
+          }
+        ],
+        "output": {
+          "kind": "points",
+          "x": 14,
+          "y": 19,
+          "z": 18
+        }
+      },
+      "sources": [
+        {
+          "node": 0,
+          "unit": "m",
+          "values": [
+            1.1
+          ]
+        },
+        {
+          "node": 1,
+          "unit": "m",
+          "values": [
+            -0.8
+          ]
+        },
+        {
+          "node": 2,
+          "unit": "m^0 rad^1",
+          "values": [
+            0.5934119456780721
+          ]
+        },
+        {
+          "node": 3,
+          "unit": "scalar",
+          "values": [
+            2
+          ]
+        },
+        {
+          "node": 7,
+          "unit": "m",
+          "values": [
+            -1.6999999724302715
+          ]
+        },
+        {
+          "node": 8,
+          "unit": "m",
+          "values": [
+            -0.40000002091838216
+          ]
+        },
+        {
+          "node": 19,
+          "unit": "m",
+          "values": [
+            0.44999998807907143
+          ]
+        }
+      ],
+      "expectedUnit": "m",
+      "expected": [
+        {
+          "x": 0.4219750711947775,
+          "y": 0.44999998807907143,
+          "z": -3.545957396754998
+        }
+      ]
+    }
+  },
+  {
+    "case": "verifier-1-verifier-D-H2-create",
+    "check": "check-2",
+    "outcome": "verified",
+    "calculation": {
+      "definition": {
+        "frame": "world_xyz_y_up",
+        "nodes": [
+          {
+            "kind": "quantity",
+            "value": 1.1,
+            "unit": "m",
+            "source": "request",
+            "evidence": "X = 1.1 m"
+          },
+          {
+            "kind": "quantity",
+            "value": -0.8,
+            "unit": "m",
+            "source": "request",
+            "evidence": "Z = -0.8 m"
+          },
+          {
+            "kind": "quantity",
+            "value": 34,
+            "unit": "deg",
+            "source": "request",
+            "evidence": "34 degrees from +X toward +Z"
+          },
+          {
+            "kind": "constant",
+            "value": 2
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              2,
+              3
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "cos",
+            "args": [
+              4
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "sin",
+            "args": [
+              4
+            ]
+          },
+          {
+            "kind": "original",
+            "objectId": "display-1",
+            "metric": "x"
+          },
+          {
+            "kind": "original",
+            "objectId": "display-1",
+            "metric": "z"
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              7,
+              0
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              8,
+              1
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              9,
+              5
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              10,
+              6
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              11,
+              12
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              0,
+              13
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              9,
+              6
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              10,
+              5
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              15,
+              16
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              1,
+              17
+            ]
+          },
+          {
+            "kind": "original",
+            "objectId": "display-1",
+            "metric": "y"
+          }
+        ],
+        "output": {
+          "kind": "points",
+          "x": 14,
+          "y": 19,
+          "z": 18
+        }
+      },
+      "sources": [
+        {
+          "node": 0,
+          "unit": "m",
+          "values": [
+            1.1
+          ]
+        },
+        {
+          "node": 1,
+          "unit": "m",
+          "values": [
+            -0.8
+          ]
+        },
+        {
+          "node": 2,
+          "unit": "m^0 rad^1",
+          "values": [
+            0.5934119456780721
+          ]
+        },
+        {
+          "node": 3,
+          "unit": "scalar",
+          "values": [
+            2
+          ]
+        },
+        {
+          "node": 7,
+          "unit": "m",
+          "values": [
+            0.2
+          ]
+        },
+        {
+          "node": 8,
+          "unit": "m",
+          "values": [
+            2.099999963763688
+          ]
+        },
+        {
+          "node": 19,
+          "unit": "m",
+          "values": [
+            1.1499999761581412
+          ]
+        }
+      ],
+      "expectedUnit": "m",
+      "expected": [
+        {
+          "x": 3.4516872105716394,
+          "y": 1.1499999761581412,
+          "z": -2.720824576441892
+        }
+      ]
+    }
+  },
+  {
+    "case": "verifier-1-verifier-D-H2-create",
+    "check": "check-3",
+    "outcome": "verified",
+    "calculation": {
+      "definition": {
+        "frame": "world_xyz_y_up",
+        "nodes": [
+          {
+            "kind": "quantity",
+            "value": 1.1,
+            "unit": "m",
+            "source": "request",
+            "evidence": "X = 1.1 m"
+          },
+          {
+            "kind": "quantity",
+            "value": -0.8,
+            "unit": "m",
+            "source": "request",
+            "evidence": "Z = -0.8 m"
+          },
+          {
+            "kind": "quantity",
+            "value": 34,
+            "unit": "deg",
+            "source": "request",
+            "evidence": "34 degrees from +X toward +Z"
+          },
+          {
+            "kind": "constant",
+            "value": 2
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              2,
+              3
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "cos",
+            "args": [
+              4
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "sin",
+            "args": [
+              4
+            ]
+          },
+          {
+            "kind": "original",
+            "objectId": "display-2",
+            "metric": "x"
+          },
+          {
+            "kind": "original",
+            "objectId": "display-2",
+            "metric": "z"
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              7,
+              0
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              8,
+              1
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              9,
+              5
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              10,
+              6
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              11,
+              12
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              0,
+              13
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              9,
+              6
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              10,
+              5
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              15,
+              16
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              1,
+              17
+            ]
+          },
+          {
+            "kind": "original",
+            "objectId": "display-2",
+            "metric": "y"
+          }
+        ],
+        "output": {
+          "kind": "points",
+          "x": 14,
+          "y": 19,
+          "z": 18
+        }
+      },
+      "sources": [
+        {
+          "node": 0,
+          "unit": "m",
+          "values": [
+            1.1
+          ]
+        },
+        {
+          "node": 1,
+          "unit": "m",
+          "values": [
+            -0.8
+          ]
+        },
+        {
+          "node": 2,
+          "unit": "m^0 rad^1",
+          "values": [
+            0.5934119456780721
+          ]
+        },
+        {
+          "node": 3,
+          "unit": "scalar",
+          "values": [
+            2
+          ]
+        },
+        {
+          "node": 7,
+          "unit": "m",
+          "values": [
+            2.2751313948872154
+          ]
+        },
+        {
+          "node": 8,
+          "unit": "m",
+          "values": [
+            -1.657184661264393
+          ]
+        },
+        {
+          "node": 19,
+          "unit": "m",
+          "values": [
+            0.8000000119209292
+          ]
+        }
+      ],
+      "expectedUnit": "m",
+      "expected": [
+        {
+          "x": 0.7454441903481428,
+          "y": 0.8000000119209292,
+          "z": 0.6106698822186005
+        }
+      ]
+    }
+  },
+  {
+    "case": "verifier-repeat-verifier-D-H1-create",
+    "check": "check-6",
+    "outcome": "verified",
+    "calculation": {
+      "definition": {
+        "frame": "world_xyz_y_up",
+        "nodes": [
+          {
+            "kind": "quantity",
+            "value": 120,
+            "unit": "deg",
+            "source": "request",
+            "evidence": "120-degree"
+          },
+          {
+            "kind": "quantity",
+            "value": 37,
+            "unit": "deg",
+            "source": "request",
+            "evidence": "37 degrees"
+          },
+          {
+            "kind": "quantity",
+            "value": 6,
+            "unit": "scalar",
+            "source": "request",
+            "evidence": "six"
+          },
+          {
+            "kind": "constant",
+            "value": 1
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              2,
+              3
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "divide",
+            "args": [
+              0,
+              4
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "negate",
+            "args": [
+              5
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "range",
+            "args": [
+              1,
+              6,
+              2
+            ]
+          },
+          {
+            "kind": "quantity",
+            "value": 1.7,
+            "unit": "m",
+            "source": "request",
+            "evidence": "radius 1.7 m"
+          },
+          {
+            "kind": "quantity",
+            "value": -0.9,
+            "unit": "m",
+            "source": "request",
+            "evidence": "X = -0.9 m"
+          },
+          {
+            "kind": "quantity",
+            "value": 1.3,
+            "unit": "m",
+            "source": "request",
+            "evidence": "Z = 1.3 m"
+          },
+          {
+            "kind": "operation",
+            "op": "cos",
+            "args": [
+              7
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              8,
+              11
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              9,
+              12
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "sin",
+            "args": [
+              7
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              8,
+              14
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              10,
+              15
+            ]
+          },
+          {
+            "kind": "quantity",
+            "value": 0.6,
+            "unit": "m",
+            "source": "request",
+            "evidence": "The first base is at 0.6 m"
+          },
+          {
+            "kind": "quantity",
+            "value": 11,
+            "unit": "cm",
+            "source": "request",
+            "evidence": "each successive base is 11 cm higher."
+          },
+          {
+            "kind": "operation",
+            "op": "range",
+            "args": [
+              17,
+              18,
+              2
+            ]
+          }
+        ],
+        "output": {
+          "kind": "points",
+          "x": 13,
+          "y": 19,
+          "z": 16
+        }
+      },
+      "sources": [
+        {
+          "node": 0,
+          "unit": "m^0 rad^1",
+          "values": [
+            2.0943951023931953
+          ]
+        },
+        {
+          "node": 1,
+          "unit": "m^0 rad^1",
+          "values": [
+            0.6457718232379019
+          ]
+        },
+        {
+          "node": 2,
+          "unit": "scalar",
+          "values": [
+            6
+          ]
+        },
+        {
+          "node": 3,
+          "unit": "scalar",
+          "values": [
+            1
+          ]
+        },
+        {
+          "node": 8,
+          "unit": "m",
+          "values": [
+            1.7
+          ]
+        },
+        {
+          "node": 9,
+          "unit": "m",
+          "values": [
+            -0.9
+          ]
+        },
+        {
+          "node": 10,
+          "unit": "m",
+          "values": [
+            1.3
+          ]
+        },
+        {
+          "node": 17,
+          "unit": "m",
+          "values": [
+            0.6
+          ]
+        },
+        {
+          "node": 18,
+          "unit": "m",
+          "values": [
+            0.11
+          ]
+        }
+      ],
+      "expectedUnit": "m",
+      "expected": [
+        {
+          "x": 0.45768036708039783,
+          "y": 0.6,
+          "z": 2.323085539358482
+        },
+        {
+          "x": 0.7564291101348998,
+          "y": 0.71,
+          "z": 1.6824167923845705
+        },
+        {
+          "x": 0.7687662118610287,
+          "y": 0.82,
+          "z": 0.975624707859874
+        },
+        {
+          "x": 0.49255847529128605,
+          "y": 0.9299999999999999,
+          "z": 0.3249200582032218
+        },
+        {
+          "x": -0.02443527265290757,
+          "y": 1.04,
+          "z": -0.15718441119359072
+        },
+        {
+          "x": -0.6928221162112489,
+          "y": 1.15,
+          "z": -0.3873284577902474
+        }
+      ]
+    }
+  },
+  {
+    "case": "reflection-repeat-verifier-D-H2-create",
+    "check": "check-1",
+    "outcome": "verified",
+    "calculation": {
+      "definition": {
+        "frame": "world_xyz_y_up",
+        "nodes": [
+          {
+            "kind": "quantity",
+            "value": 1.1,
+            "unit": "m",
+            "source": "request",
+            "evidence": "X = 1.1 m"
+          },
+          {
+            "kind": "quantity",
+            "value": -0.8,
+            "unit": "m",
+            "source": "request",
+            "evidence": "Z = -0.8 m"
+          },
+          {
+            "kind": "quantity",
+            "value": 34,
+            "unit": "deg",
+            "source": "request",
+            "evidence": "34 degrees from +X toward +Z"
+          },
+          {
+            "kind": "operation",
+            "op": "cos",
+            "args": [
+              2
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "sin",
+            "args": [
+              2
+            ]
+          },
+          {
+            "kind": "original",
+            "objectId": "display-0",
+            "metric": "x"
+          },
+          {
+            "kind": "original",
+            "objectId": "display-0",
+            "metric": "z"
+          },
+          {
+            "kind": "original",
+            "objectId": "display-0",
+            "metric": "y"
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              5,
+              0
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              6,
+              1
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              8,
+              3
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              9,
+              4
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              10,
+              11
+            ]
+          },
+          {
+            "kind": "constant",
+            "value": 2
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              13,
+              12
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              14,
+              3
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              14,
+              4
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              0,
+              15
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              17,
+              8
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              1,
+              16
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              19,
+              9
+            ]
+          }
+        ],
+        "output": {
+          "kind": "points",
+          "x": 18,
+          "y": 7,
+          "z": 20
+        }
+      },
+      "sources": [
+        {
+          "node": 0,
+          "unit": "m",
+          "values": [
+            1.1
+          ]
+        },
+        {
+          "node": 1,
+          "unit": "m",
+          "values": [
+            -0.8
+          ]
+        },
+        {
+          "node": 2,
+          "unit": "m^0 rad^1",
+          "values": [
+            0.5934119456780721
+          ]
+        },
+        {
+          "node": 5,
+          "unit": "m",
+          "values": [
+            -1.6999999724302715
+          ]
+        },
+        {
+          "node": 6,
+          "unit": "m",
+          "values": [
+            -0.40000002091838216
+          ]
+        },
+        {
+          "node": 7,
+          "unit": "m",
+          "values": [
+            0.44999998807907143
+          ]
+        },
+        {
+          "node": 13,
+          "unit": "scalar",
+          "values": [
+            2
+          ]
+        }
+      ],
+      "expectedUnit": "m",
+      "expected": [
+        {
+          "x": 0.42197507119477784,
+          "y": 0.44999998807907143,
+          "z": -3.545957396754999
+        }
+      ]
+    }
+  },
+  {
+    "case": "reflection-repeat-verifier-D-H2-create",
+    "check": "check-2",
+    "outcome": "verified",
+    "calculation": {
+      "definition": {
+        "frame": "world_xyz_y_up",
+        "nodes": [
+          {
+            "kind": "quantity",
+            "value": 1.1,
+            "unit": "m",
+            "source": "request",
+            "evidence": "X = 1.1 m"
+          },
+          {
+            "kind": "quantity",
+            "value": -0.8,
+            "unit": "m",
+            "source": "request",
+            "evidence": "Z = -0.8 m"
+          },
+          {
+            "kind": "quantity",
+            "value": 34,
+            "unit": "deg",
+            "source": "request",
+            "evidence": "34 degrees from +X toward +Z"
+          },
+          {
+            "kind": "operation",
+            "op": "cos",
+            "args": [
+              2
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "sin",
+            "args": [
+              2
+            ]
+          },
+          {
+            "kind": "original",
+            "objectId": "display-1",
+            "metric": "x"
+          },
+          {
+            "kind": "original",
+            "objectId": "display-1",
+            "metric": "z"
+          },
+          {
+            "kind": "original",
+            "objectId": "display-1",
+            "metric": "y"
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              5,
+              0
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              6,
+              1
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              8,
+              3
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              9,
+              4
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              10,
+              11
+            ]
+          },
+          {
+            "kind": "constant",
+            "value": 2
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              13,
+              12
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              14,
+              3
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              14,
+              4
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              0,
+              15
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              17,
+              8
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              1,
+              16
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              19,
+              9
+            ]
+          }
+        ],
+        "output": {
+          "kind": "points",
+          "x": 18,
+          "y": 7,
+          "z": 20
+        }
+      },
+      "sources": [
+        {
+          "node": 0,
+          "unit": "m",
+          "values": [
+            1.1
+          ]
+        },
+        {
+          "node": 1,
+          "unit": "m",
+          "values": [
+            -0.8
+          ]
+        },
+        {
+          "node": 2,
+          "unit": "m^0 rad^1",
+          "values": [
+            0.5934119456780721
+          ]
+        },
+        {
+          "node": 5,
+          "unit": "m",
+          "values": [
+            0.2
+          ]
+        },
+        {
+          "node": 6,
+          "unit": "m",
+          "values": [
+            2.099999963763688
+          ]
+        },
+        {
+          "node": 7,
+          "unit": "m",
+          "values": [
+            1.1499999761581412
+          ]
+        },
+        {
+          "node": 13,
+          "unit": "scalar",
+          "values": [
+            2
+          ]
+        }
+      ],
+      "expectedUnit": "m",
+      "expected": [
+        {
+          "x": 3.45168721057164,
+          "y": 1.1499999761581412,
+          "z": -2.720824576441892
+        }
+      ]
+    }
+  },
+  {
+    "case": "reflection-repeat-verifier-D-H2-create",
+    "check": "check-3",
+    "outcome": "verified",
+    "calculation": {
+      "definition": {
+        "frame": "world_xyz_y_up",
+        "nodes": [
+          {
+            "kind": "quantity",
+            "value": 1.1,
+            "unit": "m",
+            "source": "request",
+            "evidence": "X = 1.1 m"
+          },
+          {
+            "kind": "quantity",
+            "value": -0.8,
+            "unit": "m",
+            "source": "request",
+            "evidence": "Z = -0.8 m"
+          },
+          {
+            "kind": "quantity",
+            "value": 34,
+            "unit": "deg",
+            "source": "request",
+            "evidence": "34 degrees from +X toward +Z"
+          },
+          {
+            "kind": "operation",
+            "op": "cos",
+            "args": [
+              2
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "sin",
+            "args": [
+              2
+            ]
+          },
+          {
+            "kind": "original",
+            "objectId": "display-2",
+            "metric": "x"
+          },
+          {
+            "kind": "original",
+            "objectId": "display-2",
+            "metric": "z"
+          },
+          {
+            "kind": "original",
+            "objectId": "display-2",
+            "metric": "y"
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              5,
+              0
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              6,
+              1
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              8,
+              3
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              9,
+              4
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              10,
+              11
+            ]
+          },
+          {
+            "kind": "constant",
+            "value": 2
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              13,
+              12
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              14,
+              3
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "multiply",
+            "args": [
+              14,
+              4
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              0,
+              15
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              17,
+              8
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "add",
+            "args": [
+              1,
+              16
+            ]
+          },
+          {
+            "kind": "operation",
+            "op": "subtract",
+            "args": [
+              19,
+              9
+            ]
+          }
+        ],
+        "output": {
+          "kind": "points",
+          "x": 18,
+          "y": 7,
+          "z": 20
+        }
+      },
+      "sources": [
+        {
+          "node": 0,
+          "unit": "m",
+          "values": [
+            1.1
+          ]
+        },
+        {
+          "node": 1,
+          "unit": "m",
+          "values": [
+            -0.8
+          ]
+        },
+        {
+          "node": 2,
+          "unit": "m^0 rad^1",
+          "values": [
+            0.5934119456780721
+          ]
+        },
+        {
+          "node": 5,
+          "unit": "m",
+          "values": [
+            2.2751313948872154
+          ]
+        },
+        {
+          "node": 6,
+          "unit": "m",
+          "values": [
+            -1.657184661264393
+          ]
+        },
+        {
+          "node": 7,
+          "unit": "m",
+          "values": [
+            0.8000000119209292
+          ]
+        },
+        {
+          "node": 13,
+          "unit": "scalar",
+          "values": [
+            2
+          ]
+        }
+      ],
+      "expectedUnit": "m",
+      "expected": [
+        {
+          "x": 0.7454441903481426,
+          "y": 0.8000000119209292,
+          "z": 0.6106698822186004
+        }
+      ]
+    }
+  }
+]

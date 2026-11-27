@@ -178,7 +178,13 @@ export async function stagedPlan(
     if (verification.status !== 'incorrect') {
       if (!verification.canCommit)
         throw new Error(
-          'Verification is incomplete and could not establish the permitted edit scope. No changes were applied.',
+          `The proposed changes have not been saved because verification is incomplete: ${
+            verification.checks
+              .filter((c) => c.outcome === 'unverified')
+              .slice(0, 4)
+              .map((c) => `${c.label}: ${c.observed}`)
+              .join(' ') || 'The permitted edit scope could not be established.'
+          } Your saved project is unchanged.`,
         );
       return;
     }

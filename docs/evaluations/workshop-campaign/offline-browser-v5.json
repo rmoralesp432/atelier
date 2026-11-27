@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "id": "preflight-v5-baseline-offline-create",
+      "status": "OFFLINE_COMMIT_PASS"
+    },
+    {
+      "id": "preflight-v5-baseline-offline-failure-create",
+      "status": "OFFLINE_FAILURE_PRESERVED"
+    },
+    {
+      "id": "preflight-v5-baseline-offline-recovery-create",
+      "status": "OFFLINE_COMMIT_PASS"
+    },
+    {
+      "id": "preflight-v5-workshop-offline-create",
+      "status": "OFFLINE_COMMIT_PASS"
+    },
+    {
+      "id": "preflight-v5-workshop-offline-failure-create",
+      "status": "OFFLINE_FAILURE_PRESERVED"
+    },
+    {
+      "id": "preflight-v5-workshop-offline-recovery-create",
+      "status": "OFFLINE_COMMIT_PASS"
+    },
+    {
+      "id": "preflight-v5-verifier-offline-create",
+      "status": "OFFLINE_COMMIT_PASS"
+    },
+    {
+      "id": "preflight-v5-verifier-offline-failure-create",
+      "status": "OFFLINE_FAILURE_PRESERVED"
+    },
+    {
+      "id": "preflight-v5-verifier-offline-recovery-create",
+      "status": "OFFLINE_COMMIT_PASS"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "batches": [
+    "reliability-large-1",
+    "reliability-recovery-1",
+    "reliability-edit-diagnostics"
+  ],
+  "calls": 94,
+  "estimatedUSD": 5.603006,
+  "conservativeUSD": 7.0037575,
+  "unknownReservations": [],
+  "cumulativeCampaignEstimatedUSD": 15.025064,
+  "cumulativeCampaignConservativeUSD": 18.78133,
+  "priorSeparatePhase3EstimatedUSD": 2.055574,
+  "productionChanged": false,
+  "applicationFreeze": "05277619f6fa337cdb1bfb0825654cbe5259ed2d",
+  "stopReason": "Current paired diagnostics completed. Further similar trials would repeat established verification-boundary failures; no credit exhaustion or arbitrary fixed budget stop.",
+  "executor": {
+    "calls": 61,
+    "medianMs": 10810,
+    "maxMs": 41372
+  },
+  "reviewer": {
+    "calls": 33,
+    "medianMs": 15231,
+    "maxMs": 37988
+  }
+}

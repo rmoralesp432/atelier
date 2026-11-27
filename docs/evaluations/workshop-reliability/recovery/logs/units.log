@@ -1,0 +1,18 @@
+
+ RUN  v5.0.4 /workspace/atelier-reliability-recovery
+
+
+ Test Files  83 passed (83)
+      Tests  459 passed (459)
+   Start at  22:08:24
+   Duration  52.92s (tests 66%, import 30%, transform 3%, worker 1%)
+
+     Import  215 modules were evaluated 306 times · 13.52s total, 30% of tracked time
+             ~4.02s faster with isolate: false — shared modules are evaluated once per worker instead of once per file
+             learn more: https://vitest.dev/guide/improving-performance#test-isolation
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

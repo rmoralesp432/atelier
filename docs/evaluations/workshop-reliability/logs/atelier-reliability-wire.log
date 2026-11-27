@@ -1,0 +1,86 @@
+
+ RUN  v5.0.4 /workspace/atelier-reliability
+
+ ❯ src/intelligence/completionProvider.test.ts (12 tests | 2 failed) 308ms
+   × bounded responses criterion correction returns patches, retaining request evidence and immutable scope 83ms
+   × bounded chat_completions criterion correction returns patches, retaining request evidence and immutable scope 10ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/intelligence/completionProvider.test.ts > bounded responses criterion correction returns patches, retaining request evidence and immutable scope
+Error: Connection error.
+ ❯ OpenAI.makeRequest ../atelier/node_modules/openai/src/client.ts:1815:13
+ ❯ readCompletionCriteria server/completion.ts:138:20
+    136|     text = choice.message.content;
+    137|   } else {
+    138|     const result = await client.responses.create(
+       |                    ^
+    139|       {
+    140|         model: settings.model,
+ ❯ src/intelligence/completionProvider.test.ts:128:20
+
+Caused by: AssertionError: expected [ 'checkId', 'test' ] to deeply equal [ 'calculation', 'checkId', 'test' ]
+
+- Expected
++ Received
+
+  [
+-   "calculation",
+    "checkId",
+    "test",
+  ]
+
+ ❯ strict src/intelligence/completionProvider.test.ts:87:47
+ ❯ src/intelligence/completionProvider.test.ts:92:52
+ ❯ strict src/intelligence/completionProvider.test.ts:91:31
+ ❯ src/intelligence/completionProvider.test.ts:92:52
+ ❯ strict src/intelligence/completionProvider.test.ts:91:31
+ ❯ src/intelligence/completionProvider.test.ts:92:52
+ ❯ strict src/intelligence/completionProvider.test.ts:91:31
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/intelligence/completionProvider.test.ts > bounded chat_completions criterion correction returns patches, retaining request evidence and immutable scope
+Error: Connection error.
+ ❯ OpenAI.makeRequest ../atelier/node_modules/openai/src/client.ts:1815:13
+ ❯ readCompletionCriteria server/completion.ts:94:20
+     92|   let text: string;
+     93|   if (settings.textApi === 'chat_completions') {
+     94|     const result = await client.chat.completions.create(
+       |                    ^
+     95|       {
+     96|         model: settings.model,
+ ❯ src/intelligence/completionProvider.test.ts:128:20
+
+Caused by: AssertionError: expected [ 'checkId', 'test' ] to deeply equal [ 'calculation', 'checkId', 'test' ]
+
+- Expected
++ Received
+
+  [
+-   "calculation",
+    "checkId",
+    "test",
+  ]
+
+ ❯ strict src/intelligence/completionProvider.test.ts:87:47
+ ❯ src/intelligence/completionProvider.test.ts:92:52
+ ❯ strict src/intelligence/completionProvider.test.ts:91:31
+ ❯ src/intelligence/completionProvider.test.ts:92:52
+ ❯ strict src/intelligence/completionProvider.test.ts:91:31
+ ❯ src/intelligence/completionProvider.test.ts:92:52
+ ❯ strict src/intelligence/completionProvider.test.ts:91:31
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 10 passed (12)
+   Start at  21:38:50
+   Duration  1.51s (import 47%, transform 28%, tests 24%, worker 1%)
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

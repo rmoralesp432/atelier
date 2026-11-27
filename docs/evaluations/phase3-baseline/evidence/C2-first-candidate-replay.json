@@ -1,0 +1,300 @@
+{
+  "source": "Offline replay of first C2 executor response against exact saved pre-edit scene; no paid calls",
+  "facts": [
+    {
+      "name": "Unrelated objects preserved exactly",
+      "status": "verified"
+    },
+    {
+      "name": "Protected group metadata preserved",
+      "status": "verified"
+    },
+    {
+      "name": "Scene identities unique",
+      "status": "verified"
+    },
+    {
+      "name": "Required geometry exists",
+      "status": "verified"
+    },
+    {
+      "name": "Independent selectable visible objects",
+      "status": "verified"
+    },
+    {
+      "name": "Original assembly identities retained, no substitutes",
+      "status": "verified"
+    },
+    {
+      "name": "Retained designation and visibility: 27c6ffd4-e42f-49a1-a635-74b7ea1dd883",
+      "status": "verified"
+    },
+    {
+      "name": "Retained designation and visibility: b7f8c57b-6ca8-4a25-ab74-79b4fc2f20b9",
+      "status": "verified"
+    },
+    {
+      "name": "Retained designation and visibility: 5e2c9c75-00d9-426c-ac72-fa2322322de6",
+      "status": "verified"
+    },
+    {
+      "name": "Closed positive solid and independent mesh volume: 27c6ffd4-e42f-49a1-a635-74b7ea1dd883",
+      "status": "verified",
+      "expected": 0.021548498791310863,
+      "actual": 0.02154849902369944
+    },
+    {
+      "name": "Closed positive solid and independent mesh volume: b7f8c57b-6ca8-4a25-ab74-79b4fc2f20b9",
+      "status": "verified",
+      "expected": 0.021548498791310863,
+      "actual": 0.02154849871991825
+    },
+    {
+      "name": "Closed positive solid and independent mesh volume: 5e2c9c75-00d9-426c-ac72-fa2322322de6",
+      "status": "verified",
+      "expected": 0.07007029249224364,
+      "actual": 0.07007029195880096
+    },
+    {
+      "name": "Three independent mechanical parts",
+      "status": "verified",
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "name": "Intrinsic occupied geometry, bore, axis and placement: Southwest bushing",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -0.5847508270559879,
+            0.5500000119209292,
+            -0.4756040255154076
+          ],
+          "max": [
+            -0.20240688657999217,
+            1.0499999403953553,
+            0.03927536729370418
+          ]
+        },
+        "size": [
+          0.38234394047599574,
+          0.4999999284744261,
+          0.5148793928091118
+        ],
+        "center": [
+          -0.39357885681799004,
+          0.7999999761581422,
+          -0.2181643291108517
+        ],
+        "volume": 0.021555232232293314,
+        "triangleVolume": 0.021555232494311488,
+        "triangles": 1024
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.5847323869204566,
+            0.5500380796095923,
+            -0.47557071947151086
+          ],
+          "max": [
+            -0.20242534950499963,
+            1.0499619203904078,
+            0.03924206124980745
+          ]
+        },
+        "size": [
+          0.38230703741545696,
+          0.49992384078081553,
+          0.5148127807213183
+        ],
+        "center": [
+          -0.39357886821272814,
+          0.8,
+          -0.2181643291108517
+        ],
+        "volume": 0.021548498791310863,
+        "triangleVolume": 0.02154849902369944,
+        "triangles": 768
+      }
+    },
+    {
+      "name": "Material designation: Southwest bushing",
+      "status": "verified",
+      "expected": "POM",
+      "actual": "POM"
+    },
+    {
+      "name": "Intrinsic occupied geometry, bore, axis and placement: Northeast bushing",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            0.42106181336484116,
+            0.5500000119209292,
+            0.08192703776788002
+          ],
+          "max": [
+            0.8034057652355748,
+            1.0499999403953553,
+            0.5968063998877885
+          ]
+        },
+        "size": [
+          0.38234395187073367,
+          0.4999999284744261,
+          0.5148793621199085
+        ],
+        "center": [
+          0.612233789300208,
+          0.7999999761581422,
+          0.33936671882783426
+        ],
+        "volume": 0.021555231243381056,
+        "triangleVolume": 0.021555231526224537,
+        "triangles": 1024
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            0.4208464812922715,
+            0.5500380796095923,
+            0.08159360963934087
+          ],
+          "max": [
+            0.8031535187077283,
+            1.0499619203904078,
+            0.5964063903606591
+          ]
+        },
+        "size": [
+          0.38230703741545685,
+          0.49992384078081553,
+          0.5148127807213183
+        ],
+        "center": [
+          0.6119999999999999,
+          0.8,
+          0.33899999999999997
+        ],
+        "volume": 0.021548498791310863,
+        "triangleVolume": 0.02154849871991825,
+        "triangles": 768
+      }
+    },
+    {
+      "name": "Material designation: Northeast bushing",
+      "status": "verified",
+      "expected": "POM",
+      "actual": "POM"
+    },
+    {
+      "name": "Intrinsic occupied geometry, bore, axis and placement: Shaft",
+      "status": "verified",
+      "expected": {
+        "bounds": {
+          "min": [
+            -0.6266799640701676,
+            0.6800000071525574,
+            -0.4200806180168465
+          ],
+          "max": [
+            0.8453348908550166,
+            0.9200000286102296,
+            0.5412830230784308
+          ]
+        },
+        "size": [
+          1.4720148549251841,
+          0.24000002145767219,
+          0.9613636410952773
+        ],
+        "center": [
+          0.1093274633924245,
+          0.8000000178813935,
+          0.06060120253079215
+        ],
+        "volume": 0.0700921920190846,
+        "triangleVolume": 0.0700921929285605,
+        "triangles": 508
+      },
+      "actual": {
+        "bounds": {
+          "min": [
+            -0.626998564709118,
+            0.6800182808944049,
+            -0.4196658317171282
+          ],
+          "max": [
+            0.8449985647091176,
+            0.9199817191055952,
+            0.5416658317171281
+          ]
+        },
+        "size": [
+          1.4719971294182357,
+          0.23996343821119037,
+          0.9613316634342564
+        ],
+        "center": [
+          0.10899999999999982,
+          0.8,
+          0.06099999999999997
+        ],
+        "volume": 0.07007029249224364,
+        "triangleVolume": 0.07007029195880096,
+        "triangles": 384
+      }
+    },
+    {
+      "name": "Material designation: Shaft",
+      "status": "verified",
+      "expected": "stainless steel",
+      "actual": "stainless steel"
+    },
+    {
+      "name": "Southwest bushing unchanged exactly",
+      "status": "verified"
+    },
+    {
+      "name": "Mechanical parts 0/1: no interpenetration",
+      "status": "verified"
+    },
+    {
+      "name": "Mechanical parts 0/2: no interpenetration",
+      "status": "verified"
+    },
+    {
+      "name": "Mechanical parts 1/2: no interpenetration",
+      "status": "verified"
+    }
+  ],
+  "positions": [
+    {
+      "id": "27c6ffd4-e42f-49a1-a635-74b7ea1dd883",
+      "position": {
+        "x": -0.3935788682127281,
+        "y": 0.5500380796095923,
+        "z": -0.2181643291108517
+      }
+    },
+    {
+      "id": "b7f8c57b-6ca8-4a25-ab74-79b4fc2f20b9",
+      "position": {
+        "x": 0.612,
+        "y": 0.5500380796095923,
+        "z": 0.339
+      }
+    },
+    {
+      "id": "5e2c9c75-00d9-426c-ac72-fa2322322de6",
+      "position": {
+        "x": 0.109,
+        "y": 0.6800182808944047,
+        "z": 0.061
+      }
+    }
+  ],
+  "reported": "Coordinated 2 components in 2 shared edit sets; identities and construction recipes retained. Linked components followed their hosts once.\nVerified width: 1.55 (1 element(s)).\nVerified width: 0.16, 0.16 (2 element(s)).\nVerified count: 3 (3 element(s)).\nPOM bushing A: 0.16 × 0.5 × 0.5 m; base (-0.394, 0.55, -0.218) m. Material volume 0.022 m³; surface area 0.661 m²; lowest/highest elevation 0.55 / 1.05 m.\nPOM bushing B: 0.16 × 0.5 × 0.5 m; base (0.612, 0.55, 0.339) m. Material volume 0.022 m³; surface area 0.661 m²; lowest/highest elevation 0.55 / 1.05 m.\nStainless-steel shaft: 1.55 × 0.24 × 0.24 m; base (0.109, 0.68, 0.061) m. Material volume 0.07 m³; surface area 1.259 m²; lowest/highest elevation 0.68 / 0.92 m."
+}

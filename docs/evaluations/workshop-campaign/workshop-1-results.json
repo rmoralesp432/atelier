@@ -1,0 +1,1278 @@
+[
+  {
+    "id": "workshop-1-workshop-W1-create",
+    "version": "workshop",
+    "commit": "f5ba62621db0d9c0a02f90be5b0143c7e21b53f7",
+    "task": "W1",
+    "prompt": "Create a small contemporary console with four separately editable parts: a top, two upright slab-like side supports and one low back stretcher connecting the supports. The top is 1.9 m long along X, 58 cm deep and 45 mm thick, with its upper surface 84 cm above the ground. Center it at the origin in plan. Let it overhang the outside faces of both supports by 10 cm. Use reasonable support and stretcher sections; keep the stretcher low enough to leave a clear open space below the top. Group the console and leave the existing samples untouched.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "INTERRUPTED_OR_HARNESS_FAILURE",
+    "started": "2026-11-23T19:18:19.076Z",
+    "requestCount": 3,
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Create a small contemporary console with four separately editable parts: a top, two upright slab-like side supports and one low back stretcher connecting the supports. The top is 1.9 m long along X, 58 cm deep and 45 mm thick, with its upper surface 84 cm above the ground. Center it at the origin in plan. Let it overhang the outside faces of both supports by 10 cm. Use reasonable support and stretcher sections; keep the stretcher low enough to leave a clear open space below the top. Group the console and leave the existing samples untouched."
+      },
+      {
+        "role": "assistant",
+        "content": "Contemporary console: 4 independently editable elements.\nConsole top: 1.9 × 0.58 × 0.045 m; base (0, 0.795, 0) m.\nConsole left slab support: 0.045 × 0.5 × 0.795 m; base (-0.827, 0, 0) m.\nConsole right slab support: 0.045 × 0.5 × 0.795 m; base (0.828, 0, 0) m.\nConsole low back stretcher: 1.61 × 0.035 × 0.12 m; base (0, 0.1, -0.232) m.\nVerified count: 4 (4 element(s)).\nVerified width: 1.9 (1 element(s)).\nVerified depth: 0.58 (1 element(s)).\nVerified height: 0.045 (1 element(s)).\nVerified top: 0.84 (1 element(s)).\nConsole top: 1.9 × 0.58 × 0.045 m; base (0, 0.795, 0) m. Material volume 0.05 m³; surface area 2.427 m²; lowest/highest elevation 0.795 / 0.84 m.\nConsole left slab support: 0.045 × 0.5 × 0.795 m; base (-0.827, 0, 0) m. Material volume 0.018 m³; surface area 0.912 m²; lowest/highest elevation 0 / 0.795 m.\nConsole right slab support: 0.045 × 0.5 × 0.795 m; base (0.828, 0, 0) m. Material volume 0.018 m³; surface area 0.912 m²; lowest/highest elevation 0 / 0.795 m.\nConsole low back stretcher: 1.61 × 0.035 × 0.12 m; base (0, 0.1, -0.232) m. Material volume 0.007 m³; surface area 0.508 m²; lowest/highest elevation 0.1 / 0.22 m.\nGroup settings updated.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 4; expected equal 4, tolerance 0. 4 element(s).\neditable: 4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · top: count (each): 1; expected equal 1, tolerance 0. 1 element(s).\ncount · support: count (each): 2; expected equal 2, tolerance 0. 2 element(s).\ncount · stretcher: count (each): 1; expected equal 1, tolerance 0. 1 element(s).\nwidth · top: width (each, world solids): 1.9; expected equal 1.9 ± 0.001 m.\ndepth · top: depth (each, world solids): 0.58; expected equal 0.58 ± 0.001 m.\nheight · top: height (each, world solids): 0.04500000000000004; expected equal 0.045 ± 0.001 m.\ntop · top: top (each, world solids): 0.8400000000000001; expected equal 0.84 ± 0.001 m.\nx · top: x (each, world solids): 0; expected equal 0 ± 0.001 m.\nz · top: z (each, world solids): 0; expected equal 0 ± 0.001 m.\noffset: Measured world-bounds x offset (min of 97f66d1b-1d1f-48f5-97b3-103a00372431 minus min of 6eb37da4-8767-4e9f-9c10-34c03ffe1097): 0.09999999999999998 m; expected 0.1 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (max of 67bbb6d7-fab9-47bb-a8c1-8baa9e202030 minus max of 6eb37da4-8767-4e9f-9c10-34c03ffe1097): -0.09999999999999987 m; expected -0.1 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.\nbase · support: base (each, world solids): 0, 0; expected equal 0 ± 0.001 m.\nrelationship: touching: 2/2 distinct solid pairs satisfy each; tolerance 0.002 m.\nrelationship: touching: 2/2 distinct solid pairs satisfy each; tolerance 0.002 m.\ngroup: Group Console: 4 members; 4/4 requested objects belong to it.\nNot independently verified: The console should read as small and contemporary, with upright slab-like side supports and reasonable support and stretcher sections.\nNot independently verified: The stretcher should be at the back and low enough to leave a clear open space beneath the top.\nNot independently verified: The group name is not prescribed; any single exclusive console group is acceptable.\nDesign assumptions:\nUse 45 mm thick, 500 mm deep side slabs, extending from the floor to the underside of the top.\nPlace the rear stretcher at the north (-Z) edge, 100 mm above the floor, with a 120 mm tall by 35 mm deep section.\nUse a uniform warm-grey finish; keep all four parts independently editable within one console group.\nCamera positioned at bearing 145°, elevation 22° in perspective.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nQualitative goals remain unverified: The console should read as small and contemporary, with upright slab-like side supports and reasonable support and stretcher sections.; The stretcher should be at the back and low enough to leave a clear open space beneath the top.; The group name is not prescribed; any single exclusive console group is acceptable..\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 4; expected equal 4, tolerance 0. 4 element(s).\neditable: 4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · top: count (each): 1; expected equal 1, tolerance 0. 1 element(s).\ncount · support: count (each): 2; expected equal 2, tolerance 0. 2 element(s).\ncount · stretcher: count (each): 1; expected equal 1, tolerance 0. 1 element(s)."
+      }
+    ],
+    "committed": true,
+    "componentCount": 6,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "facts": [
+      {
+        "name": "Protected object reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Protected object reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Protected groups",
+        "status": "verified"
+      },
+      {
+        "name": "Unique selectable editable identities",
+        "status": "verified"
+      },
+      {
+        "name": "Closed occupied solid 6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+        "status": "verified",
+        "expected": 0.04959000000000008,
+        "actual": 0.04958995065808494
+      },
+      {
+        "name": "Closed occupied solid 97f66d1b-1d1f-48f5-97b3-103a00372431",
+        "status": "verified",
+        "expected": 0.017887500000000008,
+        "actual": 0.017887507009506358
+      },
+      {
+        "name": "Closed occupied solid 67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+        "status": "verified",
+        "expected": 0.01788750000000002,
+        "actual": 0.017887507009506344
+      },
+      {
+        "name": "Closed occupied solid 4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0",
+        "status": "verified",
+        "expected": 0.0067620000000000015,
+        "actual": 0.006761999218001971
+      },
+      {
+        "name": "Requested distinct component count",
+        "status": "verified",
+        "expected": 4,
+        "actual": 4
+      },
+      {
+        "name": "Measured component identification: top",
+        "status": "verified",
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "name": "Measured component identification: supports",
+        "status": "verified",
+        "expected": 2,
+        "actual": 2
+      },
+      {
+        "name": "Measured component identification: stretcher",
+        "status": "verified",
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "name": "Specified top",
+        "status": "verified",
+        "expected": {
+          "volume": 0.04959000000000008,
+          "bounds": {
+            "min": [
+              -0.95,
+              0.795,
+              -0.29
+            ],
+            "max": [
+              0.95,
+              0.8400000000000001,
+              0.29
+            ]
+          },
+          "relativeTolerance": 0.0001
+        },
+        "actual": {
+          "volume": 0.04959000000000008,
+          "bounds": {
+            "min": [
+              -0.95,
+              0.795,
+              -0.29
+            ],
+            "max": [
+              0.95,
+              0.8400000000000001,
+              0.29
+            ]
+          }
+        }
+      },
+      {
+        "name": "Support rests on ground",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Support reaches top",
+        "status": "verified",
+        "expected": 0.795,
+        "actual": 0.795
+      },
+      {
+        "name": "Specified end overhang",
+        "status": "verified",
+        "expected": 0.1,
+        "actual": 0.09999999999999998
+      },
+      {
+        "name": "Slab-like side support",
+        "status": "verified"
+      },
+      {
+        "name": "Support rests on ground",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Support reaches top",
+        "status": "verified",
+        "expected": 0.795,
+        "actual": 0.795
+      },
+      {
+        "name": "Specified end overhang",
+        "status": "verified",
+        "expected": 0.1,
+        "actual": 0.09999999999999987
+      },
+      {
+        "name": "Slab-like side support",
+        "status": "verified"
+      },
+      {
+        "name": "Low back stretcher",
+        "status": "verified"
+      },
+      {
+        "name": "Stretcher connects support",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Stretcher connects support",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Assembly grouping",
+        "status": "verified"
+      }
+    ],
+    "hostReplay": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 4; expected equal 4, tolerance 0. 4 element(s).",
+          "ids": [
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+            "97f66d1b-1d1f-48f5-97b3-103a00372431",
+            "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+            "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "editable",
+          "met": true,
+          "outcome": "verified",
+          "observed": "4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+            "97f66d1b-1d1f-48f5-97b3-103a00372431",
+            "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+            "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "count · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": [
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "count · support",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 2; expected equal 2, tolerance 0. 2 element(s).",
+          "ids": [
+            "97f66d1b-1d1f-48f5-97b3-103a00372431",
+            "67bbb6d7-fab9-47bb-a8c1-8baa9e202030"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "count · stretcher",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": [
+            "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+          ]
+        },
+        {
+          "id": "check-6",
+          "label": "width · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 1.9; expected equal 1.9 ± 0.001 m.",
+          "ids": [
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+          ]
+        },
+        {
+          "id": "check-7",
+          "label": "depth · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 0.58; expected equal 0.58 ± 0.001 m.",
+          "ids": [
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+          ]
+        },
+        {
+          "id": "check-8",
+          "label": "height · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.04500000000000004; expected equal 0.045 ± 0.001 m.",
+          "ids": [
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+          ]
+        },
+        {
+          "id": "check-9",
+          "label": "top · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.8400000000000001; expected equal 0.84 ± 0.001 m.",
+          "ids": [
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+          ]
+        },
+        {
+          "id": "check-10",
+          "label": "x · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "x (each, world solids): 0; expected equal 0 ± 0.001 m.",
+          "ids": [
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+          ]
+        },
+        {
+          "id": "check-11",
+          "label": "z · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "z (each, world solids): 0; expected equal 0 ± 0.001 m.",
+          "ids": [
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+          ]
+        },
+        {
+          "id": "check-12",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (min of 97f66d1b-1d1f-48f5-97b3-103a00372431 minus min of 6eb37da4-8767-4e9f-9c10-34c03ffe1097): 0.09999999999999998 m; expected 0.1 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+            "97f66d1b-1d1f-48f5-97b3-103a00372431"
+          ]
+        },
+        {
+          "id": "check-13",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (max of 67bbb6d7-fab9-47bb-a8c1-8baa9e202030 minus max of 6eb37da4-8767-4e9f-9c10-34c03ffe1097): -0.09999999999999987 m; expected -0.1 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+            "67bbb6d7-fab9-47bb-a8c1-8baa9e202030"
+          ]
+        },
+        {
+          "id": "check-14",
+          "label": "base · support",
+          "met": true,
+          "outcome": "verified",
+          "observed": "base (each, world solids): 0, 0; expected equal 0 ± 0.001 m.",
+          "ids": [
+            "97f66d1b-1d1f-48f5-97b3-103a00372431",
+            "67bbb6d7-fab9-47bb-a8c1-8baa9e202030"
+          ]
+        },
+        {
+          "id": "check-15",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 2/2 distinct solid pairs satisfy each; tolerance 0.002 m.",
+          "ids": [
+            "97f66d1b-1d1f-48f5-97b3-103a00372431",
+            "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097"
+          ]
+        },
+        {
+          "id": "check-16",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 2/2 distinct solid pairs satisfy each; tolerance 0.002 m.",
+          "ids": [
+            "97f66d1b-1d1f-48f5-97b3-103a00372431",
+            "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+            "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+          ]
+        },
+        {
+          "id": "check-17",
+          "label": "group",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Group Console: 4 members; 4/4 requested objects belong to it.",
+          "ids": [
+            "6eb37da4-8767-4e9f-9c10-34c03ffe1097",
+            "97f66d1b-1d1f-48f5-97b3-103a00372431",
+            "67bbb6d7-fab9-47bb-a8c1-8baa9e202030",
+            "4090e0c3-78d0-4e2b-a2d3-c1a435a9afb0"
+          ]
+        }
+      ],
+      "qualitativeLimits": [
+        "The console should read as small and contemporary, with upright slab-like side supports and reasonable support and stretcher sections.",
+        "The stretcher should be at the back and low enough to leave a clear open space beneath the top.",
+        "The group name is not prescribed; any single exclusive console group is acceptable."
+      ]
+    },
+    "error": "AssertionError [ERR_ASSERTION]: Camera changed on reload",
+    "elapsedMs": 80044,
+    "cost": {
+      "calls": 3,
+      "estimatedUSD": 0.10051199999999999,
+      "accountedUSD": 0.12564,
+      "unknownReservations": [],
+      "inputTokens": 37831,
+      "outputTokens": 2485,
+      "reviewerMs": 22076,
+      "executorMs": 21233
+    },
+    "eventCount": 3
+  },
+  {
+    "id": "workshop-1-baseline-W1-create",
+    "version": "baseline",
+    "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+    "task": "W1",
+    "prompt": "Create a small contemporary console with four separately editable parts: a top, two upright slab-like side supports and one low back stretcher connecting the supports. The top is 1.9 m long along X, 58 cm deep and 45 mm thick, with its upper surface 84 cm above the ground. Center it at the origin in plan. Let it overhang the outside faces of both supports by 10 cm. Use reasonable support and stretcher sections; keep the stretcher low enough to leave a clear open space below the top. Group the console and leave the existing samples untouched.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "INTERRUPTED_OR_HARNESS_FAILURE",
+    "started": "2026-11-23T19:18:20.515Z",
+    "requestCount": 4,
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Create a small contemporary console with four separately editable parts: a top, two upright slab-like side supports and one low back stretcher connecting the supports. The top is 1.9 m long along X, 58 cm deep and 45 mm thick, with its upper surface 84 cm above the ground. Center it at the origin in plan. Let it overhang the outside faces of both supports by 10 cm. Use reasonable support and stretcher sections; keep the stretcher low enough to leave a clear open space below the top. Group the console and leave the existing samples untouched."
+      },
+      {
+        "role": "assistant",
+        "content": "Contemporary console: 4 independently editable elements.\nConsole top: 1.9 × 0.58 × 0.045 m; base (0, 0.795, 0) m.\nConsole left slab support: 0.045 × 0.5 × 0.795 m; base (-0.827, 0, 0) m.\nConsole right slab support: 0.045 × 0.5 × 0.795 m; base (0.828, 0, 0) m.\nConsole low back stretcher: 1.61 × 0.045 × 0.14 m; base (0, 0.12, -0.227) m.\nVerified count: 4 (4 element(s)).\nVerified width: 1.9 (1 element(s)).\nVerified depth: 0.58 (1 element(s)).\nVerified height: 0.045 (1 element(s)).\nVerified top: 0.84 (1 element(s)).\nVerified top: 0.795, 0.795 (2 element(s)).\nConsole top: 1.9 × 0.58 × 0.045 m; base (0, 0.795, 0) m. Material volume 0.05 m³; surface area 2.427 m²; lowest/highest elevation 0.795 / 0.84 m.\nConsole left slab support: 0.045 × 0.5 × 0.795 m; base (-0.827, 0, 0) m. Material volume 0.018 m³; surface area 0.912 m²; lowest/highest elevation 0 / 0.795 m.\nConsole right slab support: 0.045 × 0.5 × 0.795 m; base (0.828, 0, 0) m. Material volume 0.018 m³; surface area 0.912 m²; lowest/highest elevation 0 / 0.795 m.\nConsole low back stretcher: 1.61 × 0.045 × 0.14 m; base (0, 0.12, -0.227) m. Material volume 0.01 m³; surface area 0.608 m²; lowest/highest elevation 0.12 / 0.26 m.\nGroup settings updated.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 4; expected equal 4, tolerance 0. 4 element(s).\neditable: 4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · top: count (each): 1; expected equal 1, tolerance 0. 1 element(s).\ncount · support: count (each): 2; expected equal 2, tolerance 0. 2 element(s).\ncount · stretcher: count (each): 1; expected equal 1, tolerance 0. 1 element(s).\nwidth · top: width (each, world solids): 1.9; expected equal 1.9 ± 0.001 m.\ndepth · top: depth (each, world solids): 0.58; expected equal 0.58 ± 0.001 m.\nheight · top: height (each, world solids): 0.04500000000000004; expected equal 0.045 ± 0.001 m.\ntop · top: top (each, world solids): 0.8400000000000001; expected equal 0.84 ± 0.001 m.\nx · top: x (each, world solids): 0; expected equal 0 ± 0.001 m.\nz · top: z (each, world solids): 0; expected equal 0 ± 0.001 m.\noffset: Measured world-bounds x offset (min of a406073c-12ad-49ab-905c-b2a4add7d6e6 minus min of 2f60541f-e2de-4f0a-bf1b-69b3cf056627): 0.09999999999999998 m; expected 0.1 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (max of 036d8747-09a9-45c0-a00e-3f929245c896 minus max of 2f60541f-e2de-4f0a-bf1b-69b3cf056627): -0.09999999999999987 m; expected -0.1 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.\nrelationship: distance: 2/2 distinct solid pairs satisfy each; tolerance 0.001 m.\nrelationship: distance: 2/2 distinct solid pairs satisfy each; tolerance 0.001 m.\nbase · support: base (each, world solids): 0, 0; expected equal 0 ± 0.001 m.\ngroup: Group Console: 4 members; 4/4 requested objects belong to it.\nNot independently verified: The group name is not prescribed; any single exclusive console group satisfies the grouping intent.\nNot independently verified: Supports should read as upright side slabs, and the stretcher as a low rear connecting member with reasonable sections.\nNot independently verified: The stretcher must leave a substantial clear open space below the top; no numerical clearance or rear setback was specified.\nNot independently verified: The console should have a small contemporary appearance.\nDesign assumptions:\nSide supports are 45 mm thick and 500 mm deep, extending from the ground to the underside of the top.\nThe rear stretcher is 45 mm thick and 140 mm high, with its base 120 mm above the ground and its back flush with the supports.\nUse a uniform warm neutral finish; retain all four parts as independent editable objects.",
+        "summary": "Changes applied with incomplete verification. I cannot yet confirm every requirement.\nQualitative goals remain unverified: The group name is not prescribed; any single exclusive console group satisfies the grouping intent.; Supports should read as upright side slabs, and the stretcher as a low rear connecting member with reasonable sections.; The stretcher must leave a substantial clear open space below the top; no numerical clearance or rear setback was specified.; The console should have a small contemporary appearance..\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\ncount: count (each): 4; expected equal 4, tolerance 0. 4 element(s).\neditable: 4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.\ncount · top: count (each): 1; expected equal 1, tolerance 0. 1 element(s).\ncount · support: count (each): 2; expected equal 2, tolerance 0. 2 element(s).\ncount · stretcher: count (each): 1; expected equal 1, tolerance 0. 1 element(s)."
+      }
+    ],
+    "committed": true,
+    "componentCount": 6,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "facts": [
+      {
+        "name": "Protected object reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Protected object reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Protected groups",
+        "status": "verified"
+      },
+      {
+        "name": "Unique selectable editable identities",
+        "status": "verified"
+      },
+      {
+        "name": "Closed occupied solid 2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+        "status": "verified",
+        "expected": 0.04959000000000008,
+        "actual": 0.04958995065808494
+      },
+      {
+        "name": "Closed occupied solid a406073c-12ad-49ab-905c-b2a4add7d6e6",
+        "status": "verified",
+        "expected": 0.017887500000000008,
+        "actual": 0.017887507009506358
+      },
+      {
+        "name": "Closed occupied solid 036d8747-09a9-45c0-a00e-3f929245c896",
+        "status": "verified",
+        "expected": 0.01788750000000002,
+        "actual": 0.017887507009506344
+      },
+      {
+        "name": "Closed occupied solid b42cda14-2293-4905-af52-f3614e4b8ad9",
+        "status": "verified",
+        "expected": 0.010142999999999996,
+        "actual": 0.010142999996557803
+      },
+      {
+        "name": "Requested distinct component count",
+        "status": "verified",
+        "expected": 4,
+        "actual": 4
+      },
+      {
+        "name": "Measured component identification: top",
+        "status": "verified",
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "name": "Measured component identification: supports",
+        "status": "verified",
+        "expected": 2,
+        "actual": 2
+      },
+      {
+        "name": "Measured component identification: stretcher",
+        "status": "verified",
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "name": "Specified top",
+        "status": "verified",
+        "expected": {
+          "volume": 0.04959000000000008,
+          "bounds": {
+            "min": [
+              -0.95,
+              0.795,
+              -0.29
+            ],
+            "max": [
+              0.95,
+              0.8400000000000001,
+              0.29
+            ]
+          },
+          "relativeTolerance": 0.0001
+        },
+        "actual": {
+          "volume": 0.04959000000000008,
+          "bounds": {
+            "min": [
+              -0.95,
+              0.795,
+              -0.29
+            ],
+            "max": [
+              0.95,
+              0.8400000000000001,
+              0.29
+            ]
+          }
+        }
+      },
+      {
+        "name": "Support rests on ground",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Support reaches top",
+        "status": "verified",
+        "expected": 0.795,
+        "actual": 0.795
+      },
+      {
+        "name": "Specified end overhang",
+        "status": "verified",
+        "expected": 0.1,
+        "actual": 0.09999999999999998
+      },
+      {
+        "name": "Slab-like side support",
+        "status": "verified"
+      },
+      {
+        "name": "Support rests on ground",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Support reaches top",
+        "status": "verified",
+        "expected": 0.795,
+        "actual": 0.795
+      },
+      {
+        "name": "Specified end overhang",
+        "status": "verified",
+        "expected": 0.1,
+        "actual": 0.09999999999999987
+      },
+      {
+        "name": "Slab-like side support",
+        "status": "verified"
+      },
+      {
+        "name": "Low back stretcher",
+        "status": "verified"
+      },
+      {
+        "name": "Stretcher connects support",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Stretcher connects support",
+        "status": "verified",
+        "expected": 0,
+        "actual": 0
+      },
+      {
+        "name": "Assembly grouping",
+        "status": "verified"
+      }
+    ],
+    "hostReplay": {
+      "modeling": true,
+      "passed": false,
+      "status": "unverified",
+      "canCommit": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "count",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 4; expected equal 4, tolerance 0. 4 element(s).",
+          "ids": [
+            "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+            "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+            "036d8747-09a9-45c0-a00e-3f929245c896",
+            "b42cda14-2293-4905-af52-f3614e4b8ad9"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "editable",
+          "met": true,
+          "outcome": "verified",
+          "observed": "4 separate scene objects; 0 in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.",
+          "ids": [
+            "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+            "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+            "036d8747-09a9-45c0-a00e-3f929245c896",
+            "b42cda14-2293-4905-af52-f3614e4b8ad9"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "count · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": [
+            "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "count · support",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 2; expected equal 2, tolerance 0. 2 element(s).",
+          "ids": [
+            "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+            "036d8747-09a9-45c0-a00e-3f929245c896"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "count · stretcher",
+          "met": true,
+          "outcome": "verified",
+          "observed": "count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+          "ids": [
+            "b42cda14-2293-4905-af52-f3614e4b8ad9"
+          ]
+        },
+        {
+          "id": "check-6",
+          "label": "width · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 1.9; expected equal 1.9 ± 0.001 m.",
+          "ids": [
+            "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+          ]
+        },
+        {
+          "id": "check-7",
+          "label": "depth · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "depth (each, world solids): 0.58; expected equal 0.58 ± 0.001 m.",
+          "ids": [
+            "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+          ]
+        },
+        {
+          "id": "check-8",
+          "label": "height · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "height (each, world solids): 0.04500000000000004; expected equal 0.045 ± 0.001 m.",
+          "ids": [
+            "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+          ]
+        },
+        {
+          "id": "check-9",
+          "label": "top · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "top (each, world solids): 0.8400000000000001; expected equal 0.84 ± 0.001 m.",
+          "ids": [
+            "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+          ]
+        },
+        {
+          "id": "check-10",
+          "label": "x · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "x (each, world solids): 0; expected equal 0 ± 0.001 m.",
+          "ids": [
+            "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+          ]
+        },
+        {
+          "id": "check-11",
+          "label": "z · top",
+          "met": true,
+          "outcome": "verified",
+          "observed": "z (each, world solids): 0; expected equal 0 ± 0.001 m.",
+          "ids": [
+            "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+          ]
+        },
+        {
+          "id": "check-12",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (min of a406073c-12ad-49ab-905c-b2a4add7d6e6 minus min of 2f60541f-e2de-4f0a-bf1b-69b3cf056627): 0.09999999999999998 m; expected 0.1 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+            "a406073c-12ad-49ab-905c-b2a4add7d6e6"
+          ]
+        },
+        {
+          "id": "check-13",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (max of 036d8747-09a9-45c0-a00e-3f929245c896 minus max of 2f60541f-e2de-4f0a-bf1b-69b3cf056627): -0.09999999999999987 m; expected -0.1 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+            "036d8747-09a9-45c0-a00e-3f929245c896"
+          ]
+        },
+        {
+          "id": "check-14",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "distance: 2/2 distinct solid pairs satisfy each; tolerance 0.001 m.",
+          "ids": [
+            "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+            "036d8747-09a9-45c0-a00e-3f929245c896",
+            "b42cda14-2293-4905-af52-f3614e4b8ad9"
+          ]
+        },
+        {
+          "id": "check-15",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "distance: 2/2 distinct solid pairs satisfy each; tolerance 0.001 m.",
+          "ids": [
+            "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+            "036d8747-09a9-45c0-a00e-3f929245c896",
+            "2f60541f-e2de-4f0a-bf1b-69b3cf056627"
+          ]
+        },
+        {
+          "id": "check-16",
+          "label": "base · support",
+          "met": true,
+          "outcome": "verified",
+          "observed": "base (each, world solids): 0, 0; expected equal 0 ± 0.001 m.",
+          "ids": [
+            "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+            "036d8747-09a9-45c0-a00e-3f929245c896"
+          ]
+        },
+        {
+          "id": "check-17",
+          "label": "group",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Group Console: 4 members; 4/4 requested objects belong to it.",
+          "ids": [
+            "2f60541f-e2de-4f0a-bf1b-69b3cf056627",
+            "a406073c-12ad-49ab-905c-b2a4add7d6e6",
+            "036d8747-09a9-45c0-a00e-3f929245c896",
+            "b42cda14-2293-4905-af52-f3614e4b8ad9"
+          ]
+        }
+      ],
+      "qualitativeLimits": [
+        "The group name is not prescribed; any single exclusive console group satisfies the grouping intent.",
+        "Supports should read as upright side slabs, and the stretcher as a low rear connecting member with reasonable sections.",
+        "The stretcher must leave a substantial clear open space below the top; no numerical clearance or rear setback was specified.",
+        "The console should have a small contemporary appearance."
+      ]
+    },
+    "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: getByTestId('viewport')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"toBeVisible\" getByTestId('viewport') with timeout 5000ms\n  - waiting for getByTestId('viewport')\n",
+    "elapsedMs": 76573,
+    "cost": {
+      "calls": 4,
+      "estimatedUSD": 0.13365,
+      "accountedUSD": 0.1670625,
+      "unknownReservations": [],
+      "inputTokens": 54080,
+      "outputTokens": 2549,
+      "reviewerMs": 19390,
+      "executorMs": 27972
+    },
+    "eventCount": 4
+  },
+  {
+    "id": "workshop-1-baseline-W1-diagnostic-edit",
+    "version": "baseline",
+    "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+    "task": "W1",
+    "prompt": "Make the console 42 cm wider symmetrically, keeping it centered. Retain its existing end overhangs, support thicknesses, depth and height. Adjust the back stretcher so it still connects the supports. Keep the existing components and leave the other objects alone.",
+    "edit": true,
+    "diagnostic": true,
+    "negative": false,
+    "status": "INTERRUPTED_OR_HARNESS_FAILURE",
+    "started": "2026-11-23T19:19:41.711Z",
+    "requestCount": 2,
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Make the console 42 cm wider symmetrically, keeping it centered. Retain its existing end overhangs, support thicknesses, depth and height. Adjust the back stretcher so it still connects the supports. Keep the existing components and leave the other objects alone."
+      },
+      {
+        "role": "assistant",
+        "content": "Coordinated 4 components in 3 shared edit sets; identities and construction recipes retained. Linked components followed their hosts once.\nVerified width: 2.32 (1 element(s)).\nVerified width: 2.04 (1 element(s)).\nVerified width: 0.04, 0.04 (2 element(s)).\nTop: 2.32 × 0.58 × 0.045 m; base (0, 0.795, 0) m. Material volume 0.061 m³; surface area 2.952 m²; lowest/highest elevation 0.795 / 0.84 m.\nSide: 0.04 × 0.46 × 0.795 m; base (-1.04, 0, 0) m. Material volume 0.015 m³; surface area 0.832 m²; lowest/highest elevation 0 / 0.795 m.\nSide: 0.04 × 0.46 × 0.795 m; base (1.04, 0, 0) m. Material volume 0.015 m³; surface area 0.832 m²; lowest/highest elevation 0 / 0.795 m.\nBack stretcher: 2.04 × 0.04 × 0.12 m; base (0, 0.18, 0.21) m. Material volume 0.01 m³; surface area 0.662 m²; lowest/highest elevation 0.18 / 0.3 m.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 2.32; expected equal 2.32 ± 0.001 m.\nx: x (each, world solids): 0; expected equal 0 ± 0.001 m.\npreserve: 4 original identities retain depth, height, y, z, rotation.\npreserve: 2 original identities retain width.\noffset: Measured world-bounds x offset (min of fixture-W1-1 minus min of fixture-W1-0): 0.09999997615814205 m; expected 0.1 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.\noffset: Measured world-bounds x offset (max of fixture-W1-0 minus max of fixture-W1-2): 0.09999997615814205 m; expected 0.1 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.\nwidth: width (each, world solids): 2.04; expected equal 2.04 ± 0.001 m.\nx: x (each, world solids): 0; expected equal 0 ± 0.001 m.\nrelationship: touching: 2/2 distinct solid pairs satisfy each; tolerance 0.001 m.\npreserve: 4 original identities retain identity, name, component, material, materialSpec, color, groupId, visible.\nDesign assumptions:\nPreserve the existing 10 cm top overhang at each end by moving each support outward 21 cm; keep the console centered at X=0.",
+        "summary": "Completed; measurable checks passed.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nwidth: width (each, world solids): 2.32; expected equal 2.32 ± 0.001 m.\nx: x (each, world solids): 0; expected equal 0 ± 0.001 m.\npreserve: 4 original identities retain depth, height, y, z, rotation.\npreserve: 2 original identities retain width.\noffset: Measured world-bounds x offset (min of fixture-W1-1 minus min of fixture-W1-0): 0.09999997615814205 m; expected 0.1 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity."
+      }
+    ],
+    "committed": true,
+    "componentCount": 6,
+    "changedIds": [
+      "fixture-W1-0",
+      "fixture-W1-1",
+      "fixture-W1-2",
+      "fixture-W1-3"
+    ],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "facts": [
+      {
+        "name": "Protected object reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Protected object reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Protected groups",
+        "status": "verified"
+      },
+      {
+        "name": "Unique selectable editable identities",
+        "status": "verified"
+      },
+      {
+        "name": "Original object roster retained",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties reference-block",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties reference-round",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties fixture-W1-0",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties fixture-W1-1",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties fixture-W1-2",
+        "status": "verified"
+      },
+      {
+        "name": "Retain properties fixture-W1-3",
+        "status": "verified"
+      },
+      {
+        "name": "Assembly group metadata retained",
+        "status": "verified"
+      },
+      {
+        "name": "Closed occupied solid fixture-W1-0",
+        "status": "verified",
+        "expected": 0.06055194145107245,
+        "actual": 0.06055193876839015
+      },
+      {
+        "name": "Closed occupied solid fixture-W1-1",
+        "status": "verified",
+        "expected": 0.014628007847070697,
+        "actual": 0.014628030216933458
+      },
+      {
+        "name": "Closed occupied solid fixture-W1-2",
+        "status": "verified",
+        "expected": 0.014628007847070704,
+        "actual": 0.014628030216933492
+      },
+      {
+        "name": "Closed occupied solid fixture-W1-3",
+        "status": "verified",
+        "expected": 0.009792002334594829,
+        "actual": 0.009792001811027549
+      },
+      {
+        "name": "Requested distinct component count",
+        "status": "verified",
+        "expected": 4,
+        "actual": 4
+      },
+      {
+        "name": "Measured component identification: top",
+        "status": "verified",
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "name": "Measured component identification: supports",
+        "status": "verified",
+        "expected": 2,
+        "actual": 2
+      },
+      {
+        "name": "Measured component identification: stretcher",
+        "status": "verified",
+        "expected": 1,
+        "actual": 1
+      },
+      {
+        "name": "Expected occupied geometry fixture-W1-0",
+        "status": "verified",
+        "expected": {
+          "volume": 0.06055194145107245,
+          "bounds": {
+            "min": [
+              -1.16,
+              0.7950000166893009,
+              -0.29
+            ],
+            "max": [
+              1.16,
+              0.83999997317791,
+              0.29
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.06055194145107245,
+          "bounds": {
+            "min": [
+              -1.16,
+              0.7950000166893009,
+              -0.29
+            ],
+            "max": [
+              1.16,
+              0.83999997317791,
+              0.29
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W1-1",
+        "status": "verified",
+        "expected": {
+          "volume": 0.014628007847070697,
+          "bounds": {
+            "min": [
+              -1.0600000238418579,
+              0,
+              -0.23
+            ],
+            "max": [
+              -1.0200000023841858,
+              0.795,
+              0.23
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.014628007847070697,
+          "bounds": {
+            "min": [
+              -1.0600000238418579,
+              0,
+              -0.23
+            ],
+            "max": [
+              -1.0200000023841858,
+              0.795,
+              0.23
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W1-2",
+        "status": "verified",
+        "expected": {
+          "volume": 0.014628007847070704,
+          "bounds": {
+            "min": [
+              1.0200000023841858,
+              0,
+              -0.23
+            ],
+            "max": [
+              1.0600000238418579,
+              0.795,
+              0.23
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.014628007847070704,
+          "bounds": {
+            "min": [
+              1.0200000023841858,
+              0,
+              -0.23
+            ],
+            "max": [
+              1.0600000238418579,
+              0.795,
+              0.23
+            ]
+          }
+        }
+      },
+      {
+        "name": "Expected occupied geometry fixture-W1-3",
+        "status": "verified",
+        "expected": {
+          "volume": 0.009792002334594829,
+          "bounds": {
+            "min": [
+              -1.02,
+              0.18000000715255737,
+              0.18999999761581424
+            ],
+            "max": [
+              1.02,
+              0.30000001430511475,
+              0.2300000047683716
+            ]
+          },
+          "relativeTolerance": 0.001
+        },
+        "actual": {
+          "volume": 0.009792002334594829,
+          "bounds": {
+            "min": [
+              -1.02,
+              0.18000000715255737,
+              0.18999999761581424
+            ],
+            "max": [
+              1.02,
+              0.30000001430511475,
+              0.2300000047683716
+            ]
+          }
+        }
+      }
+    ],
+    "hostReplay": {
+      "modeling": true,
+      "passed": true,
+      "status": "verified",
+      "canCommit": true,
+      "checks": [
+        {
+          "id": "preserved-scope",
+          "label": "Unrelated existing geometry",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 existing objects outside the requested edit scope are unchanged.",
+          "ids": []
+        },
+        {
+          "id": "check-1",
+          "label": "width",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 2.32; expected equal 2.32 ± 0.001 m.",
+          "ids": [
+            "fixture-W1-0"
+          ]
+        },
+        {
+          "id": "check-2",
+          "label": "x",
+          "met": true,
+          "outcome": "verified",
+          "observed": "x (each, world solids): 0; expected equal 0 ± 0.001 m.",
+          "ids": [
+            "fixture-W1-0"
+          ]
+        },
+        {
+          "id": "check-3",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "4 original identities retain depth, height, y, z, rotation.",
+          "ids": [
+            "fixture-W1-0",
+            "fixture-W1-1",
+            "fixture-W1-2",
+            "fixture-W1-3"
+          ]
+        },
+        {
+          "id": "check-4",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "2 original identities retain width.",
+          "ids": [
+            "fixture-W1-1",
+            "fixture-W1-2"
+          ]
+        },
+        {
+          "id": "check-5",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (min of fixture-W1-1 minus min of fixture-W1-0): 0.09999997615814205 m; expected 0.1 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "fixture-W1-0",
+            "fixture-W1-1"
+          ]
+        },
+        {
+          "id": "check-6",
+          "label": "offset",
+          "met": true,
+          "outcome": "verified",
+          "observed": "Measured world-bounds x offset (max of fixture-W1-0 minus max of fixture-W1-2): 0.09999997615814205 m; expected 0.1 ± 0.001 m. This is an axis/bounds check, not proof of surface connectivity.",
+          "ids": [
+            "fixture-W1-2",
+            "fixture-W1-0"
+          ]
+        },
+        {
+          "id": "check-7",
+          "label": "width",
+          "met": true,
+          "outcome": "verified",
+          "observed": "width (each, world solids): 2.04; expected equal 2.04 ± 0.001 m.",
+          "ids": [
+            "fixture-W1-3"
+          ]
+        },
+        {
+          "id": "check-8",
+          "label": "x",
+          "met": true,
+          "outcome": "verified",
+          "observed": "x (each, world solids): 0; expected equal 0 ± 0.001 m.",
+          "ids": [
+            "fixture-W1-3"
+          ]
+        },
+        {
+          "id": "check-9",
+          "label": "relationship",
+          "met": true,
+          "outcome": "verified",
+          "observed": "touching: 2/2 distinct solid pairs satisfy each; tolerance 0.001 m.",
+          "ids": [
+            "fixture-W1-1",
+            "fixture-W1-2",
+            "fixture-W1-3"
+          ]
+        },
+        {
+          "id": "check-10",
+          "label": "preserve",
+          "met": true,
+          "outcome": "verified",
+          "observed": "4 original identities retain identity, name, component, material, materialSpec, color, groupId, visible.",
+          "ids": [
+            "fixture-W1-0",
+            "fixture-W1-1",
+            "fixture-W1-2",
+            "fixture-W1-3"
+          ]
+        }
+      ],
+      "qualitativeLimits": []
+    },
+    "error": "AssertionError [ERR_ASSERTION]: Camera changed on reload",
+    "elapsedMs": 64179,
+    "cost": {
+      "calls": 2,
+      "estimatedUSD": 0.053618,
+      "accountedUSD": 0.0670225,
+      "unknownReservations": [],
+      "inputTokens": 20204,
+      "outputTokens": 1321,
+      "reviewerMs": 11589,
+      "executorMs": 11548
+    },
+    "eventCount": 2
+  },
+  {
+    "id": "workshop-1-baseline-W2-create",
+    "version": "baseline",
+    "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+    "task": "W2",
+    "prompt": "Model a simple garden room centered at the origin, 3.6 m along X by 2.8 m along Z. Give it a separate 12 cm floor slab resting on the ground, a flat 15 cm roof whose underside is 2.6 m above the floor surface, four slender corner posts, full-height glazing along the two side façades, and a solid back wall; leave the front open. Use one editable object for each slab, post, side glazing panel and back wall, organized as one assembly. Use reasonable posts and wall thicknesses and keep all of them within the footprint. Leave the existing samples alone.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "INTERRUPTED_OR_HARNESS_FAILURE",
+    "started": "2026-11-23T19:21:04.171Z",
+    "requestCount": 1,
+    "error": "Error: page.evaluate: Target page, context or browser has been closed",
+    "elapsedMs": 39880,
+    "cost": {
+      "calls": 1,
+      "estimatedUSD": 0.043114,
+      "accountedUSD": 0.053892499999999996,
+      "unknownReservations": [],
+      "inputTokens": 14442,
+      "outputTokens": 1423,
+      "reviewerMs": 0,
+      "executorMs": 23335
+    },
+    "eventCount": 1
+  }
+]

@@ -1,0 +1,166 @@
+[WebServer] (node:63294) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] .env not found. Continuing without it.
+[WebServer] (node:63307) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 9 tests using 1 worker
+
+(node:63359) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 9:36:01 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:36:03 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:36:20 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:36:22 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+  ✓  1 tests/completion-verification.spec.ts:56:1 › independent completion rejects a valid but incomplete model, repairs the same geometry and commits with one Undo (offline providers) (29.7s)
+[WebServer] 9:36:30 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:36:33 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:36:43 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:36:45 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+  ✓  2 tests/completion-verification.spec.ts:173:1 › a failed request followed by reload does not poison an unrelated new modeling instruction (offline providers) (28.9s)
+[WebServer] 9:36:59 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:37:01 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+  ✘  3 tests/completion-verification.spec.ts:257:1 › unknown verification permits safe additions with honest messaging, one Undo, and a later independently checked edit (1.2m)
+(node:64414) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 9:38:11 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:38:13 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:38:23 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:38:24 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+  ✓  4 tests/criteria-contracts.spec.ts:42:1 › invalid criteria are independently corrected before model repair; the exact components commit, reload and Undo/Redo together (23.1s)
+[WebServer] 9:38:33 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:38:35 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+  ✓  5 tests/criteria-contracts.spec.ts:178:1 › an unresolved unsupported material check commits safe geometry with explicit uncertainty, without repeated modeling repairs (10.2s)
+[WebServer] 9:38:44 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:38:45 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:39:01 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:39:03 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+  ✓  6 tests/verification-reliability.spec.ts:21:3 › saved real-AI group replay through browser commits and storage (31.5s)
+[WebServer] 9:39:18 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:39:20 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:39:29 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:39:31 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+  ✓  7 tests/verification-reliability.spec.ts:21:3 › saved real-AI reflection replay through browser commits and storage (28.2s)
+[WebServer] 9:39:44 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:39:46 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+  ✘  8 tests/verification-reliability.spec.ts:21:3 › saved real-AI displaced replay through browser commits and storage (1.5m)
+(node:65616) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] 9:41:19 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:41:21 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:42:19 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+[WebServer] 9:42:22 PM [vite] (client) [console.warn] THREE.WebGLShadowMap: PCFSoftShadowMap has been removed. Using PCFShadowMap instead.
+  ✘  9 tests/verification-reliability.spec.ts:21:3 › saved real-AI unresolved replay through browser commits and storage (1.5m)
+
+
+  1) tests/completion-verification.spec.ts:257:1 › unknown verification permits safe additions with honest messaging, one Undo, and a later independently checked edit 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 3
+    Received: 2
+
+    Call Log:
+    - Timeout 60000ms exceeded while waiting on the predicate
+
+      316 |       timeout: 60000,
+      317 |     })
+    > 318 |     .toBe(3);
+          |      ^
+      319 |   const first = await saved(page);
+      320 |   target = first.project.volumes[2].id;
+      321 |   expect(planCalls).toBe(2);
+        at /workspace/atelier-reliability/tests/completion-verification.spec.ts:318:6
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/completion-verification-un-7006f--independently-checked-edit/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/completion-verification-un-7006f--independently-checked-edit/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/completion-verification-un-7006f--independently-checked-edit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/completion-verification-un-7006f--independently-checked-edit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) tests/verification-reliability.spec.ts:21:3 › saved real-AI displaced replay through browser commits and storage 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Dismiss', exact: true })
+    Expected: visible
+    Timeout: 80000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Dismiss', exact: true }) with timeout 80000ms
+      - waiting for getByRole('button', { name: 'Dismiss', exact: true })
+
+
+      156 |       await expect(
+      157 |         page.getByRole('button', { name: 'Dismiss', exact: true }),
+    > 158 |       ).toBeVisible({ timeout: 80000 });
+          |         ^
+      159 |       if (scenario === 'unresolved')
+      160 |         await expect(
+      161 |           page.getByText(/proposed changes have not been saved/),
+        at /workspace/atelier-reliability/tests/verification-reliability.spec.ts:158:9
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/verification-reliability-s-d51d7-browser-commits-and-storage/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/verification-reliability-s-d51d7-browser-commits-and-storage/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/verification-reliability-s-d51d7-browser-commits-and-storage/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/verification-reliability-s-d51d7-browser-commits-and-storage/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) tests/verification-reliability.spec.ts:21:3 › saved real-AI unresolved replay through browser commits and storage 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('button', { name: 'Dismiss', exact: true })
+    Expected: visible
+    Timeout: 80000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('button', { name: 'Dismiss', exact: true }) with timeout 80000ms
+      - waiting for getByRole('button', { name: 'Dismiss', exact: true })
+
+
+      156 |     else {
+      157 |       await expect(page.getByRole('log', { name: 'Design conversation' })).toContainText(
+    > 158 |         scenario === 'displaced' ? 'Controlled negative result rejected' : 'proposed changes have not been saved',
+          |         ^
+      159 |         { timeout: 80000 },
+      160 |       );
+      161 |     }
+        at /workspace/atelier-reliability/tests/verification-reliability.spec.ts:158:9
+
+    Error: apiRequestContext._wrapApiCall: ENOENT: no such file or directory, copyfile '/workspace/atelier-reliability/test-results/.playwright-artifacts-2/traces/af22cb7b4942f5e26552-8671139b6dd586cfb107-recording1.network' -> '/workspace/atelier-reliability/test-results/.playwright-artifacts-2/traces/af22cb7b4942f5e26552-8671139b6dd586cfb107-recording1-pwnetcopy-1.network'
+
+    Error: ENOENT: no such file or directory, open '/workspace/atelier-reliability/test-results/.playwright-artifacts-2/67063b78afdf7700beb4b625076206bc.zip'
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/verification-reliability-s-8ba51-browser-commits-and-storage/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    tests/completion-verification.spec.ts:257:1 › unknown verification permits safe additions with honest messaging, one Undo, and a later independently checked edit 
+    tests/verification-reliability.spec.ts:21:3 › saved real-AI displaced replay through browser commits and storage 
+    tests/verification-reliability.spec.ts:21:3 › saved real-AI unresolved replay through browser commits and storage 
+  6 passed (6.9m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.3
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.3
+npm notice To update run: npm install -g npm@12.2.3
+npm notice

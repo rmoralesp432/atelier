@@ -1,6 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
 import { criteria, measure, selector } from './fixtures/completion';
-import { unavailableCompletionCriteria } from '../src/intelligence/completion';
 
 const saved = (page: Page) =>
   page.evaluate(() => JSON.parse(localStorage.getItem('atelier.session.v2')!));
@@ -254,7 +253,7 @@ test('a failed request followed by reload does not poison an unrelated new model
     .toEqual(before.project);
 });
 
-test('unknown verification permits safe additions with honest messaging, one Undo, and a later independently checked edit', async ({
+test('unsupported qualitative verification permits safe additions with honest messaging, one Undo, and a later independently checked edit', async ({
   page,
 }) => {
   test.setTimeout(120000);
@@ -274,10 +273,20 @@ test('unknown verification permits safe additions with honest messaging, one Und
             [target],
             b.message,
           )
-        : unavailableCompletionCriteria(
-            'The independent review exhausted its output allowance.',
-            b.message,
-          ),
+        : {
+            ...criteria(
+              [
+                measure('count', 'count', 1),
+                measure('position', 'x', 14),
+                measure('height', 'height', 0.7),
+              ],
+              [],
+              b.message,
+            ),
+            qualitativeLimits: [
+              'Aesthetic balance cannot be independently certified.',
+            ],
+          },
     });
   });
   await page.route('**/api/plan', (r) => {
@@ -309,7 +318,7 @@ test('unknown verification permits safe additions with honest messaging, one Und
   });
   await send(
     page,
-    'Create one small spherical study at x=14; preserve my existing objects.',
+    'Create one aesthetically balanced small spherical study at x=14; preserve my existing objects.',
   );
   await expect
     .poll(async () => (await saved(page)).project.volumes.length, {

@@ -1,0 +1,904 @@
+{
+  "source": "Derived read-only from immutable live records; scoring is not changed.",
+  "calls": 53,
+  "estimatedUsd": 2.055574,
+  "conservativeUsd": 2.569467499999999,
+  "unknownCalls": 0,
+  "inputTokens": 809512,
+  "outputTokens": 43655,
+  "reasoningTokens": 13540,
+  "modelIds": [
+    "gpt-6.1-sol"
+  ],
+  "serviceTiers": [
+    "default"
+  ],
+  "executorApiSeconds": 518.399,
+  "reviewerApiSeconds": 224.361,
+  "maximumInputTokens": 29067,
+  "cases": [
+    {
+      "id": "A1",
+      "status": "MEASURED_CORRECT_WITH_HOST_LIMITS",
+      "diagnostic": false,
+      "committed": true,
+      "elapsedSeconds": 70.61150027000001,
+      "calls": 3,
+      "estimatedUsd": 0.11027799999999999,
+      "conservativeUsd": 0.1378475,
+      "executorApiSeconds": 30.552,
+      "reviewerApiSeconds": 28.078,
+      "hostStatus": "unverified",
+      "hostCanCommit": true,
+      "externalCounts": {
+        "verified": 28
+      },
+      "failedExternalChecks": [],
+      "hostCounts": {
+        "verified": 33
+      },
+      "hostLimits": [
+        "The short-side glazing must continuously enclose both short sides; segmentation and framing are allowed.",
+        "The front and back must remain open, without enclosing walls or glazing.",
+        "Use reasonable architectural materials and simple, independently editable components.",
+        "Post and glazing numbering is interchangeable; equivalent corner assignments and a globally rotated canopy are acceptable."
+      ],
+      "toolOrVerificationFeedback": [],
+      "operationsProposed": [
+        "assembly",
+        "material",
+        "material",
+        "material",
+        "material"
+      ],
+      "executorIntents": [
+        "apply",
+        "apply"
+      ],
+      "originalObjects": 2,
+      "finalObjects": 10,
+      "createdIds": [
+        "bcda79c5-6b8c-48ff-8eff-3505ec935dab",
+        "6fd49e81-98da-499c-8598-865190c2e0d3",
+        "90d05850-6a2d-4078-8c8f-8a13e3f4e114",
+        "091d3c21-17b5-4c94-96b6-db2478e82f97",
+        "07816e7c-2fe6-4119-95ce-7a6117b64756",
+        "89a0f227-7c9d-4bf5-86ba-4c51700c53dd",
+        "7d549a15-5641-4293-97bc-c5d03a427cce",
+        "25748b6a-5c92-40eb-bae0-f6cdb0fd39b3"
+      ],
+      "changedOriginalIds": [],
+      "transaction": {
+        "reload": true,
+        "context": true,
+        "conversation": true,
+        "camera": true,
+        "singleUndo": true,
+        "redo": true
+      }
+    },
+    {
+      "id": "A2",
+      "status": "PASS",
+      "diagnostic": false,
+      "committed": true,
+      "elapsedSeconds": 44.483912069,
+      "calls": 2,
+      "estimatedUsd": 0.07728,
+      "conservativeUsd": 0.09659999999999999,
+      "executorApiSeconds": 15.64,
+      "reviewerApiSeconds": 14.018,
+      "hostStatus": "verified",
+      "hostCanCommit": true,
+      "externalCounts": {
+        "verified": 39
+      },
+      "failedExternalChecks": [],
+      "hostCounts": {
+        "verified": 17
+      },
+      "hostLimits": [],
+      "toolOrVerificationFeedback": [],
+      "operationsProposed": [
+        "edit_components",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify"
+      ],
+      "executorIntents": [
+        "apply"
+      ],
+      "originalObjects": 10,
+      "finalObjects": 10,
+      "createdIds": [],
+      "changedOriginalIds": [
+        "6fd49e81-98da-499c-8598-865190c2e0d3",
+        "90d05850-6a2d-4078-8c8f-8a13e3f4e114",
+        "091d3c21-17b5-4c94-96b6-db2478e82f97",
+        "07816e7c-2fe6-4119-95ce-7a6117b64756",
+        "89a0f227-7c9d-4bf5-86ba-4c51700c53dd",
+        "7d549a15-5641-4293-97bc-c5d03a427cce",
+        "25748b6a-5c92-40eb-bae0-f6cdb0fd39b3"
+      ],
+      "transaction": {
+        "reload": true,
+        "context": true,
+        "conversation": true,
+        "camera": true,
+        "singleUndo": true,
+        "redo": true
+      }
+    },
+    {
+      "id": "B1",
+      "status": "MEASURED_CORRECT_WITH_HOST_LIMITS",
+      "diagnostic": false,
+      "committed": true,
+      "elapsedSeconds": 63.088443704999996,
+      "calls": 3,
+      "estimatedUsd": 0.109322,
+      "conservativeUsd": 0.1366525,
+      "executorApiSeconds": 30.375,
+      "reviewerApiSeconds": 22.099,
+      "hostStatus": "unverified",
+      "hostCanCommit": true,
+      "externalCounts": {
+        "verified": 24
+      },
+      "failedExternalChecks": [],
+      "hostCounts": {
+        "verified": 26,
+        "unverified": 1
+      },
+      "hostLimits": [
+        "Unverified: A timber material designation is required for every leg; the specific timber species is unspecified and cannot be checked using a single exact materialSpec value.",
+        "The dimension and corner checks use the tabletop length as X and depth as Z; a rigidly rotated equivalent workbench is equally acceptable.",
+        "The two apron rails should run lengthwise, each joining a pair of legs; reasonable rail sections and a simple frame are required without a prescribed section size.",
+        "Legs must have a timber material designation; any reasonable timber species is acceptable.",
+        "The workbench must remain freestanding."
+      ],
+      "toolOrVerificationFeedback": [],
+      "operationsProposed": [
+        "assembly",
+        "material",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "measure",
+        "design_note",
+        "camera_view"
+      ],
+      "executorIntents": [
+        "apply",
+        "finish"
+      ],
+      "originalObjects": 2,
+      "finalObjects": 9,
+      "createdIds": [
+        "92cbb288-ef61-4b7c-ab6e-fe4641baa2db",
+        "0bef68fa-e628-4202-8817-cdf9e9c1d198",
+        "6ab670e1-dd41-4ccd-8eab-940a8fbe51a3",
+        "1f23e5be-506f-4061-884b-77e487266569",
+        "ddfc4e9c-5504-48d6-9d25-842e93bb5104",
+        "b9bd07fa-e391-4a2b-bbba-ef8ea1c9be8c",
+        "861fb578-49e6-49d4-be75-d7adea68a252"
+      ],
+      "changedOriginalIds": [],
+      "transaction": {
+        "reload": true,
+        "context": true,
+        "conversation": true,
+        "camera": true,
+        "singleUndo": true,
+        "redo": true
+      }
+    },
+    {
+      "id": "B2",
+      "status": "MEASURED_CORRECT_WITH_HOST_LIMITS",
+      "diagnostic": false,
+      "committed": true,
+      "elapsedSeconds": 41.79242233,
+      "calls": 2,
+      "estimatedUsd": 0.07079,
+      "conservativeUsd": 0.0884875,
+      "executorApiSeconds": 15.266,
+      "reviewerApiSeconds": 14.299,
+      "hostStatus": "unverified",
+      "hostCanCommit": true,
+      "externalCounts": {
+        "verified": 35
+      },
+      "failedExternalChecks": [],
+      "hostCounts": {
+        "verified": 14
+      },
+      "hostLimits": [
+        "Geometric contact checks do not establish the physical strength or craftsmanship of the frame joints."
+      ],
+      "toolOrVerificationFeedback": [],
+      "operationsProposed": [
+        "edit_components",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "measure",
+        "design_note"
+      ],
+      "executorIntents": [
+        "apply"
+      ],
+      "originalObjects": 9,
+      "finalObjects": 9,
+      "createdIds": [],
+      "changedOriginalIds": [
+        "92cbb288-ef61-4b7c-ab6e-fe4641baa2db",
+        "0bef68fa-e628-4202-8817-cdf9e9c1d198",
+        "6ab670e1-dd41-4ccd-8eab-940a8fbe51a3",
+        "1f23e5be-506f-4061-884b-77e487266569",
+        "ddfc4e9c-5504-48d6-9d25-842e93bb5104",
+        "b9bd07fa-e391-4a2b-bbba-ef8ea1c9be8c",
+        "861fb578-49e6-49d4-be75-d7adea68a252"
+      ],
+      "transaction": {
+        "reload": true,
+        "context": true,
+        "conversation": true,
+        "camera": true,
+        "singleUndo": true,
+        "redo": true
+      }
+    },
+    {
+      "id": "C1",
+      "status": "MEASURED_CORRECT_WITH_HOST_LIMITS",
+      "diagnostic": false,
+      "committed": true,
+      "elapsedSeconds": 115.07401399000001,
+      "calls": 7,
+      "estimatedUsd": 0.273434,
+      "conservativeUsd": 0.34179249999999994,
+      "executorApiSeconds": 78.006,
+      "reviewerApiSeconds": 22.979,
+      "hostStatus": "unverified",
+      "hostCanCommit": true,
+      "externalCounts": {
+        "verified": 18
+      },
+      "failedExternalChecks": [],
+      "hostCounts": {
+        "verified": 20,
+        "unverified": 2
+      },
+      "hostLimits": [
+        "Unverified: Exact annular cross-section, 0.50 m outside diameter, 0.28 m cylindrical through-bore, and 0.16 m intrinsic axial length cannot be directly classified with the available predicates. Envelope and volume checks are necessary but do not establish those features.",
+        "Unverified: Exact common-axis alignment through the bore centers and equal 0.12 m axial overhang at both outer bushing ends cannot be directly verified by available intrinsic-axis predicates. World bounds alone do not determine the sign of the shaft's horizontal rotation."
+      ],
+      "toolOrVerificationFeedback": [
+        {
+          "error": "Step 12 (orient): This rotation would put geometry below ground. Lift it first or choose a smaller angle."
+        },
+        {
+          "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-4 (property · bushing): materialSpec: POM (polyoxymethylene); expected POM. 2 element(s). Explicit design designation only; physical composition and performance are not certified. Targets: 27c6ffd4-e42f-49a1-a635-74b7ea1dd883, b7f8c57b-6ca8-4a25-ab74-79b4fc2f20b9",
+          "failedChecks": [
+            {
+              "id": "check-4",
+              "label": "property · bushing",
+              "met": false,
+              "observed": "materialSpec: POM (polyoxymethylene); expected POM. 2 element(s). Explicit design designation only; physical composition and performance are not certified.",
+              "ids": [
+                "27c6ffd4-e42f-49a1-a635-74b7ea1dd883",
+                "b7f8c57b-6ca8-4a25-ab74-79b4fc2f20b9"
+              ],
+              "outcome": "incorrect"
+            }
+          ]
+        }
+      ],
+      "operationsProposed": [
+        "revolve",
+        "revolve",
+        "revolve",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "material",
+        "material",
+        "color",
+        "color",
+        "orient",
+        "position",
+        "position",
+        "position",
+        "group_create",
+        "measure",
+        "revolve",
+        "revolve",
+        "revolve",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "material",
+        "material",
+        "color",
+        "color",
+        "orient",
+        "position",
+        "position",
+        "position",
+        "group_create",
+        "design_note",
+        "measure",
+        "rotate",
+        "position",
+        "position",
+        "measure",
+        "verify",
+        "material"
+      ],
+      "executorIntents": [
+        "apply",
+        "apply",
+        "apply",
+        "finish",
+        "apply"
+      ],
+      "originalObjects": 2,
+      "finalObjects": 5,
+      "createdIds": [
+        "27c6ffd4-e42f-49a1-a635-74b7ea1dd883",
+        "b7f8c57b-6ca8-4a25-ab74-79b4fc2f20b9",
+        "5e2c9c75-00d9-426c-ac72-fa2322322de6"
+      ],
+      "changedOriginalIds": [],
+      "transaction": {
+        "reload": true,
+        "context": true,
+        "conversation": true,
+        "camera": true,
+        "singleUndo": true,
+        "redo": true
+      }
+    },
+    {
+      "id": "C2",
+      "status": "PASS",
+      "diagnostic": false,
+      "committed": true,
+      "elapsedSeconds": 59.11623917199997,
+      "calls": 4,
+      "estimatedUsd": 0.141568,
+      "conservativeUsd": 0.17696,
+      "executorApiSeconds": 26.12,
+      "reviewerApiSeconds": 18.022,
+      "hostStatus": "verified",
+      "hostCanCommit": true,
+      "externalCounts": {
+        "verified": 23
+      },
+      "failedExternalChecks": [],
+      "hostCounts": {
+        "verified": 15
+      },
+      "hostLimits": [],
+      "toolOrVerificationFeedback": [
+        {
+          "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-1 (positions): 0/1 required world base-center positions occupied; 1 objects, tolerance 0.0001 m. Targets: b7f8c57b-6ca8-4a25-ab74-79b4fc2f20b9 check-6 (positions): 0/1 required world base-center positions occupied; 1 objects, tolerance 0.0001 m. Targets: 5e2c9c75-00d9-426c-ac72-fa2322322de6",
+          "failedChecks": [
+            {
+              "id": "check-1",
+              "label": "positions",
+              "met": false,
+              "observed": "0/1 required world base-center positions occupied; 1 objects, tolerance 0.0001 m.",
+              "ids": [
+                "b7f8c57b-6ca8-4a25-ab74-79b4fc2f20b9"
+              ],
+              "outcome": "incorrect"
+            },
+            {
+              "id": "check-6",
+              "label": "positions",
+              "met": false,
+              "observed": "0/1 required world base-center positions occupied; 1 objects, tolerance 0.0001 m.",
+              "ids": [
+                "5e2c9c75-00d9-426c-ac72-fa2322322de6"
+              ],
+              "outcome": "incorrect"
+            }
+          ]
+        }
+      ],
+      "operationsProposed": [
+        "edit_components",
+        "verify",
+        "verify",
+        "verify",
+        "measure",
+        "position",
+        "position"
+      ],
+      "executorIntents": [
+        "apply",
+        "apply"
+      ],
+      "originalObjects": 5,
+      "finalObjects": 5,
+      "createdIds": [],
+      "changedOriginalIds": [
+        "b7f8c57b-6ca8-4a25-ab74-79b4fc2f20b9",
+        "5e2c9c75-00d9-426c-ac72-fa2322322de6"
+      ],
+      "transaction": {
+        "reload": true,
+        "context": true,
+        "conversation": true,
+        "camera": true,
+        "singleUndo": true,
+        "redo": true
+      }
+    },
+    {
+      "id": "D1",
+      "status": "MEASURED_CORRECT_WITH_HOST_LIMITS",
+      "diagnostic": false,
+      "committed": true,
+      "elapsedSeconds": 166.71678443300002,
+      "calls": 8,
+      "estimatedUsd": 0.332482,
+      "conservativeUsd": 0.4156025,
+      "executorApiSeconds": 127.017,
+      "reviewerApiSeconds": 25.958,
+      "hostStatus": "unverified",
+      "hostCanCommit": true,
+      "externalCounts": {
+        "verified": 23
+      },
+      "failedExternalChecks": [],
+      "hostCounts": {
+        "verified": 9,
+        "unverified": 3
+      },
+      "hostLimits": [
+        "Unverified: Available predicates cannot verify horizontal circular sections with outside radius decreasing linearly from 0.55 m to 0.37 m and section centers shifting smoothly from (0,0,0) to (0.22,1.4,0). Envelope checks alone do not establish these profiles.",
+        "Unverified: Exact 0.06 m radial wall thickness in every horizontal section and a cavity floor exactly 0.08 m above the bottom require section-level geometry verification unavailable in these predicates.",
+        "Unverified: Object count and editability do not establish that the body is a single connected valid solid with a fully open top; solid-topology verification is unavailable.",
+        "The lantern should have a smooth sculptural exterior and smoothly shifting horizontal profile centers."
+      ],
+      "toolOrVerificationFeedback": [],
+      "operationsProposed": [
+        "loft",
+        "measure",
+        "position",
+        "loft",
+        "boolean",
+        "measure"
+      ],
+      "executorIntents": [
+        "apply",
+        "apply",
+        "apply",
+        "finish"
+      ],
+      "originalObjects": 2,
+      "finalObjects": 3,
+      "createdIds": [
+        "44bffdc3-be43-402d-9d25-7a2905c1d081"
+      ],
+      "changedOriginalIds": [],
+      "transaction": {
+        "reload": true,
+        "context": true,
+        "conversation": true,
+        "camera": true,
+        "singleUndo": true,
+        "redo": true
+      }
+    },
+    {
+      "id": "D2",
+      "status": "MEASURED_CORRECT_WITH_HOST_LIMITS",
+      "diagnostic": false,
+      "committed": true,
+      "elapsedSeconds": 62.082034909999926,
+      "calls": 5,
+      "estimatedUsd": 0.177634,
+      "conservativeUsd": 0.2220425,
+      "executorApiSeconds": 27.02,
+      "reviewerApiSeconds": 17.863,
+      "hostStatus": "unverified",
+      "hostCanCommit": true,
+      "externalCounts": {
+        "verified": 26
+      },
+      "failedExternalChecks": [],
+      "hostCounts": {
+        "verified": 4,
+        "unverified": 2
+      },
+      "hostLimits": [
+        "Unverified: The empty-region check verifies only an inscribed portion of the opening. Available predicates cannot establish an exactly 0.16 m circular void viewed along Z, centered at y=0.6 and the section center x=0.22×0.6/1.4, through the full front-wall thickness without additional removal.",
+        "Unverified: Available predicates cannot compare localized original solid geometry to verify preservation of the opposite wall, closed base and taper while allowing only the requested front-wall cut."
+      ],
+      "toolOrVerificationFeedback": [],
+      "operationsProposed": [
+        "profile_solid",
+        "measure",
+        "boolean",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify"
+      ],
+      "executorIntents": [
+        "apply",
+        "apply"
+      ],
+      "originalObjects": 3,
+      "finalObjects": 3,
+      "createdIds": [],
+      "changedOriginalIds": [
+        "44bffdc3-be43-402d-9d25-7a2905c1d081"
+      ],
+      "transaction": {
+        "reload": true,
+        "context": true,
+        "conversation": true,
+        "camera": true,
+        "singleUndo": true,
+        "redo": true
+      }
+    },
+    {
+      "id": "E1",
+      "status": "MEASURED_CORRECT_WITH_HOST_LIMITS",
+      "diagnostic": false,
+      "committed": true,
+      "elapsedSeconds": 68.92681626500003,
+      "calls": 3,
+      "estimatedUsd": 0.111072,
+      "conservativeUsd": 0.13884,
+      "executorApiSeconds": 39.214,
+      "reviewerApiSeconds": 15.766,
+      "hostStatus": "unverified",
+      "hostCanCommit": true,
+      "externalCounts": {
+        "verified": 36
+      },
+      "failedExternalChecks": [],
+      "hostCounts": {
+        "verified": 6,
+        "unverified": 1
+      },
+      "hostLimits": [
+        "Unverified: Available physical shape predicates cannot verify a regular upright hexagonal prism, its 0.30 m opposite-flat spacing, or identical geometry across all ten prisms."
+      ],
+      "toolOrVerificationFeedback": [],
+      "operationsProposed": [
+        "footprint",
+        "progressive_array",
+        "group_create",
+        "footprint",
+        "progressive_array",
+        "group_create",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "measure",
+        "design_note"
+      ],
+      "executorIntents": [
+        "apply",
+        "finish"
+      ],
+      "originalObjects": 2,
+      "finalObjects": 12,
+      "createdIds": [
+        "2a3e1ae1-d88c-4425-97d8-7c3356aa48e6",
+        "df8a6e27-ee15-4438-bf23-0b97f7ab7897",
+        "f405a7a7-3f45-4b85-bc23-b535e0db5e1b",
+        "7ef53be9-c536-41cb-8da6-0557b6397463",
+        "3e821fac-aa05-4f6d-b780-5bfa445d6822",
+        "9107c784-6655-4b66-9f21-eb9279bef96a",
+        "672e56d0-52fa-437b-a1b3-247a12a3e5f2",
+        "58545fc4-661e-43a3-8a1f-1311ea6b917d",
+        "2c6fee61-3b69-4814-8794-d18dbe0f71a7",
+        "28d93350-e21b-4155-b901-4a0319270f57"
+      ],
+      "changedOriginalIds": [],
+      "transaction": {
+        "reload": true,
+        "context": true,
+        "conversation": true,
+        "camera": true,
+        "singleUndo": true,
+        "redo": true
+      }
+    },
+    {
+      "id": "E2",
+      "status": "PASS",
+      "diagnostic": false,
+      "committed": true,
+      "elapsedSeconds": 52.43599089999997,
+      "calls": 2,
+      "estimatedUsd": 0.083754,
+      "conservativeUsd": 0.1046925,
+      "executorApiSeconds": 21.498,
+      "reviewerApiSeconds": 18.285,
+      "hostStatus": "verified",
+      "hostCanCommit": true,
+      "externalCounts": {
+        "verified": 57
+      },
+      "failedExternalChecks": [],
+      "hostCounts": {
+        "verified": 5
+      },
+      "hostLimits": [],
+      "toolOrVerificationFeedback": [],
+      "operationsProposed": [
+        "edit_components",
+        "verify",
+        "verify",
+        "verify",
+        "measure",
+        "design_note"
+      ],
+      "executorIntents": [
+        "apply"
+      ],
+      "originalObjects": 12,
+      "finalObjects": 12,
+      "createdIds": [],
+      "changedOriginalIds": [
+        "2a3e1ae1-d88c-4425-97d8-7c3356aa48e6",
+        "df8a6e27-ee15-4438-bf23-0b97f7ab7897",
+        "f405a7a7-3f45-4b85-bc23-b535e0db5e1b",
+        "7ef53be9-c536-41cb-8da6-0557b6397463",
+        "3e821fac-aa05-4f6d-b780-5bfa445d6822",
+        "9107c784-6655-4b66-9f21-eb9279bef96a",
+        "672e56d0-52fa-437b-a1b3-247a12a3e5f2",
+        "58545fc4-661e-43a3-8a1f-1311ea6b917d",
+        "2c6fee61-3b69-4814-8794-d18dbe0f71a7",
+        "28d93350-e21b-4155-b901-4a0319270f57"
+      ],
+      "transaction": {
+        "reload": true,
+        "context": true,
+        "conversation": true,
+        "camera": true,
+        "singleUndo": true,
+        "redo": true
+      }
+    },
+    {
+      "id": "F1",
+      "status": "SAFE_CONTRADICTION_RESPONSE",
+      "diagnostic": false,
+      "committed": false,
+      "elapsedSeconds": 7.6975305519999235,
+      "calls": 1,
+      "estimatedUsd": 0.030816,
+      "conservativeUsd": 0.03852,
+      "executorApiSeconds": 3.717,
+      "reviewerApiSeconds": 0,
+      "externalCounts": {
+        "verified": 4
+      },
+      "failedExternalChecks": [],
+      "hostCounts": {},
+      "hostLimits": [],
+      "toolOrVerificationFeedback": [],
+      "operationsProposed": [],
+      "executorIntents": [
+        "clarify"
+      ],
+      "originalObjects": 3,
+      "finalObjects": 3,
+      "createdIds": [],
+      "changedOriginalIds": []
+    },
+    {
+      "id": "F2",
+      "status": "MEASURED_CORRECT_WITH_HOST_LIMITS",
+      "diagnostic": false,
+      "committed": true,
+      "elapsedSeconds": 45.75665542299999,
+      "calls": 4,
+      "estimatedUsd": 0.11708400000000001,
+      "conservativeUsd": 0.146355,
+      "executorApiSeconds": 23.392,
+      "reviewerApiSeconds": 10.321,
+      "hostStatus": "unverified",
+      "hostCanCommit": true,
+      "externalCounts": {
+        "verified": 9
+      },
+      "failedExternalChecks": [],
+      "hostCounts": {
+        "verified": 9,
+        "unverified": 1
+      },
+      "hostLimits": [
+        "Unverified: Available predicates cannot verify a planar flat bottom and a solid wedge profile with end heights 0.20 m at negative X and 0.55 m at positive X, rising linearly across its length.",
+        "The new wedge must have visible clearance from existing objects, rather than merely boundary contact."
+      ],
+      "toolOrVerificationFeedback": [],
+      "operationsProposed": [
+        "profile_solid",
+        "material",
+        "measure"
+      ],
+      "executorIntents": [
+        "apply",
+        "finish"
+      ],
+      "originalObjects": 3,
+      "finalObjects": 4,
+      "createdIds": [
+        "b374de40-c373-42d6-b3fc-57dfbbaa60d8"
+      ],
+      "changedOriginalIds": [],
+      "transaction": {
+        "reload": true,
+        "context": true,
+        "conversation": true,
+        "camera": true,
+        "singleUndo": true,
+        "redo": true
+      }
+    },
+    {
+      "id": "R1",
+      "status": "REPAIR_NOT_COMPLETED",
+      "diagnostic": false,
+      "committed": null,
+      "elapsedSeconds": 1.4147922770000296,
+      "calls": 0,
+      "estimatedUsd": 0,
+      "conservativeUsd": 0,
+      "executorApiSeconds": 0,
+      "reviewerApiSeconds": 0,
+      "externalCounts": {},
+      "hostCounts": {},
+      "hostLimits": [],
+      "toolOrVerificationFeedback": [],
+      "operationsProposed": [],
+      "executorIntents": [],
+      "error": "page.evaluate: TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:33059/node_modules/manifold-3d/manifold.wasm?url"
+    },
+    {
+      "id": "R1-attempt-2",
+      "status": "REPAIR_NOT_COMPLETED",
+      "diagnostic": false,
+      "committed": null,
+      "elapsedSeconds": 99.937140805,
+      "calls": 9,
+      "estimatedUsd": 0.42006,
+      "conservativeUsd": 0.5250750000000001,
+      "executorApiSeconds": 80.582,
+      "reviewerApiSeconds": 16.673,
+      "externalCounts": {},
+      "hostCounts": {},
+      "hostLimits": [],
+      "toolOrVerificationFeedback": [
+        {
+          "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-5 (positions): 7/10 required world base-center positions occupied; 10 objects, tolerance 0.001 m. Targets: d108ca36-8445-4e66-98aa-c60ed195c972, 0901ed2d-d519-4c83-b924-9750b321eedf, f8af5412-7dcb-4a5d-af33-ccfb885a807a, b4f21053-0676-4384-9a79-d9d238ddcfe9, 31b71d1b-9787-4fae-93d5-04b707a412f7, 95dbfccf-abb3-4fa0-85cc-047a1820b37e, 9ae88bcc-e6b7-4f02-8c9e-17873872c006, e1ca6d16-f6f1-4ed1-bcea-4a426e331202, 99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647, 95ca8d08-93ca-43aa-89fe-acbd4d87710d",
+          "failedChecks": [
+            {
+              "id": "check-5",
+              "label": "positions",
+              "met": false,
+              "outcome": "incorrect",
+              "observed": "7/10 required world base-center positions occupied; 10 objects, tolerance 0.001 m.",
+              "ids": [
+                "d108ca36-8445-4e66-98aa-c60ed195c972",
+                "0901ed2d-d519-4c83-b924-9750b321eedf",
+                "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+                "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+                "31b71d1b-9787-4fae-93d5-04b707a412f7",
+                "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+                "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+                "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+                "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+                "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+              ]
+            }
+          ]
+        },
+        {
+          "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-5 (positions): 8/10 required world base-center positions occupied; 10 objects, tolerance 0.001 m. Targets: d108ca36-8445-4e66-98aa-c60ed195c972, 0901ed2d-d519-4c83-b924-9750b321eedf, f8af5412-7dcb-4a5d-af33-ccfb885a807a, b4f21053-0676-4384-9a79-d9d238ddcfe9, 31b71d1b-9787-4fae-93d5-04b707a412f7, 95dbfccf-abb3-4fa0-85cc-047a1820b37e, 9ae88bcc-e6b7-4f02-8c9e-17873872c006, e1ca6d16-f6f1-4ed1-bcea-4a426e331202, 99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647, 95ca8d08-93ca-43aa-89fe-acbd4d87710d",
+          "failedChecks": [
+            {
+              "id": "check-5",
+              "label": "positions",
+              "met": false,
+              "outcome": "incorrect",
+              "observed": "8/10 required world base-center positions occupied; 10 objects, tolerance 0.001 m.",
+              "ids": [
+                "d108ca36-8445-4e66-98aa-c60ed195c972",
+                "0901ed2d-d519-4c83-b924-9750b321eedf",
+                "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+                "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+                "31b71d1b-9787-4fae-93d5-04b707a412f7",
+                "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+                "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+                "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+                "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+                "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+              ]
+            }
+          ]
+        },
+        {
+          "error": "Measured geometry checks failed. Repair only checks marked incorrect; unverified checks are observation limitations, not instructions to alter geometry. Repair the existing provisional model; do not recreate successful parts or weaken the requirements. check-5 (positions): 8/10 required world base-center positions occupied; 10 objects, tolerance 0.001 m. Targets: d108ca36-8445-4e66-98aa-c60ed195c972, 0901ed2d-d519-4c83-b924-9750b321eedf, f8af5412-7dcb-4a5d-af33-ccfb885a807a, b4f21053-0676-4384-9a79-d9d238ddcfe9, 31b71d1b-9787-4fae-93d5-04b707a412f7, 95dbfccf-abb3-4fa0-85cc-047a1820b37e, 9ae88bcc-e6b7-4f02-8c9e-17873872c006, e1ca6d16-f6f1-4ed1-bcea-4a426e331202, 99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647, 95ca8d08-93ca-43aa-89fe-acbd4d87710d",
+          "failedChecks": [
+            {
+              "id": "check-5",
+              "label": "positions",
+              "met": false,
+              "outcome": "incorrect",
+              "observed": "8/10 required world base-center positions occupied; 10 objects, tolerance 0.001 m.",
+              "ids": [
+                "d108ca36-8445-4e66-98aa-c60ed195c972",
+                "0901ed2d-d519-4c83-b924-9750b321eedf",
+                "f8af5412-7dcb-4a5d-af33-ccfb885a807a",
+                "b4f21053-0676-4384-9a79-d9d238ddcfe9",
+                "31b71d1b-9787-4fae-93d5-04b707a412f7",
+                "95dbfccf-abb3-4fa0-85cc-047a1820b37e",
+                "9ae88bcc-e6b7-4f02-8c9e-17873872c006",
+                "e1ca6d16-f6f1-4ed1-bcea-4a426e331202",
+                "99ead169-7b6a-4c7e-bc7f-0ba0a2ecb647",
+                "95ca8d08-93ca-43aa-89fe-acbd4d87710d"
+              ]
+            }
+          ]
+        }
+      ],
+      "operationsProposed": [
+        "footprint",
+        "progressive_array",
+        "group_create",
+        "footprint",
+        "progressive_array",
+        "group_create",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "verify",
+        "position",
+        "measure"
+      ],
+      "executorIntents": [
+        "apply",
+        "apply",
+        "apply",
+        "finish",
+        "finish"
+      ],
+      "error": "The request could not be verified: positions: 8/10 required world base-center positions occupied; 10 objects, tolerance 0.001 m. Your project is unchanged."
+    }
+  ]
+}

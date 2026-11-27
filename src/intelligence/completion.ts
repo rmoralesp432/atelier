@@ -4,7 +4,9 @@ import { solidStats } from '../geometry/kernel';
 import { isFlat } from '../geometry/spatial';
 import { assessRequirements, preservedValue } from './designBrief';
 import { completionSelection } from './completionSelection';
+import { preservedOffsets } from './preservedOffsets';
 import { auditCriteria } from './criteriaAudit';
+import { compileCalculations } from './completionCalculations';
 import { resolveIds, type Session } from './engine';
 import { physicalChecks, flatPhysicalBounds } from './completionGeometry';
 import {
@@ -21,13 +23,35 @@ export async function verifyCompletion(
   candidate: Session,
   signal?: AbortSignal,
 ): Promise<CompletionReport> {
-  const criteria = completionCriteriaSchema.parse(raw);
+  const {
+    criteria,
+    traces,
+    issues: calculationIssues,
+  } = await compileCalculations(
+    completionCriteriaSchema.parse(raw),
+    original,
+    signal,
+  );
   // Share expensive solid-volume measurements within this immutable candidate;
   // every repair/completion attempt gets a fresh cache.
   const volumes = new Map<string, Promise<number>>();
   const physical = physicalChecks();
+  const offsets = preservedOffsets();
   const select = completionSelection(original, candidate);
-  const criterionIssues = auditCriteria(criteria, select);
+  // Exclude malformed expressions from semantic audits: their literal numeric
+  // placeholders are not independent desired measurements.
+  const criterionIssues = [
+    ...calculationIssues,
+    ...auditCriteria(
+      {
+        ...criteria,
+        checks: criteria.checks.filter(
+          (c) => !calculationIssues.some((i) => i.checkId === c.requirement.id),
+        ),
+      },
+      select,
+    ),
+  ];
   const before = new Map(original.project.volumes.map((v) => [v.id, v]));
   const after = new Map(candidate.project.volumes.map((v) => [v.id, v]));
   const report: CompletionReport = {
@@ -61,10 +85,13 @@ export async function verifyCompletion(
       outcome:
         unavailable || issue ? 'unverified' : met ? 'verified' : 'incorrect',
       observed: (issue
-        ? `Invalid verification criterion: ${issue.detail} Observation (not a verdict): ${observed}`
+        ? `Invalid verification criterion: ${issue.detail}${observed && observed !== issue.detail ? ` Observation (not a verdict): ${observed}` : ''}`
         : observed
       ).slice(0, 800),
       ids: ids.slice(0, 16),
+      ...(traces.has(id) && currentCriterionId === id
+        ? { calculation: traces.get(id) }
+        : {}),
     });
   };
   const abort = () => {
@@ -197,6 +224,11 @@ export async function verifyCompletion(
     abort();
     let ids: string[] = [];
     try {
+      const invalid = criterionIssues.find((i) => i.checkId === r.id);
+      if (invalid) {
+        add(r.id, r.label, false, invalid.detail, [], true);
+        continue;
+      }
       if (r.kind === 'unavailable') {
         add(r.id, r.label, false, `Unverified: ${r.reason}`, [], true);
         continue;
@@ -234,6 +266,17 @@ export async function verifyCompletion(
             : `${originals.length} original identities retain ${r.properties.join(', ')}.`,
           ids,
         );
+      } else if (r.kind === 'preserve_offsets') {
+        const result = await offsets(
+          r,
+          select(r.first, true),
+          select(r.second, true),
+          after,
+          abort,
+        );
+        ids = result.ids;
+        add(r.id, r.label, result.met, result.observed, ids);
+        report.checks[report.checks.length - 1].offsets = result.trace;
       } else if (r.kind === 'offset') {
         const a = select(r.first),
           b = select(r.second);
@@ -347,7 +390,34 @@ export async function verifyCompletion(
   report.passed = report.status === 'verified';
   // Unknown design qualities do not veto safe, undoable work. An unknown
   // authorization scope must never permit changes to existing objects.
+  const unresolvedRequired = report.checks.some((check) => {
+    if (check.outcome !== 'unverified') return false;
+    const r = raw.checks.find(
+      (c) => c.requirement.id === check.id,
+    )?.requirement;
+    return (
+      criterionIssues.some(
+        (i) => i.checkId === check.id && i.code !== 'unsupported_property',
+      ) ||
+      (r &&
+        ([
+          'positions',
+          'offset',
+          'preserve_offsets',
+          'radial',
+          'layout',
+          'relation',
+          'relationship',
+          'group',
+          'editable',
+        ].includes(r.kind) ||
+          (r.kind === 'measure' &&
+            ['x', 'y', 'z', 'base', 'top'].includes(r.metric)) ||
+          (r.kind === 'unavailable' && r.required === true)))
+    );
+  });
   report.canCommit =
+    !unresolvedRequired &&
     report.status !== 'incorrect' &&
     !(!scopeKnown && (changed.length > 0 || changedGroups.length > 0));
   return report;
@@ -401,6 +471,7 @@ export function unavailableCompletionCriteria(
           kind: 'unavailable',
           id: 'review-unavailable',
           label: 'Independent review',
+          required: true,
           reason: reason.slice(0, 400),
         },
       },

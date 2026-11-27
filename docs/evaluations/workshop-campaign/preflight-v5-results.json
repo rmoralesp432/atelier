@@ -1,0 +1,464 @@
+[
+  {
+    "id": "preflight-v5-baseline-offline-create",
+    "version": "baseline",
+    "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+    "task": "offline",
+    "prompt": "Create one probe.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "OFFLINE_COMMIT_PASS",
+    "started": "2026-11-23T20:23:40.711Z",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Create one probe."
+      },
+      {
+        "role": "assistant",
+        "content": "Offline probe: 0.6 × 0.4 × 0.8 m; base (-3, 0, 0) m.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nOne probe: count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+        "summary": "Completed; measurable checks passed.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nOne probe: count (each): 1; expected equal 1, tolerance 0. 1 element(s)."
+      }
+    ],
+    "committed": true,
+    "componentCount": 3,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 11482,
+    "cost": {
+      "calls": 0,
+      "estimatedUSD": 0,
+      "accountedUSD": 0,
+      "unknownReservations": [],
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "reviewerMs": 0,
+      "executorMs": 0
+    },
+    "eventCount": 0
+  },
+  {
+    "id": "preflight-v5-baseline-offline-failure-create",
+    "version": "baseline",
+    "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+    "task": "offline-failure",
+    "prompt": "Do the deliberately failing calibration.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "OFFLINE_FAILURE_PRESERVED",
+    "started": "2026-11-23T20:23:55.798Z",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Do the deliberately failing calibration."
+      },
+      {
+        "role": "assistant",
+        "content": "Deliberate offline failure; project unchanged.",
+        "outcome": "failed"
+      }
+    ],
+    "committed": false,
+    "componentCount": 2,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "originalPreserved": true,
+    "elapsedMs": 2850,
+    "cost": {
+      "calls": 0,
+      "estimatedUSD": 0,
+      "accountedUSD": 0,
+      "unknownReservations": [],
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "reviewerMs": 0,
+      "executorMs": 0
+    },
+    "eventCount": 0
+  },
+  {
+    "id": "preflight-v5-baseline-offline-recovery-create",
+    "version": "baseline",
+    "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+    "task": "offline-recovery",
+    "prompt": "Create one probe.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "OFFLINE_COMMIT_PASS",
+    "started": "2026-11-23T20:23:58.650Z",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Do the deliberately failing calibration."
+      },
+      {
+        "role": "assistant",
+        "content": "Deliberate offline failure; project unchanged.",
+        "outcome": "failed"
+      },
+      {
+        "role": "user",
+        "content": "Create one probe."
+      },
+      {
+        "role": "assistant",
+        "content": "Offline probe: 0.6 × 0.4 × 0.8 m; base (-3, 0, 0) m.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nOne probe: count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+        "summary": "Completed; measurable checks passed.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nOne probe: count (each): 1; expected equal 1, tolerance 0. 1 element(s)."
+      }
+    ],
+    "committed": true,
+    "componentCount": 3,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 9994,
+    "cost": {
+      "calls": 0,
+      "estimatedUSD": 0,
+      "accountedUSD": 0,
+      "unknownReservations": [],
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "reviewerMs": 0,
+      "executorMs": 0
+    },
+    "eventCount": 0
+  },
+  {
+    "id": "preflight-v5-workshop-offline-create",
+    "version": "workshop",
+    "commit": "f5ba62621db0d9c0a02f90be5b0143c7e21b53f7",
+    "task": "offline",
+    "prompt": "Create one probe.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "OFFLINE_COMMIT_PASS",
+    "started": "2026-11-23T20:24:10.791Z",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Create one probe."
+      },
+      {
+        "role": "assistant",
+        "content": "Offline probe: 0.6 × 0.4 × 0.8 m; base (-3, 0, 0) m.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nOne probe: count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+        "summary": "Completed; measurable checks passed.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nOne probe: count (each): 1; expected equal 1, tolerance 0. 1 element(s)."
+      }
+    ],
+    "committed": true,
+    "componentCount": 3,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 12197,
+    "cost": {
+      "calls": 0,
+      "estimatedUSD": 0,
+      "accountedUSD": 0,
+      "unknownReservations": [],
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "reviewerMs": 0,
+      "executorMs": 0
+    },
+    "eventCount": 0
+  },
+  {
+    "id": "preflight-v5-workshop-offline-failure-create",
+    "version": "workshop",
+    "commit": "f5ba62621db0d9c0a02f90be5b0143c7e21b53f7",
+    "task": "offline-failure",
+    "prompt": "Do the deliberately failing calibration.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "OFFLINE_FAILURE_PRESERVED",
+    "started": "2026-11-23T20:24:24.400Z",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Do the deliberately failing calibration."
+      },
+      {
+        "role": "assistant",
+        "content": "Deliberate offline failure; project unchanged.",
+        "outcome": "failed"
+      }
+    ],
+    "committed": false,
+    "componentCount": 2,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "originalPreserved": true,
+    "elapsedMs": 4472,
+    "cost": {
+      "calls": 0,
+      "estimatedUSD": 0,
+      "accountedUSD": 0,
+      "unknownReservations": [],
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "reviewerMs": 0,
+      "executorMs": 0
+    },
+    "eventCount": 0
+  },
+  {
+    "id": "preflight-v5-workshop-offline-recovery-create",
+    "version": "workshop",
+    "commit": "f5ba62621db0d9c0a02f90be5b0143c7e21b53f7",
+    "task": "offline-recovery",
+    "prompt": "Create one probe.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "OFFLINE_COMMIT_PASS",
+    "started": "2026-11-23T20:24:28.878Z",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Do the deliberately failing calibration."
+      },
+      {
+        "role": "assistant",
+        "content": "Deliberate offline failure; project unchanged.",
+        "outcome": "failed"
+      },
+      {
+        "role": "user",
+        "content": "Create one probe."
+      },
+      {
+        "role": "assistant",
+        "content": "Offline probe: 0.6 × 0.4 × 0.8 m; base (-3, 0, 0) m.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nOne probe: count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+        "summary": "Completed; measurable checks passed.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nOne probe: count (each): 1; expected equal 1, tolerance 0. 1 element(s)."
+      }
+    ],
+    "committed": true,
+    "componentCount": 3,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 9279,
+    "cost": {
+      "calls": 0,
+      "estimatedUSD": 0,
+      "accountedUSD": 0,
+      "unknownReservations": [],
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "reviewerMs": 0,
+      "executorMs": 0
+    },
+    "eventCount": 0
+  },
+  {
+    "id": "preflight-v5-verifier-offline-create",
+    "version": "verifier",
+    "commit": "433d9baed8265cc4eb78a5b0bfb914911b734cf7",
+    "task": "offline",
+    "prompt": "Create one probe.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "OFFLINE_COMMIT_PASS",
+    "started": "2026-11-23T20:24:40.190Z",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Create one probe."
+      },
+      {
+        "role": "assistant",
+        "content": "Offline probe: 0.6 × 0.4 × 0.8 m; base (-3, 0, 0) m.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nOne probe: count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+        "summary": "Completed; measurable checks passed.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nOne probe: count (each): 1; expected equal 1, tolerance 0. 1 element(s)."
+      }
+    ],
+    "committed": true,
+    "componentCount": 3,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 14023,
+    "cost": {
+      "calls": 0,
+      "estimatedUSD": 0,
+      "accountedUSD": 0,
+      "unknownReservations": [],
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "reviewerMs": 0,
+      "executorMs": 0
+    },
+    "eventCount": 0
+  },
+  {
+    "id": "preflight-v5-verifier-offline-failure-create",
+    "version": "verifier",
+    "commit": "433d9baed8265cc4eb78a5b0bfb914911b734cf7",
+    "task": "offline-failure",
+    "prompt": "Do the deliberately failing calibration.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "OFFLINE_FAILURE_PRESERVED",
+    "started": "2026-11-23T20:24:55.647Z",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Do the deliberately failing calibration."
+      },
+      {
+        "role": "assistant",
+        "content": "Deliberate offline failure; project unchanged.",
+        "outcome": "failed"
+      }
+    ],
+    "committed": false,
+    "componentCount": 2,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "originalPreserved": true,
+    "elapsedMs": 4720,
+    "cost": {
+      "calls": 0,
+      "estimatedUSD": 0,
+      "accountedUSD": 0,
+      "unknownReservations": [],
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "reviewerMs": 0,
+      "executorMs": 0
+    },
+    "eventCount": 0
+  },
+  {
+    "id": "preflight-v5-verifier-offline-recovery-create",
+    "version": "verifier",
+    "commit": "433d9baed8265cc4eb78a5b0bfb914911b734cf7",
+    "task": "offline-recovery",
+    "prompt": "Create one probe.",
+    "edit": false,
+    "diagnostic": false,
+    "negative": false,
+    "status": "OFFLINE_COMMIT_PASS",
+    "started": "2026-11-23T20:25:00.375Z",
+    "conversation": [
+      {
+        "role": "user",
+        "content": "Do the deliberately failing calibration."
+      },
+      {
+        "role": "assistant",
+        "content": "Deliberate offline failure; project unchanged.",
+        "outcome": "failed"
+      },
+      {
+        "role": "user",
+        "content": "Create one probe."
+      },
+      {
+        "role": "assistant",
+        "content": "Offline probe: 0.6 × 0.4 × 0.8 m; base (-3, 0, 0) m.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nOne probe: count (each): 1; expected equal 1, tolerance 0. 1 element(s).",
+        "summary": "Completed; measurable checks passed.\nUnrelated existing geometry: 2 existing objects outside the requested edit scope are unchanged.\nOne probe: count (each): 1; expected equal 1, tolerance 0. 1 element(s)."
+      }
+    ],
+    "committed": true,
+    "componentCount": 3,
+    "changedIds": [],
+    "preservedIds": [
+      "reference-block",
+      "reference-round"
+    ],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    },
+    "elapsedMs": 11432,
+    "cost": {
+      "calls": 0,
+      "estimatedUSD": 0,
+      "accountedUSD": 0,
+      "unknownReservations": [],
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "reviewerMs": 0,
+      "executorMs": 0
+    },
+    "eventCount": 0
+  }
+]

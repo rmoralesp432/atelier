@@ -1,0 +1,5146 @@
+[
+  {
+    "case": "reliability-edit-diagnostics-baseline-L1-diagnostic-edit",
+    "rawStatus": "PASS",
+    "diagnostic": true,
+    "changed": [
+      {
+        "id": "012addc9-c6f5-4d3b-94e7-00b94a361a7c",
+        "beforeName": "Library shelf board 10",
+        "afterName": "Library shelf board 10",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "05f29162-41f5-42a4-b5f7-1bf531f077af",
+        "beforeName": "Library shelf board 6",
+        "afterName": "Library shelf board 6",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "093ec8f7-feea-4c00-8d29-1dc8585e8a3f",
+        "beforeName": "Library upright 5",
+        "afterName": "Library upright 5",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "176c00e2-ac32-4868-9d42-d325b18e39a7",
+        "beforeName": "Library shelf board 7",
+        "afterName": "Library shelf board 7",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "233fcad4-c152-4746-bb38-12c824bb35f2",
+        "beforeName": "Library shelf board 14",
+        "afterName": "Library shelf board 14",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "271a3a79-ed87-4dfa-bdd7-692d61a579f4",
+        "beforeName": "Library upright 2",
+        "afterName": "Library upright 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "285af823-c544-4343-afa4-f8b8a1d3ae9d",
+        "beforeName": "Library shelf board 3",
+        "afterName": "Library shelf board 3",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "303074ea-d6e8-40c6-be2d-d36d6ec3f397",
+        "beforeName": "Library shelf board 12",
+        "afterName": "Library shelf board 12",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "35041032-ac5b-465f-810d-75fc7e122ee8",
+        "beforeName": "Library shelf board 15",
+        "afterName": "Library shelf board 15",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "35d7ceab-b864-4853-a31f-b75d16bd8d55",
+        "beforeName": "Library shelf board 19",
+        "afterName": "Library shelf board 19",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "3767902c-81e0-4cbb-9740-b461033a9a48",
+        "beforeName": "Library upright 7",
+        "afterName": "Library upright 7",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "4a76421a-72f9-4d6d-9697-ba8c54983851",
+        "beforeName": "Library shelf board 4",
+        "afterName": "Library shelf board 4",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "4f1d4796-717d-4a01-85be-e5278db73916",
+        "beforeName": "Library upright 6",
+        "afterName": "Library upright 6",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "6da0feff-9319-4a2b-adb5-a389b247018a",
+        "beforeName": "Library shelf board 17",
+        "afterName": "Library shelf board 17",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "7492d1a1-ac9b-4aea-a24f-28664b628d6d",
+        "beforeName": "Library shelf board 23",
+        "afterName": "Library shelf board 23",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "792528e0-0cc7-47a4-9d8c-88c618dabb43",
+        "beforeName": "Library shelf board 13",
+        "afterName": "Library shelf board 13",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "797efa1c-da49-4c5a-90b8-197ab8814bfd",
+        "beforeName": "Library shelf board 16",
+        "afterName": "Library shelf board 16",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "7c13c254-9414-46e1-a1f2-9ef07c62a249",
+        "beforeName": "Library shelf board 8",
+        "afterName": "Library shelf board 8",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "7e82a885-7a86-407f-a441-f5150e00f238",
+        "beforeName": "Library shelf board 21",
+        "afterName": "Library shelf board 21",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "833043b8-df73-4652-941a-c5eae04e972e",
+        "beforeName": "Library shelf board 9",
+        "afterName": "Library shelf board 9",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "8c55f6ef-fda2-43ae-8806-169a0e2c590e",
+        "beforeName": "Library upright 1",
+        "afterName": "Library upright 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "8c786d6c-da50-4a92-afa4-4d18efe7ba71",
+        "beforeName": "Library shelf board 22",
+        "afterName": "Library shelf board 22",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "8f9df1a6-c629-4367-89f6-6bf38bea5dd0",
+        "beforeName": "Library shelf board 18",
+        "afterName": "Library shelf board 18",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "9e88b994-af90-487b-bee6-76503a41962c",
+        "beforeName": "Library upright 3",
+        "afterName": "Library upright 3",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a7d08457-0061-46ed-8e7e-41bfea50c870",
+        "beforeName": "Library shelf board 24",
+        "afterName": "Library shelf board 24",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "accff160-66bb-4478-ae72-dc5b7c9257ac",
+        "beforeName": "Library shelf board 2",
+        "afterName": "Library shelf board 2",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "c639a7d7-e3c8-436c-b240-3b2498d026d4",
+        "beforeName": "Library shelf board 1",
+        "afterName": "Library shelf board 1",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "d0595a7b-f661-420f-9137-58e601f25578",
+        "beforeName": "Library shelf board 5",
+        "afterName": "Library shelf board 5",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "d3625888-6b90-4631-9138-e17aaa339f19",
+        "beforeName": "Library shelf board 11",
+        "afterName": "Library shelf board 11",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "ef46dbf1-17e1-4733-b0a5-35a8f9b92977",
+        "beforeName": "Library shelf board 20",
+        "afterName": "Library shelf board 20",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "14b2fd9f-b2a1-45fd-b40c-a30d6a32783d",
+        "name": "Library upright 4"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-edit-diagnostics-baseline-L1-diagnostic-edit2",
+    "rawStatus": "PASS",
+    "diagnostic": true,
+    "changed": [
+      {
+        "id": "012addc9-c6f5-4d3b-94e7-00b94a361a7c",
+        "beforeName": "Library shelf board 10",
+        "afterName": "Library shelf board 10",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "176c00e2-ac32-4868-9d42-d325b18e39a7",
+        "beforeName": "Library shelf board 7",
+        "afterName": "Library shelf board 7",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "303074ea-d6e8-40c6-be2d-d36d6ec3f397",
+        "beforeName": "Library shelf board 12",
+        "afterName": "Library shelf board 12",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "7c13c254-9414-46e1-a1f2-9ef07c62a249",
+        "beforeName": "Library shelf board 8",
+        "afterName": "Library shelf board 8",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "833043b8-df73-4652-941a-c5eae04e972e",
+        "beforeName": "Library shelf board 9",
+        "afterName": "Library shelf board 9",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "d3625888-6b90-4631-9138-e17aaa339f19",
+        "beforeName": "Library shelf board 11",
+        "afterName": "Library shelf board 11",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "8c55f6ef-fda2-43ae-8806-169a0e2c590e",
+        "name": "Library upright 1"
+      },
+      {
+        "id": "271a3a79-ed87-4dfa-bdd7-692d61a579f4",
+        "name": "Library upright 2"
+      },
+      {
+        "id": "9e88b994-af90-487b-bee6-76503a41962c",
+        "name": "Library upright 3"
+      },
+      {
+        "id": "14b2fd9f-b2a1-45fd-b40c-a30d6a32783d",
+        "name": "Library upright 4"
+      },
+      {
+        "id": "093ec8f7-feea-4c00-8d29-1dc8585e8a3f",
+        "name": "Library upright 5"
+      },
+      {
+        "id": "4f1d4796-717d-4a01-85be-e5278db73916",
+        "name": "Library upright 6"
+      },
+      {
+        "id": "3767902c-81e0-4cbb-9740-b461033a9a48",
+        "name": "Library upright 7"
+      },
+      {
+        "id": "c639a7d7-e3c8-436c-b240-3b2498d026d4",
+        "name": "Library shelf board 1"
+      },
+      {
+        "id": "accff160-66bb-4478-ae72-dc5b7c9257ac",
+        "name": "Library shelf board 2"
+      },
+      {
+        "id": "285af823-c544-4343-afa4-f8b8a1d3ae9d",
+        "name": "Library shelf board 3"
+      },
+      {
+        "id": "4a76421a-72f9-4d6d-9697-ba8c54983851",
+        "name": "Library shelf board 4"
+      },
+      {
+        "id": "d0595a7b-f661-420f-9137-58e601f25578",
+        "name": "Library shelf board 5"
+      },
+      {
+        "id": "05f29162-41f5-42a4-b5f7-1bf531f077af",
+        "name": "Library shelf board 6"
+      },
+      {
+        "id": "792528e0-0cc7-47a4-9d8c-88c618dabb43",
+        "name": "Library shelf board 13"
+      },
+      {
+        "id": "233fcad4-c152-4746-bb38-12c824bb35f2",
+        "name": "Library shelf board 14"
+      },
+      {
+        "id": "35041032-ac5b-465f-810d-75fc7e122ee8",
+        "name": "Library shelf board 15"
+      },
+      {
+        "id": "797efa1c-da49-4c5a-90b8-197ab8814bfd",
+        "name": "Library shelf board 16"
+      },
+      {
+        "id": "6da0feff-9319-4a2b-adb5-a389b247018a",
+        "name": "Library shelf board 17"
+      },
+      {
+        "id": "8f9df1a6-c629-4367-89f6-6bf38bea5dd0",
+        "name": "Library shelf board 18"
+      },
+      {
+        "id": "35d7ceab-b864-4853-a31f-b75d16bd8d55",
+        "name": "Library shelf board 19"
+      },
+      {
+        "id": "ef46dbf1-17e1-4733-b0a5-35a8f9b92977",
+        "name": "Library shelf board 20"
+      },
+      {
+        "id": "7e82a885-7a86-407f-a441-f5150e00f238",
+        "name": "Library shelf board 21"
+      },
+      {
+        "id": "8c786d6c-da50-4a92-afa4-4d18efe7ba71",
+        "name": "Library shelf board 22"
+      },
+      {
+        "id": "7492d1a1-ac9b-4aea-a24f-28664b628d6d",
+        "name": "Library shelf board 23"
+      },
+      {
+        "id": "a7d08457-0061-46ed-8e7e-41bfea50c870",
+        "name": "Library shelf board 24"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-edit-diagnostics-baseline-L2-diagnostic-edit",
+    "rawStatus": "PASS",
+    "diagnostic": true,
+    "changed": [
+      {
+        "id": "0803197a-9cdb-413e-b5cc-984170ba9544",
+        "beforeName": "Conveyor roller 1",
+        "afterName": "Conveyor roller 1",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "13b997f9-1a0e-4056-8b31-e042a17662a8",
+        "beforeName": "Conveyor roller 20",
+        "afterName": "Conveyor roller 20",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "1d46c7f3-18a8-49cb-b59f-ed7c9489d362",
+        "beforeName": "Conveyor roller 11",
+        "afterName": "Conveyor roller 11",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "229f0662-648c-47f9-a44e-32bb4d40a5bb",
+        "beforeName": "Conveyor roller 21",
+        "afterName": "Conveyor roller 21",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "3acfeb3b-a01d-4c81-aabd-20b64528862c",
+        "beforeName": "Conveyor roller 10",
+        "afterName": "Conveyor roller 10",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "426ea4f5-01c0-412b-b33e-1de3bcf2a4ea",
+        "beforeName": "Side rail 1",
+        "afterName": "Side rail 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "46c22c5a-9471-4ffd-973d-c912dcc95569",
+        "beforeName": "Conveyor roller 3",
+        "afterName": "Conveyor roller 3",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5076775b-fad0-4667-a295-0410a74f6cfd",
+        "beforeName": "Conveyor roller 14",
+        "afterName": "Conveyor roller 14",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "52fb1d4b-94f1-4bc7-ac07-8ed7e6b31833",
+        "beforeName": "Conveyor roller 6",
+        "afterName": "Conveyor roller 6",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5a709587-c472-4bb5-a986-a46d94b02aea",
+        "beforeName": "Support leg 8",
+        "afterName": "Support leg 8",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "5c092e65-bbbc-41b6-95e1-157e86c7d910",
+        "beforeName": "Conveyor roller 4",
+        "afterName": "Conveyor roller 4",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "6a5b1982-ea36-4b9c-8a6c-992900e92f84",
+        "beforeName": "Support leg 2",
+        "afterName": "Support leg 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "6f31fc24-d8fb-4013-89e8-0c6e58d88800",
+        "beforeName": "Conveyor roller 24",
+        "afterName": "Conveyor roller 24",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "7e7aa4c1-67cf-45c3-931b-fa155d2bd88f",
+        "beforeName": "Conveyor roller 15",
+        "afterName": "Conveyor roller 15",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "84c3949a-0d20-4787-94fd-a8d536704047",
+        "beforeName": "Conveyor roller 2",
+        "afterName": "Conveyor roller 2",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "8f56fd96-4787-44c7-b3d3-b9b115323fc0",
+        "beforeName": "Conveyor roller 17",
+        "afterName": "Conveyor roller 17",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "9229c222-9862-4b78-879a-6999518742c8",
+        "beforeName": "Conveyor roller 22",
+        "afterName": "Conveyor roller 22",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a28912e0-316f-4aab-afa2-0f6066f83f27",
+        "beforeName": "Conveyor roller 18",
+        "afterName": "Conveyor roller 18",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a41fccc6-5569-4ee8-a8d0-a5119c84546f",
+        "beforeName": "Conveyor roller 5",
+        "afterName": "Conveyor roller 5",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a79df5e1-d80a-4779-b4a8-dd625c1f7553",
+        "beforeName": "Conveyor roller 12",
+        "afterName": "Conveyor roller 12",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a7cb3389-01da-445a-a228-a6946c528607",
+        "beforeName": "Support leg 7",
+        "afterName": "Support leg 7",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "acf2e95d-e91e-4cac-9c7d-ef41eac31e34",
+        "beforeName": "Conveyor roller 9",
+        "afterName": "Conveyor roller 9",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "ae59e45b-5ef5-4d82-9588-aa2bc29cd4e7",
+        "beforeName": "Conveyor roller 8",
+        "afterName": "Conveyor roller 8",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "bb63d19c-52d7-47be-b775-78de7aa15262",
+        "beforeName": "Conveyor roller 13",
+        "afterName": "Conveyor roller 13",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "c0eacaee-f72e-4153-96b5-eb05391b4a71",
+        "beforeName": "Support leg 5",
+        "afterName": "Support leg 5",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c86d1fdc-6292-4523-a264-b5d18a7702d4",
+        "beforeName": "Support leg 4",
+        "afterName": "Support leg 4",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "d69e5015-6e98-4d5f-8409-10e6920cb311",
+        "beforeName": "Support leg 6",
+        "afterName": "Support leg 6",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "d98b8787-1ced-4960-8dce-f66018031aed",
+        "beforeName": "Side rail 2",
+        "afterName": "Side rail 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "da89453d-ebfd-4ded-8678-af827151e1e6",
+        "beforeName": "Support leg 1",
+        "afterName": "Support leg 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "dc539c57-d3d7-4e41-96af-cad8de572fa4",
+        "beforeName": "Conveyor roller 23",
+        "afterName": "Conveyor roller 23",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "eb1d3be0-fd51-48fc-a24c-e7dbb9fe0c47",
+        "beforeName": "Conveyor roller 16",
+        "afterName": "Conveyor roller 16",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "ed0b3482-c199-450d-9fe1-eebd70dbf329",
+        "beforeName": "Support leg 3",
+        "afterName": "Support leg 3",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "fce72756-6187-4f2f-8d78-112f1e04c009",
+        "beforeName": "Conveyor roller 7",
+        "afterName": "Conveyor roller 7",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fe27776d-3d17-460d-bd8e-1ebeb7572c06",
+        "beforeName": "Conveyor roller 19",
+        "afterName": "Conveyor roller 19",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-edit-diagnostics-reliability-L4-diagnostic-edit",
+    "rawStatus": "PASS",
+    "diagnostic": true,
+    "changed": [
+      {
+        "id": "050a67d5-03e6-443e-ad19-3bf90203baf2",
+        "beforeName": "Crown stem B",
+        "afterName": "Crown stem B",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "08fb2522-4337-403b-8053-e15e0cb60ff5",
+        "beforeName": "Crown stem A copy (12)",
+        "afterName": "Crown stem A copy (12)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "0a76c605-e001-427b-a261-db3f2f0e5e0a",
+        "beforeName": "Crown sphere A copy (4)",
+        "afterName": "Crown sphere A copy (4)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "0bd37077-93cd-43a9-b6cb-e2d9f977fe8d",
+        "beforeName": "Crown stem A copy (3)",
+        "afterName": "Crown stem A copy (3)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "0c7f6bd9-493e-4398-a2c4-3fdd4fc3e1cf",
+        "beforeName": "Crown sphere B copy (7)",
+        "afterName": "Crown sphere B copy (7)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "0e80ad5d-3463-4c77-a12b-e05f747046ca",
+        "beforeName": "Crown stem A copy",
+        "afterName": "Crown stem A copy",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "12984f1f-eced-41d4-9b44-ef4aa6747e53",
+        "beforeName": "Crown sphere B copy (2)",
+        "afterName": "Crown sphere B copy (2)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "1384b736-bff2-40a3-b906-ba0a7e9871ab",
+        "beforeName": "Crown stem B copy (12)",
+        "afterName": "Crown stem B copy (12)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "19422ee3-bce7-4755-99fb-a8c4e039c0ea",
+        "beforeName": "Crown stem B copy (3)",
+        "afterName": "Crown stem B copy (3)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "1fa5bd4f-ec0a-4131-b021-7a745e834fd4",
+        "beforeName": "Crown stem A copy (9)",
+        "afterName": "Crown stem A copy (9)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "211f372e-83bc-44d1-9c8b-ebf2eea1a1b8",
+        "beforeName": "Crown sphere A copy (3)",
+        "afterName": "Crown sphere A copy (3)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "21a66ce3-2503-4b12-8aa4-11f60810a869",
+        "beforeName": "Crown sphere A copy (8)",
+        "afterName": "Crown sphere A copy (8)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "236c801f-7006-4e8e-867b-dd2efa6609c6",
+        "beforeName": "Crown stem A copy (15)",
+        "afterName": "Crown stem A copy (15)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "2f0c8fa0-a681-4dd2-bac0-06534a6741ba",
+        "beforeName": "Crown sphere A copy (11)",
+        "afterName": "Crown sphere A copy (11)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "3343c2af-89ef-4111-8a66-dae878c4fe0e",
+        "beforeName": "Crown stem B copy (5)",
+        "afterName": "Crown stem B copy (5)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "335673cb-acdd-4951-8b7c-1e9cbadfa38a",
+        "beforeName": "Crown stem A copy (7)",
+        "afterName": "Crown stem A copy (7)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "35a05836-52df-4eb3-a53a-2906841490c9",
+        "beforeName": "Crown stem B copy (10)",
+        "afterName": "Crown stem B copy (10)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "37d62682-9e31-4b70-9926-871f334bad9a",
+        "beforeName": "Crown sphere A copy",
+        "afterName": "Crown sphere A copy",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "37f114ae-4962-4992-97c0-0dbc6aaf11a7",
+        "beforeName": "Crown sphere A copy (7)",
+        "afterName": "Crown sphere A copy (7)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "39e622c6-0945-433b-b6c4-762d3fdf252a",
+        "beforeName": "Crown sphere A copy (13)",
+        "afterName": "Crown sphere A copy (13)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "3d2fe5f5-572d-4c50-834d-371b38106350",
+        "beforeName": "Crown stem B copy (15)",
+        "afterName": "Crown stem B copy (15)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "3d6c213a-9646-4427-b67b-4ae84a3f824a",
+        "beforeName": "Crown stem B copy",
+        "afterName": "Crown stem B copy",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "3e51257f-6ff5-4124-b6bd-5f232045c454",
+        "beforeName": "Crown sphere B copy (8)",
+        "afterName": "Crown sphere B copy (8)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "3fe083bd-13a7-4e9c-ad74-fe7ee6cc5880",
+        "beforeName": "Crown stem A copy (5)",
+        "afterName": "Crown stem A copy (5)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5430ed7c-c5f6-43fe-9c53-34a6473fcc7b",
+        "beforeName": "Crown sphere B copy (13)",
+        "afterName": "Crown sphere B copy (13)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "58e2c91a-a0ca-412e-87b5-544685041e4b",
+        "beforeName": "Crown stem B copy (7)",
+        "afterName": "Crown stem B copy (7)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5938f4c7-9f51-426c-bb09-b6a3b18fd35a",
+        "beforeName": "Crown sphere B copy (4)",
+        "afterName": "Crown sphere B copy (4)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "76d2f322-ecfc-4542-bd40-0392b64938c1",
+        "beforeName": "Crown sphere B copy (12)",
+        "afterName": "Crown sphere B copy (12)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "7cfff4dd-4d96-4022-adec-abda0ba84f50",
+        "beforeName": "Crown stem A",
+        "afterName": "Crown stem A",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "7e8fe71f-d362-4039-a2cf-53f10fbd6c4f",
+        "beforeName": "Crown stem B copy (8)",
+        "afterName": "Crown stem B copy (8)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "90063713-7ee4-44be-bf95-ba32c4420e37",
+        "beforeName": "Crown sphere A copy (15)",
+        "afterName": "Crown sphere A copy (15)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "911eec24-72f9-470e-a7aa-effe1d183524",
+        "beforeName": "Crown stem A copy (4)",
+        "afterName": "Crown stem A copy (4)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "9261067f-3787-4c90-93da-7c6b94bc296a",
+        "beforeName": "Crown stem B copy (14)",
+        "afterName": "Crown stem B copy (14)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "93c67bd5-b79e-477e-bc8b-3e0141bb634b",
+        "beforeName": "Crown sphere B copy (5)",
+        "afterName": "Crown sphere B copy (5)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "9a17a80a-0948-4777-b2d9-f88bc8f1ba5a",
+        "beforeName": "Crown stem B copy (9)",
+        "afterName": "Crown stem B copy (9)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "9c1de45c-f9c1-40a0-a92b-56d1c29daf5d",
+        "beforeName": "Crown sphere A copy (14)",
+        "afterName": "Crown sphere A copy (14)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "9fe3b09c-119f-48bf-b801-dce0bce7b519",
+        "beforeName": "Crown stem B copy (11)",
+        "afterName": "Crown stem B copy (11)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a21c3124-1de7-4384-ad38-0ace9476b299",
+        "beforeName": "Crown sphere B copy (6)",
+        "afterName": "Crown sphere B copy (6)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a4c65b7d-5724-44fd-a67d-eab0df9da622",
+        "beforeName": "Crown stem B copy (2)",
+        "afterName": "Crown stem B copy (2)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a70c9ab0-3c3d-46b9-8224-62ba0d6138a4",
+        "beforeName": "Crown sphere B copy (3)",
+        "afterName": "Crown sphere B copy (3)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "b3343cdd-493a-4466-b4b4-b06bdf9f214e",
+        "beforeName": "Crown stem B copy (13)",
+        "afterName": "Crown stem B copy (13)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "b5444516-0787-40c6-be03-af0b25470a6f",
+        "beforeName": "Crown sphere A copy (9)",
+        "afterName": "Crown sphere A copy (9)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "bb742016-3fa9-4dc6-b3fb-6d52d17dbac0",
+        "beforeName": "Crown sphere A copy (6)",
+        "afterName": "Crown sphere A copy (6)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "bc9d4d51-fa4e-44da-b108-0ad686a8fc14",
+        "beforeName": "Crown stem A copy (13)",
+        "afterName": "Crown stem A copy (13)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "bedccf32-2450-45d2-afe7-a1230c676ec2",
+        "beforeName": "Crown sphere A",
+        "afterName": "Crown sphere A",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "bf804ec7-bf06-4c6e-ab05-4628c006a546",
+        "beforeName": "Crown sphere A copy (5)",
+        "afterName": "Crown sphere A copy (5)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c2e719bc-4228-46cb-916c-f96e4f90705c",
+        "beforeName": "Crown sphere B copy",
+        "afterName": "Crown sphere B copy",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c3ac1609-fe11-4576-9e49-23965c9695c7",
+        "beforeName": "Crown sphere A copy (10)",
+        "afterName": "Crown sphere A copy (10)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c5b293c3-d3e5-4a62-ae1b-1a8dea99991d",
+        "beforeName": "Crown sphere B copy (9)",
+        "afterName": "Crown sphere B copy (9)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "cb6da270-655b-4446-b565-574e659fa526",
+        "beforeName": "Crown sphere A copy (2)",
+        "afterName": "Crown sphere A copy (2)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "cd082905-2d1f-4250-aa97-ab920c2edaa4",
+        "beforeName": "Crown sphere B copy (11)",
+        "afterName": "Crown sphere B copy (11)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "ce12d309-1f4d-4bb0-8a44-dd230a1e71a8",
+        "beforeName": "Crown stem B copy (4)",
+        "afterName": "Crown stem B copy (4)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "ce946994-c2ec-4a5a-91bd-c31431dc2959",
+        "beforeName": "Crown stem A copy (8)",
+        "afterName": "Crown stem A copy (8)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d3ced2c4-b973-42bf-918d-eb56b450707d",
+        "beforeName": "Crown stem A copy (10)",
+        "afterName": "Crown stem A copy (10)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d441fbea-5bb1-4b5f-bc85-3719d156618b",
+        "beforeName": "Crown stem A copy (14)",
+        "afterName": "Crown stem A copy (14)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e05ab800-532a-422e-b8c1-04d0d76d231a",
+        "beforeName": "Crown sphere B copy (15)",
+        "afterName": "Crown sphere B copy (15)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "e56cff1e-2e50-4265-9ad9-1dbc7f7f9a50",
+        "beforeName": "Crown sphere B",
+        "afterName": "Crown sphere B",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "e82b62ef-abec-461d-949f-199436f06619",
+        "beforeName": "Crown stem B copy (6)",
+        "afterName": "Crown stem B copy (6)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e983338d-d3d3-4c4e-88a2-d4901e901815",
+        "beforeName": "Crown sphere B copy (10)",
+        "afterName": "Crown sphere B copy (10)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "eaa54353-98a2-490d-afd9-d544d47dfe29",
+        "beforeName": "Crown stem A copy (2)",
+        "afterName": "Crown stem A copy (2)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "f5d6ffef-be52-417d-8276-0a9c9a2fa306",
+        "beforeName": "Crown sphere B copy (14)",
+        "afterName": "Crown sphere B copy (14)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "f9b3909a-e8c3-413c-aaff-b7175b333444",
+        "beforeName": "Crown sphere A copy (12)",
+        "afterName": "Crown sphere A copy (12)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "fde1ea09-ccd8-47be-b489-20340d686f1a",
+        "beforeName": "Crown stem A copy (6)",
+        "afterName": "Crown stem A copy (6)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fee999de-f0d3-4065-9a65-4a788f6290db",
+        "beforeName": "Crown stem A copy (11)",
+        "afterName": "Crown stem A copy (11)",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "d3347800-ea30-47d2-a7e1-0c2df343e273",
+        "name": "Crown circular plinth"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-edit-diagnostics-baseline-L2-diagnostic-edit2",
+    "rawStatus": "PASS",
+    "diagnostic": true,
+    "changed": [
+      {
+        "id": "0803197a-9cdb-413e-b5cc-984170ba9544",
+        "beforeName": "Conveyor roller 1",
+        "afterName": "Conveyor roller 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "13b997f9-1a0e-4056-8b31-e042a17662a8",
+        "beforeName": "Conveyor roller 20",
+        "afterName": "Conveyor roller 20",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "1d46c7f3-18a8-49cb-b59f-ed7c9489d362",
+        "beforeName": "Conveyor roller 11",
+        "afterName": "Conveyor roller 11",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "229f0662-648c-47f9-a44e-32bb4d40a5bb",
+        "beforeName": "Conveyor roller 21",
+        "afterName": "Conveyor roller 21",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "3acfeb3b-a01d-4c81-aabd-20b64528862c",
+        "beforeName": "Conveyor roller 10",
+        "afterName": "Conveyor roller 10",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "426ea4f5-01c0-412b-b33e-1de3bcf2a4ea",
+        "beforeName": "Side rail 1",
+        "afterName": "Side rail 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "46c22c5a-9471-4ffd-973d-c912dcc95569",
+        "beforeName": "Conveyor roller 3",
+        "afterName": "Conveyor roller 3",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "5076775b-fad0-4667-a295-0410a74f6cfd",
+        "beforeName": "Conveyor roller 14",
+        "afterName": "Conveyor roller 14",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "52fb1d4b-94f1-4bc7-ac07-8ed7e6b31833",
+        "beforeName": "Conveyor roller 6",
+        "afterName": "Conveyor roller 6",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "5a709587-c472-4bb5-a986-a46d94b02aea",
+        "beforeName": "Support leg 8",
+        "afterName": "Support leg 8",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5c092e65-bbbc-41b6-95e1-157e86c7d910",
+        "beforeName": "Conveyor roller 4",
+        "afterName": "Conveyor roller 4",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "6a5b1982-ea36-4b9c-8a6c-992900e92f84",
+        "beforeName": "Support leg 2",
+        "afterName": "Support leg 2",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "6f31fc24-d8fb-4013-89e8-0c6e58d88800",
+        "beforeName": "Conveyor roller 24",
+        "afterName": "Conveyor roller 24",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "7e7aa4c1-67cf-45c3-931b-fa155d2bd88f",
+        "beforeName": "Conveyor roller 15",
+        "afterName": "Conveyor roller 15",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "84c3949a-0d20-4787-94fd-a8d536704047",
+        "beforeName": "Conveyor roller 2",
+        "afterName": "Conveyor roller 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "8f56fd96-4787-44c7-b3d3-b9b115323fc0",
+        "beforeName": "Conveyor roller 17",
+        "afterName": "Conveyor roller 17",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "9229c222-9862-4b78-879a-6999518742c8",
+        "beforeName": "Conveyor roller 22",
+        "afterName": "Conveyor roller 22",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a28912e0-316f-4aab-afa2-0f6066f83f27",
+        "beforeName": "Conveyor roller 18",
+        "afterName": "Conveyor roller 18",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a41fccc6-5569-4ee8-a8d0-a5119c84546f",
+        "beforeName": "Conveyor roller 5",
+        "afterName": "Conveyor roller 5",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a79df5e1-d80a-4779-b4a8-dd625c1f7553",
+        "beforeName": "Conveyor roller 12",
+        "afterName": "Conveyor roller 12",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a7cb3389-01da-445a-a228-a6946c528607",
+        "beforeName": "Support leg 7",
+        "afterName": "Support leg 7",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "acf2e95d-e91e-4cac-9c7d-ef41eac31e34",
+        "beforeName": "Conveyor roller 9",
+        "afterName": "Conveyor roller 9",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "ae59e45b-5ef5-4d82-9588-aa2bc29cd4e7",
+        "beforeName": "Conveyor roller 8",
+        "afterName": "Conveyor roller 8",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "bb63d19c-52d7-47be-b775-78de7aa15262",
+        "beforeName": "Conveyor roller 13",
+        "afterName": "Conveyor roller 13",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c0eacaee-f72e-4153-96b5-eb05391b4a71",
+        "beforeName": "Support leg 5",
+        "afterName": "Support leg 5",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "c86d1fdc-6292-4523-a264-b5d18a7702d4",
+        "beforeName": "Support leg 4",
+        "afterName": "Support leg 4",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d69e5015-6e98-4d5f-8409-10e6920cb311",
+        "beforeName": "Support leg 6",
+        "afterName": "Support leg 6",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d98b8787-1ced-4960-8dce-f66018031aed",
+        "beforeName": "Side rail 2",
+        "afterName": "Side rail 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "da89453d-ebfd-4ded-8678-af827151e1e6",
+        "beforeName": "Support leg 1",
+        "afterName": "Support leg 1",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "dc539c57-d3d7-4e41-96af-cad8de572fa4",
+        "beforeName": "Conveyor roller 23",
+        "afterName": "Conveyor roller 23",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "eb1d3be0-fd51-48fc-a24c-e7dbb9fe0c47",
+        "beforeName": "Conveyor roller 16",
+        "afterName": "Conveyor roller 16",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "ed0b3482-c199-450d-9fe1-eebd70dbf329",
+        "beforeName": "Support leg 3",
+        "afterName": "Support leg 3",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fce72756-6187-4f2f-8d78-112f1e04c009",
+        "beforeName": "Conveyor roller 7",
+        "afterName": "Conveyor roller 7",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "fe27776d-3d17-460d-bd8e-1ebeb7572c06",
+        "beforeName": "Conveyor roller 19",
+        "afterName": "Conveyor roller 19",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-edit-diagnostics-reliability-L4-diagnostic-edit2",
+    "rawStatus": "PASS",
+    "diagnostic": true,
+    "changed": [
+      {
+        "id": "050a67d5-03e6-443e-ad19-3bf90203baf2",
+        "beforeName": "Crown stem B",
+        "afterName": "Crown stem B",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "08fb2522-4337-403b-8053-e15e0cb60ff5",
+        "beforeName": "Crown stem A copy (12)",
+        "afterName": "Crown stem A copy (12)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "0a76c605-e001-427b-a261-db3f2f0e5e0a",
+        "beforeName": "Crown sphere A copy (4)",
+        "afterName": "Crown sphere A copy (4)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "0bd37077-93cd-43a9-b6cb-e2d9f977fe8d",
+        "beforeName": "Crown stem A copy (3)",
+        "afterName": "Crown stem A copy (3)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "0c7f6bd9-493e-4398-a2c4-3fdd4fc3e1cf",
+        "beforeName": "Crown sphere B copy (7)",
+        "afterName": "Crown sphere B copy (7)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "0e80ad5d-3463-4c77-a12b-e05f747046ca",
+        "beforeName": "Crown stem A copy",
+        "afterName": "Crown stem A copy",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "12984f1f-eced-41d4-9b44-ef4aa6747e53",
+        "beforeName": "Crown sphere B copy (2)",
+        "afterName": "Crown sphere B copy (2)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "1384b736-bff2-40a3-b906-ba0a7e9871ab",
+        "beforeName": "Crown stem B copy (12)",
+        "afterName": "Crown stem B copy (12)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "19422ee3-bce7-4755-99fb-a8c4e039c0ea",
+        "beforeName": "Crown stem B copy (3)",
+        "afterName": "Crown stem B copy (3)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "1fa5bd4f-ec0a-4131-b021-7a745e834fd4",
+        "beforeName": "Crown stem A copy (9)",
+        "afterName": "Crown stem A copy (9)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "211f372e-83bc-44d1-9c8b-ebf2eea1a1b8",
+        "beforeName": "Crown sphere A copy (3)",
+        "afterName": "Crown sphere A copy (3)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "21a66ce3-2503-4b12-8aa4-11f60810a869",
+        "beforeName": "Crown sphere A copy (8)",
+        "afterName": "Crown sphere A copy (8)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "236c801f-7006-4e8e-867b-dd2efa6609c6",
+        "beforeName": "Crown stem A copy (15)",
+        "afterName": "Crown stem A copy (15)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "2f0c8fa0-a681-4dd2-bac0-06534a6741ba",
+        "beforeName": "Crown sphere A copy (11)",
+        "afterName": "Crown sphere A copy (11)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "3343c2af-89ef-4111-8a66-dae878c4fe0e",
+        "beforeName": "Crown stem B copy (5)",
+        "afterName": "Crown stem B copy (5)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "335673cb-acdd-4951-8b7c-1e9cbadfa38a",
+        "beforeName": "Crown stem A copy (7)",
+        "afterName": "Crown stem A copy (7)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "35a05836-52df-4eb3-a53a-2906841490c9",
+        "beforeName": "Crown stem B copy (10)",
+        "afterName": "Crown stem B copy (10)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "37d62682-9e31-4b70-9926-871f334bad9a",
+        "beforeName": "Crown sphere A copy",
+        "afterName": "Crown sphere A copy",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "37f114ae-4962-4992-97c0-0dbc6aaf11a7",
+        "beforeName": "Crown sphere A copy (7)",
+        "afterName": "Crown sphere A copy (7)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "39e622c6-0945-433b-b6c4-762d3fdf252a",
+        "beforeName": "Crown sphere A copy (13)",
+        "afterName": "Crown sphere A copy (13)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "3d2fe5f5-572d-4c50-834d-371b38106350",
+        "beforeName": "Crown stem B copy (15)",
+        "afterName": "Crown stem B copy (15)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "3d6c213a-9646-4427-b67b-4ae84a3f824a",
+        "beforeName": "Crown stem B copy",
+        "afterName": "Crown stem B copy",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "3e51257f-6ff5-4124-b6bd-5f232045c454",
+        "beforeName": "Crown sphere B copy (8)",
+        "afterName": "Crown sphere B copy (8)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "3fe083bd-13a7-4e9c-ad74-fe7ee6cc5880",
+        "beforeName": "Crown stem A copy (5)",
+        "afterName": "Crown stem A copy (5)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5430ed7c-c5f6-43fe-9c53-34a6473fcc7b",
+        "beforeName": "Crown sphere B copy (13)",
+        "afterName": "Crown sphere B copy (13)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "58e2c91a-a0ca-412e-87b5-544685041e4b",
+        "beforeName": "Crown stem B copy (7)",
+        "afterName": "Crown stem B copy (7)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5938f4c7-9f51-426c-bb09-b6a3b18fd35a",
+        "beforeName": "Crown sphere B copy (4)",
+        "afterName": "Crown sphere B copy (4)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "76d2f322-ecfc-4542-bd40-0392b64938c1",
+        "beforeName": "Crown sphere B copy (12)",
+        "afterName": "Crown sphere B copy (12)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "7cfff4dd-4d96-4022-adec-abda0ba84f50",
+        "beforeName": "Crown stem A",
+        "afterName": "Crown stem A",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "7e8fe71f-d362-4039-a2cf-53f10fbd6c4f",
+        "beforeName": "Crown stem B copy (8)",
+        "afterName": "Crown stem B copy (8)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "90063713-7ee4-44be-bf95-ba32c4420e37",
+        "beforeName": "Crown sphere A copy (15)",
+        "afterName": "Crown sphere A copy (15)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "911eec24-72f9-470e-a7aa-effe1d183524",
+        "beforeName": "Crown stem A copy (4)",
+        "afterName": "Crown stem A copy (4)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "9261067f-3787-4c90-93da-7c6b94bc296a",
+        "beforeName": "Crown stem B copy (14)",
+        "afterName": "Crown stem B copy (14)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "93c67bd5-b79e-477e-bc8b-3e0141bb634b",
+        "beforeName": "Crown sphere B copy (5)",
+        "afterName": "Crown sphere B copy (5)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "9a17a80a-0948-4777-b2d9-f88bc8f1ba5a",
+        "beforeName": "Crown stem B copy (9)",
+        "afterName": "Crown stem B copy (9)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "9c1de45c-f9c1-40a0-a92b-56d1c29daf5d",
+        "beforeName": "Crown sphere A copy (14)",
+        "afterName": "Crown sphere A copy (14)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "9fe3b09c-119f-48bf-b801-dce0bce7b519",
+        "beforeName": "Crown stem B copy (11)",
+        "afterName": "Crown stem B copy (11)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a21c3124-1de7-4384-ad38-0ace9476b299",
+        "beforeName": "Crown sphere B copy (6)",
+        "afterName": "Crown sphere B copy (6)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "a4c65b7d-5724-44fd-a67d-eab0df9da622",
+        "beforeName": "Crown stem B copy (2)",
+        "afterName": "Crown stem B copy (2)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a70c9ab0-3c3d-46b9-8224-62ba0d6138a4",
+        "beforeName": "Crown sphere B copy (3)",
+        "afterName": "Crown sphere B copy (3)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "b3343cdd-493a-4466-b4b4-b06bdf9f214e",
+        "beforeName": "Crown stem B copy (13)",
+        "afterName": "Crown stem B copy (13)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "b5444516-0787-40c6-be03-af0b25470a6f",
+        "beforeName": "Crown sphere A copy (9)",
+        "afterName": "Crown sphere A copy (9)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "bb742016-3fa9-4dc6-b3fb-6d52d17dbac0",
+        "beforeName": "Crown sphere A copy (6)",
+        "afterName": "Crown sphere A copy (6)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "bc9d4d51-fa4e-44da-b108-0ad686a8fc14",
+        "beforeName": "Crown stem A copy (13)",
+        "afterName": "Crown stem A copy (13)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "bedccf32-2450-45d2-afe7-a1230c676ec2",
+        "beforeName": "Crown sphere A",
+        "afterName": "Crown sphere A",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "bf804ec7-bf06-4c6e-ab05-4628c006a546",
+        "beforeName": "Crown sphere A copy (5)",
+        "afterName": "Crown sphere A copy (5)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "c2e719bc-4228-46cb-916c-f96e4f90705c",
+        "beforeName": "Crown sphere B copy",
+        "afterName": "Crown sphere B copy",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "c3ac1609-fe11-4576-9e49-23965c9695c7",
+        "beforeName": "Crown sphere A copy (10)",
+        "afterName": "Crown sphere A copy (10)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "c5b293c3-d3e5-4a62-ae1b-1a8dea99991d",
+        "beforeName": "Crown sphere B copy (9)",
+        "afterName": "Crown sphere B copy (9)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "cb6da270-655b-4446-b565-574e659fa526",
+        "beforeName": "Crown sphere A copy (2)",
+        "afterName": "Crown sphere A copy (2)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "cd082905-2d1f-4250-aa97-ab920c2edaa4",
+        "beforeName": "Crown sphere B copy (11)",
+        "afterName": "Crown sphere B copy (11)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "ce12d309-1f4d-4bb0-8a44-dd230a1e71a8",
+        "beforeName": "Crown stem B copy (4)",
+        "afterName": "Crown stem B copy (4)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "ce946994-c2ec-4a5a-91bd-c31431dc2959",
+        "beforeName": "Crown stem A copy (8)",
+        "afterName": "Crown stem A copy (8)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d3ced2c4-b973-42bf-918d-eb56b450707d",
+        "beforeName": "Crown stem A copy (10)",
+        "afterName": "Crown stem A copy (10)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d441fbea-5bb1-4b5f-bc85-3719d156618b",
+        "beforeName": "Crown stem A copy (14)",
+        "afterName": "Crown stem A copy (14)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e05ab800-532a-422e-b8c1-04d0d76d231a",
+        "beforeName": "Crown sphere B copy (15)",
+        "afterName": "Crown sphere B copy (15)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "e56cff1e-2e50-4265-9ad9-1dbc7f7f9a50",
+        "beforeName": "Crown sphere B",
+        "afterName": "Crown sphere B",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "e82b62ef-abec-461d-949f-199436f06619",
+        "beforeName": "Crown stem B copy (6)",
+        "afterName": "Crown stem B copy (6)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e983338d-d3d3-4c4e-88a2-d4901e901815",
+        "beforeName": "Crown sphere B copy (10)",
+        "afterName": "Crown sphere B copy (10)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "eaa54353-98a2-490d-afd9-d544d47dfe29",
+        "beforeName": "Crown stem A copy (2)",
+        "afterName": "Crown stem A copy (2)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "f5d6ffef-be52-417d-8276-0a9c9a2fa306",
+        "beforeName": "Crown sphere B copy (14)",
+        "afterName": "Crown sphere B copy (14)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "f9b3909a-e8c3-413c-aaff-b7175b333444",
+        "beforeName": "Crown sphere A copy (12)",
+        "afterName": "Crown sphere A copy (12)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "fde1ea09-ccd8-47be-b489-20340d686f1a",
+        "beforeName": "Crown stem A copy (6)",
+        "afterName": "Crown stem A copy (6)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fee999de-f0d3-4065-9a65-4a788f6290db",
+        "beforeName": "Crown stem A copy (11)",
+        "afterName": "Crown stem A copy (11)",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "d3347800-ea30-47d2-a7e1-0c2df343e273",
+        "name": "Crown circular plinth"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-edit-diagnostics-baseline-L4-diagnostic-edit",
+    "rawStatus": "PASS",
+    "diagnostic": true,
+    "changed": [
+      {
+        "id": "050a67d5-03e6-443e-ad19-3bf90203baf2",
+        "beforeName": "Crown stem B",
+        "afterName": "Crown stem B",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "08fb2522-4337-403b-8053-e15e0cb60ff5",
+        "beforeName": "Crown stem A copy (12)",
+        "afterName": "Crown stem A copy (12)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "0a76c605-e001-427b-a261-db3f2f0e5e0a",
+        "beforeName": "Crown sphere A copy (4)",
+        "afterName": "Crown sphere A copy (4)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "0bd37077-93cd-43a9-b6cb-e2d9f977fe8d",
+        "beforeName": "Crown stem A copy (3)",
+        "afterName": "Crown stem A copy (3)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "0c7f6bd9-493e-4398-a2c4-3fdd4fc3e1cf",
+        "beforeName": "Crown sphere B copy (7)",
+        "afterName": "Crown sphere B copy (7)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "0e80ad5d-3463-4c77-a12b-e05f747046ca",
+        "beforeName": "Crown stem A copy",
+        "afterName": "Crown stem A copy",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "12984f1f-eced-41d4-9b44-ef4aa6747e53",
+        "beforeName": "Crown sphere B copy (2)",
+        "afterName": "Crown sphere B copy (2)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "1384b736-bff2-40a3-b906-ba0a7e9871ab",
+        "beforeName": "Crown stem B copy (12)",
+        "afterName": "Crown stem B copy (12)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "19422ee3-bce7-4755-99fb-a8c4e039c0ea",
+        "beforeName": "Crown stem B copy (3)",
+        "afterName": "Crown stem B copy (3)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "1fa5bd4f-ec0a-4131-b021-7a745e834fd4",
+        "beforeName": "Crown stem A copy (9)",
+        "afterName": "Crown stem A copy (9)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "211f372e-83bc-44d1-9c8b-ebf2eea1a1b8",
+        "beforeName": "Crown sphere A copy (3)",
+        "afterName": "Crown sphere A copy (3)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "21a66ce3-2503-4b12-8aa4-11f60810a869",
+        "beforeName": "Crown sphere A copy (8)",
+        "afterName": "Crown sphere A copy (8)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "236c801f-7006-4e8e-867b-dd2efa6609c6",
+        "beforeName": "Crown stem A copy (15)",
+        "afterName": "Crown stem A copy (15)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "2f0c8fa0-a681-4dd2-bac0-06534a6741ba",
+        "beforeName": "Crown sphere A copy (11)",
+        "afterName": "Crown sphere A copy (11)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "3343c2af-89ef-4111-8a66-dae878c4fe0e",
+        "beforeName": "Crown stem B copy (5)",
+        "afterName": "Crown stem B copy (5)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "335673cb-acdd-4951-8b7c-1e9cbadfa38a",
+        "beforeName": "Crown stem A copy (7)",
+        "afterName": "Crown stem A copy (7)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "35a05836-52df-4eb3-a53a-2906841490c9",
+        "beforeName": "Crown stem B copy (10)",
+        "afterName": "Crown stem B copy (10)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "37d62682-9e31-4b70-9926-871f334bad9a",
+        "beforeName": "Crown sphere A copy",
+        "afterName": "Crown sphere A copy",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "37f114ae-4962-4992-97c0-0dbc6aaf11a7",
+        "beforeName": "Crown sphere A copy (7)",
+        "afterName": "Crown sphere A copy (7)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "39e622c6-0945-433b-b6c4-762d3fdf252a",
+        "beforeName": "Crown sphere A copy (13)",
+        "afterName": "Crown sphere A copy (13)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "3d2fe5f5-572d-4c50-834d-371b38106350",
+        "beforeName": "Crown stem B copy (15)",
+        "afterName": "Crown stem B copy (15)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "3d6c213a-9646-4427-b67b-4ae84a3f824a",
+        "beforeName": "Crown stem B copy",
+        "afterName": "Crown stem B copy",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "3e51257f-6ff5-4124-b6bd-5f232045c454",
+        "beforeName": "Crown sphere B copy (8)",
+        "afterName": "Crown sphere B copy (8)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "3fe083bd-13a7-4e9c-ad74-fe7ee6cc5880",
+        "beforeName": "Crown stem A copy (5)",
+        "afterName": "Crown stem A copy (5)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5430ed7c-c5f6-43fe-9c53-34a6473fcc7b",
+        "beforeName": "Crown sphere B copy (13)",
+        "afterName": "Crown sphere B copy (13)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "58e2c91a-a0ca-412e-87b5-544685041e4b",
+        "beforeName": "Crown stem B copy (7)",
+        "afterName": "Crown stem B copy (7)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5938f4c7-9f51-426c-bb09-b6a3b18fd35a",
+        "beforeName": "Crown sphere B copy (4)",
+        "afterName": "Crown sphere B copy (4)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "76d2f322-ecfc-4542-bd40-0392b64938c1",
+        "beforeName": "Crown sphere B copy (12)",
+        "afterName": "Crown sphere B copy (12)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "7cfff4dd-4d96-4022-adec-abda0ba84f50",
+        "beforeName": "Crown stem A",
+        "afterName": "Crown stem A",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "7e8fe71f-d362-4039-a2cf-53f10fbd6c4f",
+        "beforeName": "Crown stem B copy (8)",
+        "afterName": "Crown stem B copy (8)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "90063713-7ee4-44be-bf95-ba32c4420e37",
+        "beforeName": "Crown sphere A copy (15)",
+        "afterName": "Crown sphere A copy (15)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "911eec24-72f9-470e-a7aa-effe1d183524",
+        "beforeName": "Crown stem A copy (4)",
+        "afterName": "Crown stem A copy (4)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "9261067f-3787-4c90-93da-7c6b94bc296a",
+        "beforeName": "Crown stem B copy (14)",
+        "afterName": "Crown stem B copy (14)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "93c67bd5-b79e-477e-bc8b-3e0141bb634b",
+        "beforeName": "Crown sphere B copy (5)",
+        "afterName": "Crown sphere B copy (5)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "9a17a80a-0948-4777-b2d9-f88bc8f1ba5a",
+        "beforeName": "Crown stem B copy (9)",
+        "afterName": "Crown stem B copy (9)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "9c1de45c-f9c1-40a0-a92b-56d1c29daf5d",
+        "beforeName": "Crown sphere A copy (14)",
+        "afterName": "Crown sphere A copy (14)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "9fe3b09c-119f-48bf-b801-dce0bce7b519",
+        "beforeName": "Crown stem B copy (11)",
+        "afterName": "Crown stem B copy (11)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a21c3124-1de7-4384-ad38-0ace9476b299",
+        "beforeName": "Crown sphere B copy (6)",
+        "afterName": "Crown sphere B copy (6)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a4c65b7d-5724-44fd-a67d-eab0df9da622",
+        "beforeName": "Crown stem B copy (2)",
+        "afterName": "Crown stem B copy (2)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a70c9ab0-3c3d-46b9-8224-62ba0d6138a4",
+        "beforeName": "Crown sphere B copy (3)",
+        "afterName": "Crown sphere B copy (3)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "b3343cdd-493a-4466-b4b4-b06bdf9f214e",
+        "beforeName": "Crown stem B copy (13)",
+        "afterName": "Crown stem B copy (13)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "b5444516-0787-40c6-be03-af0b25470a6f",
+        "beforeName": "Crown sphere A copy (9)",
+        "afterName": "Crown sphere A copy (9)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "bb742016-3fa9-4dc6-b3fb-6d52d17dbac0",
+        "beforeName": "Crown sphere A copy (6)",
+        "afterName": "Crown sphere A copy (6)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "bc9d4d51-fa4e-44da-b108-0ad686a8fc14",
+        "beforeName": "Crown stem A copy (13)",
+        "afterName": "Crown stem A copy (13)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "bedccf32-2450-45d2-afe7-a1230c676ec2",
+        "beforeName": "Crown sphere A",
+        "afterName": "Crown sphere A",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "bf804ec7-bf06-4c6e-ab05-4628c006a546",
+        "beforeName": "Crown sphere A copy (5)",
+        "afterName": "Crown sphere A copy (5)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c2e719bc-4228-46cb-916c-f96e4f90705c",
+        "beforeName": "Crown sphere B copy",
+        "afterName": "Crown sphere B copy",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c3ac1609-fe11-4576-9e49-23965c9695c7",
+        "beforeName": "Crown sphere A copy (10)",
+        "afterName": "Crown sphere A copy (10)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c5b293c3-d3e5-4a62-ae1b-1a8dea99991d",
+        "beforeName": "Crown sphere B copy (9)",
+        "afterName": "Crown sphere B copy (9)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "cb6da270-655b-4446-b565-574e659fa526",
+        "beforeName": "Crown sphere A copy (2)",
+        "afterName": "Crown sphere A copy (2)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "cd082905-2d1f-4250-aa97-ab920c2edaa4",
+        "beforeName": "Crown sphere B copy (11)",
+        "afterName": "Crown sphere B copy (11)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "ce12d309-1f4d-4bb0-8a44-dd230a1e71a8",
+        "beforeName": "Crown stem B copy (4)",
+        "afterName": "Crown stem B copy (4)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "ce946994-c2ec-4a5a-91bd-c31431dc2959",
+        "beforeName": "Crown stem A copy (8)",
+        "afterName": "Crown stem A copy (8)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d3ced2c4-b973-42bf-918d-eb56b450707d",
+        "beforeName": "Crown stem A copy (10)",
+        "afterName": "Crown stem A copy (10)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d441fbea-5bb1-4b5f-bc85-3719d156618b",
+        "beforeName": "Crown stem A copy (14)",
+        "afterName": "Crown stem A copy (14)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e05ab800-532a-422e-b8c1-04d0d76d231a",
+        "beforeName": "Crown sphere B copy (15)",
+        "afterName": "Crown sphere B copy (15)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "e56cff1e-2e50-4265-9ad9-1dbc7f7f9a50",
+        "beforeName": "Crown sphere B",
+        "afterName": "Crown sphere B",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "e82b62ef-abec-461d-949f-199436f06619",
+        "beforeName": "Crown stem B copy (6)",
+        "afterName": "Crown stem B copy (6)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e983338d-d3d3-4c4e-88a2-d4901e901815",
+        "beforeName": "Crown sphere B copy (10)",
+        "afterName": "Crown sphere B copy (10)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "eaa54353-98a2-490d-afd9-d544d47dfe29",
+        "beforeName": "Crown stem A copy (2)",
+        "afterName": "Crown stem A copy (2)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "f5d6ffef-be52-417d-8276-0a9c9a2fa306",
+        "beforeName": "Crown sphere B copy (14)",
+        "afterName": "Crown sphere B copy (14)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "f9b3909a-e8c3-413c-aaff-b7175b333444",
+        "beforeName": "Crown sphere A copy (12)",
+        "afterName": "Crown sphere A copy (12)",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "fde1ea09-ccd8-47be-b489-20340d686f1a",
+        "beforeName": "Crown stem A copy (6)",
+        "afterName": "Crown stem A copy (6)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fee999de-f0d3-4065-9a65-4a788f6290db",
+        "beforeName": "Crown stem A copy (11)",
+        "afterName": "Crown stem A copy (11)",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "d3347800-ea30-47d2-a7e1-0c2df343e273",
+        "name": "Crown circular plinth"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-edit-diagnostics-baseline-L4-diagnostic-edit2",
+    "rawStatus": "PASS",
+    "diagnostic": true,
+    "changed": [
+      {
+        "id": "050a67d5-03e6-443e-ad19-3bf90203baf2",
+        "beforeName": "Crown stem B",
+        "afterName": "Crown stem B",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "08fb2522-4337-403b-8053-e15e0cb60ff5",
+        "beforeName": "Crown stem A copy (12)",
+        "afterName": "Crown stem A copy (12)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "0a76c605-e001-427b-a261-db3f2f0e5e0a",
+        "beforeName": "Crown sphere A copy (4)",
+        "afterName": "Crown sphere A copy (4)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "0bd37077-93cd-43a9-b6cb-e2d9f977fe8d",
+        "beforeName": "Crown stem A copy (3)",
+        "afterName": "Crown stem A copy (3)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "0c7f6bd9-493e-4398-a2c4-3fdd4fc3e1cf",
+        "beforeName": "Crown sphere B copy (7)",
+        "afterName": "Crown sphere B copy (7)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "0e80ad5d-3463-4c77-a12b-e05f747046ca",
+        "beforeName": "Crown stem A copy",
+        "afterName": "Crown stem A copy",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "12984f1f-eced-41d4-9b44-ef4aa6747e53",
+        "beforeName": "Crown sphere B copy (2)",
+        "afterName": "Crown sphere B copy (2)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "1384b736-bff2-40a3-b906-ba0a7e9871ab",
+        "beforeName": "Crown stem B copy (12)",
+        "afterName": "Crown stem B copy (12)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "19422ee3-bce7-4755-99fb-a8c4e039c0ea",
+        "beforeName": "Crown stem B copy (3)",
+        "afterName": "Crown stem B copy (3)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "1fa5bd4f-ec0a-4131-b021-7a745e834fd4",
+        "beforeName": "Crown stem A copy (9)",
+        "afterName": "Crown stem A copy (9)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "211f372e-83bc-44d1-9c8b-ebf2eea1a1b8",
+        "beforeName": "Crown sphere A copy (3)",
+        "afterName": "Crown sphere A copy (3)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "21a66ce3-2503-4b12-8aa4-11f60810a869",
+        "beforeName": "Crown sphere A copy (8)",
+        "afterName": "Crown sphere A copy (8)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "236c801f-7006-4e8e-867b-dd2efa6609c6",
+        "beforeName": "Crown stem A copy (15)",
+        "afterName": "Crown stem A copy (15)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "2f0c8fa0-a681-4dd2-bac0-06534a6741ba",
+        "beforeName": "Crown sphere A copy (11)",
+        "afterName": "Crown sphere A copy (11)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "3343c2af-89ef-4111-8a66-dae878c4fe0e",
+        "beforeName": "Crown stem B copy (5)",
+        "afterName": "Crown stem B copy (5)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "335673cb-acdd-4951-8b7c-1e9cbadfa38a",
+        "beforeName": "Crown stem A copy (7)",
+        "afterName": "Crown stem A copy (7)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "35a05836-52df-4eb3-a53a-2906841490c9",
+        "beforeName": "Crown stem B copy (10)",
+        "afterName": "Crown stem B copy (10)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "37d62682-9e31-4b70-9926-871f334bad9a",
+        "beforeName": "Crown sphere A copy",
+        "afterName": "Crown sphere A copy",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "37f114ae-4962-4992-97c0-0dbc6aaf11a7",
+        "beforeName": "Crown sphere A copy (7)",
+        "afterName": "Crown sphere A copy (7)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "39e622c6-0945-433b-b6c4-762d3fdf252a",
+        "beforeName": "Crown sphere A copy (13)",
+        "afterName": "Crown sphere A copy (13)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "3d2fe5f5-572d-4c50-834d-371b38106350",
+        "beforeName": "Crown stem B copy (15)",
+        "afterName": "Crown stem B copy (15)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "3d6c213a-9646-4427-b67b-4ae84a3f824a",
+        "beforeName": "Crown stem B copy",
+        "afterName": "Crown stem B copy",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "3e51257f-6ff5-4124-b6bd-5f232045c454",
+        "beforeName": "Crown sphere B copy (8)",
+        "afterName": "Crown sphere B copy (8)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "3fe083bd-13a7-4e9c-ad74-fe7ee6cc5880",
+        "beforeName": "Crown stem A copy (5)",
+        "afterName": "Crown stem A copy (5)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5430ed7c-c5f6-43fe-9c53-34a6473fcc7b",
+        "beforeName": "Crown sphere B copy (13)",
+        "afterName": "Crown sphere B copy (13)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "58e2c91a-a0ca-412e-87b5-544685041e4b",
+        "beforeName": "Crown stem B copy (7)",
+        "afterName": "Crown stem B copy (7)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5938f4c7-9f51-426c-bb09-b6a3b18fd35a",
+        "beforeName": "Crown sphere B copy (4)",
+        "afterName": "Crown sphere B copy (4)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "76d2f322-ecfc-4542-bd40-0392b64938c1",
+        "beforeName": "Crown sphere B copy (12)",
+        "afterName": "Crown sphere B copy (12)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "7cfff4dd-4d96-4022-adec-abda0ba84f50",
+        "beforeName": "Crown stem A",
+        "afterName": "Crown stem A",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "7e8fe71f-d362-4039-a2cf-53f10fbd6c4f",
+        "beforeName": "Crown stem B copy (8)",
+        "afterName": "Crown stem B copy (8)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "90063713-7ee4-44be-bf95-ba32c4420e37",
+        "beforeName": "Crown sphere A copy (15)",
+        "afterName": "Crown sphere A copy (15)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "911eec24-72f9-470e-a7aa-effe1d183524",
+        "beforeName": "Crown stem A copy (4)",
+        "afterName": "Crown stem A copy (4)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "9261067f-3787-4c90-93da-7c6b94bc296a",
+        "beforeName": "Crown stem B copy (14)",
+        "afterName": "Crown stem B copy (14)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "93c67bd5-b79e-477e-bc8b-3e0141bb634b",
+        "beforeName": "Crown sphere B copy (5)",
+        "afterName": "Crown sphere B copy (5)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "9a17a80a-0948-4777-b2d9-f88bc8f1ba5a",
+        "beforeName": "Crown stem B copy (9)",
+        "afterName": "Crown stem B copy (9)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "9c1de45c-f9c1-40a0-a92b-56d1c29daf5d",
+        "beforeName": "Crown sphere A copy (14)",
+        "afterName": "Crown sphere A copy (14)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "9fe3b09c-119f-48bf-b801-dce0bce7b519",
+        "beforeName": "Crown stem B copy (11)",
+        "afterName": "Crown stem B copy (11)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a21c3124-1de7-4384-ad38-0ace9476b299",
+        "beforeName": "Crown sphere B copy (6)",
+        "afterName": "Crown sphere B copy (6)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "a4c65b7d-5724-44fd-a67d-eab0df9da622",
+        "beforeName": "Crown stem B copy (2)",
+        "afterName": "Crown stem B copy (2)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a70c9ab0-3c3d-46b9-8224-62ba0d6138a4",
+        "beforeName": "Crown sphere B copy (3)",
+        "afterName": "Crown sphere B copy (3)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "b3343cdd-493a-4466-b4b4-b06bdf9f214e",
+        "beforeName": "Crown stem B copy (13)",
+        "afterName": "Crown stem B copy (13)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "b5444516-0787-40c6-be03-af0b25470a6f",
+        "beforeName": "Crown sphere A copy (9)",
+        "afterName": "Crown sphere A copy (9)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "bb742016-3fa9-4dc6-b3fb-6d52d17dbac0",
+        "beforeName": "Crown sphere A copy (6)",
+        "afterName": "Crown sphere A copy (6)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "bc9d4d51-fa4e-44da-b108-0ad686a8fc14",
+        "beforeName": "Crown stem A copy (13)",
+        "afterName": "Crown stem A copy (13)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "bedccf32-2450-45d2-afe7-a1230c676ec2",
+        "beforeName": "Crown sphere A",
+        "afterName": "Crown sphere A",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "bf804ec7-bf06-4c6e-ab05-4628c006a546",
+        "beforeName": "Crown sphere A copy (5)",
+        "afterName": "Crown sphere A copy (5)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "c2e719bc-4228-46cb-916c-f96e4f90705c",
+        "beforeName": "Crown sphere B copy",
+        "afterName": "Crown sphere B copy",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "c3ac1609-fe11-4576-9e49-23965c9695c7",
+        "beforeName": "Crown sphere A copy (10)",
+        "afterName": "Crown sphere A copy (10)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "c5b293c3-d3e5-4a62-ae1b-1a8dea99991d",
+        "beforeName": "Crown sphere B copy (9)",
+        "afterName": "Crown sphere B copy (9)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "cb6da270-655b-4446-b565-574e659fa526",
+        "beforeName": "Crown sphere A copy (2)",
+        "afterName": "Crown sphere A copy (2)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "cd082905-2d1f-4250-aa97-ab920c2edaa4",
+        "beforeName": "Crown sphere B copy (11)",
+        "afterName": "Crown sphere B copy (11)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "ce12d309-1f4d-4bb0-8a44-dd230a1e71a8",
+        "beforeName": "Crown stem B copy (4)",
+        "afterName": "Crown stem B copy (4)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "ce946994-c2ec-4a5a-91bd-c31431dc2959",
+        "beforeName": "Crown stem A copy (8)",
+        "afterName": "Crown stem A copy (8)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d3ced2c4-b973-42bf-918d-eb56b450707d",
+        "beforeName": "Crown stem A copy (10)",
+        "afterName": "Crown stem A copy (10)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d441fbea-5bb1-4b5f-bc85-3719d156618b",
+        "beforeName": "Crown stem A copy (14)",
+        "afterName": "Crown stem A copy (14)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e05ab800-532a-422e-b8c1-04d0d76d231a",
+        "beforeName": "Crown sphere B copy (15)",
+        "afterName": "Crown sphere B copy (15)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "e56cff1e-2e50-4265-9ad9-1dbc7f7f9a50",
+        "beforeName": "Crown sphere B",
+        "afterName": "Crown sphere B",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "e82b62ef-abec-461d-949f-199436f06619",
+        "beforeName": "Crown stem B copy (6)",
+        "afterName": "Crown stem B copy (6)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e983338d-d3d3-4c4e-88a2-d4901e901815",
+        "beforeName": "Crown sphere B copy (10)",
+        "afterName": "Crown sphere B copy (10)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "eaa54353-98a2-490d-afd9-d544d47dfe29",
+        "beforeName": "Crown stem A copy (2)",
+        "afterName": "Crown stem A copy (2)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "f5d6ffef-be52-417d-8276-0a9c9a2fa306",
+        "beforeName": "Crown sphere B copy (14)",
+        "afterName": "Crown sphere B copy (14)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "f9b3909a-e8c3-413c-aaff-b7175b333444",
+        "beforeName": "Crown sphere A copy (12)",
+        "afterName": "Crown sphere A copy (12)",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "fde1ea09-ccd8-47be-b489-20340d686f1a",
+        "beforeName": "Crown stem A copy (6)",
+        "afterName": "Crown stem A copy (6)",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fee999de-f0d3-4065-9a65-4a788f6290db",
+        "beforeName": "Crown stem A copy (11)",
+        "afterName": "Crown stem A copy (11)",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "d3347800-ea30-47d2-a7e1-0c2df343e273",
+        "name": "Crown circular plinth"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-large-1-baseline-L1-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "00f97b93-24d8-455a-9a47-08e8f5d21aee",
+        "beforeName": "Upright panel 3",
+        "afterName": "Upright panel 3",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "0bdd451c-7584-4634-80c7-b6374a89b7af",
+        "beforeName": "Upright panel 2",
+        "afterName": "Upright panel 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "1ddb2748-c251-4302-aaf3-24640dbc5675",
+        "beforeName": "Shelf top 0.70 m 5",
+        "afterName": "Shelf top 0.70 m 5",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "2a2d8eaa-e7e9-4966-947e-5d37ed46452d",
+        "beforeName": "Upright panel 1",
+        "afterName": "Upright panel 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "377ff466-8152-4e74-adb8-665b18ebf873",
+        "beforeName": "Shelf top 1.60 m 6",
+        "afterName": "Shelf top 1.60 m 6",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "3bdc57f6-d800-4dda-b5d4-efb7d0518608",
+        "beforeName": "Shelf top 1.60 m 2",
+        "afterName": "Shelf top 1.60 m 2",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "412af23f-9273-46e0-aafe-c844f07ce871",
+        "beforeName": "Shelf top 0.25 m 1",
+        "afterName": "Shelf top 0.25 m 1",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "43242b01-90cd-4433-b339-4f2533d1f75a",
+        "beforeName": "Shelf top 1.15 m 3",
+        "afterName": "Shelf top 1.15 m 3",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "469eae6d-a9d4-47a7-abe7-71d3bde9020c",
+        "beforeName": "Upright panel 7",
+        "afterName": "Upright panel 7",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "530c34ab-5cb9-4bf6-b4a0-16a40fdf8eb9",
+        "beforeName": "Upright panel 5",
+        "afterName": "Upright panel 5",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "62a68b4e-2c6a-4930-8e09-22e1ae5644b4",
+        "beforeName": "Shelf top 0.25 m 5",
+        "afterName": "Shelf top 0.25 m 5",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "75ad9899-f31c-4029-833f-c577fd3fe44f",
+        "beforeName": "Shelf top 1.15 m 2",
+        "afterName": "Shelf top 1.15 m 2",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "7a5693ca-2ff6-4a91-9f51-efa70fc4b130",
+        "beforeName": "Shelf top 0.70 m 6",
+        "afterName": "Shelf top 0.70 m 6",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "7c480662-baf5-411e-8c02-f4b9df0d0daf",
+        "beforeName": "Shelf top 1.15 m 4",
+        "afterName": "Shelf top 1.15 m 4",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "90316928-f921-4a1e-8b9b-e946ddb28a8c",
+        "beforeName": "Upright panel 6",
+        "afterName": "Upright panel 6",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "93211d50-7428-40f5-8510-0ee8c1924e05",
+        "beforeName": "Shelf top 1.15 m 1",
+        "afterName": "Shelf top 1.15 m 1",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "988c761e-5853-4cac-b8fa-d5a60b0cac62",
+        "beforeName": "Shelf top 1.60 m 4",
+        "afterName": "Shelf top 1.60 m 4",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "9f8fae3c-f2ee-4893-bed4-0f419556d00d",
+        "beforeName": "Shelf top 0.70 m 1",
+        "afterName": "Shelf top 0.70 m 1",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "a1a5a0dd-6c03-4df8-9de9-b0c392edd976",
+        "beforeName": "Shelf top 1.15 m 6",
+        "afterName": "Shelf top 1.15 m 6",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "add77dbc-fd6a-4c7c-b71a-f890ab763d29",
+        "beforeName": "Shelf top 0.25 m 3",
+        "afterName": "Shelf top 0.25 m 3",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "b8387155-636b-4a74-b8d4-b87d3d8786dd",
+        "beforeName": "Shelf top 0.25 m 4",
+        "afterName": "Shelf top 0.25 m 4",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "c0644a08-3287-445b-9fe1-52099d157aee",
+        "beforeName": "Shelf top 0.70 m 2",
+        "afterName": "Shelf top 0.70 m 2",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "c75eabea-299d-4045-9da5-00caa0754857",
+        "beforeName": "Shelf top 1.15 m 5",
+        "afterName": "Shelf top 1.15 m 5",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "cb29d876-bbcf-45de-b57d-b61b4ddf43fa",
+        "beforeName": "Shelf top 1.60 m 3",
+        "afterName": "Shelf top 1.60 m 3",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "cb7c66ac-8824-423d-8a01-6e35d8ee0cfa",
+        "beforeName": "Shelf top 1.60 m 1",
+        "afterName": "Shelf top 1.60 m 1",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "cda921e3-06ec-4b02-b69f-5c05246ab3bf",
+        "beforeName": "Shelf top 1.60 m 5",
+        "afterName": "Shelf top 1.60 m 5",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "d6dddbeb-a74a-4791-b40e-d7c97f8d3d75",
+        "beforeName": "Shelf top 0.25 m 6",
+        "afterName": "Shelf top 0.25 m 6",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "e4eb6eeb-62e8-46ea-86ce-912bd64c16ed",
+        "beforeName": "Shelf top 0.70 m 4",
+        "afterName": "Shelf top 0.70 m 4",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "eb486aaf-698b-4a7f-8d0f-c6aabedea6cb",
+        "beforeName": "Shelf top 0.25 m 2",
+        "afterName": "Shelf top 0.25 m 2",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "f488860c-3632-4520-90c8-4f937183e7a9",
+        "beforeName": "Shelf top 0.70 m 3",
+        "afterName": "Shelf top 0.70 m 3",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "4e34797b-ede2-4c73-809d-ee865e8ed92e",
+        "name": "Upright panel 4"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-large-1-baseline-L1-edit2",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "1ddb2748-c251-4302-aaf3-24640dbc5675",
+        "beforeName": "Shelf top 0.70 m 5",
+        "afterName": "Shelf top 0.70 m 5",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "7a5693ca-2ff6-4a91-9f51-efa70fc4b130",
+        "beforeName": "Shelf top 0.70 m 6",
+        "afterName": "Shelf top 0.70 m 6",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "9f8fae3c-f2ee-4893-bed4-0f419556d00d",
+        "beforeName": "Shelf top 0.70 m 1",
+        "afterName": "Shelf top 0.70 m 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c0644a08-3287-445b-9fe1-52099d157aee",
+        "beforeName": "Shelf top 0.70 m 2",
+        "afterName": "Shelf top 0.70 m 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "e4eb6eeb-62e8-46ea-86ce-912bd64c16ed",
+        "beforeName": "Shelf top 0.70 m 4",
+        "afterName": "Shelf top 0.70 m 4",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "f488860c-3632-4520-90c8-4f937183e7a9",
+        "beforeName": "Shelf top 0.70 m 3",
+        "afterName": "Shelf top 0.70 m 3",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "2a2d8eaa-e7e9-4966-947e-5d37ed46452d",
+        "name": "Upright panel 1"
+      },
+      {
+        "id": "0bdd451c-7584-4634-80c7-b6374a89b7af",
+        "name": "Upright panel 2"
+      },
+      {
+        "id": "00f97b93-24d8-455a-9a47-08e8f5d21aee",
+        "name": "Upright panel 3"
+      },
+      {
+        "id": "4e34797b-ede2-4c73-809d-ee865e8ed92e",
+        "name": "Upright panel 4"
+      },
+      {
+        "id": "530c34ab-5cb9-4bf6-b4a0-16a40fdf8eb9",
+        "name": "Upright panel 5"
+      },
+      {
+        "id": "90316928-f921-4a1e-8b9b-e946ddb28a8c",
+        "name": "Upright panel 6"
+      },
+      {
+        "id": "469eae6d-a9d4-47a7-abe7-71d3bde9020c",
+        "name": "Upright panel 7"
+      },
+      {
+        "id": "412af23f-9273-46e0-aafe-c844f07ce871",
+        "name": "Shelf top 0.25 m 1"
+      },
+      {
+        "id": "eb486aaf-698b-4a7f-8d0f-c6aabedea6cb",
+        "name": "Shelf top 0.25 m 2"
+      },
+      {
+        "id": "add77dbc-fd6a-4c7c-b71a-f890ab763d29",
+        "name": "Shelf top 0.25 m 3"
+      },
+      {
+        "id": "b8387155-636b-4a74-b8d4-b87d3d8786dd",
+        "name": "Shelf top 0.25 m 4"
+      },
+      {
+        "id": "62a68b4e-2c6a-4930-8e09-22e1ae5644b4",
+        "name": "Shelf top 0.25 m 5"
+      },
+      {
+        "id": "d6dddbeb-a74a-4791-b40e-d7c97f8d3d75",
+        "name": "Shelf top 0.25 m 6"
+      },
+      {
+        "id": "93211d50-7428-40f5-8510-0ee8c1924e05",
+        "name": "Shelf top 1.15 m 1"
+      },
+      {
+        "id": "75ad9899-f31c-4029-833f-c577fd3fe44f",
+        "name": "Shelf top 1.15 m 2"
+      },
+      {
+        "id": "43242b01-90cd-4433-b339-4f2533d1f75a",
+        "name": "Shelf top 1.15 m 3"
+      },
+      {
+        "id": "7c480662-baf5-411e-8c02-f4b9df0d0daf",
+        "name": "Shelf top 1.15 m 4"
+      },
+      {
+        "id": "c75eabea-299d-4045-9da5-00caa0754857",
+        "name": "Shelf top 1.15 m 5"
+      },
+      {
+        "id": "a1a5a0dd-6c03-4df8-9de9-b0c392edd976",
+        "name": "Shelf top 1.15 m 6"
+      },
+      {
+        "id": "cb7c66ac-8824-423d-8a01-6e35d8ee0cfa",
+        "name": "Shelf top 1.60 m 1"
+      },
+      {
+        "id": "3bdc57f6-d800-4dda-b5d4-efb7d0518608",
+        "name": "Shelf top 1.60 m 2"
+      },
+      {
+        "id": "cb29d876-bbcf-45de-b57d-b61b4ddf43fa",
+        "name": "Shelf top 1.60 m 3"
+      },
+      {
+        "id": "988c761e-5853-4cac-b8fa-d5a60b0cac62",
+        "name": "Shelf top 1.60 m 4"
+      },
+      {
+        "id": "cda921e3-06ec-4b02-b69f-5c05246ab3bf",
+        "name": "Shelf top 1.60 m 5"
+      },
+      {
+        "id": "377ff466-8152-4e74-adb8-665b18ebf873",
+        "name": "Shelf top 1.60 m 6"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-large-1-reliability-L3-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "0738c12a-57ce-4b06-a49c-daa18d9aa3ef",
+        "beforeName": "Canopy circular column 10",
+        "afterName": "Canopy circular column 10",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "07b39135-e6af-45dc-ae63-29facb3052a2",
+        "beforeName": "Canopy circular column 2",
+        "afterName": "Canopy circular column 2",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "099d479b-cde5-412b-a137-fc10a731341b",
+        "beforeName": "Rear privacy fin 4",
+        "afterName": "Rear privacy fin 4",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "0ae17d4e-f1b0-4604-9995-c906635c3e6f",
+        "beforeName": "Canopy circular column 3",
+        "afterName": "Canopy circular column 3",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "11cf05df-ae61-43e9-a344-c24679731836",
+        "beforeName": "Rear privacy fin 6",
+        "afterName": "Rear privacy fin 6",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "135a07b3-c22a-4523-be13-77e3c21b9052",
+        "beforeName": "Canopy circular column 1",
+        "afterName": "Canopy circular column 1",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "2412f5e8-4be5-41ac-b5df-8c9129709b03",
+        "beforeName": "Rear privacy fin 14",
+        "afterName": "Rear privacy fin 14",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "2643e901-3a7c-4623-af4a-976c0b1355d2",
+        "beforeName": "Canopy circular column 7",
+        "afterName": "Canopy circular column 7",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "279fdeeb-2dce-4662-af55-85b14a5e14ba",
+        "beforeName": "Rear privacy fin 8",
+        "afterName": "Rear privacy fin 8",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "2c031441-681f-4067-8410-3280ec9ef6d0",
+        "beforeName": "Rear privacy fin 19",
+        "afterName": "Rear privacy fin 19",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "2f54396e-c5a3-4261-8ea2-b18a39e1056c",
+        "beforeName": "Rear privacy fin 21",
+        "afterName": "Rear privacy fin 21",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "3315c3ab-747c-4803-b226-480d27a9e992",
+        "beforeName": "Rear privacy fin 12",
+        "afterName": "Rear privacy fin 12",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "34e6ad07-3428-4fa8-b36e-0c1d9736d8c0",
+        "beforeName": "Rear privacy fin 15",
+        "afterName": "Rear privacy fin 15",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "36c2142a-1883-4f77-b0c4-d1ec7bcc2cb1",
+        "beforeName": "Rear privacy fin 9",
+        "afterName": "Rear privacy fin 9",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "397ba9ba-aee6-4eb8-8220-392da62fc52c",
+        "beforeName": "Canopy circular column 9",
+        "afterName": "Canopy circular column 9",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "4658ef59-b688-4a78-8171-b4d82b72c652",
+        "beforeName": "Rear privacy fin 20",
+        "afterName": "Rear privacy fin 20",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "54061778-5e20-4500-a589-cafa439f1ff0",
+        "beforeName": "Canopy flat roof",
+        "afterName": "Canopy flat roof",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "772262be-e11e-48eb-b115-c232ecdfaa1b",
+        "beforeName": "Canopy circular column 4",
+        "afterName": "Canopy circular column 4",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "7bedd536-8930-491c-bfd7-19375e425927",
+        "beforeName": "Rear privacy fin 18",
+        "afterName": "Rear privacy fin 18",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "7c183311-6a45-439a-a0b8-09ff23a2a16b",
+        "beforeName": "Rear privacy fin 1",
+        "afterName": "Rear privacy fin 1",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "864f95a0-2779-45ba-8441-c09a9da6de2b",
+        "beforeName": "Rear privacy fin 17",
+        "afterName": "Rear privacy fin 17",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "866e4779-8e68-413c-98f3-50d22ca63a38",
+        "beforeName": "Rear privacy fin 5",
+        "afterName": "Rear privacy fin 5",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "99adf627-6d8d-49b3-af3a-a1029344bd3c",
+        "beforeName": "Canopy circular column 5",
+        "afterName": "Canopy circular column 5",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "9af10a68-c0f0-4fb7-9664-96f6931ba0a3",
+        "beforeName": "Canopy circular column 8",
+        "afterName": "Canopy circular column 8",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a8b91056-f5b6-454d-b8a5-3806d4fa2178",
+        "beforeName": "Canopy circular column 6",
+        "afterName": "Canopy circular column 6",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "c293e454-8404-44a1-9eb1-a16f7b8e4659",
+        "beforeName": "Rear privacy fin 7",
+        "afterName": "Rear privacy fin 7",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "cb99b102-c88e-40ef-83b7-85e96154d694",
+        "beforeName": "Rear privacy fin 10",
+        "afterName": "Rear privacy fin 10",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "cda46857-0bda-4fd2-950b-693ff0482428",
+        "beforeName": "Rear privacy fin 3",
+        "afterName": "Rear privacy fin 3",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d935710b-e270-4a6d-86fe-5d12abf4c287",
+        "beforeName": "Rear privacy fin 2",
+        "afterName": "Rear privacy fin 2",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "e28d6290-412f-4a53-a803-dbe6b3e3bcaa",
+        "beforeName": "Rear privacy fin 13",
+        "afterName": "Rear privacy fin 13",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fe999de2-1adc-41b6-aef7-ec5a02009073",
+        "beforeName": "Rear privacy fin 11",
+        "afterName": "Rear privacy fin 11",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "ffe5b202-2f58-4452-896b-10055273eb61",
+        "beforeName": "Rear privacy fin 16",
+        "afterName": "Rear privacy fin 16",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "65df8853-1708-4750-b7d1-581dfc9f0079",
+        "name": "Canopy ground platform"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-large-1-baseline-L2-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "0803197a-9cdb-413e-b5cc-984170ba9544",
+        "beforeName": "Conveyor roller 1",
+        "afterName": "Conveyor roller 1",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "13b997f9-1a0e-4056-8b31-e042a17662a8",
+        "beforeName": "Conveyor roller 20",
+        "afterName": "Conveyor roller 20",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "1d46c7f3-18a8-49cb-b59f-ed7c9489d362",
+        "beforeName": "Conveyor roller 11",
+        "afterName": "Conveyor roller 11",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "229f0662-648c-47f9-a44e-32bb4d40a5bb",
+        "beforeName": "Conveyor roller 21",
+        "afterName": "Conveyor roller 21",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "3acfeb3b-a01d-4c81-aabd-20b64528862c",
+        "beforeName": "Conveyor roller 10",
+        "afterName": "Conveyor roller 10",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "426ea4f5-01c0-412b-b33e-1de3bcf2a4ea",
+        "beforeName": "Side rail 1",
+        "afterName": "Side rail 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "46c22c5a-9471-4ffd-973d-c912dcc95569",
+        "beforeName": "Conveyor roller 3",
+        "afterName": "Conveyor roller 3",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5076775b-fad0-4667-a295-0410a74f6cfd",
+        "beforeName": "Conveyor roller 14",
+        "afterName": "Conveyor roller 14",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "52fb1d4b-94f1-4bc7-ac07-8ed7e6b31833",
+        "beforeName": "Conveyor roller 6",
+        "afterName": "Conveyor roller 6",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5a709587-c472-4bb5-a986-a46d94b02aea",
+        "beforeName": "Support leg 8",
+        "afterName": "Support leg 8",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "5c092e65-bbbc-41b6-95e1-157e86c7d910",
+        "beforeName": "Conveyor roller 4",
+        "afterName": "Conveyor roller 4",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "6a5b1982-ea36-4b9c-8a6c-992900e92f84",
+        "beforeName": "Support leg 2",
+        "afterName": "Support leg 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "6f31fc24-d8fb-4013-89e8-0c6e58d88800",
+        "beforeName": "Conveyor roller 24",
+        "afterName": "Conveyor roller 24",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "7e7aa4c1-67cf-45c3-931b-fa155d2bd88f",
+        "beforeName": "Conveyor roller 15",
+        "afterName": "Conveyor roller 15",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "84c3949a-0d20-4787-94fd-a8d536704047",
+        "beforeName": "Conveyor roller 2",
+        "afterName": "Conveyor roller 2",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "8f56fd96-4787-44c7-b3d3-b9b115323fc0",
+        "beforeName": "Conveyor roller 17",
+        "afterName": "Conveyor roller 17",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "9229c222-9862-4b78-879a-6999518742c8",
+        "beforeName": "Conveyor roller 22",
+        "afterName": "Conveyor roller 22",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a28912e0-316f-4aab-afa2-0f6066f83f27",
+        "beforeName": "Conveyor roller 18",
+        "afterName": "Conveyor roller 18",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a41fccc6-5569-4ee8-a8d0-a5119c84546f",
+        "beforeName": "Conveyor roller 5",
+        "afterName": "Conveyor roller 5",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a79df5e1-d80a-4779-b4a8-dd625c1f7553",
+        "beforeName": "Conveyor roller 12",
+        "afterName": "Conveyor roller 12",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "a7cb3389-01da-445a-a228-a6946c528607",
+        "beforeName": "Support leg 7",
+        "afterName": "Support leg 7",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "acf2e95d-e91e-4cac-9c7d-ef41eac31e34",
+        "beforeName": "Conveyor roller 9",
+        "afterName": "Conveyor roller 9",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "ae59e45b-5ef5-4d82-9588-aa2bc29cd4e7",
+        "beforeName": "Conveyor roller 8",
+        "afterName": "Conveyor roller 8",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "bb63d19c-52d7-47be-b775-78de7aa15262",
+        "beforeName": "Conveyor roller 13",
+        "afterName": "Conveyor roller 13",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "c0eacaee-f72e-4153-96b5-eb05391b4a71",
+        "beforeName": "Support leg 5",
+        "afterName": "Support leg 5",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c86d1fdc-6292-4523-a264-b5d18a7702d4",
+        "beforeName": "Support leg 4",
+        "afterName": "Support leg 4",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "d69e5015-6e98-4d5f-8409-10e6920cb311",
+        "beforeName": "Support leg 6",
+        "afterName": "Support leg 6",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "d98b8787-1ced-4960-8dce-f66018031aed",
+        "beforeName": "Side rail 2",
+        "afterName": "Side rail 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "da89453d-ebfd-4ded-8678-af827151e1e6",
+        "beforeName": "Support leg 1",
+        "afterName": "Support leg 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "dc539c57-d3d7-4e41-96af-cad8de572fa4",
+        "beforeName": "Conveyor roller 23",
+        "afterName": "Conveyor roller 23",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "eb1d3be0-fd51-48fc-a24c-e7dbb9fe0c47",
+        "beforeName": "Conveyor roller 16",
+        "afterName": "Conveyor roller 16",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "ed0b3482-c199-450d-9fe1-eebd70dbf329",
+        "beforeName": "Support leg 3",
+        "afterName": "Support leg 3",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "fce72756-6187-4f2f-8d78-112f1e04c009",
+        "beforeName": "Conveyor roller 7",
+        "afterName": "Conveyor roller 7",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fe27776d-3d17-460d-bd8e-1ebeb7572c06",
+        "beforeName": "Conveyor roller 19",
+        "afterName": "Conveyor roller 19",
+        "changedFields": [
+          "dimensions"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-large-1-baseline-L2-edit2",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "0803197a-9cdb-413e-b5cc-984170ba9544",
+        "beforeName": "Conveyor roller 1",
+        "afterName": "Conveyor roller 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "13b997f9-1a0e-4056-8b31-e042a17662a8",
+        "beforeName": "Conveyor roller 20",
+        "afterName": "Conveyor roller 20",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "1d46c7f3-18a8-49cb-b59f-ed7c9489d362",
+        "beforeName": "Conveyor roller 11",
+        "afterName": "Conveyor roller 11",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "229f0662-648c-47f9-a44e-32bb4d40a5bb",
+        "beforeName": "Conveyor roller 21",
+        "afterName": "Conveyor roller 21",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "3acfeb3b-a01d-4c81-aabd-20b64528862c",
+        "beforeName": "Conveyor roller 10",
+        "afterName": "Conveyor roller 10",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "426ea4f5-01c0-412b-b33e-1de3bcf2a4ea",
+        "beforeName": "Side rail 1",
+        "afterName": "Side rail 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "46c22c5a-9471-4ffd-973d-c912dcc95569",
+        "beforeName": "Conveyor roller 3",
+        "afterName": "Conveyor roller 3",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "5076775b-fad0-4667-a295-0410a74f6cfd",
+        "beforeName": "Conveyor roller 14",
+        "afterName": "Conveyor roller 14",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "52fb1d4b-94f1-4bc7-ac07-8ed7e6b31833",
+        "beforeName": "Conveyor roller 6",
+        "afterName": "Conveyor roller 6",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "5a709587-c472-4bb5-a986-a46d94b02aea",
+        "beforeName": "Support leg 8",
+        "afterName": "Support leg 8",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "5c092e65-bbbc-41b6-95e1-157e86c7d910",
+        "beforeName": "Conveyor roller 4",
+        "afterName": "Conveyor roller 4",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "6a5b1982-ea36-4b9c-8a6c-992900e92f84",
+        "beforeName": "Support leg 2",
+        "afterName": "Support leg 2",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "6f31fc24-d8fb-4013-89e8-0c6e58d88800",
+        "beforeName": "Conveyor roller 24",
+        "afterName": "Conveyor roller 24",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "7e7aa4c1-67cf-45c3-931b-fa155d2bd88f",
+        "beforeName": "Conveyor roller 15",
+        "afterName": "Conveyor roller 15",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "84c3949a-0d20-4787-94fd-a8d536704047",
+        "beforeName": "Conveyor roller 2",
+        "afterName": "Conveyor roller 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "8f56fd96-4787-44c7-b3d3-b9b115323fc0",
+        "beforeName": "Conveyor roller 17",
+        "afterName": "Conveyor roller 17",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "9229c222-9862-4b78-879a-6999518742c8",
+        "beforeName": "Conveyor roller 22",
+        "afterName": "Conveyor roller 22",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a28912e0-316f-4aab-afa2-0f6066f83f27",
+        "beforeName": "Conveyor roller 18",
+        "afterName": "Conveyor roller 18",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a41fccc6-5569-4ee8-a8d0-a5119c84546f",
+        "beforeName": "Conveyor roller 5",
+        "afterName": "Conveyor roller 5",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a79df5e1-d80a-4779-b4a8-dd625c1f7553",
+        "beforeName": "Conveyor roller 12",
+        "afterName": "Conveyor roller 12",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a7cb3389-01da-445a-a228-a6946c528607",
+        "beforeName": "Support leg 7",
+        "afterName": "Support leg 7",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "acf2e95d-e91e-4cac-9c7d-ef41eac31e34",
+        "beforeName": "Conveyor roller 9",
+        "afterName": "Conveyor roller 9",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "ae59e45b-5ef5-4d82-9588-aa2bc29cd4e7",
+        "beforeName": "Conveyor roller 8",
+        "afterName": "Conveyor roller 8",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "bb63d19c-52d7-47be-b775-78de7aa15262",
+        "beforeName": "Conveyor roller 13",
+        "afterName": "Conveyor roller 13",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "c0eacaee-f72e-4153-96b5-eb05391b4a71",
+        "beforeName": "Support leg 5",
+        "afterName": "Support leg 5",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "c86d1fdc-6292-4523-a264-b5d18a7702d4",
+        "beforeName": "Support leg 4",
+        "afterName": "Support leg 4",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d69e5015-6e98-4d5f-8409-10e6920cb311",
+        "beforeName": "Support leg 6",
+        "afterName": "Support leg 6",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "d98b8787-1ced-4960-8dce-f66018031aed",
+        "beforeName": "Side rail 2",
+        "afterName": "Side rail 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "da89453d-ebfd-4ded-8678-af827151e1e6",
+        "beforeName": "Support leg 1",
+        "afterName": "Support leg 1",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "dc539c57-d3d7-4e41-96af-cad8de572fa4",
+        "beforeName": "Conveyor roller 23",
+        "afterName": "Conveyor roller 23",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "eb1d3be0-fd51-48fc-a24c-e7dbb9fe0c47",
+        "beforeName": "Conveyor roller 16",
+        "afterName": "Conveyor roller 16",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "ed0b3482-c199-450d-9fe1-eebd70dbf329",
+        "beforeName": "Support leg 3",
+        "afterName": "Support leg 3",
+        "changedFields": [
+          "dimensions"
+        ]
+      },
+      {
+        "id": "fce72756-6187-4f2f-8d78-112f1e04c009",
+        "beforeName": "Conveyor roller 7",
+        "afterName": "Conveyor roller 7",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "fe27776d-3d17-460d-bd8e-1ebeb7572c06",
+        "beforeName": "Conveyor roller 19",
+        "afterName": "Conveyor roller 19",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-recovery-1-baseline-L1-edit",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "012addc9-c6f5-4d3b-94e7-00b94a361a7c",
+        "beforeName": "Library shelf board 10",
+        "afterName": "Library shelf board 10",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "05f29162-41f5-42a4-b5f7-1bf531f077af",
+        "beforeName": "Library shelf board 6",
+        "afterName": "Library shelf board 6",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "093ec8f7-feea-4c00-8d29-1dc8585e8a3f",
+        "beforeName": "Library upright 5",
+        "afterName": "Library upright 5",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "176c00e2-ac32-4868-9d42-d325b18e39a7",
+        "beforeName": "Library shelf board 7",
+        "afterName": "Library shelf board 7",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "233fcad4-c152-4746-bb38-12c824bb35f2",
+        "beforeName": "Library shelf board 14",
+        "afterName": "Library shelf board 14",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "271a3a79-ed87-4dfa-bdd7-692d61a579f4",
+        "beforeName": "Library upright 2",
+        "afterName": "Library upright 2",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "285af823-c544-4343-afa4-f8b8a1d3ae9d",
+        "beforeName": "Library shelf board 3",
+        "afterName": "Library shelf board 3",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "303074ea-d6e8-40c6-be2d-d36d6ec3f397",
+        "beforeName": "Library shelf board 12",
+        "afterName": "Library shelf board 12",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "35041032-ac5b-465f-810d-75fc7e122ee8",
+        "beforeName": "Library shelf board 15",
+        "afterName": "Library shelf board 15",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "35d7ceab-b864-4853-a31f-b75d16bd8d55",
+        "beforeName": "Library shelf board 19",
+        "afterName": "Library shelf board 19",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "3767902c-81e0-4cbb-9740-b461033a9a48",
+        "beforeName": "Library upright 7",
+        "afterName": "Library upright 7",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "4a76421a-72f9-4d6d-9697-ba8c54983851",
+        "beforeName": "Library shelf board 4",
+        "afterName": "Library shelf board 4",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "4f1d4796-717d-4a01-85be-e5278db73916",
+        "beforeName": "Library upright 6",
+        "afterName": "Library upright 6",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "6da0feff-9319-4a2b-adb5-a389b247018a",
+        "beforeName": "Library shelf board 17",
+        "afterName": "Library shelf board 17",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "7492d1a1-ac9b-4aea-a24f-28664b628d6d",
+        "beforeName": "Library shelf board 23",
+        "afterName": "Library shelf board 23",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "792528e0-0cc7-47a4-9d8c-88c618dabb43",
+        "beforeName": "Library shelf board 13",
+        "afterName": "Library shelf board 13",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "797efa1c-da49-4c5a-90b8-197ab8814bfd",
+        "beforeName": "Library shelf board 16",
+        "afterName": "Library shelf board 16",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "7c13c254-9414-46e1-a1f2-9ef07c62a249",
+        "beforeName": "Library shelf board 8",
+        "afterName": "Library shelf board 8",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "7e82a885-7a86-407f-a441-f5150e00f238",
+        "beforeName": "Library shelf board 21",
+        "afterName": "Library shelf board 21",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "833043b8-df73-4652-941a-c5eae04e972e",
+        "beforeName": "Library shelf board 9",
+        "afterName": "Library shelf board 9",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "8c55f6ef-fda2-43ae-8806-169a0e2c590e",
+        "beforeName": "Library upright 1",
+        "afterName": "Library upright 1",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "8c786d6c-da50-4a92-afa4-4d18efe7ba71",
+        "beforeName": "Library shelf board 22",
+        "afterName": "Library shelf board 22",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "8f9df1a6-c629-4367-89f6-6bf38bea5dd0",
+        "beforeName": "Library shelf board 18",
+        "afterName": "Library shelf board 18",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "9e88b994-af90-487b-bee6-76503a41962c",
+        "beforeName": "Library upright 3",
+        "afterName": "Library upright 3",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "a7d08457-0061-46ed-8e7e-41bfea50c870",
+        "beforeName": "Library shelf board 24",
+        "afterName": "Library shelf board 24",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "accff160-66bb-4478-ae72-dc5b7c9257ac",
+        "beforeName": "Library shelf board 2",
+        "afterName": "Library shelf board 2",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "c639a7d7-e3c8-436c-b240-3b2498d026d4",
+        "beforeName": "Library shelf board 1",
+        "afterName": "Library shelf board 1",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "d0595a7b-f661-420f-9137-58e601f25578",
+        "beforeName": "Library shelf board 5",
+        "afterName": "Library shelf board 5",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "d3625888-6b90-4631-9138-e17aaa339f19",
+        "beforeName": "Library shelf board 11",
+        "afterName": "Library shelf board 11",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      },
+      {
+        "id": "ef46dbf1-17e1-4733-b0a5-35a8f9b92977",
+        "beforeName": "Library shelf board 20",
+        "afterName": "Library shelf board 20",
+        "changedFields": [
+          "dimensions",
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "14b2fd9f-b2a1-45fd-b40c-a30d6a32783d",
+        "name": "Library upright 4"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  },
+  {
+    "case": "reliability-recovery-1-baseline-L1-edit2",
+    "rawStatus": "PASS",
+    "diagnostic": false,
+    "changed": [
+      {
+        "id": "012addc9-c6f5-4d3b-94e7-00b94a361a7c",
+        "beforeName": "Library shelf board 10",
+        "afterName": "Library shelf board 10",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "176c00e2-ac32-4868-9d42-d325b18e39a7",
+        "beforeName": "Library shelf board 7",
+        "afterName": "Library shelf board 7",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "303074ea-d6e8-40c6-be2d-d36d6ec3f397",
+        "beforeName": "Library shelf board 12",
+        "afterName": "Library shelf board 12",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "7c13c254-9414-46e1-a1f2-9ef07c62a249",
+        "beforeName": "Library shelf board 8",
+        "afterName": "Library shelf board 8",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "833043b8-df73-4652-941a-c5eae04e972e",
+        "beforeName": "Library shelf board 9",
+        "afterName": "Library shelf board 9",
+        "changedFields": [
+          "position"
+        ]
+      },
+      {
+        "id": "d3625888-6b90-4631-9138-e17aaa339f19",
+        "beforeName": "Library shelf board 11",
+        "afterName": "Library shelf board 11",
+        "changedFields": [
+          "position"
+        ]
+      }
+    ],
+    "preserved": [
+      {
+        "id": "reference-block",
+        "name": "Existing ceramic sample"
+      },
+      {
+        "id": "reference-round",
+        "name": "Independent round sample"
+      },
+      {
+        "id": "8c55f6ef-fda2-43ae-8806-169a0e2c590e",
+        "name": "Library upright 1"
+      },
+      {
+        "id": "271a3a79-ed87-4dfa-bdd7-692d61a579f4",
+        "name": "Library upright 2"
+      },
+      {
+        "id": "9e88b994-af90-487b-bee6-76503a41962c",
+        "name": "Library upright 3"
+      },
+      {
+        "id": "14b2fd9f-b2a1-45fd-b40c-a30d6a32783d",
+        "name": "Library upright 4"
+      },
+      {
+        "id": "093ec8f7-feea-4c00-8d29-1dc8585e8a3f",
+        "name": "Library upright 5"
+      },
+      {
+        "id": "4f1d4796-717d-4a01-85be-e5278db73916",
+        "name": "Library upright 6"
+      },
+      {
+        "id": "3767902c-81e0-4cbb-9740-b461033a9a48",
+        "name": "Library upright 7"
+      },
+      {
+        "id": "c639a7d7-e3c8-436c-b240-3b2498d026d4",
+        "name": "Library shelf board 1"
+      },
+      {
+        "id": "accff160-66bb-4478-ae72-dc5b7c9257ac",
+        "name": "Library shelf board 2"
+      },
+      {
+        "id": "285af823-c544-4343-afa4-f8b8a1d3ae9d",
+        "name": "Library shelf board 3"
+      },
+      {
+        "id": "4a76421a-72f9-4d6d-9697-ba8c54983851",
+        "name": "Library shelf board 4"
+      },
+      {
+        "id": "d0595a7b-f661-420f-9137-58e601f25578",
+        "name": "Library shelf board 5"
+      },
+      {
+        "id": "05f29162-41f5-42a4-b5f7-1bf531f077af",
+        "name": "Library shelf board 6"
+      },
+      {
+        "id": "792528e0-0cc7-47a4-9d8c-88c618dabb43",
+        "name": "Library shelf board 13"
+      },
+      {
+        "id": "233fcad4-c152-4746-bb38-12c824bb35f2",
+        "name": "Library shelf board 14"
+      },
+      {
+        "id": "35041032-ac5b-465f-810d-75fc7e122ee8",
+        "name": "Library shelf board 15"
+      },
+      {
+        "id": "797efa1c-da49-4c5a-90b8-197ab8814bfd",
+        "name": "Library shelf board 16"
+      },
+      {
+        "id": "6da0feff-9319-4a2b-adb5-a389b247018a",
+        "name": "Library shelf board 17"
+      },
+      {
+        "id": "8f9df1a6-c629-4367-89f6-6bf38bea5dd0",
+        "name": "Library shelf board 18"
+      },
+      {
+        "id": "35d7ceab-b864-4853-a31f-b75d16bd8d55",
+        "name": "Library shelf board 19"
+      },
+      {
+        "id": "ef46dbf1-17e1-4733-b0a5-35a8f9b92977",
+        "name": "Library shelf board 20"
+      },
+      {
+        "id": "7e82a885-7a86-407f-a441-f5150e00f238",
+        "name": "Library shelf board 21"
+      },
+      {
+        "id": "8c786d6c-da50-4a92-afa4-4d18efe7ba71",
+        "name": "Library shelf board 22"
+      },
+      {
+        "id": "7492d1a1-ac9b-4aea-a24f-28664b628d6d",
+        "name": "Library shelf board 23"
+      },
+      {
+        "id": "a7d08457-0061-46ed-8e7e-41bfea50c870",
+        "name": "Library shelf board 24"
+      }
+    ],
+    "newIds": [],
+    "removedIds": [],
+    "transaction": {
+      "reload": true,
+      "conversation": true,
+      "context": true,
+      "camera": true,
+      "undo": true,
+      "redo": true,
+      "atomic": true
+    }
+  }
+]

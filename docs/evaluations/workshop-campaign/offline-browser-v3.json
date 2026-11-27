@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "results": [
+    {
+      "id": "preflight-v3-baseline-offline-create",
+      "status": "OFFLINE_COMMIT_PASS"
+    },
+    {
+      "id": "preflight-v3-baseline-offline-failure-create",
+      "status": "OFFLINE_FAILURE_PRESERVED"
+    },
+    {
+      "id": "preflight-v3-baseline-offline-recovery-create",
+      "status": "OFFLINE_COMMIT_PASS"
+    }
+  ]
+}

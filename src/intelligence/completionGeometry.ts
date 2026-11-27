@@ -1,3 +1,4 @@
+import { resolveGroupReference } from './objectReferences';
 import { type Volume, type Vec3 } from '../model';
 import { shapeEvidence } from './shapeEvidence';
 import {
@@ -182,13 +183,7 @@ export function physicalChecks() {
           observed: `${vs.length} separate scene objects; ${vs.filter((v) => v.groupId && locked.has(v.groupId)).length} in locked groups. Independent editability means distinct selectable model objects, not editable internal faces.`,
         };
       }
-      const groups =
-        session.project.groups?.filter((g) => g.name === r.name) ?? [];
-      // A name need not be globally unique. Membership identifies the actual
-      // assembly; an unrelated same-named group cannot invalidate it.
-      const group = groups.find(
-        (g) => vs.length > 0 && vs.every((v) => v.groupId === g.id),
-      );
+      const group = resolveGroupReference(r.name, session.project.groups ?? []);
       const members = group
         ? session.project.volumes.filter((v) => v.groupId === group.id)
         : [];

@@ -1,0 +1,249 @@
+[
+  {
+    "id": "A1",
+    "source": ".cloud/phase3-baseline/live/A1-after.json",
+    "status": "ready",
+    "note": "Actual visible provisional geometry in neutral study views. Site, solar lighting, sections, exploded display and live-camera surroundings are not represented. Check dimensions using scene facts.",
+    "includedIds": [
+      "bcda79c5-6b8c-48ff-8eff-3505ec935dab",
+      "6fd49e81-98da-499c-8598-865190c2e0d3",
+      "90d05850-6a2d-4078-8c8f-8a13e3f4e114",
+      "091d3c21-17b5-4c94-96b6-db2478e82f97",
+      "07816e7c-2fe6-4119-95ce-7a6117b64756",
+      "89a0f227-7c9d-4bf5-86ba-4c51700c53dd",
+      "7d549a15-5641-4293-97bc-c5d03a427cce",
+      "25748b6a-5c92-40eb-bae0-f6cdb0fd39b3"
+    ],
+    "excludedIds": [
+      "marker-box",
+      "marker-post"
+    ],
+    "files": [
+      "A1-0.jpg",
+      "A1-1.jpg"
+    ],
+    "purpose": "Offline qualitative review of actual final geometry, focused on task components. Full application screenshots retained separately. No paid calls."
+  },
+  {
+    "id": "A2",
+    "source": ".cloud/phase3-baseline/live/A2-after.json",
+    "status": "ready",
+    "note": "Actual visible provisional geometry in neutral study views. Site, solar lighting, sections, exploded display and live-camera surroundings are not represented. Check dimensions using scene facts.",
+    "includedIds": [
+      "bcda79c5-6b8c-48ff-8eff-3505ec935dab",
+      "6fd49e81-98da-499c-8598-865190c2e0d3",
+      "90d05850-6a2d-4078-8c8f-8a13e3f4e114",
+      "091d3c21-17b5-4c94-96b6-db2478e82f97",
+      "07816e7c-2fe6-4119-95ce-7a6117b64756",
+      "89a0f227-7c9d-4bf5-86ba-4c51700c53dd",
+      "7d549a15-5641-4293-97bc-c5d03a427cce",
+      "25748b6a-5c92-40eb-bae0-f6cdb0fd39b3"
+    ],
+    "excludedIds": [
+      "marker-box",
+      "marker-post"
+    ],
+    "files": [
+      "A2-0.jpg",
+      "A2-1.jpg"
+    ],
+    "purpose": "Offline qualitative review of actual final geometry, focused on task components. Full application screenshots retained separately. No paid calls."
+  },
+  {
+    "id": "B1",
+    "source": ".cloud/phase3-baseline/live/B1-after.json",
+    "status": "ready",
+    "note": "Actual visible provisional geometry in neutral study views. Site, solar lighting, sections, exploded display and live-camera surroundings are not represented. Check dimensions using scene facts.",
+    "includedIds": [
+      "92cbb288-ef61-4b7c-ab6e-fe4641baa2db",
+      "0bef68fa-e628-4202-8817-cdf9e9c1d198",
+      "6ab670e1-dd41-4ccd-8eab-940a8fbe51a3",
+      "1f23e5be-506f-4061-884b-77e487266569",
+      "ddfc4e9c-5504-48d6-9d25-842e93bb5104",
+      "b9bd07fa-e391-4a2b-bbba-ef8ea1c9be8c",
+      "861fb578-49e6-49d4-be75-d7adea68a252"
+    ],
+    "excludedIds": [
+      "marker-box",
+      "marker-post"
+    ],
+    "files": [
+      "B1-0.jpg",
+      "B1-1.jpg"
+    ],
+    "purpose": "Offline qualitative review of actual final geometry, focused on task components. Full application screenshots retained separately. No paid calls."
+  },
+  {
+    "id": "B2",
+    "source": ".cloud/phase3-baseline/live/B2-after.json",
+    "status": "ready",
+    "note": "Actual visible provisional geometry in neutral study views. Site, solar lighting, sections, exploded display and live-camera surroundings are not represented. Check dimensions using scene facts.",
+    "includedIds": [
+      "92cbb288-ef61-4b7c-ab6e-fe4641baa2db",
+      "0bef68fa-e628-4202-8817-cdf9e9c1d198",
+      "6ab670e1-dd41-4ccd-8eab-940a8fbe51a3",
+      "1f23e5be-506f-4061-884b-77e487266569",
+      "ddfc4e9c-5504-48d6-9d25-842e93bb5104",
+      "b9bd07fa-e391-4a2b-bbba-ef8ea1c9be8c",
+      "861fb578-49e6-49d4-be75-d7adea68a252"
+    ],
+    "excludedIds": [
+      "marker-box",
+      "marker-post"
+    ],
+    "files": [
+      "B2-0.jpg",
+      "B2-1.jpg"
+    ],
+    "purpose": "Offline qualitative review of actual final geometry, focused on task components. Full application screenshots retained separately. No paid calls."
+  },
+  {
+    "id": "C1",
+    "source": ".cloud/phase3-baseline/live/C1-after.json",
+    "status": "ready",
+    "note": "Actual visible provisional geometry in neutral study views. Site, solar lighting, sections, exploded display and live-camera surroundings are not represented. Check dimensions using scene facts.",
+    "includedIds": [
+      "27c6ffd4-e42f-49a1-a635-74b7ea1dd883",
+      "b7f8c57b-6ca8-4a25-ab74-79b4fc2f20b9",
+      "5e2c9c75-00d9-426c-ac72-fa2322322de6"
+    ],
+    "excludedIds": [
+      "marker-box",
+      "marker-post"
+    ],
+    "files": [
+      "C1-0.jpg",
+      "C1-1.jpg"
+    ],
+    "purpose": "Offline qualitative review of actual final geometry, focused on task components. Full application screenshots retained separately. No paid calls."
+  },
+  {
+    "id": "C2",
+    "source": ".cloud/phase3-baseline/live/C2-after.json",
+    "status": "ready",
+    "note": "Actual visible provisional geometry in neutral study views. Site, solar lighting, sections, exploded display and live-camera surroundings are not represented. Check dimensions using scene facts.",
+    "includedIds": [
+      "27c6ffd4-e42f-49a1-a635-74b7ea1dd883",
+      "b7f8c57b-6ca8-4a25-ab74-79b4fc2f20b9",
+      "5e2c9c75-00d9-426c-ac72-fa2322322de6"
+    ],
+    "excludedIds": [
+      "marker-box",
+      "marker-post"
+    ],
+    "files": [
+      "C2-0.jpg",
+      "C2-1.jpg"
+    ],
+    "purpose": "Offline qualitative review of actual final geometry, focused on task components. Full application screenshots retained separately. No paid calls."
+  },
+  {
+    "id": "D1",
+    "source": ".cloud/phase3-baseline/live/D1-after.json",
+    "status": "ready",
+    "note": "Actual visible provisional geometry in neutral study views. Site, solar lighting, sections, exploded display and live-camera surroundings are not represented. Check dimensions using scene facts.",
+    "includedIds": [
+      "44bffdc3-be43-402d-9d25-7a2905c1d081"
+    ],
+    "excludedIds": [
+      "marker-box",
+      "marker-post"
+    ],
+    "files": [
+      "D1-0.jpg",
+      "D1-1.jpg"
+    ],
+    "purpose": "Offline qualitative review of actual final geometry, focused on task components. Full application screenshots retained separately. No paid calls."
+  },
+  {
+    "id": "D2",
+    "source": ".cloud/phase3-baseline/live/D2-after.json",
+    "status": "ready",
+    "note": "Actual visible provisional geometry in neutral study views. Site, solar lighting, sections, exploded display and live-camera surroundings are not represented. Check dimensions using scene facts.",
+    "includedIds": [
+      "44bffdc3-be43-402d-9d25-7a2905c1d081"
+    ],
+    "excludedIds": [
+      "marker-box",
+      "marker-post"
+    ],
+    "files": [
+      "D2-0.jpg",
+      "D2-1.jpg"
+    ],
+    "purpose": "Offline qualitative review of actual final geometry, focused on task components. Full application screenshots retained separately. No paid calls."
+  },
+  {
+    "id": "E1",
+    "source": ".cloud/phase3-baseline/live/E1-after.json",
+    "status": "ready",
+    "note": "Actual visible provisional geometry in neutral study views. Site, solar lighting, sections, exploded display and live-camera surroundings are not represented. Check dimensions using scene facts.",
+    "includedIds": [
+      "2a3e1ae1-d88c-4425-97d8-7c3356aa48e6",
+      "df8a6e27-ee15-4438-bf23-0b97f7ab7897",
+      "f405a7a7-3f45-4b85-bc23-b535e0db5e1b",
+      "7ef53be9-c536-41cb-8da6-0557b6397463",
+      "3e821fac-aa05-4f6d-b780-5bfa445d6822",
+      "9107c784-6655-4b66-9f21-eb9279bef96a",
+      "672e56d0-52fa-437b-a1b3-247a12a3e5f2",
+      "58545fc4-661e-43a3-8a1f-1311ea6b917d",
+      "2c6fee61-3b69-4814-8794-d18dbe0f71a7",
+      "28d93350-e21b-4155-b901-4a0319270f57"
+    ],
+    "excludedIds": [
+      "marker-box",
+      "marker-post"
+    ],
+    "files": [
+      "E1-0.jpg",
+      "E1-1.jpg"
+    ],
+    "purpose": "Offline qualitative review of actual final geometry, focused on task components. Full application screenshots retained separately. No paid calls."
+  },
+  {
+    "id": "E2",
+    "source": ".cloud/phase3-baseline/live/E2-after.json",
+    "status": "ready",
+    "note": "Actual visible provisional geometry in neutral study views. Site, solar lighting, sections, exploded display and live-camera surroundings are not represented. Check dimensions using scene facts.",
+    "includedIds": [
+      "2a3e1ae1-d88c-4425-97d8-7c3356aa48e6",
+      "df8a6e27-ee15-4438-bf23-0b97f7ab7897",
+      "f405a7a7-3f45-4b85-bc23-b535e0db5e1b",
+      "7ef53be9-c536-41cb-8da6-0557b6397463",
+      "3e821fac-aa05-4f6d-b780-5bfa445d6822",
+      "9107c784-6655-4b66-9f21-eb9279bef96a",
+      "672e56d0-52fa-437b-a1b3-247a12a3e5f2",
+      "58545fc4-661e-43a3-8a1f-1311ea6b917d",
+      "2c6fee61-3b69-4814-8794-d18dbe0f71a7",
+      "28d93350-e21b-4155-b901-4a0319270f57"
+    ],
+    "excludedIds": [
+      "marker-box",
+      "marker-post"
+    ],
+    "files": [
+      "E2-0.jpg",
+      "E2-1.jpg"
+    ],
+    "purpose": "Offline qualitative review of actual final geometry, focused on task components. Full application screenshots retained separately. No paid calls."
+  },
+  {
+    "id": "F2",
+    "source": ".cloud/phase3-baseline/live/F2-after.json",
+    "status": "ready",
+    "note": "Actual visible provisional geometry in neutral study views. Site, solar lighting, sections, exploded display and live-camera surroundings are not represented. Check dimensions using scene facts.",
+    "includedIds": [
+      "b374de40-c373-42d6-b3fc-57dfbbaa60d8"
+    ],
+    "excludedIds": [
+      "marker-box",
+      "marker-post",
+      "calibration-block"
+    ],
+    "files": [
+      "F2-0.jpg",
+      "F2-1.jpg"
+    ],
+    "purpose": "Offline qualitative review of actual final geometry, focused on task components. Full application screenshots retained separately. No paid calls."
+  }
+]

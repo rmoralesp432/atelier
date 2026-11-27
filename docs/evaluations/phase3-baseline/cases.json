@@ -1,0 +1,215 @@
+{
+  "version": 1,
+  "status": "authorized-pending-offline-calibration-and-execution-freeze",
+  "baseline": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+  "units": "meters",
+  "axes": {
+    "x": "east",
+    "y": "up",
+    "z": "north"
+  },
+  "common": {
+    "seed": "Two preserved unrelated objects with stable recorded IDs and group metadata; one is a nearby lookalike without physical contact. No prebuilt target assembly.",
+    "promptSuffix": "Keep all parts independently editable and preserve unrelated objects.",
+    "selection": "none",
+    "angleConvention": "Where the prompt says from east toward north, direction is (cos(theta), 0, sin(theta)); do not assume a recipe's Y-rotation sign.",
+    "commitRequired": true,
+    "reloadBetweenTurns": true,
+    "undoRedoAfterEveryCommit": true,
+    "dependentTurnPolicy": "Run only on the actual externally accepted committed predecessor; otherwise not reached."
+  },
+  "episodes": [
+    {
+      "id": "A-canopy",
+      "domains": ["architecture", "relationships", "implicit-edit-scope"],
+      "turns": [
+        {
+          "id": "A1",
+          "prompt": "Create a small open entry canopy on a 4.8 by 3.2 meter rectangular platform, 18 cm thick, resting on the ground. The flat roof has the same footprint, is 16 cm thick, and leaves 2.7 meters clear above the platform. Support it with four circular posts, 16 cm in diameter, their centers 30 cm in from each corner's two platform edges. Enclose the two short sides with floor-to-roof glazing and leave the front and back open. Use reasonable materials and simple separate components."
+        },
+        {
+          "id": "A2",
+          "prompt": "Give that canopy 55 cm more headroom. Keep the platform, footprint and post diameters as they are, and keep the structure and side enclosure connected. Preserve the existing component identities."
+        }
+      ],
+      "expected": {
+        "footprint": [4.8, 3.2],
+        "platformThickness": 0.18,
+        "roofThickness": 0.16,
+        "clearHeightBefore": 2.7,
+        "clearHeightAfter": 3.25,
+        "roofUndersideBefore": 2.88,
+        "roofUndersideAfter": 3.43,
+        "postCount": 4,
+        "postDiameter": 0.16,
+        "postCenterInset": 0.3,
+        "glazedSides": 2
+      }
+    },
+    {
+      "id": "B-workbench",
+      "domains": ["furniture", "relationships", "implicit-edit-scope"],
+      "turns": [
+        {
+          "id": "B1",
+          "prompt": "Model a freestanding workbench, 2.1 meters long and 75 cm deep, with its working surface 90 cm above the floor. Use a 6 cm thick oak top, four 8 cm square timber legs, and two separate long apron rails joining the legs directly beneath the top. Set the legs' outside faces 12 cm back from the corresponding tabletop edges. Choose reasonable rail sections and keep the frame simple."
+        },
+        {
+          "id": "B2",
+          "prompt": "Make the workbench 40 cm longer, extending equally at both ends. Keep its depth, working height, timber sections and leg setbacks unchanged, and keep the frame properly joined. Keep the same components."
+        }
+      ],
+      "expected": {
+        "lengthBefore": 2.1,
+        "lengthAfter": 2.5,
+        "depth": 0.75,
+        "workingHeight": 0.9,
+        "topThickness": 0.06,
+        "legCount": 4,
+        "legSection": 0.08,
+        "legOuterFaceSetback": 0.12,
+        "railCount": 2,
+        "partCount": 7,
+        "railClearSpanBefore": 1.7,
+        "railClearSpanAfter": 2.1,
+        "endFrameDisplacement": 0.2
+      }
+    },
+    {
+      "id": "C-shaft",
+      "domains": ["mechanical", "curved", "hollow", "implicit-edit-scope"],
+      "turns": [
+        {
+          "id": "C1",
+          "prompt": "Model two separate POM bushings and a stainless-steel shaft through both. Each bushing is 50 cm in outside diameter, has a 28 cm bore, and is 16 cm long. Their centers are 90 cm apart on one horizontal axis; the shaft is 24 cm in diameter and 1.3 meters long, with equal overhang at both ends. Put the midpoint of the assembly at (0, 0.8, 0) meters. The axis points 29 degrees from east toward north, with X east, Y up and Z north. Model the actual holes and clearance; no pedestal or fasteners are needed."
+        },
+        {
+          "id": "C2",
+          "prompt": "Move the northeast bushing 25 cm farther out along the shaft axis. Leave the southwest bushing fixed and keep both original end overhangs, diameters and bore clearance. Keep the same three parts."
+        }
+      ],
+      "expected": {
+        "bushingOuterDiameter": 0.5,
+        "bushingInnerDiameter": 0.28,
+        "bushingLength": 0.16,
+        "separationBefore": 0.9,
+        "separationAfter": 1.15,
+        "shaftDiameter": 0.24,
+        "shaftLengthBefore": 1.3,
+        "shaftLengthAfter": 1.55,
+        "shaftCenterShift": 0.125,
+        "endOverhang": 0.12,
+        "radialClearance": 0.02,
+        "axisAngleDegrees": 29,
+        "center": [0, 0.8, 0],
+        "partCount": 3
+      }
+    },
+    {
+      "id": "D-loft",
+      "domains": [
+        "curved",
+        "tapered",
+        "hollow",
+        "boolean",
+        "identity-preservation"
+      ],
+      "turns": [
+        {
+          "id": "D1",
+          "prompt": "Create one open-top, hollow sculptural lantern body, 1.4 meters tall, with horizontal circular profiles. Its outside diameter narrows smoothly and linearly from 1.1 meters at the bottom to 74 cm at the top, while the profile center shifts smoothly 22 cm toward positive X from bottom to top. Use 6 cm radial wall thickness measured in each horizontal section and an 8 cm closed base. Put the bottom center at the origin. Keep it one editable solid with a real empty cavity."
+        },
+        {
+          "id": "D2",
+          "prompt": "Cut a 16 cm circular opening through only the front wall of that lantern, centered 60 cm above the bottom and centered left-to-right on that section. Front means negative Z; the hole looks circular when viewed straight along Z. Keep the opposite wall, base, taper and existing object identity unchanged."
+        }
+      ],
+      "expected": {
+        "height": 1.4,
+        "bottomRadius": 0.55,
+        "topRadius": 0.37,
+        "topCenterShiftX": 0.22,
+        "radialWall": 0.06,
+        "baseThickness": 0.08,
+        "sideOpeningDiameter": 0.16,
+        "sideOpeningCenterY": 0.6,
+        "openingAxis": "z",
+        "openingSide": "negative-z",
+        "partCount": 1
+      }
+    },
+    {
+      "id": "E-array",
+      "domains": [
+        "repetition",
+        "spatial-relations",
+        "coordinate-equivalence",
+        "contextual-edit"
+      ],
+      "turns": [
+        {
+          "id": "E1",
+          "prompt": "Create ten identical upright regular hexagonal prisms, 30 cm across opposite flats and 46 cm tall, in two rows of five. Centers along each row are 72 cm apart; the rows are 64 cm apart and staggered by half a pitch. Center the whole array at the origin with all bases on the ground. The rows run 31 degrees from east toward north, with X east and Z north. The row on the positive perpendicular side leads by half a pitch. Keep each prism separately editable."
+        },
+        {
+          "id": "E2",
+          "prompt": "Open up the spacing along those rows by another 18 cm. Keep the array centered, the half-pitch stagger, row separation and orientation, and the size and identity of every prism."
+        }
+      ],
+      "expected": {
+        "count": 10,
+        "rows": 2,
+        "columns": 5,
+        "acrossFlats": 0.3,
+        "height": 0.46,
+        "pitchBefore": 0.72,
+        "pitchAfter": 0.9,
+        "rowSeparation": 0.64,
+        "angleDegrees": 31,
+        "center": [0, 0, 0],
+        "staggerFraction": 0.5
+      }
+    },
+    {
+      "id": "F-recovery",
+      "domains": [
+        "contradiction",
+        "failure-recovery",
+        "new-task",
+        "transaction-integrity"
+      ],
+      "seedOverride": "Two preserved markers plus a calibration block: width X=0.7 m, depth Z=0.5 m, VERTICAL HEIGHT Y=0.9 m, base center (3,0,0). Record before the first request.",
+      "turns": [
+        {
+          "id": "F1",
+          "prompt": "Make the calibration block exactly 1.4 meters tall, but its final height must also remain exactly its current 90 cm. Both requirements must hold simultaneously."
+        },
+        {
+          "id": "F2",
+          "prompt": "Never mind that change. Leave the calibration block alone and create a new solid wedge, 1.3 meters long along X and 60 cm wide along Z, with a flat bottom on the ground. Its height rises linearly from 20 cm at the negative-X end to 55 cm at the positive-X end. Put it clear of the existing objects."
+        }
+      ],
+      "expected": {
+        "firstTurn": "Explain the incompatible dimensions or ask one meaningful question; no geometry or model-history commit",
+        "wedgeLength": 1.3,
+        "wedgeDepth": 0.6,
+        "lowHeight": 0.2,
+        "highHeight": 0.55,
+        "wedgeVolume": 0.2925,
+        "newPartCount": 1
+      }
+    }
+  ],
+  "repairControl": {
+    "id": "R1",
+    "sourcePrompt": "E1",
+    "kind": "declared-provisional-fault-injection",
+    "displacement": 0.19,
+    "direction": "positive perpendicular to array row axis",
+    "target": "First prism by deterministic original-ID sort; persist selection before mutation",
+    "precondition": "Unmodified candidate independently satisfies E1",
+    "maximumInjections": 1,
+    "expected": "Host rejects the displaced candidate; real agent restores intended position with the same IDs; unrelated geometry unchanged; final external measures pass",
+    "liveVersusReplay": "Distinguish live staged-planner correction from final exact-plan browser transaction replay"
+  }
+}

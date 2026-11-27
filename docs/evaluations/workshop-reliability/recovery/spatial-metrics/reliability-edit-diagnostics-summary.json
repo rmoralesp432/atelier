@@ -1,0 +1,184 @@
+{
+  "batch": "reliability-edit-diagnostics",
+  "results": [
+    {
+      "id": "reliability-edit-diagnostics-baseline-L1-diagnostic-edit",
+      "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+      "status": "PASS",
+      "diagnostic": true,
+      "committed": true,
+      "componentCount": 33,
+      "elapsedMs": 86714,
+      "transaction": {
+        "reload": true,
+        "conversation": true,
+        "context": true,
+        "camera": true,
+        "undo": true,
+        "redo": true,
+        "atomic": true
+      }
+    },
+    {
+      "id": "reliability-edit-diagnostics-reliability-L1-diagnostic-edit",
+      "commit": "05277619f6fa337cdb1bfb0825654cbe5259ed2d",
+      "status": "NOT_COMMITTED",
+      "diagnostic": true,
+      "committed": false,
+      "componentCount": 33,
+      "elapsedMs": 80831,
+      "transaction": null
+    },
+    {
+      "id": "reliability-edit-diagnostics-baseline-L1-diagnostic-edit2",
+      "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+      "status": "PASS",
+      "diagnostic": true,
+      "committed": true,
+      "componentCount": 33,
+      "elapsedMs": 41046,
+      "transaction": {
+        "reload": true,
+        "conversation": true,
+        "context": true,
+        "camera": true,
+        "undo": true,
+        "redo": true,
+        "atomic": true
+      }
+    },
+    {
+      "id": "reliability-edit-diagnostics-reliability-L2-diagnostic-edit",
+      "commit": "05277619f6fa337cdb1bfb0825654cbe5259ed2d",
+      "status": "NOT_COMMITTED",
+      "diagnostic": true,
+      "committed": false,
+      "componentCount": 36,
+      "elapsedMs": 62478,
+      "transaction": null
+    },
+    {
+      "id": "reliability-edit-diagnostics-baseline-L2-diagnostic-edit",
+      "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+      "status": "PASS",
+      "diagnostic": true,
+      "committed": true,
+      "componentCount": 36,
+      "elapsedMs": 52952,
+      "transaction": {
+        "reload": true,
+        "conversation": true,
+        "context": true,
+        "camera": true,
+        "undo": true,
+        "redo": true,
+        "atomic": true
+      }
+    },
+    {
+      "id": "reliability-edit-diagnostics-reliability-L4-diagnostic-edit",
+      "commit": "05277619f6fa337cdb1bfb0825654cbe5259ed2d",
+      "status": "PASS",
+      "diagnostic": true,
+      "committed": true,
+      "componentCount": 67,
+      "elapsedMs": 65998,
+      "transaction": {
+        "reload": true,
+        "conversation": true,
+        "context": true,
+        "camera": true,
+        "undo": true,
+        "redo": true,
+        "atomic": true
+      }
+    },
+    {
+      "id": "reliability-edit-diagnostics-baseline-L2-diagnostic-edit2",
+      "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+      "status": "PASS",
+      "diagnostic": true,
+      "committed": true,
+      "componentCount": 36,
+      "elapsedMs": 52760,
+      "transaction": {
+        "reload": true,
+        "conversation": true,
+        "context": true,
+        "camera": true,
+        "undo": true,
+        "redo": true,
+        "atomic": true
+      }
+    },
+    {
+      "id": "reliability-edit-diagnostics-reliability-L4-diagnostic-edit2",
+      "commit": "05277619f6fa337cdb1bfb0825654cbe5259ed2d",
+      "status": "PASS",
+      "diagnostic": true,
+      "committed": true,
+      "componentCount": 67,
+      "elapsedMs": 72260,
+      "transaction": {
+        "reload": true,
+        "conversation": true,
+        "context": true,
+        "camera": true,
+        "undo": true,
+        "redo": true,
+        "atomic": true
+      }
+    },
+    {
+      "id": "reliability-edit-diagnostics-baseline-L4-diagnostic-edit",
+      "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+      "status": "PASS",
+      "diagnostic": true,
+      "committed": true,
+      "componentCount": 67,
+      "elapsedMs": 57869,
+      "transaction": {
+        "reload": true,
+        "conversation": true,
+        "context": true,
+        "camera": true,
+        "undo": true,
+        "redo": true,
+        "atomic": true
+      }
+    },
+    {
+      "id": "reliability-edit-diagnostics-baseline-L4-diagnostic-edit2",
+      "commit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+      "status": "PASS",
+      "diagnostic": true,
+      "committed": true,
+      "componentCount": 67,
+      "elapsedMs": 50902,
+      "transaction": {
+        "reload": true,
+        "conversation": true,
+        "context": true,
+        "camera": true,
+        "undo": true,
+        "redo": true,
+        "atomic": true
+      }
+    }
+  ],
+  "calls": 27,
+  "estimatedUSD": 1.827214,
+  "conservativeAccountedUSD": 2.2840175,
+  "unknownReservations": [],
+  "pricing": "Approved estimates, not invoice; see pricing.json. Actual provider token usage retained.",
+  "executor": {
+    "calls": 15,
+    "medianMs": 14196,
+    "maxMs": 28581
+  },
+  "reviewer": {
+    "calls": 12,
+    "medianMs": 13331.5,
+    "maxMs": 28949
+  }
+}

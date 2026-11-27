@@ -1,0 +1,25 @@
+{
+  "at": "2026-11-23T20:44:35.524688+00:00",
+  "applications": [
+    {
+      "version": "baseline",
+      "runtimeCommit": "f925e4cef7b4c6a27eb1532476879728aa5d7584",
+      "runtimeUnchanged": true
+    },
+    {
+      "version": "workshop",
+      "runtimeCommit": "f5ba62621db0d9c0a02f90be5b0143c7e21b53f7",
+      "runtimeUnchanged": true
+    },
+    {
+      "version": "verifier",
+      "runtimeCommit": "433d9baed8265cc4eb78a5b0bfb914911b734cf7",
+      "runtimeUnchanged": true
+    }
+  ],
+  "frozenFileHashesMatched": 91,
+  "callsReconciled": 258,
+  "activeCoordinator": false,
+  "deploymentPerformed": false,
+  "apiKeyValuesIncluded": false
+}

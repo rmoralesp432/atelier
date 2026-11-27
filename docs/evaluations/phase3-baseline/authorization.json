@@ -1,0 +1,20 @@
+{
+  "status": "authorized-with-estimated-pricing-waiver",
+  "ceilingUsd": 15,
+  "maximumCalls": 60,
+  "maximumCallsPerTurn": 16,
+  "maximumDiagnosticTurns": 2,
+  "expiresDate": "2026-11-24",
+  "authorizationDate": "2026-11-23",
+  "scope": "Phase 3 baseline only; no application modifications, improvement implementation, merge or deployment",
+  "pricingQualification": "Official pages could not be reached. User subsequently waived authoritative-pricing prerequisite and will supervise actual billing. Dollar guard tracks conservative estimates/reservations, not verified invoices. Original $15 ceiling retained.",
+  "previousLedgers": "unchanged; this new authorization applies only to Phase 3",
+  "diagnostics": "Up to two separately reported edits on validated starting models when failed creation prevents useful edit diagnosis; never count as end-to-end success.",
+  "holdouts": "Published challenges are reserved ideas only. Define fresh held-out tasks after any later improvement is frozen.",
+  "FCalibrationBlock": {
+    "widthX": 0.7,
+    "depthZ": 0.5,
+    "verticalHeightY": 0.9
+  },
+  "pricingWaiver": "User explicitly asked to proceed with their own billing supervision; $15 conservative accounting ceiling retained."
+}

@@ -39,7 +39,7 @@ it('reproduces the reported reversed elevation and unsupported material without 
   expect(report).toMatchObject({
     status: 'unverified',
     passed: false,
-    canCommit: true,
+    canCommit: false,
   });
   expect(report.criterionIssues?.map((i) => [i.checkId, i.code])).toEqual([
     ['reversed-offset', 'contradiction'],
@@ -320,11 +320,11 @@ it('an unavailable correction is bounded and never sends correct geometry into a
   const verify = completionVerifier(original, 'request', read);
   expect(await verify(candidate)).toMatchObject({
     status: 'unverified',
-    canCommit: true,
+    canCommit: false,
   });
   expect(await verify(candidate)).toMatchObject({
     status: 'unverified',
-    canCommit: true,
+    canCommit: false,
   });
   expect(read).toHaveBeenCalledTimes(2);
 });
